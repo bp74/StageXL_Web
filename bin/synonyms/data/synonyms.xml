@@ -167,6 +167,27 @@ class Table implements Selectable {
       </code>
     </synonym>
 
+    
+    <synonym id="syn-type-check-and-casts">
+      <title>Type Check and Cast</title>
+      <code language="as3"><![CDATA[
+var o:Object = "hello";
+
+if (o is String) { 
+  var u:String = String(o).toUpperCase();
+  trace(u);
+}
+]]>
+      </code>
+      <code language="dart"><![CDATA[
+var o = "hello";
+
+if (o is String) {
+  String u = (o as String).toUpperCase();
+  print(u);
+}]]>
+      </code>
+    </synonym>
   </theme>
 
   <theme id="theme-collections">
@@ -674,7 +695,7 @@ updateHtml(1, 2, 3);
     <title>Libraries</title>
 
     <synonym id="syn-library-dartflash">
-      <title>dartflash (http://www.dartflash.com)</title>
+      <title>dartflash (https://github.com/bp74/dartflash)</title>
       <code language="as3"><![CDATA[
 // Flash Display List objects
 var bd:BitmapData = new BitmapData(20, 20, false, 0xFF00FF);

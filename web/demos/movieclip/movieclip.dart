@@ -8,18 +8,14 @@ Resource resource;
 
 void main()
 {
-  //------------------------------------------------------------------
   // Initialize the Display List
-  //------------------------------------------------------------------
 
   stage = new Stage('myStage', html.document.query('#stage'));
 
   renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
 
-  //------------------------------------------------------------------
   // Use the Resource class to load a TextureAtlas
-  //------------------------------------------------------------------
 
   resource = new Resource();
   resource.addTextureAtlas('walkTextureAtlas', '../common/images/walk.json', TextureAtlasFormat.JSONARRAY);
@@ -28,20 +24,15 @@ void main()
 
 //-----------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------
 
 void startWalking()
 {
-  //------------------------------------------------------------------
   // Get all the 'walk' bitmapDatas in the texture atlas.
-  //------------------------------------------------------------------
 
   TextureAtlas textureAtlas = resource.getTextureAtlas('walkTextureAtlas');
   List<BitmapData> bitmapDatas = textureAtlas.getBitmapDatas('walk');
 
-  //------------------------------------------------------------------
   // Create a movie clip with the list of bitmapDatas.
-  //------------------------------------------------------------------
 
   Random random = new Random();
   num rnd = random.nextDouble();
@@ -53,11 +44,9 @@ void startWalking()
   movieClip.play();
 
   stage.addChild(movieClip);
-  stage.sortChildren((c1, c2) => (c1.y < c2.y) ? -1 : ((c1.y > c2.y) ? 1 : 0));
+  stage.sortChildren((c1, c2) => c1.y - c2.y);
 
-  //------------------------------------------------------------------
   // Add a tween to make the man walk from the left to the right.
-  //------------------------------------------------------------------
 
   Tween tween = new Tween(movieClip, 5.0 + (1.0 - rnd) * 5.0, Transitions.linear);
   tween.animate('x', 940.0);
@@ -70,9 +59,7 @@ void startWalking()
   Juggler.instance.add(movieClip);
   Juggler.instance.add(tween);
 
-  //------------------------------------------------------------------
   // the next animaton should start after 0.2 seconds
-  //------------------------------------------------------------------
 
   Juggler.instance.delayCall(startWalking, 0.2);
 }

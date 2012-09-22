@@ -107,26 +107,22 @@
                 </div>
                 <div class="tab-pane" id="demoDart">
                      <pre class="prettyprint lang-java">
-import &apos;dart:math&apos;;
-import &apos;dart:html&apos; as html;
-import &apos;package:dartflash/dartflash.dart&apos;;
+#import(&apos;dart:math&apos;);
+#import(&apos;dart:html&apos;, prefix:&apos;html&apos;);
+#import(&apos;../../../packages/dartflash/dartflash.dart&apos;);
 
 Resource resource;
 
 void main()
 {
-  //------------------------------------------------------------------
   // Initialize the Display List
-  //------------------------------------------------------------------
 
   Stage stage = new Stage(&apos;myStage&apos;, html.document.query(&apos;#stage&apos;));
 
   RenderLoop renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
 
-  //------------------------------------------------------------------
   // prepare different Masks for later use
-  //------------------------------------------------------------------
 
   List<Point> starPath = new List<Point>();
 
@@ -141,9 +137,7 @@ void main()
   Mask circleMask = new Mask.circle(470.0, 250.0, 200.0);
   Mask customMask = new Mask.custom(starPath);
 
-  //------------------------------------------------------------------
   // Use the Resource class to load some Bitmaps
-  //------------------------------------------------------------------
 
   resource = new Resource();
   resource.addImage(&apos;flower1&apos;, &apos;../common/images/Flower1.png&apos;);
@@ -152,9 +146,7 @@ void main()
 
   resource.load().then((result)
   {
-    //------------------------------------------------------------------
     // Draw a nice looking animation
-    //------------------------------------------------------------------
 
     Sprite animation = new Sprite();
     Random random = new Random();
@@ -180,9 +172,7 @@ void main()
     animation.y = 250;
     stage.addChild(animation);
 
-    //------------------------------------------------------------------
     // add html-button event listeners
-    //------------------------------------------------------------------
 
     html.query(&apos;#mask-none&apos;).on.click.add((e) => animation.mask = null);
     html.query(&apos;#mask-rectangle&apos;).on.click.add((e) => animation.mask = rectangleMask);

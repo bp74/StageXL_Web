@@ -6144,11 +6144,7 @@ $$.startWalking_anon = {"":
  [],
  "super": "Closure",
  call$2: function(c1, c2) {
-  if ($.ltB(c1.get$y(), c2.get$y()))
-    var t1 = -1;
-  else
-    t1 = $.gtB(c1.get$y(), c2.get$y()) ? 1 : 0;
-  return t1;
+  return $.sub(c1.get$y(), c2.get$y());
 }
 };
 

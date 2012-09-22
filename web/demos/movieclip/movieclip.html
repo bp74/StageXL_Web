@@ -82,7 +82,7 @@
                      <pre class="prettyprint lang-java">
 import &apos;dart:math&apos;;
 import &apos;dart:html&apos; as html;
-import &apos;package:dartflash/dartflash.dart&apos;;
+import &apos;packages:dartflash/dartflash.dart&apos;;
 
 Stage stage;
 RenderLoop renderLoop;
@@ -90,18 +90,14 @@ Resource resource;
 
 void main()
 {
-  //------------------------------------------------------------------
   // Initialize the Display List
-  //------------------------------------------------------------------
 
   stage = new Stage(&apos;myStage&apos;, html.document.query(&apos;#stage&apos;));
 
   renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
 
-  //------------------------------------------------------------------
   // Use the Resource class to load a TextureAtlas
-  //------------------------------------------------------------------
 
   resource = new Resource();
   resource.addTextureAtlas(&apos;walkTextureAtlas&apos;, &apos;../common/images/walk.json&apos;, TextureAtlasFormat.JSONARRAY);
@@ -110,20 +106,15 @@ void main()
 
 //-----------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------
 
 void startWalking()
 {
-  //------------------------------------------------------------------
   // Get all the &apos;walk&apos; bitmapDatas in the texture atlas.
-  //------------------------------------------------------------------
 
   TextureAtlas textureAtlas = resource.getTextureAtlas(&apos;walkTextureAtlas&apos;);
   List<BitmapData> bitmapDatas = textureAtlas.getBitmapDatas(&apos;walk&apos;);
 
-  //------------------------------------------------------------------
   // Create a movie clip with the list of bitmapDatas.
-  //------------------------------------------------------------------
 
   Random random = new Random();
   num rnd = random.nextDouble();
@@ -135,11 +126,9 @@ void startWalking()
   movieClip.play();
 
   stage.addChild(movieClip);
-  stage.sortChildren((c1, c2) => (c1.y < c2.y) ? -1 : ((c1.y > c2.y) ? 1 : 0));
+  stage.sortChildren((c1, c2) => c1.y - c2.y);
 
-  //------------------------------------------------------------------
   // Add a tween to make the man walk from the left to the right.
-  //------------------------------------------------------------------
 
   Tween tween = new Tween(movieClip, 5.0 + (1.0 - rnd) * 5.0, Transitions.linear);
   tween.animate(&apos;x&apos;, 940.0);
@@ -152,9 +141,7 @@ void startWalking()
   Juggler.instance.add(movieClip);
   Juggler.instance.add(tween);
 
-  //------------------------------------------------------------------
   // the next animaton should start after 0.2 seconds
-  //------------------------------------------------------------------
 
   Juggler.instance.delayCall(startWalking, 0.2);
 }

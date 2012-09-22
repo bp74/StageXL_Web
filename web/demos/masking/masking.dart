@@ -6,18 +6,14 @@ Resource resource;
 
 void main()
 {
-  //------------------------------------------------------------------
   // Initialize the Display List
-  //------------------------------------------------------------------
 
   Stage stage = new Stage('myStage', html.document.query('#stage'));
 
   RenderLoop renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
 
-  //------------------------------------------------------------------
   // prepare different Masks for later use
-  //------------------------------------------------------------------
 
   List<Point> starPath = new List<Point>();
 
@@ -32,9 +28,7 @@ void main()
   Mask circleMask = new Mask.circle(470.0, 250.0, 200.0);
   Mask customMask = new Mask.custom(starPath);
 
-  //------------------------------------------------------------------
   // Use the Resource class to load some Bitmaps
-  //------------------------------------------------------------------
 
   resource = new Resource();
   resource.addImage('flower1', '../common/images/Flower1.png');
@@ -43,9 +37,7 @@ void main()
 
   resource.load().then((result)
   {
-    //------------------------------------------------------------------
     // Draw a nice looking animation
-    //------------------------------------------------------------------
 
     Sprite animation = new Sprite();
     Random random = new Random();
@@ -71,9 +63,7 @@ void main()
     animation.y = 250;
     stage.addChild(animation);
 
-    //------------------------------------------------------------------
     // add html-button event listeners
-    //------------------------------------------------------------------
 
     html.query('#mask-none').on.click.add((e) => animation.mask = null);
     html.query('#mask-rectangle').on.click.add((e) => animation.mask = rectangleMask);

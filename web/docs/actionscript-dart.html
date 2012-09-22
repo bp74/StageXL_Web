@@ -1,0 +1,890 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>dartflash library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/prettify.css" type="text/css" rel="stylesheet" />
+    <link href="../assets/css/dartflash.css" rel="stylesheet" />
+    <!--<link href="/assets/css/bootstrap-responsive.min.css" rel="stylesheet" />-->
+    
+
+    <!--[if lt IE 9]>
+      <script src="/assets/js/html5shiv.js" type="text/javascript"></script>
+    <![endif]-->
+    <!--<link rel="shortcut icon" href="/assets/img/favicon.ico" /> -->
+</head>
+<body onload="prettyPrint()">
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="/index.html"><strong>dartflash</strong></a>
+                <ul class="nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Showcase<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">Games</li>
+                            <li><a href="/games/escape/escape.html">&nbsp;Escape</a></li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Demos</li>
+                            <li><a href="/demos/performance/performance.html">&nbsp;Performance</a></li>
+                            <li><a href="/demos/text/text.html">&nbsp;Text</a></li>
+                            <li><a href="/demos/movieclip/movieclip.html">&nbsp;MovieClip</a></li>
+                            <li><a href="/demos/masking/masking.html">&nbsp;Masking</a></li>
+                            <li><a href="/demos/sound/sound.html">&nbsp;Sound</a></li>
+                            <li><a href="/demos/tweener/tweener.html">&nbsp;Tweener</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Documents<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/docs/api/dartflash.html" target="_blank">API Reference</a></li>
+                            <li><a href="/docs/actionscript-dart.html">ActionScript&nbsp;<i class="icon-hand-right"></i>&nbsp;Dart</a></li>
+                            <li><a href="/docs/howto.html">Wiki Articles</a></li>
+                            <li><a href="/docs/faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>ActionScript to Dart comparison</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
+        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
+        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
+        mollit anim id est laborum.</p>
+        
+<!-- 
+=================================================================================================
+INSERT AUTO GENERATED CODE BELOW
+================================================================================================= 
+-->
+
+<section class="section-theme" id="theme-getting-started">
+  <div class="row"><div class="span12"><h2>Getting started</h2></div></div>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Classes</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+public class Rectangle extends Shape {
+    // fields, constructors, functions
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+class Rectangle extends Shape {
+    // fields, constructors, methods
+}</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Variables</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var i:int = 1;
+var s:String = &apos;hello world&apos;;
+var n:Number = 3.14;
+var b:Boolean = true;
+
+// Warning: variable &apos;x&apos; has no type declaration
+var x; 
+var p = new Point(1, 2);</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+int i = 1;
+String s = &apos;hello world&apos;;
+num n = 3.14;
+bool b = true;
+
+// No warning because Dart is dynamically typed.
+var x;  
+var p = new Point(1, 2);</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Access modifiers</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+public var name:String; 
+private var _text:String;
+
+// there is no match for &apos;internal&apos; and &apos;protected&apos; modifiers.</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+String name;   // public
+String _text;  // private
+
+// The underscore convention controls the access.</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Functions</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+public function echo(text:String):String {
+  return text;
+}
+
+private function foo(i:int, s:String):void {
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+String echo(String text) {
+  return text;
+}
+
+void _foo(int i, String s) {
+}</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Constructors</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+public class Sample {
+  public function Sample(i:int, s:String) {
+    // constructor code
+  }
+}    
+
+public class Point {
+  public var x:int, y:int;
+  public function Point(x:int, y:int) {
+    this.x = x;
+    this.y = y;
+  }
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+class Sample {
+  Sample(int i, String s) {
+    // constructor code
+  }
+}    
+
+class Point {
+  int x, y;
+  Point(this.x, this.y);  // Automatic field initialization.
+}
+
+// Dart also supports &apos;named&apos; and &apos;factory&apos; constructors.
+// http://www.dartlang.org/docs/language-tour/#constructors</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Getters and Setters</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+private var _name:String; 
+    
+public function get name():String {
+  return _name;
+}
+
+public function set name(value:String): void {
+  _name = value;
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+String _name;
+  
+String get name {
+  return _name;
+}
+  
+set name(String value) {
+  _name = value;
+}</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Interfaces</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+public interface ISelectable {
+  function select(var filter:String):void;
+}
+
+// A class implements interfaces.
+
+public class Table implements ISelectable {
+  public function select(var filter:String):void {
+    // ...
+  }
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+abstract class Selectable {
+  void select(String filter);
+}
+
+// A class implements other classes&apos; interfaces.
+
+class Table implements Selectable {
+  void select(String filter) {
+    // ...
+  }
+}</pre></div>
+    </div>
+  </section>
+</section>
+<section class="section-theme" id="theme-collections">
+  <div class="row"><div class="span12"><h2>Collections</h2></div></div>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Arrays and Vectors</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var a:Array = new Array();
+var b:Array = [1, 2, 3];
+
+var v:Vector.&lt;String&gt; = new Vector.&lt;String&gt;();
+v.push(&apos;hello&apos;);
+v.push(&apos;world&apos;);</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var a = new List();
+var b = [1, 2, 3];
+
+var v = new List&lt;String&gt;();
+v.add(&apos;hello&apos;);
+v.add(&apos;world&apos;);</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Queues and Stacks</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var q:Array = new Array();  
+q.push(&apos;hello&apos;);
+q.push(&apos;world&apos;);
+
+var f:String = q.shift();
+var l:String = q.pop();</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var q = new Queue();  // or use: new Queue&lt;String&gt;();
+q.add(&apos;hello&apos;);
+q.add(&apos;world&apos;);
+
+var f = q.removeFirst();
+var l = q.removeLast();</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Associative Arrays, Maps and Dictionaries</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var m1:Object = new Object();
+m1.name1 = &apos;Susan&apos;;
+m1.name2 = &apos;Michael&apos;;
+
+var m2:Object = {name1 : &apos;Susan&apos;, name2 : &apos;Michael&apos;};
+delete m2.name2;
+
+var m3:Dictionary = new Dictionary();
+m3[0] = new Point(0, 0);
+m3[1] = new Point(1, 1);
+delete m3[1];</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var m1 = new Map();   // or use: new Map&lt;String, String&gt;();
+m1[&apos;name1&apos;] = &apos;Susan&apos;;
+m1[&apos;name2&apos;] = &apos;Michael&apos;;
+  
+var m2 = {&apos;name1&apos; : &apos;Susan&apos;, &apos;name2&apos; : &apos;Michael&apos;};
+m2.remove(&apos;name2&apos;);
+  
+var m3 = new Map&lt;int, Point&gt;();
+m3[0] = new Point(0, 0);
+m3[1] = new Point(1, 1);
+m3.remove(1);</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Sets</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+// A set is a collection without duplicates.
+// ActionScript has no built-in support for sets.
+//
+//</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var s = new Set();  // or use: new Set&lt;String&gt;();
+s.add(&apos;hello&apos;);
+s.add(&apos;world&apos;);
+s.add(&apos;hello&apos;);     // will not be added to avoid duplicates.</pre></div>
+    </div>
+  </section>
+</section>
+<section class="section-theme" id="theme-loops">
+  <div class="row"><div class="span12"><h2>Loops</h2></div></div>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">for</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+for(var i:int = 1; i &lt; 10; i++) {
+  trace(i);
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+for(int i = 1; i &lt; 10; i++) {
+  print(i);
+}</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">for each</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var words:Array = [&apos;this&apos;, &apos;is&apos;, &apos;sparta!&apos;];  
+for each(var word:String in words) {
+  trace(word);
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var words = [&apos;this&apos;, &apos;is&apos;, &apos;sparta!&apos;];
+for(var word in words) {
+  print(word);
+}</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">while and do-while</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var i:int = 0;
+while(i &lt; 10) { i++; }
+
+var j:int = 0;
+do { j++; } while(j &lt; 10);</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+int i = 0;
+while(i &lt; 10) { i++; }
+
+int j = 0;
+do { j++; } while(j &lt; 10);</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">iterate objects/maps</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var data:Object = {name1 : &apos;Susan&apos;, name2 : &apos;Michael&apos;};
+for(var key:String in data) {
+  var value:String = data[key];
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var data = {&apos;name1&apos; : &apos;Susan&apos;, &apos;name2&apos; : &apos;Michael&apos;};
+for (var key in data.getKeys()) {
+  var value = data[key];
+}</pre></div>
+    </div>
+  </section>
+</section>
+<section class="section-theme" id="theme-math">
+  <div class="row"><div class="span12"><h2>Mathematics</h2></div></div>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Library</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+// All mathematical operations are static member fields
+// and functions of the &apos;Math&apos; class.
+//
+//</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+// All mathematical operations are static top level constants
+// and functions of the &apos;dart:math&apos; library.
+
+import &apos;dart:math&apos;;</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Constants</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var p:Number = Math.PI;
+var e:Number = Math.E;
+var s:Number = Math.SQRT2;</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var p = PI;
+var e = E;
+var s = SQRT2;</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Trigonometric functions</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var s:Number = Math.sin(Math.PI / 2);
+var c:Number = Math.cos(Math.PI / 3);
+var t:Number = Math.tan(Math.PI / 4);</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var s = sin(PI / 2);
+var c = cos(PI / 3);
+var t = tan(PI / 4);</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Random</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var r:Number = Math.random();
+ 
+</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var random = new Random();
+var r = random.nextDouble();</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Abs, Ceil, Floor and Round</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var a:Number = Math.abs(-3.14);
+var c:Number = Math.ceil(15.54);
+var f:Number = Math.floor(27.17);
+var r:Number = Math.round(35.22);</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var a = (-3.14).abs();
+var c = (15.54).ceil();
+var f = (27.17).floor();
+var r = (35.22).round();</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">String to Number conversion</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var i:int = parseInt(&apos;12&apos;);
+var n:Number = parseFloat(&apos;27.55&apos;);</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var i = int.parse(&apos;12&apos;);
+var n = double.parse(&apos;27.55&apos;);</pre></div>
+    </div>
+  </section>
+</section>
+<section class="section-theme" id="theme-lexical-scoping">
+  <div class="row"><div class="span12"><h2>Lexical Scoping</h2></div></div>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Hoisting</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+// ActionScript uses function scoping.
+
+public function foo():void {
+  // No warning, variable &apos;i&apos; is hoisted.
+  trace (i);
+      
+  for(var i:int = 0; i &lt; 10; i++)
+    trace(3 * i);  
+  
+  // Warning: Duplicate variable definition.
+  for(var i:int = 0; i &lt; 10; i++)
+    trace(5 * i);  
+}
+</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+// Dart uses block scoping.
+
+void foo() {
+  // Error: cannot resolve &apos;i&apos;.
+  print (i);
+  
+  for(int i = 0; i &lt; 10; i++)
+    print(3 * i); 
+
+  // No warning, variable &apos;i&apos; isn&apos;t used in this scope
+  for(int i = 0; i &lt; 10; i++)
+    print(5 * i); 
+}
+</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Closures</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+// The following code prints:  5, 5, 5, 5, 5
+
+var callbacks:Array = new Array();
+      
+for(var i:int = 0; i &lt; 5; i++) {
+  callbacks.push(function():void { trace(i); });
+}
+
+for each(var callback:Function in callbacks) {
+  callback();      
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+// The following code prints:  0, 1, 2, 3, 4
+
+var callbacks = new List();
+  
+for(int i = 0; i &lt; 5; i++) {
+  callbacks.add(() { print(i); });
+}
+  
+for (var callback in callbacks) {
+  callback();     
+}</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Scope of &apos;this&apos;</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+// ActionScript uses a dynamic binding for &apos;this&apos;.
+// The function &apos;Bar.test&apos; will print &apos;Michael&apos;.
+
+public class Foo {
+  public var name:String = &apos;Susan&apos;;
+  
+  public function printNameFunction():Function {
+    return function():void { trace(this.name); };
+  }
+}
+
+public class Bar { 
+  public var name:String = &apos;Michael&apos;;
+  public var func:Function;
+  
+  public function test():void {   
+    this.func = new Foo().printNameFunction();
+    this.func();  // prints &apos;Michael&apos; which is problematic!
+  }  
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+// Dart uses a lexical binding for &apos;this&apos;.
+// The function &apos;Bar.test&apos; will print &apos;Susan&apos;.
+
+class Foo {
+  String name = &apos;Susan&apos;;
+  
+  Function printNameFunction() {
+    return () { print(this.name); }; 
+  }
+}
+
+class Bar { 
+  String name = &apos;Michael&apos;;
+  Function func;
+  
+  void test() {   
+    this.func = new Foo().printNameFunction();
+    this.func();  // prints &apos;Susan&apos; which is correct!
+  } 
+}</pre></div>
+    </div>
+  </section>
+</section>
+<section class="section-theme" id="theme-miscellaneous">
+  <div class="row"><div class="span12"><h2>Miscellaneous</h2></div></div>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">String Concatenation and Interpolation</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+public function hello(first:String, last:String):String {
+  return &apos;Hello &apos; + first + &apos; &apos; + last;
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+String hello(String first, String last) {
+  return &apos;Hello $first $last&apos;;
+}</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Printing to the console</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+trace(&apos;hello world&apos;);</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+print(&apos;hello world&apos;);</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Single expression functions</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+public function get name():String {
+  return _name;
+}
+
+public function calc(value:int):int {
+  return 2 * value;
+}
+
+var func:Function = function(text:String):void { 
+  trace(text.toUpperCase()); 
+};</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+String get name() =&gt; _name;
+
+
+
+int calc(int value) =&gt; 2 * value; 
+ 
+
+ 
+var func = (String text) =&gt; print(text.toUpperCase());
+  
+  
+</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Optional parameters</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+// Positional optional parameters
+public function foo(s:String = null, b:Boolean = false):void {
+  // Parameter &apos;b&apos;: ActionScript does not support optional 
+  // parameters without default values. 
+}
+
+
+// Named optional parameters
+// ActionScript does not support named optional parameters.
+ 
+</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+// Positional optional parameters    
+void foo([String s = null, bool b]):void {
+  if (?b == false) {
+    // Parameter &apos;b&apos; was not provided.
+  }
+}
+
+// Named optional parameters
+void bar({String s:null, bool b:false}):void {
+}
+</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Exception handling</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+public function foo(text:String):void {
+  try {
+    if (text == null)
+      throw new ArgumentError(&quot;Oh no!&quot;);
+  } catch(ae:ArgumentError) {
+    // ...
+  } catch(e:Error) {
+    // ...
+  }
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+void foo(String text) {
+  try {
+    if (text == null)
+      throw new IllegalArgumentException(&quot;Oh no!&quot;);
+  } on IllegalArgumentException catch(iae) {
+    // ...
+  } on Exception catch(e) {    // &apos;on Exception&apos; is optional
+    // ...
+  }
+}</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">External Interface</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+if (ExternalInterface.available) {
+  ExternalInterface.call(&quot;updateHtml&quot;, 1, 2, 3);
+}</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+updateHtml(1, 2, 3);
+ 
+ 
+</pre></div>
+    </div>
+  </section>
+</section>
+<section class="section-theme" id="theme-libraries">
+  <div class="row"><div class="span12"><h2>Libraries</h2></div></div>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">dartflash (http://www.dartflash.com)</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+// Flash Display List objects
+var bd:BitmapData = new BitmapData(20, 20, false, 0xFF00FF);
+var b:Bitmap = new Bitmap(bd);
+b.rotation = 45; 
+
+var sprite:Sprite = new Sprite();
+sprite.addChild(b);
+sprite.scaleX = 0.25;
+sprite.scaleY = 0.50;
+sprite.addEventListener(MouseEvent.CLICK, onMouseClick);
+
+// Flash audio playback
+var s:Sound = getSound();
+var sc:SoundChannel = s.play();
+</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+// HTML5 Display List objects
+var bd = new BitmapData(20, 20, false, 0xFF00FF);
+var b = new Bitmap(bd); 
+b.rotation = 45 * PI / 180;
+
+var sprite = new Sprite();
+sprite.addChild(b);
+sprite.scaleX = 0.25;
+sprite.scaleY = 0.50;
+sprite.addEventListener(MouseEvent.CLICK, onMouseClick);
+
+// HTML5 audio playback
+var s = getSound();
+var sc = s.play();
+</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">dart-xml (https://github.com/prujohn/dart-xml)</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var xml:XML = 
+  &lt;persons&gt;
+    &lt;person name=&apos;Susan&apos;/&gt;
+    &lt;person name=&apos;Michael&apos;/&gt;
+  &lt;/persons&gt;;    
+      
+var xmlList:XMLList = xml.elements(&apos;person&apos;);</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var xml = XML.parse(&apos;&apos;&apos;
+&lt;persons&gt;
+  &lt;person name=&apos;Susan&apos;/&gt;
+  &lt;person name=&apos;Michael&apos;/&gt;
+&lt;/persons&gt;
+&apos;&apos;&apos;;
+var xmlList = xml.queryAll(&apos;person&apos;);</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">dartbox2D (http://code.google.com/p/dartbox2d/)</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var body:b2Body;
+var bodyDef:b2BodyDef;
+var boxShape:b2PolygonShape;
+var circleShape:b2CircleShape;</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+Body body;
+BodyDef bodyDef;
+PolygonShape boxShape;
+CircleShape circleShape;
+</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Using a library</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+import flash.display.*;
+import com.hurlant.crypto.hash.SHA1;</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+import &apos;package:dartflash/dartflash.dart&apos;;
+import &apos;dart:crypto&apos; show SHA1; // ToDo ... ???</pre></div>
+    </div>
+  </section>
+</section>
+<section class="section-theme" id="theme-new-theme">
+  <div class="row"><div class="span12"><h2>New theme</h2></div></div>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">New synonym</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+</pre></div>
+    </div>
+  </section>
+</section>
+
+<!-- 
+=================================================================================================
+INSERT AUTO GENERATED CODE ABOVE
+================================================================================================= 
+-->
+
+
+    </div>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../assets/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="../assets/js/prettify.js"></script>
+
+</body>
+</html>

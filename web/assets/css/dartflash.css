@@ -1,0 +1,72 @@
+﻿html {
+    overflow: scroll;
+}
+
+body {
+     padding-top: 60px;
+}
+
+.hero-unit {
+  padding: 40px;
+  background-image: url(../img/herobg.png);
+  background-repeat:repeat;
+  border:1px solid #C0C0C0;
+}
+
+.hero-unit .btn-large {
+    padding-left: 74px;
+    margin-top: 7px;
+}
+
+.hero-unit .btn-large .img-github {
+    position:absolute;
+    margin-left:-65px;
+}
+
+.hero-unit p {
+    text-align:justify;
+    line-height:25px;
+    font-size:16px;    
+}
+
+.hero-unit hr {
+    color: #C0C0C0;
+    background-color: #C0C0C0;
+    height: 1px;
+    border: 0px; 
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+.section-theme {
+    margin-top: 15px;
+    margin-bottom: 10px;    
+}
+
+.section-theme h2 {
+    color: #505050;
+    font-size: 28px;
+    line-height: 28px;  
+    padding-top:10px;
+    padding-bottom:6px;
+    border-bottom:1px solid #505050; 
+}
+
+.section-synonym h3 {
+    font-size: 18px;
+    line-height: 20px;   
+}
+
+.section-synonym:hover pre {
+  background: #F8F8E0;
+  -webkit-transition: background 100ms;
+  -moz-transition: background 100ms;
+  -o-transition: background 100ms;
+  -ms-transition: background 100ms;
+  transition: background 100ms;
+}
+
+pre.prettyprint {
+    padding: 8px;
+    border: 1px solid #D0D0D0;
+}

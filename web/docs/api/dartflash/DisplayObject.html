@@ -1,0 +1,754 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>DisplayObject Class / dartflash Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="dartflash" data-type="DisplayObject">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../dartflash.html">dartflash</a> &rsaquo; <a href="../dartflash/DisplayObject.html">DisplayObject</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../dartflash.html">dartflash</a></h2><ul class="icon">
+<li><a href="../dartflash/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../dartflash/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../dartflash/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../dartflash/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../dartflash/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../dartflash/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../dartflash/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../dartflash/BitmapFilterQuality.html"><div class="icon-class"></div>BitmapFilterQuality</a></li>
+<li><a href="../dartflash/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../dartflash/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../dartflash/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../dartflash/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../dartflash/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../dartflash/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><div class="icon-class"></div><strong>DisplayObject</strong></li>
+<li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../dartflash/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
+<li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../dartflash/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../dartflash/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../dartflash/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../dartflash/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../dartflash/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
+<li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../dartflash/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../dartflash/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../dartflash/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../dartflash/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../dartflash/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../dartflash/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../dartflash/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../dartflash/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../dartflash/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../dartflash/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../dartflash/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../dartflash/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../dartflash/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../dartflash/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
+<li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>DisplayObject</strong>
+          Class
+        </h2>
+        
+<div class="doc">
+
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../dartflash/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>DisplayObject</strong></span></p>
+<h3>Subclasses</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../dartflash/Bitmap.html">Bitmap</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/InteractiveObject.html">InteractiveObject</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/ParticleSystem.html">ParticleSystem</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/Shape.html">Shape</a></span></p>
+<h3>Implements</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../dartflash/BitmapDrawable.html">BitmapDrawable</a></span></p>
+<h3>Constructors</h3>
+<div class="method"><h4 id="DisplayObject">
+<span class="show-code">Code</span>
+new <strong>DisplayObject</strong>() <a class="anchor-link" href="#DisplayObject"
+              title="Permalink to DisplayObject.DisplayObject">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+DisplayObject()
+{
+  _transformationMatrixPrivate = new Matrix.fromIdentity();
+  _transformationMatrixRefresh = true;
+
+  _tmpMatrix = new Matrix.fromIdentity();
+  _tmpMatrixIdentity = new Matrix.fromIdentity();
+}
+</pre>
+</div>
+</div>
+<h3>Methods</h3>
+<div class="method"><h4 id="alpha=">
+<span class="show-code">Code</span>
+void <strong>set alpha</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#alpha="
+              title="Permalink to DisplayObject.set alpha">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void set alpha(num value) { _alpha = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="alpha">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get alpha</strong>() <a class="anchor-link" href="#alpha"
+              title="Permalink to DisplayObject.get alpha">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+num get alpha =&gt; _alpha;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="dispatchEvent">
+<span class="show-code">Code</span>
+void <strong>dispatchEvent</strong>(<a href="../dartflash/Event.html">Event</a> event) <a class="anchor-link" href="#dispatchEvent"
+              title="Permalink to DisplayObject.dispatchEvent">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void dispatchEvent(Event event)
+{
+  List&lt;DisplayObject&gt; ancestors = null;
+
+  if (event.captures || event.bubbles)
+    for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent)
+      if (ancestor.hasEventListener(event.type)) {
+        if (ancestors == null) ancestors = new List&lt;DisplayObject&gt;();
+        ancestors.add(ancestor);
+      }
+
+  if (event.captures &amp;&amp; ancestors != null)
+    for(int i = ancestors.length - 1 ; i &gt;= 0; i--)
+      if (event.stopsPropagation == false)
+        ancestors[i]._invokeEventListeners(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
+
+  if (event.stopsPropagation == false)
+    _invokeEventListeners(event, this, this, EventPhase.AT_TARGET);
+
+  if (event.bubbles &amp;&amp; ancestors != null)
+    for(int i = 0; i &lt; ancestors.length; i++)
+      if (event.stopsPropagation == false)
+        ancestors[i]._invokeEventListeners(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="getBounds">
+<span class="show-code">Code</span>
+<a href="../dartflash/Rectangle.html">Rectangle</a> <strong>getBounds</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> targetSpace) <a class="anchor-link" href="#getBounds"
+              title="Permalink to DisplayObject.getBounds">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+Rectangle getBounds(DisplayObject targetSpace)
+{
+  Rectangle returnRectangle = new Rectangle.zero();
+  Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
+
+  return getBoundsTransformed(matrix, returnRectangle);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="getBoundsTransformed">
+<span class="show-code">Code</span>
+<a href="../dartflash/Rectangle.html">Rectangle</a> <strong>getBoundsTransformed</strong>(<a href="../dartflash/Matrix.html">Matrix</a> matrix, [<a href="../dartflash/Rectangle.html">Rectangle</a> returnRectangle = null]) <a class="anchor-link" href="#getBoundsTransformed"
+              title="Permalink to DisplayObject.getBoundsTransformed">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle = null])
+{
+  if (returnRectangle == null)
+    returnRectangle = new Rectangle.zero();
+
+  returnRectangle.x = matrix.tx;
+  returnRectangle.y = matrix.ty;
+  returnRectangle.width = 0;
+  returnRectangle.height = 0;
+
+  return returnRectangle;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="globalToLocal">
+<span class="show-code">Code</span>
+<a href="../dartflash/Point.html">Point</a> <strong>globalToLocal</strong>(<a href="../dartflash/Point.html">Point</a> globalPoint) <a class="anchor-link" href="#globalToLocal"
+              title="Permalink to DisplayObject.globalToLocal">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+Point globalToLocal(Point globalPoint)
+{
+  _tmpMatrix.identity();
+
+  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
+    _tmpMatrix.concat(displayObject._transformationMatrix);
+
+  _tmpMatrix.invert();
+
+  return _tmpMatrix.transformPoint(globalPoint);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="height=">
+<span class="show-code">Code</span>
+void <strong>set height</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#height="
+              title="Permalink to DisplayObject.set height">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void set height(num value)
+{
+  this.scaleY = 1;
+  num normalHeight = this.height;
+  this.scaleY = (normalHeight != 0.0) ? value / normalHeight : 1.0;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="height">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get height</strong>() <a class="anchor-link" href="#height"
+              title="Permalink to DisplayObject.get height">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+num get height =&gt; getBoundsTransformed(_transformationMatrix).height;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="hitTestInput">
+<span class="show-code">Code</span>
+<a href="../dartflash/DisplayObject.html">DisplayObject</a> <strong>hitTestInput</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> localX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> localY) <a class="anchor-link" href="#hitTestInput"
+              title="Permalink to DisplayObject.hitTestInput">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+DisplayObject hitTestInput(num localX, num localY)
+{
+  if (getBoundsTransformed(_tmpMatrixIdentity).contains(localX, localY))
+    return this;
+
+  return null;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="hitTestObject">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>hitTestObject</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> other) <a class="anchor-link" href="#hitTestObject"
+              title="Permalink to DisplayObject.hitTestObject">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+bool hitTestObject(DisplayObject other)
+{
+  //ToDo
+
+  throw new NotImplementedException("Error #2014: Feature is not available at this time.");
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="hitTestPoint">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>hitTestPoint</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> shapeFlag = false]) <a class="anchor-link" href="#hitTestPoint"
+              title="Permalink to DisplayObject.hitTestPoint">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+bool hitTestPoint(num x, num y, [bool shapeFlag = false])
+{
+  Stage stage = this.stage;
+
+  if (stage == null)
+    return false;
+
+  Matrix matrix = this.transformationMatrixTo(stage);
+  matrix.invert();
+
+  Point point = new Point(x, y);
+  point.transform(matrix);
+
+  return getBoundsTransformed(_tmpMatrixIdentity).contains(point.x, point.y);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="localToGlobal">
+<span class="show-code">Code</span>
+<a href="../dartflash/Point.html">Point</a> <strong>localToGlobal</strong>(<a href="../dartflash/Point.html">Point</a> localPoint) <a class="anchor-link" href="#localToGlobal"
+              title="Permalink to DisplayObject.localToGlobal">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+Point localToGlobal(Point localPoint)
+{
+  _tmpMatrix.identity();
+
+  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
+    _tmpMatrix.concat(displayObject._transformationMatrix);
+
+  return _tmpMatrix.transformPoint(localPoint);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="name=">
+<span class="show-code">Code</span>
+void <strong>set name</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> value) <a class="anchor-link" href="#name="
+              title="Permalink to DisplayObject.set name">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void set name(String value) { _name = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="name">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>get name</strong>() <a class="anchor-link" href="#name"
+              title="Permalink to DisplayObject.get name">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+String get name =&gt; _name;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="parent">
+<span class="show-code">Code</span>
+<a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> <strong>get parent</strong>() <a class="anchor-link" href="#parent"
+              title="Permalink to DisplayObject.get parent">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+DisplayObjectContainer get parent =&gt; _parent;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="pivotX=">
+<span class="show-code">Code</span>
+void <strong>set pivotX</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#pivotX="
+              title="Permalink to DisplayObject.set pivotX">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="pivotX">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get pivotX</strong>() <a class="anchor-link" href="#pivotX"
+              title="Permalink to DisplayObject.get pivotX">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+num get pivotX =&gt; _pivotX;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="pivotY=">
+<span class="show-code">Code</span>
+void <strong>set pivotY</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#pivotY="
+              title="Permalink to DisplayObject.set pivotY">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void set pivotY(num value) { _pivotY = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="pivotY">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get pivotY</strong>() <a class="anchor-link" href="#pivotY"
+              title="Permalink to DisplayObject.get pivotY">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+num get pivotY =&gt; _pivotY;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="removeFromParent">
+<span class="show-code">Code</span>
+void <strong>removeFromParent</strong>() <a class="anchor-link" href="#removeFromParent"
+              title="Permalink to DisplayObject.removeFromParent">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void removeFromParent()
+{
+  if (_parent != null)
+    _parent.removeChild(this);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="render">
+<span class="show-code">Code</span>
+void <strong>render</strong>(<a href="../dartflash/RenderState.html">RenderState</a> renderState) <a class="anchor-link" href="#render"
+              title="Permalink to DisplayObject.render">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+abstract void render(RenderState renderState);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="root">
+<span class="show-code">Code</span>
+<a href="../dartflash/DisplayObject.html">DisplayObject</a> <strong>get root</strong>() <a class="anchor-link" href="#root"
+              title="Permalink to DisplayObject.get root">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+DisplayObject get root
+{
+  DisplayObject currentObject = this;
+
+  while (currentObject._parent != null)
+    currentObject = currentObject._parent;
+
+  return currentObject;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="rotation">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get rotation</strong>() <a class="anchor-link" href="#rotation"
+              title="Permalink to DisplayObject.get rotation">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+num get rotation =&gt; _rotation;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="rotation=">
+<span class="show-code">Code</span>
+void <strong>set rotation</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#rotation="
+              title="Permalink to DisplayObject.set rotation">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="scaleX=">
+<span class="show-code">Code</span>
+void <strong>set scaleX</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#scaleX="
+              title="Permalink to DisplayObject.set scaleX">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="scaleX">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get scaleX</strong>() <a class="anchor-link" href="#scaleX"
+              title="Permalink to DisplayObject.get scaleX">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+num get scaleX =&gt; _scaleX;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="scaleY">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get scaleY</strong>() <a class="anchor-link" href="#scaleY"
+              title="Permalink to DisplayObject.get scaleY">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+num get scaleY =&gt; _scaleY;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="scaleY=">
+<span class="show-code">Code</span>
+void <strong>set scaleY</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#scaleY="
+              title="Permalink to DisplayObject.set scaleY">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void set scaleY(num value) { _scaleY = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="stage">
+<span class="show-code">Code</span>
+<a href="../dartflash/Stage.html">Stage</a> <strong>get stage</strong>() <a class="anchor-link" href="#stage"
+              title="Permalink to DisplayObject.get stage">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+Stage get stage
+{
+  DisplayObject root = this.root;
+
+  if (root is Stage)
+    return root;
+
+  return null;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="transformationMatrix">
+<span class="show-code">Code</span>
+<a href="../dartflash/Matrix.html">Matrix</a> <strong>get transformationMatrix</strong>() <a class="anchor-link" href="#transformationMatrix"
+              title="Permalink to DisplayObject.get transformationMatrix">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+Matrix get transformationMatrix
+{
+  return _transformationMatrix.clone();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="transformationMatrixTo">
+<span class="show-code">Code</span>
+<a href="../dartflash/Matrix.html">Matrix</a> <strong>transformationMatrixTo</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> targetSpace) <a class="anchor-link" href="#transformationMatrixTo"
+              title="Permalink to DisplayObject.transformationMatrixTo">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+Matrix transformationMatrixTo(DisplayObject targetSpace)
+{
+  if (targetSpace == _parent)
+    return _transformationMatrix.clone();
+
+  if (targetSpace._parent == this)
+    return _transformationMatrix.cloneInvert();
+
+  //------------------------------------------------
+
+  Matrix resultMatrix = new Matrix.fromIdentity();
+  DisplayObject resultObject = this;
+
+  while(resultObject != targetSpace &amp;&amp; resultObject._parent != null) {
+    resultMatrix.concat(resultObject._transformationMatrix);
+    resultObject = resultObject._parent;
+  }
+
+  if (targetSpace == null &amp;&amp; resultObject != null) {
+    resultMatrix.concat(resultObject._transformationMatrix);
+    resultObject = null;
+  }
+
+  if (resultObject == targetSpace)
+    return resultMatrix;
+
+  //------------------------------------------------
+
+  Matrix targetMatrix = new Matrix.fromIdentity();
+  DisplayObject targetObject = targetSpace;
+
+  while(targetObject != this &amp;&amp; targetObject._parent != null) {
+    targetMatrix.concat(targetObject._transformationMatrix);
+    targetObject = targetObject._parent;
+  }
+
+  targetMatrix.invert();
+
+  if (targetObject == this)
+    return targetMatrix;
+
+  if (targetObject != resultObject)
+    throw new IllegalArgumentException("Error #9001: The supplied DisplayObject has no relationship to the caller.");
+
+  resultMatrix.concat(targetMatrix);
+
+  return resultMatrix;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="visible=">
+<span class="show-code">Code</span>
+void <strong>set visible</strong>(<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> value) <a class="anchor-link" href="#visible="
+              title="Permalink to DisplayObject.set visible">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="visible">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get visible</strong>() <a class="anchor-link" href="#visible"
+              title="Permalink to DisplayObject.get visible">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+bool get visible =&gt; _visible;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="width">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get width</strong>() <a class="anchor-link" href="#width"
+              title="Permalink to DisplayObject.get width">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+num get width =&gt; getBoundsTransformed(_transformationMatrix).width;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="width=">
+<span class="show-code">Code</span>
+void <strong>set width</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#width="
+              title="Permalink to DisplayObject.set width">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void set width(num value)
+{
+  this.scaleX = 1;
+  num normalWidth = this.width;
+  this.scaleX = (normalWidth != 0.0) ? value / normalWidth : 1.0;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="x=">
+<span class="show-code">Code</span>
+void <strong>set x</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#x="
+              title="Permalink to DisplayObject.set x">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void set x(num value) { _x = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="x">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get x</strong>() <a class="anchor-link" href="#x"
+              title="Permalink to DisplayObject.get x">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+num get x =&gt; _x;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="y">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get y</strong>() <a class="anchor-link" href="#y"
+              title="Permalink to DisplayObject.get y">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+num get y =&gt; _y;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="y=">
+<span class="show-code">Code</span>
+void <strong>set y</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#y="
+              title="Permalink to DisplayObject.set y">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+void set y(num value) { _y = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<h3>Fields</h3>
+<div class="field"><h4 id="mask">
+<span class="show-code">Code</span>
+<a href="../dartflash/Mask.html">Mask</a>         <strong>mask</strong> <a class="anchor-link"
+            href="#mask"
+            title="Permalink to DisplayObject.mask">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+Mask mask;
+</pre>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          <div>This page was generated at 2012-09-22 08:09:01.854</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

@@ -1,0 +1,783 @@
+<?xml version="1.0"?>
+<synonyms>
+  <theme id="theme-getting-started">
+    <title>Getting started</title>
+
+    <synonym id="syn-class-definitions">
+      <title>Classes</title>
+      <code language="as3"><![CDATA[
+public class Rectangle extends Shape {
+    // fields, constructors, functions
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+class Rectangle extends Shape {
+    // fields, constructors, methods
+}]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-variables">
+      <title>Variables</title>
+      <code language="as3"><![CDATA[
+var i:int = 1;
+var s:String = 'hello world';
+var n:Number = 3.14;
+var b:Boolean = true;
+
+// Warning: variable 'x' has no type declaration
+var x; 
+var p = new Point(1, 2);]]>
+      </code>
+      <code language="dart"><![CDATA[
+int i = 1;
+String s = 'hello world';
+num n = 3.14;
+bool b = true;
+
+// No warning because Dart is dynamically typed.
+var x;  
+var p = new Point(1, 2);]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-access-modifiers">
+      <title>Access modifiers</title>
+      <code language="as3"><![CDATA[
+public var name:String; 
+private var _text:String;
+
+// there is no match for 'internal' and 'protected' modifiers.]]>
+      </code>
+      <code language="dart"><![CDATA[
+String name;   // public
+String _text;  // private
+
+// The underscore convention controls the access.]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-functions">
+      <title>Functions</title>
+      <code language="as3"><![CDATA[
+public function echo(text:String):String {
+  return text;
+}
+
+private function foo(i:int, s:String):void {
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+String echo(String text) {
+  return text;
+}
+
+void _foo(int i, String s) {
+}]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-constructors">
+      <title>Constructors</title>
+      <code language="as3"><![CDATA[
+public class Sample {
+  public function Sample(i:int, s:String) {
+    // constructor code
+  }
+}	  
+
+public class Point {
+  public var x:int, y:int;
+  public function Point(x:int, y:int) {
+    this.x = x;
+    this.y = y;
+  }
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+class Sample {
+  Sample(int i, String s) {
+    // constructor code
+  }
+}	  
+
+class Point {
+  int x, y;
+  Point(this.x, this.y);  // Automatic field initialization.
+}
+
+// Dart also supports 'named' and 'factory' constructors.
+// http://www.dartlang.org/docs/language-tour/#constructors]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-getters-setters">
+      <title>Getters and Setters</title>
+      <code language="as3"><![CDATA[
+private var _name:String; 
+    
+public function get name():String {
+  return _name;
+}
+
+public function set name(value:String): void {
+  _name = value;
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+String _name;
+  
+String get name {
+  return _name;
+}
+  
+set name(String value) {
+  _name = value;
+}]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-interfaces">
+      <title>Interfaces</title>
+      <code language="as3"><![CDATA[
+public interface ISelectable {
+  function select(var filter:String):void;
+}
+
+// A class implements interfaces.
+
+public class Table implements ISelectable {
+  public function select(var filter:String):void {
+    // ...
+  }
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+abstract class Selectable {
+  void select(String filter);
+}
+
+// A class implements other classes' interfaces.
+
+class Table implements Selectable {
+  void select(String filter) {
+    // ...
+  }
+}]]>
+      </code>
+    </synonym>
+
+  </theme>
+
+  <theme id="theme-collections">
+    <title>Collections</title>
+
+    <synonym id="syn-arrays">
+      <title>Arrays and Vectors</title>
+      <code language="as3"><![CDATA[
+var a:Array = new Array();
+var b:Array = [1, 2, 3];
+
+var v:Vector.<String> = new Vector.<String>();
+v.push('hello');
+v.push('world');]]>
+      </code>
+      <code language="dart"><![CDATA[
+var a = new List();
+var b = [1, 2, 3];
+
+var v = new List<String>();
+v.add('hello');
+v.add('world');]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-queues">
+      <title>Queues and Stacks</title>
+      <code language="as3"><![CDATA[
+var q:Array = new Array();  
+q.push('hello');
+q.push('world');
+
+var f:String = q.shift();
+var l:String = q.pop();]]>
+      </code>
+      <code language="dart"><![CDATA[
+var q = new Queue();  // or use: new Queue<String>();
+q.add('hello');
+q.add('world');
+
+var f = q.removeFirst();
+var l = q.removeLast();]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-maps">
+      <title>Associative Arrays, Maps and Dictionaries</title>
+      <code language="as3"><![CDATA[
+var m1:Object = new Object();
+m1.name1 = 'Susan';
+m1.name2 = 'Michael';
+
+var m2:Object = {name1 : 'Susan', name2 : 'Michael'};
+delete m2.name2;
+
+var m3:Dictionary = new Dictionary();
+m3[0] = new Point(0, 0);
+m3[1] = new Point(1, 1);
+delete m3[1];]]>
+      </code>
+      <code language="dart"><![CDATA[
+var m1 = new Map();   // or use: new Map<String, String>();
+m1['name1'] = 'Susan';
+m1['name2'] = 'Michael';
+  
+var m2 = {'name1' : 'Susan', 'name2' : 'Michael'};
+m2.remove('name2');
+  
+var m3 = new Map<int, Point>();
+m3[0] = new Point(0, 0);
+m3[1] = new Point(1, 1);
+m3.remove(1);]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-sets">
+      <title>Sets</title>
+      <code language="as3"><![CDATA[
+// A set is a collection without duplicates.
+// ActionScript has no built-in support for sets.
+//
+//]]>
+      </code>
+      <code language="dart"><![CDATA[
+var s = new Set();  // or use: new Set<String>();
+s.add('hello');
+s.add('world');
+s.add('hello');     // will not be added to avoid duplicates.]]>
+      </code>
+    </synonym>
+
+  </theme>
+
+  <theme id="theme-loops">
+    <title>Loops</title>
+
+    <synonym id="syn-for-loop">
+      <title>for</title>
+      <code language="as3"><![CDATA[
+for(var i:int = 1; i < 10; i++) {
+  trace(i);
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+for(int i = 1; i < 10; i++) {
+  print(i);
+}]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-foreach-loop">
+      <title>for each</title>
+      <code language="as3"><![CDATA[
+var words:Array = ['this', 'is', 'sparta!'];  
+for each(var word:String in words) {
+  trace(word);
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+var words = ['this', 'is', 'sparta!'];
+for(var word in words) {
+  print(word);
+}]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-while-loop">
+      <title>while and do-while</title>
+      <code language="as3"><![CDATA[
+var i:int = 0;
+while(i < 10) { i++; }
+
+var j:int = 0;
+do { j++; } while(j < 10);]]>
+      </code>
+      <code language="dart"><![CDATA[
+int i = 0;
+while(i < 10) { i++; }
+
+int j = 0;
+do { j++; } while(j < 10);]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-object-loop">
+      <title>iterate objects/maps</title>
+      <code language="as3"><![CDATA[
+var data:Object = {name1 : 'Susan', name2 : 'Michael'};
+for(var key:String in data) {
+  var value:String = data[key];
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+var data = {'name1' : 'Susan', 'name2' : 'Michael'};
+for (var key in data.getKeys()) {
+  var value = data[key];
+}]]>
+      </code>
+    </synonym>
+
+  </theme>
+
+  <theme id="theme-math">
+    <title>Mathematics</title>
+
+    <synonym id="syn-math-class">
+      <title>Library</title>
+      <code language="as3"><![CDATA[
+// All mathematical operations are static member fields
+// and functions of the 'Math' class.
+//
+//]]>
+      </code>
+      <code language="dart"><![CDATA[
+// All mathematical operations are static top level constants
+// and functions of the 'dart:math' library.
+
+import 'dart:math';]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-math-constants">
+      <title>Constants</title>
+      <code language="as3"><![CDATA[
+var p:Number = Math.PI;
+var e:Number = Math.E;
+var s:Number = Math.SQRT2;]]>
+      </code>
+      <code language="dart"><![CDATA[
+var p = PI;
+var e = E;
+var s = SQRT2;]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-math-trigonometric-functions">
+      <title>Trigonometric functions</title>
+      <code language="as3"><![CDATA[
+var s:Number = Math.sin(Math.PI / 2);
+var c:Number = Math.cos(Math.PI / 3);
+var t:Number = Math.tan(Math.PI / 4);]]>
+      </code>
+      <code language="dart"><![CDATA[
+var s = sin(PI / 2);
+var c = cos(PI / 3);
+var t = tan(PI / 4);]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-math-random">
+      <title>Random</title>
+      <code language="as3"><![CDATA[
+var r:Number = Math.random();
+ 
+]]>
+      </code>
+      <code language="dart"><![CDATA[
+var random = new Random();
+var r = random.nextDouble();]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-math-abs-ceil-floor-round">
+      <title>Abs, Ceil, Floor and Round</title>
+      <code language="as3"><![CDATA[
+var a:Number = Math.abs(-3.14);
+var c:Number = Math.ceil(15.54);
+var f:Number = Math.floor(27.17);
+var r:Number = Math.round(35.22);]]>
+      </code>
+      <code language="dart"><![CDATA[
+var a = (-3.14).abs();
+var c = (15.54).ceil();
+var f = (27.17).floor();
+var r = (35.22).round();]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-math-string-to-num">
+      <title>String to Number conversion</title>
+      <code language="as3"><![CDATA[
+var i:int = parseInt('12');
+var n:Number = parseFloat('27.55');]]>
+      </code>
+      <code language="dart"><![CDATA[
+var i = int.parse('12');
+var n = double.parse('27.55');]]>
+      </code>
+    </synonym>
+
+  </theme>
+  <theme id="theme-lexical-scoping">
+    <title>Lexical Scoping</title>
+    <synonym id="syn-lexical-scoping">
+
+      <title>Hoisting</title>
+      <code language="as3"><![CDATA[
+// ActionScript uses function scoping.
+
+public function foo():void {
+  // No warning, variable 'i' is hoisted.
+  trace (i);
+      
+  for(var i:int = 0; i < 10; i++)
+    trace(3 * i);	
+  
+  // Warning: Duplicate variable definition.
+  for(var i:int = 0; i < 10; i++)
+    trace(5 * i);	
+}
+]]>
+      </code>
+      <code language="dart"><![CDATA[
+// Dart uses block scoping.
+
+void foo() {
+  // Error: cannot resolve 'i'.
+  print (i);
+  
+  for(int i = 0; i < 10; i++)
+    print(3 * i); 
+
+  // No warning, variable 'i' isn't used in this scope
+  for(int i = 0; i < 10; i++)
+    print(5 * i); 
+}
+]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-closures">
+      <title>Closures</title>
+      <code language="as3"><![CDATA[
+// The following code prints:  5, 5, 5, 5, 5
+
+var callbacks:Array = new Array();
+      
+for(var i:int = 0; i < 5; i++) {
+  callbacks.push(function():void { trace(i); });
+}
+
+for each(var callback:Function in callbacks) {
+  callback();			
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+// The following code prints:  0, 1, 2, 3, 4
+
+var callbacks = new List();
+  
+for(int i = 0; i < 5; i++) {
+  callbacks.add(() { print(i); });
+}
+  
+for (var callback in callbacks) {
+  callback();     
+}]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-scope-of-this">
+      <title>Scope of 'this'</title>
+      <code language="as3"><![CDATA[
+// ActionScript uses a dynamic binding for 'this'.
+// The function 'Bar.test' will print 'Michael'.
+
+public class Foo {
+  public var name:String = 'Susan';
+  
+  public function printNameFunction():Function {
+    return function():void { trace(this.name); };
+  }
+}
+
+public class Bar { 
+  public var name:String = 'Michael';
+  public var func:Function;
+  
+  public function test():void {   
+    this.func = new Foo().printNameFunction();
+    this.func();  // prints 'Michael' which is problematic!
+  }  
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+// Dart uses a lexical binding for 'this'.
+// The function 'Bar.test' will print 'Susan'.
+
+class Foo {
+  String name = 'Susan';
+  
+  Function printNameFunction() {
+    return () { print(this.name); }; 
+  }
+}
+
+class Bar { 
+  String name = 'Michael';
+  Function func;
+  
+  void test() {   
+    this.func = new Foo().printNameFunction();
+    this.func();  // prints 'Susan' which is correct!
+  } 
+}]]>
+      </code>
+    </synonym>
+
+  </theme>
+
+  <theme id="theme-miscellaneous">
+    <title>Miscellaneous</title>
+
+    <synonym id="syn-string-concatenation">
+      <title>String Concatenation and Interpolation</title>
+      <code language="as3"><![CDATA[
+public function hello(first:String, last:String):String {
+  return 'Hello ' + first + ' ' + last;
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+String hello(String first, String last) {
+  return 'Hello $first $last';
+}]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-console">
+      <title>Printing to the console</title>
+      <code language="as3"><![CDATA[
+trace('hello world');]]>
+      </code>
+      <code language="dart"><![CDATA[
+print('hello world');]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-single-expression-function">
+      <title>Single expression functions</title>
+      <code language="as3"><![CDATA[
+public function get name():String {
+  return _name;
+}
+
+public function calc(value:int):int {
+  return 2 * value;
+}
+
+var func:Function = function(text:String):void { 
+  trace(text.toUpperCase()); 
+};]]>
+      </code>
+      <code language="dart"><![CDATA[
+String get name() => _name;
+
+
+
+int calc(int value) => 2 * value; 
+ 
+
+ 
+var func = (String text) => print(text.toUpperCase());
+  
+  
+]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-optional-parameters">
+      <title>Optional parameters</title>
+      <code language="as3"><![CDATA[
+// Positional optional parameters
+public function foo(s:String = null, b:Boolean = false):void {
+  // Parameter 'b': ActionScript does not support optional 
+  // parameters without default values. 
+}
+
+
+// Named optional parameters
+// ActionScript does not support named optional parameters.
+ 
+]]>
+      </code>
+      <code language="dart"><![CDATA[
+// Positional optional parameters	  
+void foo([String s = null, bool b]):void {
+  if (?b == false) {
+    // Parameter 'b' was not provided.
+  }
+}
+
+// Named optional parameters
+void bar({String s:null, bool b:false}):void {
+}
+]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-exception-handling">
+      <title>Exception handling</title>
+      <code language="as3"><![CDATA[
+public function foo(text:String):void {
+  try {
+    if (text == null)
+      throw new ArgumentError("Oh no!");
+  } catch(ae:ArgumentError) {
+    // ...
+  } catch(e:Error) {
+    // ...
+  }
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+void foo(String text) {
+  try {
+    if (text == null)
+      throw new IllegalArgumentException("Oh no!");
+  } on IllegalArgumentException catch(iae) {
+    // ...
+  } on Exception catch(e) {    // 'on Exception' is optional
+    // ...
+  }
+}]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-external-interface">
+      <title>External Interface</title>
+      <code language="as3"><![CDATA[
+if (ExternalInterface.available) {
+  ExternalInterface.call("updateHtml", 1, 2, 3);
+}]]>
+      </code>
+      <code language="dart"><![CDATA[
+updateHtml(1, 2, 3);
+ 
+ 
+]]>
+      </code>
+    </synonym>
+
+  </theme>
+
+  <theme id="theme-libraries">
+    <title>Libraries</title>
+
+    <synonym id="syn-library-dartflash">
+      <title>dartflash (http://www.dartflash.com)</title>
+      <code language="as3"><![CDATA[
+// Flash Display List objects
+var bd:BitmapData = new BitmapData(20, 20, false, 0xFF00FF);
+var b:Bitmap = new Bitmap(bd);
+b.rotation = 45; 
+
+var sprite:Sprite = new Sprite();
+sprite.addChild(b);
+sprite.scaleX = 0.25;
+sprite.scaleY = 0.50;
+sprite.addEventListener(MouseEvent.CLICK, onMouseClick);
+
+// Flash audio playback
+var s:Sound = getSound();
+var sc:SoundChannel = s.play();
+]]>
+      </code>
+      <code language="dart"><![CDATA[
+// HTML5 Display List objects
+var bd = new BitmapData(20, 20, false, 0xFF00FF);
+var b = new Bitmap(bd); 
+b.rotation = 45 * PI / 180;
+
+var sprite = new Sprite();
+sprite.addChild(b);
+sprite.scaleX = 0.25;
+sprite.scaleY = 0.50;
+sprite.addEventListener(MouseEvent.CLICK, onMouseClick);
+
+// HTML5 audio playback
+var s = getSound();
+var sc = s.play();
+]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-library-dartxml">
+      <title>dart-xml (https://github.com/prujohn/dart-xml)</title>
+      <code language="as3"><![CDATA[
+var xml:XML = 
+  <persons>
+    <person name='Susan'/>
+    <person name='Michael'/>
+  </persons>;		
+      
+var xmlList:XMLList = xml.elements('person');]]>
+      </code>
+      <code language="dart"><![CDATA[
+var xml = XML.parse('''
+<persons>
+  <person name='Susan'/>
+  <person name='Michael'/>
+</persons>
+''';
+var xmlList = xml.queryAll('person');]]>
+      </code>
+    </synonym>
+
+    <synonym id="syn-library-box2d">
+      <title>dartbox2D (http://code.google.com/p/dartbox2d/)</title>
+      <code language="as3"><![CDATA[
+var body:b2Body;
+var bodyDef:b2BodyDef;
+var boxShape:b2PolygonShape;
+var circleShape:b2CircleShape;]]>
+      </code>
+      <code language="dart"><![CDATA[
+Body body;
+BodyDef bodyDef;
+PolygonShape boxShape;
+CircleShape circleShape;
+]]>
+      </code>
+    </synonym>
+
+
+    <synonym id="syn-using-library">
+      <title>Using a library</title>
+      <code language="as3"><![CDATA[
+import flash.display.*;
+import com.hurlant.crypto.hash.SHA1;]]>
+      </code>
+      <code language="dart"><![CDATA[
+import 'package:dartflash/dartflash.dart';
+import 'dart:crypto' show SHA1; // ToDo ... ???]]>
+      </code>
+    </synonym>
+
+  </theme>
+
+  <theme id="theme-new-theme">
+    <title>New theme</title>
+    <synonym id="syn-new-synonym">
+      <title>New synonym</title>
+      <code language="as3"><![CDATA[
+]]>
+      </code>
+      <code language="dart"><![CDATA[
+]]>
+      </code>
+    </synonym>
+  </theme>
+
+
+
+</synonyms>

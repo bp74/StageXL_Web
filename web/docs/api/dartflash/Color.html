@@ -1,0 +1,1953 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>Color Class / dartflash Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="dartflash" data-type="Color">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../dartflash.html">dartflash</a> &rsaquo; <a href="../dartflash/Color.html">Color</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../dartflash.html">dartflash</a></h2><ul class="icon">
+<li><a href="../dartflash/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../dartflash/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../dartflash/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../dartflash/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../dartflash/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../dartflash/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../dartflash/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../dartflash/BitmapFilterQuality.html"><div class="icon-class"></div>BitmapFilterQuality</a></li>
+<li><a href="../dartflash/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../dartflash/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../dartflash/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><div class="icon-class"></div><strong>Color</strong></li>
+<li><a href="../dartflash/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../dartflash/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../dartflash/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
+<li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../dartflash/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../dartflash/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../dartflash/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../dartflash/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../dartflash/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
+<li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../dartflash/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../dartflash/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../dartflash/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../dartflash/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../dartflash/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../dartflash/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../dartflash/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../dartflash/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../dartflash/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../dartflash/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../dartflash/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../dartflash/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../dartflash/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../dartflash/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
+<li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>Color</strong>
+          Class
+        </h2>
+        
+<div class="doc">
+
+</div>
+<h3>Static Fields</h3>
+<div class="field"><h4 id="AliceBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>AliceBlue</strong> <a class="anchor-link"
+            href="#AliceBlue"
+            title="Permalink to Color.AliceBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int AliceBlue = 0xFFF0F8FF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="AntiqueWhite">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>AntiqueWhite</strong> <a class="anchor-link"
+            href="#AntiqueWhite"
+            title="Permalink to Color.AntiqueWhite">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int AntiqueWhite = 0xFFFAEBD7;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Aqua">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Aqua</strong> <a class="anchor-link"
+            href="#Aqua"
+            title="Permalink to Color.Aqua">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Aqua = 0xFF00FFFF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Aquamarine">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Aquamarine</strong> <a class="anchor-link"
+            href="#Aquamarine"
+            title="Permalink to Color.Aquamarine">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Aquamarine = 0xFF7FFFD4;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Azure">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Azure</strong> <a class="anchor-link"
+            href="#Azure"
+            title="Permalink to Color.Azure">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Azure = 0xFFF0FFFF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Beige">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Beige</strong> <a class="anchor-link"
+            href="#Beige"
+            title="Permalink to Color.Beige">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Beige = 0xFFF5F5DC;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Bisque">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Bisque</strong> <a class="anchor-link"
+            href="#Bisque"
+            title="Permalink to Color.Bisque">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Bisque = 0xFFFFE4C4;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Black">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Black</strong> <a class="anchor-link"
+            href="#Black"
+            title="Permalink to Color.Black">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Black = 0xFF000000;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="BlanchedAlmond">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>BlanchedAlmond</strong> <a class="anchor-link"
+            href="#BlanchedAlmond"
+            title="Permalink to Color.BlanchedAlmond">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int BlanchedAlmond = 0xFFFFEBCD;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Blue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Blue</strong> <a class="anchor-link"
+            href="#Blue"
+            title="Permalink to Color.Blue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Blue = 0xFF0000FF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="BlueViolet">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>BlueViolet</strong> <a class="anchor-link"
+            href="#BlueViolet"
+            title="Permalink to Color.BlueViolet">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int BlueViolet = 0xFF8A2BE2;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Brown">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Brown</strong> <a class="anchor-link"
+            href="#Brown"
+            title="Permalink to Color.Brown">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Brown = 0xFFA52A2A;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="BurlyWood">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>BurlyWood</strong> <a class="anchor-link"
+            href="#BurlyWood"
+            title="Permalink to Color.BurlyWood">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int BurlyWood = 0xFFDEB887;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="CadetBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>CadetBlue</strong> <a class="anchor-link"
+            href="#CadetBlue"
+            title="Permalink to Color.CadetBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int CadetBlue = 0xFF5F9EA0;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Chartreuse">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Chartreuse</strong> <a class="anchor-link"
+            href="#Chartreuse"
+            title="Permalink to Color.Chartreuse">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Chartreuse = 0xFF7FFF00;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Chocolate">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Chocolate</strong> <a class="anchor-link"
+            href="#Chocolate"
+            title="Permalink to Color.Chocolate">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Chocolate = 0xFFD2691E;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Coral">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Coral</strong> <a class="anchor-link"
+            href="#Coral"
+            title="Permalink to Color.Coral">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Coral = 0xFFFF7F50;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="CornflowerBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>CornflowerBlue</strong> <a class="anchor-link"
+            href="#CornflowerBlue"
+            title="Permalink to Color.CornflowerBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int CornflowerBlue = 0xFF6495ED;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Cornsilk">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Cornsilk</strong> <a class="anchor-link"
+            href="#Cornsilk"
+            title="Permalink to Color.Cornsilk">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Cornsilk = 0xFFFFF8DC;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Crimson">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Crimson</strong> <a class="anchor-link"
+            href="#Crimson"
+            title="Permalink to Color.Crimson">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Crimson = 0xFFDC143C;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Cyan">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Cyan</strong> <a class="anchor-link"
+            href="#Cyan"
+            title="Permalink to Color.Cyan">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Cyan = 0xFF00FFFF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkBlue</strong> <a class="anchor-link"
+            href="#DarkBlue"
+            title="Permalink to Color.DarkBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkBlue = 0xFF00008B;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkCyan">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkCyan</strong> <a class="anchor-link"
+            href="#DarkCyan"
+            title="Permalink to Color.DarkCyan">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkCyan = 0xFF008B8B;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkGoldenrod">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkGoldenrod</strong> <a class="anchor-link"
+            href="#DarkGoldenrod"
+            title="Permalink to Color.DarkGoldenrod">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkGoldenrod = 0xFFB8860B;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkGray">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkGray</strong> <a class="anchor-link"
+            href="#DarkGray"
+            title="Permalink to Color.DarkGray">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkGray = 0xFFA9A9A9;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkGreen</strong> <a class="anchor-link"
+            href="#DarkGreen"
+            title="Permalink to Color.DarkGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkGreen = 0xFF006400;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkKhaki">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkKhaki</strong> <a class="anchor-link"
+            href="#DarkKhaki"
+            title="Permalink to Color.DarkKhaki">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkKhaki = 0xFFBDB76B;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkMagenta">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkMagenta</strong> <a class="anchor-link"
+            href="#DarkMagenta"
+            title="Permalink to Color.DarkMagenta">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkMagenta = 0xFF8B008B;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkOliveGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkOliveGreen</strong> <a class="anchor-link"
+            href="#DarkOliveGreen"
+            title="Permalink to Color.DarkOliveGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkOliveGreen = 0xFF556B2F;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkOrange">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkOrange</strong> <a class="anchor-link"
+            href="#DarkOrange"
+            title="Permalink to Color.DarkOrange">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkOrange = 0xFFFF8C00;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkOrchid">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkOrchid</strong> <a class="anchor-link"
+            href="#DarkOrchid"
+            title="Permalink to Color.DarkOrchid">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkOrchid = 0xFF9932CC;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkRed">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkRed</strong> <a class="anchor-link"
+            href="#DarkRed"
+            title="Permalink to Color.DarkRed">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkRed = 0xFF8B0000;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkSalmon">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkSalmon</strong> <a class="anchor-link"
+            href="#DarkSalmon"
+            title="Permalink to Color.DarkSalmon">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkSalmon = 0xFFE9967A;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkSeaGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkSeaGreen</strong> <a class="anchor-link"
+            href="#DarkSeaGreen"
+            title="Permalink to Color.DarkSeaGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkSeaGreen = 0xFF8FBC8B;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkSlateBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkSlateBlue</strong> <a class="anchor-link"
+            href="#DarkSlateBlue"
+            title="Permalink to Color.DarkSlateBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkSlateBlue = 0xFF483D8B;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkSlateGray">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkSlateGray</strong> <a class="anchor-link"
+            href="#DarkSlateGray"
+            title="Permalink to Color.DarkSlateGray">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkSlateGray = 0xFF2F4F4F;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkTurquoise">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkTurquoise</strong> <a class="anchor-link"
+            href="#DarkTurquoise"
+            title="Permalink to Color.DarkTurquoise">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkTurquoise = 0xFF00CED1;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DarkViolet">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DarkViolet</strong> <a class="anchor-link"
+            href="#DarkViolet"
+            title="Permalink to Color.DarkViolet">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DarkViolet = 0xFF9400D3;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DeepPink">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DeepPink</strong> <a class="anchor-link"
+            href="#DeepPink"
+            title="Permalink to Color.DeepPink">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DeepPink = 0xFFFF1493;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DeepSkyBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DeepSkyBlue</strong> <a class="anchor-link"
+            href="#DeepSkyBlue"
+            title="Permalink to Color.DeepSkyBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DeepSkyBlue = 0xFF00BFFF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DimGray">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DimGray</strong> <a class="anchor-link"
+            href="#DimGray"
+            title="Permalink to Color.DimGray">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DimGray = 0xFF696969;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DodgerBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>DodgerBlue</strong> <a class="anchor-link"
+            href="#DodgerBlue"
+            title="Permalink to Color.DodgerBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int DodgerBlue = 0xFF1E90FF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Firebrick">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Firebrick</strong> <a class="anchor-link"
+            href="#Firebrick"
+            title="Permalink to Color.Firebrick">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Firebrick = 0xFFB22222;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="FloralWhite">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>FloralWhite</strong> <a class="anchor-link"
+            href="#FloralWhite"
+            title="Permalink to Color.FloralWhite">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int FloralWhite = 0xFFFFFAF0;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="ForestGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>ForestGreen</strong> <a class="anchor-link"
+            href="#ForestGreen"
+            title="Permalink to Color.ForestGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int ForestGreen = 0xFF228B22;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Fuchsia">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Fuchsia</strong> <a class="anchor-link"
+            href="#Fuchsia"
+            title="Permalink to Color.Fuchsia">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Fuchsia = 0xFFFF00FF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Gainsboro">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Gainsboro</strong> <a class="anchor-link"
+            href="#Gainsboro"
+            title="Permalink to Color.Gainsboro">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Gainsboro = 0xFFDCDCDC;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="GhostWhite">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>GhostWhite</strong> <a class="anchor-link"
+            href="#GhostWhite"
+            title="Permalink to Color.GhostWhite">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int GhostWhite = 0xFFF8F8FF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Gold">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Gold</strong> <a class="anchor-link"
+            href="#Gold"
+            title="Permalink to Color.Gold">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Gold = 0xFFFFD700;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Goldenrod">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Goldenrod</strong> <a class="anchor-link"
+            href="#Goldenrod"
+            title="Permalink to Color.Goldenrod">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Goldenrod = 0xFFDAA520;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Gray">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Gray</strong> <a class="anchor-link"
+            href="#Gray"
+            title="Permalink to Color.Gray">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Gray = 0xFF808080;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Green">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Green</strong> <a class="anchor-link"
+            href="#Green"
+            title="Permalink to Color.Green">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Green = 0xFF008000;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="GreenYellow">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>GreenYellow</strong> <a class="anchor-link"
+            href="#GreenYellow"
+            title="Permalink to Color.GreenYellow">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int GreenYellow = 0xFFADFF2F;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Honeydew">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Honeydew</strong> <a class="anchor-link"
+            href="#Honeydew"
+            title="Permalink to Color.Honeydew">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Honeydew = 0xFFF0FFF0;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="HotPink">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>HotPink</strong> <a class="anchor-link"
+            href="#HotPink"
+            title="Permalink to Color.HotPink">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int HotPink = 0xFFFF69B4;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="IndianRed">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>IndianRed</strong> <a class="anchor-link"
+            href="#IndianRed"
+            title="Permalink to Color.IndianRed">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int IndianRed = 0xFFCD5C5C;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Indigo">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Indigo</strong> <a class="anchor-link"
+            href="#Indigo"
+            title="Permalink to Color.Indigo">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Indigo = 0xFF4B0082;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Ivory">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Ivory</strong> <a class="anchor-link"
+            href="#Ivory"
+            title="Permalink to Color.Ivory">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Ivory = 0xFFFFFFF0;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Khaki">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Khaki</strong> <a class="anchor-link"
+            href="#Khaki"
+            title="Permalink to Color.Khaki">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Khaki = 0xFFF0E68C;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Lavender">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Lavender</strong> <a class="anchor-link"
+            href="#Lavender"
+            title="Permalink to Color.Lavender">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Lavender = 0xFFE6E6FA;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LavenderBlush">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LavenderBlush</strong> <a class="anchor-link"
+            href="#LavenderBlush"
+            title="Permalink to Color.LavenderBlush">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LavenderBlush = 0xFFFFF0F5;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LawnGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LawnGreen</strong> <a class="anchor-link"
+            href="#LawnGreen"
+            title="Permalink to Color.LawnGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LawnGreen = 0xFF7CFC00;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LemonChiffon">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LemonChiffon</strong> <a class="anchor-link"
+            href="#LemonChiffon"
+            title="Permalink to Color.LemonChiffon">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LemonChiffon = 0xFFFFFACD;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightBlue</strong> <a class="anchor-link"
+            href="#LightBlue"
+            title="Permalink to Color.LightBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightBlue = 0xFFADD8E6;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightCoral">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightCoral</strong> <a class="anchor-link"
+            href="#LightCoral"
+            title="Permalink to Color.LightCoral">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightCoral = 0xFFF08080;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightCyan">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightCyan</strong> <a class="anchor-link"
+            href="#LightCyan"
+            title="Permalink to Color.LightCyan">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightCyan = 0xFFE0FFFF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightGoldenrodYellow">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightGoldenrodYellow</strong> <a class="anchor-link"
+            href="#LightGoldenrodYellow"
+            title="Permalink to Color.LightGoldenrodYellow">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightGoldenrodYellow = 0xFFFAFAD2;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightGray">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightGray</strong> <a class="anchor-link"
+            href="#LightGray"
+            title="Permalink to Color.LightGray">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightGray = 0xFFD3D3D3;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightGreen</strong> <a class="anchor-link"
+            href="#LightGreen"
+            title="Permalink to Color.LightGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightGreen = 0xFF90EE90;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightPink">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightPink</strong> <a class="anchor-link"
+            href="#LightPink"
+            title="Permalink to Color.LightPink">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightPink = 0xFFFFB6C1;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightSalmon">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightSalmon</strong> <a class="anchor-link"
+            href="#LightSalmon"
+            title="Permalink to Color.LightSalmon">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightSalmon = 0xFFFFA07A;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightSeaGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightSeaGreen</strong> <a class="anchor-link"
+            href="#LightSeaGreen"
+            title="Permalink to Color.LightSeaGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightSeaGreen = 0xFF20B2AA;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightSkyBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightSkyBlue</strong> <a class="anchor-link"
+            href="#LightSkyBlue"
+            title="Permalink to Color.LightSkyBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightSkyBlue = 0xFF87CEFA;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightSlateGray">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightSlateGray</strong> <a class="anchor-link"
+            href="#LightSlateGray"
+            title="Permalink to Color.LightSlateGray">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightSlateGray = 0xFF778899;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightSteelBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightSteelBlue</strong> <a class="anchor-link"
+            href="#LightSteelBlue"
+            title="Permalink to Color.LightSteelBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightSteelBlue = 0xFFB0C4DE;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LightYellow">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LightYellow</strong> <a class="anchor-link"
+            href="#LightYellow"
+            title="Permalink to Color.LightYellow">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LightYellow = 0xFFFFFFE0;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Lime">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Lime</strong> <a class="anchor-link"
+            href="#Lime"
+            title="Permalink to Color.Lime">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Lime = 0xFF00FF00;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LimeGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>LimeGreen</strong> <a class="anchor-link"
+            href="#LimeGreen"
+            title="Permalink to Color.LimeGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int LimeGreen = 0xFF32CD32;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Linen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Linen</strong> <a class="anchor-link"
+            href="#Linen"
+            title="Permalink to Color.Linen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Linen = 0xFFFAF0E6;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Magenta">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Magenta</strong> <a class="anchor-link"
+            href="#Magenta"
+            title="Permalink to Color.Magenta">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Magenta = 0xFFFF00FF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Maroon">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Maroon</strong> <a class="anchor-link"
+            href="#Maroon"
+            title="Permalink to Color.Maroon">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Maroon = 0xFF800000;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="MediumAquamarine">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>MediumAquamarine</strong> <a class="anchor-link"
+            href="#MediumAquamarine"
+            title="Permalink to Color.MediumAquamarine">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int MediumAquamarine = 0xFF66CDAA;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="MediumBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>MediumBlue</strong> <a class="anchor-link"
+            href="#MediumBlue"
+            title="Permalink to Color.MediumBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int MediumBlue = 0xFF0000CD;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="MediumOrchid">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>MediumOrchid</strong> <a class="anchor-link"
+            href="#MediumOrchid"
+            title="Permalink to Color.MediumOrchid">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int MediumOrchid = 0xFFBA55D3;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="MediumPurple">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>MediumPurple</strong> <a class="anchor-link"
+            href="#MediumPurple"
+            title="Permalink to Color.MediumPurple">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int MediumPurple = 0xFF9370DB;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="MediumSeaGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>MediumSeaGreen</strong> <a class="anchor-link"
+            href="#MediumSeaGreen"
+            title="Permalink to Color.MediumSeaGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int MediumSeaGreen = 0xFF3CB371;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="MediumSlateBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>MediumSlateBlue</strong> <a class="anchor-link"
+            href="#MediumSlateBlue"
+            title="Permalink to Color.MediumSlateBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int MediumSlateBlue = 0xFF7B68EE;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="MediumSpringGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>MediumSpringGreen</strong> <a class="anchor-link"
+            href="#MediumSpringGreen"
+            title="Permalink to Color.MediumSpringGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int MediumSpringGreen = 0xFF00FA9A;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="MediumTurquoise">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>MediumTurquoise</strong> <a class="anchor-link"
+            href="#MediumTurquoise"
+            title="Permalink to Color.MediumTurquoise">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int MediumTurquoise = 0xFF48D1CC;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="MediumVioletRed">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>MediumVioletRed</strong> <a class="anchor-link"
+            href="#MediumVioletRed"
+            title="Permalink to Color.MediumVioletRed">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int MediumVioletRed = 0xFFC71585;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="MidnightBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>MidnightBlue</strong> <a class="anchor-link"
+            href="#MidnightBlue"
+            title="Permalink to Color.MidnightBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int MidnightBlue = 0xFF191970;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="MintCream">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>MintCream</strong> <a class="anchor-link"
+            href="#MintCream"
+            title="Permalink to Color.MintCream">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int MintCream = 0xFFF5FFFA;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="MistyRose">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>MistyRose</strong> <a class="anchor-link"
+            href="#MistyRose"
+            title="Permalink to Color.MistyRose">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int MistyRose = 0xFFFFE4E1;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Moccasin">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Moccasin</strong> <a class="anchor-link"
+            href="#Moccasin"
+            title="Permalink to Color.Moccasin">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Moccasin = 0xFFFFE4B5;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="NavajoWhite">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>NavajoWhite</strong> <a class="anchor-link"
+            href="#NavajoWhite"
+            title="Permalink to Color.NavajoWhite">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int NavajoWhite = 0xFFFFDEAD;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Navy">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Navy</strong> <a class="anchor-link"
+            href="#Navy"
+            title="Permalink to Color.Navy">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Navy = 0xFF000080;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="OldLace">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>OldLace</strong> <a class="anchor-link"
+            href="#OldLace"
+            title="Permalink to Color.OldLace">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int OldLace = 0xFFFDF5E6;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Olive">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Olive</strong> <a class="anchor-link"
+            href="#Olive"
+            title="Permalink to Color.Olive">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Olive = 0xFF808000;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="OliveDrab">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>OliveDrab</strong> <a class="anchor-link"
+            href="#OliveDrab"
+            title="Permalink to Color.OliveDrab">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int OliveDrab = 0xFF6B8E23;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Orange">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Orange</strong> <a class="anchor-link"
+            href="#Orange"
+            title="Permalink to Color.Orange">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Orange = 0xFFFFA500;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="OrangeRed">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>OrangeRed</strong> <a class="anchor-link"
+            href="#OrangeRed"
+            title="Permalink to Color.OrangeRed">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int OrangeRed = 0xFFFF4500;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Orchid">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Orchid</strong> <a class="anchor-link"
+            href="#Orchid"
+            title="Permalink to Color.Orchid">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Orchid = 0xFFDA70D6;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PaleGoldenrod">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>PaleGoldenrod</strong> <a class="anchor-link"
+            href="#PaleGoldenrod"
+            title="Permalink to Color.PaleGoldenrod">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int PaleGoldenrod = 0xFFEEE8AA;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PaleGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>PaleGreen</strong> <a class="anchor-link"
+            href="#PaleGreen"
+            title="Permalink to Color.PaleGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int PaleGreen = 0xFF98FB98;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PaleTurquoise">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>PaleTurquoise</strong> <a class="anchor-link"
+            href="#PaleTurquoise"
+            title="Permalink to Color.PaleTurquoise">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int PaleTurquoise = 0xFFAFEEEE;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PaleVioletRed">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>PaleVioletRed</strong> <a class="anchor-link"
+            href="#PaleVioletRed"
+            title="Permalink to Color.PaleVioletRed">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int PaleVioletRed = 0xFFDB7093;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PapayaWhip">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>PapayaWhip</strong> <a class="anchor-link"
+            href="#PapayaWhip"
+            title="Permalink to Color.PapayaWhip">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int PapayaWhip = 0xFFFFEFD5;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PeachPuff">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>PeachPuff</strong> <a class="anchor-link"
+            href="#PeachPuff"
+            title="Permalink to Color.PeachPuff">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int PeachPuff = 0xFFFFDAB9;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Peru">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Peru</strong> <a class="anchor-link"
+            href="#Peru"
+            title="Permalink to Color.Peru">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Peru = 0xFFCD853F;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Pink">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Pink</strong> <a class="anchor-link"
+            href="#Pink"
+            title="Permalink to Color.Pink">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Pink = 0xFFFFC0CB;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Plum">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Plum</strong> <a class="anchor-link"
+            href="#Plum"
+            title="Permalink to Color.Plum">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Plum = 0xFFDDA0DD;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PowderBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>PowderBlue</strong> <a class="anchor-link"
+            href="#PowderBlue"
+            title="Permalink to Color.PowderBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int PowderBlue = 0xFFB0E0E6;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Purple">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Purple</strong> <a class="anchor-link"
+            href="#Purple"
+            title="Permalink to Color.Purple">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Purple = 0xFF800080;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Red">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Red</strong> <a class="anchor-link"
+            href="#Red"
+            title="Permalink to Color.Red">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Red = 0xFFFF0000;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="RosyBrown">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>RosyBrown</strong> <a class="anchor-link"
+            href="#RosyBrown"
+            title="Permalink to Color.RosyBrown">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int RosyBrown = 0xFFBC8F8F;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="RoyalBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>RoyalBlue</strong> <a class="anchor-link"
+            href="#RoyalBlue"
+            title="Permalink to Color.RoyalBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int RoyalBlue = 0xFF4169E1;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SaddleBrown">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>SaddleBrown</strong> <a class="anchor-link"
+            href="#SaddleBrown"
+            title="Permalink to Color.SaddleBrown">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int SaddleBrown = 0xFF8B4513;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Salmon">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Salmon</strong> <a class="anchor-link"
+            href="#Salmon"
+            title="Permalink to Color.Salmon">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Salmon = 0xFFFA8072;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SandyBrown">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>SandyBrown</strong> <a class="anchor-link"
+            href="#SandyBrown"
+            title="Permalink to Color.SandyBrown">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int SandyBrown = 0xFFF4A460;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SeaGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>SeaGreen</strong> <a class="anchor-link"
+            href="#SeaGreen"
+            title="Permalink to Color.SeaGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int SeaGreen = 0xFF2E8B57;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SeaShell">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>SeaShell</strong> <a class="anchor-link"
+            href="#SeaShell"
+            title="Permalink to Color.SeaShell">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int SeaShell = 0xFFFFF5EE;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Sienna">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Sienna</strong> <a class="anchor-link"
+            href="#Sienna"
+            title="Permalink to Color.Sienna">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Sienna = 0xFFA0522D;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Silver">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Silver</strong> <a class="anchor-link"
+            href="#Silver"
+            title="Permalink to Color.Silver">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Silver = 0xFFC0C0C0;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SkyBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>SkyBlue</strong> <a class="anchor-link"
+            href="#SkyBlue"
+            title="Permalink to Color.SkyBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int SkyBlue = 0xFF87CEEB;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SlateBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>SlateBlue</strong> <a class="anchor-link"
+            href="#SlateBlue"
+            title="Permalink to Color.SlateBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int SlateBlue = 0xFF6A5ACD;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SlateGray">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>SlateGray</strong> <a class="anchor-link"
+            href="#SlateGray"
+            title="Permalink to Color.SlateGray">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int SlateGray = 0xFF708090;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Snow">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Snow</strong> <a class="anchor-link"
+            href="#Snow"
+            title="Permalink to Color.Snow">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Snow = 0xFFFFFAFA;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SpringGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>SpringGreen</strong> <a class="anchor-link"
+            href="#SpringGreen"
+            title="Permalink to Color.SpringGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int SpringGreen = 0xFF00FF7F;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SteelBlue">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>SteelBlue</strong> <a class="anchor-link"
+            href="#SteelBlue"
+            title="Permalink to Color.SteelBlue">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int SteelBlue = 0xFF4682B4;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Tan">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Tan</strong> <a class="anchor-link"
+            href="#Tan"
+            title="Permalink to Color.Tan">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Tan = 0xFFD2B48C;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Teal">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Teal</strong> <a class="anchor-link"
+            href="#Teal"
+            title="Permalink to Color.Teal">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Teal = 0xFF008080;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Thistle">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Thistle</strong> <a class="anchor-link"
+            href="#Thistle"
+            title="Permalink to Color.Thistle">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Thistle = 0xFFD8BFD8;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Tomato">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Tomato</strong> <a class="anchor-link"
+            href="#Tomato"
+            title="Permalink to Color.Tomato">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Tomato = 0xFFFF6347;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Transparent">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Transparent</strong> <a class="anchor-link"
+            href="#Transparent"
+            title="Permalink to Color.Transparent">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Transparent = 0x00FFFFFF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Turquoise">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Turquoise</strong> <a class="anchor-link"
+            href="#Turquoise"
+            title="Permalink to Color.Turquoise">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Turquoise = 0xFF40E0D0;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Violet">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Violet</strong> <a class="anchor-link"
+            href="#Violet"
+            title="Permalink to Color.Violet">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Violet = 0xFFEE82EE;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Wheat">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Wheat</strong> <a class="anchor-link"
+            href="#Wheat"
+            title="Permalink to Color.Wheat">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Wheat = 0xFFF5DEB3;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="White">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>White</strong> <a class="anchor-link"
+            href="#White"
+            title="Permalink to Color.White">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int White = 0xFFFFFFFF;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="WhiteSmoke">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>WhiteSmoke</strong> <a class="anchor-link"
+            href="#WhiteSmoke"
+            title="Permalink to Color.WhiteSmoke">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int WhiteSmoke = 0xFFF5F5F5;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Yellow">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>Yellow</strong> <a class="anchor-link"
+            href="#Yellow"
+            title="Permalink to Color.Yellow">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int Yellow = 0xFFFFFF00;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="YellowGreen">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>YellowGreen</strong> <a class="anchor-link"
+            href="#YellowGreen"
+            title="Permalink to Color.YellowGreen">#</a>
+        </h4>
+        <div class="doc">
+
+<pre class="source">
+static const int YellowGreen = 0xFF9ACD32;
+</pre>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          <div>This page was generated at 2012-09-22 08:09:02.026</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

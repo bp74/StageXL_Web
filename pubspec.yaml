@@ -1,0 +1,5 @@
+name:  Test
+description:  A sample application
+dependencies: 
+  dartflash: { git: https://github.com/bp74/dartflash.git }
+

@@ -52,7 +52,7 @@
     </div>
     <div class="container">
         <h1>
-            MovieClip</h1>
+            Sound</h1>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -80,71 +80,6 @@
                 </div>
                 <div class="tab-pane" id="demoDart">
                      <pre class="prettyprint lang-java">
-import &apos;dart:math&apos;;
-import &apos;dart:html&apos; as html;
-import &apos;packages:dartflash/dartflash.dart&apos;;
-
-Stage stage;
-RenderLoop renderLoop;
-Resource resource;
-
-void main()
-{
-  // Initialize the Display List
-
-  stage = new Stage(&apos;myStage&apos;, html.document.query(&apos;#stage&apos;));
-
-  renderLoop = new RenderLoop();
-  renderLoop.addStage(stage);
-
-  // Use the Resource class to load a TextureAtlas
-
-  resource = new Resource();
-  resource.addTextureAtlas(&apos;walkTextureAtlas&apos;, &apos;../common/images/walk.json&apos;, TextureAtlasFormat.JSONARRAY);
-  resource.load().then((r) => startWalking());
-}
-
-//-----------------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------
-
-void startWalking()
-{
-  // Get all the &apos;walk&apos; bitmapDatas in the texture atlas.
-
-  TextureAtlas textureAtlas = resource.getTextureAtlas(&apos;walkTextureAtlas&apos;);
-  List<BitmapData> bitmapDatas = textureAtlas.getBitmapDatas(&apos;walk&apos;);
-
-  // Create a movie clip with the list of bitmapDatas.
-
-  Random random = new Random();
-  num rnd = random.nextDouble();
-
-  MovieClip movieClip = new MovieClip(bitmapDatas, 30);
-  movieClip.x = -128;
-  movieClip.y = 20.0 + 180.0 * rnd;
-  movieClip.scaleX = movieClip.scaleY = 0.5 + 0.5 * rnd;
-  movieClip.play();
-
-  stage.addChild(movieClip);
-  stage.sortChildren((c1, c2) => c1.y - c2.y);
-
-  // Add a tween to make the man walk from the left to the right.
-
-  Tween tween = new Tween(movieClip, 5.0 + (1.0 - rnd) * 5.0, Transitions.linear);
-  tween.animate(&apos;x&apos;, 940.0);
-  tween.onComplete = ()
-  {
-    Juggler.instance.remove(movieClip);
-    stage.removeChild(movieClip);
-  };
-
-  Juggler.instance.add(movieClip);
-  Juggler.instance.add(tween);
-
-  // the next animaton should start after 0.2 seconds
-
-  Juggler.instance.delayCall(startWalking, 0.2);
-}
                      </pre>
                 </div>
             </div>
@@ -154,7 +89,7 @@ void startWalking()
     <script type="text/javascript" src="../../assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../assets/js/prettify.js"></script>
     
-    <script type="application/dart" src="movieclip.dart"></script>
+    <script type="application/dart" src="sound.dart"></script>
     <script type="text/javascript" src="../../assets/js/dart.js"></script>
 </body>
 </html>

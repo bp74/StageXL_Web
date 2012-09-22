@@ -11,6 +11,7 @@ body {
   background-image: url(../img/herobg.png);
   background-repeat:repeat;
   border:1px solid #C0C0C0;
+  margin-top:20px;
 }
 
 .hero-unit .btn-large {

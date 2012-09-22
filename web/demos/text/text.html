@@ -14,6 +14,8 @@
       <script src="/assets/js/html5shiv.js" type="text/javascript"></script>
     <![endif]-->
     <!--<link rel="shortcut icon" href="/assets/img/favicon.ico" /> -->
+    
+    <link href='http://fonts.googleapis.com/css?family=Caesar+Dressing' rel='stylesheet' type='text/css'>
 </head>
 <body onload="prettyPrint()">
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -52,7 +54,7 @@
     </div>
     <div class="container">
         <h1>
-            MovieClip</h1>
+            Text</h1>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -72,78 +74,91 @@
                 <div class="tab-pane active" id="demoShow">
                     <canvas id="stage" width="940" height="500">
                     </canvas>
+                    <div style="font-family:'Caesar Dressing'">&nbsp;</div>                    
                 </div>
                 <div class="tab-pane" id="demoHTML">
                     <pre class="prettyprint lang-html">
-&lt;canvas id=&quot;stage&quot; width=&quot;940&quot; height=&quot;500&quot;&gt;
-&lt;/canvas&gt;</pre>
+&lt;head&gt;
+  ...
+  &lt;link href=&apos;http://fonts.googleapis.com/css?family=Caesar+Dressing&apos; rel=&apos;stylesheet&apos; type=&apos;text/css&apos;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  ...
+  &lt;canvas id=&quot;stage&quot; width=&quot;940&quot; height=&quot;500&quot;&gt;
+  &lt;/canvas&gt;
+&lt;/body&gt;
+                    </pre>
                 </div>
                 <div class="tab-pane" id="demoDart">
                      <pre class="prettyprint lang-java">
 import &apos;dart:math&apos;;
 import &apos;dart:html&apos; as html;
-import &apos;packages:dartflash/dartflash.dart&apos;;
-
-Stage stage;
-RenderLoop renderLoop;
-Resource resource;
+import &apos;package:dartflash/dartflash.dart&apos;;
 
 void main()
 {
   // Initialize the Display List
 
-  stage = new Stage(&apos;myStage&apos;, html.document.query(&apos;#stage&apos;));
+  Stage stage = new Stage(&apos;myStage&apos;, html.document.query(&apos;#stage&apos;));
 
-  renderLoop = new RenderLoop();
+  RenderLoop renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
 
-  // Use the Resource class to load a TextureAtlas
+  //------------------------------------------------------------------
 
-  resource = new Resource();
-  resource.addTextureAtlas(&apos;walkTextureAtlas&apos;, &apos;../common/images/walk.json&apos;, TextureAtlasFormat.JSONARRAY);
-  resource.load().then((r) => startWalking());
-}
+  String sampleText = &apos;&apos;&apos;
+Filet mignon leberkas pig pork chop biltong, short loin strip steak turkey brisket 
+venison. Pastrami venison pancetta, leberkas pork chop chicken prosciutto beef ribs 
+bresaola kielbasa swine biltong capicola. Hamburger beef ribs ball tip drumstick salami 
+pig. Capicola pork loin shank, salami chicken hamburger tail. Sirloin spare ribs 
+ground round cow strip steak prosciutto swine bacon corned beef.&apos;&apos;&apos;;
 
-//-----------------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------
+  //------------------------------------------------------------------
 
-void startWalking()
-{
-  // Get all the &apos;walk&apos; bitmapDatas in the texture atlas.
+  TextField textField1 = new TextField();
+  textField1.defaultTextFormat = new TextFormat(&apos;Helvetica,Arial&apos;, 14, Color.Green, bold:true, italic:true);
+  textField1.text = sampleText;
+  textField1.x = 10;
+  textField1.y = 10;
+  textField1.width = 920;
+  textField1.height = 20;
+  stage.addChild(textField1);
 
-  TextureAtlas textureAtlas = resource.getTextureAtlas(&apos;walkTextureAtlas&apos;);
-  List<BitmapData> bitmapDatas = textureAtlas.getBitmapDatas(&apos;walk&apos;);
+  //------------------------------------------------------------------
 
-  // Create a movie clip with the list of bitmapDatas.
+  TextField textField2 = new TextField();
+  textField2.defaultTextFormat = new TextFormat(&apos;Helvetica,Arial&apos;, 16, Color.Red);
+  textField2.text = sampleText;
+  textField2.x = 10;
+  textField2.y = 50;
+  textField2.width = 200;
+  textField2.height = 300;
+  textField2.wordWrap = true;
+  stage.addChild(textField2);
 
-  Random random = new Random();
-  num rnd = random.nextDouble();
+  //------------------------------------------------------------------
 
-  MovieClip movieClip = new MovieClip(bitmapDatas, 30);
-  movieClip.x = -128;
-  movieClip.y = 20.0 + 180.0 * rnd;
-  movieClip.scaleX = movieClip.scaleY = 0.5 + 0.5 * rnd;
-  movieClip.play();
+  TextField textField3 = new TextField();
+  textField3.defaultTextFormat = new TextFormat(&apos;Helvetica,Arial&apos;, 16, Color.Blue, align:TextFormatAlign.RIGHT);
+  textField3.text = sampleText;
+  textField3.x = 300;
+  textField3.y = 50;
+  textField3.width = 200;
+  textField3.height = 300;
+  textField3.wordWrap = true;
+  stage.addChild(textField3);
 
-  stage.addChild(movieClip);
-  stage.sortChildren((c1, c2) => c1.y - c2.y);
+  //------------------------------------------------------------------
 
-  // Add a tween to make the man walk from the left to the right.
-
-  Tween tween = new Tween(movieClip, 5.0 + (1.0 - rnd) * 5.0, Transitions.linear);
-  tween.animate(&apos;x&apos;, 940.0);
-  tween.onComplete = ()
-  {
-    Juggler.instance.remove(movieClip);
-    stage.removeChild(movieClip);
-  };
-
-  Juggler.instance.add(movieClip);
-  Juggler.instance.add(tween);
-
-  // the next animaton should start after 0.2 seconds
-
-  Juggler.instance.delayCall(startWalking, 0.2);
+  TextField textField4 = new TextField();
+  textField4.defaultTextFormat = new TextFormat(&apos;Caesar Dressing&apos;, 30, Color.Black, align:TextFormatAlign.CENTER);
+  textField4.text = sampleText;
+  textField4.x = 590;
+  textField4.y = 50;
+  textField4.width = 340;
+  textField4.height = 300;
+  textField4.wordWrap = true;
+  stage.addChild(textField4);
 }
                      </pre>
                 </div>
@@ -154,7 +169,7 @@ void startWalking()
     <script type="text/javascript" src="../../assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../assets/js/prettify.js"></script>
     
-    <script type="application/dart" src="movieclip.dart"></script>
+    <script type="application/dart" src="text.dart"></script>
     <script type="text/javascript" src="../../assets/js/dart.js"></script>
 </body>
 </html>

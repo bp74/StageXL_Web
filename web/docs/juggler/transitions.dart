@@ -65,8 +65,8 @@ void main() {
   for(int i = 0; i < transitions.length / 4; i++)
   {
     var rowDiv = new html.DivElement();
-    rowDiv.id = "row";
-    html.document.body.elements.add(rowDiv);
+    rowDiv.classes.add("row");
+    html.query("#transitions").elements.add(rowDiv);
 
     for(int j = 0; j < 4; j++)
     {
@@ -87,11 +87,11 @@ void main() {
 html.DivElement drawTransition(String name, TransitionFunction transitionFunction) {
 
   var div = new html.DivElement();
-  div.style.width = "160px";
-  div.style.height = "120px";
-  div.style.padding = "0px 5px 10px 5px";
+  div.classes.add("span3");
+  div.style.height = "130px";
+  //div.style.padding = "0px 5px 0px 5px";
 
-  var canvasElement = new html.CanvasElement(width:160, height:140);
+  var canvasElement = new html.CanvasElement(width:200, height:140);
   canvasElement.style.position = "absolute";
   canvasElement.style.zIndex = "1";
   div.elements.add(canvasElement);
@@ -109,20 +109,20 @@ html.DivElement drawTransition(String name, TransitionFunction transitionFunctio
 
   graphics.beginPath();
   graphics.moveTo(0.5, 30.5);
-  graphics.lineTo(159.5, 30.5);
-  graphics.lineTo(159.5, 109.5);
+  graphics.lineTo(199.5, 30.5);
+  graphics.lineTo(199.5, 109.5);
   graphics.lineTo(0.5, 109.5);
-
   graphics.closePath();
+
   graphics.strokeColor(0xFF000000);
   graphics.fillColor(0xFFDFDFDF);
 
   graphics.beginPath();
   graphics.moveTo(0.5, 109.5);
 
-  for(int i = 0; i <= 159; i++) {
-    var ratio = i / 159.0;
-    var x = 0.5 + ratio * 159.0;
+  for(int i = 0; i <= 199; i++) {
+    var ratio = i / 199.0;
+    var x = 0.5 + ratio * 199.0;
     var y = 109.5 - 79.0 * transitionFunction(ratio);
     graphics.lineTo(x, y);
   }

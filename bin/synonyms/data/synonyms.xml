@@ -780,7 +780,7 @@ import com.hurlant.crypto.hash.SHA1;]]>
       </code>
       <code language="dart"><![CDATA[
 import 'package:dartflash/dartflash.dart';
-import 'dart:crypto' show SHA1; // ToDo ... ???]]>
+import 'dart:crypto' show SHA1;]]>
       </code>
     </synonym>
 

@@ -7,11 +7,8 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../assets/css/prettify.css" type="text/css" rel="stylesheet" />    
     <link href="../../assets/css/dartflash.css" rel="stylesheet" />
-
-    <!--[if lt IE 9]>
-      <script src="/assets/js/html5shiv.js" type="text/javascript"></script>
-    <![endif]-->
     <!--<link rel="shortcut icon" href="/assets/img/favicon.ico" /> -->
 
     <script type="text/javascript">
@@ -26,7 +23,8 @@
         })();
     </script>
 </head>
-<body>
+
+<body onload="prettyPrint()">
 
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
@@ -76,15 +74,42 @@
         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
         mollit anim id est laborum.</p>
         
-        <div style="position: relative; ">
-          <canvas id="stageBackground" width="800" height="600" style="position: absolute; left: 0; top: 0; z-index: 0;" ></canvas>
-          <canvas id="stageForeground" width="800" height="600" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
-        </div>
-
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#demoShow" data-toggle="tab">Game</a></li>
+                <li><a href="#demoHTML" data-toggle="tab">HTML</a></li>
+                <li><a href="#demoDart" data-toggle="tab">Dart</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="demoShow">
+                
+				    <div style="position: relative; height:600px; ">
+					  <canvas id="stageBackground" width="800" height="600" style="position: absolute; left: 0; top: 0; z-index: 0;" ></canvas>
+				 	  <canvas id="stageForeground" width="800" height="600" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+				    </div>					
+				    <hr />
+			        Credits to <a href="http://www.funwin.com" target="_blank">www.funwin.com</a> for providing the Flash sources and the artwork.
+                
+				</div>
+                <div class="tab-pane" id="demoHTML">
+                    <pre class="prettyprint lang-html">
+&lt;div style=&quot;position: relative; height: 600px&quot;&gt;
+  &lt;canvas id=&quot;stageBackground&quot; width=&quot;800&quot; height=&quot;600&quot; style=&quot;position: absolute; left: 0; top: 0; z-index: 0;&quot; &gt;&lt;/canvas&gt;
+  &lt;canvas id=&quot;stageForeground&quot; width=&quot;800&quot; height=&quot;600&quot; style=&quot;position: absolute; left: 0; top: 0; z-index: 1;&quot;&gt;&lt;/canvas&gt;
+&lt;/div&gt;</pre>
+				</div>
+                <div class="tab-pane" id="demoDart">
+	                The source code for this game is available on github:</br>
+	                <a href="https://github.com/bp74/dartflash-escape" target="_blank">https://github.com/bp74/dartflash-escape</a>
+                </div>
+            </div>
+		</div>	
     </div>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script type="text/javascript" src="../../assets/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="../../assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../assets/js/prettify.js"></script>
+    
     <script type="text/javascript" src="escape.dart.js"></script> 
 
 </body>

@@ -576,28 +576,66 @@ class Bar {
   <div class="row"><div class="span12"><h2>Miscellaneous</h2></div></div>
   <section class="section-synonym">
     <div class="row">
-      <div class="span12"><h3 class="section">String Concatenation and Interpolation</h3></div>
+      <div class="span12"><h3 class="section">Exception handling</h3></div>
     </div>
     <div class="row">
       <div class="span6"><pre class="prettyprint lang-js">
-public function hello(first:String, last:String):String {
-  return &apos;Hello &apos; + first + &apos; &apos; + last;
+public function foo(text:String):void {
+  try {
+    if (text == null)
+      throw new ArgumentError(&quot;Oh no!&quot;);
+  } catch(ae:ArgumentError) {
+    // catch ArgumentErrors
+  } catch(e:Error) {
+    // catch everything else
+  } finally {
+    // always run this code.
+  }
 }</pre></div>
       <div class="span6"><pre class="prettyprint lang-java">
-String hello(String first, String last) {
-  return &apos;Hello $first $last&apos;;
+void foo(String text) {
+  try {
+    if (text == null)
+      throw new ArgumentError(&quot;Oh no!&quot;);
+  } on ArgumentError catch(ae) {
+    // catch ArgumentErrors
+  } catch(e) {
+    // catch everything else
+  } finally {
+    // always run this code.
+  }
 }</pre></div>
     </div>
   </section>
   <section class="section-synonym">
     <div class="row">
-      <div class="span12"><h3 class="section">Printing to the console</h3></div>
+      <div class="span12"><h3 class="section">Optional parameters</h3></div>
     </div>
     <div class="row">
       <div class="span6"><pre class="prettyprint lang-js">
-trace(&apos;hello world&apos;);</pre></div>
+// Positional optional parameters
+public function foo(s:String = null, b:Boolean = false):void {
+  // Parameter &apos;b&apos;: ActionScript does not support optional 
+  // parameters without default values. 
+}
+
+
+// Named optional parameters
+// ActionScript does not support named optional parameters.
+ 
+</pre></div>
       <div class="span6"><pre class="prettyprint lang-java">
-print(&apos;hello world&apos;);</pre></div>
+// Positional optional parameters    
+void foo([String s = null, bool b]):void {
+  if (?b == false) {
+    // Parameter &apos;b&apos; was not provided.
+  }
+}
+
+// Named optional parameters
+void bar({String s:null, bool b:false}):void {
+}
+</pre></div>
     </div>
   </section>
   <section class="section-synonym">
@@ -634,62 +672,62 @@ var func = (String text) =&gt; print(text.toUpperCase());
   </section>
   <section class="section-synonym">
     <div class="row">
-      <div class="span12"><h3 class="section">Optional parameters</h3></div>
+      <div class="span12"><h3 class="section">Printing to the console</h3></div>
     </div>
     <div class="row">
       <div class="span6"><pre class="prettyprint lang-js">
-// Positional optional parameters
-public function foo(s:String = null, b:Boolean = false):void {
-  // Parameter &apos;b&apos;: ActionScript does not support optional 
-  // parameters without default values. 
-}
-
-
-// Named optional parameters
-// ActionScript does not support named optional parameters.
- 
-</pre></div>
+trace(&apos;hello world&apos;);</pre></div>
       <div class="span6"><pre class="prettyprint lang-java">
-// Positional optional parameters    
-void foo([String s = null, bool b]):void {
-  if (?b == false) {
-    // Parameter &apos;b&apos; was not provided.
-  }
-}
-
-// Named optional parameters
-void bar({String s:null, bool b:false}):void {
-}
-</pre></div>
+print(&apos;hello world&apos;);</pre></div>
     </div>
   </section>
   <section class="section-synonym">
     <div class="row">
-      <div class="span12"><h3 class="section">Exception handling</h3></div>
+      <div class="span12"><h3 class="section">String Concatenation and Interpolation</h3></div>
     </div>
     <div class="row">
       <div class="span6"><pre class="prettyprint lang-js">
-public function foo(text:String):void {
-  try {
-    if (text == null)
-      throw new ArgumentError(&quot;Oh no!&quot;);
-  } catch(ae:ArgumentError) {
-    // ...
-  } catch(e:Error) {
-    // ...
-  }
+public function hello(first:String, last:String):String {
+  return &apos;Hello &apos; + first + &apos; &apos; + last;
 }</pre></div>
       <div class="span6"><pre class="prettyprint lang-java">
-void foo(String text) {
-  try {
-    if (text == null)
-      throw new IllegalArgumentException(&quot;Oh no!&quot;);
-  } on IllegalArgumentException catch(iae) {
-    // ...
-  } on Exception catch(e) {    // &apos;on Exception&apos; is optional
-    // ...
-  }
+String hello(String first, String last) {
+  return &apos;Hello $first $last&apos;;
 }</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Escaped and Raw String</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+var esc:String = &quot;Hi!\\n\\nNice to meet you!\\n&quot;;
+// ActionScript does not support raw Strings.</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+var esc = &quot;Hi!\\n\\nNice to meet you!\\n&quot;;
+var raw = r&quot;Hi!\n\nNice to meet you!\n&quot;;</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
+      <div class="span12"><h3 class="section">Regular Expressions</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+// ActionScript supports the RexExp class and literal.
+
+var pattern1:RegExp = new RegExp(&quot;^\\d+$&quot;, &quot;&quot;);
+var pattern2:RegExp = /^\d+$/;
+var match:Array = pattern1.exec(&quot;42&quot;);
+trace(match[0]); // 42</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+// Dart only supports the RexExp class. 
+
+var pattern1 = new RegExp(r&quot;^\d+$&quot;);
+
+var match = pattern1.firstMatch(&quot;42&quot;);
+print(match.group(0)); // 42</pre></div>
     </div>
   </section>
   <section class="section-synonym">
@@ -801,7 +839,7 @@ import flash.display.*;
 import com.hurlant.crypto.hash.SHA1;</pre></div>
       <div class="span6"><pre class="prettyprint lang-java">
 import &apos;package:dartflash/dartflash.dart&apos;;
-import &apos;dart:crypto&apos; show SHA1; // ToDo ... ???</pre></div>
+import &apos;dart:crypto&apos; show SHA1; // ToDo</pre></div>
     </div>
   </section>
 </section>

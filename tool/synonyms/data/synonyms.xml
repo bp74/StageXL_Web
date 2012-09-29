@@ -561,30 +561,68 @@ class Bar {
   <theme id="theme-miscellaneous">
     <title>Miscellaneous</title>
 
-    <synonym id="syn-string-concatenation">
-      <title>String Concatenation and Interpolation</title>
+    <synonym id="syn-exception-handling">
+      <title>Exception handling</title>
       <code language="as3"><![CDATA[
-public function hello(first:String, last:String):String {
-  return 'Hello ' + first + ' ' + last;
+public function foo(text:String):void {
+  try {
+    if (text == null)
+      throw new ArgumentError("Oh no!");
+  } catch(ae:ArgumentError) {
+    // catch ArgumentErrors
+  } catch(e:Error) {
+    // catch everything else
+  } finally {
+    // always run this code.
+  }
 }]]>
       </code>
       <code language="dart"><![CDATA[
-String hello(String first, String last) {
-  return 'Hello $first $last';
+void foo(String text) {
+  try {
+    if (text == null)
+      throw new ArgumentError("Oh no!");
+  } on ArgumentError catch(ae) {
+    // catch ArgumentErrors
+  } catch(e) {
+    // catch everything else
+  } finally {
+    // always run this code.
+  }
 }]]>
       </code>
     </synonym>
-
-    <synonym id="syn-console">
-      <title>Printing to the console</title>
+    
+    <synonym id="syn-optional-parameters">
+      <title>Optional parameters</title>
       <code language="as3"><![CDATA[
-trace('hello world');]]>
+// Positional optional parameters
+public function foo(s:String = null, b:Boolean = false):void {
+  // Parameter 'b': ActionScript does not support optional 
+  // parameters without default values. 
+}
+
+
+// Named optional parameters
+// ActionScript does not support named optional parameters.
+ 
+]]>
       </code>
       <code language="dart"><![CDATA[
-print('hello world');]]>
+// Positional optional parameters	  
+void foo([String s = null, bool b]):void {
+  if (?b == false) {
+    // Parameter 'b' was not provided.
+  }
+}
+
+// Named optional parameters
+void bar({String s:null, bool b:false}):void {
+}
+]]>
       </code>
     </synonym>
-
+    
     <synonym id="syn-single-expression-function">
       <title>Single expression functions</title>
       <code language="as3"><![CDATA[
@@ -615,65 +653,63 @@ var func = (String text) => print(text.toUpperCase());
 ]]>
       </code>
     </synonym>
-
-    <synonym id="syn-optional-parameters">
-      <title>Optional parameters</title>
+    
+    <synonym id="syn-console">
+      <title>Printing to the console</title>
       <code language="as3"><![CDATA[
-// Positional optional parameters
-public function foo(s:String = null, b:Boolean = false):void {
-  // Parameter 'b': ActionScript does not support optional 
-  // parameters without default values. 
-}
-
-
-// Named optional parameters
-// ActionScript does not support named optional parameters.
- 
-]]>
+trace('hello world');]]>
       </code>
       <code language="dart"><![CDATA[
-// Positional optional parameters	  
-void foo([String s = null, bool b]):void {
-  if (?b == false) {
-    // Parameter 'b' was not provided.
-  }
-}
-
-// Named optional parameters
-void bar({String s:null, bool b:false}):void {
-}
-]]>
+print('hello world');]]>
       </code>
     </synonym>
-
-    <synonym id="syn-exception-handling">
-      <title>Exception handling</title>
+    
+    <synonym id="syn-string-concatenation">
+      <title>String Concatenation and Interpolation</title>
       <code language="as3"><![CDATA[
-public function foo(text:String):void {
-  try {
-    if (text == null)
-      throw new ArgumentError("Oh no!");
-  } catch(ae:ArgumentError) {
-    // ...
-  } catch(e:Error) {
-    // ...
-  }
+public function hello(first:String, last:String):String {
+  return 'Hello ' + first + ' ' + last;
 }]]>
       </code>
       <code language="dart"><![CDATA[
-void foo(String text) {
-  try {
-    if (text == null)
-      throw new IllegalArgumentException("Oh no!");
-  } on IllegalArgumentException catch(iae) {
-    // ...
-  } on Exception catch(e) {    // 'on Exception' is optional
-    // ...
-  }
+String hello(String first, String last) {
+  return 'Hello $first $last';
 }]]>
       </code>
     </synonym>
+    
+    <synonym id="syn-escaped-raw-string">
+      <title>Escaped and Raw String</title>
+      <code language="as3"><![CDATA[
+var esc:String = "Hi!\\n\\nNice to meet you!\\n";
+// ActionScript does not support raw Strings.]]>
+      </code>
+      <code language="dart"><![CDATA[
+var esc = "Hi!\\n\\nNice to meet you!\\n";
+var raw = r"Hi!\n\nNice to meet you!\n";]]>
+      </code>
+    </synonym>
+    
+    <synonym id="syn-regular-expression">
+      <title>Regular Expressions</title>
+      <code language="as3"><![CDATA[
+// ActionScript supports the RexExp class and literal.
 
+var pattern1:RegExp = new RegExp("^\\d+$", "");
+var pattern2:RegExp = /^\d+$/;
+var match:Array = pattern1.exec("42");
+trace(match[0]); // 42]]>
+      </code>
+      <code language="dart"><![CDATA[
+// Dart only supports the RexExp class. 
+
+var pattern1 = new RegExp(r"^\d+$");
+
+var match = pattern1.firstMatch("42");
+print(match.group(0)); // 42]]>
+      </code>
+    </synonym>
+    
     <synonym id="syn-external-interface">
       <title>External Interface</title>
       <code language="as3"><![CDATA[
@@ -780,7 +816,7 @@ import com.hurlant.crypto.hash.SHA1;]]>
       </code>
       <code language="dart"><![CDATA[
 import 'package:dartflash/dartflash.dart';
-import 'dart:crypto' show SHA1;]]>
+import 'dart:crypto' show SHA1; // ToDo]]>
       </code>
     </synonym>
 

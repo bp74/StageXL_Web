@@ -92,8 +92,9 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tabDisplay" data-toggle="tab">Display List</a></li>
                 <li><a href="#tabText" data-toggle="tab">Text</a></li>
-                <li><a href="#tabMedia" data-toggle="tab">Media</a></li>
+                <li><a href="#tabSound" data-toggle="tab">Sound</a></li>
                 <li><a href="#tabEvents" data-toggle="tab">Events</a></li>
+                <li><a href="#tabFilters" data-toggle="tab">Filters</a></li>
                 <li><a href="#tabJuggler" data-toggle="tab">Juggler</a></li>
                 <li><a href="#tabUtilities" data-toggle="tab">Utilities</a></li>
             </ul>
@@ -121,26 +122,26 @@
                 		the Stage.</p> 
                 	</div>
                 	<div class="span4">
-                	<div class="alert">
-						<ul class="classtree">
-		                	<li class="first">BitmapData</li>
-		                	<li class="first">EventDispatcher<ul>
-			                	<li class="last">DisplayObject<ul>
-				                	<li>Bitmap</li>
-				                	<li>Shape</li>
-			                		<li class="last">InteractiveObject<ul>
-			                			<li>SimpleButton</li>
-			                			<li>TextField</li>
-				                		<li>MovieClip</li>                			
-			                			<li class="last">DisplayObjectContainer<ul>
-			            					<li>Stage</li>
-			            					<li class="last">Sprite</li>
-			            				</ul></li>	
-			                		</ul></li>	
-			                	</ul></li>
-			                </ul></li>
-		                </ul>
-		            </div>
+	                	<div class="alert">
+							<ul class="classtree">
+			                	<li class="first">BitmapData</li>
+			                	<li class="first">EventDispatcher<ul>
+				                	<li class="last">DisplayObject<ul>
+					                	<li>Bitmap</li>
+					                	<li>Shape</li>
+				                		<li class="last">InteractiveObject<ul>
+				                			<li>SimpleButton</li>
+				                			<li>TextField</li>
+					                		<li>MovieClip</li>                			
+				                			<li class="last">DisplayObjectContainer<ul>
+				            					<li>Stage</li>
+				            					<li class="last">Sprite</li>
+				            				</ul></li>	
+				                		</ul></li>	
+				                	</ul></li>
+				                </ul></li>
+			                </ul>
+			            </div>
 					</div>              
                 </div>
 	            
@@ -148,27 +149,141 @@
                 
                 <!-- ------------------------------------------------- -->
                 <div class="tab-pane" id="tabText">
-                	<p>coming soon ...</p>
+                	<div class="row">
+	                	<div class="span8">
+	                		<p class="comment">// ToDo: Say something intelligent ...</p>
+	                	</div>
+						<div class="span4">
+		                	<div class="alert">
+								<ul class="classtree">
+									<li class="first">TextFormat</li>
+									<li class="first">TextFormatAlign</li>
+									<li class="first">TextFieldType</li>
+									<li class="first">TextLineMetrics</li>
+				                	<li class="first">EventDispatcher<ul>
+					                	<li class="last">DisplayObject<ul>
+					                		<li class="last">InteractiveObject<ul>
+					                			<li class="last">TextField</li>
+					                		</ul></li>	
+					                	</ul></li>
+					                </ul></li>
+				                </ul>
+				            </div>
+				         </div>
+					</div>                         	
                 </div>
                 
                 <!-- ------------------------------------------------- -->                
-                <div class="tab-pane" id="tabMedia">
-                	<p>coming soon ...</p>
+                <div class="tab-pane" id="tabSound">
+					<div class="row">
+	                	<div class="span8">
+	                		<p class="comment">// ToDo: Say something intelligent ...</p>
+	                	</div>
+						<div class="span4">
+		                	<div class="alert">
+								<ul class="classtree">
+									<li class="first">SoundTransform</li>
+									<li class="first">SoundMixer</li>								
+									<li class="first">Sound<ul>
+										<li>AudioElementSound</li>
+										<li>WebAudioApiSound</li>
+										<li class="last">MockSound</li>
+									</ul></li>
+									<li class="first">SoundChannel<ul>
+										<li>AudioElementSoundChannel</li>
+										<li>WebAudioApiSoundChannel</li>
+										<li class="last">MockSoundChannel</li>
+									</ul></li>
+				                </ul>
+				            </div>
+				         </div>
+					</div>                         	
                 </div>
                 
                 <!-- ------------------------------------------------- -->
                 <div class="tab-pane" id="tabEvents">
-                	<p>coming soon ...</p>
+					<div class="row">
+	                	<div class="span8">
+	                		<p class="comment">// ToDo: Say something intelligent ...</p>
+	                	</div>
+						<div class="span4">
+		                	<div class="alert">
+								<ul class="classtree">
+									<li class="first">EventDispatcher</li>								
+									<li class="first">EventPhase</li>
+									<li class="first">Event<ul>
+										<li>MouseEvent</li>
+										<li>TouchEvent<sup>*</sup></li>
+										<li>KeyboardEvent</li>
+										<li>TextEvent</li>
+										<li class="last">EnterFrameEvent</li>
+									</ul></li>
+				                </ul>
+				            </div>
+				         </div>
+					</div>                 
                 </div>
                 
                 <!-- ------------------------------------------------- -->
+                <div class="tab-pane" id="tabFilters">
+					<div class="row">
+	                	<div class="span8">
+	                		<p class="comment">// ToDo: Say something intelligent ...</p>
+	                	</div>
+						<div class="span4">
+		                	<div class="alert">
+								<ul class="classtree">
+									<li class="first">EventDispatcher</li>								
+									<li class="first">BitmapFilterQuality</li>
+									<li class="first">BitmapFilter<ul>
+										<li>ColorMatrixFilter</li>
+										<li>BlurFilter</li>
+										<li>DropShadowFilter<sup>*</sup></li>
+										<li>GlowFilter<sup>*</sup></li>
+										<li class="last">BevelFilter<sup>*</sup></li>
+									</ul></li>
+				                </ul>
+				            </div>
+				         </div>
+					</div>                 
+                </div>
+                                
+                <!-- ------------------------------------------------- -->
                 <div class="tab-pane" id="tabJuggler">
-                	<p>coming soon ...</p>
+					<div class="row">
+	                	<div class="span8">
+	                		<p class="comment">// ToDo: Say something intelligent ...</p>
+	                	</div>
+						<div class="span4">
+		                	<div class="alert">
+								<ul class="classtree">
+									<li class="first">Juggler</li>
+									<li class="first">Transitions</li>
+									<li class="first">Animatable<ul>
+										<li>Tween</li>
+										<li class="last">DelayedCall</li>
+									</ul></li>
+				                </ul>
+				            </div>
+				         </div>
+					</div>                 
                 </div>
                 
                 <!-- ------------------------------------------------- -->
                 <div class="tab-pane" id="tabUtilities">
-                	<p>coming soon ...</p>
+					<div class="row">
+	                	<div class="span8">
+	                		<p class="comment">// ToDo: Say something intelligent ...</p>
+	                	</div>
+						<div class="span4">
+		                	<div class="alert">
+								<ul class="classtree">
+									<li class="first">Resource</li>
+									<li class="first">TextureAtlas</li>
+				                </ul>
+				            </div>
+				         </div>
+					</div>   
                 </div>
             </div>		
 		</div>

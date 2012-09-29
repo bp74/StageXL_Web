@@ -15,8 +15,8 @@ void main()
 
 
   TextField textField1 = new TextField();
-  textField1.defaultTextFormat = new TextFormat('Helvetica,Arial', 14, Color.Black, bold:true);
-  textField1.text = 'Work in progress, stay tuned ...';
+  textField1.defaultTextFormat = new TextFormat('Helvetica,Arial', 14, Color.DarkGray, bold:true);
+  textField1.text = 'ToDo: show a cool demo ...';
   textField1.x = 10;
   textField1.y = 10;
   textField1.width = 920;

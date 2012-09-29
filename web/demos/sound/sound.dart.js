@@ -2073,7 +2073,7 @@ $$.EventDispatcher = {"":
       if (t2) {
         var t4 = t3.get$useCapture();
         if (typeof t4 !== 'boolean')
-          return this._invokeEventListeners$4$bailout(2, event$, target, currentTarget, eventPhase, t4, t3, t1, t2);
+          return this._invokeEventListeners$4$bailout(2, event$, target, currentTarget, eventPhase, t4, t2, t3, t1);
         t4 = !t4;
       } else
         t4 = false;
@@ -2102,9 +2102,9 @@ $$.EventDispatcher = {"":
       currentTarget = env2;
       eventPhase = env3;
       t4 = env4;
-      t3 = env5;
-      t1 = env6;
-      t2 = env7;
+      t2 = env5;
+      t3 = env6;
+      t1 = env7;
       break;
   }
   switch (state) {
@@ -2112,52 +2112,47 @@ $$.EventDispatcher = {"":
       var t1 = this._eventListenersMap;
     case 1:
       state = 0;
+      var eventListeners = !(t1 == null) ? $.index(t1, event$.get$type()) : null;
     case 2:
-      if (state === 2 || state === 0 && !(t1 == null))
+      if (state === 2 || state === 0 && !(eventListeners == null))
         switch (state) {
           case 0:
-            var eventListeners = $.index(t1, event$.get$type());
+            t1 = $.iterator(eventListeners);
+            var t2 = eventPhase === 1;
           case 2:
-            if (state === 2 || state === 0 && !(eventListeners == null))
-              switch (state) {
-                case 0:
-                  t1 = $.iterator(eventListeners);
-                  var t2 = eventPhase === 1;
-                case 2:
-                  L0:
-                    while (true)
+            L0:
+              while (true)
+                switch (state) {
+                  case 0:
+                    if (!(t1.hasNext$0() === true))
+                      break L0;
+                  case 2:
+                    c$0: {
                       switch (state) {
                         case 0:
-                          if (!(t1.hasNext$0() === true))
-                            break L0;
+                          var t3 = t1.next$0();
                         case 2:
-                          c$0: {
+                          if (state === 2 || state === 0 && t2)
                             switch (state) {
                               case 0:
-                                var t3 = t1.next$0();
+                                var t4 = t3.get$useCapture();
                               case 2:
-                                if (state === 2 || state === 0 && t2)
-                                  switch (state) {
-                                    case 0:
-                                      var t4 = t3.get$useCapture();
-                                    case 2:
-                                      state = 0;
-                                      t4 = $.eqB(t4, false);
-                                  }
-                                else
-                                  t4 = false;
-                                if (t4)
-                                  break c$0;
-                                event$.set$_target(target);
-                                event$.set$_currentTarget(currentTarget);
-                                event$.set$_eventPhase(eventPhase);
-                                t3.listener$1(event$);
-                                if (event$.get$stopsImmediatePropagation() === true)
-                                  break L0;
+                                state = 0;
+                                t4 = $.eqB(t4, false);
                             }
-                          }
+                          else
+                            t4 = false;
+                          if (t4)
+                            break c$0;
+                          event$.set$_target(target);
+                          event$.set$_currentTarget(currentTarget);
+                          event$.set$_eventPhase(eventPhase);
+                          t3.listener$1(event$);
+                          if (event$.get$stopsImmediatePropagation() === true)
+                            break L0;
                       }
-              }
+                    }
+                }
         }
   }
 }
@@ -4962,8 +4957,8 @@ $.main = function() {
   var stage = $.Stage$('myStage', $.document().query$1('#stage'));
   $.RenderLoop$().addStage$1(stage);
   var textField1 = $.TextField$();
-  textField1.set$defaultTextFormat($.TextFormat$('Helvetica,Arial', 14, 4278190080, true, false, false, 'left', 0, 0, 0, 0));
-  textField1.set$text('Work in progress, stay tuned ...');
+  textField1.set$defaultTextFormat($.TextFormat$('Helvetica,Arial', 14, 4289309097, true, false, false, 'left', 0, 0, 0, 0));
+  textField1.set$text('ToDo: show a cool demo ...');
   textField1.set$x(10);
   textField1.set$y(10);
   textField1.set$width(920);
@@ -6162,7 +6157,6 @@ $.CTC15 = new Isolate.$isolateProperties.JSSyntaxRegExp(false, false, '[-[\\]{}(
 $.Event_REMOVED_FROM_STAGE = 'removedFromStage';
 $.TextFieldType_DYNAMIC = 'dynamic';
 $.Event_REMOVED = 'removed';
-$.Color_Black = 4278190080;
 $.EventPhase_CAPTURING_PHASE = 1;
 $.double_NAN = (0/0);
 $.HashMapImplementation__INITIAL_CAPACITY = 8;
@@ -6207,6 +6201,7 @@ $.double_INFINITY = (1/0);
 $.KeyboardEvent_KEY_DOWN = 'keyDown';
 $.MouseCursor_ARROW = 'arrow';
 $.MouseCursor_HAND = 'hand';
+$.Color_DarkGray = 4289309097;
 $.Event_ADDED_TO_STAGE = 'addedToStage';
 $.TextFormatAlign_END = 'end';
 $._EventDispatcherCatalog__eventDispatcherMap = null;

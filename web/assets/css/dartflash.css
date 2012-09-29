@@ -6,6 +6,15 @@ body {
      padding-top: 60px;
 }
 
+/* -------------------------------------------------------------- */
+
+pre.prettyprint {
+	padding: 8px;
+	border: 1px solid #D0D0D0;
+}
+
+/* -------------------------------------------------------------- */
+
 .hero-unit {
   padding: 40px;
   background-image: url(../img/herobg.png);
@@ -39,6 +48,8 @@ body {
     margin-bottom: 7px;
 }
 
+/* -------------------------------------------------------------- */
+
 .section-theme {
     margin-top: 15px;
     margin-bottom: 10px;    
@@ -59,15 +70,46 @@ body {
 }
 
 .section-synonym:hover pre {
-  background: #F8F8E0;
-  -webkit-transition: background 100ms;
-  -moz-transition: background 100ms;
-  -o-transition: background 100ms;
-  -ms-transition: background 100ms;
-  transition: background 100ms;
+  	background: #F8F8E0;
+  	-webkit-transition: background 100ms;
+  	-moz-transition: background 100ms;
+	-o-transition: background 100ms;
+  	-ms-transition: background 100ms;
+  	transition: background 100ms;
 }
 
-pre.prettyprint {
-    padding: 8px;
-    border: 1px solid #D0D0D0;
+/* -------------------------------------------------------------- */
+
+ul.classtree, ul.classtree ul {
+	list-style-type: none;
+	background: url(../img/tree-vline.png) repeat-y;
+	margin: 0px;
+	padding: 0;
 }
+ 
+ul.classtree ul {
+	margin-left: 4px;
+}
+
+ul.classtree li {
+	margin: 0;
+	padding: 0 12px;
+	line-height: 18px;
+	background: #FCF8E3 url(../img/tree-node.png) no-repeat;
+	font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
+	color: #000;
+	font-weight: bold;
+}
+
+ul.classtree li.last {
+	background: #FCF8E3 url(../img/tree-lastnode.png) no-repeat;
+}
+ 
+ul.classtree li.first {
+	background: #FCF8E3 no-repeat;
+	margin: 0;
+	padding: 0;
+}
+  
+/* -------------------------------------------------------------- */
+  

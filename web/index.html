@@ -4,11 +4,13 @@
     <meta charset="utf-8">
     <title>dartflash library</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="" />
+    <meta name="description" content="The dartflash library is intended for Flash developers who want to 
+    	migrate their projects as well as their skills to HTML5. Therefore the library provides the 
+    	familiar Flash API built on top of the Dart programming language.">
     <meta name="author" content="" />
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="assets/css/dartflash.css" rel="stylesheet" />
-    <!--<link rel="shortcut icon" href="/assets/img/favicon.ico" /> -->
+	<link href="/assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/css/dartflash.css" rel="stylesheet" />
 
     <script type="text/javascript">
         var _gaq = _gaq || [];
@@ -22,8 +24,8 @@
         })();
     </script>
 </head>
-<body>
 
+<body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
@@ -67,7 +69,10 @@
         <div class="hero-unit">
             <div class="row">
                 <div class="span6">
-                    <h1>dartflash</h1>
+                    <h1>
+                    	<img src="/assets/img/dartflash064.png" alt="dartflash icon" height="64" width="64" style="margin-top:-15px;"></img>
+                    	dartflash
+                   	</h1>
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-large" href="https://github.com/bp74/dartflash" target="_blank">
@@ -82,31 +87,95 @@
             on top of the Dart programming language. Dart is very similar to ActionScript 3 and avoids 
             all the hassle of JavaScript.</p>
         </div>
-        
-        <div class="tabbable"> 
+      
+		<div class="tabbable">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#demoShow" data-toggle="tab">Demo</a></li>
-                <li><a href="#demoHTML" data-toggle="tab">HTML</a></li>
-                <li><a href="#demoDart" data-toggle="tab">Dart</a></li>
+                <li class="active"><a href="#tabDisplay" data-toggle="tab">Display List</a></li>
+                <li><a href="#tabText" data-toggle="tab">Text</a></li>
+                <li><a href="#tabMedia" data-toggle="tab">Media</a></li>
+                <li><a href="#tabEvents" data-toggle="tab">Events</a></li>
+                <li><a href="#tabJuggler" data-toggle="tab">Juggler</a></li>
+                <li><a href="#tabUtilities" data-toggle="tab">Utilities</a></li>
             </ul>
-             <div class="tab-content">  
-                <div class="tab-pane active" id="demoShow">  
-                    <p>Work in progress...<br />
-                    In the meanwhile, please try the games and demos from the &apos;Showcase&apos; menu above.
-                    </p>
-                </div>  
-                <div class="tab-pane" id="demoHTML">  
-                    <p>HTML - coming soon ...</p>  
-                </div>  
-                <div class="tab-pane" id="demoDart">  
-                    <p>Dart - coming soon ...</p>  
-                </div>  
-            </div>
-        </div>
+
+            <div class="tab-content">
+                
+                <!-- ------------------------------------------------- -->
+                <div class="tab-pane active" id="tabDisplay">
+                 
+                <div class="row">
+                	<div class="span8">
+                		<p>To simplify the migration from Flash to HTML5, the dartflash library uses
+                		the same class hierarchy as Flash does. You can extend your UI-objects from DisplayObject(Container) or
+                		just work with the Sprite class. The methods and properties of the classes are the ones
+                		you already know from the Flash API.</p>	
+                		<p>The BitmapData class represents the pixels of an image or the content you draw at runtime. 
+                		Add an instance of the Bitmap class to the Display List to make the BitmapData visible. 
+                		Of course all DisplayObjects are scalable, rotatable, movable and blendable with the familiar 
+                		properties like x, y, rotation, scaleX, scaleY and alpha.</p>
+                		<p>In some cases the classes even extend the capabilities of Flash. One example are the handy
+                		pivotX and pivotY properties of every DisplayObject which allow you to set the center of the
+                		coordinate system within your DisplayObject.</p> 
+                		<p>The Stage class represents the main drawing area and is a wrapper over the HTML5 Canvas 
+                		element. Use the addChild or removeChild methods to add or remove other DisplayObjects to or from
+                		the Stage.</p> 
+                	</div>
+                	<div class="span4">
+                	<div class="alert">
+						<ul class="classtree">
+		                	<li class="first">BitmapData</li>
+		                	<li class="first">EventDispatcher<ul>
+			                	<li class="last">DisplayObject<ul>
+				                	<li>Bitmap</li>
+				                	<li>Shape</li>
+			                		<li class="last">InteractiveObject<ul>
+			                			<li>SimpleButton</li>
+			                			<li>TextField</li>
+				                		<li>MovieClip</li>                			
+			                			<li class="last">DisplayObjectContainer<ul>
+			            					<li>Stage</li>
+			            					<li class="last">Sprite</li>
+			            				</ul></li>	
+			                		</ul></li>	
+			                	</ul></li>
+			                </ul></li>
+		                </ul>
+		            </div>
+					</div>              
+                </div>
+	            
+                </div>
+                
+                <!-- ------------------------------------------------- -->
+                <div class="tab-pane" id="tabText">
+                	<p>coming soon ...</p>
+                </div>
+                
+                <!-- ------------------------------------------------- -->                
+                <div class="tab-pane" id="tabMedia">
+                	<p>coming soon ...</p>
+                </div>
+                
+                <!-- ------------------------------------------------- -->
+                <div class="tab-pane" id="tabEvents">
+                	<p>coming soon ...</p>
+                </div>
+                
+                <!-- ------------------------------------------------- -->
+                <div class="tab-pane" id="tabJuggler">
+                	<p>coming soon ...</p>
+                </div>
+                
+                <!-- ------------------------------------------------- -->
+                <div class="tab-pane" id="tabUtilities">
+                	<p>coming soon ...</p>
+                </div>
+            </div>		
+		</div>
     </div>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script type="text/javascript" src="assets/js/bootstrap.min.js" ></script>
-
+    <script type="text/javascript" src="/assets/js/bootstrap.min.js" ></script>
+    	
 </body>
 </html>

@@ -1,6 +1,6 @@
 #import('dart:math');
 #import('dart:html', prefix:'html');
-#import('../../../packages/dartflash/dartflash.dart');
+#import('package:dartflash/dartflash.dart');
 
 void main()
 {

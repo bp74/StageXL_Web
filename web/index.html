@@ -10,6 +10,7 @@
     <meta name="author" content="" />
 	<link href="./assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./assets/css/prettify.css" type="text/css" rel="stylesheet" />
     <link href="./assets/css/dartflash.css" rel="stylesheet" />
 
     <script type="text/javascript">
@@ -25,7 +26,7 @@
     </script>
 </head>
 
-<body>
+<body  onload="prettyPrint()">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
@@ -91,9 +92,9 @@
 		<div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tabDisplay" data-toggle="tab">Display List</a></li>
+                <li><a href="#tabEvents" data-toggle="tab">Events</a></li>
                 <li><a href="#tabText" data-toggle="tab">Text</a></li>
                 <li><a href="#tabSound" data-toggle="tab">Sound</a></li>
-                <li><a href="#tabEvents" data-toggle="tab">Events</a></li>
                 <li><a href="#tabFilters" data-toggle="tab">Filters</a></li>
                 <li><a href="#tabJuggler" data-toggle="tab">Juggler</a></li>
                 <li><a href="#tabUtilities" data-toggle="tab">Utilities</a></li>
@@ -146,7 +147,55 @@
                 </div>
 	            
                 </div>
-                
+
+                <!-- ------------------------------------------------- -->
+                <div class="tab-pane" id="tabEvents">
+                    <div class="row">
+                        <div class="span8">
+                            <p>Events work exactly like they do in Flash. All the major Event classes are
+                            available with the same names and properties. The event flow uses the familiar
+                            three-phase approach: Capture Phase, Target Phase and Bubbling Phase.</p>
+                            <p>To add or remove event listeners to or from your objects, you can use the
+                            addEventListener or removeEventListener methods like you do in Flash.
+                            Since the Dart language uses a more modern API for events, the dartflash library
+                            also supports this other method of adding or removing event listeners.
+                            You can even use the + and - operator for extra short code. Ultimately it is
+                            your decision which API you prefer, all three methods will result in the
+                            same behaviour.</p>
+                            <br />
+	                		<pre class="prettyprint lang-java">
+// Three ways to add an event listener (Flash, Dart and Short)
+mySprite.addEventListener(MouseEvent.CLICK, mouseClickListener, false);
+mySprite.on.mouseClick.add(mouseClickListener, false);
+mySprite.on.mouseClick + mouseClickListener;
+
+// Three ways to remove an event listener (Flash, Dart and Short)
+mySprite.removeEventListener(MouseEvent.CLICK, mouseClickListener, false);
+mySprite.on.mouseClick.remove(mouseClickListener, false);
+mySprite.on.mouseClick - mouseClickListener;
+
+void mouseClickListener(MouseEvent me) {
+  print('x: ${me.localX}, y: ${me.localY}');
+}</pre>
+                        </div>
+                        <div class="span4">
+                            <div class="alert">
+                                <ul class="classtree">
+                                    <li class="first">EventDispatcher</li>
+                                    <li class="first">EventPhase</li>
+                                    <li class="first">Event<ul>
+                                        <li>MouseEvent</li>
+                                        <li>TouchEvent<sup>*</sup></li>
+                                        <li>KeyboardEvent</li>
+                                        <li>TextEvent</li>
+                                        <li class="last">EnterFrameEvent</li>
+                                    </ul></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ------------------------------------------------- -->
                 <div class="tab-pane" id="tabText">
                 	<div class="row">
@@ -199,31 +248,7 @@
 				         </div>
 					</div>                         	
                 </div>
-                
-                <!-- ------------------------------------------------- -->
-                <div class="tab-pane" id="tabEvents">
-					<div class="row">
-	                	<div class="span8">
-	                		<p class="comment">// ToDo: Say something intelligent ...</p>
-	                	</div>
-						<div class="span4">
-		                	<div class="alert">
-								<ul class="classtree">
-									<li class="first">EventDispatcher</li>								
-									<li class="first">EventPhase</li>
-									<li class="first">Event<ul>
-										<li>MouseEvent</li>
-										<li>TouchEvent<sup>*</sup></li>
-										<li>KeyboardEvent</li>
-										<li>TextEvent</li>
-										<li class="last">EnterFrameEvent</li>
-									</ul></li>
-				                </ul>
-				            </div>
-				         </div>
-					</div>                 
-                </div>
-                
+
                 <!-- ------------------------------------------------- -->
                 <div class="tab-pane" id="tabFilters">
 					<div class="row">
@@ -283,7 +308,7 @@
 				                </ul>
 				            </div>
 				         </div>
-					</div>   
+					</div>
                 </div>
             </div>		
 		</div>
@@ -291,6 +316,7 @@
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src="./assets/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="./assets/js/prettify.js"></script>    
     	
 </body>
 </html>

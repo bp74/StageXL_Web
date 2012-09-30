@@ -85,7 +85,14 @@ p.comment {
 
 /* -------------------------------------------------------------- */
 
-ul.classtree, ul.classtree ul {
+ul.classtree {
+    list-style-type: none;
+    margin: 0px;
+    padding-left: 10px;
+    border-left: 3px solid #DDD;
+}
+
+ul.classtree ul {
 	list-style-type: none;
 	background: url(../img/tree-vline.png) repeat-y;
 	margin: 0px;
@@ -100,17 +107,17 @@ ul.classtree li {
 	margin: 0;
 	padding: 0 12px;
 	line-height: 18px;
-	background: #FCF8E3 url(../img/tree-node.png) no-repeat;
+	background: #FFFFFF url(../img/tree-node.png) no-repeat;
 	font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
 	color: #404040;
 }
 
 ul.classtree li.last {
-	background: #FCF8E3 url(../img/tree-lastnode.png) no-repeat;
+	background: #FFFFFF url(../img/tree-lastnode.png) no-repeat;
 }
  
 ul.classtree li.first {
-	background: #FCF8E3 no-repeat;
+	background: #FFFFFF no-repeat;
 	margin: 0;
 	padding: 0;
 }

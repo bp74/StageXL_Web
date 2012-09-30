@@ -3,6 +3,8 @@
 pubspec.lock
 packages/
 
+.idea/
+
 #################
 ## Visual Studio
 #################

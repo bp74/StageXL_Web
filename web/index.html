@@ -156,28 +156,25 @@
                             <p>To add or remove event listeners to or from your objects, you can use the
                             addEventListener or removeEventListener methods like you do in Flash.
                             Since the Dart language uses a more modern API for events, the dartflash library
-                            also supports this other method of adding or removing event listeners.
-                            You can even use the + and - operator for extra short code. Ultimately it is
-                            your decision which API you prefer, all three methods will result in the
-                            same behaviour.</p>
+                            also supports this other method of adding and removing event listeners.
+                            Ultimately it is your decision which API you prefer, both methods will result
+                            in the same behaviour.</p>
                             <br />
 	                		<pre class="prettyprint lang-java">
-// Three ways to add an event listener (Flash, Dart and Short)
+// Use one of both methods to add an event listener
 mySprite.addEventListener(MouseEvent.CLICK, mouseClickListener, false);
 mySprite.on.mouseClick.add(mouseClickListener, false);
-mySprite.on.mouseClick + mouseClickListener;
 
-// Three ways to remove an event listener (Flash, Dart and Short)
+// Use one of both methods to remove an event listener
 mySprite.removeEventListener(MouseEvent.CLICK, mouseClickListener, false);
 mySprite.on.mouseClick.remove(mouseClickListener, false);
-mySprite.on.mouseClick - mouseClickListener;
 
 void mouseClickListener(MouseEvent me) {
   print('x: ${me.localX}, y: ${me.localY}');
 }</pre>
                         </div>
                         <div class="span4">
-                            <ul class="classtree" style="height:480px">
+                            <ul class="classtree" style="height:440px">
                                 <li class="first">EventDispatcher</li>
                                 <li class="first">EventPhase</li>
                                 <li class="first">Event<ul>

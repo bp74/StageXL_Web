@@ -6693,7 +6693,7 @@ $.TextureAtlas__getFilenameWithoutExtension = function(filename) {
 };
 
 $.addFlags = function(amount) {
-  for (var i = 0; i < amount; ++i) {
+  for (; --amount, amount >= 0;) {
     var flagIndex = $.get$random().nextInt$1($.get$length($.textureAtlas.get$frameNames()));
     var flagName = $.index($.textureAtlas.get$frameNames(), flagIndex);
     var flag = $.Flag$($.textureAtlas.getBitmapData$1(flagName), $.sub($.get$random().nextInt$1(200), 100), $.sub($.get$random().nextInt$1(200), 100));
@@ -8064,12 +8064,11 @@ $.IndexOutOfRangeException$ = function(_value) {
 };
 
 $.removeFlags = function(amount) {
-  var i = 0;
   while (true) {
-    if (!(i < amount && $.gtB($.stage.get$numChildren(), 0)))
+    --amount;
+    if (!(amount >= 0 && $.gtB($.stage.get$numChildren(), 0)))
       break;
-    $.Juggler_instance().remove$1($.stage.removeChildAt$1(i));
-    ++i;
+    $.Juggler_instance().remove$1($.stage.removeChildAt$1(0));
   }
   var t1 = 'Sprites: ' + $.S($.stage.get$numChildren());
   $.query('#spriteCounter').set$innerHTML(t1);

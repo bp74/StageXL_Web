@@ -218,7 +218,7 @@ void onEnterFrame(EnterFrameEvent e)
 
 void addFlags(int amount)
 {
-  for(int i = 0; i &lt; amount; i++)
+  while(--amount &gt;= 0)
   {
     var flagIndex = random.nextInt(textureAtlas.frameNames.length);
     var flagName = textureAtlas.frameNames[flagIndex];
@@ -238,8 +238,8 @@ void addFlags(int amount)
 
 void removeFlags(int amount)
 {
-  for(int i = 0; i &lt; amount && stage.numChildren &gt; 0; i++)
-    Juggler.instance.remove(stage.removeChildAt(i));
+  while(--amount &gt;= 0 && stage.numChildren &gt; 0)
+    Juggler.instance.remove(stage.removeChildAt(0));
 
   html.query(&apos;#spriteCounter&apos;).innerHTML = &apos;Sprites: ${stage.numChildren}&apos;;
 }                   </pre>

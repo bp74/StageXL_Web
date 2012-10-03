@@ -134,64 +134,61 @@
                 </div>
                 <div class="tab-pane" id="demoDart">
                      <pre class="prettyprint lang-java">
-import &apos;dart:math&apos;;
-import &apos;dart:html&apos; as html;
-import &apos;package:dartflash/dartflash.dart&apos;;
+#import(&apos;dart:math&apos;);
+#import(&apos;dart:html&apos;, prefix:&apos;html&apos;);
+#import(&apos;package:dartflash/dartflash.dart&apos;);
 
-Stage stage;
-RenderLoop renderLoop;
-Resource resource;
-Random random;
-List&lt;BitmapData&gt; bitmapDatas;
-List&lt;Flag&gt; flags;
-List&lt;num&gt; frameTimes;
-int frameTimesIndex;
-
-//-----------------------------------------------------------------------------------
-
-class Flag
+class Flag extends Sprite implements Animatable
 {
-    Bitmap bitmap;
     num vx, vy;
 
-    Flag(this.bitmap, this.vx, this.vy);
-
-    void update(num passedTime)
+    Flag(BitmapData bitmapData, num vx, num vy)
     {
-      var x = bitmap.x + vx * passedTime;
-      var y = bitmap.y + vy * passedTime;
-      if (x &gt; 910 || x &lt; 30) vx = -vx; else bitmap.x = x;
-      if (y &gt; 470 || y &lt; 30) vy = -vy; else bitmap.y = y;
+      Bitmap bitmap = new Bitmap(bitmapData);
+      bitmap.x = -24;
+      bitmap.x = -18;
+
+      this.addChild(bitmap);
+      this.vx = vx;
+      this.vy = vy;
+    }
+
+    bool advanceTime(num time)
+    {
+      var tx = x + vx * time;
+      var ty = y + vy * time;
+      if (tx &gt; 910 || tx &lt; 30) vx = -vx; else x = tx;
+      if (ty &gt; 470 || ty &lt; 30) vy = -vy; else y = ty;
+      return true;
     }
 }
 
 //-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+
+Stage stage;
+RenderLoop renderLoop;
+TextureAtlas textureAtlas;
+Random random = new Random();
+List frameTimes = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+int frameTimesIndex = 0;
 
 void main()
 {
-  random = new Random();
-  bitmapDatas = new List&lt;BitmapData&gt;();
-  flags = new List&lt;Flag&gt;();
-  frameTimes = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-  frameTimesIndex = 0;
-
   // Initialize the Display List
-
   stage = new Stage(&apos;myStage&apos;, html.document.query(&apos;#stage&apos;));
-
   renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
 
-  // Use the Resource class to load a texture atlas
+  // load the texture atlas with flag images
+  Future loader = TextureAtlas.load(&apos;../common/images/flags.json&apos;, TextureAtlasFormat.JSONARRAY);
 
-  resource = new Resource();
-  resource.addTextureAtlas(&apos;flagsTextureAtlas&apos;, &apos;../common/images/flags.json&apos;, TextureAtlasFormat.JSONARRAY);
-  resource.load().then((result)
+  loader.then((result)
   {
-    // Get all flags from the texture atlas.
-    TextureAtlas textureAtlas = resource.getTextureAtlas(&apos;flagsTextureAtlas&apos;);
-    for(var frameName in textureAtlas.frameNames)
-      bitmapDatas.add(textureAtlas.getBitmapData(frameName));
+    textureAtlas = result;
+
+    // let&apos;s start with 250 flags
+    addFlags(250);
 
     // add html-button event listeners
     html.query(&apos;#minus10&apos;).on.click.add((e) =&gt; removeFlags(10));
@@ -199,72 +196,53 @@ void main()
     html.query(&apos;#plus50&apos;).on.click.add((e) =&gt; addFlags(50));
     html.query(&apos;#plus10&apos;).on.click.add((e) =&gt; addFlags(10));
 
-    // add event listener for EnterFrame
-    stage.addEventListener(Event.ENTER_FRAME, (EnterFrameEvent e) =&gt; updateFlags(e.passedTime));
-
-    // add 250 flags
-    addFlags(250);
+    // add event listener for EnterFrame (fps meter)
+    stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
   });
 }
 
 //-----------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------
 
+void onEnterFrame(EnterFrameEvent e)
+{
+  num frameTimeSum = 0;
+  frameTimesIndex = (frameTimesIndex + 1) % frameTimes.length;
+  frameTimes[frameTimesIndex] = e.passedTime;
+  frameTimes.forEach((t) =&gt; frameTimeSum += t);
+
+  html.query(&apos;#fpsMeter&apos;).innerHTML = &apos;fps: ${(frameTimes.length / frameTimeSum).round()}&apos;;
+}
+
+//-----------------------------------------------------------------------------------
+
 void addFlags(int amount)
 {
   for(int i = 0; i &lt; amount; i++)
   {
-    Bitmap bitmap = new Bitmap(bitmapDatas[random.nextInt(bitmapDatas.length)]);
-    bitmap.pivotX = 24;
-    bitmap.pivotY = 18;
-    bitmap.x = 30 + random.nextInt(940 - 60);
-    bitmap.y = 30 + random.nextInt(500 - 60);
-    stage.addChild(bitmap);
+    var flagIndex = random.nextInt(textureAtlas.frameNames.length);
+    var flagName = textureAtlas.frameNames[flagIndex];
+    var flagBitmapData = textureAtlas.getBitmapData(flagName);
 
-    Flag flag = new Flag(bitmap, 200 * random.nextDouble() - 100, 200 * random.nextDouble() - 100);
-    flags.add(flag);
+    var flag = new Flag(flagBitmapData, random.nextInt(200) - 100, random.nextInt(200) - 100);
+    flag.x = 30 + random.nextInt(940 - 60);
+    flag.y = 30 + random.nextInt(500 - 60);
+
+    Juggler.instance.add(stage.addChild(flag));
   }
 
-  html.query(&apos;#spriteCounter&apos;).innerHTML = &apos;Sprites: ${flags.length}&apos;;
+  html.query(&apos;#spriteCounter&apos;).innerHTML = &apos;Sprites: ${stage.numChildren}&apos;;
 }
 
 //-----------------------------------------------------------------------------------
 
 void removeFlags(int amount)
 {
-  if (flags.length &gt;= amount)
-  {
-    flags.removeRange(flags.length - amount, amount);
+  for(int i = 0; i &lt; amount && stage.numChildren &gt; 0; i++)
+    Juggler.instance.remove(stage.removeChildAt(i));
 
-    for(int i = 0; i &lt; amount; i++)
-      stage.removeChildAt(stage.numChildren - 1);
-
-    html.query(&apos;#spriteCounter&apos;).innerHTML = &apos;Sprites: ${flags.length}&apos;;
-  }
-}
-
-//-----------------------------------------------------------------------------------
-
-void updateFlags(num passedTime)
-{
-    if (passedTime &lt; 1.0)
-    {
-      frameTimesIndex = (frameTimesIndex + 1) % frameTimes.length;
-      frameTimes[frameTimesIndex] = passedTime;
-
-      num avgFrameTime = 0;
-      int frameTimesLength = frameTimes.length;
-      for(int i = 0; i &lt; frameTimesLength; i++)
-        avgFrameTime += frameTimes[i];
-
-      int flagsLength = flags.length;
-      for(int i = 0; i &lt; flagsLength; i++)
-        flags[i].update(passedTime);
-
-      html.query(&apos;#fpsMeter&apos;).innerHTML = &apos;fps: ${(frameTimes.length/avgFrameTime).round()}&apos;;
-    }
-}
-                     </pre>
+  html.query(&apos;#spriteCounter&apos;).innerHTML = &apos;Sprites: ${stage.numChildren}&apos;;
+}                   </pre>
                 </div>
             </div>
         </div> 

@@ -2,130 +2,108 @@
 #import('dart:html', prefix:'html');
 #import('package:dartflash/dartflash.dart');
 
-Stage stage;
-RenderLoop renderLoop;
-Resource resource;
-Random random;
-List<BitmapData> bitmapDatas;
-List<Flag> flags;
-List<num> frameTimes;
-int frameTimesIndex;
-
-//-----------------------------------------------------------------------------------
-
-class Flag
+class Flag extends Sprite implements Animatable
 {
-    Bitmap bitmap;
     num vx, vy;
 
-    Flag(this.bitmap, this.vx, this.vy);
-
-    void update(num passedTime)
+    Flag(BitmapData bitmapData, num vx, num vy)
     {
-      var x = bitmap.x + vx * passedTime;
-      var y = bitmap.y + vy * passedTime;
-      if (x > 910 || x < 30) vx = -vx; else bitmap.x = x;
-      if (y > 470 || y < 30) vy = -vy; else bitmap.y = y;
+      Bitmap bitmap = new Bitmap(bitmapData);
+      bitmap.x = -24;
+      bitmap.x = -18;
+      
+      this.addChild(bitmap);
+      this.vx = vx;
+      this.vy = vy;
+    }
+
+    bool advanceTime(num time)
+    {
+      var tx = x + vx * time;
+      var ty = y + vy * time;
+      if (tx > 910 || tx < 30) vx = -vx; else x = tx;
+      if (ty > 470 || ty < 30) vy = -vy; else y = ty;
+      return true;
     }
 }
 
 //-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+
+Stage stage;
+RenderLoop renderLoop;
+TextureAtlas textureAtlas;
+Random random = new Random();
+List frameTimes = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+int frameTimesIndex = 0;
 
 void main()
 {
-  random = new Random();
-  bitmapDatas = new List<BitmapData>();
-  flags = new List<Flag>();
-  frameTimes = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-  frameTimesIndex = 0;
-
   // Initialize the Display List
-
   stage = new Stage('myStage', html.document.query('#stage'));
-
   renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
 
-  // Use the Resource class to load a texture atlas
-
-  resource = new Resource();
-  resource.addTextureAtlas('flagsTextureAtlas', '../common/images/flags.json', TextureAtlasFormat.JSONARRAY);
-  resource.load().then((result)
+  // load the texture atlas with flag images
+  Future loader = TextureAtlas.load('../common/images/flags.json', TextureAtlasFormat.JSONARRAY);
+  
+  loader.then((result)
   {
-    // Get all flags from the texture atlas.
-    TextureAtlas textureAtlas = resource.getTextureAtlas('flagsTextureAtlas');
-    for(var frameName in textureAtlas.frameNames)
-      bitmapDatas.add(textureAtlas.getBitmapData(frameName));
+    textureAtlas = result;
 
+    // let's start with 250 flags
+    addFlags(250);
+    
     // add html-button event listeners
     html.query('#minus10').on.click.add((e) => removeFlags(10));
     html.query('#minus50').on.click.add((e) => removeFlags(50));
     html.query('#plus50').on.click.add((e) => addFlags(50));
     html.query('#plus10').on.click.add((e) => addFlags(10));
 
-    // add event listener for EnterFrame
-    stage.addEventListener(Event.ENTER_FRAME, (EnterFrameEvent e) => updateFlags(e.passedTime));
-
-    // add 250 flags
-    addFlags(250);
+    // add event listener for EnterFrame (fps meter)
+    stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
   });
 }
 
 //-----------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------
 
+void onEnterFrame(EnterFrameEvent e)
+{
+  num frameTimeSum = 0;
+  frameTimesIndex = (frameTimesIndex + 1) % frameTimes.length;
+  frameTimes[frameTimesIndex] = e.passedTime;
+  frameTimes.forEach((t) => frameTimeSum += t);
+
+  html.query('#fpsMeter').innerHTML = 'fps: ${(frameTimes.length / frameTimeSum).round()}';  
+}
+
+//-----------------------------------------------------------------------------------
+
 void addFlags(int amount)
 {
   for(int i = 0; i < amount; i++)
   {
-    Bitmap bitmap = new Bitmap(bitmapDatas[random.nextInt(bitmapDatas.length)]);
-    bitmap.pivotX = 24;
-    bitmap.pivotY = 18;
-    bitmap.x = 30 + random.nextInt(940 - 60);
-    bitmap.y = 30 + random.nextInt(500 - 60);
-    stage.addChild(bitmap);
+    var flagIndex = random.nextInt(textureAtlas.frameNames.length);
+    var flagName = textureAtlas.frameNames[flagIndex];
+    var flagBitmapData = textureAtlas.getBitmapData(flagName);
 
-    Flag flag = new Flag(bitmap, 200 * random.nextDouble() - 100, 200 * random.nextDouble() - 100);
-    flags.add(flag);
+    var flag = new Flag(flagBitmapData, random.nextInt(200) - 100, random.nextInt(200) - 100);
+    flag.x = 30 + random.nextInt(940 - 60);
+    flag.y = 30 + random.nextInt(500 - 60);
+
+    Juggler.instance.add(stage.addChild(flag));
   }
 
-  html.query('#spriteCounter').innerHTML = 'Sprites: ${flags.length}';
+  html.query('#spriteCounter').innerHTML = 'Sprites: ${stage.numChildren}';
 }
 
 //-----------------------------------------------------------------------------------
 
 void removeFlags(int amount)
 {
-  if (flags.length >= amount)
-  {
-    flags.removeRange(flags.length - amount, amount);
+  for(int i = 0; i < amount && stage.numChildren > 0; i++)
+    Juggler.instance.remove(stage.removeChildAt(i));
 
-    for(int i = 0; i < amount; i++)
-      stage.removeChildAt(stage.numChildren - 1);
-
-    html.query('#spriteCounter').innerHTML = 'Sprites: ${flags.length}';
-  }
+  html.query('#spriteCounter').innerHTML = 'Sprites: ${stage.numChildren}';
 }
-
-//-----------------------------------------------------------------------------------
-
-void updateFlags(num passedTime)
-{
-    if (passedTime < 1.0)
-    {
-      frameTimesIndex = (frameTimesIndex + 1) % frameTimes.length;
-      frameTimes[frameTimesIndex] = passedTime;
-
-      num avgFrameTime = 0;
-      int frameTimesLength = frameTimes.length;
-      for(int i = 0; i < frameTimesLength; i++)
-        avgFrameTime += frameTimes[i];
-
-      int flagsLength = flags.length;
-      for(int i = 0; i < flagsLength; i++)
-        flags[i].update(passedTime);
-
-      html.query('#fpsMeter').innerHTML = 'fps: ${(frameTimes.length/avgFrameTime).round()}';
-    }
-}
-

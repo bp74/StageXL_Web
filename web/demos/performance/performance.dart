@@ -10,7 +10,7 @@ class Flag extends Sprite implements Animatable
     {
       Bitmap bitmap = new Bitmap(bitmapData);
       bitmap.x = -24;
-      bitmap.x = -18;
+      bitmap.y = -18;
       
       this.addChild(bitmap);
       this.vx = vx;

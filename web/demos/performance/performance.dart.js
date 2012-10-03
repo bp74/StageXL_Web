@@ -1104,7 +1104,7 @@ $$.Flag = {"":
  Flag$3: function(bitmapData, vx, vy) {
   var bitmap = $.Bitmap$(bitmapData, 'auto', false);
   bitmap.set$x(-24);
-  bitmap.set$x(-18);
+  bitmap.set$y(-18);
   this.addChild$1(bitmap);
   this.vx = vx;
   this.vy = vy;

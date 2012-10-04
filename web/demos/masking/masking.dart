@@ -54,7 +54,7 @@ void main()
 
       Tween tween = new Tween(bitmap, 600, Transitions.linear);
       tween.animate('rotation', PI * 60.0);
-      Juggler.instance.add(tween);
+      renderLoop.juggler.add(tween);
     }
 
     animation.pivotX = 470;
@@ -73,7 +73,7 @@ void main()
       Tween rotate = new Tween(animation, 2.0, Transitions.easeInOutBack);
       rotate.animate('rotation', PI * 4.0);
       rotate.onComplete = () => animation.rotation = 0.0;
-      Juggler.instance.add(rotate);
+      renderLoop.juggler.add(rotate);
     });
   });
 }

@@ -52,14 +52,14 @@ void startWalking()
   tween.animate('x', 940.0);
   tween.onComplete = ()
   {
-    Juggler.instance.remove(movieClip);
+    renderLoop.juggler.remove(movieClip);
     stage.removeChild(movieClip);
   };
 
-  Juggler.instance.add(movieClip);
-  Juggler.instance.add(tween);
+  renderLoop.juggler.add(movieClip);
+  renderLoop.juggler.add(tween);
 
   // the next animaton should start after 0.2 seconds
 
-  Juggler.instance.delayCall(startWalking, 0.2);
+  renderLoop.juggler.delayCall(startWalking, 0.2);
 }

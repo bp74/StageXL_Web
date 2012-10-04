@@ -11,7 +11,7 @@ class Flag extends Sprite implements Animatable
       Bitmap bitmap = new Bitmap(bitmapData);
       bitmap.x = -24;
       bitmap.y = -18;
-      
+
       this.addChild(bitmap);
       this.vx = vx;
       this.vy = vy;
@@ -32,6 +32,7 @@ class Flag extends Sprite implements Animatable
 
 Stage stage;
 RenderLoop renderLoop;
+Juggler juggler;
 TextureAtlas textureAtlas;
 Random random = new Random();
 List frameTimes = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
@@ -43,17 +44,18 @@ void main()
   stage = new Stage('myStage', html.document.query('#stage'));
   renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
+  juggler = renderLoop.juggler;
 
   // load the texture atlas with flag images
   Future loader = TextureAtlas.load('../common/images/flags.json', TextureAtlasFormat.JSONARRAY);
-  
+
   loader.then((result)
   {
     textureAtlas = result;
 
     // let's start with 250 flags
     addFlags(250);
-    
+
     // add html-button event listeners
     html.query('#minus10').on.click.add((e) => removeFlags(10));
     html.query('#minus50').on.click.add((e) => removeFlags(50));
@@ -75,7 +77,7 @@ void onEnterFrame(EnterFrameEvent e)
   frameTimes[frameTimesIndex] = e.passedTime;
   frameTimes.forEach((t) => frameTimeSum += t);
 
-  html.query('#fpsMeter').innerHTML = 'fps: ${(frameTimes.length / frameTimeSum).round()}';  
+  html.query('#fpsMeter').innerHTML = 'fps: ${(frameTimes.length / frameTimeSum).round()}';
 }
 
 //-----------------------------------------------------------------------------------
@@ -92,7 +94,7 @@ void addFlags(int amount)
     flag.x = 30 + random.nextInt(940 - 60);
     flag.y = 30 + random.nextInt(500 - 60);
 
-    Juggler.instance.add(stage.addChild(flag));
+    juggler.add(stage.addChild(flag));
   }
 
   html.query('#spriteCounter').innerHTML = 'Sprites: ${stage.numChildren}';
@@ -103,7 +105,7 @@ void addFlags(int amount)
 void removeFlags(int amount)
 {
   while(--amount >= 0 && stage.numChildren > 0)
-    Juggler.instance.remove(stage.removeChildAt(0));
+    juggler.remove(stage.removeChildAt(0));
 
   html.query('#spriteCounter').innerHTML = 'Sprites: ${stage.numChildren}';
 }

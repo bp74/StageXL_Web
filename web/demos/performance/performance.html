@@ -168,6 +168,7 @@ class Flag extends Sprite implements Animatable
 
 Stage stage;
 RenderLoop renderLoop;
+Juggler juggler;
 TextureAtlas textureAtlas;
 Random random = new Random();
 List frameTimes = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
@@ -179,6 +180,7 @@ void main()
   stage = new Stage(&apos;myStage&apos;, html.document.query(&apos;#stage&apos;));
   renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
+  juggler = renderLoop.juggler;
 
   // load the texture atlas with flag images
   Future loader = TextureAtlas.load(&apos;../common/images/flags.json&apos;, TextureAtlasFormat.JSONARRAY);
@@ -228,7 +230,7 @@ void addFlags(int amount)
     flag.x = 30 + random.nextInt(940 - 60);
     flag.y = 30 + random.nextInt(500 - 60);
 
-    Juggler.instance.add(stage.addChild(flag));
+    juggler.add(stage.addChild(flag));
   }
 
   html.query(&apos;#spriteCounter&apos;).innerHTML = &apos;Sprites: ${stage.numChildren}&apos;;
@@ -239,7 +241,7 @@ void addFlags(int amount)
 void removeFlags(int amount)
 {
   while(--amount &gt;= 0 && stage.numChildren &gt; 0)
-    Juggler.instance.remove(stage.removeChildAt(0));
+    juggler.remove(stage.removeChildAt(0));
 
   html.query(&apos;#spriteCounter&apos;).innerHTML = &apos;Sprites: ${stage.numChildren}&apos;;
 }                   </pre>

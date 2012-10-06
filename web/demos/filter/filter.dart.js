@@ -2730,162 +2730,134 @@ $$.BitmapFilter = {"":
 };
 
 $$.BlurFilter = {"":
- ["blurX", "blurY", "quality"],
+ ["blurX", "blurY"],
  "super": "BitmapFilter",
  clone$0: function() {
-  return $.BlurFilter$(this.blurX, this.blurY, this.quality);
+  return $.BlurFilter$(this.blurX, this.blurY);
 },
  apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
-  var t1 = this.quality;
-  if ($.leB(t1, 1))
-    this._applyLow$4(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint);
-  if ($.eqB(t1, 2))
-    this._applyMedium$4(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint);
-  if ($.geB(t1, 3))
-    this._applyHigh$4(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint);
-},
- _applyLow$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
   var sourceImageData = sourceBitmapData._getContext$0().getImageData$4(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
   var sourceData = sourceImageData.get$data();
   if (typeof sourceData !== 'string' && (typeof sourceData !== 'object' || sourceData === null || sourceData.constructor !== Array && !sourceData.is$JavaScriptIndexingBehavior()))
-    return this._applyLow$4$bailout(1, destinationBitmapData, destinationPoint, sourceImageData, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(1, destinationBitmapData, destinationPoint, sourceImageData, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var sourceWidth = sourceImageData.get$width();
+  if (typeof sourceWidth !== 'number')
+    return this.apply$4$bailout(2, destinationBitmapData, destinationPoint, sourceImageData, sourceData, sourceWidth, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var sourceHeight = sourceImageData.get$height();
+  if (typeof sourceHeight !== 'number')
+    return this.apply$4$bailout(3, destinationBitmapData, destinationPoint, sourceData, sourceWidth, sourceHeight, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var t4 = this.blurX;
+  if (t4 !== (t4 | 0))
+    return this.apply$4$bailout(4, destinationBitmapData, destinationPoint, t4, sourceData, sourceWidth, sourceHeight, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var weightX = t4 * t4;
+  var t6 = this.blurY;
+  if (t6 !== (t6 | 0))
+    return this.apply$4$bailout(5, destinationBitmapData, destinationPoint, weightX, t4, t6, sourceData, sourceWidth, sourceHeight, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var weightY = t6 * t6;
+  var rx2 = t4 * 2;
+  var ry2 = t6 * 2;
+  var destinationWidth = sourceWidth + rx2;
+  var destinationHeight = sourceHeight + ry2;
+  var sourceWidth4 = sourceWidth * 4;
+  var destinationWidth4 = destinationWidth * 4;
   var destinationContext = destinationBitmapData._getContext$0();
-  var destinationImageData = destinationContext.createImageData$2(sourceImageData.get$width(), sourceImageData.get$height());
+  var destinationImageData = destinationContext.createImageData$2(destinationWidth, destinationHeight);
   var destinationData = destinationImageData.get$data();
   if (typeof destinationData !== 'object' || destinationData === null || (destinationData.constructor !== Array || !!destinationData.immutable$list) && !destinationData.is$JavaScriptIndexingBehavior())
-    return this._applyLow$4$bailout(2, destinationImageData, destinationData, destinationPoint, sourceImageData, sourceData, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var width = sourceImageData.get$width();
-  if (width !== (width | 0))
-    return this._applyLow$4$bailout(3, destinationImageData, destinationData, width, destinationPoint, sourceImageData, sourceData, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var height = sourceImageData.get$height();
-  if (typeof height !== 'number')
-    return this._applyLow$4$bailout(4, destinationImageData, destinationData, width, destinationPoint, height, sourceData, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var t5 = this.blurX;
-  if (typeof t5 !== 'number')
-    throw $.iae(t5);
-  var radiusX = $.toInt($.sqrt(5 * t5 * t5 + 1));
-  if (radiusX !== (radiusX | 0))
-    return this._applyLow$4$bailout(5, destinationImageData, radiusX, destinationData, destinationPoint, height, width, sourceData, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var t7 = this.blurY;
-  if (typeof t7 !== 'number')
-    throw $.iae(t7);
-  var radiusY = $.toInt($.sqrt(5 * t7 * t7 + 1));
-  if (radiusY !== (radiusY | 0))
-    return this._applyLow$4$bailout(6, destinationImageData, radiusX, destinationData, destinationPoint, height, width, sourceData, radiusY, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var weightX = radiusX * radiusX;
-  var weightY = radiusY * radiusY;
-  var width4 = width * 4;
-  var rx2 = radiusX * 2;
-  var ry2 = radiusY * 2;
+    return this.apply$4$bailout(6, destinationWidth, destinationHeight, destinationPoint, sourceWidth4, destinationWidth4, destinationContext, destinationImageData, destinationData, sourceData, sourceWidth, sourceHeight, t4, t6, weightX, weightY, rx2, ry2);
   var buffer = $.ListImplementation_List(1024);
-  for (var y = 0 - ry2, ty = height - 1, x = 0 - rx2, tx = width - 1, z = 0; z < 4; ++z) {
-    for (var x0 = 0; x0 < width; ++x0) {
+  for (var z = 0; z < 4; ++z)
+    for (var x = 0; x < sourceWidth; ++x) {
       var sum = $.shr(weightY, 1);
-      var offsetBase = x0 * 4 + z;
-      if (y !== (y | 0))
-        return this._applyLow$4$bailout(7, sum, radiusX, destinationPoint, offsetBase, ry2, y, z, sourceData, radiusY, destinationContext, weightX, width4, destinationData, weightY, height, rx2, width, x0, destinationImageData, buffer);
-      var t2 = destinationData.length;
-      var t3 = sourceData.length;
-      var offsetLoop = offsetBase;
-      var y0 = y;
-      var dif = 0;
-      for (; y0 < height; ++y0) {
-        if (y0 >= 0) {
-          var t1 = $.tdiv(sum, weightY);
-          if (offsetLoop !== (offsetLoop | 0))
-            throw $.iae(offsetLoop);
-          if (offsetLoop < 0 || offsetLoop >= t2)
-            throw $.ioore(offsetLoop);
-          destinationData[offsetLoop] = t1;
-          offsetLoop += width4;
-          t1 = buffer[y0 & 1023];
-          if (typeof t1 !== 'number')
-            throw $.iae(t1);
-          t1 = 2 * t1;
-          var t4 = buffer[y0 - radiusY & 1023];
-          if (typeof t4 !== 'number')
-            throw $.iae(t4);
-          dif -= t1 - t4;
-        } else if (y0 + radiusY >= 0) {
-          t1 = buffer[y0 & 1023];
-          if (typeof t1 !== 'number')
-            throw $.iae(t1);
-          dif -= 2 * t1;
+      var offsetSource = x * 4 + z;
+      var offsetDestination = (x + t4) * 4 + z;
+      for (var t1 = destinationData.length, t2 = sourceData.length, y = 0, dif = 0; y < destinationHeight; ++y) {
+        var t3 = $.tdiv(sum, weightY);
+        if (offsetDestination !== (offsetDestination | 0))
+          throw $.iae(offsetDestination);
+        if (offsetDestination < 0 || offsetDestination >= t1)
+          throw $.ioore(offsetDestination);
+        destinationData[offsetDestination] = t3;
+        offsetDestination += destinationWidth4;
+        if (y >= ry2) {
+          t3 = buffer[y & 1023];
+          if (typeof t3 !== 'number')
+            throw $.iae(t3);
+          t3 = 2 * t3;
+          var t5 = buffer[y - t6 & 1023];
+          if (typeof t5 !== 'number')
+            throw $.iae(t5);
+          dif -= t3 - t5;
+        } else if (y >= t6) {
+          t3 = buffer[y & 1023];
+          if (typeof t3 !== 'number')
+            throw $.iae(t3);
+          dif -= 2 * t3;
         }
-        var ty0 = y0 + radiusY;
-        if (ty0 < 0)
-          var ty1 = 0;
-        else
-          ty1 = ty0 >= height ? ty : ty0;
-        t1 = ty0 & 1023;
-        t4 = offsetBase + ty1 * width4;
-        if (t4 !== (t4 | 0))
-          throw $.iae(t4);
-        if (t4 < 0 || t4 >= t3)
-          throw $.ioore(t4);
-        t4 = sourceData[t4];
-        buffer[t1] = t4;
-        if (typeof t4 !== 'number')
-          throw $.iae(t4);
-        dif += t4;
+        if (y < sourceHeight) {
+          if (offsetSource !== (offsetSource | 0))
+            throw $.iae(offsetSource);
+          if (offsetSource < 0 || offsetSource >= t2)
+            throw $.ioore(offsetSource);
+          var alpha = sourceData[offsetSource];
+        } else
+          alpha = 0;
+        buffer[y + t6 & 1023] = alpha;
+        if (typeof alpha !== 'number')
+          throw $.iae(alpha);
+        dif += alpha;
         sum += dif;
+        offsetSource += sourceWidth4;
       }
     }
-    for (y0 = 0; y0 < height; ++y0) {
+  for (t1 = t4 * 4, z = 0; z < 4; ++z)
+    for (y = 0; y < destinationHeight; ++y) {
       sum = $.shr(weightX, 1);
-      offsetBase = y0 * width4 + z;
-      if (x !== (x | 0))
-        return this._applyLow$4$bailout(8, radiusX, rx2, destinationPoint, ry2, z, sourceData, radiusY, sum, weightX, destinationContext, destinationData, offsetBase, width, y0, x, height, weightY, destinationImageData, buffer, width4);
-      t2 = destinationData.length;
-      offsetLoop = offsetBase;
-      x0 = x;
-      dif = 0;
-      for (; x0 < width; ++x0) {
-        if (x0 >= 0) {
-          t1 = $.tdiv(sum, weightX);
-          if (offsetLoop !== (offsetLoop | 0))
-            throw $.iae(offsetLoop);
-          if (offsetLoop < 0 || offsetLoop >= t2)
-            throw $.ioore(offsetLoop);
-          destinationData[offsetLoop] = t1;
-          offsetLoop += 4;
-          t1 = buffer[x0 & 1023];
-          if (typeof t1 !== 'number')
-            throw $.iae(t1);
-          t1 = 2 * t1;
-          t3 = buffer[x0 - radiusX & 1023];
+      t2 = y * destinationWidth4;
+      offsetSource = t2 + t1 + z;
+      offsetDestination = t2 + z;
+      for (t2 = destinationData.length, dif = 0, x = 0; x < destinationWidth; ++x) {
+        t3 = $.tdiv(sum, weightX);
+        if (offsetDestination !== (offsetDestination | 0))
+          throw $.iae(offsetDestination);
+        if (offsetDestination < 0 || offsetDestination >= t2)
+          throw $.ioore(offsetDestination);
+        destinationData[offsetDestination] = t3;
+        offsetDestination += 4;
+        if (x >= rx2) {
+          t3 = buffer[x & 1023];
           if (typeof t3 !== 'number')
             throw $.iae(t3);
-          dif -= t1 - t3;
-        } else if (x0 + radiusX >= 0) {
-          t1 = buffer[x0 & 1023];
-          if (typeof t1 !== 'number')
-            throw $.iae(t1);
-          dif -= 2 * t1;
+          t3 = 2 * t3;
+          t5 = buffer[x - t4 & 1023];
+          if (typeof t5 !== 'number')
+            throw $.iae(t5);
+          dif -= t3 - t5;
+        } else if (x >= t4) {
+          t3 = buffer[x & 1023];
+          if (typeof t3 !== 'number')
+            throw $.iae(t3);
+          dif -= 2 * t3;
         }
-        var tx0 = x0 + radiusX;
-        if (tx0 < 0)
-          var tx1 = 0;
-        else
-          tx1 = tx0 >= width ? tx : tx0;
-        t1 = tx0 & 1023;
-        t3 = offsetBase + (tx1 << 2 >>> 0);
-        if (t3 !== (t3 | 0))
-          throw $.iae(t3);
-        if (t3 < 0 || t3 >= t2)
-          throw $.ioore(t3);
-        t3 = destinationData[t3];
-        buffer[t1] = t3;
-        if (typeof t3 !== 'number')
-          throw $.iae(t3);
-        dif += t3;
+        if (x < sourceWidth) {
+          if (offsetSource !== (offsetSource | 0))
+            throw $.iae(offsetSource);
+          if (offsetSource < 0 || offsetSource >= t2)
+            throw $.ioore(offsetSource);
+          alpha = destinationData[offsetSource];
+        } else
+          alpha = 0;
+        buffer[x + t4 & 1023] = alpha;
+        if (typeof alpha !== 'number')
+          throw $.iae(alpha);
+        dif += alpha;
         sum += dif;
+        offsetSource += 4;
       }
     }
-  }
-  destinationContext.putImageData$3(destinationImageData, destinationPoint.x, destinationPoint.y);
+  destinationContext.putImageData$3(destinationImageData, $.sub(destinationPoint.x, t4), $.sub(destinationPoint.y, t6));
 },
- _applyLow$4$bailout: function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13, env14, env15, env16, env17, env18, env19) {
+ apply$4$bailout: function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13, env14, env15, env16) {
   switch (state) {
     case 1:
       var destinationBitmapData = env0;
@@ -2894,95 +2866,55 @@ $$.BlurFilter = {"":
       sourceData = env3;
       break;
     case 2:
-      destinationImageData = env0;
-      destinationData = env1;
-      destinationPoint = env2;
-      sourceImageData = env3;
-      sourceData = env4;
-      destinationContext = env5;
+      destinationBitmapData = env0;
+      destinationPoint = env1;
+      sourceImageData = env2;
+      sourceData = env3;
+      sourceWidth = env4;
       break;
     case 3:
-      destinationImageData = env0;
-      destinationData = env1;
-      width = env2;
-      destinationPoint = env3;
-      sourceImageData = env4;
-      sourceData = env5;
-      destinationContext = env6;
+      destinationBitmapData = env0;
+      destinationPoint = env1;
+      sourceData = env2;
+      sourceWidth = env3;
+      sourceHeight = env4;
       break;
     case 4:
-      destinationImageData = env0;
-      destinationData = env1;
-      width = env2;
-      destinationPoint = env3;
-      height = env4;
-      sourceData = env5;
-      destinationContext = env6;
+      destinationBitmapData = env0;
+      destinationPoint = env1;
+      t4 = env2;
+      sourceData = env3;
+      sourceWidth = env4;
+      sourceHeight = env5;
       break;
     case 5:
-      destinationImageData = env0;
-      radiusX = env1;
-      destinationData = env2;
-      destinationPoint = env3;
-      height = env4;
-      width = env5;
-      sourceData = env6;
-      destinationContext = env7;
+      destinationBitmapData = env0;
+      destinationPoint = env1;
+      weightX = env2;
+      t4 = env3;
+      t6 = env4;
+      sourceData = env5;
+      sourceWidth = env6;
+      sourceHeight = env7;
       break;
     case 6:
-      destinationImageData = env0;
-      radiusX = env1;
-      destinationData = env2;
-      destinationPoint = env3;
-      height = env4;
-      width = env5;
-      sourceData = env6;
-      radiusY = env7;
-      destinationContext = env8;
-      break;
-    case 7:
-      sum = env0;
-      radiusX = env1;
+      destinationWidth = env0;
+      destinationHeight = env1;
       destinationPoint = env2;
-      offsetBase = env3;
-      ry2 = env4;
-      y = env5;
-      z = env6;
-      sourceData = env7;
-      radiusY = env8;
-      destinationContext = env9;
-      weightX = env10;
-      width4 = env11;
-      destinationData = env12;
-      weightY = env13;
-      height = env14;
+      sourceWidth4 = env3;
+      destinationWidth4 = env4;
+      destinationContext = env5;
+      destinationImageData = env6;
+      destinationData = env7;
+      sourceData = env8;
+      sourceWidth = env9;
+      sourceHeight = env10;
+      t4 = env11;
+      t6 = env12;
+      weightX = env13;
+      weightY = env14;
       rx2 = env15;
-      width = env16;
-      x = env17;
-      destinationImageData = env18;
-      buffer = env19;
-      break;
-    case 8:
-      radiusX = env0;
-      rx2 = env1;
-      destinationPoint = env2;
-      ry2 = env3;
-      z = env4;
-      sourceData = env5;
-      radiusY = env6;
-      sum = env7;
-      weightX = env8;
-      destinationContext = env9;
-      destinationData = env10;
-      offsetBase = env11;
-      width = env12;
-      y = env13;
-      x = env14;
-      height = env15;
-      weightY = env16;
-      destinationImageData = env17;
-      buffer = env18;
-      width4 = env19;
+      ry2 = env16;
       break;
   }
   switch (state) {
@@ -2991,1280 +2923,124 @@ $$.BlurFilter = {"":
       var sourceData = sourceImageData.get$data();
     case 1:
       state = 0;
+      var sourceWidth = sourceImageData.get$width();
+    case 2:
+      state = 0;
+      var sourceHeight = sourceImageData.get$height();
+    case 3:
+      state = 0;
+      var t4 = this.blurX;
+    case 4:
+      state = 0;
+      var weightX = $.mul(t4, t4);
+      var t6 = this.blurY;
+    case 5:
+      state = 0;
+      var weightY = $.mul(t6, t6);
+      var rx2 = $.mul(t4, 2);
+      var ry2 = $.mul(t6, 2);
+      var destinationWidth = $.add(sourceWidth, rx2);
+      var destinationHeight = $.add(sourceHeight, ry2);
+      var sourceWidth4 = $.mul(sourceWidth, 4);
+      var destinationWidth4 = $.mul(destinationWidth, 4);
       var destinationContext = destinationBitmapData._getContext$0();
-      var destinationImageData = destinationContext.createImageData$2(sourceImageData.get$width(), sourceImageData.get$height());
+      var destinationImageData = destinationContext.createImageData$2(destinationWidth, destinationHeight);
       var destinationData = destinationImageData.get$data();
-    case 2:
-      state = 0;
-      var width = sourceImageData.get$width();
-    case 3:
-      state = 0;
-      var height = sourceImageData.get$height();
-    case 4:
-      state = 0;
-      var t5 = this.blurX;
-      if (typeof t5 !== 'number')
-        throw $.iae(t5);
-      var radiusX = $.toInt($.sqrt(5 * t5 * t5 + 1));
-    case 5:
-      state = 0;
-      var t7 = this.blurY;
-      if (typeof t7 !== 'number')
-        throw $.iae(t7);
-      var radiusY = $.toInt($.sqrt(5 * t7 * t7 + 1));
     case 6:
       state = 0;
-      var weightX = $.mul(radiusX, radiusX);
-      var weightY = $.mul(radiusY, radiusY);
-      var width4 = $.mul(width, 4);
-      var rx2 = $.mul(radiusX, 2);
-      var ry2 = $.mul(radiusY, 2);
       var buffer = $.ListImplementation_List(1024);
-      var z = 0;
-    default:
-      L0:
-        while (true)
-          switch (state) {
-            case 0:
-              if (!(z < 4))
-                break L0;
-              var x = 0;
-            case 7:
-              L1:
-                while (true)
-                  switch (state) {
-                    case 0:
-                      if (!$.ltB(x, width))
-                        break L1;
-                      var sum = $.shr(weightY, 1);
-                      var offsetBase = x * 4 + z;
-                      if (typeof ry2 !== 'number')
-                        throw $.iae(ry2);
-                      var y = 0 - ry2;
-                    case 7:
-                      state = 0;
-                      var offsetLoop = offsetBase;
-                      var dif = 0;
-                      for (; $.ltB(y, height); ++y) {
-                        if (y >= 0) {
-                          $.indexSet(destinationData, offsetLoop, $.tdiv(sum, weightY));
-                          if (typeof width4 !== 'number')
-                            throw $.iae(width4);
-                          offsetLoop += width4;
-                          var t1 = buffer[y & 1023];
-                          if (typeof t1 !== 'number')
-                            throw $.iae(t1);
-                          t1 = 2 * t1;
-                          if (typeof radiusY !== 'number')
-                            throw $.iae(radiusY);
-                          var t2 = buffer[y - radiusY & 1023];
-                          if (typeof t2 !== 'number')
-                            throw $.iae(t2);
-                          dif -= t1 - t2;
-                        } else {
-                          if (typeof radiusY !== 'number')
-                            throw $.iae(radiusY);
-                          if (y + radiusY >= 0) {
-                            t1 = buffer[y & 1023];
-                            if (typeof t1 !== 'number')
-                              throw $.iae(t1);
-                            dif -= 2 * t1;
-                          }
-                        }
-                        if (typeof radiusY !== 'number')
-                          throw $.iae(radiusY);
-                        var ty = y + radiusY;
-                        if (ty < 0)
-                          var ty0 = 0;
-                        else
-                          ty0 = $.geB(ty, height) ? $.sub(height, 1) : ty;
-                        t1 = ty & 1023;
-                        t2 = $.mul(ty0, width4);
-                        if (typeof t2 !== 'number')
-                          throw $.iae(t2);
-                        var t3 = $.index(sourceData, offsetBase + t2);
-                        buffer[t1] = t3;
-                        if (typeof t3 !== 'number')
-                          throw $.iae(t3);
-                        dif += t3;
-                        sum = $.add(sum, dif);
-                      }
-                      ++x;
-                  }
-              y = 0;
-            case 8:
-              L2:
-                while (true)
-                  switch (state) {
-                    case 0:
-                      if (!$.ltB(y, height))
-                        break L2;
-                      sum = $.shr(weightX, 1);
-                      if (typeof width4 !== 'number')
-                        throw $.iae(width4);
-                      offsetBase = y * width4 + z;
-                      if (typeof rx2 !== 'number')
-                        throw $.iae(rx2);
-                      x = 0 - rx2;
-                    case 8:
-                      state = 0;
-                      offsetLoop = offsetBase;
-                      dif = 0;
-                      for (; $.ltB(x, width); ++x) {
-                        if (x >= 0) {
-                          $.indexSet(destinationData, offsetLoop, $.tdiv(sum, weightX));
-                          offsetLoop += 4;
-                          t1 = buffer[x & 1023];
-                          if (typeof t1 !== 'number')
-                            throw $.iae(t1);
-                          t1 = 2 * t1;
-                          if (typeof radiusX !== 'number')
-                            throw $.iae(radiusX);
-                          t2 = buffer[x - radiusX & 1023];
-                          if (typeof t2 !== 'number')
-                            throw $.iae(t2);
-                          dif -= t1 - t2;
-                        } else {
-                          if (typeof radiusX !== 'number')
-                            throw $.iae(radiusX);
-                          if (x + radiusX >= 0) {
-                            t1 = buffer[x & 1023];
-                            if (typeof t1 !== 'number')
-                              throw $.iae(t1);
-                            dif -= 2 * t1;
-                          }
-                        }
-                        if (typeof radiusX !== 'number')
-                          throw $.iae(radiusX);
-                        var tx = x + radiusX;
-                        if (tx < 0)
-                          var tx0 = 0;
-                        else
-                          tx0 = $.geB(tx, width) ? $.sub(width, 1) : tx;
-                        t1 = tx & 1023;
-                        t2 = $.shl(tx0, 2);
-                        if (typeof t2 !== 'number')
-                          throw $.iae(t2);
-                        t3 = $.index(destinationData, offsetBase + t2);
-                        buffer[t1] = t3;
-                        if (typeof t3 !== 'number')
-                          throw $.iae(t3);
-                        dif += t3;
-                        sum = $.add(sum, dif);
-                      }
-                      ++y;
-                  }
-              ++z;
-          }
-      destinationContext.putImageData$3(destinationImageData, destinationPoint.x, destinationPoint.y);
-  }
-},
- _applyMedium$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
-  var sourceImageData = sourceBitmapData._getContext$0().getImageData$4(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
-  var sourceData = sourceImageData.get$data();
-  if (typeof sourceData !== 'string' && (typeof sourceData !== 'object' || sourceData === null || sourceData.constructor !== Array && !sourceData.is$JavaScriptIndexingBehavior()))
-    return this._applyMedium$4$bailout(1, destinationBitmapData, destinationPoint, sourceImageData, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var destinationContext = destinationBitmapData._getContext$0();
-  var destinationImageData = destinationContext.createImageData$2(sourceImageData.get$width(), sourceImageData.get$height());
-  var destinationData = destinationImageData.get$data();
-  if (typeof destinationData !== 'object' || destinationData === null || (destinationData.constructor !== Array || !!destinationData.immutable$list) && !destinationData.is$JavaScriptIndexingBehavior())
-    return this._applyMedium$4$bailout(2, destinationImageData, destinationData, destinationPoint, sourceImageData, sourceData, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var width = sourceImageData.get$width();
-  if (width !== (width | 0))
-    return this._applyMedium$4$bailout(3, destinationImageData, destinationData, width, destinationPoint, sourceImageData, sourceData, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var height = sourceImageData.get$height();
-  if (typeof height !== 'number')
-    return this._applyMedium$4$bailout(4, destinationImageData, destinationData, width, destinationPoint, height, sourceData, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var t5 = this.blurX;
-  if (typeof t5 !== 'number')
-    throw $.iae(t5);
-  var radiusX = $.toInt($.sqrt(4 * t5 * t5 + 1));
-  if (typeof radiusX !== 'number')
-    return this._applyMedium$4$bailout(5, destinationImageData, radiusX, destinationData, destinationPoint, height, width, sourceData, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var t7 = this.blurY;
-  if (typeof t7 !== 'number')
-    throw $.iae(t7);
-  var radiusY = $.toInt($.sqrt(4 * t7 * t7 + 1));
-  if (typeof radiusY !== 'number')
-    return this._applyMedium$4$bailout(6, destinationImageData, radiusX, destinationData, destinationPoint, height, width, sourceData, radiusY, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var weightX = radiusX * radiusX * radiusX;
-  var weightY = radiusY * radiusY * radiusY;
-  var width4 = width * 4;
-  var rx2 = radiusX * 2;
-  var rx3 = radiusX * 3;
-  var ry2 = radiusY * 2;
-  var ry3 = radiusY * 3;
-  var rx3h = $.toInt($.round(rx3 / 2));
-  var ry3h = $.toInt($.round(ry3 / 2));
-  var buffer = $.ListImplementation_List(1024);
-  for (var y = 0 - ry3, t1 = destinationData.length, ty = height - 1, t2 = sourceData.length, x = 0 - rx3, tx = width - 1, z = 0; z < 4; ++z) {
-    for (var x0 = 0; x0 < width; ++x0) {
-      var offsetBase = x0 * 4 + z;
-      if (y !== (y | 0))
-        return this._applyMedium$4$bailout(7, ry3, destinationPoint, rx3h, x0, sourceData, ry3h, destinationContext, buffer, destinationData, width, height, destinationImageData, offsetBase, z, radiusX, y, width4, rx3, radiusY, weightX, weightY, rx2, ry2);
-      var offsetLoop = offsetBase;
-      var y0 = y;
-      var der = 0;
-      var sum = 0;
-      var dif = 0;
-      for (; y0 < height; ++y0) {
-        if (y0 >= 0) {
-          var t3 = $.tdiv(sum, weightY);
-          if (offsetLoop !== (offsetLoop | 0))
-            throw $.iae(offsetLoop);
-          if (offsetLoop < 0 || offsetLoop >= t1)
-            throw $.ioore(offsetLoop);
-          destinationData[offsetLoop] = t3;
-          offsetLoop += width4;
-          t3 = buffer[y0 + radiusY & 1023];
-          if (typeof t3 !== 'number')
-            throw $.iae(t3);
-          t3 = 3 * t3;
-          var t4 = buffer[y0 & 1023];
-          if (typeof t4 !== 'number')
-            throw $.iae(t4);
-          t3 -= 3 * t4;
-          t5 = buffer[y0 - radiusY & 1023];
-          if (typeof t5 !== 'number')
-            throw $.iae(t5);
-          dif -= t3 + t5;
-        } else {
-          t3 = y0 + radiusY;
-          if (t3 >= 0) {
-            t4 = buffer[t3 & 1023];
-            if (typeof t4 !== 'number')
-              throw $.iae(t4);
-            t4 = 3 * t4;
-            t5 = buffer[y0 & 1023];
-            if (typeof t5 !== 'number')
-              throw $.iae(t5);
-            dif -= t4 - 3 * t5;
-          } else if (y0 + ry2 >= 0) {
-            t4 = buffer[t3 & 1023];
-            if (typeof t4 !== 'number')
-              throw $.iae(t4);
-            dif -= 3 * t4;
-          }
-        }
-        if (typeof ry3h !== 'number')
-          throw $.iae(ry3h);
-        var ty0 = y0 + ry3h;
-        if (ty0 < 0)
-          ty0 = 0;
-        else if (ty0 >= height)
-          ty0 = ty;
-        t3 = y0 + ry2 & 1023;
-        t4 = offsetBase + ty0 * width4;
-        if (t4 !== (t4 | 0))
-          throw $.iae(t4);
-        if (t4 < 0 || t4 >= t2)
-          throw $.ioore(t4);
-        t4 = sourceData[t4];
-        buffer[t3] = t4;
-        if (typeof t4 !== 'number')
-          throw $.iae(t4);
-        dif += t4;
-        der += dif;
-        sum += der;
-      }
-    }
-    for (y0 = 0; y0 < height; ++y0) {
-      offsetBase = y0 * width4 + z;
-      if (x !== (x | 0))
-        return this._applyMedium$4$bailout(8, z, radiusX, offsetBase, y0, x, rx3h, width4, buffer, rx3, weightX, width, destinationData, height, rx2, ry3, 0, 0, 0, 0, 0, 0, 0, 0);
-      offsetLoop = offsetBase;
-      x0 = x;
-      der = 0;
-      sum = 0;
-      dif = 0;
-      for (; x0 < width; ++x0) {
-        if (x0 >= 0) {
-          t3 = $.tdiv(sum, weightX);
-          if (offsetLoop !== (offsetLoop | 0))
-            throw $.iae(offsetLoop);
-          if (offsetLoop < 0 || offsetLoop >= t1)
-            throw $.ioore(offsetLoop);
-          destinationData[offsetLoop] = t3;
-          offsetLoop += 4;
-          t3 = buffer[x0 + radiusX & 1023];
-          if (typeof t3 !== 'number')
-            throw $.iae(t3);
-          t3 = 3 * t3;
-          t4 = buffer[x0 & 1023];
-          if (typeof t4 !== 'number')
-            throw $.iae(t4);
-          t3 -= 3 * t4;
-          t5 = buffer[x0 - radiusX & 1023];
-          if (typeof t5 !== 'number')
-            throw $.iae(t5);
-          dif -= t3 + t5;
-        } else {
-          t3 = x0 + radiusX;
-          if (t3 >= 0) {
-            t4 = buffer[t3 & 1023];
-            if (typeof t4 !== 'number')
-              throw $.iae(t4);
-            t4 = 3 * t4;
-            t5 = buffer[x0 & 1023];
-            if (typeof t5 !== 'number')
-              throw $.iae(t5);
-            dif -= t4 - 3 * t5;
-          } else if (x0 + rx2 >= 0) {
-            t4 = buffer[t3 & 1023];
-            if (typeof t4 !== 'number')
-              throw $.iae(t4);
-            dif -= 3 * t4;
-          }
-        }
-        if (typeof rx3h !== 'number')
-          throw $.iae(rx3h);
-        var tx0 = x0 + rx3h;
-        if (tx0 < 0)
-          tx0 = 0;
-        else if (tx0 >= width)
-          tx0 = tx;
-        t3 = x0 + rx2 & 1023;
-        t4 = offsetBase + (tx0 << 2 >>> 0);
-        if (t4 !== (t4 | 0))
-          throw $.iae(t4);
-        if (t4 < 0 || t4 >= t1)
-          throw $.ioore(t4);
-        t4 = destinationData[t4];
-        buffer[t3] = t4;
-        if (typeof t4 !== 'number')
-          throw $.iae(t4);
-        dif += t4;
-        der += dif;
-        sum += der;
-      }
-    }
-  }
-  destinationContext.putImageData$3(destinationImageData, destinationPoint.x, destinationPoint.y);
-},
- _applyMedium$4$bailout: function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13, env14, env15, env16, env17, env18, env19, env20, env21, env22) {
-  switch (state) {
-    case 1:
-      var destinationBitmapData = env0;
-      var destinationPoint = env1;
-      sourceImageData = env2;
-      sourceData = env3;
-      break;
-    case 2:
-      destinationImageData = env0;
-      destinationData = env1;
-      destinationPoint = env2;
-      sourceImageData = env3;
-      sourceData = env4;
-      destinationContext = env5;
-      break;
-    case 3:
-      destinationImageData = env0;
-      destinationData = env1;
-      width = env2;
-      destinationPoint = env3;
-      sourceImageData = env4;
-      sourceData = env5;
-      destinationContext = env6;
-      break;
-    case 4:
-      destinationImageData = env0;
-      destinationData = env1;
-      width = env2;
-      destinationPoint = env3;
-      height = env4;
-      sourceData = env5;
-      destinationContext = env6;
-      break;
-    case 5:
-      destinationImageData = env0;
-      radiusX = env1;
-      destinationData = env2;
-      destinationPoint = env3;
-      height = env4;
-      width = env5;
-      sourceData = env6;
-      destinationContext = env7;
-      break;
-    case 6:
-      destinationImageData = env0;
-      radiusX = env1;
-      destinationData = env2;
-      destinationPoint = env3;
-      height = env4;
-      width = env5;
-      sourceData = env6;
-      radiusY = env7;
-      destinationContext = env8;
-      break;
-    case 7:
-      ry3 = env0;
-      destinationPoint = env1;
-      rx3h = env2;
-      x = env3;
-      sourceData = env4;
-      ry3h = env5;
-      destinationContext = env6;
-      buffer = env7;
-      destinationData = env8;
-      width = env9;
-      height = env10;
-      destinationImageData = env11;
-      offsetBase = env12;
-      z = env13;
-      radiusX = env14;
-      y = env15;
-      width4 = env16;
-      rx3 = env17;
-      radiusY = env18;
-      weightX = env19;
-      weightY = env20;
-      rx2 = env21;
-      ry2 = env22;
-      break;
-    case 8:
-      z = env0;
-      radiusX = env1;
-      offsetBase = env2;
-      y = env3;
-      x = env4;
-      rx3h = env5;
-      width4 = env6;
-      buffer = env7;
-      rx3 = env8;
-      weightX = env9;
-      width = env10;
-      destinationData = env11;
-      height = env12;
-      rx2 = env13;
-      ry3 = env14;
-      break;
-  }
-  switch (state) {
-    case 0:
-      var sourceImageData = sourceBitmapData._getContext$0().getImageData$4(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
-      var sourceData = sourceImageData.get$data();
-    case 1:
-      state = 0;
-      var destinationContext = destinationBitmapData._getContext$0();
-      var destinationImageData = destinationContext.createImageData$2(sourceImageData.get$width(), sourceImageData.get$height());
-      var destinationData = destinationImageData.get$data();
-    case 2:
-      state = 0;
-      var width = sourceImageData.get$width();
-    case 3:
-      state = 0;
-      var height = sourceImageData.get$height();
-    case 4:
-      state = 0;
-      var t5 = this.blurX;
-      if (typeof t5 !== 'number')
-        throw $.iae(t5);
-      var radiusX = $.toInt($.sqrt(4 * t5 * t5 + 1));
-    case 5:
-      state = 0;
-      var t7 = this.blurY;
-      if (typeof t7 !== 'number')
-        throw $.iae(t7);
-      var radiusY = $.toInt($.sqrt(4 * t7 * t7 + 1));
-    case 6:
-      state = 0;
-      var weightX = $.mul($.mul(radiusX, radiusX), radiusX);
-      var weightY = $.mul($.mul(radiusY, radiusY), radiusY);
-      var width4 = $.mul(width, 4);
-      var rx2 = $.mul(radiusX, 2);
-      var rx3 = $.mul(radiusX, 3);
-      var ry2 = $.mul(radiusY, 2);
-      var ry3 = $.mul(radiusY, 3);
-      var rx3h = $.toInt($.round($.div(rx3, 2)));
-      var ry3h = $.toInt($.round($.div(ry3, 2)));
-      var buffer = $.ListImplementation_List(1024);
-      var z = 0;
-    default:
-      L0:
-        while (true)
-          switch (state) {
-            case 0:
-              if (!(z < 4))
-                break L0;
-              var x = 0;
-            case 7:
-              L1:
-                while (true)
-                  switch (state) {
-                    case 0:
-                      if (!$.ltB(x, width))
-                        break L1;
-                      var offsetBase = x * 4 + z;
-                      if (typeof ry3 !== 'number')
-                        throw $.iae(ry3);
-                      var y = 0 - ry3;
-                    case 7:
-                      state = 0;
-                      var offsetLoop = offsetBase;
-                      var der = 0;
-                      var sum = 0;
-                      var dif = 0;
-                      for (; $.ltB(y, height); ++y) {
-                        if (y >= 0) {
-                          if (typeof weightY !== 'number')
-                            throw $.iae(weightY);
-                          $.indexSet(destinationData, offsetLoop, $.tdiv(sum, weightY));
-                          if (typeof width4 !== 'number')
-                            throw $.iae(width4);
-                          offsetLoop += width4;
-                          if (typeof radiusY !== 'number')
-                            throw $.iae(radiusY);
-                          var t1 = buffer[y + radiusY & 1023];
-                          if (typeof t1 !== 'number')
-                            throw $.iae(t1);
-                          t1 = 3 * t1;
-                          var t2 = buffer[y & 1023];
-                          if (typeof t2 !== 'number')
-                            throw $.iae(t2);
-                          t1 -= 3 * t2;
-                          var t3 = buffer[y - radiusY & 1023];
-                          if (typeof t3 !== 'number')
-                            throw $.iae(t3);
-                          dif -= t1 + t3;
-                        } else {
-                          if (typeof radiusY !== 'number')
-                            throw $.iae(radiusY);
-                          t1 = y + radiusY;
-                          if (t1 >= 0) {
-                            t2 = buffer[t1 & 1023];
-                            if (typeof t2 !== 'number')
-                              throw $.iae(t2);
-                            t2 = 3 * t2;
-                            t3 = buffer[y & 1023];
-                            if (typeof t3 !== 'number')
-                              throw $.iae(t3);
-                            dif -= t2 - 3 * t3;
-                          } else {
-                            if (typeof ry2 !== 'number')
-                              throw $.iae(ry2);
-                            if (y + ry2 >= 0) {
-                              t2 = buffer[t1 & 1023];
-                              if (typeof t2 !== 'number')
-                                throw $.iae(t2);
-                              dif -= 3 * t2;
-                            }
-                          }
-                        }
-                        if (typeof ry3h !== 'number')
-                          throw $.iae(ry3h);
-                        var ty = y + ry3h;
-                        if (ty < 0)
-                          ty = 0;
-                        else if ($.geB(ty, height))
-                          ty = $.sub(height, 1);
-                        if (typeof ry2 !== 'number')
-                          throw $.iae(ry2);
-                        t1 = y + ry2 & 1023;
-                        t2 = $.mul(ty, width4);
-                        if (typeof t2 !== 'number')
-                          throw $.iae(t2);
-                        t3 = $.index(sourceData, offsetBase + t2);
-                        buffer[t1] = t3;
-                        if (typeof t3 !== 'number')
-                          throw $.iae(t3);
-                        dif += t3;
-                        der += dif;
-                        sum += der;
-                      }
-                      ++x;
-                  }
-              y = 0;
-            case 8:
-              L2:
-                while (true)
-                  switch (state) {
-                    case 0:
-                      if (!$.ltB(y, height))
-                        break L2;
-                      if (typeof width4 !== 'number')
-                        throw $.iae(width4);
-                      offsetBase = y * width4 + z;
-                      if (typeof rx3 !== 'number')
-                        throw $.iae(rx3);
-                      x = 0 - rx3;
-                    case 8:
-                      state = 0;
-                      offsetLoop = offsetBase;
-                      der = 0;
-                      sum = 0;
-                      dif = 0;
-                      for (; $.ltB(x, width); ++x) {
-                        if (x >= 0) {
-                          if (typeof weightX !== 'number')
-                            throw $.iae(weightX);
-                          $.indexSet(destinationData, offsetLoop, $.tdiv(sum, weightX));
-                          offsetLoop += 4;
-                          if (typeof radiusX !== 'number')
-                            throw $.iae(radiusX);
-                          t1 = buffer[x + radiusX & 1023];
-                          if (typeof t1 !== 'number')
-                            throw $.iae(t1);
-                          t1 = 3 * t1;
-                          t2 = buffer[x & 1023];
-                          if (typeof t2 !== 'number')
-                            throw $.iae(t2);
-                          t1 -= 3 * t2;
-                          t3 = buffer[x - radiusX & 1023];
-                          if (typeof t3 !== 'number')
-                            throw $.iae(t3);
-                          dif -= t1 + t3;
-                        } else {
-                          if (typeof radiusX !== 'number')
-                            throw $.iae(radiusX);
-                          t1 = x + radiusX;
-                          if (t1 >= 0) {
-                            t2 = buffer[t1 & 1023];
-                            if (typeof t2 !== 'number')
-                              throw $.iae(t2);
-                            t2 = 3 * t2;
-                            t3 = buffer[x & 1023];
-                            if (typeof t3 !== 'number')
-                              throw $.iae(t3);
-                            dif -= t2 - 3 * t3;
-                          } else {
-                            if (typeof rx2 !== 'number')
-                              throw $.iae(rx2);
-                            if (x + rx2 >= 0) {
-                              t2 = buffer[t1 & 1023];
-                              if (typeof t2 !== 'number')
-                                throw $.iae(t2);
-                              dif -= 3 * t2;
-                            }
-                          }
-                        }
-                        if (typeof rx3h !== 'number')
-                          throw $.iae(rx3h);
-                        var tx = x + rx3h;
-                        if (tx < 0)
-                          tx = 0;
-                        else if ($.geB(tx, width))
-                          tx = $.sub(width, 1);
-                        if (typeof rx2 !== 'number')
-                          throw $.iae(rx2);
-                        t1 = x + rx2 & 1023;
-                        t2 = $.shl(tx, 2);
-                        if (typeof t2 !== 'number')
-                          throw $.iae(t2);
-                        t3 = $.index(destinationData, offsetBase + t2);
-                        buffer[t1] = t3;
-                        if (typeof t3 !== 'number')
-                          throw $.iae(t3);
-                        dif += t3;
-                        der += dif;
-                        sum += der;
-                      }
-                      ++y;
-                  }
-              ++z;
-          }
-      destinationContext.putImageData$3(destinationImageData, destinationPoint.x, destinationPoint.y);
-  }
-},
- _applyHigh$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
-  var sourceImageData = sourceBitmapData._getContext$0().getImageData$4(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
-  var sourceData = sourceImageData.get$data();
-  if (typeof sourceData !== 'string' && (typeof sourceData !== 'object' || sourceData === null || sourceData.constructor !== Array && !sourceData.is$JavaScriptIndexingBehavior()))
-    return this._applyHigh$4$bailout(1, destinationBitmapData, destinationPoint, sourceImageData, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var destinationContext = destinationBitmapData._getContext$0();
-  var destinationImageData = destinationContext.createImageData$2(sourceImageData.get$width(), sourceImageData.get$height());
-  var destinationData = destinationImageData.get$data();
-  if (typeof destinationData !== 'object' || destinationData === null || (destinationData.constructor !== Array || !!destinationData.immutable$list) && !destinationData.is$JavaScriptIndexingBehavior())
-    return this._applyHigh$4$bailout(2, destinationImageData, destinationData, destinationPoint, sourceImageData, sourceData, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var width = sourceImageData.get$width();
-  if (width !== (width | 0))
-    return this._applyHigh$4$bailout(3, destinationImageData, destinationData, width, destinationPoint, sourceImageData, sourceData, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var height = sourceImageData.get$height();
-  if (typeof height !== 'number')
-    return this._applyHigh$4$bailout(4, destinationImageData, destinationData, width, destinationPoint, height, sourceData, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var t5 = this.blurX;
-  if (typeof t5 !== 'number')
-    throw $.iae(t5);
-  var radiusX = $.toInt($.sqrt(3 * t5 * t5 + 1));
-  if (typeof radiusX !== 'number')
-    return this._applyHigh$4$bailout(5, destinationImageData, radiusX, destinationData, destinationPoint, height, width, sourceData, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var t7 = this.blurY;
-  if (typeof t7 !== 'number')
-    throw $.iae(t7);
-  var radiusY = $.toInt($.sqrt(3 * t7 * t7 + 1));
-  if (typeof radiusY !== 'number')
-    return this._applyHigh$4$bailout(6, destinationImageData, radiusX, destinationData, destinationPoint, height, width, sourceData, radiusY, destinationContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var weightX = radiusX * radiusX * radiusX * radiusX;
-  var weightY = radiusY * radiusY * radiusY * radiusY;
-  var width4 = width * 4;
-  var rx2 = radiusX * 2;
-  var rx3 = radiusX * 3;
-  var rx4 = radiusX * 4;
-  var ry2 = radiusY * 2;
-  var ry3 = radiusY * 3;
-  var ry4 = radiusY * 4;
-  var buffer = $.ListImplementation_List(1024);
-  for (var y = 0 - ry4, t1 = destinationData.length, ty = height - 1, t2 = sourceData.length, x = 0 - rx4, tx = width - 1, z = 0; z < 4; ++z) {
-    for (var x0 = 0; x0 < width; ++x0) {
-      var offsetBase = x0 * 4 + z;
-      if (y !== (y | 0))
-        return this._applyHigh$4$bailout(7, rx3, destinationPoint, ry2, ry3, x0, sourceData, buffer, destinationContext, destinationImageData, destinationData, width, height, rx4, offsetBase, z, y, radiusX, width4, radiusY, weightX, weightY, ry4, rx2);
-      var offsetLoop = offsetBase;
-      var y0 = y;
-      var sum = 0;
-      var dif = 0;
-      var der1 = 0;
-      var der2 = 0;
-      for (; y0 < height; ++y0) {
-        if (y0 >= 0) {
-          var t3 = $.tdiv(sum, weightY);
-          if (offsetLoop !== (offsetLoop | 0))
-            throw $.iae(offsetLoop);
-          if (offsetLoop < 0 || offsetLoop >= t1)
-            throw $.ioore(offsetLoop);
-          destinationData[offsetLoop] = t3;
-          offsetLoop += width4;
-          t3 = buffer[y0 + radiusY & 1023];
-          if (typeof t3 !== 'number')
-            throw $.iae(t3);
-          t3 = 4 * t3;
-          var t4 = buffer[y0 & 1023];
-          if (typeof t4 !== 'number')
-            throw $.iae(t4);
-          t3 -= 6 * t4;
-          t5 = buffer[y0 - radiusY & 1023];
-          if (typeof t5 !== 'number')
-            throw $.iae(t5);
-          t3 += 4 * t5;
-          var t6 = buffer[y0 - ry2 & 1023];
-          if (typeof t6 !== 'number')
-            throw $.iae(t6);
-          dif -= t3 - t6;
-        } else {
-          t3 = y0 + radiusY;
-          if (t3 >= 0) {
-            t4 = buffer[t3 & 1023];
-            if (typeof t4 !== 'number')
-              throw $.iae(t4);
-            t4 = 4 * t4;
-            t5 = buffer[y0 & 1023];
-            if (typeof t5 !== 'number')
-              throw $.iae(t5);
-            t4 -= 6 * t5;
-            t6 = buffer[y0 - radiusY & 1023];
+      for (var rx1 = t4, z = 0; z < 4; ++z)
+        for (var x = 0; $.ltB(x, sourceWidth); ++x) {
+          var sum = $.shr(weightY, 1);
+          var offsetSource = x * 4 + z;
+          if (typeof rx1 !== 'number')
+            throw $.iae(rx1);
+          var offsetDestination = (x + rx1) * 4 + z;
+          for (var y = 0, dif = 0; $.ltB(y, destinationHeight); ++y) {
+            $.indexSet(destinationData, offsetDestination, $.tdiv(sum, weightY));
+            if (typeof destinationWidth4 !== 'number')
+              throw $.iae(destinationWidth4);
+            offsetDestination += destinationWidth4;
+            if ($.geB(y, ry2)) {
+              var t1 = buffer[y & 1023];
+              if (typeof t1 !== 'number')
+                throw $.iae(t1);
+              t1 = 2 * t1;
+              if (typeof t6 !== 'number')
+                throw $.iae(t6);
+              var t2 = buffer[y - t6 & 1023];
+              if (typeof t2 !== 'number')
+                throw $.iae(t2);
+              dif -= t1 - t2;
+            } else if ($.geB(y, t6)) {
+              t1 = buffer[y & 1023];
+              if (typeof t1 !== 'number')
+                throw $.iae(t1);
+              dif -= 2 * t1;
+            }
+            var alpha = $.ltB(y, sourceHeight) ? $.index(sourceData, offsetSource) : 0;
             if (typeof t6 !== 'number')
               throw $.iae(t6);
-            dif -= t4 + 4 * t6;
-          } else if (y0 + ry2 >= 0) {
-            t4 = buffer[t3 & 1023];
-            if (typeof t4 !== 'number')
-              throw $.iae(t4);
-            t4 = 4 * t4;
-            t5 = buffer[y0 & 1023];
-            if (typeof t5 !== 'number')
-              throw $.iae(t5);
-            dif -= t4 - 6 * t5;
-          } else if (y0 + ry3 >= 0) {
-            t4 = buffer[t3 & 1023];
-            if (typeof t4 !== 'number')
-              throw $.iae(t4);
-            dif -= 4 * t4;
+            buffer[y + t6 & 1023] = alpha;
+            if (typeof alpha !== 'number')
+              throw $.iae(alpha);
+            dif += alpha;
+            sum = $.add(sum, dif);
+            if (typeof sourceWidth4 !== 'number')
+              throw $.iae(sourceWidth4);
+            offsetSource += sourceWidth4;
           }
         }
-        t3 = y0 + ry2;
-        var ty0 = t3 - 1;
-        if (ty0 < 0)
-          ty0 = 0;
-        else if (ty0 >= height)
-          ty0 = ty;
-        t3 &= 1023;
-        t4 = offsetBase + ty0 * width4;
-        if (t4 !== (t4 | 0))
-          throw $.iae(t4);
-        if (t4 < 0 || t4 >= t2)
-          throw $.ioore(t4);
-        t4 = sourceData[t4];
-        buffer[t3] = t4;
-        if (typeof t4 !== 'number')
-          throw $.iae(t4);
-        dif += t4;
-        der2 += dif;
-        der1 += der2;
-        sum += der1;
-      }
-    }
-    for (y0 = 0; y0 < height; ++y0) {
-      offsetBase = y0 * width4 + z;
-      if (x !== (x | 0))
-        return this._applyHigh$4$bailout(8, rx3, width4, destinationPoint, ry2, ry3, buffer, sourceData, destinationContext, destinationImageData, destinationData, width, height, offsetBase, x, z, radiusX, radiusY, weightX, y0, weightY, rx4, ry4, rx2);
-      x0 = x;
-      offsetLoop = offsetBase;
-      sum = 0;
-      dif = 0;
-      der1 = 0;
-      der2 = 0;
-      for (; x0 < width; ++x0) {
-        if (x0 >= 0) {
-          t3 = $.tdiv(sum, weightX);
-          if (offsetLoop !== (offsetLoop | 0))
-            throw $.iae(offsetLoop);
-          if (offsetLoop < 0 || offsetLoop >= t1)
-            throw $.ioore(offsetLoop);
-          destinationData[offsetLoop] = t3;
-          offsetLoop += 4;
-          t3 = buffer[x0 + radiusX & 1023];
-          if (typeof t3 !== 'number')
-            throw $.iae(t3);
-          t3 = 4 * t3;
-          t4 = buffer[x0 & 1023];
-          if (typeof t4 !== 'number')
-            throw $.iae(t4);
-          t3 -= 6 * t4;
-          t5 = buffer[x0 - radiusX & 1023];
-          if (typeof t5 !== 'number')
-            throw $.iae(t5);
-          t3 += 4 * t5;
-          t6 = buffer[x0 - rx2 & 1023];
-          if (typeof t6 !== 'number')
-            throw $.iae(t6);
-          dif -= t3 - t6;
-        } else {
-          t3 = x0 + radiusX;
-          if (t3 >= 0) {
-            t4 = buffer[t3 & 1023];
-            if (typeof t4 !== 'number')
-              throw $.iae(t4);
-            t4 = 4 * t4;
-            t5 = buffer[x0 & 1023];
-            if (typeof t5 !== 'number')
-              throw $.iae(t5);
-            t4 -= 6 * t5;
-            t6 = buffer[x0 - radiusX & 1023];
-            if (typeof t6 !== 'number')
-              throw $.iae(t6);
-            dif -= t4 + 4 * t6;
-          } else if (x0 + rx2 >= 0) {
-            t4 = buffer[t3 & 1023];
-            if (typeof t4 !== 'number')
-              throw $.iae(t4);
-            t4 = 4 * t4;
-            t5 = buffer[x0 & 1023];
-            if (typeof t5 !== 'number')
-              throw $.iae(t5);
-            dif -= t4 - 6 * t5;
-          } else if (x0 + rx3 >= 0) {
-            t4 = buffer[t3 & 1023];
-            if (typeof t4 !== 'number')
-              throw $.iae(t4);
-            dif -= 4 * t4;
+      for (z = 0; z < 4; ++z)
+        for (y = 0; $.ltB(y, destinationHeight); ++y) {
+          sum = $.shr(weightX, 1);
+          if (typeof destinationWidth4 !== 'number')
+            throw $.iae(destinationWidth4);
+          t1 = y * destinationWidth4;
+          t2 = $.mul(rx1, 4);
+          if (typeof t2 !== 'number')
+            throw $.iae(t2);
+          offsetSource = t1 + t2 + z;
+          offsetDestination = t1 + z;
+          for (dif = 0, x = 0; $.ltB(x, destinationWidth); ++x) {
+            $.indexSet(destinationData, offsetDestination, $.tdiv(sum, weightX));
+            offsetDestination += 4;
+            if ($.geB(x, rx2)) {
+              t1 = buffer[x & 1023];
+              if (typeof t1 !== 'number')
+                throw $.iae(t1);
+              t1 = 2 * t1;
+              if (typeof rx1 !== 'number')
+                throw $.iae(rx1);
+              t2 = buffer[x - rx1 & 1023];
+              if (typeof t2 !== 'number')
+                throw $.iae(t2);
+              dif -= t1 - t2;
+            } else if ($.geB(x, rx1)) {
+              t1 = buffer[x & 1023];
+              if (typeof t1 !== 'number')
+                throw $.iae(t1);
+              dif -= 2 * t1;
+            }
+            alpha = $.ltB(x, sourceWidth) ? $.index(destinationData, offsetSource) : 0;
+            if (typeof rx1 !== 'number')
+              throw $.iae(rx1);
+            buffer[x + rx1 & 1023] = alpha;
+            if (typeof alpha !== 'number')
+              throw $.iae(alpha);
+            dif += alpha;
+            sum = $.add(sum, dif);
+            offsetSource += 4;
           }
         }
-        t3 = x0 + rx2;
-        var tx0 = t3 - 1;
-        if (tx0 < 0)
-          tx0 = 0;
-        else if (tx0 >= width)
-          tx0 = tx;
-        t3 &= 1023;
-        t4 = offsetBase + (tx0 << 2 >>> 0);
-        if (t4 !== (t4 | 0))
-          throw $.iae(t4);
-        if (t4 < 0 || t4 >= t1)
-          throw $.ioore(t4);
-        t4 = destinationData[t4];
-        buffer[t3] = t4;
-        if (typeof t4 !== 'number')
-          throw $.iae(t4);
-        dif += t4;
-        der2 += dif;
-        der1 += der2;
-        sum += der1;
-      }
-    }
-  }
-  destinationContext.putImageData$3(destinationImageData, destinationPoint.x, destinationPoint.y);
-},
- _applyHigh$4$bailout: function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13, env14, env15, env16, env17, env18, env19, env20, env21, env22) {
-  switch (state) {
-    case 1:
-      var destinationBitmapData = env0;
-      var destinationPoint = env1;
-      sourceImageData = env2;
-      sourceData = env3;
-      break;
-    case 2:
-      destinationImageData = env0;
-      destinationData = env1;
-      destinationPoint = env2;
-      sourceImageData = env3;
-      sourceData = env4;
-      destinationContext = env5;
-      break;
-    case 3:
-      destinationImageData = env0;
-      destinationData = env1;
-      width = env2;
-      destinationPoint = env3;
-      sourceImageData = env4;
-      sourceData = env5;
-      destinationContext = env6;
-      break;
-    case 4:
-      destinationImageData = env0;
-      destinationData = env1;
-      width = env2;
-      destinationPoint = env3;
-      height = env4;
-      sourceData = env5;
-      destinationContext = env6;
-      break;
-    case 5:
-      destinationImageData = env0;
-      radiusX = env1;
-      destinationData = env2;
-      destinationPoint = env3;
-      height = env4;
-      width = env5;
-      sourceData = env6;
-      destinationContext = env7;
-      break;
-    case 6:
-      destinationImageData = env0;
-      radiusX = env1;
-      destinationData = env2;
-      destinationPoint = env3;
-      height = env4;
-      width = env5;
-      sourceData = env6;
-      radiusY = env7;
-      destinationContext = env8;
-      break;
-    case 7:
-      rx3 = env0;
-      destinationPoint = env1;
-      ry2 = env2;
-      ry3 = env3;
-      x = env4;
-      sourceData = env5;
-      buffer = env6;
-      destinationContext = env7;
-      destinationImageData = env8;
-      destinationData = env9;
-      width = env10;
-      height = env11;
-      rx4 = env12;
-      offsetBase = env13;
-      z = env14;
-      y = env15;
-      radiusX = env16;
-      width4 = env17;
-      radiusY = env18;
-      weightX = env19;
-      weightY = env20;
-      ry4 = env21;
-      rx2 = env22;
-      break;
-    case 8:
-      rx3 = env0;
-      width4 = env1;
-      destinationPoint = env2;
-      ry2 = env3;
-      ry3 = env4;
-      buffer = env5;
-      sourceData = env6;
-      destinationContext = env7;
-      destinationImageData = env8;
-      destinationData = env9;
-      width = env10;
-      height = env11;
-      offsetBase = env12;
-      x = env13;
-      z = env14;
-      radiusX = env15;
-      radiusY = env16;
-      weightX = env17;
-      y = env18;
-      weightY = env19;
-      rx4 = env20;
-      ry4 = env21;
-      rx2 = env22;
-      break;
-  }
-  switch (state) {
-    case 0:
-      var sourceImageData = sourceBitmapData._getContext$0().getImageData$4(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
-      var sourceData = sourceImageData.get$data();
-    case 1:
-      state = 0;
-      var destinationContext = destinationBitmapData._getContext$0();
-      var destinationImageData = destinationContext.createImageData$2(sourceImageData.get$width(), sourceImageData.get$height());
-      var destinationData = destinationImageData.get$data();
-    case 2:
-      state = 0;
-      var width = sourceImageData.get$width();
-    case 3:
-      state = 0;
-      var height = sourceImageData.get$height();
-    case 4:
-      state = 0;
-      var t5 = this.blurX;
-      if (typeof t5 !== 'number')
-        throw $.iae(t5);
-      var radiusX = $.toInt($.sqrt(3 * t5 * t5 + 1));
-    case 5:
-      state = 0;
-      var t7 = this.blurY;
-      if (typeof t7 !== 'number')
-        throw $.iae(t7);
-      var radiusY = $.toInt($.sqrt(3 * t7 * t7 + 1));
-    case 6:
-      state = 0;
-      var weightX = $.mul($.mul($.mul(radiusX, radiusX), radiusX), radiusX);
-      var weightY = $.mul($.mul($.mul(radiusY, radiusY), radiusY), radiusY);
-      var width4 = $.mul(width, 4);
-      var rx2 = $.mul(radiusX, 2);
-      var rx3 = $.mul(radiusX, 3);
-      var rx4 = $.mul(radiusX, 4);
-      var ry2 = $.mul(radiusY, 2);
-      var ry3 = $.mul(radiusY, 3);
-      var ry4 = $.mul(radiusY, 4);
-      var buffer = $.ListImplementation_List(1024);
-      var z = 0;
-    default:
-      L0:
-        while (true)
-          switch (state) {
-            case 0:
-              if (!(z < 4))
-                break L0;
-              var x = 0;
-            case 7:
-              L1:
-                while (true)
-                  switch (state) {
-                    case 0:
-                      if (!$.ltB(x, width))
-                        break L1;
-                      var offsetBase = x * 4 + z;
-                      if (typeof ry4 !== 'number')
-                        throw $.iae(ry4);
-                      var y = 0 - ry4;
-                    case 7:
-                      state = 0;
-                      var offsetLoop = offsetBase;
-                      var sum = 0;
-                      var dif = 0;
-                      var der1 = 0;
-                      var der2 = 0;
-                      for (; $.ltB(y, height); ++y) {
-                        if (y >= 0) {
-                          if (typeof weightY !== 'number')
-                            throw $.iae(weightY);
-                          $.indexSet(destinationData, offsetLoop, $.tdiv(sum, weightY));
-                          if (typeof width4 !== 'number')
-                            throw $.iae(width4);
-                          offsetLoop += width4;
-                          if (typeof radiusY !== 'number')
-                            throw $.iae(radiusY);
-                          var t1 = buffer[y + radiusY & 1023];
-                          if (typeof t1 !== 'number')
-                            throw $.iae(t1);
-                          t1 = 4 * t1;
-                          var t2 = buffer[y & 1023];
-                          if (typeof t2 !== 'number')
-                            throw $.iae(t2);
-                          t1 -= 6 * t2;
-                          var t3 = buffer[y - radiusY & 1023];
-                          if (typeof t3 !== 'number')
-                            throw $.iae(t3);
-                          t1 += 4 * t3;
-                          if (typeof ry2 !== 'number')
-                            throw $.iae(ry2);
-                          var t4 = buffer[y - ry2 & 1023];
-                          if (typeof t4 !== 'number')
-                            throw $.iae(t4);
-                          dif -= t1 - t4;
-                        } else {
-                          if (typeof radiusY !== 'number')
-                            throw $.iae(radiusY);
-                          t1 = y + radiusY;
-                          if (t1 >= 0) {
-                            t2 = buffer[t1 & 1023];
-                            if (typeof t2 !== 'number')
-                              throw $.iae(t2);
-                            t2 = 4 * t2;
-                            t3 = buffer[y & 1023];
-                            if (typeof t3 !== 'number')
-                              throw $.iae(t3);
-                            t2 -= 6 * t3;
-                            t4 = buffer[y - radiusY & 1023];
-                            if (typeof t4 !== 'number')
-                              throw $.iae(t4);
-                            dif -= t2 + 4 * t4;
-                          } else {
-                            if (typeof ry2 !== 'number')
-                              throw $.iae(ry2);
-                            if (y + ry2 >= 0) {
-                              t2 = buffer[t1 & 1023];
-                              if (typeof t2 !== 'number')
-                                throw $.iae(t2);
-                              t2 = 4 * t2;
-                              t3 = buffer[y & 1023];
-                              if (typeof t3 !== 'number')
-                                throw $.iae(t3);
-                              dif -= t2 - 6 * t3;
-                            } else {
-                              if (typeof ry3 !== 'number')
-                                throw $.iae(ry3);
-                              if (y + ry3 >= 0) {
-                                t2 = buffer[t1 & 1023];
-                                if (typeof t2 !== 'number')
-                                  throw $.iae(t2);
-                                dif -= 4 * t2;
-                              }
-                            }
-                          }
-                        }
-                        if (typeof ry2 !== 'number')
-                          throw $.iae(ry2);
-                        t1 = y + ry2;
-                        var ty = t1 - 1;
-                        if (ty < 0)
-                          ty = 0;
-                        else if ($.geB(ty, height))
-                          ty = $.sub(height, 1);
-                        t1 &= 1023;
-                        t2 = $.mul(ty, width4);
-                        if (typeof t2 !== 'number')
-                          throw $.iae(t2);
-                        t3 = $.index(sourceData, offsetBase + t2);
-                        buffer[t1] = t3;
-                        if (typeof t3 !== 'number')
-                          throw $.iae(t3);
-                        dif += t3;
-                        der2 += dif;
-                        der1 += der2;
-                        sum += der1;
-                      }
-                      ++x;
-                  }
-              y = 0;
-            case 8:
-              L2:
-                while (true)
-                  switch (state) {
-                    case 0:
-                      if (!$.ltB(y, height))
-                        break L2;
-                      if (typeof width4 !== 'number')
-                        throw $.iae(width4);
-                      offsetBase = y * width4 + z;
-                      if (typeof rx4 !== 'number')
-                        throw $.iae(rx4);
-                      x = 0 - rx4;
-                    case 8:
-                      state = 0;
-                      offsetLoop = offsetBase;
-                      sum = 0;
-                      dif = 0;
-                      der1 = 0;
-                      der2 = 0;
-                      for (; $.ltB(x, width); ++x) {
-                        if (x >= 0) {
-                          if (typeof weightX !== 'number')
-                            throw $.iae(weightX);
-                          $.indexSet(destinationData, offsetLoop, $.tdiv(sum, weightX));
-                          offsetLoop += 4;
-                          if (typeof radiusX !== 'number')
-                            throw $.iae(radiusX);
-                          t1 = buffer[x + radiusX & 1023];
-                          if (typeof t1 !== 'number')
-                            throw $.iae(t1);
-                          t1 = 4 * t1;
-                          t2 = buffer[x & 1023];
-                          if (typeof t2 !== 'number')
-                            throw $.iae(t2);
-                          t1 -= 6 * t2;
-                          t3 = buffer[x - radiusX & 1023];
-                          if (typeof t3 !== 'number')
-                            throw $.iae(t3);
-                          t1 += 4 * t3;
-                          if (typeof rx2 !== 'number')
-                            throw $.iae(rx2);
-                          t4 = buffer[x - rx2 & 1023];
-                          if (typeof t4 !== 'number')
-                            throw $.iae(t4);
-                          dif -= t1 - t4;
-                        } else {
-                          if (typeof radiusX !== 'number')
-                            throw $.iae(radiusX);
-                          t1 = x + radiusX;
-                          if (t1 >= 0) {
-                            t2 = buffer[t1 & 1023];
-                            if (typeof t2 !== 'number')
-                              throw $.iae(t2);
-                            t2 = 4 * t2;
-                            t3 = buffer[x & 1023];
-                            if (typeof t3 !== 'number')
-                              throw $.iae(t3);
-                            t2 -= 6 * t3;
-                            t4 = buffer[x - radiusX & 1023];
-                            if (typeof t4 !== 'number')
-                              throw $.iae(t4);
-                            dif -= t2 + 4 * t4;
-                          } else {
-                            if (typeof rx2 !== 'number')
-                              throw $.iae(rx2);
-                            if (x + rx2 >= 0) {
-                              t2 = buffer[t1 & 1023];
-                              if (typeof t2 !== 'number')
-                                throw $.iae(t2);
-                              t2 = 4 * t2;
-                              t3 = buffer[x & 1023];
-                              if (typeof t3 !== 'number')
-                                throw $.iae(t3);
-                              dif -= t2 - 6 * t3;
-                            } else {
-                              if (typeof rx3 !== 'number')
-                                throw $.iae(rx3);
-                              if (x + rx3 >= 0) {
-                                t2 = buffer[t1 & 1023];
-                                if (typeof t2 !== 'number')
-                                  throw $.iae(t2);
-                                dif -= 4 * t2;
-                              }
-                            }
-                          }
-                        }
-                        if (typeof rx2 !== 'number')
-                          throw $.iae(rx2);
-                        t1 = x + rx2;
-                        var tx = t1 - 1;
-                        if (tx < 0)
-                          tx = 0;
-                        else if ($.geB(tx, width))
-                          tx = $.sub(width, 1);
-                        t1 &= 1023;
-                        t2 = $.shl(tx, 2);
-                        if (typeof t2 !== 'number')
-                          throw $.iae(t2);
-                        t3 = $.index(destinationData, offsetBase + t2);
-                        buffer[t1] = t3;
-                        if (typeof t3 !== 'number')
-                          throw $.iae(t3);
-                        dif += t3;
-                        der2 += dif;
-                        der1 += der2;
-                        sum += der1;
-                      }
-                      ++y;
-                  }
-              ++z;
-          }
-      destinationContext.putImageData$3(destinationImageData, destinationPoint.x, destinationPoint.y);
+      destinationContext.putImageData$3(destinationImageData, $.sub(destinationPoint.x, rx1), $.sub(destinationPoint.y, t6));
   }
 },
- BlurFilter$3: function(blurX, blurY, quality) {
-  if ($.gtB(this.blurX, 128) || $.gtB(this.blurY, 128))
+ BlurFilter$2: function(blurX, blurY) {
+  var t1 = this.blurX;
+  if ($.ltB(t1, 1) || $.ltB(this.blurY, 1))
+    throw $.$$throw($.ArgumentError$('Error #9004: The minimum blur size is 1.'));
+  if ($.gtB(t1, 128) || $.gtB(this.blurY, 128))
     throw $.$$throw($.ArgumentError$('Error #9004: The maximum blur size is 128.'));
 }
 };
@@ -4819,38 +3595,32 @@ $$.ColorMatrixFilter = {"":
 };
 
 $$.DropShadowFilter = {"":
- ["distance", "angle", "color?", "alpha", "blurX", "blurY", "strength", "quality", "inner", "knockout", "hideObject"],
+ ["distance", "angle", "color?", "alpha", "blurX", "blurY", "strength", "inner", "knockout", "hideObject"],
  "super": "BitmapFilter",
  clone$0: function() {
-  return $.DropShadowFilter$(this.distance, this.angle, this.color, this.alpha, this.blurX, this.blurY, this.strength, this.quality, this.inner, this.knockout, this.hideObject);
+  return $.DropShadowFilter$(this.distance, this.angle, this.color, this.alpha, this.blurX, this.blurY, this.strength, this.inner, this.knockout, this.hideObject);
 },
  apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
   var sourceContext = sourceBitmapData._getContext$0();
   var sourceData = sourceContext.getImageData$4(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height).get$data();
   if (typeof sourceData !== 'string' && (typeof sourceData !== 'object' || sourceData === null || sourceData.constructor !== Array && !sourceData.is$JavaScriptIndexingBehavior()))
-    return this.apply$4$bailout(1, sourceRect, destinationBitmapData, destinationPoint, sourceData, sourceContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(1, sourceRect, destinationBitmapData, destinationPoint, sourceData, sourceContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   var sourceWidth = sourceRect.width;
   if (typeof sourceWidth !== 'number')
-    return this.apply$4$bailout(2, sourceRect, destinationBitmapData, destinationPoint, sourceContext, sourceData, sourceWidth, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(2, sourceRect, destinationBitmapData, destinationPoint, sourceContext, sourceWidth, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   var sourceHeight = sourceRect.height;
   if (typeof sourceHeight !== 'number')
-    return this.apply$4$bailout(3, destinationBitmapData, destinationPoint, sourceContext, sourceData, sourceWidth, sourceHeight, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(3, destinationBitmapData, destinationPoint, sourceContext, sourceWidth, sourceHeight, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   var t4 = this.blurX;
-  if (typeof t4 !== 'number')
-    throw $.iae(t4);
-  var radiusX = $.toInt($.sqrt(5 * t4 * t4 + 1));
-  if (radiusX !== (radiusX | 0))
-    return this.apply$4$bailout(4, destinationBitmapData, destinationPoint, sourceContext, sourceData, radiusX, sourceWidth, sourceHeight, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  if (t4 !== (t4 | 0))
+    return this.apply$4$bailout(4, destinationBitmapData, destinationPoint, sourceContext, sourceWidth, sourceHeight, t4, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var weightX = t4 * t4;
   var t6 = this.blurY;
-  if (typeof t6 !== 'number')
-    throw $.iae(t6);
-  var radiusY = $.toInt($.sqrt(5 * t6 * t6 + 1));
-  if (radiusY !== (radiusY | 0))
-    return this.apply$4$bailout(5, destinationBitmapData, destinationPoint, sourceContext, radiusY, sourceData, radiusX, sourceWidth, sourceHeight, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var weightX = radiusX * radiusX;
-  var weightY = radiusY * radiusY;
-  var rx2 = radiusX * 2;
-  var ry2 = radiusY * 2;
+  if (t6 !== (t6 | 0))
+    return this.apply$4$bailout(5, destinationBitmapData, destinationPoint, weightX, sourceContext, sourceWidth, sourceHeight, t4, t6, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var weightY = t6 * t6;
+  var rx2 = t4 * 2;
+  var ry2 = t6 * 2;
   var destinationWidth = sourceWidth + rx2;
   var destinationHeight = sourceHeight + ry2;
   var sourceWidth4 = sourceWidth * 4;
@@ -4859,17 +3629,13 @@ $$.DropShadowFilter = {"":
   var destinationImageData = destinationContext.createImageData$2(destinationWidth, destinationHeight);
   var destinationData = destinationImageData.get$data();
   if (typeof destinationData !== 'object' || destinationData === null || (destinationData.constructor !== Array || !!destinationData.immutable$list) && !destinationData.is$JavaScriptIndexingBehavior())
-    return this.apply$4$bailout(6, sourceHeight, destinationPoint, sourceContext, radiusY, weightX, weightY, sourceData, rx2, ry2, destinationWidth, destinationHeight, sourceWidth4, destinationWidth4, destinationContext, radiusX, destinationData, sourceWidth, destinationImageData, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(6, destinationWidth, destinationHeight, destinationPoint, sourceWidth4, sourceContext, destinationWidth4, sourceHeight, destinationContext, destinationData, t6, sourceData, sourceWidth, destinationImageData, weightX, t4, weightY, rx2, ry2, 0);
   var buffer = $.ListImplementation_List(1024);
-  for (var y = 0 - ry2, x = 0; x < sourceWidth; ++x) {
+  for (var x = 0; x < sourceWidth; ++x) {
     var sum = $.shr(weightY, 1);
     var offsetSource = x * 4 + 3;
-    var offsetDestination = (x + radiusX) * 4 + 3;
-    var t1 = destinationData.length;
-    var t2 = sourceData.length;
-    var y0 = y;
-    var dif = 0;
-    for (; y0 < sourceHeight; ++y0) {
+    var offsetDestination = (x + t4) * 4 + 3;
+    for (var t1 = destinationData.length, t2 = sourceData.length, y = 0, dif = 0; y < destinationHeight; ++y) {
       var t3 = $.tdiv(sum, weightY);
       if (offsetDestination !== (offsetDestination | 0))
         throw $.iae(offsetDestination);
@@ -4877,134 +3643,122 @@ $$.DropShadowFilter = {"":
         throw $.ioore(offsetDestination);
       destinationData[offsetDestination] = t3;
       offsetDestination += destinationWidth4;
-      if (y0 >= 0) {
-        t3 = buffer[y0 & 1023];
+      if (y >= ry2) {
+        t3 = buffer[y & 1023];
         if (typeof t3 !== 'number')
           throw $.iae(t3);
         t3 = 2 * t3;
-        t4 = buffer[y0 - radiusY & 1023];
-        if (typeof t4 !== 'number')
-          throw $.iae(t4);
-        dif -= t3 - t4;
-      } else if (y0 + radiusY >= 0) {
-        t3 = buffer[y0 & 1023];
+        var t5 = buffer[y - t6 & 1023];
+        if (typeof t5 !== 'number')
+          throw $.iae(t5);
+        dif -= t3 - t5;
+      } else if (y >= t6) {
+        t3 = buffer[y & 1023];
         if (typeof t3 !== 'number')
           throw $.iae(t3);
         dif -= 2 * t3;
       }
-      var ty = y0 + ry2;
-      if (ty >= 0 && ty < sourceHeight) {
-        t3 = offsetSource + ty * sourceWidth4;
-        if (t3 !== (t3 | 0))
-          throw $.iae(t3);
-        if (t3 < 0 || t3 >= t2)
-          throw $.ioore(t3);
-        var alpha = sourceData[t3];
+      if (y < sourceHeight) {
+        if (offsetSource !== (offsetSource | 0))
+          throw $.iae(offsetSource);
+        if (offsetSource < 0 || offsetSource >= t2)
+          throw $.ioore(offsetSource);
+        var alpha = sourceData[offsetSource];
       } else
         alpha = 0;
-      buffer[y0 + radiusY & 1023] = alpha;
+      buffer[y + t6 & 1023] = alpha;
       if (typeof alpha !== 'number')
         throw $.iae(alpha);
       dif += alpha;
       sum += dif;
+      offsetSource += sourceWidth4;
     }
   }
-  for (x = 0 - rx2, t1 = sourceWidth + radiusX, y = 0; y < destinationHeight; ++y) {
-    sum = $.shr(weightX, 1);
-    offsetSource = y * destinationWidth4 + 3;
-    if (x !== (x | 0))
-      return this.apply$4$bailout(8, buffer, destinationPoint, sum, sourceContext, y, radiusY, offsetSource, weightX, destinationWidth4, x, destinationWidth, radiusX, destinationHeight, rx2, destinationContext, destinationImageData, destinationData, sourceWidth, sourceHeight, 0, 0, 0, 0);
-    t3 = destinationData.length;
-    var x0 = x;
-    offsetDestination = offsetSource;
-    dif = 0;
-    for (; x0 < destinationWidth; ++x0) {
-      if (x0 >= 0) {
-        t2 = $.tdiv(sum, weightX);
-        if (offsetDestination !== (offsetDestination | 0))
-          throw $.iae(offsetDestination);
-        if (offsetDestination < 0 || offsetDestination >= t3)
-          throw $.ioore(offsetDestination);
-        destinationData[offsetDestination] = t2;
-        offsetDestination += 4;
-        t2 = buffer[x0 & 1023];
-        if (typeof t2 !== 'number')
-          throw $.iae(t2);
-        t2 = 2 * t2;
-        t4 = buffer[x0 - radiusX & 1023];
-        if (typeof t4 !== 'number')
-          throw $.iae(t4);
-        dif -= t2 - t4;
-      } else if (x0 + radiusX >= 0) {
-        t2 = buffer[x0 & 1023];
-        if (typeof t2 !== 'number')
-          throw $.iae(t2);
-        dif -= 2 * t2;
-      }
-      var tx = x0 + radiusX;
-      if (tx >= 0 && tx < t1) {
-        t2 = offsetSource + (tx << 2 >>> 0);
-        if (t2 !== (t2 | 0))
-          throw $.iae(t2);
-        if (t2 < 0 || t2 >= t3)
-          throw $.ioore(t2);
-        alpha = destinationData[t2];
-      } else
-        alpha = 0;
-      buffer[tx & 1023] = alpha;
-      if (typeof alpha !== 'number')
-        throw $.iae(alpha);
-      dif += alpha;
-      sum += dif;
-    }
-  }
-  var destinationPixels = destinationWidth * destinationHeight;
   t1 = this.color;
   var rColor = $.and($.shr(t1, 16), 255);
   if (rColor !== (rColor | 0))
-    return this.apply$4$bailout(9, rColor, destinationPoint, sourceContext, radiusY, t1, destinationWidth, radiusX, destinationHeight, destinationPixels, destinationContext, destinationImageData, destinationData, sourceWidth, sourceHeight, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(7, destinationWidth, destinationHeight, destinationPoint, sourceContext, sourceWidth, destinationContext, destinationImageData, destinationData, sourceHeight, t6, buffer, weightX, destinationWidth4, t1, rColor, rx2, t4, 0, 0);
   var gColor = $.and($.shr(t1, 8), 255);
   if (gColor !== (gColor | 0))
-    return this.apply$4$bailout(10, rColor, destinationPoint, gColor, sourceContext, radiusY, t1, destinationWidth, radiusX, destinationHeight, destinationPixels, destinationContext, destinationImageData, destinationData, sourceWidth, sourceHeight, 0, 0, 0, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(8, destinationWidth, destinationHeight, destinationPoint, sourceContext, sourceWidth, destinationContext, destinationImageData, destinationData, sourceHeight, t6, buffer, weightX, destinationWidth4, t1, rColor, rx2, t4, gColor, 0);
   var bColor = $.and($.shr(t1, 0), 255);
   if (bColor !== (bColor | 0))
-    return this.apply$4$bailout(11, rColor, destinationPoint, gColor, sourceContext, radiusY, bColor, destinationWidth, radiusX, destinationHeight, destinationPixels, destinationContext, destinationImageData, destinationData, sourceWidth, sourceHeight, 0, 0, 0, 0, 0, 0, 0, 0);
-  var t5 = this.alpha;
-  if (typeof t5 !== 'number')
-    throw $.iae(t5);
-  var aColor = $.toInt($.round(256 * t5));
-  if (aColor !== (aColor | 0))
-    return this.apply$4$bailout(12, rColor, destinationPoint, gColor, sourceContext, radiusY, bColor, destinationWidth, radiusX, destinationHeight, aColor, destinationPixels, destinationContext, destinationImageData, destinationData, sourceWidth, sourceHeight, 0, 0, 0, 0, 0, 0, 0);
-  for (var offset = 0, i = 0; i < destinationPixels; ++i) {
-    t1 = offset + 0;
-    t2 = destinationData.length;
-    if (t1 >= t2)
-      throw $.ioore(t1);
-    destinationData[t1] = rColor;
-    t1 = offset + 1;
-    if (t1 >= t2)
-      throw $.ioore(t1);
-    destinationData[t1] = gColor;
-    t1 = offset + 2;
-    if (t1 >= t2)
-      throw $.ioore(t1);
-    destinationData[t1] = bColor;
-    t1 = offset + 3;
-    if (t1 >= t2)
-      throw $.ioore(t1);
-    t3 = $.shr($.mul(destinationData[t1], aColor), 8);
-    if (t1 >= destinationData.length)
-      throw $.ioore(t1);
-    destinationData[t1] = t3;
-    offset += 4;
+    return this.apply$4$bailout(9, destinationWidth, destinationHeight, bColor, destinationPoint, sourceContext, sourceWidth, destinationContext, destinationImageData, destinationData, sourceHeight, t6, buffer, weightX, destinationWidth4, rColor, rx2, t4, gColor, 0);
+  var t7 = $.add(this.alpha, 0.0001);
+  if (typeof t7 !== 'number')
+    throw $.iae(t7);
+  var weightXAlpha = $.toInt($.round(weightX / t7));
+  if (typeof weightXAlpha !== 'number')
+    return this.apply$4$bailout(10, destinationWidth, destinationHeight, bColor, destinationPoint, sourceContext, sourceWidth, destinationContext, destinationImageData, destinationData, sourceHeight, t6, weightXAlpha, buffer, weightX, destinationWidth4, rColor, rx2, t4, gColor);
+  for (t1 = t4 * 4, y = 0; y < destinationHeight; ++y) {
+    sum = $.shr(weightX, 1);
+    offsetDestination = y * destinationWidth4;
+    offsetSource = offsetDestination + t1 + 3;
+    for (t2 = destinationData.length, dif = 0, x = 0; x < destinationWidth; ++x) {
+      t3 = offsetDestination + 0;
+      if (t3 !== (t3 | 0))
+        throw $.iae(t3);
+      if (t3 < 0 || t3 >= t2)
+        throw $.ioore(t3);
+      destinationData[t3] = rColor;
+      t3 = offsetDestination + 1;
+      if (t3 !== (t3 | 0))
+        throw $.iae(t3);
+      if (t3 < 0 || t3 >= t2)
+        throw $.ioore(t3);
+      destinationData[t3] = gColor;
+      t3 = offsetDestination + 2;
+      if (t3 !== (t3 | 0))
+        throw $.iae(t3);
+      if (t3 < 0 || t3 >= t2)
+        throw $.ioore(t3);
+      destinationData[t3] = bColor;
+      t3 = offsetDestination + 3;
+      t5 = $.tdiv(sum, weightXAlpha);
+      if (t3 !== (t3 | 0))
+        throw $.iae(t3);
+      if (t3 < 0 || t3 >= t2)
+        throw $.ioore(t3);
+      destinationData[t3] = t5;
+      offsetDestination += 4;
+      if (x >= rx2) {
+        t3 = buffer[x & 1023];
+        if (typeof t3 !== 'number')
+          throw $.iae(t3);
+        t3 = 2 * t3;
+        t5 = buffer[x - t4 & 1023];
+        if (typeof t5 !== 'number')
+          throw $.iae(t5);
+        dif -= t3 - t5;
+      } else if (x >= t4) {
+        t3 = buffer[x & 1023];
+        if (typeof t3 !== 'number')
+          throw $.iae(t3);
+        dif -= 2 * t3;
+      }
+      if (x < sourceWidth) {
+        if (offsetSource !== (offsetSource | 0))
+          throw $.iae(offsetSource);
+        if (offsetSource < 0 || offsetSource >= t2)
+          throw $.ioore(offsetSource);
+        alpha = destinationData[offsetSource];
+      } else
+        alpha = 0;
+      buffer[x + t4 & 1023] = alpha;
+      if (typeof alpha !== 'number')
+        throw $.iae(alpha);
+      dif += alpha;
+      sum += dif;
+      offsetSource += 4;
+    }
   }
   var sx = destinationPoint.x;
   var sy = destinationPoint.y;
-  t1 = $.sub(sx, radiusX);
+  t1 = $.sub(sx, t4);
   t2 = this.distance;
   t3 = this.angle;
   var dx = $.add(t1, $.toInt($.round($.mul(t2, $.cos(t3)))));
-  var dy = $.add($.sub(destinationPoint.y, radiusY), $.toInt($.round($.mul(t2, $.sin(t3)))));
+  var dy = $.add($.sub(destinationPoint.y, t6), $.toInt($.round($.mul(t2, $.sin(t3)))));
   var uRect = $.Rectangle$(sx, sy, sourceWidth, sourceHeight).union$1($.Rectangle$(dx, dy, destinationWidth, destinationHeight));
   destinationContext.setTransform$6(1, 0, 0, 1, 0, 0);
   destinationContext.clearRect$4(uRect.get$x(), uRect.get$y(), uRect.get$width(), uRect.get$height());
@@ -5012,7 +3766,7 @@ $$.DropShadowFilter = {"":
   if ($.eqB(this.hideObject, false))
     destinationContext.drawImage$3(sourceContext.get$canvas(), sx, sy);
 },
- apply$4$bailout: function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13, env14, env15, env16, env17, env18, env19, env20, env21, env22) {
+ apply$4$bailout: function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13, env14, env15, env16, env17, env18) {
   switch (state) {
     case 1:
       var sourceRect = env0;
@@ -5026,169 +3780,136 @@ $$.DropShadowFilter = {"":
       destinationBitmapData = env1;
       destinationPoint = env2;
       sourceContext = env3;
-      sourceData = env4;
-      sourceWidth = env5;
+      sourceWidth = env4;
+      sourceData = env5;
       break;
     case 3:
       destinationBitmapData = env0;
       destinationPoint = env1;
       sourceContext = env2;
-      sourceData = env3;
-      sourceWidth = env4;
-      sourceHeight = env5;
+      sourceWidth = env3;
+      sourceHeight = env4;
+      sourceData = env5;
       break;
     case 4:
       destinationBitmapData = env0;
       destinationPoint = env1;
       sourceContext = env2;
-      sourceData = env3;
-      radiusX = env4;
-      sourceWidth = env5;
-      sourceHeight = env6;
+      sourceWidth = env3;
+      sourceHeight = env4;
+      t4 = env5;
+      sourceData = env6;
       break;
     case 5:
       destinationBitmapData = env0;
       destinationPoint = env1;
-      sourceContext = env2;
-      radiusY = env3;
-      sourceData = env4;
-      radiusX = env5;
-      sourceWidth = env6;
-      sourceHeight = env7;
+      weightX = env2;
+      sourceContext = env3;
+      sourceWidth = env4;
+      sourceHeight = env5;
+      t4 = env6;
+      t6 = env7;
+      sourceData = env8;
       break;
     case 6:
-      sourceHeight = env0;
-      destinationPoint = env1;
-      sourceContext = env2;
-      radiusY = env3;
-      weightX = env4;
-      weightY = env5;
-      sourceData = env6;
-      rx2 = env7;
-      ry2 = env8;
-      destinationWidth = env9;
-      destinationHeight = env10;
-      sourceWidth4 = env11;
-      destinationWidth4 = env12;
-      destinationContext = env13;
-      radiusX = env14;
-      destinationData = env15;
-      sourceWidth = env16;
-      destinationImageData = env17;
+      destinationWidth = env0;
+      destinationHeight = env1;
+      destinationPoint = env2;
+      sourceWidth4 = env3;
+      sourceContext = env4;
+      destinationWidth4 = env5;
+      sourceHeight = env6;
+      destinationContext = env7;
+      destinationData = env8;
+      t6 = env9;
+      sourceData = env10;
+      sourceWidth = env11;
+      destinationImageData = env12;
+      weightX = env13;
+      t4 = env14;
+      weightY = env15;
+      rx2 = env16;
+      ry2 = env17;
       break;
     case 7:
-      buffer = env0;
-      destinationPoint = env1;
-      sourceContext = env2;
-      ry2 = env3;
-      sourceData = env4;
-      rx1 = env5;
-      x = env6;
-      sourceWidth = env7;
+      destinationWidth = env0;
+      destinationHeight = env1;
+      destinationPoint = env2;
+      sourceContext = env3;
+      sourceWidth = env4;
+      destinationContext = env5;
+      destinationImageData = env6;
+      destinationData = env7;
       sourceHeight = env8;
-      radiusY = env9;
-      sum = env10;
+      t6 = env9;
+      buffer = env10;
       weightX = env11;
-      weightY = env12;
-      offsetSource = env13;
-      rx2 = env14;
-      offsetDestination = env15;
-      destinationWidth = env16;
-      destinationHeight = env17;
-      sourceWidth4 = env18;
-      destinationWidth4 = env19;
-      destinationContext = env20;
-      destinationImageData = env21;
-      destinationData = env22;
+      destinationWidth4 = env12;
+      t1 = env13;
+      rColor = env14;
+      rx2 = env15;
+      rx1 = env16;
       break;
     case 8:
-      buffer = env0;
-      destinationPoint = env1;
-      sum = env2;
+      destinationWidth = env0;
+      destinationHeight = env1;
+      destinationPoint = env2;
       sourceContext = env3;
-      y = env4;
-      radiusY = env5;
-      offsetSource = env6;
-      weightX = env7;
-      destinationWidth4 = env8;
-      x = env9;
-      destinationWidth = env10;
-      rx1 = env11;
-      destinationHeight = env12;
-      rx2 = env13;
-      destinationContext = env14;
-      destinationImageData = env15;
-      destinationData = env16;
-      sourceWidth = env17;
-      sourceHeight = env18;
+      sourceWidth = env4;
+      destinationContext = env5;
+      destinationImageData = env6;
+      destinationData = env7;
+      sourceHeight = env8;
+      t6 = env9;
+      buffer = env10;
+      weightX = env11;
+      destinationWidth4 = env12;
+      t1 = env13;
+      rColor = env14;
+      rx2 = env15;
+      rx1 = env16;
+      gColor = env17;
       break;
     case 9:
-      rColor = env0;
-      destinationPoint = env1;
-      sourceContext = env2;
-      radiusY = env3;
-      t1 = env4;
-      destinationWidth = env5;
-      rx1 = env6;
-      destinationHeight = env7;
-      destinationPixels = env8;
-      destinationContext = env9;
-      destinationImageData = env10;
-      destinationData = env11;
-      sourceWidth = env12;
-      sourceHeight = env13;
+      destinationWidth = env0;
+      destinationHeight = env1;
+      bColor = env2;
+      destinationPoint = env3;
+      sourceContext = env4;
+      sourceWidth = env5;
+      destinationContext = env6;
+      destinationImageData = env7;
+      destinationData = env8;
+      sourceHeight = env9;
+      t6 = env10;
+      buffer = env11;
+      weightX = env12;
+      destinationWidth4 = env13;
+      rColor = env14;
+      rx2 = env15;
+      rx1 = env16;
+      gColor = env17;
       break;
     case 10:
-      rColor = env0;
-      destinationPoint = env1;
-      gColor = env2;
-      sourceContext = env3;
-      radiusY = env4;
-      t1 = env5;
-      destinationWidth = env6;
-      rx1 = env7;
-      destinationHeight = env8;
-      destinationPixels = env9;
-      destinationContext = env10;
-      destinationImageData = env11;
-      destinationData = env12;
-      sourceWidth = env13;
-      sourceHeight = env14;
-      break;
-    case 11:
-      rColor = env0;
-      destinationPoint = env1;
-      gColor = env2;
-      sourceContext = env3;
-      radiusY = env4;
-      bColor = env5;
-      destinationWidth = env6;
-      rx1 = env7;
-      destinationHeight = env8;
-      destinationPixels = env9;
-      destinationContext = env10;
-      destinationImageData = env11;
-      destinationData = env12;
-      sourceWidth = env13;
-      sourceHeight = env14;
-      break;
-    case 12:
-      rColor = env0;
-      destinationPoint = env1;
-      gColor = env2;
-      sourceContext = env3;
-      radiusY = env4;
-      bColor = env5;
-      destinationWidth = env6;
-      rx1 = env7;
-      destinationHeight = env8;
-      aColor = env9;
-      destinationPixels = env10;
-      destinationContext = env11;
-      destinationImageData = env12;
-      destinationData = env13;
-      sourceWidth = env14;
-      sourceHeight = env15;
+      destinationWidth = env0;
+      destinationHeight = env1;
+      bColor = env2;
+      destinationPoint = env3;
+      sourceContext = env4;
+      sourceWidth = env5;
+      destinationContext = env6;
+      destinationImageData = env7;
+      destinationData = env8;
+      sourceHeight = env9;
+      t6 = env10;
+      weightXAlpha = env11;
+      buffer = env12;
+      weightX = env13;
+      destinationWidth4 = env14;
+      rColor = env15;
+      rx2 = env16;
+      rx1 = env17;
+      gColor = env18;
       break;
   }
   switch (state) {
@@ -5204,21 +3925,15 @@ $$.DropShadowFilter = {"":
     case 3:
       state = 0;
       var t4 = this.blurX;
-      if (typeof t4 !== 'number')
-        throw $.iae(t4);
-      var radiusX = $.toInt($.sqrt(5 * t4 * t4 + 1));
     case 4:
       state = 0;
+      var weightX = $.mul(t4, t4);
       var t6 = this.blurY;
-      if (typeof t6 !== 'number')
-        throw $.iae(t6);
-      var radiusY = $.toInt($.sqrt(5 * t6 * t6 + 1));
     case 5:
       state = 0;
-      var weightX = $.mul(radiusX, radiusX);
-      var weightY = $.mul(radiusY, radiusY);
-      var rx2 = $.mul(radiusX, 2);
-      var ry2 = $.mul(radiusY, 2);
+      var weightY = $.mul(t6, t6);
+      var rx2 = $.mul(t4, 2);
+      var ry2 = $.mul(t6, 2);
       var destinationWidth = $.add(sourceWidth, rx2);
       var destinationHeight = $.add(sourceHeight, ry2);
       var sourceWidth4 = $.mul(sourceWidth, 4);
@@ -5229,148 +3944,102 @@ $$.DropShadowFilter = {"":
     case 6:
       state = 0;
       var buffer = $.ListImplementation_List(1024);
-      var rx1 = radiusX;
-      var x = 0;
-    case 7:
-      L0:
-        while (true)
-          switch (state) {
-            case 0:
-              if (!$.ltB(x, sourceWidth))
-                break L0;
-              var sum = $.shr(weightY, 1);
-              var offsetSource = x * 4 + 3;
-              if (typeof rx1 !== 'number')
-                throw $.iae(rx1);
-              var offsetDestination = (x + rx1) * 4 + 3;
-              if (typeof ry2 !== 'number')
-                throw $.iae(ry2);
-            case 7:
-              state = 0;
-              var y = 0 - ry2;
-              var dif = 0;
-              for (; $.ltB(y, sourceHeight); ++y) {
-                $.indexSet(destinationData, offsetDestination, $.tdiv(sum, weightY));
-                if (typeof destinationWidth4 !== 'number')
-                  throw $.iae(destinationWidth4);
-                offsetDestination += destinationWidth4;
-                if (y >= 0) {
-                  var t1 = buffer[y & 1023];
-                  if (typeof t1 !== 'number')
-                    throw $.iae(t1);
-                  t1 = 2 * t1;
-                  if (typeof radiusY !== 'number')
-                    throw $.iae(radiusY);
-                  var t2 = buffer[y - radiusY & 1023];
-                  if (typeof t2 !== 'number')
-                    throw $.iae(t2);
-                  dif -= t1 - t2;
-                } else {
-                  if (typeof radiusY !== 'number')
-                    throw $.iae(radiusY);
-                  if (y + radiusY >= 0) {
-                    t1 = buffer[y & 1023];
-                    if (typeof t1 !== 'number')
-                      throw $.iae(t1);
-                    dif -= 2 * t1;
-                  }
-                }
-                var ty = y + ry2;
-                if (ty >= 0 && $.ltB(ty, sourceHeight)) {
-                  if (typeof sourceWidth4 !== 'number')
-                    throw $.iae(sourceWidth4);
-                  var alpha = $.index(sourceData, offsetSource + ty * sourceWidth4);
-                } else
-                  alpha = 0;
-                if (typeof radiusY !== 'number')
-                  throw $.iae(radiusY);
-                buffer[y + radiusY & 1023] = alpha;
-                if (typeof alpha !== 'number')
-                  throw $.iae(alpha);
-                dif += alpha;
-                sum = $.add(sum, dif);
-              }
-              ++x;
+      for (var rx1 = t4, x = 0; $.ltB(x, sourceWidth); ++x) {
+        var sum = $.shr(weightY, 1);
+        var offsetSource = x * 4 + 3;
+        if (typeof rx1 !== 'number')
+          throw $.iae(rx1);
+        var offsetDestination = (x + rx1) * 4 + 3;
+        for (var y = 0, dif = 0; $.ltB(y, destinationHeight); ++y) {
+          $.indexSet(destinationData, offsetDestination, $.tdiv(sum, weightY));
+          if (typeof destinationWidth4 !== 'number')
+            throw $.iae(destinationWidth4);
+          offsetDestination += destinationWidth4;
+          if ($.geB(y, ry2)) {
+            var t1 = buffer[y & 1023];
+            if (typeof t1 !== 'number')
+              throw $.iae(t1);
+            t1 = 2 * t1;
+            if (typeof t6 !== 'number')
+              throw $.iae(t6);
+            var t2 = buffer[y - t6 & 1023];
+            if (typeof t2 !== 'number')
+              throw $.iae(t2);
+            dif -= t1 - t2;
+          } else if ($.geB(y, t6)) {
+            t1 = buffer[y & 1023];
+            if (typeof t1 !== 'number')
+              throw $.iae(t1);
+            dif -= 2 * t1;
           }
-      y = 0;
-    case 8:
-      L1:
-        while (true)
-          switch (state) {
-            case 0:
-              if (!$.ltB(y, destinationHeight))
-                break L1;
-              sum = $.shr(weightX, 1);
-              if (typeof destinationWidth4 !== 'number')
-                throw $.iae(destinationWidth4);
-              offsetSource = y * destinationWidth4 + 3;
-              if (typeof rx2 !== 'number')
-                throw $.iae(rx2);
-              x = 0 - rx2;
-            case 8:
-              state = 0;
-              offsetDestination = offsetSource;
-              dif = 0;
-              for (; $.ltB(x, destinationWidth); ++x) {
-                if (x >= 0) {
-                  $.indexSet(destinationData, offsetDestination, $.tdiv(sum, weightX));
-                  offsetDestination += 4;
-                  t1 = buffer[x & 1023];
-                  if (typeof t1 !== 'number')
-                    throw $.iae(t1);
-                  t1 = 2 * t1;
-                  if (typeof rx1 !== 'number')
-                    throw $.iae(rx1);
-                  t2 = buffer[x - rx1 & 1023];
-                  if (typeof t2 !== 'number')
-                    throw $.iae(t2);
-                  dif -= t1 - t2;
-                } else {
-                  if (typeof rx1 !== 'number')
-                    throw $.iae(rx1);
-                  if (x + rx1 >= 0) {
-                    t1 = buffer[x & 1023];
-                    if (typeof t1 !== 'number')
-                      throw $.iae(t1);
-                    dif -= 2 * t1;
-                  }
-                }
-                if (typeof rx1 !== 'number')
-                  throw $.iae(rx1);
-                var tx = x + rx1;
-                alpha = tx >= 0 && $.ltB(tx, $.add(sourceWidth, rx1)) ? $.index(destinationData, offsetSource + (tx << 2 >>> 0)) : 0;
-                buffer[tx & 1023] = alpha;
-                if (typeof alpha !== 'number')
-                  throw $.iae(alpha);
-                dif += alpha;
-                sum = $.add(sum, dif);
-              }
-              ++y;
-          }
-      var destinationPixels = $.mul(destinationWidth, destinationHeight);
+          var alpha = $.ltB(y, sourceHeight) ? $.index(sourceData, offsetSource) : 0;
+          if (typeof t6 !== 'number')
+            throw $.iae(t6);
+          buffer[y + t6 & 1023] = alpha;
+          if (typeof alpha !== 'number')
+            throw $.iae(alpha);
+          dif += alpha;
+          sum = $.add(sum, dif);
+          if (typeof sourceWidth4 !== 'number')
+            throw $.iae(sourceWidth4);
+          offsetSource += sourceWidth4;
+        }
+      }
       t1 = this.color;
       var rColor = $.and($.shr(t1, 16), 255);
-    case 9:
+    case 7:
       state = 0;
       var gColor = $.and($.shr(t1, 8), 255);
-    case 10:
+    case 8:
       state = 0;
       var bColor = $.and($.shr(t1, 0), 255);
-    case 11:
+    case 9:
       state = 0;
-      var t5 = this.alpha;
-      if (typeof t5 !== 'number')
-        throw $.iae(t5);
-      var aColor = $.toInt($.round(256 * t5));
-    case 12:
+      var weightXAlpha = $.toInt($.round($.div(weightX, $.add(this.alpha, 0.0001))));
+    case 10:
       state = 0;
-      for (var offset = 0, i = 0; $.ltB(i, destinationPixels); ++i) {
-        $.indexSet(destinationData, offset + 0, rColor);
-        $.indexSet(destinationData, offset + 1, gColor);
-        $.indexSet(destinationData, offset + 2, bColor);
-        t1 = offset + 3;
-        $.indexSet(destinationData, t1, $.shr($.mul($.index(destinationData, t1), aColor), 8));
-        offset += 4;
+      for (y = 0; $.ltB(y, destinationHeight); ++y) {
+        sum = $.shr(weightX, 1);
+        if (typeof destinationWidth4 !== 'number')
+          throw $.iae(destinationWidth4);
+        offsetDestination = y * destinationWidth4;
+        t1 = $.mul(rx1, 4);
+        if (typeof t1 !== 'number')
+          throw $.iae(t1);
+        offsetSource = offsetDestination + t1 + 3;
+        for (dif = 0, x = 0; $.ltB(x, destinationWidth); ++x) {
+          $.indexSet(destinationData, offsetDestination + 0, rColor);
+          $.indexSet(destinationData, offsetDestination + 1, gColor);
+          $.indexSet(destinationData, offsetDestination + 2, bColor);
+          $.indexSet(destinationData, offsetDestination + 3, $.tdiv(sum, weightXAlpha));
+          offsetDestination += 4;
+          if ($.geB(x, rx2)) {
+            t1 = buffer[x & 1023];
+            if (typeof t1 !== 'number')
+              throw $.iae(t1);
+            t1 = 2 * t1;
+            if (typeof rx1 !== 'number')
+              throw $.iae(rx1);
+            t2 = buffer[x - rx1 & 1023];
+            if (typeof t2 !== 'number')
+              throw $.iae(t2);
+            dif -= t1 - t2;
+          } else if ($.geB(x, rx1)) {
+            t1 = buffer[x & 1023];
+            if (typeof t1 !== 'number')
+              throw $.iae(t1);
+            dif -= 2 * t1;
+          }
+          alpha = $.ltB(x, sourceWidth) ? $.index(destinationData, offsetSource) : 0;
+          if (typeof rx1 !== 'number')
+            throw $.iae(rx1);
+          buffer[x + rx1 & 1023] = alpha;
+          if (typeof alpha !== 'number')
+            throw $.iae(alpha);
+          dif += alpha;
+          sum = $.add(sum, dif);
+          offsetSource += 4;
+        }
       }
       var sx = destinationPoint.x;
       var sy = destinationPoint.y;
@@ -5378,7 +4047,7 @@ $$.DropShadowFilter = {"":
       t2 = this.distance;
       var t3 = this.angle;
       var dx = $.add(t1, $.toInt($.round($.mul(t2, $.cos(t3)))));
-      var dy = $.add($.sub(destinationPoint.y, radiusY), $.toInt($.round($.mul(t2, $.sin(t3)))));
+      var dy = $.add($.sub(destinationPoint.y, t6), $.toInt($.round($.mul(t2, $.sin(t3)))));
       var uRect = $.Rectangle$(sx, sy, sourceWidth, sourceHeight).union$1($.Rectangle$(dx, dy, destinationWidth, destinationHeight));
       destinationContext.setTransform$6(1, 0, 0, 1, 0, 0);
       destinationContext.clearRect$4(uRect.get$x(), uRect.get$y(), uRect.get$width(), uRect.get$height());
@@ -5386,42 +4055,43 @@ $$.DropShadowFilter = {"":
       if ($.eqB(this.hideObject, false))
         destinationContext.drawImage$3(sourceContext.get$canvas(), sx, sy);
   }
+},
+ DropShadowFilter$10: function(distance, angle, color, alpha, blurX, blurY, strength, inner, knockout, hideObject) {
+  var t1 = this.blurX;
+  if ($.ltB(t1, 1) || $.ltB(this.blurY, 1))
+    throw $.$$throw($.ArgumentError$('Error #9004: The minimum blur size is 1.'));
+  if ($.gtB(t1, 128) || $.gtB(this.blurY, 128))
+    throw $.$$throw($.ArgumentError$('Error #9004: The maximum blur size is 128.'));
 }
 };
 
 $$.GlowFilter = {"":
- ["color?", "alpha", "blurX", "blurY", "strength", "quality", "inner", "knockout", "hideObject"],
+ ["color?", "alpha", "blurX", "blurY", "strength", "inner", "knockout", "hideObject"],
  "super": "BitmapFilter",
  clone$0: function() {
-  return $.GlowFilter$(this.color, this.alpha, this.blurX, this.blurY, this.strength, this.quality, this.inner, this.knockout, this.hideObject);
+  return $.GlowFilter$(this.color, this.alpha, this.blurX, this.blurY, this.strength, this.inner, this.knockout, this.hideObject);
 },
  apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
   var sourceContext = sourceBitmapData._getContext$0();
   var sourceData = sourceContext.getImageData$4(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height).get$data();
   if (typeof sourceData !== 'string' && (typeof sourceData !== 'object' || sourceData === null || sourceData.constructor !== Array && !sourceData.is$JavaScriptIndexingBehavior()))
-    return this.apply$4$bailout(1, sourceRect, destinationBitmapData, destinationPoint, sourceData, sourceContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(1, sourceRect, destinationBitmapData, destinationPoint, sourceData, sourceContext, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   var sourceWidth = sourceRect.width;
   if (typeof sourceWidth !== 'number')
-    return this.apply$4$bailout(2, sourceRect, destinationBitmapData, destinationPoint, sourceWidth, sourceContext, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(2, sourceWidth, sourceRect, destinationBitmapData, destinationPoint, sourceContext, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   var sourceHeight = sourceRect.height;
   if (typeof sourceHeight !== 'number')
-    return this.apply$4$bailout(3, destinationBitmapData, destinationPoint, sourceWidth, sourceHeight, sourceContext, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(3, sourceWidth, sourceHeight, destinationBitmapData, destinationPoint, sourceContext, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   var t4 = this.blurX;
-  if (typeof t4 !== 'number')
-    throw $.iae(t4);
-  var radiusX = $.toInt($.sqrt(5 * t4 * t4 + 1));
-  if (radiusX !== (radiusX | 0))
-    return this.apply$4$bailout(4, destinationBitmapData, destinationPoint, sourceWidth, sourceHeight, sourceContext, sourceData, radiusX, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  if (t4 !== (t4 | 0))
+    return this.apply$4$bailout(4, sourceWidth, sourceHeight, destinationBitmapData, destinationPoint, t4, sourceContext, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var weightX = t4 * t4;
   var t6 = this.blurY;
-  if (typeof t6 !== 'number')
-    throw $.iae(t6);
-  var radiusY = $.toInt($.sqrt(5 * t6 * t6 + 1));
-  if (radiusY !== (radiusY | 0))
-    return this.apply$4$bailout(5, destinationBitmapData, destinationPoint, sourceWidth, sourceHeight, sourceContext, radiusY, sourceData, radiusX, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var weightX = radiusX * radiusX;
-  var weightY = radiusY * radiusY;
-  var rx2 = radiusX * 2;
-  var ry2 = radiusY * 2;
+  if (t6 !== (t6 | 0))
+    return this.apply$4$bailout(5, sourceWidth, sourceHeight, destinationBitmapData, destinationPoint, t6, weightX, sourceContext, t4, sourceData, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var weightY = t6 * t6;
+  var rx2 = t4 * 2;
+  var ry2 = t6 * 2;
   var destinationWidth = sourceWidth + rx2;
   var destinationHeight = sourceHeight + ry2;
   var sourceWidth4 = sourceWidth * 4;
@@ -5430,17 +4100,13 @@ $$.GlowFilter = {"":
   var destinationImageData = destinationContext.createImageData$2(destinationWidth, destinationHeight);
   var destinationData = destinationImageData.get$data();
   if (typeof destinationData !== 'object' || destinationData === null || (destinationData.constructor !== Array || !!destinationData.immutable$list) && !destinationData.is$JavaScriptIndexingBehavior())
-    return this.apply$4$bailout(6, destinationPoint, sourceWidth, sourceHeight, sourceContext, radiusY, weightX, sourceData, weightY, rx2, ry2, destinationWidth, destinationHeight, sourceWidth4, destinationWidth4, destinationContext, destinationImageData, destinationData, radiusX, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(6, destinationWidth, destinationHeight, destinationPoint, sourceWidth4, sourceContext, destinationWidth4, destinationContext, destinationImageData, destinationData, sourceData, sourceWidth, sourceHeight, weightX, t4, t6, weightY, rx2, ry2, 0);
   var buffer = $.ListImplementation_List(1024);
-  for (var y = 0 - ry2, x = 0; x < sourceWidth; ++x) {
+  for (var x = 0; x < sourceWidth; ++x) {
     var sum = $.shr(weightY, 1);
     var offsetSource = x * 4 + 3;
-    var offsetDestination = (x + radiusX) * 4 + 3;
-    var t1 = destinationData.length;
-    var t2 = sourceData.length;
-    var y0 = y;
-    var dif = 0;
-    for (; y0 < sourceHeight; ++y0) {
+    var offsetDestination = (x + t4) * 4 + 3;
+    for (var t1 = destinationData.length, t2 = sourceData.length, y = 0, dif = 0; y < destinationHeight; ++y) {
       var t3 = $.tdiv(sum, weightY);
       if (offsetDestination !== (offsetDestination | 0))
         throw $.iae(offsetDestination);
@@ -5448,131 +4114,119 @@ $$.GlowFilter = {"":
         throw $.ioore(offsetDestination);
       destinationData[offsetDestination] = t3;
       offsetDestination += destinationWidth4;
-      if (y0 >= 0) {
-        t3 = buffer[y0 & 1023];
+      if (y >= ry2) {
+        t3 = buffer[y & 1023];
         if (typeof t3 !== 'number')
           throw $.iae(t3);
         t3 = 2 * t3;
-        t4 = buffer[y0 - radiusY & 1023];
-        if (typeof t4 !== 'number')
-          throw $.iae(t4);
-        dif -= t3 - t4;
-      } else if (y0 + radiusY >= 0) {
-        t3 = buffer[y0 & 1023];
+        var t5 = buffer[y - t6 & 1023];
+        if (typeof t5 !== 'number')
+          throw $.iae(t5);
+        dif -= t3 - t5;
+      } else if (y >= t6) {
+        t3 = buffer[y & 1023];
         if (typeof t3 !== 'number')
           throw $.iae(t3);
         dif -= 2 * t3;
       }
-      var ty = y0 + ry2;
-      if (ty >= 0 && ty < sourceHeight) {
-        t3 = offsetSource + ty * sourceWidth4;
-        if (t3 !== (t3 | 0))
-          throw $.iae(t3);
-        if (t3 < 0 || t3 >= t2)
-          throw $.ioore(t3);
-        var alpha = sourceData[t3];
+      if (y < sourceHeight) {
+        if (offsetSource !== (offsetSource | 0))
+          throw $.iae(offsetSource);
+        if (offsetSource < 0 || offsetSource >= t2)
+          throw $.ioore(offsetSource);
+        var alpha = sourceData[offsetSource];
       } else
         alpha = 0;
-      buffer[y0 + radiusY & 1023] = alpha;
+      buffer[y + t6 & 1023] = alpha;
       if (typeof alpha !== 'number')
         throw $.iae(alpha);
       dif += alpha;
       sum += dif;
+      offsetSource += sourceWidth4;
     }
   }
-  for (x = 0 - rx2, t1 = sourceWidth + radiusX, y = 0; y < destinationHeight; ++y) {
-    sum = $.shr(weightX, 1);
-    offsetSource = y * destinationWidth4 + 3;
-    if (x !== (x | 0))
-      return this.apply$4$bailout(8, buffer, destinationPoint, sourceWidth, sum, y, radiusY, offsetSource, weightX, destinationWidth4, x, sourceContext, destinationWidth, radiusX, sourceHeight, destinationHeight, rx2, destinationContext, destinationImageData, destinationData, 0, 0, 0, 0);
-    t3 = destinationData.length;
-    var x0 = x;
-    offsetDestination = offsetSource;
-    dif = 0;
-    for (; x0 < destinationWidth; ++x0) {
-      if (x0 >= 0) {
-        t2 = $.tdiv(sum, weightX);
-        if (offsetDestination !== (offsetDestination | 0))
-          throw $.iae(offsetDestination);
-        if (offsetDestination < 0 || offsetDestination >= t3)
-          throw $.ioore(offsetDestination);
-        destinationData[offsetDestination] = t2;
-        offsetDestination += 4;
-        t2 = buffer[x0 & 1023];
-        if (typeof t2 !== 'number')
-          throw $.iae(t2);
-        t2 = 2 * t2;
-        t4 = buffer[x0 - radiusX & 1023];
-        if (typeof t4 !== 'number')
-          throw $.iae(t4);
-        dif -= t2 - t4;
-      } else if (x0 + radiusX >= 0) {
-        t2 = buffer[x0 & 1023];
-        if (typeof t2 !== 'number')
-          throw $.iae(t2);
-        dif -= 2 * t2;
-      }
-      var tx = x0 + radiusX;
-      if (tx >= 0 && tx < t1) {
-        t2 = offsetSource + (tx << 2 >>> 0);
-        if (t2 !== (t2 | 0))
-          throw $.iae(t2);
-        if (t2 < 0 || t2 >= t3)
-          throw $.ioore(t2);
-        alpha = destinationData[t2];
-      } else
-        alpha = 0;
-      buffer[tx & 1023] = alpha;
-      if (typeof alpha !== 'number')
-        throw $.iae(alpha);
-      dif += alpha;
-      sum += dif;
-    }
-  }
-  var destinationPixels = destinationWidth * destinationHeight;
   t1 = this.color;
   var rColor = $.and($.shr(t1, 16), 255);
   if (rColor !== (rColor | 0))
-    return this.apply$4$bailout(9, rColor, destinationPoint, sourceWidth, sourceContext, sourceHeight, radiusY, destinationWidth, radiusX, destinationHeight, t1, destinationPixels, destinationContext, destinationImageData, destinationData, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(7, destinationWidth, destinationHeight, destinationPoint, sourceContext, destinationWidth4, destinationContext, destinationImageData, destinationData, buffer, sourceWidth, sourceHeight, weightX, t6, rColor, rx2, t4, t1, 0, 0);
   var gColor = $.and($.shr(t1, 8), 255);
   if (gColor !== (gColor | 0))
-    return this.apply$4$bailout(10, rColor, destinationPoint, sourceWidth, gColor, sourceContext, radiusY, sourceHeight, destinationWidth, radiusX, destinationHeight, t1, destinationPixels, destinationContext, destinationImageData, destinationData, 0, 0, 0, 0, 0, 0, 0, 0);
+    return this.apply$4$bailout(8, gColor, destinationWidth, destinationHeight, destinationPoint, sourceContext, destinationWidth4, destinationContext, destinationImageData, destinationData, buffer, sourceWidth, sourceHeight, weightX, t6, rColor, rx2, t4, t1, 0);
   var bColor = $.and($.shr(t1, 0), 255);
   if (bColor !== (bColor | 0))
-    return this.apply$4$bailout(11, rColor, destinationPoint, sourceWidth, gColor, sourceContext, radiusY, sourceHeight, bColor, destinationWidth, radiusX, destinationHeight, destinationPixels, destinationContext, destinationImageData, destinationData, 0, 0, 0, 0, 0, 0, 0, 0);
-  var t5 = this.alpha;
-  if (typeof t5 !== 'number')
-    throw $.iae(t5);
-  var aColor = $.toInt($.round(256 * t5));
-  if (aColor !== (aColor | 0))
-    return this.apply$4$bailout(12, rColor, destinationPoint, sourceWidth, gColor, sourceContext, radiusY, sourceHeight, bColor, aColor, radiusX, destinationHeight, destinationWidth, destinationPixels, destinationContext, destinationImageData, destinationData, 0, 0, 0, 0, 0, 0, 0);
-  for (var offset = 0, i = 0; i < destinationPixels; ++i) {
-    t1 = offset + 0;
-    t2 = destinationData.length;
-    if (t1 >= t2)
-      throw $.ioore(t1);
-    destinationData[t1] = rColor;
-    t1 = offset + 1;
-    if (t1 >= t2)
-      throw $.ioore(t1);
-    destinationData[t1] = gColor;
-    t1 = offset + 2;
-    if (t1 >= t2)
-      throw $.ioore(t1);
-    destinationData[t1] = bColor;
-    t1 = offset + 3;
-    if (t1 >= t2)
-      throw $.ioore(t1);
-    t3 = $.shr($.mul(destinationData[t1], aColor), 8);
-    if (t1 >= destinationData.length)
-      throw $.ioore(t1);
-    destinationData[t1] = t3;
-    offset += 4;
+    return this.apply$4$bailout(9, destinationWidth, destinationHeight, bColor, destinationPoint, sourceContext, destinationWidth4, destinationContext, destinationImageData, destinationData, buffer, sourceWidth, sourceHeight, weightX, t6, rColor, rx2, t4, gColor, 0);
+  var t7 = $.add(this.alpha, 0.0001);
+  if (typeof t7 !== 'number')
+    throw $.iae(t7);
+  var weightXAlpha = $.toInt($.round(weightX / t7));
+  if (typeof weightXAlpha !== 'number')
+    return this.apply$4$bailout(10, destinationWidth, destinationHeight, bColor, destinationPoint, sourceContext, destinationWidth4, destinationContext, destinationImageData, destinationData, weightXAlpha, buffer, sourceWidth, sourceHeight, weightX, t6, rColor, rx2, t4, gColor);
+  for (t1 = t4 * 4, y = 0; y < destinationHeight; ++y) {
+    sum = $.shr(weightX, 1);
+    offsetDestination = y * destinationWidth4;
+    offsetSource = offsetDestination + t1 + 3;
+    for (t2 = destinationData.length, dif = 0, x = 0; x < destinationWidth; ++x) {
+      t3 = offsetDestination + 0;
+      if (t3 !== (t3 | 0))
+        throw $.iae(t3);
+      if (t3 < 0 || t3 >= t2)
+        throw $.ioore(t3);
+      destinationData[t3] = rColor;
+      t3 = offsetDestination + 1;
+      if (t3 !== (t3 | 0))
+        throw $.iae(t3);
+      if (t3 < 0 || t3 >= t2)
+        throw $.ioore(t3);
+      destinationData[t3] = gColor;
+      t3 = offsetDestination + 2;
+      if (t3 !== (t3 | 0))
+        throw $.iae(t3);
+      if (t3 < 0 || t3 >= t2)
+        throw $.ioore(t3);
+      destinationData[t3] = bColor;
+      t3 = offsetDestination + 3;
+      t5 = $.tdiv(sum, weightXAlpha);
+      if (t3 !== (t3 | 0))
+        throw $.iae(t3);
+      if (t3 < 0 || t3 >= t2)
+        throw $.ioore(t3);
+      destinationData[t3] = t5;
+      offsetDestination += 4;
+      if (x >= rx2) {
+        t3 = buffer[x & 1023];
+        if (typeof t3 !== 'number')
+          throw $.iae(t3);
+        t3 = 2 * t3;
+        t5 = buffer[x - t4 & 1023];
+        if (typeof t5 !== 'number')
+          throw $.iae(t5);
+        dif -= t3 - t5;
+      } else if (x >= t4) {
+        t3 = buffer[x & 1023];
+        if (typeof t3 !== 'number')
+          throw $.iae(t3);
+        dif -= 2 * t3;
+      }
+      if (x < sourceWidth) {
+        if (offsetSource !== (offsetSource | 0))
+          throw $.iae(offsetSource);
+        if (offsetSource < 0 || offsetSource >= t2)
+          throw $.ioore(offsetSource);
+        alpha = destinationData[offsetSource];
+      } else
+        alpha = 0;
+      buffer[x + t4 & 1023] = alpha;
+      if (typeof alpha !== 'number')
+        throw $.iae(alpha);
+      dif += alpha;
+      sum += dif;
+      offsetSource += 4;
+    }
   }
   var sx = destinationPoint.x;
   var sy = destinationPoint.y;
-  var dx = $.sub(sx, radiusX);
-  var dy = $.sub(destinationPoint.y, radiusY);
+  var dx = $.sub(sx, t4);
+  var dy = $.sub(destinationPoint.y, t6);
   var uRect = $.Rectangle$(sx, sy, sourceWidth, sourceHeight).union$1($.Rectangle$(dx, dy, destinationWidth, destinationHeight));
   destinationContext.setTransform$6(1, 0, 0, 1, 0, 0);
   destinationContext.clearRect$4(uRect.get$x(), uRect.get$y(), uRect.get$width(), uRect.get$height());
@@ -5580,7 +4234,7 @@ $$.GlowFilter = {"":
   if ($.eqB(this.hideObject, false))
     destinationContext.drawImage$3(sourceContext.get$canvas(), sx, sy);
 },
- apply$4$bailout: function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13, env14, env15, env16, env17, env18, env19, env20, env21, env22) {
+ apply$4$bailout: function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13, env14, env15, env16, env17, env18) {
   switch (state) {
     case 1:
       var sourceRect = env0;
@@ -5590,173 +4244,140 @@ $$.GlowFilter = {"":
       sourceContext = env4;
       break;
     case 2:
-      sourceRect = env0;
-      destinationBitmapData = env1;
-      destinationPoint = env2;
-      sourceWidth = env3;
+      sourceWidth = env0;
+      sourceRect = env1;
+      destinationBitmapData = env2;
+      destinationPoint = env3;
       sourceContext = env4;
       sourceData = env5;
       break;
     case 3:
-      destinationBitmapData = env0;
-      destinationPoint = env1;
-      sourceWidth = env2;
-      sourceHeight = env3;
+      sourceWidth = env0;
+      sourceHeight = env1;
+      destinationBitmapData = env2;
+      destinationPoint = env3;
       sourceContext = env4;
       sourceData = env5;
       break;
     case 4:
-      destinationBitmapData = env0;
-      destinationPoint = env1;
-      sourceWidth = env2;
-      sourceHeight = env3;
-      sourceContext = env4;
-      sourceData = env5;
-      radiusX = env6;
+      sourceWidth = env0;
+      sourceHeight = env1;
+      destinationBitmapData = env2;
+      destinationPoint = env3;
+      t4 = env4;
+      sourceContext = env5;
+      sourceData = env6;
       break;
     case 5:
-      destinationBitmapData = env0;
-      destinationPoint = env1;
-      sourceWidth = env2;
-      sourceHeight = env3;
-      sourceContext = env4;
-      radiusY = env5;
-      sourceData = env6;
-      radiusX = env7;
+      sourceWidth = env0;
+      sourceHeight = env1;
+      destinationBitmapData = env2;
+      destinationPoint = env3;
+      t6 = env4;
+      weightX = env5;
+      sourceContext = env6;
+      t4 = env7;
+      sourceData = env8;
       break;
     case 6:
-      destinationPoint = env0;
-      sourceWidth = env1;
-      sourceHeight = env2;
-      sourceContext = env3;
-      radiusY = env4;
-      weightX = env5;
-      sourceData = env6;
-      weightY = env7;
-      rx2 = env8;
-      ry2 = env9;
-      destinationWidth = env10;
-      destinationHeight = env11;
-      sourceWidth4 = env12;
-      destinationWidth4 = env13;
-      destinationContext = env14;
-      destinationImageData = env15;
-      destinationData = env16;
-      radiusX = env17;
+      destinationWidth = env0;
+      destinationHeight = env1;
+      destinationPoint = env2;
+      sourceWidth4 = env3;
+      sourceContext = env4;
+      destinationWidth4 = env5;
+      destinationContext = env6;
+      destinationImageData = env7;
+      destinationData = env8;
+      sourceData = env9;
+      sourceWidth = env10;
+      sourceHeight = env11;
+      weightX = env12;
+      t4 = env13;
+      t6 = env14;
+      weightY = env15;
+      rx2 = env16;
+      ry2 = env17;
       break;
     case 7:
-      buffer = env0;
-      destinationPoint = env1;
-      sourceWidth = env2;
-      sourceHeight = env3;
-      sourceContext = env4;
-      ry2 = env5;
-      sourceData = env6;
-      rx1 = env7;
-      x = env8;
-      radiusY = env9;
-      sum = env10;
+      destinationWidth = env0;
+      destinationHeight = env1;
+      destinationPoint = env2;
+      sourceContext = env3;
+      destinationWidth4 = env4;
+      destinationContext = env5;
+      destinationImageData = env6;
+      destinationData = env7;
+      buffer = env8;
+      sourceWidth = env9;
+      sourceHeight = env10;
       weightX = env11;
-      weightY = env12;
-      offsetSource = env13;
+      t6 = env12;
+      rColor = env13;
       rx2 = env14;
-      offsetDestination = env15;
-      destinationWidth = env16;
-      destinationHeight = env17;
-      sourceWidth4 = env18;
-      destinationWidth4 = env19;
-      destinationContext = env20;
-      destinationImageData = env21;
-      destinationData = env22;
+      rx1 = env15;
+      t1 = env16;
       break;
     case 8:
-      buffer = env0;
-      destinationPoint = env1;
-      sourceWidth = env2;
-      sum = env3;
-      y = env4;
-      radiusY = env5;
-      offsetSource = env6;
-      weightX = env7;
-      destinationWidth4 = env8;
-      x = env9;
-      sourceContext = env10;
-      destinationWidth = env11;
-      rx1 = env12;
-      sourceHeight = env13;
-      destinationHeight = env14;
+      gColor = env0;
+      destinationWidth = env1;
+      destinationHeight = env2;
+      destinationPoint = env3;
+      sourceContext = env4;
+      destinationWidth4 = env5;
+      destinationContext = env6;
+      destinationImageData = env7;
+      destinationData = env8;
+      buffer = env9;
+      sourceWidth = env10;
+      sourceHeight = env11;
+      weightX = env12;
+      t6 = env13;
+      rColor = env14;
       rx2 = env15;
-      destinationContext = env16;
-      destinationImageData = env17;
-      destinationData = env18;
+      rx1 = env16;
+      t1 = env17;
       break;
     case 9:
-      rColor = env0;
-      destinationPoint = env1;
-      sourceWidth = env2;
-      sourceContext = env3;
-      sourceHeight = env4;
-      radiusY = env5;
-      destinationWidth = env6;
-      rx1 = env7;
-      destinationHeight = env8;
-      t1 = env9;
-      destinationPixels = env10;
-      destinationContext = env11;
-      destinationImageData = env12;
-      destinationData = env13;
+      destinationWidth = env0;
+      destinationHeight = env1;
+      bColor = env2;
+      destinationPoint = env3;
+      sourceContext = env4;
+      destinationWidth4 = env5;
+      destinationContext = env6;
+      destinationImageData = env7;
+      destinationData = env8;
+      buffer = env9;
+      sourceWidth = env10;
+      sourceHeight = env11;
+      weightX = env12;
+      t6 = env13;
+      rColor = env14;
+      rx2 = env15;
+      rx1 = env16;
+      gColor = env17;
       break;
     case 10:
-      rColor = env0;
-      destinationPoint = env1;
-      sourceWidth = env2;
-      gColor = env3;
+      destinationWidth = env0;
+      destinationHeight = env1;
+      bColor = env2;
+      destinationPoint = env3;
       sourceContext = env4;
-      radiusY = env5;
-      sourceHeight = env6;
-      destinationWidth = env7;
-      rx1 = env8;
-      destinationHeight = env9;
-      t1 = env10;
-      destinationPixels = env11;
-      destinationContext = env12;
-      destinationImageData = env13;
-      destinationData = env14;
-      break;
-    case 11:
-      rColor = env0;
-      destinationPoint = env1;
-      sourceWidth = env2;
-      gColor = env3;
-      sourceContext = env4;
-      radiusY = env5;
-      sourceHeight = env6;
-      bColor = env7;
-      destinationWidth = env8;
-      rx1 = env9;
-      destinationHeight = env10;
-      destinationPixels = env11;
-      destinationContext = env12;
-      destinationImageData = env13;
-      destinationData = env14;
-      break;
-    case 12:
-      rColor = env0;
-      destinationPoint = env1;
-      sourceWidth = env2;
-      gColor = env3;
-      sourceContext = env4;
-      radiusY = env5;
-      sourceHeight = env6;
-      bColor = env7;
-      aColor = env8;
-      rx1 = env9;
-      destinationHeight = env10;
-      destinationWidth = env11;
-      destinationPixels = env12;
-      destinationContext = env13;
-      destinationImageData = env14;
-      destinationData = env15;
+      destinationWidth4 = env5;
+      destinationContext = env6;
+      destinationImageData = env7;
+      destinationData = env8;
+      weightXAlpha = env9;
+      buffer = env10;
+      sourceWidth = env11;
+      sourceHeight = env12;
+      weightX = env13;
+      t6 = env14;
+      rColor = env15;
+      rx2 = env16;
+      rx1 = env17;
+      gColor = env18;
       break;
   }
   switch (state) {
@@ -5772,21 +4393,15 @@ $$.GlowFilter = {"":
     case 3:
       state = 0;
       var t4 = this.blurX;
-      if (typeof t4 !== 'number')
-        throw $.iae(t4);
-      var radiusX = $.toInt($.sqrt(5 * t4 * t4 + 1));
     case 4:
       state = 0;
+      var weightX = $.mul(t4, t4);
       var t6 = this.blurY;
-      if (typeof t6 !== 'number')
-        throw $.iae(t6);
-      var radiusY = $.toInt($.sqrt(5 * t6 * t6 + 1));
     case 5:
       state = 0;
-      var weightX = $.mul(radiusX, radiusX);
-      var weightY = $.mul(radiusY, radiusY);
-      var rx2 = $.mul(radiusX, 2);
-      var ry2 = $.mul(radiusY, 2);
+      var weightY = $.mul(t6, t6);
+      var rx2 = $.mul(t4, 2);
+      var ry2 = $.mul(t6, 2);
       var destinationWidth = $.add(sourceWidth, rx2);
       var destinationHeight = $.add(sourceHeight, ry2);
       var sourceWidth4 = $.mul(sourceWidth, 4);
@@ -5797,153 +4412,107 @@ $$.GlowFilter = {"":
     case 6:
       state = 0;
       var buffer = $.ListImplementation_List(1024);
-      var rx1 = radiusX;
-      var x = 0;
-    case 7:
-      L0:
-        while (true)
-          switch (state) {
-            case 0:
-              if (!$.ltB(x, sourceWidth))
-                break L0;
-              var sum = $.shr(weightY, 1);
-              var offsetSource = x * 4 + 3;
-              if (typeof rx1 !== 'number')
-                throw $.iae(rx1);
-              var offsetDestination = (x + rx1) * 4 + 3;
-              if (typeof ry2 !== 'number')
-                throw $.iae(ry2);
-            case 7:
-              state = 0;
-              var y = 0 - ry2;
-              var dif = 0;
-              for (; $.ltB(y, sourceHeight); ++y) {
-                $.indexSet(destinationData, offsetDestination, $.tdiv(sum, weightY));
-                if (typeof destinationWidth4 !== 'number')
-                  throw $.iae(destinationWidth4);
-                offsetDestination += destinationWidth4;
-                if (y >= 0) {
-                  var t1 = buffer[y & 1023];
-                  if (typeof t1 !== 'number')
-                    throw $.iae(t1);
-                  t1 = 2 * t1;
-                  if (typeof radiusY !== 'number')
-                    throw $.iae(radiusY);
-                  var t2 = buffer[y - radiusY & 1023];
-                  if (typeof t2 !== 'number')
-                    throw $.iae(t2);
-                  dif -= t1 - t2;
-                } else {
-                  if (typeof radiusY !== 'number')
-                    throw $.iae(radiusY);
-                  if (y + radiusY >= 0) {
-                    t1 = buffer[y & 1023];
-                    if (typeof t1 !== 'number')
-                      throw $.iae(t1);
-                    dif -= 2 * t1;
-                  }
-                }
-                var ty = y + ry2;
-                if (ty >= 0 && $.ltB(ty, sourceHeight)) {
-                  if (typeof sourceWidth4 !== 'number')
-                    throw $.iae(sourceWidth4);
-                  var alpha = $.index(sourceData, offsetSource + ty * sourceWidth4);
-                } else
-                  alpha = 0;
-                if (typeof radiusY !== 'number')
-                  throw $.iae(radiusY);
-                buffer[y + radiusY & 1023] = alpha;
-                if (typeof alpha !== 'number')
-                  throw $.iae(alpha);
-                dif += alpha;
-                sum = $.add(sum, dif);
-              }
-              ++x;
+      for (var rx1 = t4, x = 0; $.ltB(x, sourceWidth); ++x) {
+        var sum = $.shr(weightY, 1);
+        var offsetSource = x * 4 + 3;
+        if (typeof rx1 !== 'number')
+          throw $.iae(rx1);
+        var offsetDestination = (x + rx1) * 4 + 3;
+        for (var y = 0, dif = 0; $.ltB(y, destinationHeight); ++y) {
+          $.indexSet(destinationData, offsetDestination, $.tdiv(sum, weightY));
+          if (typeof destinationWidth4 !== 'number')
+            throw $.iae(destinationWidth4);
+          offsetDestination += destinationWidth4;
+          if ($.geB(y, ry2)) {
+            var t1 = buffer[y & 1023];
+            if (typeof t1 !== 'number')
+              throw $.iae(t1);
+            t1 = 2 * t1;
+            if (typeof t6 !== 'number')
+              throw $.iae(t6);
+            var t2 = buffer[y - t6 & 1023];
+            if (typeof t2 !== 'number')
+              throw $.iae(t2);
+            dif -= t1 - t2;
+          } else if ($.geB(y, t6)) {
+            t1 = buffer[y & 1023];
+            if (typeof t1 !== 'number')
+              throw $.iae(t1);
+            dif -= 2 * t1;
           }
-      y = 0;
-    case 8:
-      L1:
-        while (true)
-          switch (state) {
-            case 0:
-              if (!$.ltB(y, destinationHeight))
-                break L1;
-              sum = $.shr(weightX, 1);
-              if (typeof destinationWidth4 !== 'number')
-                throw $.iae(destinationWidth4);
-              offsetSource = y * destinationWidth4 + 3;
-              if (typeof rx2 !== 'number')
-                throw $.iae(rx2);
-              x = 0 - rx2;
-            case 8:
-              state = 0;
-              offsetDestination = offsetSource;
-              dif = 0;
-              for (; $.ltB(x, destinationWidth); ++x) {
-                if (x >= 0) {
-                  $.indexSet(destinationData, offsetDestination, $.tdiv(sum, weightX));
-                  offsetDestination += 4;
-                  t1 = buffer[x & 1023];
-                  if (typeof t1 !== 'number')
-                    throw $.iae(t1);
-                  t1 = 2 * t1;
-                  if (typeof rx1 !== 'number')
-                    throw $.iae(rx1);
-                  t2 = buffer[x - rx1 & 1023];
-                  if (typeof t2 !== 'number')
-                    throw $.iae(t2);
-                  dif -= t1 - t2;
-                } else {
-                  if (typeof rx1 !== 'number')
-                    throw $.iae(rx1);
-                  if (x + rx1 >= 0) {
-                    t1 = buffer[x & 1023];
-                    if (typeof t1 !== 'number')
-                      throw $.iae(t1);
-                    dif -= 2 * t1;
-                  }
-                }
-                if (typeof rx1 !== 'number')
-                  throw $.iae(rx1);
-                var tx = x + rx1;
-                alpha = tx >= 0 && $.ltB(tx, $.add(sourceWidth, rx1)) ? $.index(destinationData, offsetSource + (tx << 2 >>> 0)) : 0;
-                buffer[tx & 1023] = alpha;
-                if (typeof alpha !== 'number')
-                  throw $.iae(alpha);
-                dif += alpha;
-                sum = $.add(sum, dif);
-              }
-              ++y;
-          }
-      var destinationPixels = $.mul(destinationWidth, destinationHeight);
+          var alpha = $.ltB(y, sourceHeight) ? $.index(sourceData, offsetSource) : 0;
+          if (typeof t6 !== 'number')
+            throw $.iae(t6);
+          buffer[y + t6 & 1023] = alpha;
+          if (typeof alpha !== 'number')
+            throw $.iae(alpha);
+          dif += alpha;
+          sum = $.add(sum, dif);
+          if (typeof sourceWidth4 !== 'number')
+            throw $.iae(sourceWidth4);
+          offsetSource += sourceWidth4;
+        }
+      }
       t1 = this.color;
       var rColor = $.and($.shr(t1, 16), 255);
-    case 9:
+    case 7:
       state = 0;
       var gColor = $.and($.shr(t1, 8), 255);
-    case 10:
+    case 8:
       state = 0;
       var bColor = $.and($.shr(t1, 0), 255);
-    case 11:
+    case 9:
       state = 0;
-      var t5 = this.alpha;
-      if (typeof t5 !== 'number')
-        throw $.iae(t5);
-      var aColor = $.toInt($.round(256 * t5));
-    case 12:
+      var weightXAlpha = $.toInt($.round($.div(weightX, $.add(this.alpha, 0.0001))));
+    case 10:
       state = 0;
-      for (var offset = 0, i = 0; $.ltB(i, destinationPixels); ++i) {
-        $.indexSet(destinationData, offset + 0, rColor);
-        $.indexSet(destinationData, offset + 1, gColor);
-        $.indexSet(destinationData, offset + 2, bColor);
-        t1 = offset + 3;
-        $.indexSet(destinationData, t1, $.shr($.mul($.index(destinationData, t1), aColor), 8));
-        offset += 4;
+      for (y = 0; $.ltB(y, destinationHeight); ++y) {
+        sum = $.shr(weightX, 1);
+        if (typeof destinationWidth4 !== 'number')
+          throw $.iae(destinationWidth4);
+        offsetDestination = y * destinationWidth4;
+        t1 = $.mul(rx1, 4);
+        if (typeof t1 !== 'number')
+          throw $.iae(t1);
+        offsetSource = offsetDestination + t1 + 3;
+        for (dif = 0, x = 0; $.ltB(x, destinationWidth); ++x) {
+          $.indexSet(destinationData, offsetDestination + 0, rColor);
+          $.indexSet(destinationData, offsetDestination + 1, gColor);
+          $.indexSet(destinationData, offsetDestination + 2, bColor);
+          $.indexSet(destinationData, offsetDestination + 3, $.tdiv(sum, weightXAlpha));
+          offsetDestination += 4;
+          if ($.geB(x, rx2)) {
+            t1 = buffer[x & 1023];
+            if (typeof t1 !== 'number')
+              throw $.iae(t1);
+            t1 = 2 * t1;
+            if (typeof rx1 !== 'number')
+              throw $.iae(rx1);
+            t2 = buffer[x - rx1 & 1023];
+            if (typeof t2 !== 'number')
+              throw $.iae(t2);
+            dif -= t1 - t2;
+          } else if ($.geB(x, rx1)) {
+            t1 = buffer[x & 1023];
+            if (typeof t1 !== 'number')
+              throw $.iae(t1);
+            dif -= 2 * t1;
+          }
+          alpha = $.ltB(x, sourceWidth) ? $.index(destinationData, offsetSource) : 0;
+          if (typeof rx1 !== 'number')
+            throw $.iae(rx1);
+          buffer[x + rx1 & 1023] = alpha;
+          if (typeof alpha !== 'number')
+            throw $.iae(alpha);
+          dif += alpha;
+          sum = $.add(sum, dif);
+          offsetSource += 4;
+        }
       }
       var sx = destinationPoint.x;
       var sy = destinationPoint.y;
       var dx = $.sub(sx, rx1);
-      var dy = $.sub(destinationPoint.y, radiusY);
+      var dy = $.sub(destinationPoint.y, t6);
       var uRect = $.Rectangle$(sx, sy, sourceWidth, sourceHeight).union$1($.Rectangle$(dx, dy, destinationWidth, destinationHeight));
       destinationContext.setTransform$6(1, 0, 0, 1, 0, 0);
       destinationContext.clearRect$4(uRect.get$x(), uRect.get$y(), uRect.get$width(), uRect.get$height());
@@ -5951,6 +4520,13 @@ $$.GlowFilter = {"":
       if ($.eqB(this.hideObject, false))
         destinationContext.drawImage$3(sourceContext.get$canvas(), sx, sy);
   }
+},
+ GlowFilter$8: function(color, alpha, blurX, blurY, strength, inner, knockout, hideObject) {
+  var t1 = this.blurX;
+  if ($.ltB(t1, 1) || $.ltB(this.blurY, 1))
+    throw $.$$throw($.ArgumentError$('Error #9004: The minimum blur size is 1.'));
+  if ($.gtB(t1, 128) || $.gtB(this.blurY, 128))
+    throw $.$$throw($.ArgumentError$('Error #9004: The maximum blur size is 128.'));
 }
 };
 
@@ -8658,9 +7234,9 @@ $._convertNativeToDart_IDBKey = function(nativeKey) {
   return nativeKey;
 };
 
-$.BlurFilter$ = function(blurX, blurY, quality) {
-  var t1 = new $.BlurFilter(blurX, blurY, quality);
-  t1.BlurFilter$3(blurX, blurY, quality);
+$.BlurFilter$ = function(blurX, blurY) {
+  var t1 = new $.BlurFilter(blurX, blurY);
+  t1.BlurFilter$2(blurX, blurY);
   return t1;
 };
 
@@ -9001,8 +7577,10 @@ $.le$slow = function(a, b) {
   return a.operator$le$1(b);
 };
 
-$.DropShadowFilter$ = function(distance, angle, color, alpha, blurX, blurY, strength, quality, inner, knockout, hideObject) {
-  return new $.DropShadowFilter(distance, angle, color, alpha, blurX, blurY, strength, quality, inner, knockout, hideObject);
+$.DropShadowFilter$ = function(distance, angle, color, alpha, blurX, blurY, strength, inner, knockout, hideObject) {
+  var t1 = new $.DropShadowFilter(distance, angle, color, alpha, blurX, blurY, strength, inner, knockout, hideObject);
+  t1.DropShadowFilter$10(distance, angle, color, alpha, blurX, blurY, strength, inner, knockout, hideObject);
+  return t1;
 };
 
 $.dynamicSetMetadata = function(inputTable) {
@@ -9345,17 +7923,6 @@ $.gtB = function(a, b) {
   return typeof a === 'number' && typeof b === 'number' ? a > b : $.gt$slow(a, b) === true;
 };
 
-$.shl = function(a, b) {
-  if ($.checkNumbers(a, b)) {
-    if (b < 0)
-      throw $.$$throw($.ArgumentError$(b));
-    if (b > 31)
-      return 0;
-    return (a << b) >>> 0;
-  }
-  return a.operator$shl$1(b);
-};
-
 $.document = function() {
 return document;
 };
@@ -9567,7 +8134,7 @@ $.drawFilters = function(astronautBitmapData) {
   var bitmapData = $.BitmapData$(940, 500, true, 0);
   var bitmap = $.Bitmap$(bitmapData, 'auto', false);
   $.stage.addChild$1(bitmap);
-  var filters = [$.makeLiteralMap(['name', 'BlurFilter (radius 0)', 'filter', $.BlurFilter$(0, 0, 1)]), $.makeLiteralMap(['name', 'BlurFilter (radius 2)', 'filter', $.BlurFilter$(2, 2, 1)]), $.makeLiteralMap(['name', 'BlurFilter (radius 5)', 'filter', $.BlurFilter$(5, 5, 1)]), $.makeLiteralMap(['name', 'BlurFilter (radius 10)', 'filter', $.BlurFilter$(10, 10, 1)]), $.makeLiteralMap(['name', 'ColorMatrixFilter (grayscale)', 'filter', $.ColorMatrixFilter$grayscale()]), $.makeLiteralMap(['name', 'ColorMatrixFilter (invert)', 'filter', $.ColorMatrixFilter$invert()]), $.makeLiteralMap(['name', 'GlowFilter (yellow)', 'filter', $.GlowFilter$(4294967040, 1, 10, 10, 2, 1, false, false, false)]), $.makeLiteralMap(['name', 'DropShadowFilter (black)', 'filter', $.DropShadowFilter$(10, 0.7853981633974483, 4278190080, 0.8, 6, 6, 1, 1, false, false, false)])];
+  var filters = [$.makeLiteralMap(['name', 'DropShadowFilter (black)', 'filter', $.DropShadowFilter$(10, 0.7853981633974483, 4278190080, 0.8, 8, 8, 1, false, false, false)]), $.makeLiteralMap(['name', 'GlowFilter (red)', 'filter', $.GlowFilter$(4294901760, 1, 16, 16, 2, false, false, false)]), $.makeLiteralMap(['name', 'ColorMatrixFilter (grayscale)', 'filter', $.ColorMatrixFilter$grayscale()]), $.makeLiteralMap(['name', 'ColorMatrixFilter (invert)', 'filter', $.ColorMatrixFilter$invert()]), $.makeLiteralMap(['name', 'BlurFilter (radius 1)', 'filter', $.BlurFilter$(1, 1)]), $.makeLiteralMap(['name', 'BlurFilter (radius 2)', 'filter', $.BlurFilter$(2, 2)]), $.makeLiteralMap(['name', 'BlurFilter (radius 4)', 'filter', $.BlurFilter$(4, 4)]), $.makeLiteralMap(['name', 'BlurFilter (radius 8)', 'filter', $.BlurFilter$(8, 8)])];
   for (var i = 0; i < filters.length; ++i) {
     var x = 240 * $.mod(i, 4);
     var y = 240 * $.tdiv(i, 4);
@@ -10306,8 +8873,10 @@ $.StringImplementation__fromCharCodes = function(charCodes) {
   return $.Primitives_stringFromCharCodes(charCodes);
 };
 
-$.GlowFilter$ = function(color, alpha, blurX, blurY, strength, quality, inner, knockout, hideObject) {
-  return new $.GlowFilter(color, alpha, blurX, blurY, strength, quality, inner, knockout, hideObject);
+$.GlowFilter$ = function(color, alpha, blurX, blurY, strength, inner, knockout, hideObject) {
+  var t1 = new $.GlowFilter(color, alpha, blurX, blurY, strength, inner, knockout, hideObject);
+  t1.GlowFilter$8(color, alpha, blurX, blurY, strength, inner, knockout, hideObject);
+  return t1;
 };
 
 $.set$length = function(receiver, newLength) {
@@ -10766,7 +9335,6 @@ $.Primitives_DOLLAR_CHAR_VALUE = 36;
 $.EventPhase_BUBBLING_PHASE = 3;
 $.stage = null;
 $.KeyLocation_STANDARD = 0;
-$.Color_Yellow = 4294967040;
 $._getTypeNameOf = null;
 $.KeyLocation_D_PAD = 4;
 $.MouseEvent_MIDDLE_MOUSE_DOWN = 'middleMouseDown';
@@ -10804,6 +9372,7 @@ $.MouseEvent_MIDDLE_CLICK = 'middleClick';
 $.MouseEvent_MOUSE_WHEEL = 'mouseWheel';
 $.Primitives_hashCodeSeed = 0;
 $.TextFormatAlign_CENTER = 'center';
+$.Color_Red = 4294901760;
 $.MouseEvent_RIGHT_CLICK = 'rightClick';
 $.MouseEvent_DOUBLE_CLICK = 'doubleClick';
 $.MouseEvent_MOUSE_DOWN = 'mouseDown';

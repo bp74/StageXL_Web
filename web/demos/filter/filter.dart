@@ -29,14 +29,14 @@ void drawFilters(BitmapData astronautBitmapData)
   // define some filters
 
   List filters = [
-    {'name': 'BlurFilter (radius 0)', 'filter': new BlurFilter(0, 0) },
-    {'name': 'BlurFilter (radius 2)', 'filter': new BlurFilter(2, 2) },
-    {'name': 'BlurFilter (radius 5)', 'filter': new BlurFilter(5, 5) },
-    {'name': 'BlurFilter (radius 10)', 'filter': new BlurFilter(10, 10) },
+    {'name': 'DropShadowFilter (black)', 'filter': new DropShadowFilter(10, PI / 4, Color.Black, 0.8, 8, 8) },
+    {'name': 'GlowFilter (red)', 'filter': new GlowFilter(Color.Red, 1.0, 16, 16) },
     {'name': 'ColorMatrixFilter (grayscale)', 'filter': new ColorMatrixFilter.grayscale() },
     {'name': 'ColorMatrixFilter (invert)', 'filter': new ColorMatrixFilter.invert() },
-    {'name': 'GlowFilter (yellow)', 'filter': new GlowFilter(Color.Yellow, 1.0, 10, 10) },
-    {'name': 'DropShadowFilter (black)', 'filter': new DropShadowFilter(10, PI / 4, Color.Black, 0.8, 6, 6) }
+    {'name': 'BlurFilter (radius 1)', 'filter': new BlurFilter(1, 1) },
+    {'name': 'BlurFilter (radius 2)', 'filter': new BlurFilter(2, 2) },
+    {'name': 'BlurFilter (radius 4)', 'filter': new BlurFilter(4, 4) },
+    {'name': 'BlurFilter (radius 8)', 'filter': new BlurFilter(8, 8) }
   ];
 
   // apply all filters to the BitmapData

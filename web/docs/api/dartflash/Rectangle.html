@@ -2,7 +2,7 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>Rectangle Class / dartflash Library / Dart Documentation</title>
+        <title>Rectangle class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
@@ -42,20 +42,26 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
+<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
+<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
 <li><a href="../dartflash/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
-<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/Mask.html"><div class="icon-class"></div>Mask</a></li>
 <li><a href="../dartflash/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
 <li><a href="../dartflash/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
@@ -101,192 +107,264 @@
 </div>
 <div class="content">
         <h2><strong>Rectangle</strong>
-          Class
+          class
         </h2>
         
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
-
 </div>
+<div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="Rectangle.from">
-<span class="show-code">Code</span>
-new <strong>Rectangle</strong>.from(<a href="../dartflash/Rectangle.html">Rectangle</a> r) <a class="anchor-link" href="#Rectangle.from"
+<div class="method"><h4 id="Rectangle">
+<button class="show-code">Code</button>
+new <strong>Rectangle</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y, <a href="http://api.dartlang.org/dart_core/num.html">num</a> width, <a href="http://api.dartlang.org/dart_core/num.html">num</a> height) <a class="anchor-link" href="#Rectangle"
               title="Permalink to Rectangle.Rectangle">#</a></h4>
 <div class="doc">
-
+<pre class="source">
+Rectangle(this.x, this.y, this.width, this.height);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="Rectangle.from">
+<button class="show-code">Code</button>
+new <strong>Rectangle.from</strong>(<a href="../dartflash/Rectangle.html">Rectangle</a> r) <a class="anchor-link" href="#Rectangle.from"
+              title="Permalink to Rectangle.Rectangle.from">#</a></h4>
+<div class="doc">
 <pre class="source">
 Rectangle.from(Rectangle r) : this(r.x, r.y, r.width, r.height);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="Rectangle.zero">
-<span class="show-code">Code</span>
-new <strong>Rectangle</strong>.zero() <a class="anchor-link" href="#Rectangle.zero"
-              title="Permalink to Rectangle.Rectangle">#</a></h4>
+<button class="show-code">Code</button>
+new <strong>Rectangle.zero</strong>() <a class="anchor-link" href="#Rectangle.zero"
+              title="Permalink to Rectangle.Rectangle.zero">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Rectangle.zero() : this(0, 0, 0, 0);
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="Rectangle">
-<span class="show-code">Code</span>
-new <strong>Rectangle</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y, <a href="http://api.dartlang.org/dart_core/num.html">num</a> width, <a href="http://api.dartlang.org/dart_core/num.html">num</a> height) <a class="anchor-link" href="#Rectangle"
-              title="Permalink to Rectangle.Rectangle">#</a></h4>
-<div class="doc">
-
+</div>
+<div>
+<h3>Fields</h3>
+<div class="field"><h4 id="height">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>height</strong> <a class="anchor-link"
+            href="#height"
+            title="Permalink to Rectangle.height">#</a>
+        </h4>
+        <div class="doc">
 <pre class="source">
-Rectangle(this.x, this.y, this.width, this.height);
+num height;
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="width">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>width</strong> <a class="anchor-link"
+            href="#width"
+            title="Permalink to Rectangle.width">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num width;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="x">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>x</strong> <a class="anchor-link"
+            href="#x"
+            title="Permalink to Rectangle.x">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num x;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="y">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>y</strong> <a class="anchor-link"
+            href="#y"
+            title="Permalink to Rectangle.y">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num y;
+</pre>
+</div>
+</div>
+</div>
+<div>
 <h3>Methods</h3>
+<div class="method inherited"><h4 id="==">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
+              title="Permalink to Rectangle.operator ==">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>The equality operator.</p>
+<p>The default behavior for all <code>Object</code>s is to return true if and
+only if <code>this</code> and 
+<span class="param">other</span> are the same object.</p>
+<p>If a subclass overrides the equality operator it should override
+the <code>hashCode</code> method as well to maintain consistency.</p>
+<pre class="source">
+bool operator ==(other) =&gt; identical(this, other);
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="bottom">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get bottom</strong>() <a class="anchor-link" href="#bottom"
               title="Permalink to Rectangle.get bottom">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 num get bottom =&gt; this.y + this.height;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="bottom=">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>set bottom</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#bottom="
               title="Permalink to Rectangle.set bottom">#</a></h4>
 <div class="doc">
-
 <pre class="source">
-void set bottom(num value) 
-{ 
-  this.height = value - this.y; 
+void set bottom(num value)
+{
+  this.height = value - this.y;
 }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="bottomRight">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Point.html">Point</a> <strong>get bottomRight</strong>() <a class="anchor-link" href="#bottomRight"
               title="Permalink to Rectangle.get bottomRight">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Point get bottomRight =&gt; new Point(this.x + this.width, this.y + this.height);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="bottomRight=">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>set bottomRight</strong>(<a href="../dartflash/Point.html">Point</a> value) <a class="anchor-link" href="#bottomRight="
               title="Permalink to Rectangle.set bottomRight">#</a></h4>
 <div class="doc">
-
 <pre class="source">
-void set bottomRight(Point value) 
-{ 
-  this.width = value.x - this.x; 
-  this.height = value.y - this.y; 
+void set bottomRight(Point value)
+{
+  this.width = value.x - this.x;
+  this.height = value.y - this.y;
 }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="clone">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Rectangle.html">Rectangle</a> <strong>clone</strong>() <a class="anchor-link" href="#clone"
               title="Permalink to Rectangle.clone">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Rectangle clone() =&gt; new Rectangle(this.x, this.y, this.width, this.height);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="contains">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>contains</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> px, <a href="http://api.dartlang.org/dart_core/num.html">num</a> py) <a class="anchor-link" href="#contains"
               title="Permalink to Rectangle.contains">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 bool contains(num px, num py) =&gt; (this.x &lt;= px &amp;&amp; this.y &lt;= py &amp;&amp; this.right &gt;= px &amp;&amp; this.bottom &gt;= py);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="containsPoint">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>containsPoint</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#containsPoint"
               title="Permalink to Rectangle.containsPoint">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 bool containsPoint(Point p) =&gt; (this.left &lt;= p.x &amp;&amp; this.right &lt;= p.y &amp;&amp; this.right &gt;= p.x &amp;&amp; this.bottom &gt;= p.y);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="containsRect">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>containsRect</strong>(<a href="../dartflash/Rectangle.html">Rectangle</a> r) <a class="anchor-link" href="#containsRect"
               title="Permalink to Rectangle.containsRect">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 bool containsRect(Rectangle r) =&gt; (this.left &lt;= r.left &amp;&amp; this.top &lt;= r.top &amp;&amp; this.right &gt;= r.right &amp;&amp; this.bottom &gt;= r.bottom);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="copyFrom">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>copyFrom</strong>(<a href="../dartflash/Rectangle.html">Rectangle</a> r) <a class="anchor-link" href="#copyFrom"
               title="Permalink to Rectangle.copyFrom">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void copyFrom(Rectangle r) { this.x = r.x; this.y = r.y; this.width = r.width; this.height = r.height; }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="equals">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>equals</strong>(<a href="../dartflash/Rectangle.html">Rectangle</a> r) <a class="anchor-link" href="#equals"
               title="Permalink to Rectangle.equals">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 bool equals(Rectangle r) =&gt; (this.x == r.x &amp;&amp; this.y == r.y &amp;&amp; this.width == r.width &amp;&amp; this.height == r.height);
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="hashCode">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
+              title="Permalink to Rectangle.hashCode">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Get a hash code for this object.</p>
+<p>All objects have hash codes. Hash codes are guaranteed to be the
+same for objects that are equal when compared using the equality
+operator <code>==</code>. Other than that there are no guarantees about
+the hash codes. They will not be consistent between runs and
+there are no distribution guarantees.</p>
+<p>If a subclass overrides <code>hashCode</code> it should override the
+equality operator as well to maintain consistency.</p>
+<pre class="source">
+external int hashCode();
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="inflate">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>inflate</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> dx, <a href="http://api.dartlang.org/dart_core/num.html">num</a> dy) <a class="anchor-link" href="#inflate"
               title="Permalink to Rectangle.inflate">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void inflate(num dx, num dy) { this.width = this.width + dx; this.height = this.height + dy; }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="inflatePoint">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>inflatePoint</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#inflatePoint"
               title="Permalink to Rectangle.inflatePoint">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void inflatePoint(Point p) { this.width = this.width + p.x; this.height = this.height + p.y; }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="intersection">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Rectangle.html">Rectangle</a> <strong>intersection</strong>(<a href="../dartflash/Rectangle.html">Rectangle</a> rect) <a class="anchor-link" href="#intersection"
               title="Permalink to Rectangle.intersection">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Rectangle intersection(Rectangle rect)
 {
@@ -297,213 +375,235 @@ Rectangle intersection(Rectangle rect)
   num rTop = max (this.top, rect.top);
   num rRight = min (this.right, rect.right);
   num rBottom = min (this.bottom, rect.bottom);
-   
+
   return new Rectangle(rLeft, rRight, rRight - rLeft, rBottom - rTop);
 }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="intersects">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>intersects</strong>(<a href="../dartflash/Rectangle.html">Rectangle</a> r) <a class="anchor-link" href="#intersects"
               title="Permalink to Rectangle.intersects">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 bool intersects(Rectangle r) =&gt; (this.left &lt; r.right &amp;&amp; this.right &gt; r.left &amp;&amp; this.top &lt; r.bottom &amp;&amp; this.bottom &gt; r.top);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="isEmpty">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get isEmpty</strong>() <a class="anchor-link" href="#isEmpty"
               title="Permalink to Rectangle.get isEmpty">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 bool get isEmpty =&gt; (this.width == 0 &amp;&amp; this.height == 0);
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="left=">
-<span class="show-code">Code</span>
-void <strong>set left</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#left="
-              title="Permalink to Rectangle.set left">#</a></h4>
-<div class="doc">
-
-<pre class="source">
-void set left(num value) 
-{ 
-  this.x = value; 
-}
-</pre>
-</div>
-</div>
 <div class="method"><h4 id="left">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get left</strong>() <a class="anchor-link" href="#left"
               title="Permalink to Rectangle.get left">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 num get left =&gt; this.x;
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="left=">
+<button class="show-code">Code</button>
+void <strong>set left</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#left="
+              title="Permalink to Rectangle.set left">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set left(num value)
+{
+  this.x = value;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="noSuchMethod">
+<button class="show-code">Code</button>
+<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
+              title="Permalink to Rectangle.noSuchMethod">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
+on an object. The name of the method and the arguments of the
+invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
+returns a value, that value becomes the result of the original
+invocation.</p>
+<p>The default behavior of <code>noSuchMethod</code> is to throw a
+<code>noSuchMethodError</code>.</p>
+<pre class="source">
+external Dynamic noSuchMethod(String name, List args);
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="offset">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>offset</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> dx, <a href="http://api.dartlang.org/dart_core/num.html">num</a> dy) <a class="anchor-link" href="#offset"
               title="Permalink to Rectangle.offset">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void offset(num dx, num dy) { this.x = this.x + dx; this.y = this.y + dy; }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="offsetPoint">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>offsetPoint</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#offsetPoint"
               title="Permalink to Rectangle.offsetPoint">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void offsetPoint(Point p) { this.x = this.x + p.x; this.y = this.y + p.y; }
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="right=">
-<span class="show-code">Code</span>
-void <strong>set right</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#right="
-              title="Permalink to Rectangle.set right">#</a></h4>
-<div class="doc">
-
-<pre class="source">
-void set right(num value) 
-{ 
-  this.width = value - this.x; 
-}
-</pre>
-</div>
-</div>
 <div class="method"><h4 id="right">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get right</strong>() <a class="anchor-link" href="#right"
               title="Permalink to Rectangle.get right">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 num get right =&gt; this.x + this.width;
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="right=">
+<button class="show-code">Code</button>
+void <strong>set right</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#right="
+              title="Permalink to Rectangle.set right">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set right(num value)
+{
+  this.width = value - this.x;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
+              title="Permalink to Rectangle.get runtimeType">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="setEmpty">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>setEmpty</strong>() <a class="anchor-link" href="#setEmpty"
               title="Permalink to Rectangle.setEmpty">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void setEmpty() { this.x = 0.0; this.y = 0.0; this.width = 0.0; this.height = 0.0; }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="setTo">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>setTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> rx, <a href="http://api.dartlang.org/dart_core/num.html">num</a> ry, <a href="http://api.dartlang.org/dart_core/num.html">num</a> rwidth, <a href="http://api.dartlang.org/dart_core/num.html">num</a> rheight) <a class="anchor-link" href="#setTo"
               title="Permalink to Rectangle.setTo">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void setTo(num rx, num ry, num rwidth, num rheight) { this.x = rx; this.y = ry; this.width = rwidth; this.height = rheight; }
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="size=">
-<span class="show-code">Code</span>
-void <strong>set size</strong>(<a href="../dartflash/Point.html">Point</a> value) <a class="anchor-link" href="#size="
-              title="Permalink to Rectangle.set size">#</a></h4>
-<div class="doc">
-
-<pre class="source">
-void set size(Point value) 
-{ 
-  this.width = value.x; 
-  this.height = value.y; 
-}
-</pre>
-</div>
-</div>
 <div class="method"><h4 id="size">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Point.html">Point</a> <strong>get size</strong>() <a class="anchor-link" href="#size"
               title="Permalink to Rectangle.get size">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Point get size =&gt; new Point(this.width, this.height);
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="top=">
-<span class="show-code">Code</span>
-void <strong>set top</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#top="
-              title="Permalink to Rectangle.set top">#</a></h4>
+<div class="method"><h4 id="size=">
+<button class="show-code">Code</button>
+void <strong>set size</strong>(<a href="../dartflash/Point.html">Point</a> value) <a class="anchor-link" href="#size="
+              title="Permalink to Rectangle.set size">#</a></h4>
 <div class="doc">
-
 <pre class="source">
-void set top(num value) 
-{ 
-  this.y = value; 
+void set size(Point value)
+{
+  this.width = value.x;
+  this.height = value.y;
 }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="top">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get top</strong>() <a class="anchor-link" href="#top"
               title="Permalink to Rectangle.get top">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 num get top =&gt; this.y;
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="topLeft=">
-<span class="show-code">Code</span>
-void <strong>set topLeft</strong>(<a href="../dartflash/Point.html">Point</a> value) <a class="anchor-link" href="#topLeft="
-              title="Permalink to Rectangle.set topLeft">#</a></h4>
+<div class="method"><h4 id="top=">
+<button class="show-code">Code</button>
+void <strong>set top</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#top="
+              title="Permalink to Rectangle.set top">#</a></h4>
 <div class="doc">
-
 <pre class="source">
-void set topLeft(Point value) 
-{ 
-  this.width = this.width + this.x - value.x; 
-  this.height = this.height + this.y - value.y;
-  this.x = value.x; 
-  this.y = value.y; 
- }
+void set top(num value)
+{
+  this.y = value;
+}
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="topLeft">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Point.html">Point</a> <strong>get topLeft</strong>() <a class="anchor-link" href="#topLeft"
               title="Permalink to Rectangle.get topLeft">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Point get topLeft =&gt; new Point(this.x, this.y);
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="topLeft=">
+<button class="show-code">Code</button>
+void <strong>set topLeft</strong>(<a href="../dartflash/Point.html">Point</a> value) <a class="anchor-link" href="#topLeft="
+              title="Permalink to Rectangle.set topLeft">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set topLeft(Point value)
+{
+  this.width = this.width + this.x - value.x;
+  this.height = this.height + this.y - value.y;
+  this.x = value.x;
+  this.y = value.y;
+ }
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="toString">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to Rectangle.toString">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Returns a string representation of this object.</p>
+<pre class="source">
+external String toString();
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="union">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Rectangle.html">Rectangle</a> <strong>union</strong>(<a href="../dartflash/Rectangle.html">Rectangle</a> rect) <a class="anchor-link" href="#union"
               title="Permalink to Rectangle.union">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Rectangle union(Rectangle rect)
 {
@@ -511,63 +611,11 @@ Rectangle union(Rectangle rect)
   num rTop = min (this.top, rect.top);
   num rRight = max (this.right, rect.right);
   num rBottom = max (this.bottom, rect.bottom);
-   
-  return new Rectangle(rLeft, rRight, rRight - rLeft, rBottom - rTop);    
+
+  return new Rectangle(rLeft, rRight, rRight - rLeft, rBottom - rTop);
 }
 </pre>
 </div>
-</div>
-<h3>Fields</h3>
-<div class="field"><h4 id="height">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>height</strong> <a class="anchor-link"
-            href="#height"
-            title="Permalink to Rectangle.height">#</a>
-        </h4>
-        <div class="doc">
-
-<pre class="source">
-num height;
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="width">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>width</strong> <a class="anchor-link"
-            href="#width"
-            title="Permalink to Rectangle.width">#</a>
-        </h4>
-        <div class="doc">
-
-<pre class="source">
-num width;
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="x">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>x</strong> <a class="anchor-link"
-            href="#x"
-            title="Permalink to Rectangle.x">#</a>
-        </h4>
-        <div class="doc">
-
-<pre class="source">
-num x;
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="y">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>y</strong> <a class="anchor-link"
-            href="#y"
-            title="Permalink to Rectangle.y">#</a>
-        </h4>
-        <div class="doc">
-
-<pre class="source">
-num y;
-</pre>
 </div>
 </div>
         </div>
@@ -575,7 +623,7 @@ num y;
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-09-22 08:09:01.776</div>
+          <div>This page was generated at 2012-10-06 13:13:21.345</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

@@ -2,7 +2,7 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>ColorTransform Class / dartflash Library / Dart Documentation</title>
+        <title>ColorTransform class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
@@ -42,20 +42,26 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
+<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
+<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
 <li><a href="../dartflash/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
-<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/Mask.html"><div class="icon-class"></div>Mask</a></li>
 <li><a href="../dartflash/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
 <li><a href="../dartflash/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
@@ -101,38 +107,164 @@
 </div>
 <div class="content">
         <h2><strong>ColorTransform</strong>
-          Class
+          class
         </h2>
         
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
-
 </div>
+<div>
 <h3>Constructors</h3>
 <div class="method"><h4 id="ColorTransform">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 new <strong>ColorTransform</strong>([<a href="http://api.dartlang.org/dart_core/num.html">num</a> redMultiplier = 1.0, <a href="http://api.dartlang.org/dart_core/num.html">num</a> greenMultiplier = 1.0, <a href="http://api.dartlang.org/dart_core/num.html">num</a> blueMultiplier = 1.0, <a href="http://api.dartlang.org/dart_core/num.html">num</a> alphaMultiplier = 1.0, <a href="http://api.dartlang.org/dart_core/int.html">int</a> redOffset = 0, <a href="http://api.dartlang.org/dart_core/int.html">int</a> greenOffset = 0, <a href="http://api.dartlang.org/dart_core/int.html">int</a> blueOffset = 0, <a href="http://api.dartlang.org/dart_core/int.html">int</a> alphaOffset = 0]) <a class="anchor-link" href="#ColorTransform"
               title="Permalink to ColorTransform.ColorTransform">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 ColorTransform([this.redMultiplier = 1.0, this.greenMultiplier = 1.0, this.blueMultiplier = 1.0, this.alphaMultiplier = 1.0, this.redOffset = 0, this.greenOffset = 0, this.blueOffset = 0, this.alphaOffset = 0]);
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Fields</h3>
+<div class="field"><h4 id="alphaMultiplier">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>alphaMultiplier</strong> <a class="anchor-link"
+            href="#alphaMultiplier"
+            title="Permalink to ColorTransform.alphaMultiplier">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num alphaMultiplier;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="alphaOffset">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>alphaOffset</strong> <a class="anchor-link"
+            href="#alphaOffset"
+            title="Permalink to ColorTransform.alphaOffset">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int alphaOffset;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="blueMultiplier">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>blueMultiplier</strong> <a class="anchor-link"
+            href="#blueMultiplier"
+            title="Permalink to ColorTransform.blueMultiplier">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num blueMultiplier;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="blueOffset">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>blueOffset</strong> <a class="anchor-link"
+            href="#blueOffset"
+            title="Permalink to ColorTransform.blueOffset">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int blueOffset;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="greenMultiplier">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>greenMultiplier</strong> <a class="anchor-link"
+            href="#greenMultiplier"
+            title="Permalink to ColorTransform.greenMultiplier">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num greenMultiplier;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="greenOffset">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>greenOffset</strong> <a class="anchor-link"
+            href="#greenOffset"
+            title="Permalink to ColorTransform.greenOffset">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int greenOffset;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="redMultiplier">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>redMultiplier</strong> <a class="anchor-link"
+            href="#redMultiplier"
+            title="Permalink to ColorTransform.redMultiplier">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num redMultiplier;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="redOffset">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>redOffset</strong> <a class="anchor-link"
+            href="#redOffset"
+            title="Permalink to ColorTransform.redOffset">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int redOffset;
+</pre>
+</div>
+</div>
+</div>
+<div>
 <h3>Methods</h3>
+<div class="method inherited"><h4 id="==">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
+              title="Permalink to ColorTransform.operator ==">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>The equality operator.</p>
+<p>The default behavior for all <code>Object</code>s is to return true if and
+only if <code>this</code> and 
+<span class="param">other</span> are the same object.</p>
+<p>If a subclass overrides the equality operator it should override
+the <code>hashCode</code> method as well to maintain consistency.</p>
+<pre class="source">
+bool operator ==(other) =&gt; identical(this, other);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="color">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get color</strong>() <a class="anchor-link" href="#color"
+              title="Permalink to ColorTransform.get color">#</a></h4>
+<div class="doc">
+<pre class="source">
+int get color =&gt; (redOffset &lt;&lt; 16) + (greenOffset &lt;&lt; 16) + (blueOffset &lt;&lt; 0);
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="color=">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>set color</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> value) <a class="anchor-link" href="#color="
               title="Permalink to ColorTransform.set color">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void set color(int value)
 {
   redOffset =   (value &amp; 0x00FF0000) &gt;&gt; 16;
   greenOffset = (value &amp; 0x0000FF00) &gt;&gt; 8;
   blueOffset =  (value &amp; 0x000000FF);
-  
+
   redMultiplier = 0;
   greenMultiplier = 0;
   blueMultiplier = 0;
@@ -140,23 +272,11 @@ void set color(int value)
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="color">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get color</strong>() <a class="anchor-link" href="#color"
-              title="Permalink to ColorTransform.get color">#</a></h4>
-<div class="doc">
-
-<pre class="source">
-int get color =&gt; (redOffset &lt;&lt; 16) + (greenOffset &lt;&lt; 16) + (blueOffset &lt;&lt; 0);
-</pre>
-</div>
-</div>
 <div class="method"><h4 id="concat">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>concat</strong>(<a href="../dartflash/ColorTransform.html">ColorTransform</a> second) <a class="anchor-link" href="#concat"
               title="Permalink to ColorTransform.concat">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void concat(ColorTransform second)
 {
@@ -167,109 +287,62 @@ void concat(ColorTransform second)
 </pre>
 </div>
 </div>
-<h3>Fields</h3>
-<div class="field"><h4 id="alphaMultiplier">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>alphaMultiplier</strong> <a class="anchor-link"
-            href="#alphaMultiplier"
-            title="Permalink to ColorTransform.alphaMultiplier">#</a>
-        </h4>
-        <div class="doc">
-
+<div class="method inherited"><h4 id="hashCode">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
+              title="Permalink to ColorTransform.hashCode">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Get a hash code for this object.</p>
+<p>All objects have hash codes. Hash codes are guaranteed to be the
+same for objects that are equal when compared using the equality
+operator <code>==</code>. Other than that there are no guarantees about
+the hash codes. They will not be consistent between runs and
+there are no distribution guarantees.</p>
+<p>If a subclass overrides <code>hashCode</code> it should override the
+equality operator as well to maintain consistency.</p>
 <pre class="source">
-num alphaMultiplier;
+external int hashCode();
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="alphaOffset">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>alphaOffset</strong> <a class="anchor-link"
-            href="#alphaOffset"
-            title="Permalink to ColorTransform.alphaOffset">#</a>
-        </h4>
-        <div class="doc">
-
+<div class="method inherited"><h4 id="noSuchMethod">
+<button class="show-code">Code</button>
+<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
+              title="Permalink to ColorTransform.noSuchMethod">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
+on an object. The name of the method and the arguments of the
+invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
+returns a value, that value becomes the result of the original
+invocation.</p>
+<p>The default behavior of <code>noSuchMethod</code> is to throw a
+<code>noSuchMethodError</code>.</p>
 <pre class="source">
-int alphaOffset;
+external Dynamic noSuchMethod(String name, List args);
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="blueMultiplier">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>blueMultiplier</strong> <a class="anchor-link"
-            href="#blueMultiplier"
-            title="Permalink to ColorTransform.blueMultiplier">#</a>
-        </h4>
-        <div class="doc">
-
+<div class="method inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
+              title="Permalink to ColorTransform.get runtimeType">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
 <pre class="source">
-num blueMultiplier;
+external Type get runtimeType;
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="blueOffset">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>blueOffset</strong> <a class="anchor-link"
-            href="#blueOffset"
-            title="Permalink to ColorTransform.blueOffset">#</a>
-        </h4>
-        <div class="doc">
-
+<div class="method inherited"><h4 id="toString">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to ColorTransform.toString">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Returns a string representation of this object.</p>
 <pre class="source">
-int blueOffset;
+external String toString();
 </pre>
 </div>
-</div>
-<div class="field"><h4 id="greenMultiplier">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>greenMultiplier</strong> <a class="anchor-link"
-            href="#greenMultiplier"
-            title="Permalink to ColorTransform.greenMultiplier">#</a>
-        </h4>
-        <div class="doc">
-
-<pre class="source">
-num greenMultiplier;
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="greenOffset">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>greenOffset</strong> <a class="anchor-link"
-            href="#greenOffset"
-            title="Permalink to ColorTransform.greenOffset">#</a>
-        </h4>
-        <div class="doc">
-
-<pre class="source">
-int greenOffset;
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="redMultiplier">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>redMultiplier</strong> <a class="anchor-link"
-            href="#redMultiplier"
-            title="Permalink to ColorTransform.redMultiplier">#</a>
-        </h4>
-        <div class="doc">
-
-<pre class="source">
-num redMultiplier;
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="redOffset">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>redOffset</strong> <a class="anchor-link"
-            href="#redOffset"
-            title="Permalink to ColorTransform.redOffset">#</a>
-        </h4>
-        <div class="doc">
-
-<pre class="source">
-int redOffset;
-</pre>
 </div>
 </div>
         </div>
@@ -277,7 +350,7 @@ int redOffset;
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-09-22 08:09:01.797</div>
+          <div>This page was generated at 2012-10-06 13:13:21.469</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

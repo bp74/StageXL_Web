@@ -2,7 +2,7 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>Sound Class / dartflash Library / Dart Documentation</title>
+        <title>Sound class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
@@ -42,20 +42,26 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
+<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
+<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
 <li><a href="../dartflash/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
-<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/Mask.html"><div class="icon-class"></div>Mask</a></li>
 <li><a href="../dartflash/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
 <li><a href="../dartflash/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
@@ -101,29 +107,29 @@
 </div>
 <div class="content">
         <h2><strong>Sound</strong>
-          Class
+          class
         </h2>
         
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
-
 </div>
 <h3>Subclasses</h3>
 <p>
 <span class="type-box"><span class="icon-class"></span><a href="../dartflash/AudioElementSound.html">AudioElementSound</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/MockSound.html">MockSound</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/WebAudioApiSound.html">WebAudioApiSound</a></span></p>
+<div>
 <h3>Static Methods</h3>
 <div class="method"><h4 id="adaptAudioUrl">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>adaptAudioUrl</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> url) <a class="anchor-link" href="#adaptAudioUrl"
               title="Permalink to Sound.adaptAudioUrl">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static String adaptAudioUrl(String url)
 {
   if (_supportedTypes == null)
   {
     _supportedTypes = new List&lt;String&gt;();
-    
+
     html.AudioElement audio = new html.AudioElement();
     List valid = ["maybe", "probably"];
 
@@ -131,17 +137,17 @@ static String adaptAudioUrl(String url)
     if (valid.indexOf(audio.canPlayType("audio/mp3", "")) != -1) _supportedTypes.add("mp3");
     if (valid.indexOf(audio.canPlayType("audio/wav", "")) != -1) _supportedTypes.add("wav");
   }
-  
+
   //---------------------------------------
-  
-  RegExp regex = const RegExp(@"\.(ogg|mp3|wav)$", multiLine:false, ignoreCase:true); 
+
+  RegExp regex = const RegExp(r"\.(ogg|mp3|wav)$", multiLine:false, ignoreCase:true);
   Match match = regex.firstMatch(url);
-  
+
   if (match == null)
     throw "Unsupported file extension";
-  
+
   String fileType = match.group(1).toLowerCase();
-  
+
   if (_supportedTypes.indexOf(fileType) == -1 &amp;&amp; _supportedTypes.length &gt; 0)
     url = "${url.substring(0, url.length - 3)}${_supportedTypes[0]}";
 
@@ -151,66 +157,121 @@ static String adaptAudioUrl(String url)
 </div>
 </div>
 <div class="method"><h4 id="loadAudio">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/Future.html">Future</a>&lt;<a href="../dartflash/Sound.html">Sound</a>&gt; <strong>loadAudio</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> url) <a class="anchor-link" href="#loadAudio"
               title="Permalink to Sound.loadAudio">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static Future&lt;Sound&gt; loadAudio(String url)
 {
-  Sound sound;
-  
-  switch(SoundMixer.engine)
-  {
-    case "WebAudioApi":
-      sound = new WebAudioApiSound();
-      break;
-    case "AudioElement":
-      sound = new AudioElementSound();
-      break;
-    default:
-      sound = new MockSound();
-      break;
-  }
-  
-  return sound.load(url);
+  var engine = SoundMixer.engine;
+
+  if (engine == "WebAudioApi")
+    return WebAudioApiSound.loadAudio(url);
+
+  if (engine == "AudioElement")
+    return AudioElementSound.loadAudio(url);
+
+  return MockSound.loadAudio(url);
 }
 </pre>
 </div>
 </div>
+</div>
+<div>
 <h3>Methods</h3>
-<div class="method"><h4 id="length">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get length</strong>() <a class="anchor-link" href="#length"
-              title="Permalink to Sound.get length">#</a></h4>
-<div class="doc">
-
+<div class="method inherited"><h4 id="==">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
+              title="Permalink to Sound.operator ==">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>The equality operator.</p>
+<p>The default behavior for all <code>Object</code>s is to return true if and
+only if <code>this</code> and 
+<span class="param">other</span> are the same object.</p>
+<p>If a subclass overrides the equality operator it should override
+the <code>hashCode</code> method as well to maintain consistency.</p>
 <pre class="source">
-abstract num get length();
+bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="load">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/Future.html">Future</a>&lt;<a href="../dartflash/Sound.html">Sound</a>&gt; <strong>load</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> url) <a class="anchor-link" href="#load"
-              title="Permalink to Sound.load">#</a></h4>
-<div class="doc">
-
+<div class="method inherited"><h4 id="hashCode">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
+              title="Permalink to Sound.hashCode">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Get a hash code for this object.</p>
+<p>All objects have hash codes. Hash codes are guaranteed to be the
+same for objects that are equal when compared using the equality
+operator <code>==</code>. Other than that there are no guarantees about
+the hash codes. They will not be consistent between runs and
+there are no distribution guarantees.</p>
+<p>If a subclass overrides <code>hashCode</code> it should override the
+equality operator as well to maintain consistency.</p>
 <pre class="source">
-abstract Future&lt;Sound&gt; load(String url);
+external int hashCode();
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="length">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get length</strong>() <a class="anchor-link" href="#length"
+              title="Permalink to Sound.get length">#</a></h4>
+<div class="doc">
+<pre class="source">
+num get length;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="noSuchMethod">
+<button class="show-code">Code</button>
+<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
+              title="Permalink to Sound.noSuchMethod">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
+on an object. The name of the method and the arguments of the
+invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
+returns a value, that value becomes the result of the original
+invocation.</p>
+<p>The default behavior of <code>noSuchMethod</code> is to throw a
+<code>noSuchMethodError</code>.</p>
+<pre class="source">
+external Dynamic noSuchMethod(String name, List args);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="play">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/SoundChannel.html">SoundChannel</a> <strong>play</strong>([<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> loop = false, <a href="../dartflash/SoundTransform.html">SoundTransform</a> soundTransform = null]) <a class="anchor-link" href="#play"
               title="Permalink to Sound.play">#</a></h4>
 <div class="doc">
-
 <pre class="source">
-abstract SoundChannel play([bool loop = false, SoundTransform soundTransform = null]);
+SoundChannel play([bool loop = false, SoundTransform soundTransform = null]);
 </pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
+              title="Permalink to Sound.get runtimeType">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="toString">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to Sound.toString">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Returns a string representation of this object.</p>
+<pre class="source">
+external String toString();
+</pre>
+</div>
 </div>
 </div>
         </div>
@@ -218,7 +279,7 @@ abstract SoundChannel play([bool loop = false, SoundTransform soundTransform = n
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-09-22 08:09:01.913</div>
+          <div>This page was generated at 2012-10-06 13:13:22.132</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

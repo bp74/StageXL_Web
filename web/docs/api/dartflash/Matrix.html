@@ -2,7 +2,7 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>Matrix Class / dartflash Library / Dart Documentation</title>
+        <title>Matrix class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
@@ -42,20 +42,26 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
+<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
+<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
 <li><a href="../dartflash/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
-<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/Mask.html"><div class="icon-class"></div>Mask</a></li>
 <li><div class="icon-class"></div><strong>Matrix</strong></li>
 <li><a href="../dartflash/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
@@ -101,79 +107,92 @@
 </div>
 <div class="content">
         <h2><strong>Matrix</strong>
-          Class
+          class
         </h2>
         
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
-
 </div>
+<div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="Matrix.fromIdentity">
-<span class="show-code">Code</span>
-new <strong>Matrix</strong>.fromIdentity() <a class="anchor-link" href="#Matrix.fromIdentity"
-              title="Permalink to Matrix.Matrix">#</a></h4>
-<div class="doc">
-
-<pre class="source">
-Matrix.fromIdentity() :  
-  _a = 1.0, _b = 0.0, _c = 0.0, _d = 1.0, _tx = 0.0, _ty = 0.0, _det = 1.0;
-</pre>
-</div>
-</div>
 <div class="method"><h4 id="Matrix">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 new <strong>Matrix</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> a, <a href="http://api.dartlang.org/dart_core/num.html">num</a> b, <a href="http://api.dartlang.org/dart_core/num.html">num</a> c, <a href="http://api.dartlang.org/dart_core/num.html">num</a> d, <a href="http://api.dartlang.org/dart_core/num.html">num</a> tx, <a href="http://api.dartlang.org/dart_core/num.html">num</a> ty) <a class="anchor-link" href="#Matrix"
               title="Permalink to Matrix.Matrix">#</a></h4>
 <div class="doc">
-
 <pre class="source">
-Matrix(num a, num b, num c, num d, num tx, num ty) : 
+Matrix(num a, num b, num c, num d, num tx, num ty) :
   _a = a, _b = b, _c = c, _d = d, _tx = tx, _ty = ty, _det = a * d - b * c;
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="Matrix.fromIdentity">
+<button class="show-code">Code</button>
+new <strong>Matrix.fromIdentity</strong>() <a class="anchor-link" href="#Matrix.fromIdentity"
+              title="Permalink to Matrix.Matrix.fromIdentity">#</a></h4>
+<div class="doc">
+<pre class="source">
+Matrix.fromIdentity() :
+  _a = 1.0, _b = 0.0, _c = 0.0, _d = 1.0, _tx = 0.0, _ty = 0.0, _det = 1.0;
+</pre>
+</div>
+</div>
+</div>
+<div>
 <h3>Methods</h3>
+<div class="method inherited"><h4 id="==">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
+              title="Permalink to Matrix.operator ==">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>The equality operator.</p>
+<p>The default behavior for all <code>Object</code>s is to return true if and
+only if <code>this</code> and 
+<span class="param">other</span> are the same object.</p>
+<p>If a subclass overrides the equality operator it should override
+the <code>hashCode</code> method as well to maintain consistency.</p>
+<pre class="source">
+bool operator ==(other) =&gt; identical(this, other);
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="a">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get a</strong>() <a class="anchor-link" href="#a"
               title="Permalink to Matrix.get a">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 num get a =&gt; _a;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="b">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get b</strong>() <a class="anchor-link" href="#b"
               title="Permalink to Matrix.get b">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 num get b =&gt; _b;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="c">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get c</strong>() <a class="anchor-link" href="#c"
               title="Permalink to Matrix.get c">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 num get c =&gt; _c;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="clone">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Matrix.html">Matrix</a> <strong>clone</strong>() <a class="anchor-link" href="#clone"
               title="Permalink to Matrix.clone">#</a></h4>
 <div class="doc">
-
 <pre class="source">
-Matrix clone() 
+Matrix clone()
 {
   return new Matrix(_a, _b, _c, _d, _tx, _ty);
 }
@@ -181,13 +200,12 @@ Matrix clone()
 </div>
 </div>
 <div class="method"><h4 id="cloneInvert">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Matrix.html">Matrix</a> <strong>cloneInvert</strong>() <a class="anchor-link" href="#cloneInvert"
               title="Permalink to Matrix.cloneInvert">#</a></h4>
 <div class="doc">
-
 <pre class="source">
-Matrix cloneInvert() 
+Matrix cloneInvert()
 {
   num a =    (_d / _det);
   num b =  - (_b / _det);
@@ -195,20 +213,19 @@ Matrix cloneInvert()
   num d =    (_a / _det);
   num tx = - (a * _tx + c * _ty);
   num ty = - (b * _tx + d * _ty);
-  
+
   return new Matrix(a, b, c, d, tx, ty);
 }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="concat">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>concat</strong>(<a href="../dartflash/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#concat"
               title="Permalink to Matrix.concat">#</a></h4>
 <div class="doc">
-
 <pre class="source">
-void concat(Matrix matrix) 
+void concat(Matrix matrix)
 {
   num a1 =   _a;
   num b1 =   _b;
@@ -217,7 +234,7 @@ void concat(Matrix matrix)
   num tx1 =  _tx;
   num ty1 =  _ty;
   num det1 = _det;
-  
+
   num a2 =   matrix.a;
   num b2 =   matrix.b;
   num c2 =   matrix.c;
@@ -225,7 +242,7 @@ void concat(Matrix matrix)
   num tx2 =  matrix.tx;
   num ty2 =  matrix.ty;
   num det2 = matrix.det;
-  
+
   _a =   (a1 * a2 + b1 * c2);
   _b =   (a1 * b2 + b1 * d2);
   _c =   (c1 * a2 + d1 * c2);
@@ -238,11 +255,10 @@ void concat(Matrix matrix)
 </div>
 </div>
 <div class="method"><h4 id="copyFrom">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>copyFrom</strong>(<a href="../dartflash/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#copyFrom"
               title="Permalink to Matrix.copyFrom">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void copyFrom(Matrix matrix)
 {
@@ -258,11 +274,10 @@ void copyFrom(Matrix matrix)
 </div>
 </div>
 <div class="method"><h4 id="copyFromAndConcat">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>copyFromAndConcat</strong>(<a href="../dartflash/Matrix.html">Matrix</a> copyMatrix, <a href="../dartflash/Matrix.html">Matrix</a> concatMatrix) <a class="anchor-link" href="#copyFromAndConcat"
               title="Permalink to Matrix.copyFromAndConcat">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void copyFromAndConcat(Matrix copyMatrix, Matrix concatMatrix)
 {
@@ -273,7 +288,7 @@ void copyFromAndConcat(Matrix copyMatrix, Matrix concatMatrix)
   num tx1 =  copyMatrix.tx;
   num ty1 =  copyMatrix.ty;
   num det1 = copyMatrix.det;
-  
+
   num a2 =   concatMatrix.a;
   num b2 =   concatMatrix.b;
   num c2 =   concatMatrix.c;
@@ -281,7 +296,7 @@ void copyFromAndConcat(Matrix copyMatrix, Matrix concatMatrix)
   num tx2 =  concatMatrix.tx;
   num ty2 =  concatMatrix.ty;
   num det2 = concatMatrix.det;
-  
+
   _a =   (a1 * a2 + b1 * c2);
   _b =   (a1 * b2 + b1 * d2);
   _c =   (c1 * a2 + d1 * c2);
@@ -294,11 +309,10 @@ void copyFromAndConcat(Matrix copyMatrix, Matrix concatMatrix)
 </div>
 </div>
 <div class="method"><h4 id="copyFromAndInvert">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>copyFromAndInvert</strong>(<a href="../dartflash/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#copyFromAndInvert"
               title="Permalink to Matrix.copyFromAndInvert">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void copyFromAndInvert(Matrix matrix)
 {
@@ -309,7 +323,7 @@ void copyFromAndInvert(Matrix matrix)
   num tx =  matrix.tx;
   num ty =  matrix.ty;
   num det = matrix.det;
-  
+
   _a =    (d / det);
   _b =  - (b / det);
   _c =  - (c / det);
@@ -322,11 +336,10 @@ void copyFromAndInvert(Matrix matrix)
 </div>
 </div>
 <div class="method"><h4 id="createBox">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Matrix.html">Matrix</a> <strong>createBox</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> scaleX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> scaleY, [<a href="http://api.dartlang.org/dart_core/num.html">num</a> rotation = 0.0, <a href="http://api.dartlang.org/dart_core/num.html">num</a> translationX = 0.0, <a href="http://api.dartlang.org/dart_core/num.html">num</a> translationY = 0.0]) <a class="anchor-link" href="#createBox"
               title="Permalink to Matrix.createBox">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Matrix createBox(num scaleX, num scaleY, [num rotation = 0.0, num translationX = 0.0, num translationY = 0.0])
 {
@@ -334,29 +347,27 @@ Matrix createBox(num scaleX, num scaleY, [num rotation = 0.0, num translationX =
   matrix.scale(scaleX, scaleY);
   matrix.rotate(rotation);
   matrix.translate(translationX, translationY);
-  
+
   return matrix;
 }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="d">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get d</strong>() <a class="anchor-link" href="#d"
               title="Permalink to Matrix.get d">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 num get d =&gt; _d;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="deltaTransformPoint">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Point.html">Point</a> <strong>deltaTransformPoint</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#deltaTransformPoint"
               title="Permalink to Matrix.deltaTransformPoint">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Point deltaTransformPoint(Point p)
 {
@@ -366,22 +377,38 @@ Point deltaTransformPoint(Point p)
 </div>
 </div>
 <div class="method"><h4 id="det">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get det</strong>() <a class="anchor-link" href="#det"
               title="Permalink to Matrix.get det">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 num get det =&gt; _det;
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="hashCode">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
+              title="Permalink to Matrix.hashCode">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Get a hash code for this object.</p>
+<p>All objects have hash codes. Hash codes are guaranteed to be the
+same for objects that are equal when compared using the equality
+operator <code>==</code>. Other than that there are no guarantees about
+the hash codes. They will not be consistent between runs and
+there are no distribution guarantees.</p>
+<p>If a subclass overrides <code>hashCode</code> it should override the
+equality operator as well to maintain consistency.</p>
+<pre class="source">
+external int hashCode();
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="identity">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>identity</strong>() <a class="anchor-link" href="#identity"
               title="Permalink to Matrix.identity">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void identity()
 {
@@ -397,11 +424,10 @@ void identity()
 </div>
 </div>
 <div class="method"><h4 id="invert">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>invert</strong>() <a class="anchor-link" href="#invert"
               title="Permalink to Matrix.invert">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void invert()
 {
@@ -412,24 +438,40 @@ void invert()
   num tx =  _tx;
   num ty =  _ty;
   num det = _det;
-  
+
   _a =    (d / det);
   _b =  - (b / det);
   _c =  - (c / det);
   _d =    (a / det);
   _tx = - (_a * tx + _c * ty);
   _ty = - (_b * tx + _d * ty);
-  _det =  (1.0 / det);    
+  _det =  (1.0 / det);
 }
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="noSuchMethod">
+<button class="show-code">Code</button>
+<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
+              title="Permalink to Matrix.noSuchMethod">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
+on an object. The name of the method and the arguments of the
+invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
+returns a value, that value becomes the result of the original
+invocation.</p>
+<p>The default behavior of <code>noSuchMethod</code> is to throw a
+<code>noSuchMethodError</code>.</p>
+<pre class="source">
+external Dynamic noSuchMethod(String name, List args);
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="rotate">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>rotate</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> rotation) <a class="anchor-link" href="#rotate"
               title="Permalink to Matrix.rotate">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void rotate(num rotation)
 {
@@ -442,10 +484,10 @@ void rotate(num rotation)
   num d =  _d;
   num tx = _tx;
   num ty = _ty;
-  
-  _a =  (a * cosR - b * sinR); 
-  _b =  (a * sinR + b * cosR); 
-  _c =  (c * cosR - d * sinR); 
+
+  _a =  (a * cosR - b * sinR);
+  _b =  (a * sinR + b * cosR);
+  _c =  (c * cosR - d * sinR);
   _d =  (c * sinR + d * cosR);
   _tx = (tx * cosR - ty * sinR);
   _ty = (tx * sinR + ty * cosR);
@@ -453,12 +495,22 @@ void rotate(num rotation)
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
+              title="Permalink to Matrix.get runtimeType">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="scale">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>scale</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> scaleX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> scaleY) <a class="anchor-link" href="#scale"
               title="Permalink to Matrix.scale">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void scale(num scaleX, num scaleY)
 {
@@ -466,7 +518,7 @@ void scale(num scaleX, num scaleY)
   _b   *= scaleY;
   _c   *= scaleX;
   _d   *= scaleY;
-  _tx  *= scaleX;    
+  _tx  *= scaleX;
   _ty  *= scaleY;
   _det *= scaleX * scaleY;
 }
@@ -474,19 +526,18 @@ void scale(num scaleX, num scaleY)
 </div>
 </div>
 <div class="method"><h4 id="setTo">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>setTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> a, <a href="http://api.dartlang.org/dart_core/num.html">num</a> b, <a href="http://api.dartlang.org/dart_core/num.html">num</a> c, <a href="http://api.dartlang.org/dart_core/num.html">num</a> d, <a href="http://api.dartlang.org/dart_core/num.html">num</a> tx, <a href="http://api.dartlang.org/dart_core/num.html">num</a> ty) <a class="anchor-link" href="#setTo"
               title="Permalink to Matrix.setTo">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void setTo(num a, num b, num c, num d, num tx, num ty)
 {
-  _a =   a; 
-  _b =   b; 
-  _c =   c; 
-  _d =   d; 
-  _tx =  tx; 
+  _a =   a;
+  _b =   b;
+  _c =   c;
+  _d =   d;
+  _tx =  tx;
   _ty =  ty;
   _det = (a * d - b * c);
 }
@@ -494,24 +545,23 @@ void setTo(num a, num b, num c, num d, num tx, num ty)
 </div>
 </div>
 <div class="method"><h4 id="skew">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>skew</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> skewX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> skewY) <a class="anchor-link" href="#skew"
               title="Permalink to Matrix.skew">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void skew(num skewX, num skewY)
 {
   num tanX = tan(skewX);
   num tanY = tan(skewY);
-  
+
   num a =  _a;
   num b =  _b;
   num c =  _c;
   num d =  _d;
   num tx = _tx;
   num ty = _ty;
-  
+
   _a =   (a - b * tanX);
   _b =   (b + a * tanY);
   _c =   (c - d * tanX);
@@ -523,12 +573,22 @@ void skew(num skewX, num skewY)
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="toString">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to Matrix.toString">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Returns a string representation of this object.</p>
+<pre class="source">
+external String toString();
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="transformPoint">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Point.html">Point</a> <strong>transformPoint</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#transformPoint"
               title="Permalink to Matrix.transformPoint">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Point transformPoint(Point p)
 {
@@ -538,11 +598,10 @@ Point transformPoint(Point p)
 </div>
 </div>
 <div class="method"><h4 id="translate">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>translate</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> translationX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> translationY) <a class="anchor-link" href="#translate"
               title="Permalink to Matrix.translate">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void translate(num translationX, num translationY)
 {
@@ -553,25 +612,24 @@ void translate(num translationX, num translationY)
 </div>
 </div>
 <div class="method"><h4 id="tx">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get tx</strong>() <a class="anchor-link" href="#tx"
               title="Permalink to Matrix.get tx">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 num get tx =&gt; _tx;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="ty">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get ty</strong>() <a class="anchor-link" href="#ty"
               title="Permalink to Matrix.get ty">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 num get ty =&gt; _ty;
 </pre>
+</div>
 </div>
 </div>
         </div>
@@ -579,7 +637,7 @@ num get ty =&gt; _ty;
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-09-22 08:09:01.950</div>
+          <div>This page was generated at 2012-10-06 13:13:20.914</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

@@ -2,7 +2,7 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>TextureAtlasFrame Class / dartflash Library / Dart Documentation</title>
+        <title>TextureAtlasFrame class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
@@ -42,20 +42,26 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
+<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
+<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
 <li><a href="../dartflash/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
-<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/Mask.html"><div class="icon-class"></div>Mask</a></li>
 <li><a href="../dartflash/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
 <li><a href="../dartflash/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
@@ -101,19 +107,19 @@
 </div>
 <div class="content">
         <h2><strong>TextureAtlasFrame</strong>
-          Class
+          class
         </h2>
         
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
-
 </div>
+<div>
 <h3>Constructors</h3>
 <div class="method"><h4 id="TextureAtlasFrame">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 new <strong>TextureAtlasFrame</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="../dartflash/TextureAtlas.html">TextureAtlas</a> textureAtlas) <a class="anchor-link" href="#TextureAtlasFrame"
               title="Permalink to TextureAtlasFrame.TextureAtlasFrame">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 TextureAtlasFrame(String name, TextureAtlas textureAtlas)
 {
@@ -123,126 +129,191 @@ TextureAtlasFrame(String name, TextureAtlas textureAtlas)
 </pre>
 </div>
 </div>
+</div>
+<div>
 <h3>Methods</h3>
+<div class="method inherited"><h4 id="==">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
+              title="Permalink to TextureAtlasFrame.operator ==">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>The equality operator.</p>
+<p>The default behavior for all <code>Object</code>s is to return true if and
+only if <code>this</code> and 
+<span class="param">other</span> are the same object.</p>
+<p>If a subclass overrides the equality operator it should override
+the <code>hashCode</code> method as well to maintain consistency.</p>
+<pre class="source">
+bool operator ==(other) =&gt; identical(this, other);
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="frameHeight">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get frameHeight</strong>() <a class="anchor-link" href="#frameHeight"
               title="Permalink to TextureAtlasFrame.get frameHeight">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 int get frameHeight =&gt; _frameHeight;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="frameWidth">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get frameWidth</strong>() <a class="anchor-link" href="#frameWidth"
               title="Permalink to TextureAtlasFrame.get frameWidth">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 int get frameWidth =&gt; _frameWidth;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="frameX">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get frameX</strong>() <a class="anchor-link" href="#frameX"
               title="Permalink to TextureAtlasFrame.get frameX">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 int get frameX =&gt; _frameX;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="frameY">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get frameY</strong>() <a class="anchor-link" href="#frameY"
               title="Permalink to TextureAtlasFrame.get frameY">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 int get frameY =&gt; _frameY;
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="hashCode">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
+              title="Permalink to TextureAtlasFrame.hashCode">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Get a hash code for this object.</p>
+<p>All objects have hash codes. Hash codes are guaranteed to be the
+same for objects that are equal when compared using the equality
+operator <code>==</code>. Other than that there are no guarantees about
+the hash codes. They will not be consistent between runs and
+there are no distribution guarantees.</p>
+<p>If a subclass overrides <code>hashCode</code> it should override the
+equality operator as well to maintain consistency.</p>
+<pre class="source">
+external int hashCode();
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="name">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>get name</strong>() <a class="anchor-link" href="#name"
               title="Permalink to TextureAtlasFrame.get name">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 String get name =&gt; _name;
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="noSuchMethod">
+<button class="show-code">Code</button>
+<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
+              title="Permalink to TextureAtlasFrame.noSuchMethod">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
+on an object. The name of the method and the arguments of the
+invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
+returns a value, that value becomes the result of the original
+invocation.</p>
+<p>The default behavior of <code>noSuchMethod</code> is to throw a
+<code>noSuchMethodError</code>.</p>
+<pre class="source">
+external Dynamic noSuchMethod(String name, List args);
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="offsetX">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get offsetX</strong>() <a class="anchor-link" href="#offsetX"
               title="Permalink to TextureAtlasFrame.get offsetX">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 int get offsetX =&gt; _offsetX;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="offsetY">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get offsetY</strong>() <a class="anchor-link" href="#offsetY"
               title="Permalink to TextureAtlasFrame.get offsetY">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 int get offsetY =&gt; _offsetY;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="originalHeight">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get originalHeight</strong>() <a class="anchor-link" href="#originalHeight"
               title="Permalink to TextureAtlasFrame.get originalHeight">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 int get originalHeight =&gt; _originalHeight;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="originalWidth">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get originalWidth</strong>() <a class="anchor-link" href="#originalWidth"
               title="Permalink to TextureAtlasFrame.get originalWidth">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 int get originalWidth =&gt; _originalWidth;
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="rotated">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get rotated</strong>() <a class="anchor-link" href="#rotated"
               title="Permalink to TextureAtlasFrame.get rotated">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 bool get rotated =&gt; _rotated;
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
+              title="Permalink to TextureAtlasFrame.get runtimeType">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="textureAtlas">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/TextureAtlas.html">TextureAtlas</a> <strong>get textureAtlas</strong>() <a class="anchor-link" href="#textureAtlas"
               title="Permalink to TextureAtlasFrame.get textureAtlas">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 TextureAtlas get textureAtlas =&gt; _textureAtlas;
 </pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="toString">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to TextureAtlasFrame.toString">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Returns a string representation of this object.</p>
+<pre class="source">
+external String toString();
+</pre>
+</div>
 </div>
 </div>
         </div>
@@ -250,7 +321,7 @@ TextureAtlas get textureAtlas =&gt; _textureAtlas;
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-09-22 08:09:01.822</div>
+          <div>This page was generated at 2012-10-06 13:13:21.628</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

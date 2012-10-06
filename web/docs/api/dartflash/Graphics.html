@@ -2,7 +2,7 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>Graphics Class / dartflash Library / Dart Documentation</title>
+        <title>Graphics class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
@@ -42,20 +42,26 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
+<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
+<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><div class="icon-class"></div><strong>Graphics</strong></li>
 <li><a href="../dartflash/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
-<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/Mask.html"><div class="icon-class"></div>Mask</a></li>
 <li><a href="../dartflash/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
 <li><a href="../dartflash/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
@@ -101,19 +107,19 @@
 </div>
 <div class="content">
         <h2><strong>Graphics</strong>
-          Class
+          class
         </h2>
         
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
-
 </div>
+<div>
 <h3>Constructors</h3>
 <div class="method"><h4 id="Graphics">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 new <strong>Graphics</strong>() <a class="anchor-link" href="#Graphics"
               title="Permalink to Graphics.Graphics">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Graphics()
 {
@@ -122,13 +128,30 @@ Graphics()
 </pre>
 </div>
 </div>
+</div>
+<div>
 <h3>Methods</h3>
+<div class="method inherited"><h4 id="==">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
+              title="Permalink to Graphics.operator ==">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>The equality operator.</p>
+<p>The default behavior for all <code>Object</code>s is to return true if and
+only if <code>this</code> and 
+<span class="param">other</span> are the same object.</p>
+<p>If a subclass overrides the equality operator it should override
+the <code>hashCode</code> method as well to maintain consistency.</p>
+<pre class="source">
+bool operator ==(other) =&gt; identical(this, other);
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="arc">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>arc</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y, <a href="http://api.dartlang.org/dart_core/num.html">num</a> radius, <a href="http://api.dartlang.org/dart_core/num.html">num</a> startAngle, <a href="http://api.dartlang.org/dart_core/num.html">num</a> endAngle, <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> antiClockwise) <a class="anchor-link" href="#arc"
               title="Permalink to Graphics.arc">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 arc(num x, num y, num radius, num startAngle, num endAngle, bool antiClockwise) =&gt;
     _commands.add(new _GraphicsCommand("arc", [x, y, radius, startAngle, endAngle, antiClockwise]));
@@ -136,11 +159,10 @@ arc(num x, num y, num radius, num startAngle, num endAngle, bool antiClockwise) 
 </div>
 </div>
 <div class="method"><h4 id="arcTo">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>arcTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> controlX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> controlY, <a href="http://api.dartlang.org/dart_core/num.html">num</a> endX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> endY, <a href="http://api.dartlang.org/dart_core/num.html">num</a> radius) <a class="anchor-link" href="#arcTo"
               title="Permalink to Graphics.arcTo">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 arcTo(num controlX, num controlY, num endX, num endY, num radius) =&gt;
     _commands.add(new _GraphicsCommand("arcTo", [controlX, controlY, endX, endY, radius]));
@@ -148,11 +170,10 @@ arcTo(num controlX, num controlY, num endX, num endY, num radius) =&gt;
 </div>
 </div>
 <div class="method"><h4 id="beginPath">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>beginPath</strong>() <a class="anchor-link" href="#beginPath"
               title="Permalink to Graphics.beginPath">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 beginPath() =&gt;
     _commands.add(new _GraphicsCommand("beginPath"));
@@ -160,11 +181,10 @@ beginPath() =&gt;
 </div>
 </div>
 <div class="method"><h4 id="bezierCurveTo">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>bezierCurveTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> controlX1, <a href="http://api.dartlang.org/dart_core/num.html">num</a> controlY1, <a href="http://api.dartlang.org/dart_core/num.html">num</a> controlX2, <a href="http://api.dartlang.org/dart_core/num.html">num</a> controlY2, <a href="http://api.dartlang.org/dart_core/num.html">num</a> endX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> endY) <a class="anchor-link" href="#bezierCurveTo"
               title="Permalink to Graphics.bezierCurveTo">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 bezierCurveTo(num controlX1, num controlY1, num controlX2, num controlY2, num endX, num endY) =&gt;
     _commands.add(new _GraphicsCommand("bezierCurveTo", [controlX1, controlY1, controlX2, controlY2, endX, endY]));
@@ -172,11 +192,10 @@ bezierCurveTo(num controlX1, num controlY1, num controlX2, num controlY2, num en
 </div>
 </div>
 <div class="method"><h4 id="circle">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>circle</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y, <a href="http://api.dartlang.org/dart_core/num.html">num</a> radius) <a class="anchor-link" href="#circle"
               title="Permalink to Graphics.circle">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 circle(num x, num y, num radius)
 {
@@ -187,11 +206,10 @@ circle(num x, num y, num radius)
 </div>
 </div>
 <div class="method"><h4 id="clear">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>clear</strong>() <a class="anchor-link" href="#clear"
               title="Permalink to Graphics.clear">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 clear() =&gt;
     _commands.clear();
@@ -199,11 +217,10 @@ clear() =&gt;
 </div>
 </div>
 <div class="method"><h4 id="closePath">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>closePath</strong>() <a class="anchor-link" href="#closePath"
               title="Permalink to Graphics.closePath">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 closePath() =&gt;
     _commands.add(new _GraphicsCommand("closePath"));
@@ -211,11 +228,10 @@ closePath() =&gt;
 </div>
 </div>
 <div class="method"><h4 id="ellipse">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>ellipse</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y, <a href="http://api.dartlang.org/dart_core/num.html">num</a> width, <a href="http://api.dartlang.org/dart_core/num.html">num</a> height) <a class="anchor-link" href="#ellipse"
               title="Permalink to Graphics.ellipse">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 ellipse(num x, num y, num width, num height)
 {
@@ -239,11 +255,10 @@ ellipse(num x, num y, num width, num height)
 </div>
 </div>
 <div class="method"><h4 id="fillColor">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>fillColor</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> color) <a class="anchor-link" href="#fillColor"
               title="Permalink to Graphics.fillColor">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 fillColor(int color) =&gt;
     _commands.add(new _GraphicsCommand("fillColor", [_color2rgba(color)]));
@@ -251,11 +266,10 @@ fillColor(int color) =&gt;
 </div>
 </div>
 <div class="method"><h4 id="fillGradient">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>fillGradient</strong>(<a href="../dartflash/GraphicsGradient.html">GraphicsGradient</a> gradient) <a class="anchor-link" href="#fillGradient"
               title="Permalink to Graphics.fillGradient">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 fillGradient(GraphicsGradient gradient) =&gt;
     _commands.add(new _GraphicsCommand("fillGradient", [gradient]));
@@ -263,23 +277,39 @@ fillGradient(GraphicsGradient gradient) =&gt;
 </div>
 </div>
 <div class="method"><h4 id="fillPattern">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>fillPattern</strong>(<a href="../dartflash/GraphicsPattern.html">GraphicsPattern</a> pattern) <a class="anchor-link" href="#fillPattern"
               title="Permalink to Graphics.fillPattern">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 fillPattern(GraphicsPattern pattern) =&gt;
     _commands.add(new _GraphicsCommand("fillPattern", [pattern]));
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="hashCode">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
+              title="Permalink to Graphics.hashCode">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Get a hash code for this object.</p>
+<p>All objects have hash codes. Hash codes are guaranteed to be the
+same for objects that are equal when compared using the equality
+operator <code>==</code>. Other than that there are no guarantees about
+the hash codes. They will not be consistent between runs and
+there are no distribution guarantees.</p>
+<p>If a subclass overrides <code>hashCode</code> it should override the
+equality operator as well to maintain consistency.</p>
+<pre class="source">
+external int hashCode();
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="lineTo">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>lineTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y) <a class="anchor-link" href="#lineTo"
               title="Permalink to Graphics.lineTo">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 lineTo(num x, num y) =&gt;
     _commands.add(new _GraphicsCommand("lineTo", [x, y]));
@@ -287,23 +317,38 @@ lineTo(num x, num y) =&gt;
 </div>
 </div>
 <div class="method"><h4 id="moveTo">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>moveTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y) <a class="anchor-link" href="#moveTo"
               title="Permalink to Graphics.moveTo">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 moveTo(num x, num y) =&gt;
     _commands.add(new _GraphicsCommand("moveTo", [x, y]));
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="noSuchMethod">
+<button class="show-code">Code</button>
+<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
+              title="Permalink to Graphics.noSuchMethod">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
+on an object. The name of the method and the arguments of the
+invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
+returns a value, that value becomes the result of the original
+invocation.</p>
+<p>The default behavior of <code>noSuchMethod</code> is to throw a
+<code>noSuchMethodError</code>.</p>
+<pre class="source">
+external Dynamic noSuchMethod(String name, List args);
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="quadraticCurveTo">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>quadraticCurveTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> controlX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> controlY, <a href="http://api.dartlang.org/dart_core/num.html">num</a> endX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> endY) <a class="anchor-link" href="#quadraticCurveTo"
               title="Permalink to Graphics.quadraticCurveTo">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 quadraticCurveTo(num controlX, num controlY, num endX, num endY) =&gt;
     _commands.add(new _GraphicsCommand("quadraticCurveTo", [controlX, controlY, endX, endY]));
@@ -311,11 +356,10 @@ quadraticCurveTo(num controlX, num controlY, num endX, num endY) =&gt;
 </div>
 </div>
 <div class="method"><h4 id="rect">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>rect</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y, <a href="http://api.dartlang.org/dart_core/num.html">num</a> width, <a href="http://api.dartlang.org/dart_core/num.html">num</a> height) <a class="anchor-link" href="#rect"
               title="Permalink to Graphics.rect">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 rect(num x, num y, num width, num height) =&gt;
     _commands.add(new _GraphicsCommand("rect", [x,y,width, height]));
@@ -323,11 +367,10 @@ rect(num x, num y, num width, num height) =&gt;
 </div>
 </div>
 <div class="method"><h4 id="rectRound">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>rectRound</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y, <a href="http://api.dartlang.org/dart_core/num.html">num</a> width, <a href="http://api.dartlang.org/dart_core/num.html">num</a> height, <a href="http://api.dartlang.org/dart_core/num.html">num</a> ellipseWidth, <a href="http://api.dartlang.org/dart_core/num.html">num</a> ellipseHeight) <a class="anchor-link" href="#rectRound"
               title="Permalink to Graphics.rectRound">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 rectRound(num x, num y, num width, num height, num ellipseWidth, num ellipseHeight)
 {
@@ -345,11 +388,10 @@ rectRound(num x, num y, num width, num height, num ellipseWidth, num ellipseHeig
 </div>
 </div>
 <div class="method"><h4 id="render">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>render</strong>(<a href="../dartflash/RenderState.html">RenderState</a> renderState) <a class="anchor-link" href="#render"
               title="Permalink to Graphics.render">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void render(RenderState renderState)
 {
@@ -465,12 +507,22 @@ void render(RenderState renderState)
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
+              title="Permalink to Graphics.get runtimeType">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="strokeColor">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>strokeColor</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> color, [<a href="http://api.dartlang.org/dart_core/int.html">int</a> width = 1, <a href="http://api.dartlang.org/dart_core/String.html">String</a> joints = JointStyle.ROUND, <a href="http://api.dartlang.org/dart_core/String.html">String</a> caps = CapsStyle.ROUND]) <a class="anchor-link" href="#strokeColor"
               title="Permalink to Graphics.strokeColor">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 strokeColor(int color, [int width = 1, String joints = JointStyle.ROUND, String caps = CapsStyle.ROUND]) =&gt;
     _commands.add(new _GraphicsCommand("strokeColor", [_color2rgba(color), width, joints, caps]));
@@ -478,11 +530,10 @@ strokeColor(int color, [int width = 1, String joints = JointStyle.ROUND, String 
 </div>
 </div>
 <div class="method"><h4 id="strokeGradient">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>strokeGradient</strong>(<a href="../dartflash/GraphicsGradient.html">GraphicsGradient</a> gradient, [<a href="http://api.dartlang.org/dart_core/int.html">int</a> width = 1, <a href="http://api.dartlang.org/dart_core/String.html">String</a> joints = JointStyle.ROUND, <a href="http://api.dartlang.org/dart_core/String.html">String</a> caps = CapsStyle.ROUND]) <a class="anchor-link" href="#strokeGradient"
               title="Permalink to Graphics.strokeGradient">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 strokeGradient(GraphicsGradient gradient, [int width = 1, String joints = JointStyle.ROUND, String caps = CapsStyle.ROUND]) =&gt;
     _commands.add(new _GraphicsCommand("strokeGradient", [gradient, width, joints, caps]));
@@ -490,15 +541,26 @@ strokeGradient(GraphicsGradient gradient, [int width = 1, String joints = JointS
 </div>
 </div>
 <div class="method"><h4 id="strokePattern">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <strong>strokePattern</strong>(<a href="../dartflash/GraphicsPattern.html">GraphicsPattern</a> pattern, [<a href="http://api.dartlang.org/dart_core/int.html">int</a> width = 1, <a href="http://api.dartlang.org/dart_core/String.html">String</a> joints = JointStyle.ROUND, <a href="http://api.dartlang.org/dart_core/String.html">String</a> caps = CapsStyle.ROUND]) <a class="anchor-link" href="#strokePattern"
               title="Permalink to Graphics.strokePattern">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 strokePattern(GraphicsPattern pattern, [int width = 1, String joints = JointStyle.ROUND, String caps = CapsStyle.ROUND]) =&gt;
     _commands.add(new _GraphicsCommand("strokePattern", [pattern, width, joints, caps]));
 </pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="toString">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to Graphics.toString">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Returns a string representation of this object.</p>
+<pre class="source">
+external String toString();
+</pre>
+</div>
 </div>
 </div>
         </div>
@@ -506,7 +568,7 @@ strokePattern(GraphicsPattern pattern, [int width = 1, String joints = JointStyl
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-09-22 08:09:01.908</div>
+          <div>This page was generated at 2012-10-06 13:13:22.103</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

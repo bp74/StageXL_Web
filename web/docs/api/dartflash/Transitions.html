@@ -2,7 +2,7 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>Transitions Class / dartflash Library / Dart Documentation</title>
+        <title>Transitions class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
@@ -42,20 +42,26 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
+<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
+<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
 <li><a href="../dartflash/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
-<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/Mask.html"><div class="icon-class"></div>Mask</a></li>
 <li><a href="../dartflash/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
 <li><a href="../dartflash/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
@@ -101,19 +107,19 @@
 </div>
 <div class="content">
         <h2><strong>Transitions</strong>
-          Class
+          class
         </h2>
         
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
-
 </div>
+<div>
 <h3>Static Methods</h3>
 <div class="method"><h4 id="cosine">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>cosine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#cosine"
               title="Permalink to Transitions.cosine">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num cosine(num ratio) {
   return 0.5 + 0.5 * cos(ratio * 2.0 * PI);
@@ -122,11 +128,10 @@ static num cosine(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInBack">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInBack"
               title="Permalink to Transitions.easeInBack">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInBack(num ratio) {
   num s = 1.70158;
@@ -136,11 +141,10 @@ static num easeInBack(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInBounce">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInBounce</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInBounce"
               title="Permalink to Transitions.easeInBounce">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInBounce(num ratio) {
   return 1.0 - easeOutBounce(1.0 - ratio);
@@ -149,11 +153,10 @@ static num easeInBounce(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInCircular">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInCircular"
               title="Permalink to Transitions.easeInCircular">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInCircular(num ratio) {
   return 1.0 - sqrt(1.0 - ratio * ratio);
@@ -162,11 +165,10 @@ static num easeInCircular(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInCubic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInCubic"
               title="Permalink to Transitions.easeInCubic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInCubic(num ratio) {
   return ratio * ratio * ratio;
@@ -175,11 +177,10 @@ static num easeInCubic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInElastic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInElastic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInElastic"
               title="Permalink to Transitions.easeInElastic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInElastic(num ratio) {
   if (ratio == 0.0 || ratio == 1.0) return ratio;
@@ -190,11 +191,10 @@ static num easeInElastic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInExponential">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInExponential"
               title="Permalink to Transitions.easeInExponential">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInExponential(num ratio) {
   if (ratio == 0.0) return 0.0;
@@ -204,11 +204,10 @@ static num easeInExponential(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInOutBack">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutBack"
               title="Permalink to Transitions.easeInOutBack">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInOutBack(num ratio) {
   ratio = ratio * 2.0;
@@ -218,11 +217,10 @@ static num easeInOutBack(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInOutBounce">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutBounce</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutBounce"
               title="Permalink to Transitions.easeInOutBounce">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInOutBounce(num ratio) {
   ratio = ratio * 2.0;
@@ -232,11 +230,10 @@ static num easeInOutBounce(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInOutCircular">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutCircular"
               title="Permalink to Transitions.easeInOutCircular">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInOutCircular(num ratio) {
   ratio = ratio * 2.0;
@@ -246,11 +243,10 @@ static num easeInOutCircular(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInOutCubic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutCubic"
               title="Permalink to Transitions.easeInOutCubic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInOutCubic(num ratio) {
   ratio = ratio * 2.0;
@@ -260,11 +256,10 @@ static num easeInOutCubic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInOutElastic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutElastic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutElastic"
               title="Permalink to Transitions.easeInOutElastic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInOutElastic(num ratio) {
   ratio = ratio * 2.0;
@@ -274,11 +269,10 @@ static num easeInOutElastic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInOutExponential">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutExponential"
               title="Permalink to Transitions.easeInOutExponential">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInOutExponential(num ratio) {
   ratio = ratio * 2.0;
@@ -288,11 +282,10 @@ static num easeInOutExponential(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInOutQuadratic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutQuadratic"
               title="Permalink to Transitions.easeInOutQuadratic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInOutQuadratic(num ratio) {
   ratio = ratio * 2.0;
@@ -302,11 +295,10 @@ static num easeInOutQuadratic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInOutQuartic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutQuartic"
               title="Permalink to Transitions.easeInOutQuartic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInOutQuartic(num ratio) {
   ratio = ratio * 2.0;
@@ -316,11 +308,10 @@ static num easeInOutQuartic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInOutQuintic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutQuintic"
               title="Permalink to Transitions.easeInOutQuintic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInOutQuintic(num ratio) {
   ratio = ratio * 2.0;
@@ -330,11 +321,10 @@ static num easeInOutQuintic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInOutSine">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutSine"
               title="Permalink to Transitions.easeInOutSine">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInOutSine(num ratio) {
   ratio = ratio * 2.0;
@@ -344,11 +334,10 @@ static num easeInOutSine(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInQuadratic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInQuadratic"
               title="Permalink to Transitions.easeInQuadratic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInQuadratic(num ratio) {
   return ratio * ratio;
@@ -357,11 +346,10 @@ static num easeInQuadratic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInQuartic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInQuartic"
               title="Permalink to Transitions.easeInQuartic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInQuartic(num ratio) {
   return ratio * ratio * ratio * ratio;
@@ -370,11 +358,10 @@ static num easeInQuartic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInQuintic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInQuintic"
               title="Permalink to Transitions.easeInQuintic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInQuintic(num ratio) {
   return ratio * ratio * ratio * ratio * ratio;
@@ -383,11 +370,10 @@ static num easeInQuintic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeInSine">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInSine"
               title="Permalink to Transitions.easeInSine">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeInSine(num ratio) {
   return 1.0 - cos(ratio * (PI / 2.0));
@@ -396,11 +382,10 @@ static num easeInSine(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutBack">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutBack"
               title="Permalink to Transitions.easeOutBack">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutBack(num ratio) {
   num s = 1.70158;
@@ -411,11 +396,10 @@ static num easeOutBack(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutBounce">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutBounce</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutBounce"
               title="Permalink to Transitions.easeOutBounce">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutBounce(num ratio) {
   if (ratio &lt; 1 / 2.75) {
@@ -435,11 +419,10 @@ static num easeOutBounce(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutCircular">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutCircular"
               title="Permalink to Transitions.easeOutCircular">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutCircular(num ratio) {
   ratio = 1.0 - ratio;
@@ -449,11 +432,10 @@ static num easeOutCircular(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutCubic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutCubic"
               title="Permalink to Transitions.easeOutCubic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutCubic(num ratio) {
   ratio = 1.0 - ratio;
@@ -463,25 +445,23 @@ static num easeOutCubic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutElastic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutElastic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutElastic"
               title="Permalink to Transitions.easeOutElastic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutElastic(num ratio) {
-  if (ratio == 0.0 || ratio == 1.0) return ratio; 
+  if (ratio == 0.0 || ratio == 1.0) return ratio;
   return pow(2.0, - 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) + 1;
 }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="easeOutExponential">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutExponential"
               title="Permalink to Transitions.easeOutExponential">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutExponential(num ratio) {
   if (ratio == 1.0) return 1.0;
@@ -491,11 +471,10 @@ static num easeOutExponential(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutInBack">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInBack"
               title="Permalink to Transitions.easeOutInBack">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutInBack(num ratio) {
   ratio = ratio * 2.0;
@@ -505,11 +484,10 @@ static num easeOutInBack(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutInBounce">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInBounce</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInBounce"
               title="Permalink to Transitions.easeOutInBounce">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutInBounce(num ratio) {
   ratio = ratio * 2.0;
@@ -519,11 +497,10 @@ static num easeOutInBounce(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutInCircular">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInCircular"
               title="Permalink to Transitions.easeOutInCircular">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutInCircular(num ratio) {
   ratio = ratio * 2.0;
@@ -533,11 +510,10 @@ static num easeOutInCircular(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutInCubic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInCubic"
               title="Permalink to Transitions.easeOutInCubic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutInCubic(num ratio) {
   ratio = ratio * 2.0;
@@ -547,11 +523,10 @@ static num easeOutInCubic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutInElastic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInElastic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInElastic"
               title="Permalink to Transitions.easeOutInElastic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutInElastic(num ratio) {
   ratio = ratio * 2.0;
@@ -561,11 +536,10 @@ static num easeOutInElastic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutInExponential">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInExponential"
               title="Permalink to Transitions.easeOutInExponential">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutInExponential(num ratio) {
   ratio = ratio * 2.0;
@@ -575,11 +549,10 @@ static num easeOutInExponential(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutInQuadratic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInQuadratic"
               title="Permalink to Transitions.easeOutInQuadratic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutInQuadratic(num ratio) {
   ratio = ratio * 2.0;
@@ -589,11 +562,10 @@ static num easeOutInQuadratic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutInQuartic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInQuartic"
               title="Permalink to Transitions.easeOutInQuartic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutInQuartic(num ratio) {
   ratio = ratio * 2.0;
@@ -603,11 +575,10 @@ static num easeOutInQuartic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutInQuintic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInQuintic"
               title="Permalink to Transitions.easeOutInQuintic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutInQuintic(num ratio) {
   ratio = ratio * 2.0;
@@ -617,11 +588,10 @@ static num easeOutInQuintic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutInSine">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInSine"
               title="Permalink to Transitions.easeOutInSine">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutInSine(num ratio) {
   ratio = ratio * 2.0;
@@ -631,11 +601,10 @@ static num easeOutInSine(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutQuadratic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutQuadratic"
               title="Permalink to Transitions.easeOutQuadratic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutQuadratic(num ratio) {
   ratio = 1.0 - ratio;
@@ -645,11 +614,10 @@ static num easeOutQuadratic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutQuartic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutQuartic"
               title="Permalink to Transitions.easeOutQuartic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutQuartic(num ratio) {
   ratio = 1.0 - ratio;
@@ -659,11 +627,10 @@ static num easeOutQuartic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutQuintic">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutQuintic"
               title="Permalink to Transitions.easeOutQuintic">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutQuintic(num ratio) {
   ratio = 1.0 - ratio;
@@ -673,11 +640,10 @@ static num easeOutQuintic(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="easeOutSine">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutSine"
               title="Permalink to Transitions.easeOutSine">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num easeOutSine(num ratio) {
   return sin(ratio * (PI / 2.0));
@@ -686,11 +652,10 @@ static num easeOutSine(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="linear">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>linear</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#linear"
               title="Permalink to Transitions.linear">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num linear(num ratio) {
   return ratio;
@@ -699,16 +664,15 @@ static num linear(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="random">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>random</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#random"
               title="Permalink to Transitions.random">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num random(num ratio) {
-  if (_random == null) 
+  if (_random == null)
     _random = new Random();
-  
+
   if (ratio == 0.0 || ratio == 1.0) return ratio;
   return _random.nextDouble();
 }
@@ -716,11 +680,10 @@ static num random(num ratio) {
 </div>
 </div>
 <div class="method"><h4 id="sine">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>sine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#sine"
               title="Permalink to Transitions.sine">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num sine(num ratio) {
   return 0.5 - 0.5 * cos(ratio * 2.0 * PI) ;
@@ -728,12 +691,89 @@ static num sine(num ratio) {
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method inherited"><h4 id="==">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
+              title="Permalink to Transitions.operator ==">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>The equality operator.</p>
+<p>The default behavior for all <code>Object</code>s is to return true if and
+only if <code>this</code> and 
+<span class="param">other</span> are the same object.</p>
+<p>If a subclass overrides the equality operator it should override
+the <code>hashCode</code> method as well to maintain consistency.</p>
+<pre class="source">
+bool operator ==(other) =&gt; identical(this, other);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hashCode">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
+              title="Permalink to Transitions.hashCode">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Get a hash code for this object.</p>
+<p>All objects have hash codes. Hash codes are guaranteed to be the
+same for objects that are equal when compared using the equality
+operator <code>==</code>. Other than that there are no guarantees about
+the hash codes. They will not be consistent between runs and
+there are no distribution guarantees.</p>
+<p>If a subclass overrides <code>hashCode</code> it should override the
+equality operator as well to maintain consistency.</p>
+<pre class="source">
+external int hashCode();
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="noSuchMethod">
+<button class="show-code">Code</button>
+<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
+              title="Permalink to Transitions.noSuchMethod">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
+on an object. The name of the method and the arguments of the
+invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
+returns a value, that value becomes the result of the original
+invocation.</p>
+<p>The default behavior of <code>noSuchMethod</code> is to throw a
+<code>noSuchMethodError</code>.</p>
+<pre class="source">
+external Dynamic noSuchMethod(String name, List args);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
+              title="Permalink to Transitions.get runtimeType">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="toString">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to Transitions.toString">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Returns a string representation of this object.</p>
+<pre class="source">
+external String toString();
+</pre>
+</div>
+</div>
+</div>
         </div>
         <div class="clear"></div>
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-09-22 08:09:01.864</div>
+          <div>This page was generated at 2012-10-06 13:13:22.021</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

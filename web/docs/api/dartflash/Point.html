@@ -2,7 +2,7 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>Point Class / dartflash Library / Dart Documentation</title>
+        <title>Point class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
@@ -42,20 +42,26 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
+<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
+<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
 <li><a href="../dartflash/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
-<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/Mask.html"><div class="icon-class"></div>Mask</a></li>
 <li><a href="../dartflash/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
 <li><a href="../dartflash/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
@@ -101,120 +107,158 @@
 </div>
 <div class="content">
         <h2><strong>Point</strong>
-          Class
+          class
         </h2>
         
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
-
 </div>
+<div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="Point.from">
-<span class="show-code">Code</span>
-new <strong>Point</strong>.from(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#Point.from"
+<div class="method"><h4 id="Point">
+<button class="show-code">Code</button>
+new <strong>Point</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y) <a class="anchor-link" href="#Point"
               title="Permalink to Point.Point">#</a></h4>
 <div class="doc">
-
+<pre class="source">
+Point(this.x, this.y);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="Point.from">
+<button class="show-code">Code</button>
+new <strong>Point.from</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#Point.from"
+              title="Permalink to Point.Point.from">#</a></h4>
+<div class="doc">
 <pre class="source">
 Point.from(Point p) : this(p.x, p.y);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="Point.zero">
-<span class="show-code">Code</span>
-new <strong>Point</strong>.zero() <a class="anchor-link" href="#Point.zero"
-              title="Permalink to Point.Point">#</a></h4>
+<button class="show-code">Code</button>
+new <strong>Point.zero</strong>() <a class="anchor-link" href="#Point.zero"
+              title="Permalink to Point.Point.zero">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Point.zero() : this(0, 0);
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="Point">
-<span class="show-code">Code</span>
-new <strong>Point</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y) <a class="anchor-link" href="#Point"
-              title="Permalink to Point.Point">#</a></h4>
-<div class="doc">
-
-<pre class="source">
-Point(this.x, this.y);
-</pre>
 </div>
-</div>
+<div>
 <h3>Static Methods</h3>
 <div class="method"><h4 id="distance">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>distance</strong>(<a href="../dartflash/Point.html">Point</a> p1, <a href="../dartflash/Point.html">Point</a> p2) <a class="anchor-link" href="#distance"
               title="Permalink to Point.distance">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static num distance(Point p1, Point p2) =&gt; p1.distanceTo(p2);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="interpolate">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Point.html">Point</a> <strong>interpolate</strong>(<a href="../dartflash/Point.html">Point</a> p1, <a href="../dartflash/Point.html">Point</a> p2) <a class="anchor-link" href="#interpolate"
               title="Permalink to Point.interpolate">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static Point interpolate(Point p1, Point p2) =&gt; new Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="polar">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Point.html">Point</a> <strong>polar</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> len, <a href="http://api.dartlang.org/dart_core/num.html">num</a> angle) <a class="anchor-link" href="#polar"
               title="Permalink to Point.polar">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 static Point polar(num len, num angle) =&gt; new Point(len * cos(angle), - len * sin(angle));
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Fields</h3>
+<div class="field"><h4 id="x">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>x</strong> <a class="anchor-link"
+            href="#x"
+            title="Permalink to Point.x">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num x;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="y">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>y</strong> <a class="anchor-link"
+            href="#y"
+            title="Permalink to Point.y">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num y;
+</pre>
+</div>
+</div>
+</div>
+<div>
 <h3>Methods</h3>
+<div class="method inherited"><h4 id="==">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
+              title="Permalink to Point.operator ==">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>The equality operator.</p>
+<p>The default behavior for all <code>Object</code>s is to return true if and
+only if <code>this</code> and 
+<span class="param">other</span> are the same object.</p>
+<p>If a subclass overrides the equality operator it should override
+the <code>hashCode</code> method as well to maintain consistency.</p>
+<pre class="source">
+bool operator ==(other) =&gt; identical(this, other);
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="add">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Point.html">Point</a> <strong>add</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#add"
               title="Permalink to Point.add">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Point add(Point p) =&gt; new Point(this.x + p.x, this.y + p.y);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="clone">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Point.html">Point</a> <strong>clone</strong>() <a class="anchor-link" href="#clone"
               title="Permalink to Point.clone">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Point clone() =&gt; new Point(this.x, this.y);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="copyFrom">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>copyFrom</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#copyFrom"
               title="Permalink to Point.copyFrom">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void copyFrom(Point p) { this.x = p.x; this.y = p.y; }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="copyFromAndTransfrom">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>copyFromAndTransfrom</strong>(<a href="../dartflash/Point.html">Point</a> p, <a href="../dartflash/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#copyFromAndTransfrom"
               title="Permalink to Point.copyFromAndTransfrom">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void copyFromAndTransfrom(Point p, Matrix matrix)
 {
@@ -225,13 +269,12 @@ void copyFromAndTransfrom(Point p, Matrix matrix)
 </div>
 </div>
 <div class="method"><h4 id="distanceTo">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>distanceTo</strong>(<a href="../dartflash/Point.html">Point</a> other) <a class="anchor-link" href="#distanceTo"
               title="Permalink to Point.distanceTo">#</a></h4>
 <div class="doc">
-
 <pre class="source">
-num distanceTo(Point other) 
+num distanceTo(Point other)
 {
     num dx = x - other.x;
     num dy = y - other.y;
@@ -241,36 +284,51 @@ num distanceTo(Point other)
 </div>
 </div>
 <div class="method"><h4 id="equals">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>equals</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#equals"
               title="Permalink to Point.equals">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 bool equals(Point p) =&gt; this.x == p.x &amp;&amp; this.y == p.y;
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="hashCode">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
+              title="Permalink to Point.hashCode">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Get a hash code for this object.</p>
+<p>All objects have hash codes. Hash codes are guaranteed to be the
+same for objects that are equal when compared using the equality
+operator <code>==</code>. Other than that there are no guarantees about
+the hash codes. They will not be consistent between runs and
+there are no distribution guarantees.</p>
+<p>If a subclass overrides <code>hashCode</code> it should override the
+equality operator as well to maintain consistency.</p>
+<pre class="source">
+external int hashCode();
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="length">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get length</strong>() <a class="anchor-link" href="#length"
               title="Permalink to Point.get length">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 num get length =&gt; sqrt(this.x * this.x + this.y * this.y);
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="normalize">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>normalize</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> length) <a class="anchor-link" href="#normalize"
               title="Permalink to Point.normalize">#</a></h4>
 <div class="doc">
-
 <pre class="source">
-void normalize(num length) 
-{ 
+void normalize(num length)
+{
   num currentLength = this.length;
   this.x = this.x * length / currentLength;
   this.y = this.y * length / currentLength;
@@ -278,12 +336,28 @@ void normalize(num length)
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="noSuchMethod">
+<button class="show-code">Code</button>
+<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
+              title="Permalink to Point.noSuchMethod">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
+on an object. The name of the method and the arguments of the
+invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
+returns a value, that value becomes the result of the original
+invocation.</p>
+<p>The default behavior of <code>noSuchMethod</code> is to throw a
+<code>noSuchMethodError</code>.</p>
+<pre class="source">
+external Dynamic noSuchMethod(String name, List args);
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="offset">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>offset</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> dx, <a href="http://api.dartlang.org/dart_core/num.html">num</a> dy) <a class="anchor-link" href="#offset"
               title="Permalink to Point.offset">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void offset(num dx, num dy)
 {
@@ -293,71 +367,64 @@ void offset(num dx, num dy)
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
+              title="Permalink to Point.get runtimeType">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="setTo">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>setTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> px, <a href="http://api.dartlang.org/dart_core/num.html">num</a> py) <a class="anchor-link" href="#setTo"
               title="Permalink to Point.setTo">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void setTo(num px, num py) { this.x = px; this.y = py; }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="subtract">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 <a href="../dartflash/Point.html">Point</a> <strong>subtract</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#subtract"
               title="Permalink to Point.subtract">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 Point subtract(Point p) =&gt; new Point(this.x - p.y, this.y - p.y);
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="toString">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to Point.toString">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Returns a string representation of this object.</p>
+<pre class="source">
+external String toString();
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="transform">
-<span class="show-code">Code</span>
+<button class="show-code">Code</button>
 void <strong>transform</strong>(<a href="../dartflash/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#transform"
               title="Permalink to Point.transform">#</a></h4>
 <div class="doc">
-
 <pre class="source">
 void transform(Matrix matrix)
 {
   num currentX = this.x;
   num currentY = this.y;
-  
+
   this.x = currentX * matrix.a + currentY * matrix.c + matrix.tx;
   this.y = currentX * matrix.b + currentY * matrix.d + matrix.ty;
 }
 </pre>
 </div>
-</div>
-<h3>Fields</h3>
-<div class="field"><h4 id="x">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>x</strong> <a class="anchor-link"
-            href="#x"
-            title="Permalink to Point.x">#</a>
-        </h4>
-        <div class="doc">
-
-<pre class="source">
-num x;
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="y">
-<span class="show-code">Code</span>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>y</strong> <a class="anchor-link"
-            href="#y"
-            title="Permalink to Point.y">#</a>
-        </h4>
-        <div class="doc">
-
-<pre class="source">
-num y;
-</pre>
 </div>
 </div>
         </div>
@@ -365,7 +432,7 @@ num y;
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-09-22 08:09:01.740</div>
+          <div>This page was generated at 2012-10-06 13:13:21.119</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

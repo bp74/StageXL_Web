@@ -32,7 +32,6 @@
 <li><a href="../dartflash/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
 <li><a href="../dartflash/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
 <li><a href="../dartflash/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
-<li><a href="../dartflash/BitmapFilterQuality.html"><div class="icon-class"></div>BitmapFilterQuality</a></li>
 <li><div class="icon-class"></div><strong>BlurFilter</strong></li>
 <li><a href="../dartflash/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
 <li><a href="../dartflash/Circle.html"><div class="icon-class"></div>Circle</a></li>
@@ -44,6 +43,7 @@
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
 <li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
 <li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
+<li><a href="../dartflash/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
@@ -52,6 +52,7 @@
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
 <li><a href="../dartflash/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
@@ -120,12 +121,15 @@
 <h3>Constructors</h3>
 <div class="method"><h4 id="BlurFilter">
 <button class="show-code">Code</button>
-new <strong>BlurFilter</strong>([<a href="http://api.dartlang.org/dart_core/int.html">int</a> blurX = 4, <a href="http://api.dartlang.org/dart_core/int.html">int</a> blurY = 4, <a href="http://api.dartlang.org/dart_core/int.html">int</a> quality = 1]) <a class="anchor-link" href="#BlurFilter"
+new <strong>BlurFilter</strong>([<a href="http://api.dartlang.org/dart_core/int.html">int</a> blurX = 4, <a href="http://api.dartlang.org/dart_core/int.html">int</a> blurY = 4]) <a class="anchor-link" href="#BlurFilter"
               title="Permalink to BlurFilter.BlurFilter">#</a></h4>
 <div class="doc">
 <pre class="source">
-BlurFilter([this.blurX = 4, this.blurY = 4, this.quality = 1])
+BlurFilter([this.blurX = 4, this.blurY = 4])
 {
+  if (blurX &lt; 1 || blurY &lt; 1)
+    throw new ArgumentError("Error #9004: The minimum blur size is 1.");
+
   if (blurX &gt; 128 || blurY &gt; 128)
     throw new ArgumentError("Error #9004: The maximum blur size is 128.");
 }
@@ -159,18 +163,6 @@ int blurY;
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="quality">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>quality</strong> <a class="anchor-link"
-            href="#quality"
-            title="Permalink to BlurFilter.quality">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-int quality;
-</pre>
-</div>
-</div>
 </div>
 <div>
 <h3>Methods</h3>
@@ -198,9 +190,86 @@ void <strong>apply</strong>(<a href="../dartflash/BitmapData.html">BitmapData</a
 <pre class="source">
 void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint)
 {
-  if (quality &lt;= 1) _applyLow(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint);
-  if (quality == 2) _applyMedium(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint);
-  if (quality &gt;= 3) _applyHigh(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint);
+  var sourceContext = sourceBitmapData._getContext();
+  var sourceImageData = sourceContext.getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+  var sourceData = sourceImageData.data;
+
+  int sourceWidth = sourceImageData.width;
+  int sourceHeight = sourceImageData.height;
+  int weightX = blurX * blurX;
+  int weightY = blurY * blurY;
+  int rx1 = blurX;
+  int rx2 = blurX * 2;
+  int ry1 = blurY;
+  int ry2 = blurY * 2;
+  int destinationWidth = sourceWidth + rx2;
+  int destinationHeight = sourceHeight + ry2;
+  int sourceWidth4 = sourceWidth * 4;
+  int destinationWidth4 = destinationWidth * 4;
+
+  var destinationContext = destinationBitmapData._getContext();
+  var destinationImageData = destinationContext.createImageData(destinationWidth, destinationHeight);
+  var destinationData = destinationImageData.data;
+
+  List&lt;int&gt; buffer = new List&lt;int&gt;(1024);
+
+  //--------------------------------------------------
+  // blur vertical
+
+  for (int z = 0; z &lt; 4; z++) {
+    for (int x = 0; x &lt; sourceWidth; x++) {
+      int dif = 0, sum = weightY &gt;&gt; 1;
+      int offsetSource = x * 4 + z;
+      int offsetDestination = (x + rx1) * 4 + z;
+
+      for (int y = 0; y &lt; destinationHeight; y++) {
+        destinationData[offsetDestination] = sum ~/ weightY;
+        offsetDestination += destinationWidth4;
+
+        if (y &gt;= ry2) {
+          dif -= 2 * buffer[y &amp; 1023] - buffer[(y - ry1) &amp; 1023];
+        } else if (y &gt;= ry1) {
+          dif -= 2 * buffer[y &amp; 1023];
+        }
+
+        int alpha = (y &lt; sourceHeight) ? sourceData[offsetSource] : 0;
+        buffer[(y + ry1) &amp; 1023] = alpha;
+        sum += dif += alpha;
+        offsetSource += sourceWidth4;
+      }
+    }
+  }
+
+  //--------------------------------------------------
+  // blur horizontal
+
+  for (int z = 0; z &lt; 4; z++) {
+    for (int y = 0; y &lt; destinationHeight; y++) {
+      int dif = 0, sum = weightX &gt;&gt; 1;
+      int offsetSource = y * destinationWidth4 + rx1 * 4 + z;
+      int offsetDestination = y * destinationWidth4 + z;
+
+      for (int x = 0; x &lt; destinationWidth; x++) {
+        destinationData[offsetDestination] = sum ~/ weightX;
+        offsetDestination += 4;
+
+        if (x &gt;= rx2) {
+          dif -= 2 * buffer[x &amp; 1023] - buffer[(x - rx1) &amp; 1023];
+        } else if (x &gt;= rx1) {
+          dif -= 2 * buffer[x &amp; 1023];
+        }
+
+        int alpha = (x &lt; sourceWidth) ? destinationData[offsetSource] : 0;
+        buffer[(x + rx1) &amp; 1023] = alpha;
+        sum += dif += alpha;
+        offsetSource += 4;
+      }
+    }
+  }
+
+  //--------------------------------------------------
+
+  destinationContext.putImageData(destinationImageData, destinationPoint.x - rx1, destinationPoint.y - ry1);
 }
 </pre>
 </div>
@@ -213,7 +282,7 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
 <pre class="source">
 BitmapFilter clone()
 {
-  return new BlurFilter(blurX, blurY, quality);
+  return new BlurFilter(blurX, blurY);
 }
 </pre>
 </div>
@@ -281,7 +350,7 @@ external String toString();
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-06 13:13:21.249</div>
+          <div>This page was generated at 2012-10-08 19:24:30.718</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

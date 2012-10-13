@@ -97,10 +97,16 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
+<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
+<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
+<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -113,6 +119,73 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<pre class="source">
+class GraphicsGradient
+{
+  String _kind;
+  num _startX;
+  num _startY;
+  num _startRadius;
+  num _endX;
+  num _endY;
+  num _endRadius;
+  List _colorStops;
+
+  GraphicsGradient.linear(num startX, num startY, num endX, num endY)
+  {
+     _kind = "linear";
+     _startX = startX;
+     _startY = startY;
+     _endX = endX;
+     _endY = endY;
+     _colorStops = new List();
+  }
+
+  GraphicsGradient.radial(num startX, num startY, num startRadius, num endX, num endY, num endRadius)
+  {
+    _kind = "radial";
+    _startX = startX;
+    _startY = startY;
+    _startRadius = startRadius;
+    _endX = endX;
+    _endY = endY;
+    _endRadius = endRadius;
+    _colorStops = new List();
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  void addColorStop(num offset, int color)
+  {
+    _colorStops.add({"offset" : offset, "color" : _color2rgba(color)});
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  html.CanvasGradient getCanvasGradient(html.CanvasRenderingContext2D context)
+  {
+    // ToDo: Maybe we should cache the CanvasGradient for a given context.
+    // This could improve performance!
+
+    html.CanvasGradient canvasGradient;
+
+    if (_kind == "linear")
+      canvasGradient = context.createLinearGradient(_startX, _startY, _endX, _endY);
+
+    if (_kind == "radial")
+      canvasGradient = context.createRadialGradient(_startX, _startY, _startRadius, _endX, _endY, _endRadius);
+
+    for(var colorStop in _colorStops)
+      canvasGradient.addColorStop(colorStop["offset"], colorStop["color"]);
+
+    return canvasGradient;
+  }
+
+
+}
+</pre>
 </div>
 <div>
 <h3>Constructors</h3>
@@ -156,7 +229,23 @@ GraphicsGradient.radial(num startX, num startY, num startRadius, num endX, num e
 </div>
 </div>
 <div>
-<h3>Methods</h3>
+<h3>Properties</h3>
+<div class="field inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to GraphicsGradient.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Operators</h3>
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
@@ -173,6 +262,9 @@ bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Methods</h3>
 <div class="method"><h4 id="addColorStop">
 <button class="show-code">Code</button>
 void <strong>addColorStop</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> offset, <a href="http://api.dartlang.org/dart_core/int.html">int</a> color) <a class="anchor-link" href="#addColorStop"
@@ -213,6 +305,44 @@ html.CanvasGradient getCanvasGradient(html.CanvasRenderingContext2D context)
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="GraphicsGradient.linear">
+<button class="show-code">Code</button>
+new <strong>GraphicsGradient.linear</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> startX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> startY, <a href="http://api.dartlang.org/dart_core/num.html">num</a> endX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> endY) <a class="anchor-link" href="#GraphicsGradient.linear"
+              title="Permalink to GraphicsGradient.GraphicsGradient.linear">#</a></h4>
+<div class="doc">
+<pre class="source">
+GraphicsGradient.linear(num startX, num startY, num endX, num endY)
+{
+   _kind = "linear";
+   _startX = startX;
+   _startY = startY;
+   _endX = endX;
+   _endY = endY;
+   _colorStops = new List();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="GraphicsGradient.radial">
+<button class="show-code">Code</button>
+new <strong>GraphicsGradient.radial</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> startX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> startY, <a href="http://api.dartlang.org/dart_core/num.html">num</a> startRadius, <a href="http://api.dartlang.org/dart_core/num.html">num</a> endX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> endY, <a href="http://api.dartlang.org/dart_core/num.html">num</a> endRadius) <a class="anchor-link" href="#GraphicsGradient.radial"
+              title="Permalink to GraphicsGradient.GraphicsGradient.radial">#</a></h4>
+<div class="doc">
+<pre class="source">
+GraphicsGradient.radial(num startX, num startY, num startRadius, num endX, num endY, num endRadius)
+{
+  _kind = "radial";
+  _startX = startX;
+  _startY = startY;
+  _startRadius = startRadius;
+  _endX = endX;
+  _endY = endY;
+  _endRadius = endRadius;
+  _colorStops = new List();
+}
+</pre>
+</div>
+</div>
 <div class="method inherited"><h4 id="hashCode">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
@@ -248,14 +378,17 @@ external Dynamic noSuchMethod(String name, List args);
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="runtimeType">
+<div class="method inherited"><h4 id="Object">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
-              title="Permalink to GraphicsGradient.get runtimeType">#</a></h4>
+const <strong>Object</strong>() <a class="anchor-link" href="#Object"
+              title="Permalink to GraphicsGradient.Object">#</a></h4>
 <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
 <pre class="source">
-external Type get runtimeType;
+const Object();
 </pre>
 </div>
 </div>
@@ -276,7 +409,7 @@ external String toString();
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-08 19:24:31.348</div>
+          <div>This page was generated at 2012-10-13 21:36:08.974</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

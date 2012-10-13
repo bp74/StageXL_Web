@@ -97,10 +97,16 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
+<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
+<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
+<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -113,6 +119,101 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<pre class="source">
+class MouseEvent extends Event
+{
+  static const String CLICK = "click";
+  static const String DOUBLE_CLICK = "doubleClick";
+
+  static const String MOUSE_DOWN = "mouseDown";
+  static const String MOUSE_UP = "mouseUp";
+  static const String MOUSE_MOVE = "mouseMove";
+  static const String MOUSE_OUT = "mouseOut";
+  static const String MOUSE_OVER = "mouseOver";
+  static const String MOUSE_WHEEL = "mouseWheel";
+
+  static const String MIDDLE_CLICK = "middleClick";
+  static const String MIDDLE_MOUSE_DOWN = "middleMouseDown";
+  static const String MIDDLE_MOUSE_UP = "middleMouseUp";
+  static const String RIGHT_CLICK = "rightClick";
+  static const String RIGHT_MOUSE_DOWN = "rightMouseDown";
+  static const String RIGHT_MOUSE_UP = "rightMouseUp";
+
+  static const String CONTEXT_MENU = "contextMenu"; // ToDo
+  static const String ROLL_OUT = "rollOut";         // ToDo
+  static const String ROLL_OVER = "rollOver";       // ToDo
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  num _localX, _localY;
+  num _stageX, _stageY;
+  bool _buttonDown;
+
+  bool _altKey;
+  bool _controlKey;
+  bool _ctrlKey;
+  bool _shiftKey;
+
+  int _clickCount;
+  int _deltaX;
+  int _deltaY;
+
+  bool _isRelatedObjectInaccessible;
+  InteractiveObject _relatedObject;
+
+  MouseEvent(String type, [bool bubbles = false]):super(type, bubbles)
+  {
+    _reset(type, bubbles);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  void _reset(String type, [bool bubbles = false])
+  {
+    super._reset(type, bubbles);
+
+    _localX = _localY = 0;
+    _stageX = _stageY = 0;
+    _buttonDown = false;
+
+    _altKey = false;
+    _controlKey = false;
+    _ctrlKey = false;
+    _shiftKey = false;
+
+    _clickCount = 0;
+    _deltaX = 0;
+    _deltaY = 0;
+
+    _isRelatedObjectInaccessible = false;
+    _relatedObject = null;
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  num get localX =&gt; _localX;
+  num get localY =&gt; _localY;
+  num get stageX =&gt; _stageX;
+  num get stageY =&gt; _stageY;
+  bool get buttonDown =&gt; _buttonDown;
+
+  bool get altKey =&gt; _altKey;
+  bool get controlKey =&gt; _controlKey;
+  bool get ctrlKey =&gt; _ctrlKey;
+  bool get shiftKey =&gt; _shiftKey;
+
+  int get clickCount =&gt; _clickCount;
+  int get deltaX =&gt; _deltaX;
+  int get deltaY =&gt; _deltaY;
+
+  bool get isRelatedObjectInaccessible =&gt; _isRelatedObjectInaccessible;
+  InteractiveObject get relatedObject =&gt; _relatedObject;
+
+}
+</pre>
 </div>
 <h3>Extends</h3>
 <p>
@@ -134,10 +235,10 @@ MouseEvent(String type, [bool bubbles = false]):super(type, bubbles)
 </div>
 </div>
 <div>
-<h3>Static Fields</h3>
+<h3>Static Properties</h3>
 <div class="field"><h4 id="CLICK">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>CLICK</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>CLICK</strong> <a class="anchor-link"
             href="#CLICK"
             title="Permalink to MouseEvent.CLICK">#</a>
         </h4>
@@ -149,7 +250,7 @@ static const String CLICK = "click";
 </div>
 <div class="field"><h4 id="CONTEXT_MENU">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>CONTEXT_MENU</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>CONTEXT_MENU</strong> <a class="anchor-link"
             href="#CONTEXT_MENU"
             title="Permalink to MouseEvent.CONTEXT_MENU">#</a>
         </h4>
@@ -161,7 +262,7 @@ static const String CONTEXT_MENU = "contextMenu";
 </div>
 <div class="field"><h4 id="DOUBLE_CLICK">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>DOUBLE_CLICK</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>DOUBLE_CLICK</strong> <a class="anchor-link"
             href="#DOUBLE_CLICK"
             title="Permalink to MouseEvent.DOUBLE_CLICK">#</a>
         </h4>
@@ -173,7 +274,7 @@ static const String DOUBLE_CLICK = "doubleClick";
 </div>
 <div class="field"><h4 id="MIDDLE_CLICK">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MIDDLE_CLICK</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MIDDLE_CLICK</strong> <a class="anchor-link"
             href="#MIDDLE_CLICK"
             title="Permalink to MouseEvent.MIDDLE_CLICK">#</a>
         </h4>
@@ -185,7 +286,7 @@ static const String MIDDLE_CLICK = "middleClick";
 </div>
 <div class="field"><h4 id="MIDDLE_MOUSE_DOWN">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MIDDLE_MOUSE_DOWN</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MIDDLE_MOUSE_DOWN</strong> <a class="anchor-link"
             href="#MIDDLE_MOUSE_DOWN"
             title="Permalink to MouseEvent.MIDDLE_MOUSE_DOWN">#</a>
         </h4>
@@ -197,7 +298,7 @@ static const String MIDDLE_MOUSE_DOWN = "middleMouseDown";
 </div>
 <div class="field"><h4 id="MIDDLE_MOUSE_UP">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MIDDLE_MOUSE_UP</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MIDDLE_MOUSE_UP</strong> <a class="anchor-link"
             href="#MIDDLE_MOUSE_UP"
             title="Permalink to MouseEvent.MIDDLE_MOUSE_UP">#</a>
         </h4>
@@ -209,7 +310,7 @@ static const String MIDDLE_MOUSE_UP = "middleMouseUp";
 </div>
 <div class="field"><h4 id="MOUSE_DOWN">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MOUSE_DOWN</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MOUSE_DOWN</strong> <a class="anchor-link"
             href="#MOUSE_DOWN"
             title="Permalink to MouseEvent.MOUSE_DOWN">#</a>
         </h4>
@@ -221,7 +322,7 @@ static const String MOUSE_DOWN = "mouseDown";
 </div>
 <div class="field"><h4 id="MOUSE_MOVE">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MOUSE_MOVE</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MOUSE_MOVE</strong> <a class="anchor-link"
             href="#MOUSE_MOVE"
             title="Permalink to MouseEvent.MOUSE_MOVE">#</a>
         </h4>
@@ -233,7 +334,7 @@ static const String MOUSE_MOVE = "mouseMove";
 </div>
 <div class="field"><h4 id="MOUSE_OUT">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MOUSE_OUT</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MOUSE_OUT</strong> <a class="anchor-link"
             href="#MOUSE_OUT"
             title="Permalink to MouseEvent.MOUSE_OUT">#</a>
         </h4>
@@ -245,7 +346,7 @@ static const String MOUSE_OUT = "mouseOut";
 </div>
 <div class="field"><h4 id="MOUSE_OVER">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MOUSE_OVER</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MOUSE_OVER</strong> <a class="anchor-link"
             href="#MOUSE_OVER"
             title="Permalink to MouseEvent.MOUSE_OVER">#</a>
         </h4>
@@ -257,7 +358,7 @@ static const String MOUSE_OVER = "mouseOver";
 </div>
 <div class="field"><h4 id="MOUSE_UP">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MOUSE_UP</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MOUSE_UP</strong> <a class="anchor-link"
             href="#MOUSE_UP"
             title="Permalink to MouseEvent.MOUSE_UP">#</a>
         </h4>
@@ -269,7 +370,7 @@ static const String MOUSE_UP = "mouseUp";
 </div>
 <div class="field"><h4 id="MOUSE_WHEEL">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MOUSE_WHEEL</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>MOUSE_WHEEL</strong> <a class="anchor-link"
             href="#MOUSE_WHEEL"
             title="Permalink to MouseEvent.MOUSE_WHEEL">#</a>
         </h4>
@@ -281,7 +382,7 @@ static const String MOUSE_WHEEL = "mouseWheel";
 </div>
 <div class="field"><h4 id="RIGHT_CLICK">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>RIGHT_CLICK</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>RIGHT_CLICK</strong> <a class="anchor-link"
             href="#RIGHT_CLICK"
             title="Permalink to MouseEvent.RIGHT_CLICK">#</a>
         </h4>
@@ -293,7 +394,7 @@ static const String RIGHT_CLICK = "rightClick";
 </div>
 <div class="field"><h4 id="RIGHT_MOUSE_DOWN">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>RIGHT_MOUSE_DOWN</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>RIGHT_MOUSE_DOWN</strong> <a class="anchor-link"
             href="#RIGHT_MOUSE_DOWN"
             title="Permalink to MouseEvent.RIGHT_MOUSE_DOWN">#</a>
         </h4>
@@ -305,7 +406,7 @@ static const String RIGHT_MOUSE_DOWN = "rightMouseDown";
 </div>
 <div class="field"><h4 id="RIGHT_MOUSE_UP">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>RIGHT_MOUSE_UP</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>RIGHT_MOUSE_UP</strong> <a class="anchor-link"
             href="#RIGHT_MOUSE_UP"
             title="Permalink to MouseEvent.RIGHT_MOUSE_UP">#</a>
         </h4>
@@ -317,7 +418,7 @@ static const String RIGHT_MOUSE_UP = "rightMouseUp";
 </div>
 <div class="field"><h4 id="ROLL_OUT">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>ROLL_OUT</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>ROLL_OUT</strong> <a class="anchor-link"
             href="#ROLL_OUT"
             title="Permalink to MouseEvent.ROLL_OUT">#</a>
         </h4>
@@ -329,7 +430,7 @@ static const String ROLL_OUT = "rollOut";
 </div>
 <div class="field"><h4 id="ROLL_OVER">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>ROLL_OVER</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>ROLL_OVER</strong> <a class="anchor-link"
             href="#ROLL_OVER"
             title="Permalink to MouseEvent.ROLL_OVER">#</a>
         </h4>
@@ -341,7 +442,287 @@ static const String ROLL_OVER = "rollOver";
 </div>
 </div>
 <div>
-<h3>Methods</h3>
+<h3>Properties</h3>
+<div class="field"><h4 id="altKey">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>altKey</strong> <a class="anchor-link"
+            href="#altKey"
+            title="Permalink to MouseEvent.altKey">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get altKey =&gt; _altKey;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="bubbles">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>bubbles</strong> <a class="anchor-link"
+            href="#bubbles"
+            title="Permalink to MouseEvent.bubbles">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
+<pre class="source">
+bool get bubbles =&gt; _bubbles;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="buttonDown">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>buttonDown</strong> <a class="anchor-link"
+            href="#buttonDown"
+            title="Permalink to MouseEvent.buttonDown">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get buttonDown =&gt; _buttonDown;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="captures">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>captures</strong> <a class="anchor-link"
+            href="#captures"
+            title="Permalink to MouseEvent.captures">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
+<pre class="source">
+bool get captures =&gt; true;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="clickCount">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>clickCount</strong> <a class="anchor-link"
+            href="#clickCount"
+            title="Permalink to MouseEvent.clickCount">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get clickCount =&gt; _clickCount;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="controlKey">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>controlKey</strong> <a class="anchor-link"
+            href="#controlKey"
+            title="Permalink to MouseEvent.controlKey">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get controlKey =&gt; _controlKey;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="ctrlKey">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>ctrlKey</strong> <a class="anchor-link"
+            href="#ctrlKey"
+            title="Permalink to MouseEvent.ctrlKey">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get ctrlKey =&gt; _ctrlKey;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="currentTarget">
+<button class="show-code">Code</button>
+final <a href="../dartflash/EventDispatcher.html">EventDispatcher</a>         <strong>currentTarget</strong> <a class="anchor-link"
+            href="#currentTarget"
+            title="Permalink to MouseEvent.currentTarget">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
+<pre class="source">
+EventDispatcher get currentTarget =&gt; _currentTarget;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="deltaX">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>deltaX</strong> <a class="anchor-link"
+            href="#deltaX"
+            title="Permalink to MouseEvent.deltaX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get deltaX =&gt; _deltaX;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="deltaY">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>deltaY</strong> <a class="anchor-link"
+            href="#deltaY"
+            title="Permalink to MouseEvent.deltaY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get deltaY =&gt; _deltaY;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="eventPhase">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>eventPhase</strong> <a class="anchor-link"
+            href="#eventPhase"
+            title="Permalink to MouseEvent.eventPhase">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
+<pre class="source">
+int get eventPhase =&gt; _eventPhase;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="isRelatedObjectInaccessible">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>isRelatedObjectInaccessible</strong> <a class="anchor-link"
+            href="#isRelatedObjectInaccessible"
+            title="Permalink to MouseEvent.isRelatedObjectInaccessible">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get isRelatedObjectInaccessible =&gt; _isRelatedObjectInaccessible;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="localX">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>localX</strong> <a class="anchor-link"
+            href="#localX"
+            title="Permalink to MouseEvent.localX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get localX =&gt; _localX;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="localY">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>localY</strong> <a class="anchor-link"
+            href="#localY"
+            title="Permalink to MouseEvent.localY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get localY =&gt; _localY;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="relatedObject">
+<button class="show-code">Code</button>
+final <a href="../dartflash/InteractiveObject.html">InteractiveObject</a>         <strong>relatedObject</strong> <a class="anchor-link"
+            href="#relatedObject"
+            title="Permalink to MouseEvent.relatedObject">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+InteractiveObject get relatedObject =&gt; _relatedObject;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to MouseEvent.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="shiftKey">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>shiftKey</strong> <a class="anchor-link"
+            href="#shiftKey"
+            title="Permalink to MouseEvent.shiftKey">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get shiftKey =&gt; _shiftKey;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="stageX">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>stageX</strong> <a class="anchor-link"
+            href="#stageX"
+            title="Permalink to MouseEvent.stageX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get stageX =&gt; _stageX;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="stageY">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>stageY</strong> <a class="anchor-link"
+            href="#stageY"
+            title="Permalink to MouseEvent.stageY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get stageY =&gt; _stageY;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="stopsImmediatePropagation">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>stopsImmediatePropagation</strong> <a class="anchor-link"
+            href="#stopsImmediatePropagation"
+            title="Permalink to MouseEvent.stopsImmediatePropagation">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
+<pre class="source">
+bool get stopsImmediatePropagation =&gt; _stopsImmediatePropagation;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="stopsPropagation">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>stopsPropagation</strong> <a class="anchor-link"
+            href="#stopsPropagation"
+            title="Permalink to MouseEvent.stopsPropagation">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
+<pre class="source">
+bool get stopsPropagation =&gt; _stopsPropagation;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="target">
+<button class="show-code">Code</button>
+final <a href="../dartflash/EventDispatcher.html">EventDispatcher</a>         <strong>target</strong> <a class="anchor-link"
+            href="#target"
+            title="Permalink to MouseEvent.target">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
+<pre class="source">
+EventDispatcher get target =&gt; _target;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="type">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>type</strong> <a class="anchor-link"
+            href="#type"
+            title="Permalink to MouseEvent.type">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
+<pre class="source">
+String get type =&gt; _type;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Operators</h3>
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
@@ -358,113 +739,19 @@ bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="altKey">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get altKey</strong>() <a class="anchor-link" href="#altKey"
-              title="Permalink to MouseEvent.get altKey">#</a></h4>
-<div class="doc">
-<pre class="source">
-bool get altKey =&gt; _altKey;
-</pre>
 </div>
-</div>
-<div class="method inherited"><h4 id="bubbles">
+<div>
+<h3>Methods</h3>
+<div class="method inherited"><h4 id="Event">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get bubbles</strong>() <a class="anchor-link" href="#bubbles"
-              title="Permalink to MouseEvent.get bubbles">#</a></h4>
+new <strong>Event</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> bubbles = false]) <a class="anchor-link" href="#Event"
+              title="Permalink to MouseEvent.Event">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
 <pre class="source">
-bool get bubbles =&gt; _bubbles;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="buttonDown">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get buttonDown</strong>() <a class="anchor-link" href="#buttonDown"
-              title="Permalink to MouseEvent.get buttonDown">#</a></h4>
-<div class="doc">
-<pre class="source">
-bool get buttonDown =&gt; _buttonDown;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="captures">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get captures</strong>() <a class="anchor-link" href="#captures"
-              title="Permalink to MouseEvent.get captures">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
-<pre class="source">
-bool get captures =&gt; true;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="clickCount">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get clickCount</strong>() <a class="anchor-link" href="#clickCount"
-              title="Permalink to MouseEvent.get clickCount">#</a></h4>
-<div class="doc">
-<pre class="source">
-int get clickCount =&gt; _clickCount;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="controlKey">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get controlKey</strong>() <a class="anchor-link" href="#controlKey"
-              title="Permalink to MouseEvent.get controlKey">#</a></h4>
-<div class="doc">
-<pre class="source">
-bool get controlKey =&gt; _controlKey;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="ctrlKey">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get ctrlKey</strong>() <a class="anchor-link" href="#ctrlKey"
-              title="Permalink to MouseEvent.get ctrlKey">#</a></h4>
-<div class="doc">
-<pre class="source">
-bool get ctrlKey =&gt; _ctrlKey;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="currentTarget">
-<button class="show-code">Code</button>
-<a href="../dartflash/EventDispatcher.html">EventDispatcher</a> <strong>get currentTarget</strong>() <a class="anchor-link" href="#currentTarget"
-              title="Permalink to MouseEvent.get currentTarget">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
-<pre class="source">
-EventDispatcher get currentTarget =&gt; _currentTarget;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="deltaX">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get deltaX</strong>() <a class="anchor-link" href="#deltaX"
-              title="Permalink to MouseEvent.get deltaX">#</a></h4>
-<div class="doc">
-<pre class="source">
-int get deltaX =&gt; _deltaX;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="deltaY">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get deltaY</strong>() <a class="anchor-link" href="#deltaY"
-              title="Permalink to MouseEvent.get deltaY">#</a></h4>
-<div class="doc">
-<pre class="source">
-int get deltaY =&gt; _deltaY;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="eventPhase">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get eventPhase</strong>() <a class="anchor-link" href="#eventPhase"
-              title="Permalink to MouseEvent.get eventPhase">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
-<pre class="source">
-int get eventPhase =&gt; _eventPhase;
+Event(String type, [bool bubbles = false])
+{
+  _reset(type, bubbles);
+}
 </pre>
 </div>
 </div>
@@ -486,33 +773,16 @@ external int hashCode();
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="isRelatedObjectInaccessible">
+<div class="method"><h4 id="MouseEvent">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get isRelatedObjectInaccessible</strong>() <a class="anchor-link" href="#isRelatedObjectInaccessible"
-              title="Permalink to MouseEvent.get isRelatedObjectInaccessible">#</a></h4>
+new <strong>MouseEvent</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> bubbles = false]) <a class="anchor-link" href="#MouseEvent"
+              title="Permalink to MouseEvent.MouseEvent">#</a></h4>
 <div class="doc">
 <pre class="source">
-bool get isRelatedObjectInaccessible =&gt; _isRelatedObjectInaccessible;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="localX">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get localX</strong>() <a class="anchor-link" href="#localX"
-              title="Permalink to MouseEvent.get localX">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get localX =&gt; _localX;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="localY">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get localY</strong>() <a class="anchor-link" href="#localY"
-              title="Permalink to MouseEvent.get localY">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get localY =&gt; _localY;
+MouseEvent(String type, [bool bubbles = false]):super(type, bubbles)
+{
+  _reset(type, bubbles);
+}
 </pre>
 </div>
 </div>
@@ -533,54 +803,17 @@ external Dynamic noSuchMethod(String name, List args);
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="relatedObject">
+<div class="method inherited"><h4 id="Object">
 <button class="show-code">Code</button>
-<a href="../dartflash/InteractiveObject.html">InteractiveObject</a> <strong>get relatedObject</strong>() <a class="anchor-link" href="#relatedObject"
-              title="Permalink to MouseEvent.get relatedObject">#</a></h4>
-<div class="doc">
-<pre class="source">
-InteractiveObject get relatedObject =&gt; _relatedObject;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
-              title="Permalink to MouseEvent.get runtimeType">#</a></h4>
+const <strong>Object</strong>() <a class="anchor-link" href="#Object"
+              title="Permalink to MouseEvent.Object">#</a></h4>
 <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
 <pre class="source">
-external Type get runtimeType;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="shiftKey">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get shiftKey</strong>() <a class="anchor-link" href="#shiftKey"
-              title="Permalink to MouseEvent.get shiftKey">#</a></h4>
-<div class="doc">
-<pre class="source">
-bool get shiftKey =&gt; _shiftKey;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="stageX">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get stageX</strong>() <a class="anchor-link" href="#stageX"
-              title="Permalink to MouseEvent.get stageX">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get stageX =&gt; _stageX;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="stageY">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get stageY</strong>() <a class="anchor-link" href="#stageY"
-              title="Permalink to MouseEvent.get stageY">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get stageY =&gt; _stageY;
+const Object();
 </pre>
 </div>
 </div>
@@ -611,36 +844,6 @@ void stopPropagation()
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="stopsImmediatePropagation">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get stopsImmediatePropagation</strong>() <a class="anchor-link" href="#stopsImmediatePropagation"
-              title="Permalink to MouseEvent.get stopsImmediatePropagation">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
-<pre class="source">
-bool get stopsImmediatePropagation =&gt; _stopsImmediatePropagation;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="stopsPropagation">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get stopsPropagation</strong>() <a class="anchor-link" href="#stopsPropagation"
-              title="Permalink to MouseEvent.get stopsPropagation">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
-<pre class="source">
-bool get stopsPropagation =&gt; _stopsPropagation;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="target">
-<button class="show-code">Code</button>
-<a href="../dartflash/EventDispatcher.html">EventDispatcher</a> <strong>get target</strong>() <a class="anchor-link" href="#target"
-              title="Permalink to MouseEvent.get target">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
-<pre class="source">
-EventDispatcher get target =&gt; _target;
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="toString">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
@@ -652,23 +855,13 @@ external String toString();
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="type">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>get type</strong>() <a class="anchor-link" href="#type"
-              title="Permalink to MouseEvent.get type">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
-<pre class="source">
-String get type =&gt; _type;
-</pre>
-</div>
-</div>
 </div>
         </div>
         <div class="clear"></div>
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-08 19:24:31.374</div>
+          <div>This page was generated at 2012-10-13 21:36:08.987</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

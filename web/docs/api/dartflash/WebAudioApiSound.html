@@ -97,10 +97,16 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
+<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
+<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
+<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><div class="icon-class"></div><strong>WebAudioApiSound</strong></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -113,6 +119,83 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<pre class="source">
+class WebAudioApiSound extends Sound
+{
+  html.AudioBuffer _buffer;
+
+  WebAudioApiSound()
+  {
+    if (SoundMixer._audioContext == null)
+      throw new UnsupportedOperationException("This browser does not support Web Audio API.");
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  static Future&lt;Sound&gt; loadAudio(String url)
+  {
+    var sound = new WebAudioApiSound();
+    var loadCompleter = new Completer&lt;Sound&gt;();
+    var request = new html.HttpRequest();
+
+    bool audioBufferLoaded(html.AudioBuffer buffer)
+    {
+      sound._buffer = buffer;
+
+      if (loadCompleter.future.isComplete == false)
+        loadCompleter.complete(sound);
+
+      return true;
+    }
+
+    bool audioBufferError(error)
+    {
+      if (loadCompleter.future.isComplete == false)
+        loadCompleter.completeException("Failed to decode audio.");
+
+      return true;
+    }
+
+    void onRequestLoad(event)
+    {
+      var audioContext = SoundMixer._audioContext;
+      audioContext.decodeAudioData(request.response, audioBufferLoaded, audioBufferError);
+    }
+
+    void onRequestError(event)
+    {
+      if (loadCompleter.future.isComplete == false)
+        loadCompleter.completeException("Failed to load audio.");
+    }
+
+    request.open('GET', Sound.adaptAudioUrl(url), true);
+    request.responseType = 'arraybuffer';
+    request.on.load.add(onRequestLoad);
+    request.on.error.add(onRequestError);
+    request.send();
+
+    return loadCompleter.future;
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  num get length
+  {
+    return _buffer.duration;
+  }
+
+  SoundChannel play([bool loop = false, SoundTransform soundTransform = null])
+  {
+    if (soundTransform == null)
+      soundTransform = new SoundTransform();
+
+    return new WebAudioApiSoundChannel(this, loop, soundTransform);
+  }
+
+}
+</pre>
 </div>
 <h3>Extends</h3>
 <p>
@@ -128,7 +211,7 @@ new <strong>WebAudioApiSound</strong>() <a class="anchor-link" href="#WebAudioAp
 WebAudioApiSound()
 {
   if (SoundMixer._audioContext == null)
-    throw new Exception("This browser does not support Web Audio API.");
+    throw new UnsupportedOperationException("This browser does not support Web Audio API.");
 }
 </pre>
 </div>
@@ -191,7 +274,38 @@ static Future&lt;Sound&gt; loadAudio(String url)
 </div>
 </div>
 <div>
-<h3>Methods</h3>
+<h3>Properties</h3>
+<div class="field"><h4 id="length">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>length</strong> <a class="anchor-link"
+            href="#length"
+            title="Permalink to WebAudioApiSound.length">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get length
+{
+  return _buffer.duration;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to WebAudioApiSound.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Operators</h3>
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
@@ -208,6 +322,9 @@ bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Methods</h3>
 <div class="method inherited"><h4 id="hashCode">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
@@ -223,19 +340,6 @@ there are no distribution guarantees.</p>
 equality operator as well to maintain consistency.</p>
 <pre class="source">
 external int hashCode();
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="length">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get length</strong>() <a class="anchor-link" href="#length"
-              title="Permalink to WebAudioApiSound.get length">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get length
-{
-  return _buffer.duration;
-}
 </pre>
 </div>
 </div>
@@ -256,6 +360,20 @@ external Dynamic noSuchMethod(String name, List args);
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="Object">
+<button class="show-code">Code</button>
+const <strong>Object</strong>() <a class="anchor-link" href="#Object"
+              title="Permalink to WebAudioApiSound.Object">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
+<pre class="source">
+const Object();
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="play">
 <button class="show-code">Code</button>
 <a href="../dartflash/SoundChannel.html">SoundChannel</a> <strong>play</strong>([<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> loop = false, <a href="../dartflash/SoundTransform.html">SoundTransform</a> soundTransform = null]) <a class="anchor-link" href="#play"
@@ -272,17 +390,6 @@ SoundChannel play([bool loop = false, SoundTransform soundTransform = null])
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
-              title="Permalink to WebAudioApiSound.get runtimeType">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="toString">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
@@ -294,13 +401,27 @@ external String toString();
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="WebAudioApiSound">
+<button class="show-code">Code</button>
+new <strong>WebAudioApiSound</strong>() <a class="anchor-link" href="#WebAudioApiSound"
+              title="Permalink to WebAudioApiSound.WebAudioApiSound">#</a></h4>
+<div class="doc">
+<pre class="source">
+WebAudioApiSound()
+{
+  if (SoundMixer._audioContext == null)
+    throw new UnsupportedOperationException("This browser does not support Web Audio API.");
+}
+</pre>
+</div>
+</div>
 </div>
         </div>
         <div class="clear"></div>
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-08 19:24:31.737</div>
+          <div>This page was generated at 2012-10-13 21:36:09.144</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

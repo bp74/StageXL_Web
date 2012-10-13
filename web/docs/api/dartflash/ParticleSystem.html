@@ -97,10 +97,16 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
+<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
+<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
+<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -113,6 +119,338 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<pre class="source">
+class ParticleSystem extends DisplayObject implements Animatable
+{
+  Random _random;
+  List&lt;_Particle&gt; _particles;
+  int _particleCount;
+  html.CanvasElement _particleCanvas;
+  num _frameTime;
+  num _emissionTime;
+
+  static const int EMITTER_TYPE_GRAVITY = 0;
+  static const int EMITTER_TYPE_RADIAL = 1;
+
+  // emitter configuration
+  int emitterType;
+  num emitterX, emitterY;
+  num emitterXVariance, emitterYVariance;
+
+  // particle configuration
+  int maxNumParticles;
+  num lifespan, lifespanVariance;
+  num startSize, startSizeVariance;
+  num endSize, endSizeVariance;
+  num emitAngle, emitAngleVariance;
+
+  // gravity configuration
+  num gravityX, gravityY;
+  num speed, speedVariance;
+  num radialAcceleration, radialAccelerationVariance;
+  num tangentialAcceleration, tangentialAccelerationVariance;
+
+  // radial configuration
+  num minRadius;
+  num maxRadius, maxRadiusVariance;
+  num rotatePerSecond, rotatePerSecondVariance;
+
+  // color configuration
+  _ParticleColor startColor;
+  _ParticleColor endColor;
+
+  //-------------------------------------------------------------------------------------------------
+
+  ParticleSystem(String jsonConfig)
+  {
+    _random = new Random();
+    _emissionTime = 0.0;
+    _frameTime = 0.0;
+
+    _particles = new List&lt;_Particle&gt;();
+    _particleCount = 0;
+
+    var pex = JSON.parse(jsonConfig);
+
+    emitterType = pex["emitterType"].toInt();
+    emitterX = pex["sourcePosition"]["x"] as num;
+    emitterY = pex["sourcePosition"]["y"] as num;
+    emitterXVariance = pex["sourcePositionVariance"]["x"] as num;
+    emitterYVariance = pex["sourcePositionVariance"]["y"] as num;
+
+    maxNumParticles = pex["maxParticles"].toInt();
+    lifespan = max(0.01, pex["particleLifeSpan"] as num);
+    lifespanVariance = pex["particleLifespanVariance"] as num;
+    startSize = pex["startParticleSize"] as num;
+    startSizeVariance = pex["startParticleSizeVariance"] as num;
+    endSize = pex["finishParticleSize"] as num;
+    endSizeVariance = pex["FinishParticleSizeVariance"] as num;
+    emitAngle = (pex["angle"] as num) * PI / 180.0;
+    emitAngleVariance = (pex["angleVariance"] as num) * PI / 180.0;
+
+    gravityX = pex["gravity"]["x"] as num;
+    gravityY = pex["gravity"]["y"] as num;
+    speed = pex["speed"] as num;
+    speedVariance = pex["speedVariance"] as num;
+    radialAcceleration = pex["radialAcceleration"] as num;
+    radialAccelerationVariance = pex["radialAccelVariance"] as num;
+    tangentialAcceleration = pex["tangentialAcceleration"] as num;
+    tangentialAccelerationVariance = pex["tangentialAccelVariance"] as num;
+
+    minRadius = pex["minRadius"] as num;
+    maxRadius = pex["maxRadius"] as num;
+    maxRadiusVariance = pex["maxRadiusVariance"] as num;
+    rotatePerSecond = (pex["rotatePerSecond"] as num) * PI / 180.0;
+    rotatePerSecondVariance = (pex["rotatePerSecondVariance"] as num) * PI / 180.0;
+
+    startColor = new _ParticleColor.fromJSON(pex["startColor"]);
+    endColor = new _ParticleColor.fromJSON(pex["finishColor"]);
+
+    _drawParticleCanvas();
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  void _drawParticleCanvas()
+  {
+    _particleCanvas = new html.CanvasElement(256, 256);
+    var context = _particleCanvas.context2d;
+
+    for(int i = 0; i&lt; 64; i++)
+    {
+      var radius = 15;
+      num targetX = (i  % 8) * 32 + 15.5;
+      num targetY = (i ~/ 8) * 32 + 15.5;
+
+      num colorRed   = startColor.red   + i * (endColor.red    - startColor.red ) / 63;
+      num colorGreen = startColor.green + i * (endColor.green - startColor.green) / 63;
+      num colorBlue  = startColor.blue  + i * (endColor.blue  - startColor.blue ) / 63;
+      num colorAlpha = startColor.alpha + i * (endColor.alpha - startColor.alpha) / 63;
+
+      int cRed = (255.0 * colorRed).toInt();
+      int cGreen = (255.0 * colorGreen).toInt();
+      int cBlue = (255.0 * colorBlue).toInt();
+      int cAlpha = (255.0 * colorAlpha).toInt();
+
+      if (cRed &lt; 0) cRed = 0; else if (cRed &gt; 255) cRed = 255;
+      if (cGreen &lt; 0) cGreen = 0; else if (cGreen &gt; 255) cGreen = 255;
+      if (cBlue &lt; 0) cBlue = 0; else if (cBlue &gt; 255) cBlue = 255;
+      if (cAlpha &lt; 0) cAlpha = 0; else if (cAlpha &gt; 255) cAlpha = 255;
+
+      var gradient = context.createRadialGradient(targetX, targetY, 0, targetX, targetY, radius);
+      gradient.addColorStop(0.0, "rgba($cRed, $cGreen, $cBlue, ${cAlpha / 255.0})");
+      gradient.addColorStop(1.0, "rgba($cRed, $cGreen, $cBlue, 0.0)");
+
+      context.beginPath();
+      context.moveTo(targetX + radius, targetY);
+      context.arc(targetX, targetY, radius, 0, PI * 2.0, false);
+      context.fillStyle = gradient;
+      context.fill();
+    }
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  void _initParticle(_Particle particle)
+  {
+    particle.currentTime = 0.0;
+    particle.totalTime = lifespan + lifespanVariance * (_random.nextDouble() * 2.0 - 1.0);
+
+    if (particle.totalTime &lt;= 0.0) return;
+
+    particle.x = emitterX + emitterXVariance * (_random.nextDouble() * 2.0 - 1.0);
+    particle.y = emitterY + emitterYVariance * (_random.nextDouble() * 2.0 - 1.0);
+    particle.startX = emitterX;
+    particle.startY = emitterY;
+
+    num angle = emitAngle + emitAngleVariance * (_random.nextDouble() * 2.0 - 1.0);
+    num velocity = speed + speedVariance * (_random.nextDouble() * 2.0 - 1.0);
+    particle.velocityX = velocity * cos(angle);
+    particle.velocityY = velocity * sin(angle);
+
+    particle.emitRadius = maxRadius + maxRadiusVariance * (_random.nextDouble() * 2.0 - 1.0);
+    particle.emitRadiusDelta = maxRadius / particle.totalTime;
+    particle.emitRotation = emitAngle + emitAngleVariance * (_random.nextDouble() * 2.0 - 1.0);
+    particle.emitRotationDelta = rotatePerSecond + rotatePerSecondVariance * (_random.nextDouble() * 2.0 - 1.0);
+    particle.radialAcceleration = radialAcceleration + radialAccelerationVariance * (_random.nextDouble() * 2.0 - 1.0);
+    particle.tangentialAcceleration = tangentialAcceleration + tangentialAccelerationVariance * (_random.nextDouble() * 2.0 - 1.0);
+
+    num size1 = startSize + startSizeVariance * (_random.nextDouble() * 2.0 - 1.0);
+    num size2 = endSize + endSizeVariance * (_random.nextDouble() * 2.0 - 1.0);
+    if (size1 &lt; 0.1) size1 = 0.1;
+    if (size2 &lt; 0.1) size2 = 0.1;
+    particle.size = size1;
+    particle.sizeDelta = (size2 - size1) / particle.totalTime;
+
+    // colors
+    /*
+    ParticleColor color = particle.color;
+    ParticleColor colorDelta = particle.colorDelta;
+
+    color.red   = startColor.red;
+    color.green = startColor.green;
+    color.blue  = startColor.blue;
+    color.alpha = startColor.alpha;
+
+    colorDelta.red   = (endColor.red   - startColor.red)   / particle.totalTime;
+    colorDelta.green = (endColor.green - startColor.green) / particle.totalTime;
+    colorDelta.blue  = (endColor.blue  - startColor.blue)  / particle.totalTime;
+    colorDelta.alpha = (endColor.alpha - startColor.alpha) / particle.totalTime;
+    */
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void _advanceParticle(_Particle particle, num passedTime)
+  {
+    num restTime = particle.totalTime - particle.currentTime;
+    passedTime = (restTime &gt; passedTime) ? passedTime : restTime;
+    particle.currentTime += passedTime;
+
+    if (emitterType == EMITTER_TYPE_RADIAL)
+    {
+      particle.emitRotation += particle.emitRotationDelta * passedTime;
+      particle.emitRadius   -= particle.emitRadiusDelta   * passedTime;
+      particle.x = emitterX - cos(particle.emitRotation) * particle.emitRadius;
+      particle.y = emitterY - sin(particle.emitRotation) * particle.emitRadius;
+
+      if (particle.emitRadius &lt; minRadius)
+        particle.currentTime = particle.totalTime;
+    }
+    else
+    {
+      num distanceX = particle.x - particle.startX;
+      num distanceY = particle.y - particle.startY;
+      num distanceScalar = sqrt(distanceX * distanceX + distanceY * distanceY);
+      if (distanceScalar &lt; 0.01) distanceScalar = 0.01;
+      distanceX = distanceX / distanceScalar;
+      distanceY = distanceY / distanceScalar;
+
+      particle.velocityX += passedTime * (gravityX + distanceX * particle.radialAcceleration - distanceY * particle.tangentialAcceleration);
+      particle.velocityY += passedTime * (gravityY + distanceY * particle.radialAcceleration + distanceX * particle.tangentialAcceleration);
+      particle.x += particle.velocityX * passedTime;
+      particle.y += particle.velocityY * passedTime;
+    }
+
+    particle.size += particle.sizeDelta * passedTime;
+
+    /*
+    ParticleColor color = particle.color;
+    ParticleColor colorDelta = particle.colorDelta;
+    color.red   += colorDelta.red   * passedTime;
+    color.green += colorDelta.green * passedTime;
+    color.blue  += colorDelta.blue  * passedTime;
+    color.alpha += colorDelta.alpha * passedTime;
+    */
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  void start([num duration = double.INFINITY])
+  {
+    _emissionTime = duration;
+  }
+
+  void stop(bool clear)
+  {
+    _emissionTime = 0.0;
+
+    if (clear)
+      _particleCount = 0;
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  bool advanceTime(num passedTime)
+  {
+    int particleIndex = 0;
+
+    //--------------------------------------------------------
+    // advance existing particles
+
+    while (particleIndex &lt; _particleCount)
+    {
+      _Particle particle = _particles[particleIndex];
+
+      if (particle.currentTime &lt; particle.totalTime)
+      {
+        _advanceParticle(particle, passedTime);
+        particleIndex++;
+      }
+      else
+      {
+        var swapParticle = _particles[_particleCount - 1];
+        _particles[_particleCount - 1] = particle;
+        _particles[particleIndex] = swapParticle;
+        _particleCount--;
+      }
+    }
+
+    //--------------------------------------------------------
+    // create and advance new particles
+
+    if (_emissionTime &gt; 0.0)
+    {
+      num timeBetweenParticles = lifespan / maxNumParticles;
+      _frameTime += passedTime;
+
+      while (_frameTime &gt; 0.0)
+      {
+        if (_particleCount &lt; maxNumParticles)
+        {
+          if (_particleCount &gt;= _particles.length)
+            _particles.add(new _Particle());
+
+          var particle = _particles[_particleCount++];
+          _initParticle(particle);
+          _advanceParticle(particle, _frameTime);
+        }
+
+        _frameTime -= timeBetweenParticles;
+      }
+
+      _emissionTime = max(0.0, _emissionTime - passedTime);
+    }
+
+    //--------------------------------------------------------
+
+    return (_particleCount &gt; 0);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  void render(RenderState renderState)
+  {
+    var context = renderState.context;
+
+    context.save();
+    context.globalCompositeOperation = "lighter";
+
+    for(int i = 0; i &lt; _particleCount; i++)
+    {
+      var particle = _particles[i];
+
+      int time = ((particle.currentTime / particle.totalTime) * 63).toInt();
+      int sourceX = (time  % 8) * 32;
+      int sourceY = (time ~/ 8) * 32;
+
+      int targetSize = particle.size.toInt();
+      int targetX = (particle.x - targetSize / 2.0).toInt();
+      int targetY = (particle.y - targetSize / 2.0).toInt();
+
+      context.drawImage(_particleCanvas, sourceX, sourceY, 32, 32, targetX, targetY, targetSize, targetSize);
+    }
+
+    context.restore();
+  }
+
+}
+</pre>
 </div>
 <h3>Extends</h3>
 <p>
@@ -180,10 +518,10 @@ ParticleSystem(String jsonConfig)
 </div>
 </div>
 <div>
-<h3>Static Fields</h3>
+<h3>Static Properties</h3>
 <div class="field"><h4 id="EMITTER_TYPE_GRAVITY">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>EMITTER_TYPE_GRAVITY</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>EMITTER_TYPE_GRAVITY</strong> <a class="anchor-link"
             href="#EMITTER_TYPE_GRAVITY"
             title="Permalink to ParticleSystem.EMITTER_TYPE_GRAVITY">#</a>
         </h4>
@@ -195,7 +533,7 @@ static const int EMITTER_TYPE_GRAVITY = 0;
 </div>
 <div class="field"><h4 id="EMITTER_TYPE_RADIAL">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>EMITTER_TYPE_RADIAL</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>EMITTER_TYPE_RADIAL</strong> <a class="anchor-link"
             href="#EMITTER_TYPE_RADIAL"
             title="Permalink to ParticleSystem.EMITTER_TYPE_RADIAL">#</a>
         </h4>
@@ -207,7 +545,22 @@ static const int EMITTER_TYPE_RADIAL = 1;
 </div>
 </div>
 <div>
-<h3>Fields</h3>
+<h3>Properties</h3>
+<div class="field inherited"><h4 id="alpha">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>alpha</strong> <a class="anchor-link"
+            href="#alpha"
+            title="Permalink to ParticleSystem.alpha">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get alpha =&gt; _alpha;
+</pre>
+<pre class="source">
+void set alpha(num value) { _alpha = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
 <div class="field"><h4 id="emitAngle">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>emitAngle</strong> <a class="anchor-link"
@@ -352,6 +705,26 @@ num gravityX, gravityY;
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="height">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>height</strong> <a class="anchor-link"
+            href="#height"
+            title="Permalink to ParticleSystem.height">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get height =&gt; getBoundsTransformed(_transformationMatrix).height;
+</pre>
+<pre class="source">
+void set height(num value)
+{
+  this.scaleY = 1;
+  num normalHeight = this.height;
+  this.scaleY = (normalHeight != 0.0) ? value / normalHeight : 1.0;
+}
+</pre>
+</div>
+</div>
 <div class="field"><h4 id="lifespan">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>lifespan</strong> <a class="anchor-link"
@@ -436,6 +809,75 @@ num minRadius;
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="name">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>name</strong> <a class="anchor-link"
+            href="#name"
+            title="Permalink to ParticleSystem.name">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+String get name =&gt; _name;
+</pre>
+<pre class="source">
+void set name(String value) { _name = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="on">
+<button class="show-code">Code</button>
+final <a href="../dartflash/DisplayObjectEvents.html">DisplayObjectEvents</a>         <strong>on</strong> <a class="anchor-link"
+            href="#on"
+            title="Permalink to ParticleSystem.on">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+DisplayObjectEvents get on =&gt; new DisplayObjectEvents(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="parent">
+<button class="show-code">Code</button>
+final <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a>         <strong>parent</strong> <a class="anchor-link"
+            href="#parent"
+            title="Permalink to ParticleSystem.parent">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+DisplayObjectContainer get parent =&gt; _parent;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="pivotX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>pivotX</strong> <a class="anchor-link"
+            href="#pivotX"
+            title="Permalink to ParticleSystem.pivotX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get pivotX =&gt; _pivotX;
+</pre>
+<pre class="source">
+void set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="pivotY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>pivotY</strong> <a class="anchor-link"
+            href="#pivotY"
+            title="Permalink to ParticleSystem.pivotY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get pivotY =&gt; _pivotY;
+</pre>
+<pre class="source">
+void set pivotY(num value) { _pivotY = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
 <div class="field"><h4 id="radialAcceleration">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>radialAcceleration</strong> <a class="anchor-link"
@@ -457,6 +899,26 @@ num radialAcceleration, radialAccelerationVariance;
         <div class="doc">
 <pre class="source">
 num radialAcceleration, radialAccelerationVariance;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="root">
+<button class="show-code">Code</button>
+final <a href="../dartflash/DisplayObject.html">DisplayObject</a>         <strong>root</strong> <a class="anchor-link"
+            href="#root"
+            title="Permalink to ParticleSystem.root">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+DisplayObject get root
+{
+  DisplayObject currentObject = this;
+
+  while (currentObject._parent != null)
+    currentObject = currentObject._parent;
+
+  return currentObject;
+}
 </pre>
 </div>
 </div>
@@ -484,6 +946,64 @@ num rotatePerSecond, rotatePerSecondVariance;
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="rotation">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>rotation</strong> <a class="anchor-link"
+            href="#rotation"
+            title="Permalink to ParticleSystem.rotation">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get rotation =&gt; _rotation;
+</pre>
+<pre class="source">
+void set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to ParticleSystem.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="scaleX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>scaleX</strong> <a class="anchor-link"
+            href="#scaleX"
+            title="Permalink to ParticleSystem.scaleX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get scaleX =&gt; _scaleX;
+</pre>
+<pre class="source">
+void set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="scaleY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>scaleY</strong> <a class="anchor-link"
+            href="#scaleY"
+            title="Permalink to ParticleSystem.scaleY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get scaleY =&gt; _scaleY;
+</pre>
+<pre class="source">
+void set scaleY(num value) { _scaleY = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
 <div class="field"><h4 id="speed">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>speed</strong> <a class="anchor-link"
@@ -505,6 +1025,26 @@ num speed, speedVariance;
         <div class="doc">
 <pre class="source">
 num speed, speedVariance;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="stage">
+<button class="show-code">Code</button>
+final <a href="../dartflash/Stage.html">Stage</a>         <strong>stage</strong> <a class="anchor-link"
+            href="#stage"
+            title="Permalink to ParticleSystem.stage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stage get stage
+{
+  DisplayObject root = this.root;
+
+  if (root is Stage)
+    return root;
+
+  return null;
+}
 </pre>
 </div>
 </div>
@@ -568,9 +1108,89 @@ num tangentialAcceleration, tangentialAccelerationVariance;
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="transformationMatrix">
+<button class="show-code">Code</button>
+final <a href="../dartflash/Matrix.html">Matrix</a>         <strong>transformationMatrix</strong> <a class="anchor-link"
+            href="#transformationMatrix"
+            title="Permalink to ParticleSystem.transformationMatrix">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Matrix get transformationMatrix
+{
+  return _transformationMatrix.clone();
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="visible">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>visible</strong> <a class="anchor-link"
+            href="#visible"
+            title="Permalink to ParticleSystem.visible">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool get visible =&gt; _visible;
+</pre>
+<pre class="source">
+void set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="width">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>width</strong> <a class="anchor-link"
+            href="#width"
+            title="Permalink to ParticleSystem.width">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get width =&gt; getBoundsTransformed(_transformationMatrix).width;
+</pre>
+<pre class="source">
+void set width(num value)
+{
+  this.scaleX = 1;
+  num normalWidth = this.width;
+  this.scaleX = (normalWidth != 0.0) ? value / normalWidth : 1.0;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="x">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>x</strong> <a class="anchor-link"
+            href="#x"
+            title="Permalink to ParticleSystem.x">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get x =&gt; _x;
+</pre>
+<pre class="source">
+void set x(num value) { _x = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="y">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>y</strong> <a class="anchor-link"
+            href="#y"
+            title="Permalink to ParticleSystem.y">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get y =&gt; _y;
+</pre>
+<pre class="source">
+void set y(num value) { _y = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
 </div>
 <div>
-<h3>Methods</h3>
+<h3>Operators</h3>
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
@@ -587,13 +1207,16 @@ bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Methods</h3>
 <div class="method inherited"><h4 id="addEventListener">
 <button class="show-code">Code</button>
-void <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, <a href="http://api.dartlang.org/dart_core/Function.html">Function</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#addEventListener"
+void <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, <a href="../dartflash/EventListener.html">EventListener</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#addEventListener"
               title="Permalink to ParticleSystem.addEventListener">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
-void addEventListener(String type, Function eventListener, [bool useCapture = false])
+void addEventListener(String type, EventListener eventListener, [bool useCapture = false])
 {
   _getEventListenerList(type).add(eventListener, useCapture);
 }
@@ -664,26 +1287,6 @@ bool advanceTime(num passedTime)
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="alpha">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get alpha</strong>() <a class="anchor-link" href="#alpha"
-              title="Permalink to ParticleSystem.get alpha">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get alpha =&gt; _alpha;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="alpha=">
-<button class="show-code">Code</button>
-void <strong>set alpha</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#alpha="
-              title="Permalink to ParticleSystem.set alpha">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set alpha(num value) { _alpha = value; _transformationMatrixRefresh = true; }
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="dispatchEvent">
 <button class="show-code">Code</button>
 void <strong>dispatchEvent</strong>(<a href="../dartflash/Event.html">Event</a> event) <a class="anchor-link" href="#dispatchEvent"
@@ -713,6 +1316,23 @@ void dispatchEvent(Event event)
     for(int i = 0; i &lt; ancestors.length; i++)
       if (event.stopsPropagation == false)
         ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="DisplayObject">
+<button class="show-code">Code</button>
+new <strong>DisplayObject</strong>() <a class="anchor-link" href="#DisplayObject"
+              title="Permalink to ParticleSystem.DisplayObject">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+DisplayObject()
+{
+  _transformationMatrixPrivate = new Matrix.fromIdentity();
+  _transformationMatrixRefresh = true;
+
+  _tmpMatrix = new Matrix.fromIdentity();
+  _tmpMatrixIdentity = new Matrix.fromIdentity();
 }
 </pre>
 </div>
@@ -805,31 +1425,6 @@ external int hashCode();
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="height">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get height</strong>() <a class="anchor-link" href="#height"
-              title="Permalink to ParticleSystem.get height">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get height =&gt; getBoundsTransformed(_transformationMatrix).height;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="height=">
-<button class="show-code">Code</button>
-void <strong>set height</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#height="
-              title="Permalink to ParticleSystem.set height">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set height(num value)
-{
-  this.scaleY = 1;
-  num normalHeight = this.height;
-  this.scaleY = (normalHeight != 0.0) ? value / normalHeight : 1.0;
-}
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="hitTestInput">
 <button class="show-code">Code</button>
 <a href="../dartflash/DisplayObject.html">DisplayObject</a> <strong>hitTestInput</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> localX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> localY) <a class="anchor-link" href="#hitTestInput"
@@ -903,26 +1498,6 @@ Point localToGlobal(Point localPoint)
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="name">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>get name</strong>() <a class="anchor-link" href="#name"
-              title="Permalink to ParticleSystem.get name">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-String get name =&gt; _name;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="name=">
-<button class="show-code">Code</button>
-void <strong>set name</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> value) <a class="anchor-link" href="#name="
-              title="Permalink to ParticleSystem.set name">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set name(String value) { _name = value; _transformationMatrixRefresh = true; }
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="noSuchMethod">
 <button class="show-code">Code</button>
 <strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
@@ -940,73 +1515,83 @@ external Dynamic noSuchMethod(String name, List args);
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="on">
+<div class="method inherited"><h4 id="Object">
 <button class="show-code">Code</button>
-<a href="../dartflash/DisplayObjectEvents.html">DisplayObjectEvents</a> <strong>get on</strong>() <a class="anchor-link" href="#on"
-              title="Permalink to ParticleSystem.get on">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+const <strong>Object</strong>() <a class="anchor-link" href="#Object"
+              title="Permalink to ParticleSystem.Object">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
 <pre class="source">
-DisplayObjectEvents get on =&gt; new DisplayObjectEvents(this);
+const Object();
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="parent">
+<div class="method"><h4 id="ParticleSystem">
 <button class="show-code">Code</button>
-<a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> <strong>get parent</strong>() <a class="anchor-link" href="#parent"
-              title="Permalink to ParticleSystem.get parent">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+new <strong>ParticleSystem</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> jsonConfig) <a class="anchor-link" href="#ParticleSystem"
+              title="Permalink to ParticleSystem.ParticleSystem">#</a></h4>
+<div class="doc">
 <pre class="source">
-DisplayObjectContainer get parent =&gt; _parent;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="pivotX">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get pivotX</strong>() <a class="anchor-link" href="#pivotX"
-              title="Permalink to ParticleSystem.get pivotX">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get pivotX =&gt; _pivotX;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="pivotX=">
-<button class="show-code">Code</button>
-void <strong>set pivotX</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#pivotX="
-              title="Permalink to ParticleSystem.set pivotX">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="pivotY">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get pivotY</strong>() <a class="anchor-link" href="#pivotY"
-              title="Permalink to ParticleSystem.get pivotY">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get pivotY =&gt; _pivotY;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="pivotY=">
-<button class="show-code">Code</button>
-void <strong>set pivotY</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#pivotY="
-              title="Permalink to ParticleSystem.set pivotY">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set pivotY(num value) { _pivotY = value; _transformationMatrixRefresh = true; }
+ParticleSystem(String jsonConfig)
+{
+  _random = new Random();
+  _emissionTime = 0.0;
+  _frameTime = 0.0;
+
+  _particles = new List&lt;_Particle&gt;();
+  _particleCount = 0;
+
+  var pex = JSON.parse(jsonConfig);
+
+  emitterType = pex["emitterType"].toInt();
+  emitterX = pex["sourcePosition"]["x"] as num;
+  emitterY = pex["sourcePosition"]["y"] as num;
+  emitterXVariance = pex["sourcePositionVariance"]["x"] as num;
+  emitterYVariance = pex["sourcePositionVariance"]["y"] as num;
+
+  maxNumParticles = pex["maxParticles"].toInt();
+  lifespan = max(0.01, pex["particleLifeSpan"] as num);
+  lifespanVariance = pex["particleLifespanVariance"] as num;
+  startSize = pex["startParticleSize"] as num;
+  startSizeVariance = pex["startParticleSizeVariance"] as num;
+  endSize = pex["finishParticleSize"] as num;
+  endSizeVariance = pex["FinishParticleSizeVariance"] as num;
+  emitAngle = (pex["angle"] as num) * PI / 180.0;
+  emitAngleVariance = (pex["angleVariance"] as num) * PI / 180.0;
+
+  gravityX = pex["gravity"]["x"] as num;
+  gravityY = pex["gravity"]["y"] as num;
+  speed = pex["speed"] as num;
+  speedVariance = pex["speedVariance"] as num;
+  radialAcceleration = pex["radialAcceleration"] as num;
+  radialAccelerationVariance = pex["radialAccelVariance"] as num;
+  tangentialAcceleration = pex["tangentialAcceleration"] as num;
+  tangentialAccelerationVariance = pex["tangentialAccelVariance"] as num;
+
+  minRadius = pex["minRadius"] as num;
+  maxRadius = pex["maxRadius"] as num;
+  maxRadiusVariance = pex["maxRadiusVariance"] as num;
+  rotatePerSecond = (pex["rotatePerSecond"] as num) * PI / 180.0;
+  rotatePerSecondVariance = (pex["rotatePerSecondVariance"] as num) * PI / 180.0;
+
+  startColor = new _ParticleColor.fromJSON(pex["startColor"]);
+  endColor = new _ParticleColor.fromJSON(pex["finishColor"]);
+
+  _drawParticleCanvas();
+}
 </pre>
 </div>
 </div>
 <div class="method inherited"><h4 id="removeEventListener">
 <button class="show-code">Code</button>
-void <strong>removeEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, <a href="http://api.dartlang.org/dart_core/Function.html">Function</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#removeEventListener"
+void <strong>removeEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, <a href="../dartflash/EventListener.html">EventListener</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#removeEventListener"
               title="Permalink to ParticleSystem.removeEventListener">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
-void removeEventListener(String type, Function eventListener, [bool useCapture = false])
+void removeEventListener(String type, EventListener eventListener, [bool useCapture = false])
 {
   _getEventListenerList(type).remove(eventListener, useCapture);
 }
@@ -1045,8 +1630,8 @@ void render(RenderState renderState)
     var particle = _particles[i];
 
     int time = ((particle.currentTime / particle.totalTime) * 63).toInt();
-    int sourceX = (time % 8).toInt() * 32;
-    int sourceY = (time / 8).toInt() * 32;
+    int sourceX = (time  % 8) * 32;
+    int sourceY = (time ~/ 8) * 32;
 
     int targetSize = particle.size.toInt();
     int targetX = (particle.x - targetSize / 2.0).toInt();
@@ -1056,113 +1641,6 @@ void render(RenderState renderState)
   }
 
   context.restore();
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="root">
-<button class="show-code">Code</button>
-<a href="../dartflash/DisplayObject.html">DisplayObject</a> <strong>get root</strong>() <a class="anchor-link" href="#root"
-              title="Permalink to ParticleSystem.get root">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-DisplayObject get root
-{
-  DisplayObject currentObject = this;
-
-  while (currentObject._parent != null)
-    currentObject = currentObject._parent;
-
-  return currentObject;
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="rotation">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get rotation</strong>() <a class="anchor-link" href="#rotation"
-              title="Permalink to ParticleSystem.get rotation">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get rotation =&gt; _rotation;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="rotation=">
-<button class="show-code">Code</button>
-void <strong>set rotation</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#rotation="
-              title="Permalink to ParticleSystem.set rotation">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true; }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
-              title="Permalink to ParticleSystem.get runtimeType">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="scaleX">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get scaleX</strong>() <a class="anchor-link" href="#scaleX"
-              title="Permalink to ParticleSystem.get scaleX">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get scaleX =&gt; _scaleX;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="scaleX=">
-<button class="show-code">Code</button>
-void <strong>set scaleX</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#scaleX="
-              title="Permalink to ParticleSystem.set scaleX">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="scaleY">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get scaleY</strong>() <a class="anchor-link" href="#scaleY"
-              title="Permalink to ParticleSystem.get scaleY">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get scaleY =&gt; _scaleY;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="scaleY=">
-<button class="show-code">Code</button>
-void <strong>set scaleY</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#scaleY="
-              title="Permalink to ParticleSystem.set scaleY">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set scaleY(num value) { _scaleY = value; _transformationMatrixRefresh = true; }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="stage">
-<button class="show-code">Code</button>
-<a href="../dartflash/Stage.html">Stage</a> <strong>get stage</strong>() <a class="anchor-link" href="#stage"
-              title="Permalink to ParticleSystem.get stage">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-Stage get stage
-{
-  DisplayObject root = this.root;
-
-  if (root is Stage)
-    return root;
-
-  return null;
 }
 </pre>
 </div>
@@ -1204,19 +1682,6 @@ void stop(bool clear)
 <p>Returns a string representation of this object.</p>
 <pre class="source">
 external String toString();
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="transformationMatrix">
-<button class="show-code">Code</button>
-<a href="../dartflash/Matrix.html">Matrix</a> <strong>get transformationMatrix</strong>() <a class="anchor-link" href="#transformationMatrix"
-              title="Permalink to ParticleSystem.get transformationMatrix">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-Matrix get transformationMatrix
-{
-  return _transformationMatrix.clone();
-}
 </pre>
 </div>
 </div>
@@ -1277,98 +1742,13 @@ Matrix transformationMatrixTo(DisplayObject targetSpace)
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="visible">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get visible</strong>() <a class="anchor-link" href="#visible"
-              title="Permalink to ParticleSystem.get visible">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-bool get visible =&gt; _visible;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="visible=">
-<button class="show-code">Code</button>
-void <strong>set visible</strong>(<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> value) <a class="anchor-link" href="#visible="
-              title="Permalink to ParticleSystem.set visible">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="width">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get width</strong>() <a class="anchor-link" href="#width"
-              title="Permalink to ParticleSystem.get width">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get width =&gt; getBoundsTransformed(_transformationMatrix).width;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="width=">
-<button class="show-code">Code</button>
-void <strong>set width</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#width="
-              title="Permalink to ParticleSystem.set width">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set width(num value)
-{
-  this.scaleX = 1;
-  num normalWidth = this.width;
-  this.scaleX = (normalWidth != 0.0) ? value / normalWidth : 1.0;
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="x">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get x</strong>() <a class="anchor-link" href="#x"
-              title="Permalink to ParticleSystem.get x">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get x =&gt; _x;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="x=">
-<button class="show-code">Code</button>
-void <strong>set x</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#x="
-              title="Permalink to ParticleSystem.set x">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set x(num value) { _x = value; _transformationMatrixRefresh = true; }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="y">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get y</strong>() <a class="anchor-link" href="#y"
-              title="Permalink to ParticleSystem.get y">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get y =&gt; _y;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="y=">
-<button class="show-code">Code</button>
-void <strong>set y</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#y="
-              title="Permalink to ParticleSystem.set y">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set y(num value) { _y = value; _transformationMatrixRefresh = true; }
-</pre>
-</div>
-</div>
 </div>
         </div>
         <div class="clear"></div>
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-08 19:24:30.615</div>
+          <div>This page was generated at 2012-10-13 21:36:08.766</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

@@ -2,19 +2,19 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>RenderLoop class / dartflash Library / Dart Documentation</title>
+        <title>TweenUpdate typedef / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
-        <body data-library="dartflash" data-type="RenderLoop">
+        <body data-library="dartflash" data-type="TweenUpdate">
         <div class="page">
         <div class="header">
           <a href="../index.html"><div class="logo"></div></a>
           <a href="../index.html">Dart Documentation</a>
-         &rsaquo; <a href="../dartflash.html">dartflash</a> &rsaquo; <a href="../dartflash/RenderLoop.html">RenderLoop</a>        <div id="search-box">
+         &rsaquo; <a href="../dartflash.html">dartflash</a> &rsaquo; <a href="../dartflash/TweenUpdate.html">TweenUpdate</a>        <div id="search-box">
           <input type="search" name="q" id="q" autocomplete="off"
               class="search-input" placeholder="Search API">
         </div>
@@ -75,7 +75,7 @@
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
 <li><a href="../dartflash/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
-<li><div class="icon-class"></div><strong>RenderLoop</strong></li>
+<li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
@@ -106,246 +106,31 @@
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
 <li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
 <li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
-<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
+<li><div class="icon-interface"></div><strong>TweenUpdate</strong></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
 </div>
 <div class="content">
-        <h2><strong>RenderLoop</strong>
-          class
+        <h2><strong>TweenUpdate</strong>
+          typedef
         </h2>
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class RenderLoop
-{
-  Juggler _juggler;
-  List&lt;Stage&gt; _stages;
-  num _renderTime;
-
-  _EventListenerListIndex _enterFrameIndex;
-  EnterFrameEvent _enterFrameEvent;
-
-  RenderLoop()
-  {
-    _juggler = new Juggler();
-    _stages = new List&lt;Stage&gt;();
-    _renderTime = double.NAN;
-
-    _enterFrameIndex = _EventListenerListIndex.enterFrame;
-    _enterFrameEvent = new EnterFrameEvent(0);
-
-    html.window.requestAnimationFrame(_onAnimationFrame);
-  }
-
-  Juggler get juggler =&gt; _juggler;
-
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
-
-  void _onAnimationFrame(num currentTime)
-  {
-    html.window.requestAnimationFrame(_onAnimationFrame);
-
-    if (_renderTime.isNaN())
-      _renderTime = currentTime;
-
-    if (_renderTime &gt; currentTime)
-      _renderTime = currentTime;
-
-    num deltaTime = currentTime - _renderTime;
-    num deltaTimeSec = deltaTime / 1000.0;
-
-    if (deltaTime &gt;= 1) {
-      _renderTime = currentTime;
-      _enterFrameEvent._passedTime = deltaTimeSec;
-      _enterFrameIndex.dispatchEvent(_enterFrameEvent);
-      _juggler.advanceTime(deltaTimeSec);
-
-      for(int i = 0; i &lt; _stages.length; i++) {
-        var stage = _stages[i];
-        stage.materialize();
-      }
-    }
-  }
-
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
-
-  void addStage(Stage stage)
-  {
-    _stages.add(stage);
-  }
-}
+typedef void TweenUpdate();
 </pre>
 </div>
-<div>
-<h3>Constructors</h3>
-<div class="method"><h4 id="RenderLoop">
+<div class="method"><h4 id="TweenUpdate">
 <button class="show-code">Code</button>
-new <strong>RenderLoop</strong>() <a class="anchor-link" href="#RenderLoop"
-              title="Permalink to RenderLoop.RenderLoop">#</a></h4>
+typedef void TweenUpdate() <a class="anchor-link" href="#TweenUpdate"
+              title="Permalink to TweenUpdate">#</a></h4>
 <div class="doc">
 <pre class="source">
-RenderLoop()
-{
-  _juggler = new Juggler();
-  _stages = new List&lt;Stage&gt;();
-  _renderTime = double.NAN;
-
-  _enterFrameIndex = _EventListenerListIndex.enterFrame;
-  _enterFrameEvent = new EnterFrameEvent(0);
-
-  html.window.requestAnimationFrame(_onAnimationFrame);
-}
+typedef void TweenUpdate();
 </pre>
-</div>
-</div>
-</div>
-<div>
-<h3>Properties</h3>
-<div class="field"><h4 id="juggler">
-<button class="show-code">Code</button>
-final <a href="../dartflash/Juggler.html">Juggler</a>         <strong>juggler</strong> <a class="anchor-link"
-            href="#juggler"
-            title="Permalink to RenderLoop.juggler">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-Juggler get juggler =&gt; _juggler;
-</pre>
-</div>
-</div>
-<div class="field inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
-            href="#runtimeType"
-            title="Permalink to RenderLoop.runtimeType">#</a>
-        </h4>
-        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
-</pre>
-</div>
-</div>
-</div>
-<div>
-<h3>Operators</h3>
-<div class="method inherited"><h4 id="==">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
-              title="Permalink to RenderLoop.operator ==">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>The equality operator.</p>
-<p>The default behavior for all <code>Object</code>s is to return true if and
-only if <code>this</code> and 
-<span class="param">other</span> are the same object.</p>
-<p>If a subclass overrides the equality operator it should override
-the <code>hashCode</code> method as well to maintain consistency.</p>
-<pre class="source">
-bool operator ==(other) =&gt; identical(this, other);
-</pre>
-</div>
-</div>
-</div>
-<div>
-<h3>Methods</h3>
-<div class="method"><h4 id="addStage">
-<button class="show-code">Code</button>
-void <strong>addStage</strong>(<a href="../dartflash/Stage.html">Stage</a> stage) <a class="anchor-link" href="#addStage"
-              title="Permalink to RenderLoop.addStage">#</a></h4>
-<div class="doc">
-<pre class="source">
-void addStage(Stage stage)
-{
-  _stages.add(stage);
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="hashCode">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
-              title="Permalink to RenderLoop.hashCode">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Get a hash code for this object.</p>
-<p>All objects have hash codes. Hash codes are guaranteed to be the
-same for objects that are equal when compared using the equality
-operator <code>==</code>. Other than that there are no guarantees about
-the hash codes. They will not be consistent between runs and
-there are no distribution guarantees.</p>
-<p>If a subclass overrides <code>hashCode</code> it should override the
-equality operator as well to maintain consistency.</p>
-<pre class="source">
-external int hashCode();
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="noSuchMethod">
-<button class="show-code">Code</button>
-<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
-              title="Permalink to RenderLoop.noSuchMethod">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
-on an object. The name of the method and the arguments of the
-invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
-returns a value, that value becomes the result of the original
-invocation.</p>
-<p>The default behavior of <code>noSuchMethod</code> is to throw a
-<code>noSuchMethodError</code>.</p>
-<pre class="source">
-external Dynamic noSuchMethod(String name, List args);
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="Object">
-<button class="show-code">Code</button>
-const <strong>Object</strong>() <a class="anchor-link" href="#Object"
-              title="Permalink to RenderLoop.Object">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Creates a new <code>Object</code> instance.</p>
-<p><code>Object</code> instances have no meaningful state, and are only useful
-through their identity. An <code>Object</code> instance is equal to itself
-only.</p>
-<pre class="source">
-const Object();
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="RenderLoop">
-<button class="show-code">Code</button>
-new <strong>RenderLoop</strong>() <a class="anchor-link" href="#RenderLoop"
-              title="Permalink to RenderLoop.RenderLoop">#</a></h4>
-<div class="doc">
-<pre class="source">
-RenderLoop()
-{
-  _juggler = new Juggler();
-  _stages = new List&lt;Stage&gt;();
-  _renderTime = double.NAN;
-
-  _enterFrameIndex = _EventListenerListIndex.enterFrame;
-  _enterFrameEvent = new EnterFrameEvent(0);
-
-  html.window.requestAnimationFrame(_onAnimationFrame);
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="toString">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
-              title="Permalink to RenderLoop.toString">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Returns a string representation of this object.</p>
-<pre class="source">
-external String toString();
-</pre>
-</div>
 </div>
 </div>
         </div>
@@ -353,7 +138,7 @@ external String toString();
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-13 21:36:08.568</div>
+          <div>This page was generated at 2012-10-13 21:36:08.406</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

@@ -97,10 +97,16 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
+<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
+<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
+<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -113,6 +119,341 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<pre class="source">
+class Stage extends DisplayObjectContainer
+{
+  html.CanvasElement _canvas;
+  html.CanvasRenderingContext2D _context;
+
+  InteractiveObject _focus;
+  RenderState _renderState;
+  String _renderMode;
+  String _mouseCursor;
+
+  List&lt;bool&gt; _buttonState;
+  List&lt;DisplayObject&gt; _clickTarget;
+  List&lt;int&gt; _clickTime;
+  List&lt;int&gt; _clickCount;
+  List&lt;String&gt; _mouseDownEventTypes;
+  List&lt;String&gt; _mouseUpEventTypes;
+  List&lt;String&gt; _mouseClickEventTypes;
+  List&lt;String&gt; _mouseDoubleClickEventTypes;
+  InteractiveObject _mouseOverTarget;
+
+  MouseEvent _mouseEvent;
+  KeyboardEvent _keyboardEvent;
+
+  //-------------------------------------------------------------------------------------------------
+
+  Stage(String name, html.CanvasElement canvas)
+  {
+    _name = name;
+
+    _canvas = canvas;
+    _canvas.style.outline = "none";
+    _canvas.focus();
+
+    _context = canvas.context2d;
+
+    _renderState = new RenderState.fromCanvasRenderingContext2D(_context);
+    _renderMode = StageRenderMode.AUTO;
+    _mouseCursor = MouseCursor.ARROW;
+
+    //-----------
+
+    _buttonState = [false, false, false];
+
+    _clickTarget = [null, null, null];
+    _clickTime = [0, 0, 0];
+    _clickCount = [0, 0, 0];
+
+    _mouseDownEventTypes = [MouseEvent.MOUSE_DOWN, MouseEvent.MIDDLE_MOUSE_DOWN, MouseEvent.RIGHT_MOUSE_DOWN];
+    _mouseUpEventTypes =  [MouseEvent.MOUSE_UP, MouseEvent.MIDDLE_MOUSE_UP, MouseEvent.RIGHT_MOUSE_UP];
+    _mouseClickEventTypes = [MouseEvent.CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
+    _mouseDoubleClickEventTypes = [MouseEvent.DOUBLE_CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
+
+    _mouseOverTarget = null;
+
+    _canvas.on.mouseDown.add(_onMouseEvent);
+    _canvas.on.mouseUp.add(_onMouseEvent);
+    _canvas.on.mouseMove.add(_onMouseEvent);
+    _canvas.on.mouseOut.add(_onMouseEvent);
+
+    _canvas.on.mouseWheel.add(_onMouseWheel);
+
+    _canvas.on.keyDown.add(_onKeyEvent);
+    _canvas.on.keyUp.add(_onKeyEvent);
+    _canvas.on.keyPress.add(_onTextEvent);
+
+    //-----------
+
+    _mouseEvent = new MouseEvent(MouseEvent.CLICK, true);
+    _keyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true);
+
+    Mouse._eventDispatcher.addEventListener("mouseCursorChanged", _onMouseCursorChanged);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  int stageWidth() =&gt; _canvas.width;
+  int stageHeight() =&gt; _canvas.height;
+
+  InteractiveObject get focus =&gt; _focus;
+  void set focus(InteractiveObject value) { _focus = value; }
+
+  String get renderMode =&gt; _renderMode;
+  void set renderMode(String value) { _renderMode = value; }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void _throwStageException() {
+    throw new UnsupportedOperationException("Error #2071: The Stage class does not implement this property or method.");
+  }
+
+  void set x(num value) { _throwStageException(); }
+  void set y(num value) { _throwStageException(); }
+  void set pivotX(num value) { _throwStageException(); }
+  void set pivotY(num value) { _throwStageException(); }
+  void set scaleX(num value) { _throwStageException(); }
+  void set scaleY(num value) { _throwStageException(); }
+  void set rotation(num value) { _throwStageException(); }
+  void set alpha(num value) { _throwStageException(); }
+  void set width(num value) { _throwStageException(); }
+  void set height(num value) { _throwStageException(); }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  void materialize()
+  {
+    if (_renderMode == StageRenderMode.AUTO || _renderMode == StageRenderMode.ONCE)
+    {
+      _renderState.reset();
+      render(_renderState);
+
+      if (_renderMode == StageRenderMode.ONCE)
+        _renderMode = StageRenderMode.STOP;
+    }
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  void _onMouseCursorChanged(Event event)
+  {
+    _canvas.style.cursor = Mouse._getCssStyle(_mouseCursor);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void _onMouseEvent(html.MouseEvent event)
+  {
+    event.preventDefault();
+
+    int time = new Date.now().millisecondsSinceEpoch;
+    int button = event.button;
+    InteractiveObject target = null;
+
+    if (button &lt; 0 || button &gt; 2)
+      return;
+
+    Point stagePoint = new Point(event.offsetX, event.offsetY);
+    Point localPoint = null;
+
+    if (event.type != "mouseout")
+      target = hitTestInput(stagePoint.x, stagePoint.y) as InteractiveObject;
+
+    //------------------------------------------------------
+
+    String mouseCursor = MouseCursor.ARROW;
+
+    if (target is Sprite)
+      if (target.useHandCursor)
+        mouseCursor = MouseCursor.BUTTON;
+
+    if (target is SimpleButton)
+      if (target.useHandCursor)
+        mouseCursor = MouseCursor.BUTTON;
+
+    if (_mouseCursor != mouseCursor) {
+      _mouseCursor = mouseCursor;
+      _canvas.style.cursor = Mouse._getCssStyle(mouseCursor);
+    }
+
+    //------------------------------------------------------
+
+    if (_mouseOverTarget != null &amp;&amp; _mouseOverTarget != target)
+    {
+      if (_mouseOverTarget.stage != null)
+        localPoint = _mouseOverTarget.globalToLocal(stagePoint);
+      else
+        localPoint = new Point.zero();
+
+      _mouseEvent._reset(MouseEvent.MOUSE_OUT, true);
+      _mouseEvent._localX = localPoint.x;
+      _mouseEvent._localY = localPoint.y;
+      _mouseEvent._stageX = stagePoint.x;
+      _mouseEvent._stageY = stagePoint.y;
+      _mouseEvent._buttonDown = _buttonState[button];
+
+      _mouseOverTarget.dispatchEvent(_mouseEvent);
+      _mouseOverTarget = null;
+    }
+
+    if (target != null &amp;&amp; target != _mouseOverTarget)
+    {
+      localPoint = target.globalToLocal(stagePoint);
+
+      _mouseEvent._reset(MouseEvent.MOUSE_OVER, true);
+      _mouseEvent._localX = localPoint.x;
+      _mouseEvent._localY = localPoint.y;
+      _mouseEvent._stageX = stagePoint.x;
+      _mouseEvent._stageY = stagePoint.y;
+      _mouseEvent._buttonDown = _buttonState[button];
+
+      _mouseOverTarget = target;
+      _mouseOverTarget.dispatchEvent(_mouseEvent);
+    }
+
+    //------------------------------------------------------
+
+    String mouseEventType = null;
+    int clickCount = _clickCount[button];
+    bool isClick = false;
+    bool isDoubleClick = false;
+
+    if (event.type == "mousedown")
+    {
+        mouseEventType = _mouseDownEventTypes[button];
+
+        _buttonState[button] = true;
+
+        if (target != _clickTarget[button] || time &gt; _clickTime[button] + 500) clickCount = 0;
+
+        _clickTarget[button] = target;
+        _clickTime[button] = time;
+        _clickCount[button] = ++clickCount;
+    }
+
+    if (event.type == "mouseup")
+    {
+        mouseEventType = _mouseUpEventTypes[button];
+
+        _buttonState[button] = false;
+
+        isClick = (_clickTarget[button] == target);
+        isDoubleClick = isClick &amp;&amp; _clickCount[button].isEven() &amp;&amp; (time &lt; _clickTime[button] + 500);
+    }
+
+    if (event.type == "mousemove")
+    {
+        mouseEventType = MouseEvent.MOUSE_MOVE;
+        clickCount = 0;
+    }
+
+    //-----------------------------------------------------------------
+
+    if (mouseEventType != null &amp;&amp; target != null)
+    {
+      localPoint = target.globalToLocal(stagePoint);
+
+      _mouseEvent._reset(mouseEventType, true);
+      _mouseEvent._localX = localPoint.x;
+      _mouseEvent._localY = localPoint.y;
+      _mouseEvent._stageX = stagePoint.x;
+      _mouseEvent._stageY = stagePoint.y;
+      _mouseEvent._buttonDown = _buttonState[button];
+      _mouseEvent._clickCount = clickCount;
+
+      target.dispatchEvent(_mouseEvent);
+
+      //----------------------------------------------
+
+      if (isClick)
+      {
+        isDoubleClick = isDoubleClick &amp;&amp; target.doubleClickEnabled;
+        mouseEventType = isDoubleClick ? _mouseDoubleClickEventTypes[button] : _mouseClickEventTypes[button];
+
+        _mouseEvent._reset(mouseEventType, true);
+        _mouseEvent._localX = localPoint.x;
+        _mouseEvent._localY = localPoint.y;
+        _mouseEvent._stageX = stagePoint.x;
+        _mouseEvent._stageY = stagePoint.y;
+        _mouseEvent._buttonDown = _buttonState[button];
+
+        target.dispatchEvent(_mouseEvent);
+      }
+    }
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void _onMouseWheel(html.WheelEvent event)
+  {
+    InteractiveObject target = hitTestInput(event.offsetX, event.offsetY);
+
+    if (target != null)
+    {
+      Point stagePoint = new Point(event.offsetX, event.offsetY);
+      Point localPoint = target.globalToLocal(stagePoint);
+
+      _mouseEvent._reset(MouseEvent.MOUSE_WHEEL, true);
+      _mouseEvent._localX = localPoint.x;
+      _mouseEvent._localY = localPoint.y;
+      _mouseEvent._stageX = stagePoint.x;
+      _mouseEvent._stageY = stagePoint.y;
+      _mouseEvent._deltaX = event.deltaX;
+      _mouseEvent._deltaY = event.deltaY;
+
+      target.dispatchEvent(_mouseEvent);
+    }
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void _onKeyEvent(html.KeyboardEvent event)
+  {
+    event.preventDefault();
+
+    String keyboardEventType = null;
+
+    if (event.type == "keyup") keyboardEventType = KeyboardEvent.KEY_UP;
+    if (event.type == "keydown") keyboardEventType = KeyboardEvent.KEY_DOWN;
+
+    _keyboardEvent._reset(keyboardEventType, true);
+    _keyboardEvent._altKey = event.altKey;
+    _keyboardEvent._ctrlKey = event.ctrlKey;
+    _keyboardEvent._shiftKey = event.shiftKey;
+    _keyboardEvent._charCode = event.charCode;
+    _keyboardEvent._keyCode = event.keyCode;
+    _keyboardEvent._keyLocation = KeyLocation.STANDARD;
+
+    if (event.keyLocation == html.KeyLocation.LEFT) _keyboardEvent._keyLocation = KeyLocation.LEFT;
+    if (event.keyLocation == html.KeyLocation.RIGHT) _keyboardEvent._keyLocation = KeyLocation.RIGHT;
+    if (event.keyLocation == html.KeyLocation.NUMPAD) _keyboardEvent._keyLocation = KeyLocation.NUM_PAD;
+    if (event.keyLocation == html.KeyLocation.JOYSTICK) _keyboardEvent._keyLocation = KeyLocation.D_PAD;
+    if (event.keyLocation == html.KeyLocation.MOBILE) _keyboardEvent._keyLocation = KeyLocation.D_PAD;
+
+    if (_focus != null)
+      _focus.dispatchEvent(_keyboardEvent);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void _onTextEvent(html.KeyboardEvent event)
+  {
+    int charCode = (event.charCode != 0) ? event.charCode : event.keyCode;
+
+    TextEvent textEvent = new TextEvent(TextEvent.TEXT_INPUT, true);
+    textEvent._text = new String.fromCharCodes([charCode]);
+
+    if (_focus != null)
+      _focus.dispatchEvent(textEvent);
+  }
+
+}
+</pre>
 </div>
 <h3>Extends</h3>
 <p>
@@ -177,7 +518,27 @@ Stage(String name, html.CanvasElement canvas)
 </div>
 </div>
 <div>
-<h3>Fields</h3>
+<h3>Properties</h3>
+<div class="method inherited"><h4 id="alpha">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get alpha</strong> <a class="anchor-link" href="#alpha"
+              title="Permalink to Stage.get alpha">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get alpha =&gt; _alpha;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="alpha=">
+<button class="show-code">Code</button>
+void <strong>set alpha</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#alpha="
+              title="Permalink to Stage.set alpha">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set alpha(num value) { _throwStageException(); }
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="doubleClickEnabled">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>doubleClickEnabled</strong> <a class="anchor-link"
@@ -187,6 +548,41 @@ Stage(String name, html.CanvasElement canvas)
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
 <pre class="source">
 bool doubleClickEnabled = false;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="focus">
+<button class="show-code">Code</button>
+<a href="../dartflash/InteractiveObject.html">InteractiveObject</a>         <strong>focus</strong> <a class="anchor-link"
+            href="#focus"
+            title="Permalink to Stage.focus">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+InteractiveObject get focus =&gt; _focus;
+</pre>
+<pre class="source">
+void set focus(InteractiveObject value) { _focus = value; }
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="height">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get height</strong> <a class="anchor-link" href="#height"
+              title="Permalink to Stage.get height">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get height =&gt; getBoundsTransformed(_transformationMatrix).height;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="height=">
+<button class="show-code">Code</button>
+void <strong>set height</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#height="
+              title="Permalink to Stage.set height">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set height(num value) { _throwStageException(); }
 </pre>
 </div>
 </div>
@@ -202,6 +598,21 @@ Mask mask;
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="mouseChildren">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>mouseChildren</strong> <a class="anchor-link"
+            href="#mouseChildren"
+            title="Permalink to Stage.mouseChildren">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+bool get mouseChildren =&gt; _mouseChildren;
+</pre>
+<pre class="source">
+void set mouseChildren(bool value) { _mouseChildren = value; }
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="mouseEnabled">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>mouseEnabled</strong> <a class="anchor-link"
@@ -211,6 +622,240 @@ Mask mask;
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
 <pre class="source">
 bool mouseEnabled = true;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="name">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>name</strong> <a class="anchor-link"
+            href="#name"
+            title="Permalink to Stage.name">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+String get name =&gt; _name;
+</pre>
+<pre class="source">
+void set name(String value) { _name = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="numChildren">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>numChildren</strong> <a class="anchor-link"
+            href="#numChildren"
+            title="Permalink to Stage.numChildren">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+int get numChildren =&gt; _children.length;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="on">
+<button class="show-code">Code</button>
+final <a href="../dartflash/DisplayObjectContainerEvents.html">DisplayObjectContainerEvents</a>         <strong>on</strong> <a class="anchor-link"
+            href="#on"
+            title="Permalink to Stage.on">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+DisplayObjectContainerEvents get on =&gt; new DisplayObjectContainerEvents(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="parent">
+<button class="show-code">Code</button>
+final <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a>         <strong>parent</strong> <a class="anchor-link"
+            href="#parent"
+            title="Permalink to Stage.parent">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+DisplayObjectContainer get parent =&gt; _parent;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="pivotX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get pivotX</strong> <a class="anchor-link" href="#pivotX"
+              title="Permalink to Stage.get pivotX">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get pivotX =&gt; _pivotX;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="pivotX=">
+<button class="show-code">Code</button>
+void <strong>set pivotX</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#pivotX="
+              title="Permalink to Stage.set pivotX">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set pivotX(num value) { _throwStageException(); }
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="pivotY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get pivotY</strong> <a class="anchor-link" href="#pivotY"
+              title="Permalink to Stage.get pivotY">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get pivotY =&gt; _pivotY;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="pivotY=">
+<button class="show-code">Code</button>
+void <strong>set pivotY</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#pivotY="
+              title="Permalink to Stage.set pivotY">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set pivotY(num value) { _throwStageException(); }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="renderMode">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>renderMode</strong> <a class="anchor-link"
+            href="#renderMode"
+            title="Permalink to Stage.renderMode">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String get renderMode =&gt; _renderMode;
+</pre>
+<pre class="source">
+void set renderMode(String value) { _renderMode = value; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="root">
+<button class="show-code">Code</button>
+final <a href="../dartflash/DisplayObject.html">DisplayObject</a>         <strong>root</strong> <a class="anchor-link"
+            href="#root"
+            title="Permalink to Stage.root">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+DisplayObject get root
+{
+  DisplayObject currentObject = this;
+
+  while (currentObject._parent != null)
+    currentObject = currentObject._parent;
+
+  return currentObject;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="rotation">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get rotation</strong> <a class="anchor-link" href="#rotation"
+              title="Permalink to Stage.get rotation">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get rotation =&gt; _rotation;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="rotation=">
+<button class="show-code">Code</button>
+void <strong>set rotation</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#rotation="
+              title="Permalink to Stage.set rotation">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set rotation(num value) { _throwStageException(); }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to Stage.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="scaleX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get scaleX</strong> <a class="anchor-link" href="#scaleX"
+              title="Permalink to Stage.get scaleX">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get scaleX =&gt; _scaleX;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="scaleX=">
+<button class="show-code">Code</button>
+void <strong>set scaleX</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#scaleX="
+              title="Permalink to Stage.set scaleX">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set scaleX(num value) { _throwStageException(); }
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="scaleY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get scaleY</strong> <a class="anchor-link" href="#scaleY"
+              title="Permalink to Stage.get scaleY">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get scaleY =&gt; _scaleY;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="scaleY=">
+<button class="show-code">Code</button>
+void <strong>set scaleY</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#scaleY="
+              title="Permalink to Stage.set scaleY">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set scaleY(num value) { _throwStageException(); }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="stage">
+<button class="show-code">Code</button>
+final <a href="../dartflash/Stage.html">Stage</a>         <strong>stage</strong> <a class="anchor-link"
+            href="#stage"
+            title="Permalink to Stage.stage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stage get stage
+{
+  DisplayObject root = this.root;
+
+  if (root is Stage)
+    return root;
+
+  return null;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="tabChildren">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>tabChildren</strong> <a class="anchor-link"
+            href="#tabChildren"
+            title="Permalink to Stage.tabChildren">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+bool get tabChildren =&gt; _tabChildren;
+</pre>
+<pre class="source">
+void set tabChildren(bool value) { _tabChildren = value; }
 </pre>
 </div>
 </div>
@@ -238,9 +883,99 @@ int tabIndex = 0;
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="transformationMatrix">
+<button class="show-code">Code</button>
+final <a href="../dartflash/Matrix.html">Matrix</a>         <strong>transformationMatrix</strong> <a class="anchor-link"
+            href="#transformationMatrix"
+            title="Permalink to Stage.transformationMatrix">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Matrix get transformationMatrix
+{
+  return _transformationMatrix.clone();
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="visible">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>visible</strong> <a class="anchor-link"
+            href="#visible"
+            title="Permalink to Stage.visible">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool get visible =&gt; _visible;
+</pre>
+<pre class="source">
+void set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="width">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get width</strong> <a class="anchor-link" href="#width"
+              title="Permalink to Stage.get width">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get width =&gt; getBoundsTransformed(_transformationMatrix).width;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="width=">
+<button class="show-code">Code</button>
+void <strong>set width</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#width="
+              title="Permalink to Stage.set width">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set width(num value) { _throwStageException(); }
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="x">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get x</strong> <a class="anchor-link" href="#x"
+              title="Permalink to Stage.get x">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get x =&gt; _x;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="x=">
+<button class="show-code">Code</button>
+void <strong>set x</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#x="
+              title="Permalink to Stage.set x">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set x(num value) { _throwStageException(); }
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="y">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get y</strong> <a class="anchor-link" href="#y"
+              title="Permalink to Stage.get y">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get y =&gt; _y;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="y=">
+<button class="show-code">Code</button>
+void <strong>set y</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#y="
+              title="Permalink to Stage.set y">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set y(num value) { _throwStageException(); }
+</pre>
+</div>
+</div>
 </div>
 <div>
-<h3>Methods</h3>
+<h3>Operators</h3>
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
@@ -257,6 +992,9 @@ bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Methods</h3>
 <div class="method inherited"><h4 id="addChild">
 <button class="show-code">Code</button>
 <strong>addChild</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> child) <a class="anchor-link" href="#addChild"
@@ -324,34 +1062,14 @@ Dynamic addChildAt(DisplayObject child, int index)
 </div>
 <div class="method inherited"><h4 id="addEventListener">
 <button class="show-code">Code</button>
-void <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, <a href="http://api.dartlang.org/dart_core/Function.html">Function</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#addEventListener"
+void <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, <a href="../dartflash/EventListener.html">EventListener</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#addEventListener"
               title="Permalink to Stage.addEventListener">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
-void addEventListener(String type, Function eventListener, [bool useCapture = false])
+void addEventListener(String type, EventListener eventListener, [bool useCapture = false])
 {
   _getEventListenerList(type).add(eventListener, useCapture);
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="alpha">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get alpha</strong>() <a class="anchor-link" href="#alpha"
-              title="Permalink to Stage.get alpha">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get alpha =&gt; _alpha;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="alpha=">
-<button class="show-code">Code</button>
-void <strong>set alpha</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#alpha="
-              title="Permalink to Stage.set alpha">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set alpha(num value) { _throwStageException(); }
 </pre>
 </div>
 </div>
@@ -405,23 +1123,33 @@ void dispatchEvent(Event event)
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="focus">
+<div class="method inherited"><h4 id="DisplayObject">
 <button class="show-code">Code</button>
-<a href="../dartflash/InteractiveObject.html">InteractiveObject</a> <strong>get focus</strong>() <a class="anchor-link" href="#focus"
-              title="Permalink to Stage.get focus">#</a></h4>
-<div class="doc">
+new <strong>DisplayObject</strong>() <a class="anchor-link" href="#DisplayObject"
+              title="Permalink to Stage.DisplayObject">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-InteractiveObject get focus =&gt; _focus;
+DisplayObject()
+{
+  _transformationMatrixPrivate = new Matrix.fromIdentity();
+  _transformationMatrixRefresh = true;
+
+  _tmpMatrix = new Matrix.fromIdentity();
+  _tmpMatrixIdentity = new Matrix.fromIdentity();
+}
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="focus=">
+<div class="method inherited"><h4 id="DisplayObjectContainer">
 <button class="show-code">Code</button>
-void <strong>set focus</strong>(<a href="../dartflash/InteractiveObject.html">InteractiveObject</a> value) <a class="anchor-link" href="#focus="
-              title="Permalink to Stage.set focus">#</a></h4>
-<div class="doc">
+new <strong>DisplayObjectContainer</strong>() <a class="anchor-link" href="#DisplayObjectContainer"
+              title="Permalink to Stage.DisplayObjectContainer">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-void set focus(InteractiveObject value) { _focus = value; }
+DisplayObjectContainer()
+{
+  _children = new List&lt;DisplayObject&gt;();
+}
 </pre>
 </div>
 </div>
@@ -583,26 +1311,6 @@ external int hashCode();
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="height">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get height</strong>() <a class="anchor-link" href="#height"
-              title="Permalink to Stage.get height">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get height =&gt; getBoundsTransformed(_transformationMatrix).height;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="height=">
-<button class="show-code">Code</button>
-void <strong>set height</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#height="
-              title="Permalink to Stage.set height">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set height(num value) { _throwStageException(); }
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="hitTestInput">
 <button class="show-code">Code</button>
 <a href="../dartflash/DisplayObject.html">DisplayObject</a> <strong>hitTestInput</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> localX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> localY) <a class="anchor-link" href="#hitTestInput"
@@ -721,46 +1429,6 @@ void materialize()
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="mouseChildren">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get mouseChildren</strong>() <a class="anchor-link" href="#mouseChildren"
-              title="Permalink to Stage.get mouseChildren">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
-<pre class="source">
-bool get mouseChildren =&gt; _mouseChildren;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="mouseChildren=">
-<button class="show-code">Code</button>
-void <strong>set mouseChildren</strong>(<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> value) <a class="anchor-link" href="#mouseChildren="
-              title="Permalink to Stage.set mouseChildren">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
-<pre class="source">
-void set mouseChildren(bool value) { _mouseChildren = value; }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="name">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>get name</strong>() <a class="anchor-link" href="#name"
-              title="Permalink to Stage.get name">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-String get name =&gt; _name;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="name=">
-<button class="show-code">Code</button>
-void <strong>set name</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> value) <a class="anchor-link" href="#name="
-              title="Permalink to Stage.set name">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set name(String value) { _name = value; _transformationMatrixRefresh = true; }
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="noSuchMethod">
 <button class="show-code">Code</button>
 <strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
@@ -778,73 +1446,17 @@ external Dynamic noSuchMethod(String name, List args);
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="numChildren">
+<div class="method inherited"><h4 id="Object">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>get numChildren</strong>() <a class="anchor-link" href="#numChildren"
-              title="Permalink to Stage.get numChildren">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+const <strong>Object</strong>() <a class="anchor-link" href="#Object"
+              title="Permalink to Stage.Object">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
 <pre class="source">
-int get numChildren =&gt; _children.length;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="on">
-<button class="show-code">Code</button>
-<a href="../dartflash/DisplayObjectContainerEvents.html">DisplayObjectContainerEvents</a> <strong>get on</strong>() <a class="anchor-link" href="#on"
-              title="Permalink to Stage.get on">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
-<pre class="source">
-DisplayObjectContainerEvents get on =&gt; new DisplayObjectContainerEvents(this);
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="parent">
-<button class="show-code">Code</button>
-<a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> <strong>get parent</strong>() <a class="anchor-link" href="#parent"
-              title="Permalink to Stage.get parent">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-DisplayObjectContainer get parent =&gt; _parent;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="pivotX">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get pivotX</strong>() <a class="anchor-link" href="#pivotX"
-              title="Permalink to Stage.get pivotX">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get pivotX =&gt; _pivotX;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="pivotX=">
-<button class="show-code">Code</button>
-void <strong>set pivotX</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#pivotX="
-              title="Permalink to Stage.set pivotX">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set pivotX(num value) { _throwStageException(); }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="pivotY">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get pivotY</strong>() <a class="anchor-link" href="#pivotY"
-              title="Permalink to Stage.get pivotY">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get pivotY =&gt; _pivotY;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="pivotY=">
-<button class="show-code">Code</button>
-void <strong>set pivotY</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#pivotY="
-              title="Permalink to Stage.set pivotY">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set pivotY(num value) { _throwStageException(); }
+const Object();
 </pre>
 </div>
 </div>
@@ -894,11 +1506,11 @@ Dynamic removeChildAt(int index)
 </div>
 <div class="method inherited"><h4 id="removeEventListener">
 <button class="show-code">Code</button>
-void <strong>removeEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, <a href="http://api.dartlang.org/dart_core/Function.html">Function</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#removeEventListener"
+void <strong>removeEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, <a href="../dartflash/EventListener.html">EventListener</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#removeEventListener"
               title="Permalink to Stage.removeEventListener">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
-void removeEventListener(String type, Function eventListener, [bool useCapture = false])
+void removeEventListener(String type, EventListener eventListener, [bool useCapture = false])
 {
   _getEventListenerList(type).remove(eventListener, useCapture);
 }
@@ -927,9 +1539,7 @@ void <strong>render</strong>(<a href="../dartflash/RenderState.html">RenderState
 <pre class="source">
 void render(RenderState renderState)
 {
-  var childrenLength = _children.length;
-
-  for(int i = 0; i &lt; childrenLength; i++)
+  for(int i = 0; i &lt; _children.length; i++)
   {
     DisplayObject child = _children[i];
 
@@ -937,115 +1547,6 @@ void render(RenderState renderState)
       renderState.renderDisplayObject(child);
   }
 }
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="renderMode">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>get renderMode</strong>() <a class="anchor-link" href="#renderMode"
-              title="Permalink to Stage.get renderMode">#</a></h4>
-<div class="doc">
-<pre class="source">
-String get renderMode =&gt; _renderMode;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="renderMode=">
-<button class="show-code">Code</button>
-void <strong>set renderMode</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> value) <a class="anchor-link" href="#renderMode="
-              title="Permalink to Stage.set renderMode">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set renderMode(String value) { _renderMode = value; }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="root">
-<button class="show-code">Code</button>
-<a href="../dartflash/DisplayObject.html">DisplayObject</a> <strong>get root</strong>() <a class="anchor-link" href="#root"
-              title="Permalink to Stage.get root">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-DisplayObject get root
-{
-  DisplayObject currentObject = this;
-
-  while (currentObject._parent != null)
-    currentObject = currentObject._parent;
-
-  return currentObject;
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="rotation">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get rotation</strong>() <a class="anchor-link" href="#rotation"
-              title="Permalink to Stage.get rotation">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get rotation =&gt; _rotation;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="rotation=">
-<button class="show-code">Code</button>
-void <strong>set rotation</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#rotation="
-              title="Permalink to Stage.set rotation">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set rotation(num value) { _throwStageException(); }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
-              title="Permalink to Stage.get runtimeType">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="scaleX">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get scaleX</strong>() <a class="anchor-link" href="#scaleX"
-              title="Permalink to Stage.get scaleX">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get scaleX =&gt; _scaleX;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="scaleX=">
-<button class="show-code">Code</button>
-void <strong>set scaleX</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#scaleX="
-              title="Permalink to Stage.set scaleX">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set scaleX(num value) { _throwStageException(); }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="scaleY">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get scaleY</strong>() <a class="anchor-link" href="#scaleY"
-              title="Permalink to Stage.get scaleY">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get scaleY =&gt; _scaleY;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="scaleY=">
-<button class="show-code">Code</button>
-void <strong>set scaleY</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#scaleY="
-              title="Permalink to Stage.set scaleY">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set scaleY(num value) { _throwStageException(); }
 </pre>
 </div>
 </div>
@@ -1084,20 +1585,58 @@ void sortChildren(Function compareFunction)
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="stage">
+<div class="method"><h4 id="Stage">
 <button class="show-code">Code</button>
-<a href="../dartflash/Stage.html">Stage</a> <strong>get stage</strong>() <a class="anchor-link" href="#stage"
-              title="Permalink to Stage.get stage">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+new <strong>Stage</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_html/CanvasElement.html">CanvasElement</a> canvas) <a class="anchor-link" href="#Stage"
+              title="Permalink to Stage.Stage">#</a></h4>
+<div class="doc">
 <pre class="source">
-Stage get stage
+Stage(String name, html.CanvasElement canvas)
 {
-  DisplayObject root = this.root;
+  _name = name;
 
-  if (root is Stage)
-    return root;
+  _canvas = canvas;
+  _canvas.style.outline = "none";
+  _canvas.focus();
 
-  return null;
+  _context = canvas.context2d;
+
+  _renderState = new RenderState.fromCanvasRenderingContext2D(_context);
+  _renderMode = StageRenderMode.AUTO;
+  _mouseCursor = MouseCursor.ARROW;
+
+  //-----------
+
+  _buttonState = [false, false, false];
+
+  _clickTarget = [null, null, null];
+  _clickTime = [0, 0, 0];
+  _clickCount = [0, 0, 0];
+
+  _mouseDownEventTypes = [MouseEvent.MOUSE_DOWN, MouseEvent.MIDDLE_MOUSE_DOWN, MouseEvent.RIGHT_MOUSE_DOWN];
+  _mouseUpEventTypes =  [MouseEvent.MOUSE_UP, MouseEvent.MIDDLE_MOUSE_UP, MouseEvent.RIGHT_MOUSE_UP];
+  _mouseClickEventTypes = [MouseEvent.CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
+  _mouseDoubleClickEventTypes = [MouseEvent.DOUBLE_CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
+
+  _mouseOverTarget = null;
+
+  _canvas.on.mouseDown.add(_onMouseEvent);
+  _canvas.on.mouseUp.add(_onMouseEvent);
+  _canvas.on.mouseMove.add(_onMouseEvent);
+  _canvas.on.mouseOut.add(_onMouseEvent);
+
+  _canvas.on.mouseWheel.add(_onMouseWheel);
+
+  _canvas.on.keyDown.add(_onKeyEvent);
+  _canvas.on.keyUp.add(_onKeyEvent);
+  _canvas.on.keyPress.add(_onTextEvent);
+
+  //-----------
+
+  _mouseEvent = new MouseEvent(MouseEvent.CLICK, true);
+  _keyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true);
+
+  Mouse._eventDispatcher.addEventListener("mouseCursorChanged", _onMouseCursorChanged);
 }
 </pre>
 </div>
@@ -1157,26 +1696,6 @@ void swapChildrenAt(int index1, int index2)
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="tabChildren">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get tabChildren</strong>() <a class="anchor-link" href="#tabChildren"
-              title="Permalink to Stage.get tabChildren">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
-<pre class="source">
-bool get tabChildren =&gt; _tabChildren;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="tabChildren=">
-<button class="show-code">Code</button>
-void <strong>set tabChildren</strong>(<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> value) <a class="anchor-link" href="#tabChildren="
-              title="Permalink to Stage.set tabChildren">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
-<pre class="source">
-void set tabChildren(bool value) { _tabChildren = value; }
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="toString">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
@@ -1185,19 +1704,6 @@ void set tabChildren(bool value) { _tabChildren = value; }
 <p>Returns a string representation of this object.</p>
 <pre class="source">
 external String toString();
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="transformationMatrix">
-<button class="show-code">Code</button>
-<a href="../dartflash/Matrix.html">Matrix</a> <strong>get transformationMatrix</strong>() <a class="anchor-link" href="#transformationMatrix"
-              title="Permalink to Stage.get transformationMatrix">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-Matrix get transformationMatrix
-{
-  return _transformationMatrix.clone();
-}
 </pre>
 </div>
 </div>
@@ -1258,93 +1764,13 @@ Matrix transformationMatrixTo(DisplayObject targetSpace)
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="visible">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get visible</strong>() <a class="anchor-link" href="#visible"
-              title="Permalink to Stage.get visible">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-bool get visible =&gt; _visible;
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="visible=">
-<button class="show-code">Code</button>
-void <strong>set visible</strong>(<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> value) <a class="anchor-link" href="#visible="
-              title="Permalink to Stage.set visible">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-void set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="width">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get width</strong>() <a class="anchor-link" href="#width"
-              title="Permalink to Stage.get width">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get width =&gt; getBoundsTransformed(_transformationMatrix).width;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="width=">
-<button class="show-code">Code</button>
-void <strong>set width</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#width="
-              title="Permalink to Stage.set width">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set width(num value) { _throwStageException(); }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="x">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get x</strong>() <a class="anchor-link" href="#x"
-              title="Permalink to Stage.get x">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get x =&gt; _x;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="x=">
-<button class="show-code">Code</button>
-void <strong>set x</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#x="
-              title="Permalink to Stage.set x">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set x(num value) { _throwStageException(); }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="y">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get y</strong>() <a class="anchor-link" href="#y"
-              title="Permalink to Stage.get y">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-num get y =&gt; _y;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="y=">
-<button class="show-code">Code</button>
-void <strong>set y</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#y="
-              title="Permalink to Stage.set y">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set y(num value) { _throwStageException(); }
-</pre>
-</div>
-</div>
 </div>
         </div>
         <div class="clear"></div>
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-08 19:24:31.997</div>
+          <div>This page was generated at 2012-10-13 21:36:09.236</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

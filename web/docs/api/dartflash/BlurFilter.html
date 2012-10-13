@@ -97,10 +97,16 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
+<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
+<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
+<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -113,6 +119,409 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<pre class="source">
+class BlurFilter extends BitmapFilter
+{
+  int blurX;
+  int blurY;
+
+  //-------------------------------------------------------------------------------------------------
+  // Credits to Alois Zingl, Vienna, Austria.
+  // Extended Binomial Filter for Fast Gaussian Blur
+  // http://free.pages.at/easyfilter/gauss.html
+  // http://free.pages.at/easyfilter/gauss.pdf
+  //-------------------------------------------------------------------------------------------------
+
+  BlurFilter([this.blurX = 4, this.blurY = 4])
+  {
+    if (blurX &lt; 1 || blurY &lt; 1)
+      throw new ArgumentError("Error #9004: The minimum blur size is 1.");
+
+    if (blurX &gt; 128 || blurY &gt; 128)
+      throw new ArgumentError("Error #9004: The maximum blur size is 128.");
+  }
+
+  BitmapFilter clone()
+  {
+    return new BlurFilter(blurX, blurY);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint)
+  {
+    var sourceContext = sourceBitmapData._getContext();
+    var sourceImageData = sourceContext.getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+    var sourceData = sourceImageData.data;
+
+    int sourceWidth = sourceImageData.width;
+    int sourceHeight = sourceImageData.height;
+    int weightX = blurX * blurX;
+    int weightY = blurY * blurY;
+    int rx1 = blurX;
+    int rx2 = blurX * 2;
+    int ry1 = blurY;
+    int ry2 = blurY * 2;
+    int destinationWidth = sourceWidth + rx2;
+    int destinationHeight = sourceHeight + ry2;
+    int sourceWidth4 = sourceWidth * 4;
+    int destinationWidth4 = destinationWidth * 4;
+
+    var destinationContext = destinationBitmapData._getContext();
+    var destinationImageData = destinationContext.createImageData(destinationWidth, destinationHeight);
+    var destinationData = destinationImageData.data;
+
+    List&lt;int&gt; buffer = new List&lt;int&gt;(1024);
+
+    //--------------------------------------------------
+    // blur vertical
+
+    for (int z = 0; z &lt; 4; z++) {
+      for (int x = 0; x &lt; sourceWidth; x++) {
+        int dif = 0, sum = weightY &gt;&gt; 1;
+        int offsetSource = x * 4 + z;
+        int offsetDestination = (x + rx1) * 4 + z;
+
+        for (int y = 0; y &lt; destinationHeight; y++) {
+          destinationData[offsetDestination] = sum ~/ weightY;
+          offsetDestination += destinationWidth4;
+
+          if (y &gt;= ry2) {
+            dif -= 2 * buffer[y &amp; 1023] - buffer[(y - ry1) &amp; 1023];
+          } else if (y &gt;= ry1) {
+            dif -= 2 * buffer[y &amp; 1023];
+          }
+
+          int alpha = (y &lt; sourceHeight) ? sourceData[offsetSource] : 0;
+          buffer[(y + ry1) &amp; 1023] = alpha;
+          sum += dif += alpha;
+          offsetSource += sourceWidth4;
+        }
+      }
+    }
+
+    //--------------------------------------------------
+    // blur horizontal
+
+    for (int z = 0; z &lt; 4; z++) {
+      for (int y = 0; y &lt; destinationHeight; y++) {
+        int dif = 0, sum = weightX &gt;&gt; 1;
+        int offsetSource = y * destinationWidth4 + rx1 * 4 + z;
+        int offsetDestination = y * destinationWidth4 + z;
+
+        for (int x = 0; x &lt; destinationWidth; x++) {
+          destinationData[offsetDestination] = sum ~/ weightX;
+          offsetDestination += 4;
+
+          if (x &gt;= rx2) {
+            dif -= 2 * buffer[x &amp; 1023] - buffer[(x - rx1) &amp; 1023];
+          } else if (x &gt;= rx1) {
+            dif -= 2 * buffer[x &amp; 1023];
+          }
+
+          int alpha = (x &lt; sourceWidth) ? destinationData[offsetSource] : 0;
+          buffer[(x + rx1) &amp; 1023] = alpha;
+          sum += dif += alpha;
+          offsetSource += 4;
+        }
+      }
+    }
+
+    //--------------------------------------------------
+
+    destinationContext.putImageData(destinationImageData, destinationPoint.x - rx1, destinationPoint.y - ry1);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  /*
+  void _applyLow(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint)
+  {
+    var sourceContext = sourceBitmapData._getContext();
+    var sourceImageData = sourceContext.getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+    var sourceData = sourceImageData.data;
+
+    var destinationContext = destinationBitmapData._getContext();
+    var destinationImageData = destinationContext.createImageData(sourceImageData.width, sourceImageData.height);
+    var destinationData = destinationImageData.data;
+
+    int width = sourceImageData.width;
+    int height = sourceImageData.height;
+
+    int radiusX = sqrt(5 * blurX * blurX + 1).toInt();
+    int radiusY = sqrt(5 * blurY * blurY + 1).toInt();
+    int weightX = radiusX * radiusX;
+    int weightY = radiusY * radiusY;
+
+    int width4 = width * 4;
+    int rx1 = radiusX;
+    int rx2 = radiusX * 2;
+    int ry1 = radiusY;
+    int ry2 = radiusY * 2;
+
+    List&lt;int&gt; buffer = new List&lt;int&gt;(1024);
+
+    for (int z = 0; z &lt; 4; z++) {
+
+      // blur vertical
+      for (int x = 0; x &lt; width; x++) {
+        int dif = 0, sum = weightY &gt;&gt; 1;
+        int offsetBase = x * 4 + z;
+        int offsetLoop = offsetBase;
+
+        for (int y = 0 - ry2; y &lt; height; y++) {
+          if (y &gt;= 0) {
+            destinationData[offsetLoop] = sum ~/ weightY;
+            offsetLoop += width4;
+            dif -= 2 * buffer[y &amp; 1023] - buffer[(y - ry1) &amp; 1023];
+          } else if (y + ry1 &gt;= 0) {
+            dif -= 2 * buffer[y &amp; 1023];
+          }
+
+          int ty = y + ry1;
+
+          if (ty &lt; 0) {
+            ty = 0;
+          } else if (ty &gt;= height) {
+            ty = height - 1;
+          }
+
+          sum += dif += (buffer[(y + ry1) &amp; 1023] = sourceData[offsetBase + ty * width4]);
+        }
+      }
+
+      // blur horizontal
+      for (int y = 0; y &lt; height; y++) {
+        int dif = 0, sum = weightX &gt;&gt; 1;
+        int offsetBase = y * width4 + z;
+        int offsetLoop = offsetBase;
+
+        for (int x = 0 - rx2; x &lt; width; x++) {
+          if (x &gt;= 0) {
+            destinationData[offsetLoop] = sum ~/ weightX;
+            offsetLoop += 4;
+            dif -= 2 * buffer[x &amp; 1023] - buffer[(x - rx1) &amp; 1023];
+          } else if (x + rx1 &gt;= 0) {
+            dif -= 2 * buffer[x &amp; 1023];
+          }
+
+          int tx = x + rx1;
+
+          if (tx &lt; 0) {
+            tx = 0;
+          } else if (tx &gt;= width) {
+            tx = width - 1;
+          }
+
+          sum += dif += (buffer[(x + rx1) &amp; 1023] = destinationData[offsetBase + (tx &lt;&lt; 2)]);
+        }
+      }
+    }
+
+    destinationContext.putImageData(destinationImageData, destinationPoint.x, destinationPoint.y);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  void _applyMedium(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint)
+  {
+    var sourceContext = sourceBitmapData._getContext();
+    var sourceImageData = sourceContext.getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+    var sourceData = sourceImageData.data;
+
+    var destinationContext = destinationBitmapData._getContext();
+    var destinationImageData = destinationContext.createImageData(sourceImageData.width, sourceImageData.height);
+    var destinationData = destinationImageData.data;
+
+    int width = sourceImageData.width;
+    int height = sourceImageData.height;
+
+    int radiusX = sqrt(4 * blurX * blurX + 1).toInt();
+    int radiusY = sqrt(4 * blurY * blurY + 1).toInt();
+    int weightX = radiusX * radiusX * radiusX;
+    int weightY = radiusY * radiusY * radiusY;
+
+    int width4 = width * 4;
+    int rx1 = radiusX;
+    int rx2 = radiusX * 2;
+    int rx3 = radiusX * 3;
+    int ry1 = radiusY;
+    int ry2 = radiusY * 2;
+    int ry3 = radiusY * 3;
+    int rx3h = (rx3 / 2).round().toInt();
+    int ry3h = (ry3 / 2).round().toInt();
+
+    List&lt;int&gt; buffer = new List&lt;int&gt;(1024);
+
+    for (int z = 0; z &lt; 4; z++) {
+
+      // blur vertical
+      for (int x = 0; x &lt; width; x++) {
+        int dif = 0, der = 0, sum = 0;
+        int offsetBase = x * 4 + z;
+        int offsetLoop = offsetBase;
+
+        for (int y = 0 - ry3; y &lt; height; y++) {
+          if (y &gt;= 0) {
+            destinationData[offsetLoop] = sum ~/ weightY;
+            offsetLoop += width4;
+            dif -= 3 * buffer[(y + ry1) &amp; 1023] - 3 * buffer[y &amp; 1023] + buffer[(y - ry1) &amp; 1023];
+          } else if (y + ry1 &gt;= 0) {
+            dif -= 3 * buffer[(y + ry1) &amp; 1023] - 3 * buffer[y &amp; 1023];
+          } else if (y + ry2 &gt;= 0) {
+            dif -= 3 * buffer[(y + ry1) &amp; 1023];
+          }
+
+          int ty = y + ry3h;
+
+          if (ty &lt; 0) {
+            ty = 0;
+          } else if (ty &gt;= height) {
+            ty = height - 1;
+          }
+
+          sum += der += dif += (buffer[(y + ry2) &amp; 1023] = sourceData[offsetBase + ty * width4]);
+        }
+      }
+
+      // blur horizontal
+      for (int y = 0; y &lt; height; y++) {
+        int dif = 0, der = 0, sum = 0;
+        int offsetBase = y * width4 + z;
+        int offsetLoop = offsetBase;
+
+        for (int x = 0 - rx3; x &lt; width; x++) {
+          if (x &gt;= 0) {
+            destinationData[offsetLoop] = sum ~/ weightX;
+            offsetLoop += 4;
+            dif -= 3 * buffer[(x + rx1) &amp; 1023] - 3 * buffer[x &amp; 1023] + buffer[(x - rx1) &amp; 1023];
+          } else if (x + rx1 &gt;= 0) {
+            dif -= 3 * buffer[(x + rx1) &amp; 1023] - 3 * buffer[x &amp; 1023];
+          } else if (x + rx2 &gt;= 0) {
+            dif -= 3 * buffer[(x + rx1) &amp; 1023];
+          }
+
+          int tx = x + rx3h;
+
+          if (tx &lt; 0) {
+            tx = 0;
+          } else if (tx &gt;= width) {
+            tx = width - 1;
+          }
+
+          sum += der += dif += (buffer[(x + rx2) &amp; 1023] = destinationData[offsetBase + (tx &lt;&lt; 2)]);
+        }
+      }
+    }
+
+    destinationContext.putImageData(destinationImageData, destinationPoint.x, destinationPoint.y);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  void _applyHigh(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint)
+  {
+    var sourceContext = sourceBitmapData._getContext();
+    var sourceImageData = sourceContext.getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+    var sourceData = sourceImageData.data;
+
+    var destinationContext = destinationBitmapData._getContext();
+    var destinationImageData = destinationContext.createImageData(sourceImageData.width, sourceImageData.height);
+    var destinationData = destinationImageData.data;
+
+    int width = sourceImageData.width;
+    int height = sourceImageData.height;
+
+    int radiusX = sqrt(3 * blurX * blurX + 1).toInt();
+    int radiusY = sqrt(3 * blurY * blurY + 1).toInt();
+    int weightX = radiusX * radiusX * radiusX * radiusX;
+    int weightY = radiusY * radiusY * radiusY * radiusY;
+
+    int width4 = width * 4;
+    int rx1 = radiusX;
+    int rx2 = radiusX * 2;
+    int rx3 = radiusX * 3;
+    int rx4 = radiusX * 4;
+    int ry1 = radiusY;
+    int ry2 = radiusY * 2;
+    int ry3 = radiusY * 3;
+    int ry4 = radiusY * 4;
+
+    List&lt;int&gt; buffer = new List&lt;int&gt;(1024);
+
+    for (int z = 0; z &lt; 4; z++) {
+
+      // blur vertical
+      for (int x = 0; x &lt; width; x++) {
+        int dif = 0, der1 = 0, der2 = 0, sum = 0;
+        int offsetBase = x * 4 + z;
+        int offsetLoop = offsetBase;
+
+        for (int y = 0 - ry4; y &lt; height; y++) {
+          if (y &gt;= 0) {
+            destinationData[offsetLoop] = sum ~/ weightY;
+            offsetLoop += width4;
+            dif -= 4 * buffer[(y + ry1) &amp; 1023] - 6 * buffer[y &amp; 1023] + 4 * buffer[(y - ry1) &amp; 1023] - buffer[(y - ry2) &amp; 1023];
+          } else if (y + ry1 &gt;= 0) {
+            dif -= 4 * buffer[(y + ry1) &amp; 1023] - 6 * buffer[y &amp; 1023] + 4 * buffer[(y - ry1) &amp; 1023];
+          } else if (y + ry2 &gt;= 0) {
+            dif -= 4 * buffer[(y + ry1) &amp; 1023] - 6 * buffer[y &amp; 1023];
+          } else if (y + ry3 &gt;= 0) {
+            dif -= 4 * buffer[(y + ry1) &amp; 1023];
+          }
+
+          int ty = y + ry2 - 1;
+
+          if (ty &lt; 0) {
+            ty = 0;
+          } else if (ty &gt;= height) {
+            ty = height - 1;
+          }
+
+          sum += der1 += der2 += dif += (buffer[(y + ry2) &amp; 1023] = sourceData[offsetBase + ty * width4]);
+        }
+      }
+
+      // blur horizontal
+      for (int y = 0; y &lt; height; y++) {
+        int dif = 0, der1 = 0, der2 = 0, sum = 0;
+        int offsetBase = y * width4 + z;
+        int offsetLoop = offsetBase;
+
+        for (int x = 0 - rx4; x &lt; width; x++) {
+          if (x &gt;= 0) {
+            destinationData[offsetLoop] = sum ~/ weightX;
+            offsetLoop += 4;
+            dif -= 4 * buffer[(x + rx1) &amp; 1023] - 6 * buffer[x &amp; 1023] + 4 * buffer[(x - rx1) &amp; 1023] - buffer[(x - rx2) &amp; 1023];
+          } else if (x + rx1 &gt;= 0) {
+            dif -= 4 * buffer[(x + rx1) &amp; 1023] - 6 * buffer[x &amp; 1023] + 4 * buffer[(x - rx1) &amp; 1023];
+          } else if (x + rx2 &gt;= 0) {
+            dif -= 4 * buffer[(x + rx1) &amp; 1023] - 6 * buffer[x &amp; 1023];
+          } else if (x + rx3 &gt;= 0) {
+            dif -= 4 * buffer[(x + rx1) &amp; 1023];
+          }
+
+          int tx = x + rx2 - 1;
+
+          if (tx &lt; 0) {
+            tx = 0;
+          } else if (tx &gt;= width) {
+            tx = width - 1;
+          }
+
+          sum += der1 += der2 += dif += (buffer[(x + rx2) &amp; 1023] = destinationData[offsetBase + (tx &lt;&lt; 2)]);
+        }
+      }
+    }
+
+    destinationContext.putImageData(destinationImageData, destinationPoint.x, destinationPoint.y);
+  }
+  */
+}
+</pre>
 </div>
 <h3>Extends</h3>
 <p>
@@ -138,7 +547,7 @@ BlurFilter([this.blurX = 4, this.blurY = 4])
 </div>
 </div>
 <div>
-<h3>Fields</h3>
+<h3>Properties</h3>
 <div class="field"><h4 id="blurX">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>blurX</strong> <a class="anchor-link"
@@ -163,9 +572,22 @@ int blurY;
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to BlurFilter.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
 </div>
 <div>
-<h3>Methods</h3>
+<h3>Operators</h3>
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
@@ -182,6 +604,9 @@ bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Methods</h3>
 <div class="method"><h4 id="apply">
 <button class="show-code">Code</button>
 void <strong>apply</strong>(<a href="../dartflash/BitmapData.html">BitmapData</a> sourceBitmapData, <a href="../dartflash/Rectangle.html">Rectangle</a> sourceRect, <a href="../dartflash/BitmapData.html">BitmapData</a> destinationBitmapData, <a href="../dartflash/Point.html">Point</a> destinationPoint) <a class="anchor-link" href="#apply"
@@ -274,6 +699,23 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="BlurFilter">
+<button class="show-code">Code</button>
+new <strong>BlurFilter</strong>([<a href="http://api.dartlang.org/dart_core/int.html">int</a> blurX = 4, <a href="http://api.dartlang.org/dart_core/int.html">int</a> blurY = 4]) <a class="anchor-link" href="#BlurFilter"
+              title="Permalink to BlurFilter.BlurFilter">#</a></h4>
+<div class="doc">
+<pre class="source">
+BlurFilter([this.blurX = 4, this.blurY = 4])
+{
+  if (blurX &lt; 1 || blurY &lt; 1)
+    throw new ArgumentError("Error #9004: The minimum blur size is 1.");
+
+  if (blurX &gt; 128 || blurY &gt; 128)
+    throw new ArgumentError("Error #9004: The maximum blur size is 128.");
+}
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="clone">
 <button class="show-code">Code</button>
 <a href="../dartflash/BitmapFilter.html">BitmapFilter</a> <strong>clone</strong>() <a class="anchor-link" href="#clone"
@@ -322,14 +764,17 @@ external Dynamic noSuchMethod(String name, List args);
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="runtimeType">
+<div class="method inherited"><h4 id="Object">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
-              title="Permalink to BlurFilter.get runtimeType">#</a></h4>
+const <strong>Object</strong>() <a class="anchor-link" href="#Object"
+              title="Permalink to BlurFilter.Object">#</a></h4>
 <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
 <pre class="source">
-external Type get runtimeType;
+const Object();
 </pre>
 </div>
 </div>
@@ -350,7 +795,7 @@ external String toString();
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-08 19:24:30.718</div>
+          <div>This page was generated at 2012-10-13 21:36:08.812</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

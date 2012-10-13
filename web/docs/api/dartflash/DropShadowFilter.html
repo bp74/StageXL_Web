@@ -97,10 +97,16 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
+<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
+<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
+<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -113,6 +119,141 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<pre class="source">
+class DropShadowFilter extends BitmapFilter
+{
+  num distance;
+  num angle;
+  int color;
+  num alpha;
+  int blurX;
+  int blurY;
+  num strength;
+  bool inner;
+  bool knockout;
+  bool hideObject;
+
+  DropShadowFilter([this.distance = 4.0, this.angle = PI / 4, this.color = 0, this.alpha = 1.0, this.blurX = 4, this.blurY = 4, this.strength = 1.0, this.inner = false, this.knockout = false, this.hideObject = false])
+  {
+    if (blurX &lt; 1 || blurY &lt; 1)
+      throw new ArgumentError("Error #9004: The minimum blur size is 1.");
+
+    if (blurX &gt; 128 || blurY &gt; 128)
+      throw new ArgumentError("Error #9004: The maximum blur size is 128.");
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  BitmapFilter clone()
+  {
+    return new DropShadowFilter(distance, angle, color, alpha, blurX, blurY, strength, inner, knockout, hideObject);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint)
+  {
+    var sourceContext = sourceBitmapData._getContext();
+    var sourceImageData = sourceContext.getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+    var sourceData = sourceImageData.data;
+
+    int sourceWidth = sourceRect.width;
+    int sourceHeight = sourceRect.height;
+    int weightX = blurX * blurX;
+    int weightY = blurY * blurY;
+    int rx1 = blurX;
+    int rx2 = blurX * 2;
+    int ry1 = blurY;
+    int ry2 = blurY * 2;
+    int destinationWidth = sourceWidth + rx2;
+    int destinationHeight = sourceHeight + ry2;
+    int sourceWidth4 = sourceWidth * 4;
+    int destinationWidth4 = destinationWidth * 4;
+
+    var destinationContext = destinationBitmapData._getContext();
+    var destinationImageData = destinationContext.createImageData(destinationWidth, destinationHeight);
+    var destinationData = destinationImageData.data;
+
+    List&lt;int&gt; buffer = new List&lt;int&gt;(1024);
+
+    //--------------------------------------------------
+    // blur vertical
+
+    for (int x = 0; x &lt; sourceWidth; x++) {
+      int dif = 0, sum = weightY &gt;&gt; 1;
+      int offsetSource = x * 4 + 3;
+      int offsetDestination = (x + rx1) * 4 + 3;
+
+      for (int y = 0; y &lt; destinationHeight; y++) {
+        destinationData[offsetDestination] = sum ~/ weightY;
+        offsetDestination += destinationWidth4;
+
+        if (y &gt;= ry2) {
+          dif -= 2 * buffer[y &amp; 1023] - buffer[(y - ry1) &amp; 1023];
+        } else if (y &gt;= ry1) {
+          dif -= 2 * buffer[y &amp; 1023];
+        }
+
+        int alpha = (y &lt; sourceHeight) ? sourceData[offsetSource] : 0;
+        buffer[(y + ry1) &amp; 1023] = alpha;
+        sum += dif += alpha;
+        offsetSource += sourceWidth4;
+      }
+    }
+
+    //--------------------------------------------------
+    // blur horizontal
+
+    int rColor = (color &gt;&gt; 16) &amp; 0xFF;
+    int gColor = (color &gt;&gt;  8) &amp; 0xFF;
+    int bColor = (color &gt;&gt;  0) &amp; 0xFF;
+    int weightXAlpha = (weightX / (this.alpha + 0.0001)).round().toInt();
+
+    for (int y = 0; y &lt; destinationHeight; y++) {
+      int dif = 0, sum = weightX &gt;&gt; 1;
+      int offsetSource = y * destinationWidth4 + rx1 * 4 + 3;
+      int offsetDestination = y * destinationWidth4;
+
+      for (int x = 0; x &lt; destinationWidth; x++) {
+        destinationData[offsetDestination + 0] = rColor;
+        destinationData[offsetDestination + 1] = gColor;
+        destinationData[offsetDestination + 2] = bColor;
+        destinationData[offsetDestination + 3] = sum ~/ weightXAlpha;
+        offsetDestination += 4;
+
+        if (x &gt;= rx2) {
+          dif -= 2 * buffer[x &amp; 1023] - buffer[(x - rx1) &amp; 1023];
+        } else if (x &gt;= rx1) {
+          dif -= 2 * buffer[x &amp; 1023];
+        }
+
+        int alpha = (x &lt; sourceWidth) ? destinationData[offsetSource] : 0;
+        buffer[(x + rx1) &amp; 1023] = alpha;
+        sum += dif += alpha;
+        offsetSource += 4;
+      }
+    }
+
+    //--------------------------------------------------
+
+    var sx = destinationPoint.x;
+    var sy = destinationPoint.y;
+    var dx = destinationPoint.x - rx1 + (this.distance * cos(this.angle)).round().toInt();
+    var dy = destinationPoint.y - ry1 + (this.distance * sin(this.angle)).round().toInt();
+    var sRect = new Rectangle(sx, sy, sourceWidth, sourceHeight);
+    var dRect = new Rectangle(dx, dy, destinationWidth, destinationHeight);
+    var uRect = sRect.union(dRect);
+
+    destinationContext.setTransform(1, 0, 0, 1, 0, 0);
+    destinationContext.clearRect(uRect.x, uRect.y, uRect.width, uRect.height);
+    destinationContext.putImageData(destinationImageData, dx, dy);
+
+    if (this.hideObject == false)
+      destinationContext.drawImage(sourceContext.canvas, sx, sy);
+  }
+}
+</pre>
 </div>
 <h3>Extends</h3>
 <p>
@@ -138,7 +279,7 @@ DropShadowFilter([this.distance = 4.0, this.angle = PI / 4, this.color = 0, this
 </div>
 </div>
 <div>
-<h3>Fields</h3>
+<h3>Properties</h3>
 <div class="field"><h4 id="alpha">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>alpha</strong> <a class="anchor-link"
@@ -247,6 +388,19 @@ bool knockout;
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to DropShadowFilter.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
 <div class="field"><h4 id="strength">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>strength</strong> <a class="anchor-link"
@@ -261,7 +415,7 @@ num strength;
 </div>
 </div>
 <div>
-<h3>Methods</h3>
+<h3>Operators</h3>
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
@@ -278,6 +432,9 @@ bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Methods</h3>
 <div class="method"><h4 id="apply">
 <button class="show-code">Code</button>
 void <strong>apply</strong>(<a href="../dartflash/BitmapData.html">BitmapData</a> sourceBitmapData, <a href="../dartflash/Rectangle.html">Rectangle</a> sourceRect, <a href="../dartflash/BitmapData.html">BitmapData</a> destinationBitmapData, <a href="../dartflash/Point.html">Point</a> destinationPoint) <a class="anchor-link" href="#apply"
@@ -400,6 +557,23 @@ BitmapFilter clone()
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="DropShadowFilter">
+<button class="show-code">Code</button>
+new <strong>DropShadowFilter</strong>([<a href="http://api.dartlang.org/dart_core/num.html">num</a> distance = 4.0, <a href="http://api.dartlang.org/dart_core/num.html">num</a> angle = PI/4, <a href="http://api.dartlang.org/dart_core/int.html">int</a> color = 0, <a href="http://api.dartlang.org/dart_core/num.html">num</a> alpha = 1.0, <a href="http://api.dartlang.org/dart_core/int.html">int</a> blurX = 4, <a href="http://api.dartlang.org/dart_core/int.html">int</a> blurY = 4, <a href="http://api.dartlang.org/dart_core/num.html">num</a> strength = 1.0, <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> inner = false, <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> knockout = false, <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> hideObject = false]) <a class="anchor-link" href="#DropShadowFilter"
+              title="Permalink to DropShadowFilter.DropShadowFilter">#</a></h4>
+<div class="doc">
+<pre class="source">
+DropShadowFilter([this.distance = 4.0, this.angle = PI / 4, this.color = 0, this.alpha = 1.0, this.blurX = 4, this.blurY = 4, this.strength = 1.0, this.inner = false, this.knockout = false, this.hideObject = false])
+{
+  if (blurX &lt; 1 || blurY &lt; 1)
+    throw new ArgumentError("Error #9004: The minimum blur size is 1.");
+
+  if (blurX &gt; 128 || blurY &gt; 128)
+    throw new ArgumentError("Error #9004: The maximum blur size is 128.");
+}
+</pre>
+</div>
+</div>
 <div class="method inherited"><h4 id="hashCode">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
@@ -435,14 +609,17 @@ external Dynamic noSuchMethod(String name, List args);
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="runtimeType">
+<div class="method inherited"><h4 id="Object">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
-              title="Permalink to DropShadowFilter.get runtimeType">#</a></h4>
+const <strong>Object</strong>() <a class="anchor-link" href="#Object"
+              title="Permalink to DropShadowFilter.Object">#</a></h4>
 <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
 <pre class="source">
-external Type get runtimeType;
+const Object();
 </pre>
 </div>
 </div>
@@ -463,7 +640,7 @@ external String toString();
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-08 19:24:31.115</div>
+          <div>This page was generated at 2012-10-13 21:36:08.895</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

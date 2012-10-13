@@ -97,10 +97,16 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
+<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
+<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
+<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -113,6 +119,82 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<pre class="source">
+class EventListenerList
+{
+  EventDispatcher _eventDispatcher;
+  String _eventType;
+  List&lt;_EventListenerUseCapture&gt; _list;
+
+  EventListenerList(EventDispatcher eventDispatcher, String eventType)
+  {
+    _eventDispatcher = eventDispatcher;
+    _eventType = eventType;
+    _list = new List&lt;_EventListenerUseCapture&gt;();
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  EventDispatcher get eventDispatcher =&gt; _eventDispatcher;
+  String get eventType =&gt; _eventType;
+
+  //-------------------------------------------------------------------------------------------------
+
+  void add(EventListener eventListener, [bool useCapture = false])
+  {
+    for(int i = 0; i &lt; _list.length; i++)
+      if (_list[i].eventListener == eventListener &amp;&amp; _list[i].useCapture == useCapture)
+        return;
+
+    if (_eventType == Event.ENTER_FRAME &amp;&amp; _list.length == 0)
+      _EventListenerListIndex.enterFrame.add(this);
+
+    _list.add(new _EventListenerUseCapture(eventListener, useCapture));
+  }
+
+
+  //-------------------------------------------------------------------------------------------------
+
+  void remove(EventListener eventListener, [bool useCapture = false])
+  {
+    for(int i = 0; i &lt; _list.length; i++)
+    {
+      if (_list[i].eventListener == eventListener &amp;&amp; _list[i].useCapture == useCapture)
+      {
+        _list = new List&lt;_EventListenerUseCapture&gt;.from(_list);
+        _list.removeAt(i);
+
+        if (_eventType == Event.ENTER_FRAME &amp;&amp; _list.length == 0)
+          _EventListenerListIndex.enterFrame.remove(this);
+
+        break;
+      }
+    }
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void operator +(EventListener eventListener)
+  {
+    this.add(eventListener, false);
+  }
+
+  void operator -(EventListener eventListener)
+  {
+    this.remove(eventListener, false);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void dispatchEvent(Event event)
+  {
+    for(int i = 0; i &lt; _list.length; i++)
+      if (event.eventPhase != EventPhase.CAPTURING_PHASE || _list[i].useCapture)
+        if (event.stopsImmediatePropagation == false)
+          _list[i].eventListener(event);
+  }
+}
+</pre>
 </div>
 <div>
 <h3>Constructors</h3>
@@ -133,14 +215,54 @@ EventListenerList(EventDispatcher eventDispatcher, String eventType)
 </div>
 </div>
 <div>
-<h3>Methods</h3>
+<h3>Properties</h3>
+<div class="field"><h4 id="eventDispatcher">
+<button class="show-code">Code</button>
+final <a href="../dartflash/EventDispatcher.html">EventDispatcher</a>         <strong>eventDispatcher</strong> <a class="anchor-link"
+            href="#eventDispatcher"
+            title="Permalink to EventListenerList.eventDispatcher">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+EventDispatcher get eventDispatcher =&gt; _eventDispatcher;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="eventType">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>eventType</strong> <a class="anchor-link"
+            href="#eventType"
+            title="Permalink to EventListenerList.eventType">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String get eventType =&gt; _eventType;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to EventListenerList.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Operators</h3>
 <div class="method"><h4 id="+">
 <button class="show-code">Code</button>
-void <strong>operator +</strong>(<a href="http://api.dartlang.org/dart_core/Function.html">Function</a> eventListener) <a class="anchor-link" href="#+"
+void <strong>operator +</strong>(<a href="../dartflash/EventListener.html">EventListener</a> eventListener) <a class="anchor-link" href="#+"
               title="Permalink to EventListenerList.operator +">#</a></h4>
 <div class="doc">
 <pre class="source">
-void operator +(Function eventListener)
+void operator +(EventListener eventListener)
 {
   this.add(eventListener, false);
 }
@@ -149,11 +271,11 @@ void operator +(Function eventListener)
 </div>
 <div class="method"><h4 id="-">
 <button class="show-code">Code</button>
-void <strong>operator -</strong>(<a href="http://api.dartlang.org/dart_core/Function.html">Function</a> eventListener) <a class="anchor-link" href="#-"
+void <strong>operator -</strong>(<a href="../dartflash/EventListener.html">EventListener</a> eventListener) <a class="anchor-link" href="#-"
               title="Permalink to EventListenerList.operator -">#</a></h4>
 <div class="doc">
 <pre class="source">
-void operator -(Function eventListener)
+void operator -(EventListener eventListener)
 {
   this.remove(eventListener, false);
 }
@@ -176,25 +298,25 @@ bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Methods</h3>
 <div class="method"><h4 id="add">
 <button class="show-code">Code</button>
-void <strong>add</strong>(<a href="http://api.dartlang.org/dart_core/Function.html">Function</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#add"
+void <strong>add</strong>(<a href="../dartflash/EventListener.html">EventListener</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#add"
               title="Permalink to EventListenerList.add">#</a></h4>
 <div class="doc">
 <pre class="source">
-void add(Function eventListener, [bool useCapture = false])
+void add(EventListener eventListener, [bool useCapture = false])
 {
-  var list = _list;
-  var listLength = list.length;
-
-  for(int i = 0; i &lt; listLength; i++)
-    if (list[i].eventListener == eventListener &amp;&amp; list[i].useCapture == useCapture)
+  for(int i = 0; i &lt; _list.length; i++)
+    if (_list[i].eventListener == eventListener &amp;&amp; _list[i].useCapture == useCapture)
       return;
 
-  if (_eventType == Event.ENTER_FRAME &amp;&amp; listLength == 0)
+  if (_eventType == Event.ENTER_FRAME &amp;&amp; _list.length == 0)
     _EventListenerListIndex.enterFrame.add(this);
 
-  list.add(new _EventListenerUseCapture(eventListener, useCapture));
+  _list.add(new _EventListenerUseCapture(eventListener, useCapture));
 }
 </pre>
 </div>
@@ -207,34 +329,26 @@ void <strong>dispatchEvent</strong>(<a href="../dartflash/Event.html">Event</a> 
 <pre class="source">
 void dispatchEvent(Event event)
 {
-  var list = _list;
-  var listLength = list.length;
-
-  for(int i = 0; i &lt; listLength; i++)
-    if (event.eventPhase != EventPhase.CAPTURING_PHASE || list[i].useCapture)
+  for(int i = 0; i &lt; _list.length; i++)
+    if (event.eventPhase != EventPhase.CAPTURING_PHASE || _list[i].useCapture)
       if (event.stopsImmediatePropagation == false)
-        list[i].eventListener(event);
+        _list[i].eventListener(event);
 }
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="eventDispatcher">
+<div class="method"><h4 id="EventListenerList">
 <button class="show-code">Code</button>
-<a href="../dartflash/EventDispatcher.html">EventDispatcher</a> <strong>get eventDispatcher</strong>() <a class="anchor-link" href="#eventDispatcher"
-              title="Permalink to EventListenerList.get eventDispatcher">#</a></h4>
+new <strong>EventListenerList</strong>(<a href="../dartflash/EventDispatcher.html">EventDispatcher</a> eventDispatcher, <a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType) <a class="anchor-link" href="#EventListenerList"
+              title="Permalink to EventListenerList.EventListenerList">#</a></h4>
 <div class="doc">
 <pre class="source">
-EventDispatcher get eventDispatcher =&gt; _eventDispatcher;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="eventType">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>get eventType</strong>() <a class="anchor-link" href="#eventType"
-              title="Permalink to EventListenerList.get eventType">#</a></h4>
-<div class="doc">
-<pre class="source">
-String get eventType =&gt; _eventType;
+EventListenerList(EventDispatcher eventDispatcher, String eventType)
+{
+  _eventDispatcher = eventDispatcher;
+  _eventType = eventType;
+  _list = new List&lt;_EventListenerUseCapture&gt;();
+}
 </pre>
 </div>
 </div>
@@ -273,22 +387,33 @@ external Dynamic noSuchMethod(String name, List args);
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="Object">
+<button class="show-code">Code</button>
+const <strong>Object</strong>() <a class="anchor-link" href="#Object"
+              title="Permalink to EventListenerList.Object">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
+<pre class="source">
+const Object();
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="remove">
 <button class="show-code">Code</button>
-void <strong>remove</strong>(<a href="http://api.dartlang.org/dart_core/Function.html">Function</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#remove"
+void <strong>remove</strong>(<a href="../dartflash/EventListener.html">EventListener</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#remove"
               title="Permalink to EventListenerList.remove">#</a></h4>
 <div class="doc">
 <pre class="source">
-void remove(Function eventListener, [bool useCapture = false])
+void remove(EventListener eventListener, [bool useCapture = false])
 {
-  var list = _list;
-  var listLength = list.length;
-
-  for(int i = 0; i &lt; listLength; i++)
+  for(int i = 0; i &lt; _list.length; i++)
   {
-    if (list[i].eventListener == eventListener &amp;&amp; list[i].useCapture == useCapture)
+    if (_list[i].eventListener == eventListener &amp;&amp; _list[i].useCapture == useCapture)
     {
-      _list = new List&lt;_EventListenerUseCapture&gt;.from(list);
+      _list = new List&lt;_EventListenerUseCapture&gt;.from(_list);
       _list.removeAt(i);
 
       if (_eventType == Event.ENTER_FRAME &amp;&amp; _list.length == 0)
@@ -298,17 +423,6 @@ void remove(Function eventListener, [bool useCapture = false])
     }
   }
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
-              title="Permalink to EventListenerList.get runtimeType">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
 </pre>
 </div>
 </div>
@@ -329,7 +443,7 @@ external String toString();
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-08 19:24:30.893</div>
+          <div>This page was generated at 2012-10-13 21:36:08.883</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

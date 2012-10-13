@@ -194,14 +194,15 @@ void mouseClickListener(MouseEvent me) {
                 <div class="tab-pane" id="tabText">
                 	<div class="row">
 	                	<div class="span8">
-	                		<p>To display and format text you use the TextField and TextFormat classes.
+	                		<p>To display and format text the TextField and TextFormat classes are available.
                             The TextField class is the Display Object you can add to the Display List. Change
                             the content of the TextField at any time by modifying the text property. The TextFormat
                             class supports all the properties to set the font, color, alignment and style of the text.</p>
-                            <p>You are not limited to the typical HTML fonts. You can use Google's beautiful
+                            <p>The fonts in the TextFormat class are not limited to the typical HTML fonts.
+                            Use Google's
                             <a href="http://www.google.com/webfonts" target="_blank">open web fonts</a>  to bring
-                            quality typography to your application. Just add the css-style of the font to your
-                            page and use the font with TextFormat like you do with any other font.</p>
+                            quality typography to your application. Just add the font's css-style to your
+                            page and use the font in TextFormat like you do with any other font.</p>
                             <br/>
                             <pre class="prettyprint lang-java">
 TextField textField = new TextField();
@@ -284,7 +285,7 @@ SoundChannel soundChannel = sound.play(false, soundTransform);</pre>
                             your own filters by extending the BitmapFilter base class.</p>
                             <p>Calculating visual effects is an expensive computational operation. Therefore
                             BitmapFilters can only be applied to BitmapDatas but not to arbitrary Display Objects.
-                            However, applying the effects to BitmapDatas only should be sufficient for most use cases.</p>
+                            However, applying the effects to BitmapDatas should be sufficient for most use cases.</p>
                             <br/>
                             <pre class="prettyprint lang-java">
 BitmapData sourceBitmapData = new BitmapData(80, 80, true, Color.Red);
@@ -352,13 +353,13 @@ renderLoop.juggler.add(tween);</pre>
                 <div class="tab-pane" id="tabResources">
 					<div class="row">
 	                	<div class="span8">
-	                		<p>In Flash the SWF file is often used to embed resources, this is not possible on the
-                            web but the Resource class provides an easy way to load images, sounds and other
-                            resources from the server. You only have to add the URLs and the Resource class
-                            will download all files. Once the files are loaded you will be notified by
-                            a Future.</p>
+	                		<p>In Flash developers often embed resources in their SWF files.
+                            This is not possible on the web, but the Resource class provides an easy way
+                            to load images, sounds and other resources from the server. You only have to add
+                            the URLs and the Resource class will download all files. Once the files are
+                            loaded you will be notified by a Future.</p>
                             <p>If your application uses a large number of small images, it is best practice to
-                            combine those small images into one big image. This big image is called texture atlas
+                            merge those small images into one big image. This big image is called texture atlas
                             (or sprite sheet) and accelerates the download and improves the render performance. The
                             dartflash library supports the file format of
                             <a href="http://www.codeandweb.com/texturepacker" target="_blank">Texture Packer</a>,
@@ -370,12 +371,12 @@ resource.addImage(&apos;dog&apos;, &apos;images/dog.png&apos;);
 resource.addSound(&apos;plop&apos;, &apos;sounds/plop.mp3&apos;);
 resource.addTextureAtlas(&apos;fl&apos;, &apos;images/flowers.json&apos;, TextureAtlasFormat.JSONARRAY);
 
-resource.load().then((_) {
+resource.load().then((result) {
   BitmapData dog = resource.getBitmapData(&apos;dog&apos;);
   Sound plop = resource.getSound(&apos;plop&apos;);
   TextureAtlas flowers = resource.getTextureAtlas(&apos;fl&apos;);
   BitmapData daisy = flowers.getBitmapData('daisy');
-}</pre>
+});</pre>
 	                	</div>
 						<div class="span4">
                             <ul class="classtree" style="height:440px">

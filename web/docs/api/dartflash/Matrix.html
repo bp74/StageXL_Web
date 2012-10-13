@@ -97,10 +97,16 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
+<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
+<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
+<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -113,6 +119,279 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<pre class="source">
+class Matrix
+{
+  num _a, _b, _c, _d, _tx, _ty;
+  num _det;
+
+  Matrix(num a, num b, num c, num d, num tx, num ty) :
+    _a = a, _b = b, _c = c, _d = d, _tx = tx, _ty = ty, _det = a * d - b * c;
+
+  Matrix.fromIdentity() :
+    _a = 1.0, _b = 0.0, _c = 0.0, _d = 1.0, _tx = 0.0, _ty = 0.0, _det = 1.0;
+
+  //-------------------------------------------------------------------------------------------------
+
+  Matrix clone()
+  {
+    return new Matrix(_a, _b, _c, _d, _tx, _ty);
+  }
+
+  Matrix cloneInvert()
+  {
+    num a =    (_d / _det);
+    num b =  - (_b / _det);
+    num c =  - (_c / _det);
+    num d =    (_a / _det);
+    num tx = - (a * _tx + c * _ty);
+    num ty = - (b * _tx + d * _ty);
+
+    return new Matrix(a, b, c, d, tx, ty);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  num get a =&gt; _a;
+  num get b =&gt; _b;
+  num get c =&gt; _c;
+  num get d =&gt; _d;
+  num get tx =&gt; _tx;
+  num get ty =&gt; _ty;
+  num get det =&gt; _det;
+
+  //-------------------------------------------------------------------------------------------------
+
+  Point transformPoint(Point p)
+  {
+    return new Point(p.x * _a + p.y * _c + _tx, p.x * _b + p.y * _d + _ty);
+  }
+
+  Point deltaTransformPoint(Point p)
+  {
+    return new Point(p.x * _a + p.y * _c, p.x * _b + p.y * _d);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void concat(Matrix matrix)
+  {
+    num a1 =   _a;
+    num b1 =   _b;
+    num c1 =   _c;
+    num d1 =   _d;
+    num tx1 =  _tx;
+    num ty1 =  _ty;
+    num det1 = _det;
+
+    num a2 =   matrix.a;
+    num b2 =   matrix.b;
+    num c2 =   matrix.c;
+    num d2 =   matrix.d;
+    num tx2 =  matrix.tx;
+    num ty2 =  matrix.ty;
+    num det2 = matrix.det;
+
+    _a =   (a1 * a2 + b1 * c2);
+    _b =   (a1 * b2 + b1 * d2);
+    _c =   (c1 * a2 + d1 * c2);
+    _d =   (c1 * b2 + d1 * d2);
+    _tx =  (tx1 * a2 + ty1 * c2 + tx2);
+    _ty =  (tx1 * b2 + ty1 * d2 + ty2);
+    _det = (det1 * det2);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  Matrix createBox(num scaleX, num scaleY, [num rotation = 0.0, num translationX = 0.0, num translationY = 0.0])
+  {
+    Matrix matrix = new Matrix.fromIdentity();
+    matrix.scale(scaleX, scaleY);
+    matrix.rotate(rotation);
+    matrix.translate(translationX, translationY);
+
+    return matrix;
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void identity()
+  {
+    _a =   1.0;
+    _b =   0.0;
+    _c =   0.0;
+    _d =   1.0;
+    _tx =  0.0;
+    _ty =  0.0;
+    _det = 1.0;
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void invert()
+  {
+    num a =   _a;
+    num b =   _b;
+    num c =   _c;
+    num d =   _d;
+    num tx =  _tx;
+    num ty =  _ty;
+    num det = _det;
+
+    _a =    (d / det);
+    _b =  - (b / det);
+    _c =  - (c / det);
+    _d =    (a / det);
+    _tx = - (_a * tx + _c * ty);
+    _ty = - (_b * tx + _d * ty);
+    _det =  (1.0 / det);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void rotate(num rotation)
+  {
+    num cosR = cos(rotation);
+    num sinR = sin(rotation);
+
+    num a =  _a;
+    num b =  _b;
+    num c =  _c;
+    num d =  _d;
+    num tx = _tx;
+    num ty = _ty;
+
+    _a =  (a * cosR - b * sinR);
+    _b =  (a * sinR + b * cosR);
+    _c =  (c * cosR - d * sinR);
+    _d =  (c * sinR + d * cosR);
+    _tx = (tx * cosR - ty * sinR);
+    _ty = (tx * sinR + ty * cosR);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void skew(num skewX, num skewY)
+  {
+    num tanX = tan(skewX);
+    num tanY = tan(skewY);
+
+    num a =  _a;
+    num b =  _b;
+    num c =  _c;
+    num d =  _d;
+    num tx = _tx;
+    num ty = _ty;
+
+    _a =   (a - b * tanX);
+    _b =   (b + a * tanY);
+    _c =   (c - d * tanX);
+    _d =   (d + c * tanY);
+    _tx =  (tx - ty * tanX);
+    _ty =  (ty + tx * tanY);
+    _det = _a * _d - _b * _c;
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void scale(num scaleX, num scaleY)
+  {
+    _a   *= scaleX;
+    _b   *= scaleY;
+    _c   *= scaleX;
+    _d   *= scaleY;
+    _tx  *= scaleX;
+    _ty  *= scaleY;
+    _det *= scaleX * scaleY;
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void translate(num translationX, num translationY)
+  {
+    _tx += translationX;
+    _ty += translationY;
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void setTo(num a, num b, num c, num d, num tx, num ty)
+  {
+    _a =   a;
+    _b =   b;
+    _c =   c;
+    _d =   d;
+    _tx =  tx;
+    _ty =  ty;
+    _det = (a * d - b * c);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void copyFrom(Matrix matrix)
+  {
+    _a =   matrix.a;
+    _b =   matrix.b;
+    _c =   matrix.c;
+    _d =   matrix.d;
+    _tx =  matrix.tx;
+    _ty =  matrix.ty;
+    _det = matrix.det;
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void copyFromAndConcat(Matrix copyMatrix, Matrix concatMatrix)
+  {
+    num a1 =   copyMatrix.a;
+    num b1 =   copyMatrix.b;
+    num c1 =   copyMatrix.c;
+    num d1 =   copyMatrix.d;
+    num tx1 =  copyMatrix.tx;
+    num ty1 =  copyMatrix.ty;
+    num det1 = copyMatrix.det;
+
+    num a2 =   concatMatrix.a;
+    num b2 =   concatMatrix.b;
+    num c2 =   concatMatrix.c;
+    num d2 =   concatMatrix.d;
+    num tx2 =  concatMatrix.tx;
+    num ty2 =  concatMatrix.ty;
+    num det2 = concatMatrix.det;
+
+    _a =   (a1 * a2 + b1 * c2);
+    _b =   (a1 * b2 + b1 * d2);
+    _c =   (c1 * a2 + d1 * c2);
+    _d =   (c1 * b2 + d1 * d2);
+    _tx =  (tx1 * a2 + ty1 * c2 + tx2);
+    _ty =  (tx1 * b2 + ty1 * d2 + ty2);
+    _det = (det1 * det2);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void copyFromAndInvert(Matrix matrix)
+  {
+    num a =   matrix.a;
+    num b =   matrix.b;
+    num c =   matrix.c;
+    num d =   matrix.d;
+    num tx =  matrix.tx;
+    num ty =  matrix.ty;
+    num det = matrix.det;
+
+    _a =    (d / det);
+    _b =  - (b / det);
+    _c =  - (c / det);
+    _d =    (a / det);
+    _tx = - (_a * tx + _c * ty);
+    _ty = - (_b * tx + _d * ty);
+    _det =  (1.0 / det);
+  }
+
+}
+</pre>
 </div>
 <div>
 <h3>Constructors</h3>
@@ -140,7 +419,107 @@ Matrix.fromIdentity() :
 </div>
 </div>
 <div>
-<h3>Methods</h3>
+<h3>Properties</h3>
+<div class="field"><h4 id="a">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>a</strong> <a class="anchor-link"
+            href="#a"
+            title="Permalink to Matrix.a">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get a =&gt; _a;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="b">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>b</strong> <a class="anchor-link"
+            href="#b"
+            title="Permalink to Matrix.b">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get b =&gt; _b;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="c">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>c</strong> <a class="anchor-link"
+            href="#c"
+            title="Permalink to Matrix.c">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get c =&gt; _c;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="d">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>d</strong> <a class="anchor-link"
+            href="#d"
+            title="Permalink to Matrix.d">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get d =&gt; _d;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="det">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>det</strong> <a class="anchor-link"
+            href="#det"
+            title="Permalink to Matrix.det">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get det =&gt; _det;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to Matrix.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="tx">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>tx</strong> <a class="anchor-link"
+            href="#tx"
+            title="Permalink to Matrix.tx">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get tx =&gt; _tx;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="ty">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>ty</strong> <a class="anchor-link"
+            href="#ty"
+            title="Permalink to Matrix.ty">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get ty =&gt; _ty;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Operators</h3>
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
@@ -157,36 +536,9 @@ bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="a">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get a</strong>() <a class="anchor-link" href="#a"
-              title="Permalink to Matrix.get a">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get a =&gt; _a;
-</pre>
 </div>
-</div>
-<div class="method"><h4 id="b">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get b</strong>() <a class="anchor-link" href="#b"
-              title="Permalink to Matrix.get b">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get b =&gt; _b;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="c">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get c</strong>() <a class="anchor-link" href="#c"
-              title="Permalink to Matrix.get c">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get c =&gt; _c;
-</pre>
-</div>
-</div>
+<div>
+<h3>Methods</h3>
 <div class="method"><h4 id="clone">
 <button class="show-code">Code</button>
 <a href="../dartflash/Matrix.html">Matrix</a> <strong>clone</strong>() <a class="anchor-link" href="#clone"
@@ -354,16 +706,6 @@ Matrix createBox(num scaleX, num scaleY, [num rotation = 0.0, num translationX =
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="d">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get d</strong>() <a class="anchor-link" href="#d"
-              title="Permalink to Matrix.get d">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get d =&gt; _d;
-</pre>
-</div>
-</div>
 <div class="method"><h4 id="deltaTransformPoint">
 <button class="show-code">Code</button>
 <a href="../dartflash/Point.html">Point</a> <strong>deltaTransformPoint</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#deltaTransformPoint"
@@ -374,16 +716,6 @@ Point deltaTransformPoint(Point p)
 {
   return new Point(p.x * _a + p.y * _c, p.x * _b + p.y * _d);
 }
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="det">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get det</strong>() <a class="anchor-link" href="#det"
-              title="Permalink to Matrix.get det">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get det =&gt; _det;
 </pre>
 </div>
 </div>
@@ -451,6 +783,28 @@ void invert()
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="Matrix">
+<button class="show-code">Code</button>
+new <strong>Matrix</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> a, <a href="http://api.dartlang.org/dart_core/num.html">num</a> b, <a href="http://api.dartlang.org/dart_core/num.html">num</a> c, <a href="http://api.dartlang.org/dart_core/num.html">num</a> d, <a href="http://api.dartlang.org/dart_core/num.html">num</a> tx, <a href="http://api.dartlang.org/dart_core/num.html">num</a> ty) <a class="anchor-link" href="#Matrix"
+              title="Permalink to Matrix.Matrix">#</a></h4>
+<div class="doc">
+<pre class="source">
+Matrix(num a, num b, num c, num d, num tx, num ty) :
+  _a = a, _b = b, _c = c, _d = d, _tx = tx, _ty = ty, _det = a * d - b * c;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="Matrix.fromIdentity">
+<button class="show-code">Code</button>
+new <strong>Matrix.fromIdentity</strong>() <a class="anchor-link" href="#Matrix.fromIdentity"
+              title="Permalink to Matrix.Matrix.fromIdentity">#</a></h4>
+<div class="doc">
+<pre class="source">
+Matrix.fromIdentity() :
+  _a = 1.0, _b = 0.0, _c = 0.0, _d = 1.0, _tx = 0.0, _ty = 0.0, _det = 1.0;
+</pre>
+</div>
+</div>
 <div class="method inherited"><h4 id="noSuchMethod">
 <button class="show-code">Code</button>
 <strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
@@ -465,6 +819,20 @@ invocation.</p>
 <code>noSuchMethodError</code>.</p>
 <pre class="source">
 external Dynamic noSuchMethod(String name, List args);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="Object">
+<button class="show-code">Code</button>
+const <strong>Object</strong>() <a class="anchor-link" href="#Object"
+              title="Permalink to Matrix.Object">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
+<pre class="source">
+const Object();
 </pre>
 </div>
 </div>
@@ -493,17 +861,6 @@ void rotate(num rotation)
   _tx = (tx * cosR - ty * sinR);
   _ty = (tx * sinR + ty * cosR);
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
-              title="Permalink to Matrix.get runtimeType">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
 </pre>
 </div>
 </div>
@@ -612,33 +969,13 @@ void translate(num translationX, num translationY)
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="tx">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get tx</strong>() <a class="anchor-link" href="#tx"
-              title="Permalink to Matrix.get tx">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get tx =&gt; _tx;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="ty">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get ty</strong>() <a class="anchor-link" href="#ty"
-              title="Permalink to Matrix.get ty">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get ty =&gt; _ty;
-</pre>
-</div>
-</div>
 </div>
         </div>
         <div class="clear"></div>
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-08 19:24:30.472</div>
+          <div>This page was generated at 2012-10-13 21:36:08.704</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

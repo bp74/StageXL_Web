@@ -50,8 +50,8 @@ $$.HashMapImplementation = {"":
     numberOfProbes = numberOfProbes0;
   }
 },
- _probeForAdding$1$bailout: function(state, env0, env1, env2, env3) {
-  switch (state) {
+ _probeForAdding$1$bailout: function(state0, env0, env1, env2, env3) {
+  switch (state0) {
     case 1:
       var key = env0;
       t1 = env1;
@@ -63,20 +63,20 @@ $$.HashMapImplementation = {"":
       hash = env3;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       if (key == null)
         throw $.$$throw($.CTC);
       var t1 = $.hashCode(key);
     case 1:
-      state = 0;
+      state0 = 0;
       var hash = $.and(t1, this._keys.length - 1);
       var numberOfProbes = 1;
       var insertionIndex = -1;
     case 2:
       L0:
         while (true)
-          switch (state) {
+          switch (state0) {
             case 0:
               if (!true)
                 break L0;
@@ -97,7 +97,7 @@ $$.HashMapImplementation = {"":
               var numberOfProbes0 = numberOfProbes + 1;
               hash = $.HashMapImplementation__nextProbe(hash, numberOfProbes, this._keys.length);
             case 2:
-              state = 0;
+              state0 = 0;
               numberOfProbes = numberOfProbes0;
           }
   }
@@ -124,7 +124,7 @@ $$.HashMapImplementation = {"":
     numberOfProbes = numberOfProbes0;
   }
 },
- _probeForLookup$1$bailout: function(state, key, hash) {
+ _probeForLookup$1$bailout: function(state0, key, hash) {
   for (var numberOfProbes = 1; true;) {
     var t1 = this._keys;
     if (hash !== (hash | 0))
@@ -961,7 +961,7 @@ $$.Result = {"":
   t1 = $.toString(sb);
   this.row.set$innerHTML(t1);
 },
- addRow$1$bailout: function(state, t1, sb) {
+ addRow$1$bailout: function(state0, t1, sb) {
   if ($.eqB(t1, 'getter'))
     $.add$1(sb, 'get ');
   else if ($.eqB(t1, 'setter'))
@@ -1173,7 +1173,7 @@ $$._ChildrenElementList = {"":
   }
   return output;
 },
- _toList$0$bailout: function(state, t1) {
+ _toList$0$bailout: function(state0, t1) {
   var output = $.ListImplementation_List($.get$length(t1));
   for (var len = $.get$length(t1), i = 0; $.ltB(i, len); ++i) {
     var t2 = $.index(t1, i);
@@ -1205,7 +1205,7 @@ $$._ChildrenElementList = {"":
   this._lib_element.$dom_replaceChild$2(value, $.index(this._childElements, index));
 },
  set$length: function(newLength) {
-  throw $.$$throw($.CTC16);
+  throw $.$$throw($.CTC15);
 },
  add$1: function(value) {
   this._lib_element.$dom_appendChild$1(value);
@@ -1275,25 +1275,25 @@ $$._FrozenElementList = {"":
   return $.index(this._nodeList, index);
 },
  operator$indexSet$2: function(index, value) {
-  throw $.$$throw($.CTC16);
+  throw $.$$throw($.CTC15);
 },
  set$length: function(newLength) {
   $.set$length(this._nodeList, newLength);
 },
  add$1: function(value) {
-  throw $.$$throw($.CTC16);
+  throw $.$$throw($.CTC15);
 },
  addLast$1: function(value) {
-  throw $.$$throw($.CTC16);
+  throw $.$$throw($.CTC15);
 },
  iterator$0: function() {
   return $._FrozenElementListIterator$(this);
 },
  addAll$1: function(collection) {
-  throw $.$$throw($.CTC16);
+  throw $.$$throw($.CTC15);
 },
  sort$1: function(compare) {
-  throw $.$$throw($.CTC16);
+  throw $.$$throw($.CTC15);
 },
  getRange$2: function(start, rangeLength) {
   return $._FrozenElementList$_wrap($.getRange(this._nodeList, start, rangeLength));
@@ -1305,10 +1305,10 @@ $$._FrozenElementList = {"":
   return this.indexOf$2(element,0)
 },
  clear$0: function() {
-  throw $.$$throw($.CTC16);
+  throw $.$$throw($.CTC15);
 },
  removeLast$0: function() {
-  throw $.$$throw($.CTC16);
+  throw $.$$throw($.CTC15);
 },
  last$0: function() {
   return $.last(this._nodeList);
@@ -1336,7 +1336,7 @@ $$._FrozenElementListIterator = {"":
     return this.hasNext$0$bailout(1, t1, t2);
   return t1 < t2;
 },
- hasNext$0$bailout: function(state, t1, t2) {
+ hasNext$0$bailout: function(state0, t1, t2) {
   return $.lt(t1, t2);
 }
 };
@@ -1374,7 +1374,7 @@ $$._ElementAttributeMap = {"":
     this.remove$1(attributes[i].get$name());
   }
 },
- clear$0$bailout: function(state, attributes) {
+ clear$0$bailout: function(state0, attributes) {
   for (var i = $.sub($.get$length(attributes), 1); $.geB(i, 0); i = $.sub(i, 1))
     this.remove$1($.index(attributes, i).get$name());
 },
@@ -1389,7 +1389,7 @@ $$._ElementAttributeMap = {"":
     f.call$2(item.get$name(), item.get$value());
   }
 },
- forEach$1$bailout: function(state, f, attributes) {
+ forEach$1$bailout: function(state0, f, attributes) {
   for (var len = $.get$length(attributes), i = 0; $.ltB(i, len); ++i) {
     var item = $.index(attributes, i);
     f.call$2(item.get$name(), item.get$value());
@@ -1999,7 +1999,7 @@ $$._FixedSizeListIterator = {"":
     return this.hasNext$0$bailout(1, t1);
   return t1 > this._pos;
 },
- hasNext$0$bailout: function(state, t1) {
+ hasNext$0$bailout: function(state0, t1) {
   return $.gt(t1, this._pos);
 }
 };
@@ -2013,7 +2013,7 @@ $$._VariableSizeListIterator = {"":
     return this.hasNext$0$bailout(1, t1);
   return t1 > this._pos;
 },
- hasNext$0$bailout: function(state, t1) {
+ hasNext$0$bailout: function(state0, t1) {
   return $.gt(t1, this._pos);
 },
  next$0: function() {
@@ -2028,7 +2028,7 @@ $$._VariableSizeListIterator = {"":
     throw $.ioore(t3);
   return t1[t3];
 },
- next$0$bailout: function(state, t1) {
+ next$0$bailout: function(state0, t1) {
   var t3 = this._pos;
   this._pos = t3 + 1;
   return $.index(t1, t3);
@@ -2230,7 +2230,7 @@ $$.AbstractScanner = {"":
   }
   return this.tokenizeIdentifier$3(next, this.get$byteOffset(), true);
 },
- bigSwitch$1$bailout: function(state, next) {
+ bigSwitch$1$bailout: function(state0, next) {
   this.beginToken$0();
   if (next === 32 || next === 9 || next === 10 || next === 13) {
     this.appendWhiteSpace$1(next);
@@ -2496,7 +2496,7 @@ $$.AbstractScanner = {"":
     }
   }
 },
- tokenizeNumber$1$bailout: function(state, next) {
+ tokenizeNumber$1$bailout: function(state0, next) {
   var start = this.get$byteOffset();
   for (; true;) {
     next = this.advance$0();
@@ -2544,7 +2544,7 @@ $$.AbstractScanner = {"":
     hasDigits = true;
   }
 },
- tokenizeHex$1$bailout: function(state, next) {
+ tokenizeHex$1$bailout: function(state0, next) {
   var start = $.sub(this.get$byteOffset(), 1);
   for (var hasDigits = false; true;) {
     next = this.advance$0();
@@ -2609,7 +2609,7 @@ $$.AbstractScanner = {"":
   this.appendByteStringToken$2($.CTC37, this.asciiString$2(start, 0));
   return next;
 },
- tokenizeFractionPart$2$bailout: function(state, next, start) {
+ tokenizeFractionPart$2$bailout: function(state0, next, start) {
   $LOOP$0:
     for (var done = false, hasDigit = false; !done;) {
       if ($.leB(48, next) && $.leB(next, 57))
@@ -2660,8 +2660,8 @@ $$.AbstractScanner = {"":
     hasDigits = true;
   }
 },
- tokenizeExponent$1$bailout: function(state, env0) {
-  switch (state) {
+ tokenizeExponent$1$bailout: function(state0, env0) {
+  switch (state0) {
     case 1:
       var next = env0;
       break;
@@ -2672,23 +2672,23 @@ $$.AbstractScanner = {"":
       next = env0;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
     case 1:
-      state = 0;
+      state0 = 0;
     case 2:
-      if (state === 2 || state === 0 && (next === 43 || next === 45))
-        switch (state) {
+      if (state0 === 2 || state0 === 0 && (next === 43 || next === 45))
+        switch (state0) {
           case 0:
             next = this.advance$0();
           case 2:
-            state = 0;
+            state0 = 0;
         }
       var hasDigits = false;
     case 3:
       L0:
         while (true)
-          switch (state) {
+          switch (state0) {
             case 0:
               if (!true)
                 break L0;
@@ -2701,7 +2701,7 @@ $$.AbstractScanner = {"":
               }
               next = this.advance$0();
             case 3:
-              state = 0;
+              state0 = 0;
               hasDigits = true;
           }
   }
@@ -2788,7 +2788,7 @@ $$.AbstractScanner = {"":
   } else
     return this.tokenizeIdentifier$3(next, start, allowDollar);
 },
- tokenizeKeywordOrIdentifier$2$bailout: function(state, next, allowDollar) {
+ tokenizeKeywordOrIdentifier$2$bailout: function(state0, next, allowDollar) {
   var state = $.KeywordState_KEYWORD_STATE();
   var start = this.get$byteOffset();
   while (true) {
@@ -2889,8 +2889,8 @@ $$.AbstractScanner = {"":
     isDynamicBuiltIn = false;
   }
 },
- tokenizeIdentifier$3$bailout: function(state, env0, env1, env2, env3) {
-  switch (state) {
+ tokenizeIdentifier$3$bailout: function(state0, env0, env1, env2, env3) {
+  switch (state0) {
     case 1:
       var next = env0;
       var start = env1;
@@ -2903,10 +2903,10 @@ $$.AbstractScanner = {"":
       isDynamicBuiltIn = env3;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
     case 1:
-      state = 0;
+      state0 = 0;
       if (next === 68) {
         next = this.advance$0();
         if (next === 121) {
@@ -2937,7 +2937,7 @@ $$.AbstractScanner = {"":
       } else
         isDynamicBuiltIn = false;
     case 2:
-      state = 0;
+      state0 = 0;
       for (var isAscii = true; true;) {
         if (!($.leB(97, next) && $.leB(next, 122)))
           if (!($.leB(65, next) && $.leB(next, 90)))
@@ -3030,7 +3030,7 @@ $$.AbstractScanner = {"":
   this.appendByteStringToken$2($.CTC41, this.utf8String$2(start, 0));
   return this.advance$0();
 },
- tokenizeSingleLineString$3$bailout: function(state, next, quoteChar, start) {
+ tokenizeSingleLineString$3$bailout: function(state0, next, quoteChar, start) {
   for (; !(next == null ? quoteChar == null : next === quoteChar);) {
     if (next === 92)
       next = this.advance$0();
@@ -3096,7 +3096,7 @@ $$.AbstractScanner = {"":
   }
   return this.error$1($.CTC42);
 },
- tokenizeSingleLineRawString$3$bailout: function(state, quoteChar, start, next) {
+ tokenizeSingleLineRawString$3$bailout: function(state0, quoteChar, start, next) {
   for (; !$.eqB(next, 0);) {
     if (next == null ? quoteChar == null : next === quoteChar) {
       this.appendByteStringToken$2($.CTC41, this.utf8String$2(start, 0));
@@ -3172,7 +3172,7 @@ $$.StringScanner = {"":
   this.byteOffset = t1;
   return this.charAt$1(t1);
 },
- nextByte$0$bailout: function(state, t1) {
+ nextByte$0$bailout: function(state0, t1) {
   t1 = $.add(t1, 1);
   this.byteOffset = t1;
   return this.charAt$1(t1);
@@ -3194,7 +3194,7 @@ $$.StringScanner = {"":
     return this.utf8String$2$bailout(1, start, t2, offset, t1);
   return $.SubstringWrapper$(t1, start, t2 + offset + 1);
 },
- utf8String$2$bailout: function(state, start, t2, offset, t1) {
+ utf8String$2$bailout: function(state0, start, t2, offset, t1) {
   return $.SubstringWrapper$(t1, start, $.add($.add(t2, offset), 1));
 },
  appendByteStringToken$2: function(info, value) {
@@ -3318,8 +3318,8 @@ $$.StringCodeIterator = {"":
     return this.hasNext$0$bailout(2, t1, t3);
   return t1 < t3;
 },
- hasNext$0$bailout: function(state, env0, env1) {
-  switch (state) {
+ hasNext$0$bailout: function(state0, env0, env1) {
+  switch (state0) {
     case 1:
       t1 = env0;
       break;
@@ -3328,14 +3328,14 @@ $$.StringCodeIterator = {"":
       t3 = env1;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       var t1 = this.index;
     case 1:
-      state = 0;
+      state0 = 0;
       var t3 = this.end;
     case 2:
-      state = 0;
+      state0 = 0;
       return $.lt(t1, t3);
   }
 },
@@ -3347,7 +3347,7 @@ $$.StringCodeIterator = {"":
   this.index = t2 + 1;
   return $.charCodeAt(t1, t2);
 },
- next$0$bailout: function(state, t1, t2) {
+ next$0$bailout: function(state0, t1, t2) {
   this.index = $.add(t2, 1);
   return $.charCodeAt(t1, t2);
 },
@@ -3435,8 +3435,8 @@ $$.ArrayBasedScanner = {"":
     return this.addToCharOffset$1$bailout(2, offset, t1);
   this.extraCharOffset = t1 + offset;
 },
- addToCharOffset$1$bailout: function(state, env0, env1) {
-  switch (state) {
+ addToCharOffset$1$bailout: function(state0, env0, env1) {
+  switch (state0) {
     case 1:
       var offset = env0;
       break;
@@ -3445,13 +3445,13 @@ $$.ArrayBasedScanner = {"":
       t1 = env1;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
     case 1:
-      state = 0;
+      state0 = 0;
       var t1 = this.extraCharOffset;
     case 2:
-      state = 0;
+      state0 = 0;
       this.extraCharOffset = $.add(t1, offset);
   }
 },
@@ -3523,21 +3523,7 @@ $$.ArrayBasedScanner = {"":
 }
 };
 
-$$.LinkIterator = {"":
- ["current"],
- "super": "Object",
- hasNext$0: function() {
-  return $.isEmpty(this.current) !== true;
-},
- next$0: function() {
-  var result = this.current.get$head();
-  this.current = this.current.get$tail();
-  return result;
-},
- get$next: function() { return new $.BoundClosure(this, 'next$0'); }
-};
-
-$$.LinkTail = {"":
+$$.Link = {"":
  [],
  "super": "Object",
  get$head: function() {
@@ -3552,9 +3538,6 @@ $$.LinkTail = {"":
  iterator$0: function() {
   return $.LinkIterator$(this);
 },
- toString$0: function() {
-  return '[]';
-},
  isEmpty$0: function() {
   return true;
 },
@@ -3566,17 +3549,31 @@ $$.LinkTail = {"":
     return false;
   return other.isEmpty$0();
 },
+ toString$0: function() {
+  return '[]';
+},
  is$Link: true
+};
+
+$$.LinkIterator = {"":
+ ["current"],
+ "super": "Object",
+ hasNext$0: function() {
+  return $.isEmpty(this.current) !== true;
+},
+ next$0: function() {
+  var result = this.current.get$head();
+  this.current = this.current.get$tail();
+  return result;
+},
+ get$next: function() { return new $.BoundClosure(this, 'next$0'); }
 };
 
 $$.LinkEntry = {"":
  ["head?", "tail?"],
- "super": "Object",
+ "super": "Link",
  prepend$1: function(element) {
   return $.LinkEntry$(element, this, $.getRuntimeTypeInfo(this).T);
-},
- iterator$0: function() {
-  return $.LinkIterator$(this);
 },
  printOn$2: function(buffer, separatedBy) {
   $.add$1(buffer, this.head);
@@ -3614,8 +3611,7 @@ $$.LinkEntry = {"":
     other = other.get$tail();
   }
   return $.isEmpty(myElements) === true && $.isEmpty(other) === true;
-},
- is$Link: true
+}
 };
 
 $$.Maps__emitMap_anon = {"":
@@ -3651,7 +3647,7 @@ $$._convertDartToNative_PrepareForStructuredClone_findSlot = {"":
   $.add$1(this.copies_3, null);
   return length$;
 },
- call$1$bailout: function(state, value, t1) {
+ call$1$bailout: function(state0, value, t1) {
   var length$ = $.get$length(t1);
   for (var i = 0; $.ltB(i, length$); ++i) {
     var t2 = $.index(t1, i);
@@ -3806,8 +3802,8 @@ $$._convertDartToNative_PrepareForStructuredClone_walk = {"":
   }
   throw $.$$throw($.CTC9);
 },
- call$1$bailout: function(state, env0, env1, env2, env3, env4, env5, env6) {
-  switch (state) {
+ call$1$bailout: function(state0, env0, env1, env2, env3, env4, env5, env6) {
+  switch (state0) {
     case 1:
       var e = env0;
       break;
@@ -3827,7 +3823,7 @@ $$._convertDartToNative_PrepareForStructuredClone_walk = {"":
       length$ = env3;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       var t1 = {};
       if (e == null)
@@ -3876,11 +3872,11 @@ $$._convertDartToNative_PrepareForStructuredClone_walk = {"":
         return t1.copy_1;
       }
     default:
-      if (state === 3 || state === 2 || state === 1 || state === 0 && typeof e === 'object' && e !== null && (e.constructor === Array || e.is$List()))
-        switch (state) {
+      if (state0 === 3 || state0 === 2 || state0 === 1 || state0 === 0 && typeof e === 'object' && e !== null && (e.constructor === Array || e.is$List()))
+        switch (state0) {
           case 0:
           case 1:
-            state = 0;
+            state0 = 0;
             var length$ = $.get$length(e);
             slot = this.findSlot_8.call$1(e);
             t2 = this.readSlot_7;
@@ -3895,23 +3891,23 @@ $$._convertDartToNative_PrepareForStructuredClone_walk = {"":
             t1 = e instanceof Array && !!!(e.immutable$list);
             var t3 = this.writeSlot_6;
           case 2:
-            if (state === 2 || state === 0 && t1)
-              switch (state) {
+            if (state0 === 2 || state0 === 0 && t1)
+              switch (state0) {
                 case 0:
                   t3.call$2(slot, true);
                   var i = 0;
                 case 2:
                   L0:
                     while (true)
-                      switch (state) {
+                      switch (state0) {
                         case 0:
                           if (!$.ltB(i, length$))
                             break L0;
                           var element = $.index(e, i);
                           var elementCopy = this.call$1(element);
                         case 2:
-                          if (state === 2 || state === 0 && !(elementCopy == null ? element == null : elementCopy === element))
-                            switch (state) {
+                          if (state0 === 2 || state0 === 0 && !(elementCopy == null ? element == null : elementCopy === element))
+                            switch (state0) {
                               case 0:
                                 copy = t2.call$1(slot);
                                 if (true === copy) {
@@ -3919,7 +3915,7 @@ $$._convertDartToNative_PrepareForStructuredClone_walk = {"":
                                   t3.call$2(slot, copy);
                                 }
                               case 2:
-                                state = 0;
+                                state0 = 0;
                                 for (var j = 0; j < i; ++j)
                                   $.indexSet(copy, j, $.index(e, j));
                                 $.indexSet(copy, i, elementCopy);
@@ -3939,7 +3935,7 @@ $$._convertDartToNative_PrepareForStructuredClone_walk = {"":
               i = 0;
             }
           case 3:
-            state = 0;
+            state0 = 0;
             for (; $.ltB(i, length$); ++i)
               $.indexSet(copy, i, this.call$1($.index(e, i)));
             return copy;
@@ -3974,7 +3970,7 @@ $$._convertNativeToDart_AcceptStructuredClone_findSlot = {"":
   $.add$1(this.copies_1, null);
   return length$;
 },
- call$1$bailout: function(state, value, t1) {
+ call$1$bailout: function(state0, value, t1) {
   var length$ = $.get$length(t1);
   for (var i = 0; $.ltB(i, length$); ++i) {
     var t2 = $.index(t1, i);
@@ -4058,8 +4054,8 @@ $$._convertNativeToDart_AcceptStructuredClone_walk = {"":
   }
   return e;
 },
- call$1$bailout: function(state, env0, env1, env2, env3) {
-  switch (state) {
+ call$1$bailout: function(state0, env0, env1, env2, env3) {
+  switch (state0) {
     case 1:
       var e = env0;
       break;
@@ -4075,10 +4071,10 @@ $$._convertNativeToDart_AcceptStructuredClone_walk = {"":
       slot = env3;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
     case 1:
-      state = 0;
+      state0 = 0;
       if (e == null)
         return e;
       if (typeof e === 'boolean')
@@ -4092,8 +4088,8 @@ $$._convertNativeToDart_AcceptStructuredClone_walk = {"":
       if (e instanceof RegExp)
         throw $.$$throw($.CTC3);
     case 2:
-      if (state === 2 || state === 0 && $._isJavaScriptSimpleObject(e))
-        switch (state) {
+      if (state0 === 2 || state0 === 0 && $._isJavaScriptSimpleObject(e))
+        switch (state0) {
           case 0:
             var slot = this.findSlot_6.call$1(e);
             var copy = this.readSlot_5.call$1(slot);
@@ -4101,7 +4097,7 @@ $$._convertNativeToDart_AcceptStructuredClone_walk = {"":
               return copy;
             copy = $.makeLiteralMap([]);
           case 2:
-            state = 0;
+            state0 = 0;
             this.writeSlot_4.call$2(slot, copy);
             for (var t1 = $.iterator(Object.keys(e)); t1.hasNext$0() === true;) {
               var t2 = t1.next$0();
@@ -4110,8 +4106,8 @@ $$._convertNativeToDart_AcceptStructuredClone_walk = {"":
             return copy;
         }
     case 3:
-      if (state === 3 || state === 0 && e instanceof Array)
-        switch (state) {
+      if (state0 === 3 || state0 === 0 && e instanceof Array)
+        switch (state0) {
           case 0:
             slot = this.findSlot_6.call$1(e);
             copy = this.readSlot_5.call$1(slot);
@@ -4120,7 +4116,7 @@ $$._convertNativeToDart_AcceptStructuredClone_walk = {"":
             var length$ = $.get$length(e);
             copy = this.mustCopy_7 === true ? new Array(length$) : e;
           case 3:
-            state = 0;
+            state0 = 0;
             this.writeSlot_4.call$2(slot, copy);
             for (var i = 0; $.ltB(i, length$); ++i)
               $.indexSet(copy, i, this.call$1($.index(e, i)));
@@ -4154,22 +4150,22 @@ $$._convertNativeToDart_IDBKey_containsDate = {"":
   }
   return false;
 },
- call$1$bailout: function(state, env0) {
-  switch (state) {
+ call$1$bailout: function(state0, env0) {
+  switch (state0) {
     case 1:
       var object = env0;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       if (object instanceof Date)
         return true;
     case 1:
-      if (state === 1 || state === 0 && typeof object === 'object' && object !== null && (object.constructor === Array || object.is$List()))
-        switch (state) {
+      if (state0 === 1 || state0 === 0 && typeof object === 'object' && object !== null && (object.constructor === Array || object.is$List()))
+        switch (state0) {
           case 0:
           case 1:
-            state = 0;
+            state0 = 0;
             for (var i = 0; $.ltB(i, $.get$length(object)); ++i)
               if (this.call$1($.index(object, i)) === true)
                 return true;
@@ -4231,18 +4227,20 @@ $$.enableShowHideInherited_anon0 = {"":
 };
 
 $$.enableCodeBlocks_anon = {"":
- ["pre_0"],
+ ["preList_0"],
  "super": "Closure",
  call$1: function(e) {
-  var t1 = this.pre_0;
-  if ($.contains$1(t1.get$classes(), 'expanded') === true)
-    t1.get$classes().remove$1('expanded');
-  else {
-    if ($.contains$1(t1.get$classes(), 'formatted') !== true) {
-      t1.set$innerHTML($.classifySource(t1.get$text()));
-      $.add$1(t1.get$classes(), 'formatted');
+  for (var t1 = $.iterator(this.preList_0); t1.hasNext$0() === true;) {
+    var t2 = t1.next$0();
+    if ($.contains$1(t2.get$classes(), 'expanded') === true)
+      t2.get$classes().remove$1('expanded');
+    else {
+      if ($.contains$1(t2.get$classes(), 'formatted') !== true) {
+        t2.set$innerHTML($.classifySource(t2.get$text()));
+        $.add$1(t2.get$classes(), 'formatted');
+      }
+      $.add$1(t2.get$classes(), 'expanded');
     }
-    $.add$1(t1.get$classes(), 'expanded');
   }
 }
 };
@@ -4449,15 +4447,15 @@ $.Collections__containsRef = function(c, ref) {
   return false;
 };
 
+$.getMemberAnchor = function(memberInfo) {
+  return memberInfo.containsKey$1('link_name') === true ? $.index(memberInfo, 'link_name') : $.index(memberInfo, 'name');
+};
+
 $.forEach = function(receiver, f) {
   if (!$.isJsArray(receiver))
     return receiver.forEach$1(f);
   else
     return $.Collections_forEach(receiver, f);
-};
-
-$.getMemberAnchor = function(memberInfo) {
-  return memberInfo.containsKey$1('link_name') === true ? $.index(memberInfo, 'link_name') : $.index(memberInfo, 'name');
 };
 
 $.indexSet$slow = function(a, index, value) {
@@ -4543,9 +4541,11 @@ $.typeNameInChrome = function(obj) {
   return name$;
 };
 
-$.Collections_forEach = function(iterable, f) {
-  for (var t1 = $.iterator(iterable); t1.hasNext$0() === true;)
-    f.call$1(t1.next$0());
+$.sort = function(receiver, compare) {
+  if (!$.isJsArray(receiver))
+    return receiver.sort$1(compare);
+  $.checkMutable(receiver, 'sort');
+  $.DualPivotQuicksort_sort(receiver, compare);
 };
 
 $.shr = function(a, b) {
@@ -4787,7 +4787,8 @@ return window;
 };
 
 $.LinkEntry$ = function(head, tail, T) {
-  var t1 = new $.LinkEntry(head, tail);
+  var t1 = tail == null ? $.Link$($.getRuntimeTypeInfo(this).T) : tail;
+  t1 = new $.LinkEntry(head, t1);
   $.setRuntimeTypeInfo(t1, {'T': T});
   return t1;
 };
@@ -4817,11 +4818,8 @@ $._DOMWindowCrossFrameImpl$ = function(_window) {
   return new $._DOMWindowCrossFrameImpl(_window);
 };
 
-$.sort = function(receiver, compare) {
-  if (!$.isJsArray(receiver))
-    return receiver.sort$1(compare);
-  $.checkMutable(receiver, 'sort');
-  $.DualPivotQuicksort_sort(receiver, compare);
+$.DualPivotQuicksort_sort = function(a, compare) {
+  $.DualPivotQuicksort__doSort(a, 0, $.sub($.get$length(a), 1), compare);
 };
 
 $._FrozenElementListIterator$ = function(_list) {
@@ -4919,11 +4917,6 @@ $.matchAllMembersInType = function(results, typeText, memberText) {
             }
       }
   }
-};
-
-$._Collections_forEach = function(iterable, f) {
-  for (var t1 = $.iterator(iterable); t1.hasNext$0() === true;)
-    f.call$1(t1.next$0());
 };
 
 $._FileReaderEventsImpl$ = function(_ptr) {
@@ -5095,20 +5088,12 @@ $._dynamicMetadata = function(table) {
   $dynamicMetadata = table;
 };
 
-$.DualPivotQuicksort_sort = function(a, compare) {
-  $.DualPivotQuicksort__doSort(a, 0, $.sub($.get$length(a), 1), compare);
-};
-
 $._dynamicMetadata0 = function() {
   if (typeof($dynamicMetadata) === 'undefined') {
     var t1 = [];
     $._dynamicMetadata(t1);
   }
   return $dynamicMetadata;
-};
-
-$.throwNoSuchMethod = function(obj, name$, arguments$) {
-  throw $.$$throw($.NoSuchMethodError$(obj, name$, arguments$, null));
 };
 
 $.regExpGetNative = function(regExp) {
@@ -5232,6 +5217,11 @@ $._ElementAttributeMap$ = function(_element) {
   return new $._ElementAttributeMap(_element);
 };
 
+$._Collections_forEach = function(iterable, f) {
+  for (var t1 = $.iterator(iterable); t1.hasNext$0() === true;)
+    f.call$1(t1.next$0());
+};
+
 $.currentResult = function(result) {
   if (!$.eqB($._currentResult, result)) {
     var t1 = $._currentResult;
@@ -5352,14 +5342,6 @@ $._LocationCrossFrameImpl__setHref = function(location$, val) {
   location$.href = val;
 };
 
-$.addAll = function(receiver, collection) {
-  if (!$.isJsArray(receiver))
-    return receiver.addAll$1(collection);
-  var iterator = $.iterator(collection);
-  for (; iterator.hasNext$0() === true;)
-    $.add$1(receiver, iterator.next$0());
-};
-
 $.updateResults = function(searchText, results) {
   $.currentSearchText = searchText;
   $.currentResults = results;
@@ -5371,6 +5353,14 @@ $.updateResults = function(searchText, results) {
     var t1 = $.index($.currentResults, 0);
     $.currentResult(t1);
   }
+};
+
+$.addAll = function(receiver, collection) {
+  if (!$.isJsArray(receiver))
+    return receiver.addAll$1(collection);
+  var iterator = $.iterator(collection);
+  for (; iterator.hasNext$0() === true;)
+    $.add$1(receiver, iterator.next$0());
 };
 
 $.Primitives_objectToString = function(object) {
@@ -5506,8 +5496,8 @@ $.enableCodeBlocks = function() {
     var showCode = t2.query$1('.show-code');
     if (showCode == null)
       continue;
-    var pre = t2.query$1('pre.source');
-    $.add$1(showCode.get$on().get$click(), new $.enableCodeBlocks_anon(pre));
+    var preList = t2.queryAll$1('pre.source');
+    $.add$1(showCode.get$on().get$click(), new $.enableCodeBlocks_anon(preList));
   }
 };
 
@@ -5633,8 +5623,13 @@ $.escapeHtml = function(html) {
   return $.replaceAll($.replaceAll($.replaceAll(html, '&', '&amp;'), '<', '&lt;'), '>', '&gt;');
 };
 
+$.Collections_forEach = function(iterable, f) {
+  for (var t1 = $.iterator(iterable); t1.hasNext$0() === true;)
+    f.call$1(t1.next$0());
+};
+
 $.json = function() {
-  return [$.makeLiteralMap(['name', 'dartflash', 'types', [$.makeLiteralMap(['name', 'Animatable', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'advanceTime'])]]), $.makeLiteralMap(['name', 'AudioElementSound', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'AudioElementSound']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'length']), $.makeLiteralMap(['kind', 'method', 'name', 'loadAudio']), $.makeLiteralMap(['kind', 'method', 'name', 'play'])]]), $.makeLiteralMap(['name', 'AudioElementSoundChannel', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'AudioElementSoundChannel']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'soundTransform']), $.makeLiteralMap(['kind', 'setter', 'name', 'soundTransform', 'link_name', 'soundTransform=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stop'])]]), $.makeLiteralMap(['name', 'Bitmap', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'Bitmap']), $.makeLiteralMap(['kind', 'field', 'name', 'bitmapData']), $.makeLiteralMap(['kind', 'field', 'name', 'clipRectangle']), $.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'field', 'name', 'pixelSnapping']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'field', 'name', 'smoothing'])]]), $.makeLiteralMap(['name', 'BitmapData', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'applyFilter']), $.makeLiteralMap(['kind', 'constructor', 'name', 'BitmapData']), $.makeLiteralMap(['kind', 'constructor', 'name', 'BitmapData.fromImageElement']), $.makeLiteralMap(['kind', 'constructor', 'name', 'BitmapData.fromTextureAtlasFrame']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'method', 'name', 'colorTransform']), $.makeLiteralMap(['kind', 'method', 'name', 'copyPixels']), $.makeLiteralMap(['kind', 'method', 'name', 'draw']), $.makeLiteralMap(['kind', 'method', 'name', 'fillRect']), $.makeLiteralMap(['kind', 'method', 'name', 'getPixel']), $.makeLiteralMap(['kind', 'method', 'name', 'getPixel32']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'height']), $.makeLiteralMap(['kind', 'method', 'name', 'loadImage']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'method', 'name', 'renderClipped']), $.makeLiteralMap(['kind', 'method', 'name', 'setPixel']), $.makeLiteralMap(['kind', 'method', 'name', 'setPixel32']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'width'])]]), $.makeLiteralMap(['name', 'BitmapDrawable', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'render'])]]), $.makeLiteralMap(['name', 'BitmapFilter', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'apply']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone'])]]), $.makeLiteralMap(['name', 'BlurFilter', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'apply']), $.makeLiteralMap(['kind', 'constructor', 'name', 'BlurFilter']), $.makeLiteralMap(['kind', 'field', 'name', 'blurX']), $.makeLiteralMap(['kind', 'field', 'name', 'blurY']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone'])]]), $.makeLiteralMap(['name', 'CapsStyle', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'BUTT']), $.makeLiteralMap(['kind', 'field', 'name', 'ROUND']), $.makeLiteralMap(['kind', 'field', 'name', 'SQUARE'])]]), $.makeLiteralMap(['name', 'Circle', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'Circle']), $.makeLiteralMap(['kind', 'field', 'name', 'radius']), $.makeLiteralMap(['kind', 'field', 'name', 'x']), $.makeLiteralMap(['kind', 'field', 'name', 'y'])]]), $.makeLiteralMap(['name', 'Color', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'AliceBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'AntiqueWhite']), $.makeLiteralMap(['kind', 'field', 'name', 'Aqua']), $.makeLiteralMap(['kind', 'field', 'name', 'Aquamarine']), $.makeLiteralMap(['kind', 'field', 'name', 'Azure']), $.makeLiteralMap(['kind', 'field', 'name', 'Beige']), $.makeLiteralMap(['kind', 'field', 'name', 'Bisque']), $.makeLiteralMap(['kind', 'field', 'name', 'Black']), $.makeLiteralMap(['kind', 'field', 'name', 'BlanchedAlmond']), $.makeLiteralMap(['kind', 'field', 'name', 'Blue']), $.makeLiteralMap(['kind', 'field', 'name', 'BlueViolet']), $.makeLiteralMap(['kind', 'field', 'name', 'Brown']), $.makeLiteralMap(['kind', 'field', 'name', 'BurlyWood']), $.makeLiteralMap(['kind', 'field', 'name', 'CadetBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'Chartreuse']), $.makeLiteralMap(['kind', 'field', 'name', 'Chocolate']), $.makeLiteralMap(['kind', 'field', 'name', 'Coral']), $.makeLiteralMap(['kind', 'field', 'name', 'CornflowerBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'Cornsilk']), $.makeLiteralMap(['kind', 'field', 'name', 'Crimson']), $.makeLiteralMap(['kind', 'field', 'name', 'Cyan']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkCyan']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkGoldenrod']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkGray']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkKhaki']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkMagenta']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkOliveGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkOrange']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkOrchid']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkRed']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkSalmon']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkSeaGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkSlateBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkSlateGray']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkTurquoise']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkViolet']), $.makeLiteralMap(['kind', 'field', 'name', 'DeepPink']), $.makeLiteralMap(['kind', 'field', 'name', 'DeepSkyBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'DimGray']), $.makeLiteralMap(['kind', 'field', 'name', 'DodgerBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'Firebrick']), $.makeLiteralMap(['kind', 'field', 'name', 'FloralWhite']), $.makeLiteralMap(['kind', 'field', 'name', 'ForestGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'Fuchsia']), $.makeLiteralMap(['kind', 'field', 'name', 'Gainsboro']), $.makeLiteralMap(['kind', 'field', 'name', 'GhostWhite']), $.makeLiteralMap(['kind', 'field', 'name', 'Gold']), $.makeLiteralMap(['kind', 'field', 'name', 'Goldenrod']), $.makeLiteralMap(['kind', 'field', 'name', 'Gray']), $.makeLiteralMap(['kind', 'field', 'name', 'Green']), $.makeLiteralMap(['kind', 'field', 'name', 'GreenYellow']), $.makeLiteralMap(['kind', 'field', 'name', 'Honeydew']), $.makeLiteralMap(['kind', 'field', 'name', 'HotPink']), $.makeLiteralMap(['kind', 'field', 'name', 'IndianRed']), $.makeLiteralMap(['kind', 'field', 'name', 'Indigo']), $.makeLiteralMap(['kind', 'field', 'name', 'Ivory']), $.makeLiteralMap(['kind', 'field', 'name', 'Khaki']), $.makeLiteralMap(['kind', 'field', 'name', 'Lavender']), $.makeLiteralMap(['kind', 'field', 'name', 'LavenderBlush']), $.makeLiteralMap(['kind', 'field', 'name', 'LawnGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'LemonChiffon']), $.makeLiteralMap(['kind', 'field', 'name', 'LightBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'LightCoral']), $.makeLiteralMap(['kind', 'field', 'name', 'LightCyan']), $.makeLiteralMap(['kind', 'field', 'name', 'LightGoldenrodYellow']), $.makeLiteralMap(['kind', 'field', 'name', 'LightGray']), $.makeLiteralMap(['kind', 'field', 'name', 'LightGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'LightPink']), $.makeLiteralMap(['kind', 'field', 'name', 'LightSalmon']), $.makeLiteralMap(['kind', 'field', 'name', 'LightSeaGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'LightSkyBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'LightSlateGray']), $.makeLiteralMap(['kind', 'field', 'name', 'LightSteelBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'LightYellow']), $.makeLiteralMap(['kind', 'field', 'name', 'Lime']), $.makeLiteralMap(['kind', 'field', 'name', 'LimeGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'Linen']), $.makeLiteralMap(['kind', 'field', 'name', 'Magenta']), $.makeLiteralMap(['kind', 'field', 'name', 'Maroon']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumAquamarine']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumOrchid']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumPurple']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumSeaGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumSlateBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumSpringGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumTurquoise']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumVioletRed']), $.makeLiteralMap(['kind', 'field', 'name', 'MidnightBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'MintCream']), $.makeLiteralMap(['kind', 'field', 'name', 'MistyRose']), $.makeLiteralMap(['kind', 'field', 'name', 'Moccasin']), $.makeLiteralMap(['kind', 'field', 'name', 'NavajoWhite']), $.makeLiteralMap(['kind', 'field', 'name', 'Navy']), $.makeLiteralMap(['kind', 'field', 'name', 'OldLace']), $.makeLiteralMap(['kind', 'field', 'name', 'Olive']), $.makeLiteralMap(['kind', 'field', 'name', 'OliveDrab']), $.makeLiteralMap(['kind', 'field', 'name', 'Orange']), $.makeLiteralMap(['kind', 'field', 'name', 'OrangeRed']), $.makeLiteralMap(['kind', 'field', 'name', 'Orchid']), $.makeLiteralMap(['kind', 'field', 'name', 'PaleGoldenrod']), $.makeLiteralMap(['kind', 'field', 'name', 'PaleGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'PaleTurquoise']), $.makeLiteralMap(['kind', 'field', 'name', 'PaleVioletRed']), $.makeLiteralMap(['kind', 'field', 'name', 'PapayaWhip']), $.makeLiteralMap(['kind', 'field', 'name', 'PeachPuff']), $.makeLiteralMap(['kind', 'field', 'name', 'Peru']), $.makeLiteralMap(['kind', 'field', 'name', 'Pink']), $.makeLiteralMap(['kind', 'field', 'name', 'Plum']), $.makeLiteralMap(['kind', 'field', 'name', 'PowderBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'Purple']), $.makeLiteralMap(['kind', 'field', 'name', 'Red']), $.makeLiteralMap(['kind', 'field', 'name', 'RosyBrown']), $.makeLiteralMap(['kind', 'field', 'name', 'RoyalBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'SaddleBrown']), $.makeLiteralMap(['kind', 'field', 'name', 'Salmon']), $.makeLiteralMap(['kind', 'field', 'name', 'SandyBrown']), $.makeLiteralMap(['kind', 'field', 'name', 'SeaGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'SeaShell']), $.makeLiteralMap(['kind', 'field', 'name', 'Sienna']), $.makeLiteralMap(['kind', 'field', 'name', 'Silver']), $.makeLiteralMap(['kind', 'field', 'name', 'SkyBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'SlateBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'SlateGray']), $.makeLiteralMap(['kind', 'field', 'name', 'Snow']), $.makeLiteralMap(['kind', 'field', 'name', 'SpringGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'SteelBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'Tan']), $.makeLiteralMap(['kind', 'field', 'name', 'Teal']), $.makeLiteralMap(['kind', 'field', 'name', 'Thistle']), $.makeLiteralMap(['kind', 'field', 'name', 'Tomato']), $.makeLiteralMap(['kind', 'field', 'name', 'Transparent']), $.makeLiteralMap(['kind', 'field', 'name', 'Turquoise']), $.makeLiteralMap(['kind', 'field', 'name', 'Violet']), $.makeLiteralMap(['kind', 'field', 'name', 'Wheat']), $.makeLiteralMap(['kind', 'field', 'name', 'White']), $.makeLiteralMap(['kind', 'field', 'name', 'WhiteSmoke']), $.makeLiteralMap(['kind', 'field', 'name', 'Yellow']), $.makeLiteralMap(['kind', 'field', 'name', 'YellowGreen'])]]), $.makeLiteralMap(['name', 'ColorMatrixFilter', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'apply']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'constructor', 'name', 'ColorMatrixFilter']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'ColorMatrixFilter.grayscale']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'ColorMatrixFilter.invert']), $.makeLiteralMap(['kind', 'field', 'name', 'matrix'])]]), $.makeLiteralMap(['name', 'ColorTransform', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'alphaMultiplier']), $.makeLiteralMap(['kind', 'field', 'name', 'alphaOffset']), $.makeLiteralMap(['kind', 'field', 'name', 'blueMultiplier']), $.makeLiteralMap(['kind', 'field', 'name', 'blueOffset']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'color']), $.makeLiteralMap(['kind', 'setter', 'name', 'color', 'link_name', 'color=']), $.makeLiteralMap(['kind', 'constructor', 'name', 'ColorTransform']), $.makeLiteralMap(['kind', 'method', 'name', 'concat']), $.makeLiteralMap(['kind', 'field', 'name', 'greenMultiplier']), $.makeLiteralMap(['kind', 'field', 'name', 'greenOffset']), $.makeLiteralMap(['kind', 'field', 'name', 'redMultiplier']), $.makeLiteralMap(['kind', 'field', 'name', 'redOffset'])]]), $.makeLiteralMap(['name', 'DelayedCall', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'advanceTime']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'currentTime']), $.makeLiteralMap(['kind', 'constructor', 'name', 'DelayedCall']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'repeatCount']), $.makeLiteralMap(['kind', 'setter', 'name', 'repeatCount', 'link_name', 'repeatCount=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'totalTime'])]]), $.makeLiteralMap(['name', 'DisplayObject', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'alpha']), $.makeLiteralMap(['kind', 'setter', 'name', 'alpha', 'link_name', 'alpha=']), $.makeLiteralMap(['kind', 'method', 'name', 'dispatchEvent']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'DisplayObject']), $.makeLiteralMap(['kind', 'method', 'name', 'getBounds']), $.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'method', 'name', 'globalToLocal']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'height']), $.makeLiteralMap(['kind', 'setter', 'name', 'height', 'link_name', 'height=']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestObject']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestPoint']), $.makeLiteralMap(['kind', 'method', 'name', 'localToGlobal']), $.makeLiteralMap(['kind', 'field', 'name', 'mask']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'name']), $.makeLiteralMap(['kind', 'setter', 'name', 'name', 'link_name', 'name=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'on']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'parent']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'pivotX']), $.makeLiteralMap(['kind', 'setter', 'name', 'pivotX', 'link_name', 'pivotX=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'pivotY']), $.makeLiteralMap(['kind', 'setter', 'name', 'pivotY', 'link_name', 'pivotY=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'removeFromParent']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'root']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'rotation']), $.makeLiteralMap(['kind', 'setter', 'name', 'rotation', 'link_name', 'rotation=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'scaleX']), $.makeLiteralMap(['kind', 'setter', 'name', 'scaleX', 'link_name', 'scaleX=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'scaleY']), $.makeLiteralMap(['kind', 'setter', 'name', 'scaleY', 'link_name', 'scaleY=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'stage']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'transformationMatrix']), $.makeLiteralMap(['kind', 'method', 'name', 'transformationMatrixTo']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'visible']), $.makeLiteralMap(['kind', 'setter', 'name', 'visible', 'link_name', 'visible=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'width']), $.makeLiteralMap(['kind', 'setter', 'name', 'width', 'link_name', 'width=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'x']), $.makeLiteralMap(['kind', 'setter', 'name', 'x', 'link_name', 'x=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'y']), $.makeLiteralMap(['kind', 'setter', 'name', 'y', 'link_name', 'y='])]]), $.makeLiteralMap(['name', 'DisplayObjectContainer', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'addChild']), $.makeLiteralMap(['kind', 'method', 'name', 'addChildAt']), $.makeLiteralMap(['kind', 'method', 'name', 'contains']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'DisplayObjectContainer']), $.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'method', 'name', 'getChildAt']), $.makeLiteralMap(['kind', 'method', 'name', 'getChildByName']), $.makeLiteralMap(['kind', 'method', 'name', 'getChildIndex']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseChildren']), $.makeLiteralMap(['kind', 'setter', 'name', 'mouseChildren', 'link_name', 'mouseChildren=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'numChildren']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'on']), $.makeLiteralMap(['kind', 'method', 'name', 'removeChild']), $.makeLiteralMap(['kind', 'method', 'name', 'removeChildAt']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'method', 'name', 'setChildIndex']), $.makeLiteralMap(['kind', 'method', 'name', 'sortChildren']), $.makeLiteralMap(['kind', 'method', 'name', 'swapChildren']), $.makeLiteralMap(['kind', 'method', 'name', 'swapChildrenAt']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'tabChildren']), $.makeLiteralMap(['kind', 'setter', 'name', 'tabChildren', 'link_name', 'tabChildren='])]]), $.makeLiteralMap(['name', 'DisplayObjectContainerEvents', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'DisplayObjectContainerEvents'])]]), $.makeLiteralMap(['name', 'DisplayObjectEvents', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'added']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'addedToStage']), $.makeLiteralMap(['kind', 'constructor', 'name', 'DisplayObjectEvents']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'enterFrame']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'removed']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'removedFromStage'])]]), $.makeLiteralMap(['name', 'DropShadowFilter', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'alpha']), $.makeLiteralMap(['kind', 'field', 'name', 'angle']), $.makeLiteralMap(['kind', 'method', 'name', 'apply']), $.makeLiteralMap(['kind', 'field', 'name', 'blurX']), $.makeLiteralMap(['kind', 'field', 'name', 'blurY']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'field', 'name', 'color']), $.makeLiteralMap(['kind', 'field', 'name', 'distance']), $.makeLiteralMap(['kind', 'constructor', 'name', 'DropShadowFilter']), $.makeLiteralMap(['kind', 'field', 'name', 'hideObject']), $.makeLiteralMap(['kind', 'field', 'name', 'inner']), $.makeLiteralMap(['kind', 'field', 'name', 'knockout']), $.makeLiteralMap(['kind', 'field', 'name', 'strength'])]]), $.makeLiteralMap(['name', 'EnterFrameEvent', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'captures']), $.makeLiteralMap(['kind', 'constructor', 'name', 'EnterFrameEvent']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'passedTime'])]]), $.makeLiteralMap(['name', 'Event', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'ADDED']), $.makeLiteralMap(['kind', 'field', 'name', 'ADDED_TO_STAGE']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'bubbles']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'captures']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'currentTarget']), $.makeLiteralMap(['kind', 'field', 'name', 'ENTER_FRAME']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Event']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'eventPhase']), $.makeLiteralMap(['kind', 'field', 'name', 'REMOVED']), $.makeLiteralMap(['kind', 'field', 'name', 'REMOVED_FROM_STAGE']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stopImmediatePropagation']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stopPropagation']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'stopsImmediatePropagation']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'stopsPropagation']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'target']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'type'])]]), $.makeLiteralMap(['name', 'EventDispatcher', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'addEventListener']), $.makeLiteralMap(['kind', 'method', 'name', 'dispatchEvent']), $.makeLiteralMap(['kind', 'method', 'name', 'hasEventListener']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'on']), $.makeLiteralMap(['kind', 'method', 'name', 'removeEventListener'])]]), $.makeLiteralMap(['name', 'EventListener', 'kind', 'typedef']), $.makeLiteralMap(['name', 'EventListenerList', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'operator +', 'link_name', '+']), $.makeLiteralMap(['kind', 'method', 'name', 'operator -', 'link_name', '-']), $.makeLiteralMap(['kind', 'method', 'name', 'add']), $.makeLiteralMap(['kind', 'method', 'name', 'dispatchEvent']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'eventDispatcher']), $.makeLiteralMap(['kind', 'constructor', 'name', 'EventListenerList']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'eventType']), $.makeLiteralMap(['kind', 'method', 'name', 'remove'])]]), $.makeLiteralMap(['name', 'EventPhase', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'AT_TARGET']), $.makeLiteralMap(['kind', 'field', 'name', 'BUBBLING_PHASE']), $.makeLiteralMap(['kind', 'field', 'name', 'CAPTURING_PHASE'])]]), $.makeLiteralMap(['name', 'Events', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'operator []', 'link_name', '[]']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Events'])]]), $.makeLiteralMap(['name', 'GlassPlate', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GlassPlate']), $.makeLiteralMap(['kind', 'field', 'name', 'height']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'field', 'name', 'width'])]]), $.makeLiteralMap(['name', 'GlowFilter', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'alpha']), $.makeLiteralMap(['kind', 'method', 'name', 'apply']), $.makeLiteralMap(['kind', 'field', 'name', 'blurX']), $.makeLiteralMap(['kind', 'field', 'name', 'blurY']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'field', 'name', 'color']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GlowFilter']), $.makeLiteralMap(['kind', 'field', 'name', 'hideObject']), $.makeLiteralMap(['kind', 'field', 'name', 'inner']), $.makeLiteralMap(['kind', 'field', 'name', 'knockout']), $.makeLiteralMap(['kind', 'field', 'name', 'strength'])]]), $.makeLiteralMap(['name', 'Graphics', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'arc']), $.makeLiteralMap(['kind', 'method', 'name', 'arcTo']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'beginPath']), $.makeLiteralMap(['kind', 'method', 'name', 'bezierCurveTo']), $.makeLiteralMap(['kind', 'method', 'name', 'circle']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clear']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'closePath']), $.makeLiteralMap(['kind', 'method', 'name', 'ellipse']), $.makeLiteralMap(['kind', 'method', 'name', 'fillColor']), $.makeLiteralMap(['kind', 'method', 'name', 'fillGradient']), $.makeLiteralMap(['kind', 'method', 'name', 'fillPattern']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Graphics']), $.makeLiteralMap(['kind', 'method', 'name', 'lineTo']), $.makeLiteralMap(['kind', 'method', 'name', 'moveTo']), $.makeLiteralMap(['kind', 'method', 'name', 'quadraticCurveTo']), $.makeLiteralMap(['kind', 'method', 'name', 'rect']), $.makeLiteralMap(['kind', 'method', 'name', 'rectRound']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'method', 'name', 'strokeColor']), $.makeLiteralMap(['kind', 'method', 'name', 'strokeGradient']), $.makeLiteralMap(['kind', 'method', 'name', 'strokePattern'])]]), $.makeLiteralMap(['name', 'GraphicsGradient', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'addColorStop']), $.makeLiteralMap(['kind', 'method', 'name', 'getCanvasGradient']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GraphicsGradient.linear']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GraphicsGradient.radial'])]]), $.makeLiteralMap(['name', 'GraphicsPattern', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'getCanvasPattern']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GraphicsPattern.noRepeat']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GraphicsPattern.repeat']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GraphicsPattern.repeatX']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GraphicsPattern.repeatY'])]]), $.makeLiteralMap(['name', 'GridFitType', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'NONE']), $.makeLiteralMap(['kind', 'field', 'name', 'PIXEL']), $.makeLiteralMap(['kind', 'field', 'name', 'SUBPIXEL'])]]), $.makeLiteralMap(['name', 'InteractiveObject', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'doubleClickEnabled']), $.makeLiteralMap(['kind', 'field', 'name', 'mouseEnabled']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'on']), $.makeLiteralMap(['kind', 'field', 'name', 'tabEnabled']), $.makeLiteralMap(['kind', 'field', 'name', 'tabIndex'])]]), $.makeLiteralMap(['name', 'InteractiveObjectEvents', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'InteractiveObjectEvents']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseClick']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseDoubleClick']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseDown']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseMiddleClick']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseMiddleDown']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseMiddleUp']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseMove']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseOut']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseOver']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseRightClick']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseRightDown']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseRightUp']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseUp']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseWheel'])]]), $.makeLiteralMap(['name', 'JointStyle', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'BEVEL']), $.makeLiteralMap(['kind', 'field', 'name', 'MITER']), $.makeLiteralMap(['kind', 'field', 'name', 'ROUND'])]]), $.makeLiteralMap(['name', 'Juggler', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'add']), $.makeLiteralMap(['kind', 'method', 'name', 'advanceTime']), $.makeLiteralMap(['kind', 'method', 'name', 'delayCall']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'elapsedTime']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Juggler']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'purge']), $.makeLiteralMap(['kind', 'method', 'name', 'remove']), $.makeLiteralMap(['kind', 'method', 'name', 'removeTweens'])]]), $.makeLiteralMap(['name', 'KeyboardEvent', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'altKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'charCode']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'commandKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'controlKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'ctrlKey']), $.makeLiteralMap(['kind', 'field', 'name', 'KEY_DOWN']), $.makeLiteralMap(['kind', 'field', 'name', 'KEY_UP']), $.makeLiteralMap(['kind', 'constructor', 'name', 'KeyboardEvent']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'keyCode']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'keyLocation']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'shiftKey'])]]), $.makeLiteralMap(['name', 'KeyLocation', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'D_PAD']), $.makeLiteralMap(['kind', 'field', 'name', 'LEFT']), $.makeLiteralMap(['kind', 'field', 'name', 'NUM_PAD']), $.makeLiteralMap(['kind', 'field', 'name', 'RIGHT']), $.makeLiteralMap(['kind', 'field', 'name', 'STANDARD'])]]), $.makeLiteralMap(['name', 'Mask', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'Mask.circle']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Mask.custom']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Mask.rectangle']), $.makeLiteralMap(['kind', 'method', 'name', 'render'])]]), $.makeLiteralMap(['name', 'Matrix', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'a']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'b']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'c']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'cloneInvert']), $.makeLiteralMap(['kind', 'method', 'name', 'concat']), $.makeLiteralMap(['kind', 'method', 'name', 'copyFrom']), $.makeLiteralMap(['kind', 'method', 'name', 'copyFromAndConcat']), $.makeLiteralMap(['kind', 'method', 'name', 'copyFromAndInvert']), $.makeLiteralMap(['kind', 'method', 'name', 'createBox']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'd']), $.makeLiteralMap(['kind', 'method', 'name', 'deltaTransformPoint']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'det']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'identity']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'invert']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Matrix']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Matrix.fromIdentity']), $.makeLiteralMap(['kind', 'method', 'name', 'rotate']), $.makeLiteralMap(['kind', 'method', 'name', 'scale']), $.makeLiteralMap(['kind', 'method', 'name', 'setTo']), $.makeLiteralMap(['kind', 'method', 'name', 'skew']), $.makeLiteralMap(['kind', 'method', 'name', 'transformPoint']), $.makeLiteralMap(['kind', 'method', 'name', 'translate']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'tx']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'ty'])]]), $.makeLiteralMap(['name', 'MockSound', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'length']), $.makeLiteralMap(['kind', 'method', 'name', 'loadAudio']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'MockSound']), $.makeLiteralMap(['kind', 'method', 'name', 'play'])]]), $.makeLiteralMap(['name', 'MockSoundChannel', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'MockSoundChannel']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'soundTransform']), $.makeLiteralMap(['kind', 'setter', 'name', 'soundTransform', 'link_name', 'soundTransform=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stop'])]]), $.makeLiteralMap(['name', 'Mouse', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'cursor']), $.makeLiteralMap(['kind', 'setter', 'name', 'cursor', 'link_name', 'cursor=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'hide']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'show'])]]), $.makeLiteralMap(['name', 'MouseCursor', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'ARROW']), $.makeLiteralMap(['kind', 'field', 'name', 'AUTO']), $.makeLiteralMap(['kind', 'field', 'name', 'BUTTON']), $.makeLiteralMap(['kind', 'field', 'name', 'HAND']), $.makeLiteralMap(['kind', 'field', 'name', 'IBEAM']), $.makeLiteralMap(['kind', 'field', 'name', 'WAIT'])]]), $.makeLiteralMap(['name', 'MouseEvent', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'altKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'buttonDown']), $.makeLiteralMap(['kind', 'field', 'name', 'CLICK']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'clickCount']), $.makeLiteralMap(['kind', 'field', 'name', 'CONTEXT_MENU']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'controlKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'ctrlKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'deltaX']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'deltaY']), $.makeLiteralMap(['kind', 'field', 'name', 'DOUBLE_CLICK']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'isRelatedObjectInaccessible']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'localX']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'localY']), $.makeLiteralMap(['kind', 'field', 'name', 'MIDDLE_CLICK']), $.makeLiteralMap(['kind', 'field', 'name', 'MIDDLE_MOUSE_DOWN']), $.makeLiteralMap(['kind', 'field', 'name', 'MIDDLE_MOUSE_UP']), $.makeLiteralMap(['kind', 'field', 'name', 'MOUSE_DOWN']), $.makeLiteralMap(['kind', 'field', 'name', 'MOUSE_MOVE']), $.makeLiteralMap(['kind', 'field', 'name', 'MOUSE_OUT']), $.makeLiteralMap(['kind', 'field', 'name', 'MOUSE_OVER']), $.makeLiteralMap(['kind', 'field', 'name', 'MOUSE_UP']), $.makeLiteralMap(['kind', 'field', 'name', 'MOUSE_WHEEL']), $.makeLiteralMap(['kind', 'constructor', 'name', 'MouseEvent']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'relatedObject']), $.makeLiteralMap(['kind', 'field', 'name', 'RIGHT_CLICK']), $.makeLiteralMap(['kind', 'field', 'name', 'RIGHT_MOUSE_DOWN']), $.makeLiteralMap(['kind', 'field', 'name', 'RIGHT_MOUSE_UP']), $.makeLiteralMap(['kind', 'field', 'name', 'ROLL_OUT']), $.makeLiteralMap(['kind', 'field', 'name', 'ROLL_OVER']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'shiftKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'stageX']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'stageY'])]]), $.makeLiteralMap(['name', 'MovieClip', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'advanceTime']), $.makeLiteralMap(['kind', 'field', 'name', 'clipRectangle']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'currentFrame']), $.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'method', 'name', 'gotoAndPlay']), $.makeLiteralMap(['kind', 'method', 'name', 'gotoAndStop']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'loop']), $.makeLiteralMap(['kind', 'setter', 'name', 'loop', 'link_name', 'loop=']), $.makeLiteralMap(['kind', 'constructor', 'name', 'MovieClip']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'nextFrame']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'play']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'playing']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'prevFrame']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stop']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'totalFrames'])]]), $.makeLiteralMap(['name', 'ParticleSystem', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'advanceTime']), $.makeLiteralMap(['kind', 'field', 'name', 'emitAngle']), $.makeLiteralMap(['kind', 'field', 'name', 'emitAngleVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'EMITTER_TYPE_GRAVITY']), $.makeLiteralMap(['kind', 'field', 'name', 'EMITTER_TYPE_RADIAL']), $.makeLiteralMap(['kind', 'field', 'name', 'emitterType']), $.makeLiteralMap(['kind', 'field', 'name', 'emitterX']), $.makeLiteralMap(['kind', 'field', 'name', 'emitterXVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'emitterY']), $.makeLiteralMap(['kind', 'field', 'name', 'emitterYVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'endColor']), $.makeLiteralMap(['kind', 'field', 'name', 'endSize']), $.makeLiteralMap(['kind', 'field', 'name', 'endSizeVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'gravityX']), $.makeLiteralMap(['kind', 'field', 'name', 'gravityY']), $.makeLiteralMap(['kind', 'field', 'name', 'lifespan']), $.makeLiteralMap(['kind', 'field', 'name', 'lifespanVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'maxNumParticles']), $.makeLiteralMap(['kind', 'field', 'name', 'maxRadius']), $.makeLiteralMap(['kind', 'field', 'name', 'maxRadiusVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'minRadius']), $.makeLiteralMap(['kind', 'constructor', 'name', 'ParticleSystem']), $.makeLiteralMap(['kind', 'field', 'name', 'radialAcceleration']), $.makeLiteralMap(['kind', 'field', 'name', 'radialAccelerationVariance']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'field', 'name', 'rotatePerSecond']), $.makeLiteralMap(['kind', 'field', 'name', 'rotatePerSecondVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'speed']), $.makeLiteralMap(['kind', 'field', 'name', 'speedVariance']), $.makeLiteralMap(['kind', 'method', 'name', 'start']), $.makeLiteralMap(['kind', 'field', 'name', 'startColor']), $.makeLiteralMap(['kind', 'field', 'name', 'startSize']), $.makeLiteralMap(['kind', 'field', 'name', 'startSizeVariance']), $.makeLiteralMap(['kind', 'method', 'name', 'stop']), $.makeLiteralMap(['kind', 'field', 'name', 'tangentialAcceleration']), $.makeLiteralMap(['kind', 'field', 'name', 'tangentialAccelerationVariance'])]]), $.makeLiteralMap(['name', 'PixelSnapping', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'ALWAYS']), $.makeLiteralMap(['kind', 'field', 'name', 'AUTO']), $.makeLiteralMap(['kind', 'field', 'name', 'NEVER'])]]), $.makeLiteralMap(['name', 'Point', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'add']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'method', 'name', 'copyFrom']), $.makeLiteralMap(['kind', 'method', 'name', 'copyFromAndTransfrom']), $.makeLiteralMap(['kind', 'method', 'name', 'distance']), $.makeLiteralMap(['kind', 'method', 'name', 'distanceTo']), $.makeLiteralMap(['kind', 'method', 'name', 'equals']), $.makeLiteralMap(['kind', 'method', 'name', 'interpolate']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'length']), $.makeLiteralMap(['kind', 'method', 'name', 'normalize']), $.makeLiteralMap(['kind', 'method', 'name', 'offset']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Point']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Point.from']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Point.zero']), $.makeLiteralMap(['kind', 'method', 'name', 'polar']), $.makeLiteralMap(['kind', 'method', 'name', 'setTo']), $.makeLiteralMap(['kind', 'method', 'name', 'subtract']), $.makeLiteralMap(['kind', 'method', 'name', 'transform']), $.makeLiteralMap(['kind', 'field', 'name', 'x']), $.makeLiteralMap(['kind', 'field', 'name', 'y'])]]), $.makeLiteralMap(['name', 'Rectangle', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'bottom']), $.makeLiteralMap(['kind', 'setter', 'name', 'bottom', 'link_name', 'bottom=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'bottomRight']), $.makeLiteralMap(['kind', 'setter', 'name', 'bottomRight', 'link_name', 'bottomRight=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'method', 'name', 'contains']), $.makeLiteralMap(['kind', 'method', 'name', 'containsPoint']), $.makeLiteralMap(['kind', 'method', 'name', 'containsRect']), $.makeLiteralMap(['kind', 'method', 'name', 'copyFrom']), $.makeLiteralMap(['kind', 'method', 'name', 'equals']), $.makeLiteralMap(['kind', 'field', 'name', 'height']), $.makeLiteralMap(['kind', 'method', 'name', 'inflate']), $.makeLiteralMap(['kind', 'method', 'name', 'inflatePoint']), $.makeLiteralMap(['kind', 'method', 'name', 'intersection']), $.makeLiteralMap(['kind', 'method', 'name', 'intersects']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'isEmpty']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'left']), $.makeLiteralMap(['kind', 'setter', 'name', 'left', 'link_name', 'left=']), $.makeLiteralMap(['kind', 'method', 'name', 'offset']), $.makeLiteralMap(['kind', 'method', 'name', 'offsetPoint']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Rectangle']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Rectangle.from']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Rectangle.zero']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'right']), $.makeLiteralMap(['kind', 'setter', 'name', 'right', 'link_name', 'right=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'setEmpty']), $.makeLiteralMap(['kind', 'method', 'name', 'setTo']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'size']), $.makeLiteralMap(['kind', 'setter', 'name', 'size', 'link_name', 'size=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'top']), $.makeLiteralMap(['kind', 'setter', 'name', 'top', 'link_name', 'top=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'topLeft']), $.makeLiteralMap(['kind', 'setter', 'name', 'topLeft', 'link_name', 'topLeft=']), $.makeLiteralMap(['kind', 'method', 'name', 'union']), $.makeLiteralMap(['kind', 'field', 'name', 'width']), $.makeLiteralMap(['kind', 'field', 'name', 'x']), $.makeLiteralMap(['kind', 'field', 'name', 'y'])]]), $.makeLiteralMap(['name', 'RenderLoop', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'addStage']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'juggler']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'RenderLoop'])]]), $.makeLiteralMap(['name', 'RenderState', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'context']), $.makeLiteralMap(['kind', 'method', 'name', 'renderDisplayObject']), $.makeLiteralMap(['kind', 'constructor', 'name', 'RenderState.fromCanvasRenderingContext2D']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'reset'])]]), $.makeLiteralMap(['name', 'Resource', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'addImage']), $.makeLiteralMap(['kind', 'method', 'name', 'addSound']), $.makeLiteralMap(['kind', 'method', 'name', 'addText']), $.makeLiteralMap(['kind', 'method', 'name', 'addTextureAtlas']), $.makeLiteralMap(['kind', 'method', 'name', 'getBitmapData']), $.makeLiteralMap(['kind', 'method', 'name', 'getSound']), $.makeLiteralMap(['kind', 'method', 'name', 'getText']), $.makeLiteralMap(['kind', 'method', 'name', 'getTextureAtlas']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'load']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Resource'])]]), $.makeLiteralMap(['name', 'Shape', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'graphics']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Shape'])]]), $.makeLiteralMap(['name', 'SimpleButton', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'downState']), $.makeLiteralMap(['kind', 'field', 'name', 'enabled']), $.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'field', 'name', 'hitTestState']), $.makeLiteralMap(['kind', 'field', 'name', 'overState']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'constructor', 'name', 'SimpleButton']), $.makeLiteralMap(['kind', 'field', 'name', 'upState']), $.makeLiteralMap(['kind', 'field', 'name', 'useHandCursor'])]]), $.makeLiteralMap(['name', 'Sound', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'adaptAudioUrl']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'length']), $.makeLiteralMap(['kind', 'method', 'name', 'loadAudio']), $.makeLiteralMap(['kind', 'method', 'name', 'play'])]]), $.makeLiteralMap(['name', 'SoundChannel', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'soundTransform']), $.makeLiteralMap(['kind', 'setter', 'name', 'soundTransform', 'link_name', 'soundTransform=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stop'])]]), $.makeLiteralMap(['name', 'SoundMixer', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'engine']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'soundTransform']), $.makeLiteralMap(['kind', 'setter', 'name', 'soundTransform', 'link_name', 'soundTransform='])]]), $.makeLiteralMap(['name', 'SoundTransform', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'leftToLeft']), $.makeLiteralMap(['kind', 'field', 'name', 'leftToRight']), $.makeLiteralMap(['kind', 'field', 'name', 'pan']), $.makeLiteralMap(['kind', 'field', 'name', 'rightToLeft']), $.makeLiteralMap(['kind', 'field', 'name', 'rightToRight']), $.makeLiteralMap(['kind', 'constructor', 'name', 'SoundTransform']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'SoundTransform.mute']), $.makeLiteralMap(['kind', 'field', 'name', 'volume'])]]), $.makeLiteralMap(['name', 'Sprite', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'buttonMode']), $.makeLiteralMap(['kind', 'field', 'name', 'useHandCursor'])]]), $.makeLiteralMap(['name', 'Stage', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'setter', 'name', 'alpha', 'link_name', 'alpha=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'focus']), $.makeLiteralMap(['kind', 'setter', 'name', 'focus', 'link_name', 'focus=']), $.makeLiteralMap(['kind', 'setter', 'name', 'height', 'link_name', 'height=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'materialize']), $.makeLiteralMap(['kind', 'setter', 'name', 'pivotX', 'link_name', 'pivotX=']), $.makeLiteralMap(['kind', 'setter', 'name', 'pivotY', 'link_name', 'pivotY=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'renderMode']), $.makeLiteralMap(['kind', 'setter', 'name', 'renderMode', 'link_name', 'renderMode=']), $.makeLiteralMap(['kind', 'setter', 'name', 'rotation', 'link_name', 'rotation=']), $.makeLiteralMap(['kind', 'setter', 'name', 'scaleX', 'link_name', 'scaleX=']), $.makeLiteralMap(['kind', 'setter', 'name', 'scaleY', 'link_name', 'scaleY=']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Stage']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stageHeight']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stageWidth']), $.makeLiteralMap(['kind', 'setter', 'name', 'width', 'link_name', 'width=']), $.makeLiteralMap(['kind', 'setter', 'name', 'x', 'link_name', 'x=']), $.makeLiteralMap(['kind', 'setter', 'name', 'y', 'link_name', 'y='])]]), $.makeLiteralMap(['name', 'StageRenderMode', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'AUTO']), $.makeLiteralMap(['kind', 'field', 'name', 'ONCE']), $.makeLiteralMap(['kind', 'field', 'name', 'STOP'])]]), $.makeLiteralMap(['name', 'TextEvent', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'LINK']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'text']), $.makeLiteralMap(['kind', 'field', 'name', 'TEXT_INPUT']), $.makeLiteralMap(['kind', 'constructor', 'name', 'TextEvent'])]]), $.makeLiteralMap(['name', 'TextField', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'autoSize']), $.makeLiteralMap(['kind', 'setter', 'name', 'autoSize', 'link_name', 'autoSize=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'background']), $.makeLiteralMap(['kind', 'setter', 'name', 'background', 'link_name', 'background=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'backgroundColor']), $.makeLiteralMap(['kind', 'setter', 'name', 'backgroundColor', 'link_name', 'backgroundColor=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'border']), $.makeLiteralMap(['kind', 'setter', 'name', 'border', 'link_name', 'border=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'borderColor']), $.makeLiteralMap(['kind', 'setter', 'name', 'borderColor', 'link_name', 'borderColor=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'defaultTextFormat']), $.makeLiteralMap(['kind', 'setter', 'name', 'defaultTextFormat', 'link_name', 'defaultTextFormat=']), $.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'method', 'name', 'getLineLength']), $.makeLiteralMap(['kind', 'method', 'name', 'getLineMetrics']), $.makeLiteralMap(['kind', 'method', 'name', 'getLineText']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'gridFitType']), $.makeLiteralMap(['kind', 'setter', 'name', 'gridFitType', 'link_name', 'gridFitType=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'height']), $.makeLiteralMap(['kind', 'setter', 'name', 'height', 'link_name', 'height=']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'numLines']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'text']), $.makeLiteralMap(['kind', 'setter', 'name', 'text', 'link_name', 'text=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'textColor']), $.makeLiteralMap(['kind', 'setter', 'name', 'textColor', 'link_name', 'textColor=']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'TextField']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'textHeight']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'textWidth']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'type']), $.makeLiteralMap(['kind', 'setter', 'name', 'type', 'link_name', 'type=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'width']), $.makeLiteralMap(['kind', 'setter', 'name', 'width', 'link_name', 'width=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'wordWrap']), $.makeLiteralMap(['kind', 'setter', 'name', 'wordWrap', 'link_name', 'wordWrap='])]]), $.makeLiteralMap(['name', 'TextFieldAutoSize', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'CENTER']), $.makeLiteralMap(['kind', 'field', 'name', 'LEFT']), $.makeLiteralMap(['kind', 'field', 'name', 'NONE']), $.makeLiteralMap(['kind', 'field', 'name', 'RIGHT'])]]), $.makeLiteralMap(['name', 'TextFieldType', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'DYNAMIC']), $.makeLiteralMap(['kind', 'field', 'name', 'INPUT'])]]), $.makeLiteralMap(['name', 'TextFormat', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'align']), $.makeLiteralMap(['kind', 'field', 'name', 'blockIndent']), $.makeLiteralMap(['kind', 'field', 'name', 'bold']), $.makeLiteralMap(['kind', 'field', 'name', 'bullet']), $.makeLiteralMap(['kind', 'field', 'name', 'color']), $.makeLiteralMap(['kind', 'field', 'name', 'font']), $.makeLiteralMap(['kind', 'field', 'name', 'indent']), $.makeLiteralMap(['kind', 'field', 'name', 'italic']), $.makeLiteralMap(['kind', 'field', 'name', 'kerning']), $.makeLiteralMap(['kind', 'field', 'name', 'leading']), $.makeLiteralMap(['kind', 'field', 'name', 'leftMargin']), $.makeLiteralMap(['kind', 'field', 'name', 'letterSpacing']), $.makeLiteralMap(['kind', 'field', 'name', 'rightMargin']), $.makeLiteralMap(['kind', 'field', 'name', 'size']), $.makeLiteralMap(['kind', 'constructor', 'name', 'TextFormat']), $.makeLiteralMap(['kind', 'field', 'name', 'underline'])]]), $.makeLiteralMap(['name', 'TextFormatAlign', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'CENTER']), $.makeLiteralMap(['kind', 'field', 'name', 'END']), $.makeLiteralMap(['kind', 'field', 'name', 'JUSTIFY']), $.makeLiteralMap(['kind', 'field', 'name', 'LEFT']), $.makeLiteralMap(['kind', 'field', 'name', 'RIGHT']), $.makeLiteralMap(['kind', 'field', 'name', 'START'])]]), $.makeLiteralMap(['name', 'TextLineMetrics', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'ascent']), $.makeLiteralMap(['kind', 'field', 'name', 'descent']), $.makeLiteralMap(['kind', 'field', 'name', 'height']), $.makeLiteralMap(['kind', 'field', 'name', 'leading']), $.makeLiteralMap(['kind', 'constructor', 'name', 'TextLineMetrics']), $.makeLiteralMap(['kind', 'field', 'name', 'width']), $.makeLiteralMap(['kind', 'field', 'name', 'x'])]]), $.makeLiteralMap(['name', 'TextureAtlas', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'frameNames']), $.makeLiteralMap(['kind', 'method', 'name', 'getBitmapData']), $.makeLiteralMap(['kind', 'method', 'name', 'getBitmapDatas']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'imageElement']), $.makeLiteralMap(['kind', 'method', 'name', 'load']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'TextureAtlas'])]]), $.makeLiteralMap(['name', 'TextureAtlasFormat', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'JSON']), $.makeLiteralMap(['kind', 'field', 'name', 'JSONARRAY'])]]), $.makeLiteralMap(['name', 'TextureAtlasFrame', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'frameHeight']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'frameWidth']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'frameX']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'frameY']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'name']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'offsetX']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'offsetY']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'originalHeight']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'originalWidth']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'rotated']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'textureAtlas']), $.makeLiteralMap(['kind', 'constructor', 'name', 'TextureAtlasFrame'])]]), $.makeLiteralMap(['name', 'TransitionFunction', 'kind', 'typedef']), $.makeLiteralMap(['name', 'Transitions', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'cosine']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInBack']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInBounce']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInCircular']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInCubic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInElastic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInExponential']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutBack']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutBounce']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutCircular']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutCubic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutElastic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutExponential']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutQuadratic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutQuartic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutQuintic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutSine']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInQuadratic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInQuartic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInQuintic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInSine']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutBack']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutBounce']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutCircular']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutCubic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutElastic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutExponential']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInBack']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInBounce']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInCircular']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInCubic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInElastic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInExponential']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInQuadratic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInQuartic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInQuintic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInSine']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutQuadratic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutQuartic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutQuintic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutSine']), $.makeLiteralMap(['kind', 'method', 'name', 'linear']), $.makeLiteralMap(['kind', 'method', 'name', 'random']), $.makeLiteralMap(['kind', 'method', 'name', 'sine'])]]), $.makeLiteralMap(['name', 'Tween', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'advanceTime']), $.makeLiteralMap(['kind', 'method', 'name', 'animate']), $.makeLiteralMap(['kind', 'method', 'name', 'animateValue']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'complete']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'currentTime']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'delay']), $.makeLiteralMap(['kind', 'setter', 'name', 'delay', 'link_name', 'delay=']), $.makeLiteralMap(['kind', 'method', 'name', 'fadeTo']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'isComplete']), $.makeLiteralMap(['kind', 'method', 'name', 'moveTo']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'onComplete']), $.makeLiteralMap(['kind', 'setter', 'name', 'onComplete', 'link_name', 'onComplete=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'onStart']), $.makeLiteralMap(['kind', 'setter', 'name', 'onStart', 'link_name', 'onStart=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'onUpdate']), $.makeLiteralMap(['kind', 'setter', 'name', 'onUpdate', 'link_name', 'onUpdate=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'roundToInt']), $.makeLiteralMap(['kind', 'setter', 'name', 'roundToInt', 'link_name', 'roundToInt=']), $.makeLiteralMap(['kind', 'method', 'name', 'scaleTo']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'target']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'totalTime']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Tween'])]]), $.makeLiteralMap(['name', 'TweenFunction', 'kind', 'typedef']), $.makeLiteralMap(['name', 'Warp', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'matrix']), $.makeLiteralMap(['kind', 'setter', 'name', 'matrix', 'link_name', 'matrix=']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Warp'])]]), $.makeLiteralMap(['name', 'WebAudioApiSound', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'length']), $.makeLiteralMap(['kind', 'method', 'name', 'loadAudio']), $.makeLiteralMap(['kind', 'method', 'name', 'play']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'WebAudioApiSound'])]]), $.makeLiteralMap(['name', 'WebAudioApiSoundChannel', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'soundTransform']), $.makeLiteralMap(['kind', 'setter', 'name', 'soundTransform', 'link_name', 'soundTransform=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stop']), $.makeLiteralMap(['kind', 'constructor', 'name', 'WebAudioApiSoundChannel'])]])]])];
+  return [$.makeLiteralMap(['name', 'dartflash', 'types', [$.makeLiteralMap(['name', 'Animatable', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'advanceTime'])]]), $.makeLiteralMap(['name', 'AudioElementSound', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'AudioElementSound']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'length']), $.makeLiteralMap(['kind', 'method', 'name', 'loadAudio']), $.makeLiteralMap(['kind', 'method', 'name', 'play'])]]), $.makeLiteralMap(['name', 'AudioElementSoundChannel', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'AudioElementSoundChannel']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'soundTransform']), $.makeLiteralMap(['kind', 'setter', 'name', 'soundTransform', 'link_name', 'soundTransform=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stop'])]]), $.makeLiteralMap(['name', 'Bitmap', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'Bitmap']), $.makeLiteralMap(['kind', 'field', 'name', 'bitmapData']), $.makeLiteralMap(['kind', 'field', 'name', 'clipRectangle']), $.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'field', 'name', 'pixelSnapping']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'field', 'name', 'smoothing'])]]), $.makeLiteralMap(['name', 'BitmapData', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'applyFilter']), $.makeLiteralMap(['kind', 'constructor', 'name', 'BitmapData']), $.makeLiteralMap(['kind', 'constructor', 'name', 'BitmapData.fromImageElement']), $.makeLiteralMap(['kind', 'constructor', 'name', 'BitmapData.fromTextureAtlasFrame']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'method', 'name', 'colorTransform']), $.makeLiteralMap(['kind', 'method', 'name', 'copyPixels']), $.makeLiteralMap(['kind', 'method', 'name', 'draw']), $.makeLiteralMap(['kind', 'method', 'name', 'fillRect']), $.makeLiteralMap(['kind', 'method', 'name', 'getPixel']), $.makeLiteralMap(['kind', 'method', 'name', 'getPixel32']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'height']), $.makeLiteralMap(['kind', 'method', 'name', 'loadImage']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'method', 'name', 'renderClipped']), $.makeLiteralMap(['kind', 'method', 'name', 'setPixel']), $.makeLiteralMap(['kind', 'method', 'name', 'setPixel32']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'width'])]]), $.makeLiteralMap(['name', 'BitmapDrawable', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'render'])]]), $.makeLiteralMap(['name', 'BitmapFilter', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'apply']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone'])]]), $.makeLiteralMap(['name', 'BlurFilter', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'apply']), $.makeLiteralMap(['kind', 'constructor', 'name', 'BlurFilter']), $.makeLiteralMap(['kind', 'field', 'name', 'blurX']), $.makeLiteralMap(['kind', 'field', 'name', 'blurY']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone'])]]), $.makeLiteralMap(['name', 'CapsStyle', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'BUTT']), $.makeLiteralMap(['kind', 'field', 'name', 'ROUND']), $.makeLiteralMap(['kind', 'field', 'name', 'SQUARE'])]]), $.makeLiteralMap(['name', 'Circle', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'Circle']), $.makeLiteralMap(['kind', 'field', 'name', 'radius']), $.makeLiteralMap(['kind', 'field', 'name', 'x']), $.makeLiteralMap(['kind', 'field', 'name', 'y'])]]), $.makeLiteralMap(['name', 'Color', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'AliceBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'AntiqueWhite']), $.makeLiteralMap(['kind', 'field', 'name', 'Aqua']), $.makeLiteralMap(['kind', 'field', 'name', 'Aquamarine']), $.makeLiteralMap(['kind', 'field', 'name', 'Azure']), $.makeLiteralMap(['kind', 'field', 'name', 'Beige']), $.makeLiteralMap(['kind', 'field', 'name', 'Bisque']), $.makeLiteralMap(['kind', 'field', 'name', 'Black']), $.makeLiteralMap(['kind', 'field', 'name', 'BlanchedAlmond']), $.makeLiteralMap(['kind', 'field', 'name', 'Blue']), $.makeLiteralMap(['kind', 'field', 'name', 'BlueViolet']), $.makeLiteralMap(['kind', 'field', 'name', 'Brown']), $.makeLiteralMap(['kind', 'field', 'name', 'BurlyWood']), $.makeLiteralMap(['kind', 'field', 'name', 'CadetBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'Chartreuse']), $.makeLiteralMap(['kind', 'field', 'name', 'Chocolate']), $.makeLiteralMap(['kind', 'field', 'name', 'Coral']), $.makeLiteralMap(['kind', 'field', 'name', 'CornflowerBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'Cornsilk']), $.makeLiteralMap(['kind', 'field', 'name', 'Crimson']), $.makeLiteralMap(['kind', 'field', 'name', 'Cyan']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkCyan']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkGoldenrod']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkGray']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkKhaki']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkMagenta']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkOliveGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkOrange']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkOrchid']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkRed']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkSalmon']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkSeaGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkSlateBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkSlateGray']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkTurquoise']), $.makeLiteralMap(['kind', 'field', 'name', 'DarkViolet']), $.makeLiteralMap(['kind', 'field', 'name', 'DeepPink']), $.makeLiteralMap(['kind', 'field', 'name', 'DeepSkyBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'DimGray']), $.makeLiteralMap(['kind', 'field', 'name', 'DodgerBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'Firebrick']), $.makeLiteralMap(['kind', 'field', 'name', 'FloralWhite']), $.makeLiteralMap(['kind', 'field', 'name', 'ForestGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'Fuchsia']), $.makeLiteralMap(['kind', 'field', 'name', 'Gainsboro']), $.makeLiteralMap(['kind', 'field', 'name', 'GhostWhite']), $.makeLiteralMap(['kind', 'field', 'name', 'Gold']), $.makeLiteralMap(['kind', 'field', 'name', 'Goldenrod']), $.makeLiteralMap(['kind', 'field', 'name', 'Gray']), $.makeLiteralMap(['kind', 'field', 'name', 'Green']), $.makeLiteralMap(['kind', 'field', 'name', 'GreenYellow']), $.makeLiteralMap(['kind', 'field', 'name', 'Honeydew']), $.makeLiteralMap(['kind', 'field', 'name', 'HotPink']), $.makeLiteralMap(['kind', 'field', 'name', 'IndianRed']), $.makeLiteralMap(['kind', 'field', 'name', 'Indigo']), $.makeLiteralMap(['kind', 'field', 'name', 'Ivory']), $.makeLiteralMap(['kind', 'field', 'name', 'Khaki']), $.makeLiteralMap(['kind', 'field', 'name', 'Lavender']), $.makeLiteralMap(['kind', 'field', 'name', 'LavenderBlush']), $.makeLiteralMap(['kind', 'field', 'name', 'LawnGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'LemonChiffon']), $.makeLiteralMap(['kind', 'field', 'name', 'LightBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'LightCoral']), $.makeLiteralMap(['kind', 'field', 'name', 'LightCyan']), $.makeLiteralMap(['kind', 'field', 'name', 'LightGoldenrodYellow']), $.makeLiteralMap(['kind', 'field', 'name', 'LightGray']), $.makeLiteralMap(['kind', 'field', 'name', 'LightGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'LightPink']), $.makeLiteralMap(['kind', 'field', 'name', 'LightSalmon']), $.makeLiteralMap(['kind', 'field', 'name', 'LightSeaGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'LightSkyBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'LightSlateGray']), $.makeLiteralMap(['kind', 'field', 'name', 'LightSteelBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'LightYellow']), $.makeLiteralMap(['kind', 'field', 'name', 'Lime']), $.makeLiteralMap(['kind', 'field', 'name', 'LimeGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'Linen']), $.makeLiteralMap(['kind', 'field', 'name', 'Magenta']), $.makeLiteralMap(['kind', 'field', 'name', 'Maroon']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumAquamarine']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumOrchid']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumPurple']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumSeaGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumSlateBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumSpringGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumTurquoise']), $.makeLiteralMap(['kind', 'field', 'name', 'MediumVioletRed']), $.makeLiteralMap(['kind', 'field', 'name', 'MidnightBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'MintCream']), $.makeLiteralMap(['kind', 'field', 'name', 'MistyRose']), $.makeLiteralMap(['kind', 'field', 'name', 'Moccasin']), $.makeLiteralMap(['kind', 'field', 'name', 'NavajoWhite']), $.makeLiteralMap(['kind', 'field', 'name', 'Navy']), $.makeLiteralMap(['kind', 'field', 'name', 'OldLace']), $.makeLiteralMap(['kind', 'field', 'name', 'Olive']), $.makeLiteralMap(['kind', 'field', 'name', 'OliveDrab']), $.makeLiteralMap(['kind', 'field', 'name', 'Orange']), $.makeLiteralMap(['kind', 'field', 'name', 'OrangeRed']), $.makeLiteralMap(['kind', 'field', 'name', 'Orchid']), $.makeLiteralMap(['kind', 'field', 'name', 'PaleGoldenrod']), $.makeLiteralMap(['kind', 'field', 'name', 'PaleGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'PaleTurquoise']), $.makeLiteralMap(['kind', 'field', 'name', 'PaleVioletRed']), $.makeLiteralMap(['kind', 'field', 'name', 'PapayaWhip']), $.makeLiteralMap(['kind', 'field', 'name', 'PeachPuff']), $.makeLiteralMap(['kind', 'field', 'name', 'Peru']), $.makeLiteralMap(['kind', 'field', 'name', 'Pink']), $.makeLiteralMap(['kind', 'field', 'name', 'Plum']), $.makeLiteralMap(['kind', 'field', 'name', 'PowderBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'Purple']), $.makeLiteralMap(['kind', 'field', 'name', 'Red']), $.makeLiteralMap(['kind', 'field', 'name', 'RosyBrown']), $.makeLiteralMap(['kind', 'field', 'name', 'RoyalBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'SaddleBrown']), $.makeLiteralMap(['kind', 'field', 'name', 'Salmon']), $.makeLiteralMap(['kind', 'field', 'name', 'SandyBrown']), $.makeLiteralMap(['kind', 'field', 'name', 'SeaGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'SeaShell']), $.makeLiteralMap(['kind', 'field', 'name', 'Sienna']), $.makeLiteralMap(['kind', 'field', 'name', 'Silver']), $.makeLiteralMap(['kind', 'field', 'name', 'SkyBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'SlateBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'SlateGray']), $.makeLiteralMap(['kind', 'field', 'name', 'Snow']), $.makeLiteralMap(['kind', 'field', 'name', 'SpringGreen']), $.makeLiteralMap(['kind', 'field', 'name', 'SteelBlue']), $.makeLiteralMap(['kind', 'field', 'name', 'Tan']), $.makeLiteralMap(['kind', 'field', 'name', 'Teal']), $.makeLiteralMap(['kind', 'field', 'name', 'Thistle']), $.makeLiteralMap(['kind', 'field', 'name', 'Tomato']), $.makeLiteralMap(['kind', 'field', 'name', 'Transparent']), $.makeLiteralMap(['kind', 'field', 'name', 'Turquoise']), $.makeLiteralMap(['kind', 'field', 'name', 'Violet']), $.makeLiteralMap(['kind', 'field', 'name', 'Wheat']), $.makeLiteralMap(['kind', 'field', 'name', 'White']), $.makeLiteralMap(['kind', 'field', 'name', 'WhiteSmoke']), $.makeLiteralMap(['kind', 'field', 'name', 'Yellow']), $.makeLiteralMap(['kind', 'field', 'name', 'YellowGreen'])]]), $.makeLiteralMap(['name', 'ColorMatrixFilter', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'apply']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'constructor', 'name', 'ColorMatrixFilter']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'ColorMatrixFilter.grayscale']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'ColorMatrixFilter.invert']), $.makeLiteralMap(['kind', 'field', 'name', 'matrix'])]]), $.makeLiteralMap(['name', 'ColorTransform', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'alphaMultiplier']), $.makeLiteralMap(['kind', 'field', 'name', 'alphaOffset']), $.makeLiteralMap(['kind', 'field', 'name', 'blueMultiplier']), $.makeLiteralMap(['kind', 'field', 'name', 'blueOffset']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'color']), $.makeLiteralMap(['kind', 'setter', 'name', 'color', 'link_name', 'color=']), $.makeLiteralMap(['kind', 'constructor', 'name', 'ColorTransform']), $.makeLiteralMap(['kind', 'method', 'name', 'concat']), $.makeLiteralMap(['kind', 'field', 'name', 'greenMultiplier']), $.makeLiteralMap(['kind', 'field', 'name', 'greenOffset']), $.makeLiteralMap(['kind', 'field', 'name', 'redMultiplier']), $.makeLiteralMap(['kind', 'field', 'name', 'redOffset'])]]), $.makeLiteralMap(['name', 'DelayedCall', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'advanceTime']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'currentTime']), $.makeLiteralMap(['kind', 'constructor', 'name', 'DelayedCall']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'repeatCount']), $.makeLiteralMap(['kind', 'setter', 'name', 'repeatCount', 'link_name', 'repeatCount=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'totalTime'])]]), $.makeLiteralMap(['name', 'DisplayObject', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'alpha']), $.makeLiteralMap(['kind', 'setter', 'name', 'alpha', 'link_name', 'alpha=']), $.makeLiteralMap(['kind', 'method', 'name', 'dispatchEvent']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'DisplayObject']), $.makeLiteralMap(['kind', 'method', 'name', 'getBounds']), $.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'method', 'name', 'globalToLocal']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'height']), $.makeLiteralMap(['kind', 'setter', 'name', 'height', 'link_name', 'height=']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestObject']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestPoint']), $.makeLiteralMap(['kind', 'method', 'name', 'localToGlobal']), $.makeLiteralMap(['kind', 'field', 'name', 'mask']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'name']), $.makeLiteralMap(['kind', 'setter', 'name', 'name', 'link_name', 'name=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'on']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'parent']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'pivotX']), $.makeLiteralMap(['kind', 'setter', 'name', 'pivotX', 'link_name', 'pivotX=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'pivotY']), $.makeLiteralMap(['kind', 'setter', 'name', 'pivotY', 'link_name', 'pivotY=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'removeFromParent']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'root']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'rotation']), $.makeLiteralMap(['kind', 'setter', 'name', 'rotation', 'link_name', 'rotation=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'scaleX']), $.makeLiteralMap(['kind', 'setter', 'name', 'scaleX', 'link_name', 'scaleX=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'scaleY']), $.makeLiteralMap(['kind', 'setter', 'name', 'scaleY', 'link_name', 'scaleY=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'stage']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'transformationMatrix']), $.makeLiteralMap(['kind', 'method', 'name', 'transformationMatrixTo']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'visible']), $.makeLiteralMap(['kind', 'setter', 'name', 'visible', 'link_name', 'visible=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'width']), $.makeLiteralMap(['kind', 'setter', 'name', 'width', 'link_name', 'width=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'x']), $.makeLiteralMap(['kind', 'setter', 'name', 'x', 'link_name', 'x=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'y']), $.makeLiteralMap(['kind', 'setter', 'name', 'y', 'link_name', 'y='])]]), $.makeLiteralMap(['name', 'DisplayObjectContainer', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'addChild']), $.makeLiteralMap(['kind', 'method', 'name', 'addChildAt']), $.makeLiteralMap(['kind', 'method', 'name', 'contains']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'DisplayObjectContainer']), $.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'method', 'name', 'getChildAt']), $.makeLiteralMap(['kind', 'method', 'name', 'getChildByName']), $.makeLiteralMap(['kind', 'method', 'name', 'getChildIndex']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseChildren']), $.makeLiteralMap(['kind', 'setter', 'name', 'mouseChildren', 'link_name', 'mouseChildren=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'numChildren']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'on']), $.makeLiteralMap(['kind', 'method', 'name', 'removeChild']), $.makeLiteralMap(['kind', 'method', 'name', 'removeChildAt']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'method', 'name', 'setChildIndex']), $.makeLiteralMap(['kind', 'method', 'name', 'sortChildren']), $.makeLiteralMap(['kind', 'method', 'name', 'swapChildren']), $.makeLiteralMap(['kind', 'method', 'name', 'swapChildrenAt']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'tabChildren']), $.makeLiteralMap(['kind', 'setter', 'name', 'tabChildren', 'link_name', 'tabChildren='])]]), $.makeLiteralMap(['name', 'DisplayObjectContainerEvents', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'DisplayObjectContainerEvents'])]]), $.makeLiteralMap(['name', 'DisplayObjectEvents', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'added']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'addedToStage']), $.makeLiteralMap(['kind', 'constructor', 'name', 'DisplayObjectEvents']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'enterFrame']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'removed']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'removedFromStage'])]]), $.makeLiteralMap(['name', 'DropShadowFilter', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'alpha']), $.makeLiteralMap(['kind', 'field', 'name', 'angle']), $.makeLiteralMap(['kind', 'method', 'name', 'apply']), $.makeLiteralMap(['kind', 'field', 'name', 'blurX']), $.makeLiteralMap(['kind', 'field', 'name', 'blurY']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'field', 'name', 'color']), $.makeLiteralMap(['kind', 'field', 'name', 'distance']), $.makeLiteralMap(['kind', 'constructor', 'name', 'DropShadowFilter']), $.makeLiteralMap(['kind', 'field', 'name', 'hideObject']), $.makeLiteralMap(['kind', 'field', 'name', 'inner']), $.makeLiteralMap(['kind', 'field', 'name', 'knockout']), $.makeLiteralMap(['kind', 'field', 'name', 'strength'])]]), $.makeLiteralMap(['name', 'EnterFrameEvent', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'captures']), $.makeLiteralMap(['kind', 'constructor', 'name', 'EnterFrameEvent']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'passedTime'])]]), $.makeLiteralMap(['name', 'Event', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'ADDED']), $.makeLiteralMap(['kind', 'field', 'name', 'ADDED_TO_STAGE']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'bubbles']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'captures']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'currentTarget']), $.makeLiteralMap(['kind', 'field', 'name', 'ENTER_FRAME']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Event']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'eventPhase']), $.makeLiteralMap(['kind', 'field', 'name', 'REMOVED']), $.makeLiteralMap(['kind', 'field', 'name', 'REMOVED_FROM_STAGE']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stopImmediatePropagation']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stopPropagation']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'stopsImmediatePropagation']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'stopsPropagation']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'target']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'type'])]]), $.makeLiteralMap(['name', 'EventDispatcher', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'addEventListener']), $.makeLiteralMap(['kind', 'method', 'name', 'dispatchEvent']), $.makeLiteralMap(['kind', 'method', 'name', 'hasEventListener']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'on']), $.makeLiteralMap(['kind', 'method', 'name', 'removeEventListener'])]]), $.makeLiteralMap(['name', 'EventListener', 'kind', 'typedef']), $.makeLiteralMap(['name', 'EventListenerList', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'operator +', 'link_name', '+']), $.makeLiteralMap(['kind', 'method', 'name', 'operator -', 'link_name', '-']), $.makeLiteralMap(['kind', 'method', 'name', 'add']), $.makeLiteralMap(['kind', 'method', 'name', 'dispatchEvent']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'eventDispatcher']), $.makeLiteralMap(['kind', 'constructor', 'name', 'EventListenerList']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'eventType']), $.makeLiteralMap(['kind', 'method', 'name', 'remove'])]]), $.makeLiteralMap(['name', 'EventPhase', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'AT_TARGET']), $.makeLiteralMap(['kind', 'field', 'name', 'BUBBLING_PHASE']), $.makeLiteralMap(['kind', 'field', 'name', 'CAPTURING_PHASE'])]]), $.makeLiteralMap(['name', 'Events', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'operator []', 'link_name', '[]']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Events'])]]), $.makeLiteralMap(['name', 'GlassPlate', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GlassPlate']), $.makeLiteralMap(['kind', 'field', 'name', 'height']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'field', 'name', 'width'])]]), $.makeLiteralMap(['name', 'GlowFilter', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'alpha']), $.makeLiteralMap(['kind', 'method', 'name', 'apply']), $.makeLiteralMap(['kind', 'field', 'name', 'blurX']), $.makeLiteralMap(['kind', 'field', 'name', 'blurY']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'field', 'name', 'color']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GlowFilter']), $.makeLiteralMap(['kind', 'field', 'name', 'hideObject']), $.makeLiteralMap(['kind', 'field', 'name', 'inner']), $.makeLiteralMap(['kind', 'field', 'name', 'knockout']), $.makeLiteralMap(['kind', 'field', 'name', 'strength'])]]), $.makeLiteralMap(['name', 'Graphics', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'arc']), $.makeLiteralMap(['kind', 'method', 'name', 'arcTo']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'beginPath']), $.makeLiteralMap(['kind', 'method', 'name', 'bezierCurveTo']), $.makeLiteralMap(['kind', 'method', 'name', 'circle']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clear']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'closePath']), $.makeLiteralMap(['kind', 'method', 'name', 'ellipse']), $.makeLiteralMap(['kind', 'method', 'name', 'fillColor']), $.makeLiteralMap(['kind', 'method', 'name', 'fillGradient']), $.makeLiteralMap(['kind', 'method', 'name', 'fillPattern']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Graphics']), $.makeLiteralMap(['kind', 'method', 'name', 'lineTo']), $.makeLiteralMap(['kind', 'method', 'name', 'moveTo']), $.makeLiteralMap(['kind', 'method', 'name', 'quadraticCurveTo']), $.makeLiteralMap(['kind', 'method', 'name', 'rect']), $.makeLiteralMap(['kind', 'method', 'name', 'rectRound']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'method', 'name', 'strokeColor']), $.makeLiteralMap(['kind', 'method', 'name', 'strokeGradient']), $.makeLiteralMap(['kind', 'method', 'name', 'strokePattern'])]]), $.makeLiteralMap(['name', 'GraphicsGradient', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'addColorStop']), $.makeLiteralMap(['kind', 'method', 'name', 'getCanvasGradient']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GraphicsGradient.linear']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GraphicsGradient.radial'])]]), $.makeLiteralMap(['name', 'GraphicsPattern', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'getCanvasPattern']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GraphicsPattern.noRepeat']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GraphicsPattern.repeat']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GraphicsPattern.repeatX']), $.makeLiteralMap(['kind', 'constructor', 'name', 'GraphicsPattern.repeatY'])]]), $.makeLiteralMap(['name', 'GridFitType', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'NONE']), $.makeLiteralMap(['kind', 'field', 'name', 'PIXEL']), $.makeLiteralMap(['kind', 'field', 'name', 'SUBPIXEL'])]]), $.makeLiteralMap(['name', 'InteractiveObject', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'doubleClickEnabled']), $.makeLiteralMap(['kind', 'field', 'name', 'mouseEnabled']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'on']), $.makeLiteralMap(['kind', 'field', 'name', 'tabEnabled']), $.makeLiteralMap(['kind', 'field', 'name', 'tabIndex'])]]), $.makeLiteralMap(['name', 'InteractiveObjectEvents', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'InteractiveObjectEvents']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseClick']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseDoubleClick']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseDown']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseMiddleClick']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseMiddleDown']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseMiddleUp']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseMove']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseOut']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseOver']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseRightClick']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseRightDown']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseRightUp']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseUp']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'mouseWheel'])]]), $.makeLiteralMap(['name', 'JointStyle', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'BEVEL']), $.makeLiteralMap(['kind', 'field', 'name', 'MITER']), $.makeLiteralMap(['kind', 'field', 'name', 'ROUND'])]]), $.makeLiteralMap(['name', 'Juggler', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'add']), $.makeLiteralMap(['kind', 'method', 'name', 'advanceTime']), $.makeLiteralMap(['kind', 'method', 'name', 'delayCall']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'elapsedTime']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Juggler']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'purge']), $.makeLiteralMap(['kind', 'method', 'name', 'remove']), $.makeLiteralMap(['kind', 'method', 'name', 'removeTweens'])]]), $.makeLiteralMap(['name', 'KeyboardEvent', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'altKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'charCode']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'commandKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'controlKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'ctrlKey']), $.makeLiteralMap(['kind', 'field', 'name', 'KEY_DOWN']), $.makeLiteralMap(['kind', 'field', 'name', 'KEY_UP']), $.makeLiteralMap(['kind', 'constructor', 'name', 'KeyboardEvent']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'keyCode']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'keyLocation']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'shiftKey'])]]), $.makeLiteralMap(['name', 'KeyLocation', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'D_PAD']), $.makeLiteralMap(['kind', 'field', 'name', 'LEFT']), $.makeLiteralMap(['kind', 'field', 'name', 'NUM_PAD']), $.makeLiteralMap(['kind', 'field', 'name', 'RIGHT']), $.makeLiteralMap(['kind', 'field', 'name', 'STANDARD'])]]), $.makeLiteralMap(['name', 'Mask', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'Mask.circle']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Mask.custom']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Mask.rectangle']), $.makeLiteralMap(['kind', 'method', 'name', 'render'])]]), $.makeLiteralMap(['name', 'Matrix', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'a']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'b']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'c']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'cloneInvert']), $.makeLiteralMap(['kind', 'method', 'name', 'concat']), $.makeLiteralMap(['kind', 'method', 'name', 'copyFrom']), $.makeLiteralMap(['kind', 'method', 'name', 'copyFromAndConcat']), $.makeLiteralMap(['kind', 'method', 'name', 'copyFromAndInvert']), $.makeLiteralMap(['kind', 'method', 'name', 'createBox']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'd']), $.makeLiteralMap(['kind', 'method', 'name', 'deltaTransformPoint']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'det']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'identity']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'invert']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Matrix']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Matrix.fromIdentity']), $.makeLiteralMap(['kind', 'method', 'name', 'rotate']), $.makeLiteralMap(['kind', 'method', 'name', 'scale']), $.makeLiteralMap(['kind', 'method', 'name', 'setTo']), $.makeLiteralMap(['kind', 'method', 'name', 'skew']), $.makeLiteralMap(['kind', 'method', 'name', 'transformPoint']), $.makeLiteralMap(['kind', 'method', 'name', 'translate']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'tx']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'ty'])]]), $.makeLiteralMap(['name', 'MockSound', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'length']), $.makeLiteralMap(['kind', 'method', 'name', 'loadAudio']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'MockSound']), $.makeLiteralMap(['kind', 'method', 'name', 'play'])]]), $.makeLiteralMap(['name', 'MockSoundChannel', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'constructor', 'name', 'MockSoundChannel']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'soundTransform']), $.makeLiteralMap(['kind', 'setter', 'name', 'soundTransform', 'link_name', 'soundTransform=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stop'])]]), $.makeLiteralMap(['name', 'Mouse', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'cursor']), $.makeLiteralMap(['kind', 'setter', 'name', 'cursor', 'link_name', 'cursor=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'hide']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'show'])]]), $.makeLiteralMap(['name', 'MouseCursor', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'ARROW']), $.makeLiteralMap(['kind', 'field', 'name', 'AUTO']), $.makeLiteralMap(['kind', 'field', 'name', 'BUTTON']), $.makeLiteralMap(['kind', 'field', 'name', 'HAND']), $.makeLiteralMap(['kind', 'field', 'name', 'IBEAM']), $.makeLiteralMap(['kind', 'field', 'name', 'WAIT'])]]), $.makeLiteralMap(['name', 'MouseEvent', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'altKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'buttonDown']), $.makeLiteralMap(['kind', 'field', 'name', 'CLICK']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'clickCount']), $.makeLiteralMap(['kind', 'field', 'name', 'CONTEXT_MENU']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'controlKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'ctrlKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'deltaX']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'deltaY']), $.makeLiteralMap(['kind', 'field', 'name', 'DOUBLE_CLICK']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'isRelatedObjectInaccessible']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'localX']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'localY']), $.makeLiteralMap(['kind', 'field', 'name', 'MIDDLE_CLICK']), $.makeLiteralMap(['kind', 'field', 'name', 'MIDDLE_MOUSE_DOWN']), $.makeLiteralMap(['kind', 'field', 'name', 'MIDDLE_MOUSE_UP']), $.makeLiteralMap(['kind', 'field', 'name', 'MOUSE_DOWN']), $.makeLiteralMap(['kind', 'field', 'name', 'MOUSE_MOVE']), $.makeLiteralMap(['kind', 'field', 'name', 'MOUSE_OUT']), $.makeLiteralMap(['kind', 'field', 'name', 'MOUSE_OVER']), $.makeLiteralMap(['kind', 'field', 'name', 'MOUSE_UP']), $.makeLiteralMap(['kind', 'field', 'name', 'MOUSE_WHEEL']), $.makeLiteralMap(['kind', 'constructor', 'name', 'MouseEvent']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'relatedObject']), $.makeLiteralMap(['kind', 'field', 'name', 'RIGHT_CLICK']), $.makeLiteralMap(['kind', 'field', 'name', 'RIGHT_MOUSE_DOWN']), $.makeLiteralMap(['kind', 'field', 'name', 'RIGHT_MOUSE_UP']), $.makeLiteralMap(['kind', 'field', 'name', 'ROLL_OUT']), $.makeLiteralMap(['kind', 'field', 'name', 'ROLL_OVER']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'shiftKey']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'stageX']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'stageY'])]]), $.makeLiteralMap(['name', 'MovieClip', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'advanceTime']), $.makeLiteralMap(['kind', 'field', 'name', 'clipRectangle']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'currentFrame']), $.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'method', 'name', 'gotoAndPlay']), $.makeLiteralMap(['kind', 'method', 'name', 'gotoAndStop']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'loop']), $.makeLiteralMap(['kind', 'setter', 'name', 'loop', 'link_name', 'loop=']), $.makeLiteralMap(['kind', 'constructor', 'name', 'MovieClip']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'nextFrame']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'play']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'playing']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'prevFrame']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stop']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'totalFrames'])]]), $.makeLiteralMap(['name', 'ParticleSystem', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'advanceTime']), $.makeLiteralMap(['kind', 'field', 'name', 'emitAngle']), $.makeLiteralMap(['kind', 'field', 'name', 'emitAngleVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'EMITTER_TYPE_GRAVITY']), $.makeLiteralMap(['kind', 'field', 'name', 'EMITTER_TYPE_RADIAL']), $.makeLiteralMap(['kind', 'field', 'name', 'emitterType']), $.makeLiteralMap(['kind', 'field', 'name', 'emitterX']), $.makeLiteralMap(['kind', 'field', 'name', 'emitterXVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'emitterY']), $.makeLiteralMap(['kind', 'field', 'name', 'emitterYVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'endColor']), $.makeLiteralMap(['kind', 'field', 'name', 'endSize']), $.makeLiteralMap(['kind', 'field', 'name', 'endSizeVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'gravityX']), $.makeLiteralMap(['kind', 'field', 'name', 'gravityY']), $.makeLiteralMap(['kind', 'field', 'name', 'lifespan']), $.makeLiteralMap(['kind', 'field', 'name', 'lifespanVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'maxNumParticles']), $.makeLiteralMap(['kind', 'field', 'name', 'maxRadius']), $.makeLiteralMap(['kind', 'field', 'name', 'maxRadiusVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'minRadius']), $.makeLiteralMap(['kind', 'constructor', 'name', 'ParticleSystem']), $.makeLiteralMap(['kind', 'field', 'name', 'radialAcceleration']), $.makeLiteralMap(['kind', 'field', 'name', 'radialAccelerationVariance']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'field', 'name', 'rotatePerSecond']), $.makeLiteralMap(['kind', 'field', 'name', 'rotatePerSecondVariance']), $.makeLiteralMap(['kind', 'field', 'name', 'speed']), $.makeLiteralMap(['kind', 'field', 'name', 'speedVariance']), $.makeLiteralMap(['kind', 'method', 'name', 'start']), $.makeLiteralMap(['kind', 'field', 'name', 'startColor']), $.makeLiteralMap(['kind', 'field', 'name', 'startSize']), $.makeLiteralMap(['kind', 'field', 'name', 'startSizeVariance']), $.makeLiteralMap(['kind', 'method', 'name', 'stop']), $.makeLiteralMap(['kind', 'field', 'name', 'tangentialAcceleration']), $.makeLiteralMap(['kind', 'field', 'name', 'tangentialAccelerationVariance'])]]), $.makeLiteralMap(['name', 'PixelSnapping', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'ALWAYS']), $.makeLiteralMap(['kind', 'field', 'name', 'AUTO']), $.makeLiteralMap(['kind', 'field', 'name', 'NEVER'])]]), $.makeLiteralMap(['name', 'Point', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'add']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'method', 'name', 'copyFrom']), $.makeLiteralMap(['kind', 'method', 'name', 'copyFromAndTransfrom']), $.makeLiteralMap(['kind', 'method', 'name', 'distance']), $.makeLiteralMap(['kind', 'method', 'name', 'distanceTo']), $.makeLiteralMap(['kind', 'method', 'name', 'equals']), $.makeLiteralMap(['kind', 'method', 'name', 'interpolate']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'length']), $.makeLiteralMap(['kind', 'method', 'name', 'normalize']), $.makeLiteralMap(['kind', 'method', 'name', 'offset']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Point']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Point.from']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Point.zero']), $.makeLiteralMap(['kind', 'method', 'name', 'polar']), $.makeLiteralMap(['kind', 'method', 'name', 'setTo']), $.makeLiteralMap(['kind', 'method', 'name', 'subtract']), $.makeLiteralMap(['kind', 'method', 'name', 'transform']), $.makeLiteralMap(['kind', 'field', 'name', 'x']), $.makeLiteralMap(['kind', 'field', 'name', 'y'])]]), $.makeLiteralMap(['name', 'Rectangle', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'bottom']), $.makeLiteralMap(['kind', 'setter', 'name', 'bottom', 'link_name', 'bottom=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'bottomRight']), $.makeLiteralMap(['kind', 'setter', 'name', 'bottomRight', 'link_name', 'bottomRight=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'clone']), $.makeLiteralMap(['kind', 'method', 'name', 'contains']), $.makeLiteralMap(['kind', 'method', 'name', 'containsPoint']), $.makeLiteralMap(['kind', 'method', 'name', 'containsRect']), $.makeLiteralMap(['kind', 'method', 'name', 'copyFrom']), $.makeLiteralMap(['kind', 'method', 'name', 'equals']), $.makeLiteralMap(['kind', 'field', 'name', 'height']), $.makeLiteralMap(['kind', 'method', 'name', 'inflate']), $.makeLiteralMap(['kind', 'method', 'name', 'inflatePoint']), $.makeLiteralMap(['kind', 'method', 'name', 'intersection']), $.makeLiteralMap(['kind', 'method', 'name', 'intersects']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'isEmpty']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'left']), $.makeLiteralMap(['kind', 'setter', 'name', 'left', 'link_name', 'left=']), $.makeLiteralMap(['kind', 'method', 'name', 'offset']), $.makeLiteralMap(['kind', 'method', 'name', 'offsetPoint']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Rectangle']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Rectangle.from']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Rectangle.zero']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'right']), $.makeLiteralMap(['kind', 'setter', 'name', 'right', 'link_name', 'right=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'setEmpty']), $.makeLiteralMap(['kind', 'method', 'name', 'setTo']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'size']), $.makeLiteralMap(['kind', 'setter', 'name', 'size', 'link_name', 'size=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'top']), $.makeLiteralMap(['kind', 'setter', 'name', 'top', 'link_name', 'top=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'topLeft']), $.makeLiteralMap(['kind', 'setter', 'name', 'topLeft', 'link_name', 'topLeft=']), $.makeLiteralMap(['kind', 'method', 'name', 'union']), $.makeLiteralMap(['kind', 'field', 'name', 'width']), $.makeLiteralMap(['kind', 'field', 'name', 'x']), $.makeLiteralMap(['kind', 'field', 'name', 'y'])]]), $.makeLiteralMap(['name', 'RenderLoop', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'addStage']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'juggler']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'RenderLoop'])]]), $.makeLiteralMap(['name', 'RenderState', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'context']), $.makeLiteralMap(['kind', 'method', 'name', 'renderDisplayObject']), $.makeLiteralMap(['kind', 'constructor', 'name', 'RenderState.fromCanvasRenderingContext2D']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'reset'])]]), $.makeLiteralMap(['name', 'Resource', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'addImage']), $.makeLiteralMap(['kind', 'method', 'name', 'addSound']), $.makeLiteralMap(['kind', 'method', 'name', 'addText']), $.makeLiteralMap(['kind', 'method', 'name', 'addTextureAtlas']), $.makeLiteralMap(['kind', 'method', 'name', 'getBitmapData']), $.makeLiteralMap(['kind', 'method', 'name', 'getSound']), $.makeLiteralMap(['kind', 'method', 'name', 'getText']), $.makeLiteralMap(['kind', 'method', 'name', 'getTextureAtlas']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'load']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Resource'])]]), $.makeLiteralMap(['name', 'Shape', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'graphics']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Shape'])]]), $.makeLiteralMap(['name', 'SimpleButton', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'downState']), $.makeLiteralMap(['kind', 'field', 'name', 'enabled']), $.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'field', 'name', 'hitTestState']), $.makeLiteralMap(['kind', 'field', 'name', 'overState']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'constructor', 'name', 'SimpleButton']), $.makeLiteralMap(['kind', 'field', 'name', 'upState']), $.makeLiteralMap(['kind', 'field', 'name', 'useHandCursor'])]]), $.makeLiteralMap(['name', 'Sound', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'adaptAudioUrl']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'length']), $.makeLiteralMap(['kind', 'method', 'name', 'loadAudio']), $.makeLiteralMap(['kind', 'method', 'name', 'play'])]]), $.makeLiteralMap(['name', 'SoundChannel', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'soundTransform']), $.makeLiteralMap(['kind', 'setter', 'name', 'soundTransform', 'link_name', 'soundTransform=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stop'])]]), $.makeLiteralMap(['name', 'SoundMixer', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'engine']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'soundTransform']), $.makeLiteralMap(['kind', 'setter', 'name', 'soundTransform', 'link_name', 'soundTransform='])]]), $.makeLiteralMap(['name', 'SoundTransform', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'leftToLeft']), $.makeLiteralMap(['kind', 'field', 'name', 'leftToRight']), $.makeLiteralMap(['kind', 'field', 'name', 'pan']), $.makeLiteralMap(['kind', 'field', 'name', 'rightToLeft']), $.makeLiteralMap(['kind', 'field', 'name', 'rightToRight']), $.makeLiteralMap(['kind', 'constructor', 'name', 'SoundTransform']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'SoundTransform.mute']), $.makeLiteralMap(['kind', 'field', 'name', 'volume'])]]), $.makeLiteralMap(['name', 'Sprite', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'buttonMode']), $.makeLiteralMap(['kind', 'field', 'name', 'useHandCursor'])]]), $.makeLiteralMap(['name', 'Stage', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'setter', 'name', 'alpha', 'link_name', 'alpha=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'focus']), $.makeLiteralMap(['kind', 'setter', 'name', 'focus', 'link_name', 'focus=']), $.makeLiteralMap(['kind', 'setter', 'name', 'height', 'link_name', 'height=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'materialize']), $.makeLiteralMap(['kind', 'setter', 'name', 'pivotX', 'link_name', 'pivotX=']), $.makeLiteralMap(['kind', 'setter', 'name', 'pivotY', 'link_name', 'pivotY=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'renderMode']), $.makeLiteralMap(['kind', 'setter', 'name', 'renderMode', 'link_name', 'renderMode=']), $.makeLiteralMap(['kind', 'setter', 'name', 'rotation', 'link_name', 'rotation=']), $.makeLiteralMap(['kind', 'setter', 'name', 'scaleX', 'link_name', 'scaleX=']), $.makeLiteralMap(['kind', 'setter', 'name', 'scaleY', 'link_name', 'scaleY=']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Stage']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stageHeight']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stageWidth']), $.makeLiteralMap(['kind', 'setter', 'name', 'width', 'link_name', 'width=']), $.makeLiteralMap(['kind', 'setter', 'name', 'x', 'link_name', 'x=']), $.makeLiteralMap(['kind', 'setter', 'name', 'y', 'link_name', 'y='])]]), $.makeLiteralMap(['name', 'StageRenderMode', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'AUTO']), $.makeLiteralMap(['kind', 'field', 'name', 'ONCE']), $.makeLiteralMap(['kind', 'field', 'name', 'STOP'])]]), $.makeLiteralMap(['name', 'TextEvent', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'LINK']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'text']), $.makeLiteralMap(['kind', 'field', 'name', 'TEXT_INPUT']), $.makeLiteralMap(['kind', 'constructor', 'name', 'TextEvent'])]]), $.makeLiteralMap(['name', 'TextField', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'autoSize']), $.makeLiteralMap(['kind', 'setter', 'name', 'autoSize', 'link_name', 'autoSize=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'background']), $.makeLiteralMap(['kind', 'setter', 'name', 'background', 'link_name', 'background=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'backgroundColor']), $.makeLiteralMap(['kind', 'setter', 'name', 'backgroundColor', 'link_name', 'backgroundColor=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'border']), $.makeLiteralMap(['kind', 'setter', 'name', 'border', 'link_name', 'border=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'borderColor']), $.makeLiteralMap(['kind', 'setter', 'name', 'borderColor', 'link_name', 'borderColor=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'defaultTextFormat']), $.makeLiteralMap(['kind', 'setter', 'name', 'defaultTextFormat', 'link_name', 'defaultTextFormat=']), $.makeLiteralMap(['kind', 'method', 'name', 'getBoundsTransformed']), $.makeLiteralMap(['kind', 'method', 'name', 'getLineLength']), $.makeLiteralMap(['kind', 'method', 'name', 'getLineMetrics']), $.makeLiteralMap(['kind', 'method', 'name', 'getLineText']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'gridFitType']), $.makeLiteralMap(['kind', 'setter', 'name', 'gridFitType', 'link_name', 'gridFitType=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'height']), $.makeLiteralMap(['kind', 'setter', 'name', 'height', 'link_name', 'height=']), $.makeLiteralMap(['kind', 'method', 'name', 'hitTestInput']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'numLines']), $.makeLiteralMap(['kind', 'method', 'name', 'render']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'text']), $.makeLiteralMap(['kind', 'setter', 'name', 'text', 'link_name', 'text=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'textColor']), $.makeLiteralMap(['kind', 'setter', 'name', 'textColor', 'link_name', 'textColor=']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'TextField']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'textHeight']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'textWidth']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'type']), $.makeLiteralMap(['kind', 'setter', 'name', 'type', 'link_name', 'type=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'width']), $.makeLiteralMap(['kind', 'setter', 'name', 'width', 'link_name', 'width=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'wordWrap']), $.makeLiteralMap(['kind', 'setter', 'name', 'wordWrap', 'link_name', 'wordWrap='])]]), $.makeLiteralMap(['name', 'TextFieldAutoSize', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'CENTER']), $.makeLiteralMap(['kind', 'field', 'name', 'LEFT']), $.makeLiteralMap(['kind', 'field', 'name', 'NONE']), $.makeLiteralMap(['kind', 'field', 'name', 'RIGHT'])]]), $.makeLiteralMap(['name', 'TextFieldType', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'DYNAMIC']), $.makeLiteralMap(['kind', 'field', 'name', 'INPUT'])]]), $.makeLiteralMap(['name', 'TextFormat', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'align']), $.makeLiteralMap(['kind', 'field', 'name', 'blockIndent']), $.makeLiteralMap(['kind', 'field', 'name', 'bold']), $.makeLiteralMap(['kind', 'field', 'name', 'bullet']), $.makeLiteralMap(['kind', 'field', 'name', 'color']), $.makeLiteralMap(['kind', 'field', 'name', 'font']), $.makeLiteralMap(['kind', 'field', 'name', 'indent']), $.makeLiteralMap(['kind', 'field', 'name', 'italic']), $.makeLiteralMap(['kind', 'field', 'name', 'kerning']), $.makeLiteralMap(['kind', 'field', 'name', 'leading']), $.makeLiteralMap(['kind', 'field', 'name', 'leftMargin']), $.makeLiteralMap(['kind', 'field', 'name', 'letterSpacing']), $.makeLiteralMap(['kind', 'field', 'name', 'rightMargin']), $.makeLiteralMap(['kind', 'field', 'name', 'size']), $.makeLiteralMap(['kind', 'constructor', 'name', 'TextFormat']), $.makeLiteralMap(['kind', 'field', 'name', 'underline'])]]), $.makeLiteralMap(['name', 'TextFormatAlign', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'CENTER']), $.makeLiteralMap(['kind', 'field', 'name', 'END']), $.makeLiteralMap(['kind', 'field', 'name', 'JUSTIFY']), $.makeLiteralMap(['kind', 'field', 'name', 'LEFT']), $.makeLiteralMap(['kind', 'field', 'name', 'RIGHT']), $.makeLiteralMap(['kind', 'field', 'name', 'START'])]]), $.makeLiteralMap(['name', 'TextLineMetrics', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'ascent']), $.makeLiteralMap(['kind', 'field', 'name', 'descent']), $.makeLiteralMap(['kind', 'field', 'name', 'height']), $.makeLiteralMap(['kind', 'field', 'name', 'leading']), $.makeLiteralMap(['kind', 'constructor', 'name', 'TextLineMetrics']), $.makeLiteralMap(['kind', 'field', 'name', 'width']), $.makeLiteralMap(['kind', 'field', 'name', 'x'])]]), $.makeLiteralMap(['name', 'TextureAtlas', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'frameNames']), $.makeLiteralMap(['kind', 'method', 'name', 'getBitmapData']), $.makeLiteralMap(['kind', 'method', 'name', 'getBitmapDatas']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'imageElement']), $.makeLiteralMap(['kind', 'method', 'name', 'load']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'TextureAtlas'])]]), $.makeLiteralMap(['name', 'TextureAtlasFormat', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'field', 'name', 'JSON']), $.makeLiteralMap(['kind', 'field', 'name', 'JSONARRAY'])]]), $.makeLiteralMap(['name', 'TextureAtlasFrame', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'frameHeight']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'frameWidth']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'frameX']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'frameY']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'name']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'offsetX']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'offsetY']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'originalHeight']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'originalWidth']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'rotated']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'textureAtlas']), $.makeLiteralMap(['kind', 'constructor', 'name', 'TextureAtlasFrame'])]]), $.makeLiteralMap(['name', 'Transition', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'advanceTime']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'currentTime']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'delay']), $.makeLiteralMap(['kind', 'setter', 'name', 'delay', 'link_name', 'delay=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'isComplete']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'onComplete']), $.makeLiteralMap(['kind', 'setter', 'name', 'onComplete', 'link_name', 'onComplete=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'onStart']), $.makeLiteralMap(['kind', 'setter', 'name', 'onStart', 'link_name', 'onStart=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'onUpdate']), $.makeLiteralMap(['kind', 'setter', 'name', 'onUpdate', 'link_name', 'onUpdate=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'roundToInt']), $.makeLiteralMap(['kind', 'setter', 'name', 'roundToInt', 'link_name', 'roundToInt=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'totalTime']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Transition'])]]), $.makeLiteralMap(['name', 'TransitionComplete', 'kind', 'typedef']), $.makeLiteralMap(['name', 'TransitionFunction', 'kind', 'typedef']), $.makeLiteralMap(['name', 'Transitions', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'cosine']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInBack']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInBounce']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInCircular']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInCubic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInElastic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInExponential']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutBack']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutBounce']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutCircular']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutCubic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutElastic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutExponential']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutQuadratic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutQuartic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutQuintic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInOutSine']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInQuadratic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInQuartic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInQuintic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeInSine']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutBack']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutBounce']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutCircular']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutCubic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutElastic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutExponential']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInBack']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInBounce']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInCircular']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInCubic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInElastic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInExponential']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInQuadratic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInQuartic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInQuintic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutInSine']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutQuadratic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutQuartic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutQuintic']), $.makeLiteralMap(['kind', 'method', 'name', 'easeOutSine']), $.makeLiteralMap(['kind', 'method', 'name', 'linear']), $.makeLiteralMap(['kind', 'method', 'name', 'random']), $.makeLiteralMap(['kind', 'method', 'name', 'sine'])]]), $.makeLiteralMap(['name', 'TransitionStart', 'kind', 'typedef']), $.makeLiteralMap(['name', 'TransitionUpdate', 'kind', 'typedef']), $.makeLiteralMap(['name', 'Tween', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'method', 'name', 'advanceTime']), $.makeLiteralMap(['kind', 'method', 'name', 'animate']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'complete']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'currentTime']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'delay']), $.makeLiteralMap(['kind', 'setter', 'name', 'delay', 'link_name', 'delay=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'displayObject']), $.makeLiteralMap(['kind', 'method', 'name', 'fadeTo']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'isComplete']), $.makeLiteralMap(['kind', 'method', 'name', 'moveTo']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'onComplete']), $.makeLiteralMap(['kind', 'setter', 'name', 'onComplete', 'link_name', 'onComplete=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'onStart']), $.makeLiteralMap(['kind', 'setter', 'name', 'onStart', 'link_name', 'onStart=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'onUpdate']), $.makeLiteralMap(['kind', 'setter', 'name', 'onUpdate', 'link_name', 'onUpdate=']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'roundToInt']), $.makeLiteralMap(['kind', 'setter', 'name', 'roundToInt', 'link_name', 'roundToInt=']), $.makeLiteralMap(['kind', 'method', 'name', 'scaleTo']), $.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'totalTime']), $.makeLiteralMap(['kind', 'constructor', 'name', 'Tween'])]]), $.makeLiteralMap(['name', 'TweenComplete', 'kind', 'typedef']), $.makeLiteralMap(['name', 'TweenStart', 'kind', 'typedef']), $.makeLiteralMap(['name', 'TweenUpdate', 'kind', 'typedef']), $.makeLiteralMap(['name', 'Warp', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'matrix']), $.makeLiteralMap(['kind', 'setter', 'name', 'matrix', 'link_name', 'matrix=']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'Warp'])]]), $.makeLiteralMap(['name', 'WebAudioApiSound', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'length']), $.makeLiteralMap(['kind', 'method', 'name', 'loadAudio']), $.makeLiteralMap(['kind', 'method', 'name', 'play']), $.makeLiteralMap(['kind', 'constructor', 'noparams', true, 'name', 'WebAudioApiSound'])]]), $.makeLiteralMap(['name', 'WebAudioApiSoundChannel', 'kind', 'class', 'members', [$.makeLiteralMap(['kind', 'getter', 'noparams', true, 'name', 'soundTransform']), $.makeLiteralMap(['kind', 'setter', 'name', 'soundTransform', 'link_name', 'soundTransform=']), $.makeLiteralMap(['kind', 'method', 'noparams', true, 'name', 'stop']), $.makeLiteralMap(['kind', 'constructor', 'name', 'WebAudioApiSoundChannel'])]])]])];
 };
 
 $.typeNameInIE = function(obj) {
@@ -5707,7 +5702,7 @@ $.stringReplaceAllUnchecked = function(receiver, from, to) {
       return $.toString(result);
     }
   else
-    return $.stringReplaceJS(receiver, $.regExpMakeNative($.JSSyntaxRegExp$(from.replace($.regExpMakeNative($.CTC15, true), "\\$&"), false, false), true), to);
+    return $.stringReplaceJS(receiver, $.regExpMakeNative($.JSSyntaxRegExp$(from.replace($.regExpMakeNative($.CTC18, true), "\\$&"), false, false), true), to);
 };
 
 $.DualPivotQuicksort__dualPivotQuicksort = function(a, left, right, compare) {
@@ -6279,6 +6274,22 @@ $._MediaStreamTrackEventsImpl$ = function(_ptr) {
   return new $._MediaStreamTrackEventsImpl(_ptr);
 };
 
+$.Arrays_indexOf = function(a, element, startIndex, endIndex) {
+  if (typeof a !== 'string' && (typeof a !== 'object' || a === null || a.constructor !== Array && !a.is$JavaScriptIndexingBehavior()))
+    return $.Arrays_indexOf$bailout(1, a, element, startIndex, endIndex);
+  if (startIndex >= a.length)
+    return -1;
+  if (startIndex < 0)
+    startIndex = 0;
+  for (var i = startIndex; i < endIndex; ++i) {
+    if (i < 0 || i >= a.length)
+      throw $.ioore(i);
+    if ($.eqB(a[i], element))
+      return i;
+  }
+  return -1;
+};
+
 $._FilteredElementList$ = function(node) {
   return new $._FilteredElementList(node, node.get$nodes());
 };
@@ -6460,29 +6471,13 @@ $.SearchText$ = function(searchText) {
   return new $.SearchText(searchText, t1, t2);
 };
 
-$.Arrays_indexOf = function(a, element, startIndex, endIndex) {
-  if (typeof a !== 'string' && (typeof a !== 'object' || a === null || a.constructor !== Array && !a.is$JavaScriptIndexingBehavior()))
-    return $.Arrays_indexOf$bailout(1, a, element, startIndex, endIndex);
-  if (startIndex >= a.length)
-    return -1;
-  if (startIndex < 0)
-    startIndex = 0;
-  for (var i = startIndex; i < endIndex; ++i) {
-    if (i < 0 || i >= a.length)
-      throw $.ioore(i);
-    if ($.eqB(a[i], element))
-      return i;
-  }
-  return -1;
+$._TextTrackCueEventsImpl$ = function(_ptr) {
+  return new $._TextTrackCueEventsImpl(_ptr);
 };
 
 $.ArrayKeywordState$ = function(table, syntax) {
   var t1 = syntax == null ? null : $.index($.Keyword_keywords(), syntax);
   return new $.ArrayKeywordState(table, t1);
-};
-
-$._TextTrackCueEventsImpl$ = function(_ptr) {
-  return new $._TextTrackCueEventsImpl(_ptr);
 };
 
 $.stringReplaceJS = function(receiver, replacer, to) {
@@ -6501,7 +6496,7 @@ $.StringCodeIterator$substring = function(string, index, end) {
 
 $._convertNativeToDart_EventTarget = function(e) {
   if ("setInterval" in e)
-    return $._DOMWindowCrossFrameImpl__createSafe($.throwNoSuchMethod('', 'get event', []));
+    return $._DOMWindowCrossFrameImpl__createSafe(e);
   else
     return e;
 };
@@ -6535,6 +6530,12 @@ $.Keyword_computeKeywordMap = function() {
     result.operator$indexSet$2(t2.get$syntax(), t2);
   }
   return result;
+};
+
+$.Link$ = function(T) {
+  var t1 = new $.Link();
+  $.setRuntimeTypeInfo(t1, {'T': T});
+  return t1;
 };
 
 $.replaceAll = function(receiver, from, to) {
@@ -6571,12 +6572,6 @@ $._AbstractWorkerEventsImpl$ = function(_ptr) {
 
 $.HashMapImplementation__computeLoadLimit = function(capacity) {
   return $.tdiv(capacity * 3, 4);
-};
-
-$.isEmpty = function(receiver) {
-  if (typeof receiver === 'string' || $.isJsArray(receiver))
-    return receiver.length === 0;
-  return receiver.isEmpty$0();
 };
 
 $._convertDartToNative_SerializedScriptValue = function(value) {
@@ -6663,6 +6658,12 @@ $.split = function(receiver, pattern) {
     return receiver.split$1(pattern);
   $.checkNull(pattern);
   return $.stringSplitUnchecked(receiver, pattern);
+};
+
+$.iterator = function(receiver) {
+  if ($.isJsArray(receiver))
+    return $.ListIterator$(receiver);
+  return receiver.iterator$0();
 };
 
 $.StringImplementation_concatAll = function(strings) {
@@ -6772,12 +6773,6 @@ $._DoubleLinkedQueueIterator$ = function(_sentinel) {
 
 $.LeafKeywordState$ = function(syntax) {
   return new $.LeafKeywordState($.index($.Keyword_keywords(), syntax));
-};
-
-$.iterator = function(receiver) {
-  if ($.isJsArray(receiver))
-    return $.ListIterator$(receiver);
-  return receiver.iterator$0();
 };
 
 $.toUpperCase = function(receiver) {
@@ -6955,13 +6950,23 @@ $._BatteryManagerEventsImpl$ = function(_ptr) {
   return new $._BatteryManagerEventsImpl(_ptr);
 };
 
+$.removeLast = function(receiver) {
+  if ($.isJsArray(receiver)) {
+    $.checkGrowable(receiver, 'removeLast');
+    if ($.get$length(receiver) === 0)
+      throw $.$$throw($.IndexOutOfRangeException$(-1));
+    return receiver.pop();
+  }
+  return receiver.removeLast$0();
+};
+
 $.KeywordState_KEYWORD_STATE = function() {
   if ($.KeywordState__KEYWORD_STATE == null) {
-    var strings = $.ListImplementation_List(51);
-    for (var i = 0; i < 51; ++i)
+    var strings = $.ListImplementation_List(52);
+    for (var i = 0; i < 52; ++i)
       strings[i] = $.CTC92[i].get$syntax();
     $.sort(strings, new $.KeywordState_KEYWORD_STATE_anon());
-    $.KeywordState__KEYWORD_STATE = $.KeywordState_computeKeywordStateTable(0, strings, 0, 51);
+    $.KeywordState__KEYWORD_STATE = $.KeywordState_computeKeywordStateTable(0, strings, 0, 52);
   }
   return $.KeywordState__KEYWORD_STATE;
 };
@@ -7079,20 +7084,16 @@ $.typeNameInFirefox = function(obj) {
   return name$;
 };
 
-$.removeLast = function(receiver) {
-  if ($.isJsArray(receiver)) {
-    $.checkGrowable(receiver, 'removeLast');
-    if ($.get$length(receiver) === 0)
-      throw $.$$throw($.IndexOutOfRangeException$(-1));
-    return receiver.pop();
-  }
-  return receiver.removeLast$0();
-};
-
 $.gt$slow = function(a, b) {
   if ($.checkNumbers(a, b))
     return a > b;
   return a.operator$gt$1(b);
+};
+
+$.isEmpty = function(receiver) {
+  if (typeof receiver === 'string' || $.isJsArray(receiver))
+    return receiver.length === 0;
+  return receiver.isEmpty$0();
 };
 
 $.hashCode = function(receiver) {
@@ -7311,7 +7312,7 @@ $.sub = function(a, b) {
   return typeof a === 'number' && typeof b === 'number' ? a - b : $.sub$slow(a, b);
 };
 
-$.DualPivotQuicksort_insertionSort_$bailout = function(state, a, left, right, compare) {
+$.DualPivotQuicksort_insertionSort_$bailout = function(state0, a, left, right, compare) {
   for (var i = left + 1; $.leB(i, right); ++i) {
     var el = $.index(a, i);
     var j = i;
@@ -7326,7 +7327,7 @@ $.DualPivotQuicksort_insertionSort_$bailout = function(state, a, left, right, co
   }
 };
 
-$._Lists_indexOf$bailout = function(state, a, element, startIndex, endIndex) {
+$._Lists_indexOf$bailout = function(state0, a, element, startIndex, endIndex) {
   if ($.geB(startIndex, $.get$length(a)))
     return -1;
   if (startIndex < 0)
@@ -7337,8 +7338,8 @@ $._Lists_indexOf$bailout = function(state, a, element, startIndex, endIndex) {
   return -1;
 };
 
-$.DualPivotQuicksort__dualPivotQuicksort$bailout = function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13) {
-  switch (state) {
+$.DualPivotQuicksort__dualPivotQuicksort$bailout = function(state0, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13) {
+  switch (state0) {
     case 1:
       var a = env0;
       var left = env1;
@@ -7362,10 +7363,10 @@ $.DualPivotQuicksort__dualPivotQuicksort$bailout = function(state, env0, env1, e
       el4 = env13;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
     case 1:
-      state = 0;
+      state0 = 0;
       var sixth = $.tdiv($.add($.sub(right, left), 1), 6);
       if (typeof sixth !== 'number')
         throw $.iae(sixth);
@@ -7435,25 +7436,25 @@ $.DualPivotQuicksort__dualPivotQuicksort$bailout = function(state, env0, env1, e
       var great = right - 1;
       var pivots_are_equal = $.eqB(compare.call$2(el2, el4), 0);
     case 2:
-      if (state === 2 || state === 0 && pivots_are_equal)
-        switch (state) {
+      if (state0 === 2 || state0 === 0 && pivots_are_equal)
+        switch (state0) {
           case 0:
             var k = less;
           case 2:
             L0:
               while (true)
-                switch (state) {
+                switch (state0) {
                   case 0:
                     if (!(k <= great))
                       break L0;
                   case 2:
                     c$0: {
-                      switch (state) {
+                      switch (state0) {
                         case 0:
                           var ak = $.index(a, k);
                           var comp = compare.call$2(ak, el2);
                         case 2:
-                          state = 0;
+                          state0 = 0;
                           if ($.eqB(comp, 0))
                             break c$0;
                           if ($.ltB(comp, 0)) {
@@ -7574,7 +7575,7 @@ $.DualPivotQuicksort__dualPivotQuicksort$bailout = function(state, env0, env1, e
   }
 };
 
-$.Arrays_indexOf$bailout = function(state, a, element, startIndex, endIndex) {
+$.Arrays_indexOf$bailout = function(state0, a, element, startIndex, endIndex) {
   if ($.geB(startIndex, $.get$length(a)))
     return -1;
   if (startIndex < 0)
@@ -7585,8 +7586,8 @@ $.Arrays_indexOf$bailout = function(state, a, element, startIndex, endIndex) {
   return -1;
 };
 
-$.KeywordState_computeKeywordStateTable$bailout = function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11) {
-  switch (state) {
+$.KeywordState_computeKeywordStateTable$bailout = function(state0, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11) {
+  switch (state0) {
     case 1:
       var start = env0;
       var strings = env1;
@@ -7630,7 +7631,7 @@ $.KeywordState_computeKeywordStateTable$bailout = function(state, env0, env1, en
       c = env11;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       var result = $.ListImplementation_List(26);
       var t1 = offset + length$;
@@ -7643,7 +7644,7 @@ $.KeywordState_computeKeywordStateTable$bailout = function(state, env0, env1, en
     default:
       L0:
         while (true)
-          switch (state) {
+          switch (state0) {
             case 0:
               if (!(i < t1))
                 break L0;
@@ -7651,19 +7652,19 @@ $.KeywordState_computeKeywordStateTable$bailout = function(state, env0, env1, en
                 throw $.ioore(i);
               var t4 = $.get$length(strings[i]);
             case 1:
-              state = 0;
+              state0 = 0;
               if ($.eqB(t4, start))
                 isLeaf = true;
               t4 = $.get$length(strings[i]);
             case 2:
-              state = 0;
+              state0 = 0;
             case 3:
-              if (state === 3 || state === 0 && $.gtB(t4, start))
-                switch (state) {
+              if (state0 === 3 || state0 === 0 && $.gtB(t4, start))
+                switch (state0) {
                   case 0:
                     var c = $.charCodeAt(strings[i], start);
                   case 3:
-                    state = 0;
+                    state0 = 0;
                     if (!$.eqB(chunk, c)) {
                       if (chunkStart !== -1) {
                         t4 = $.sub(chunk, 97);
@@ -7702,7 +7703,7 @@ $.KeywordState_computeKeywordStateTable$bailout = function(state, env0, env1, en
   }
 };
 
-$._Lists_getRange$bailout = function(state, a, start, length$, accumulator) {
+$._Lists_getRange$bailout = function(state0, a, start, length$, accumulator) {
   if ($.ltB(length$, 0))
     throw $.$$throw($.ArgumentError$('length'));
   if ($.ltB(start, 0))
@@ -7715,7 +7716,7 @@ $._Lists_getRange$bailout = function(state, a, start, length$, accumulator) {
   return accumulator;
 };
 
-$.StringImplementation__toJsStringArray$bailout = function(state, strings) {
+$.StringImplementation__toJsStringArray$bailout = function(state0, strings) {
   $.checkNull(strings);
   var length$ = $.get$length(strings);
   if ($.isJsArray(strings)) {
@@ -7776,459 +7777,461 @@ Isolate.makeConstantList = function(list) {
 };
 $.CTC0 = Isolate.makeConstantList([]);
 $.CTC97 = new Isolate.$isolateProperties.ConstantMap(0, {}, Isolate.$isolateProperties.CTC0);
-$.CTC101 = 'interface';
-$.CTC102 = false;
-$.CTC103 = true;
-$.CTC104 = 'keyword';
-$.CTC105 = new Isolate.$isolateProperties.StringWrapper('keyword');
-$.CTC106 = 0;
-$.CTC107 = 107;
-$.CTC108 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC105, 0, 107);
-$.CTC109 = new Isolate.$isolateProperties.Keyword('interface', false, true, Isolate.$isolateProperties.CTC108);
-$.CTC110 = 'var';
-$.CTC111 = new Isolate.$isolateProperties.Keyword('var', false, false, Isolate.$isolateProperties.CTC108);
+$.CTC101 = '||';
+$.CTC102 = new Isolate.$isolateProperties.StringWrapper('||');
+$.CTC103 = 4;
+$.CTC104 = 146;
+$.CTC58 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC102, 4, 146);
+$.CTC105 = '>>=';
+$.CTC106 = new Isolate.$isolateProperties.StringWrapper('>>=');
 $.CTC13 = new Isolate.$isolateProperties._DeletedKeySentinel();
-$.CTC112 = 'frozen class set cannot be modified';
+$.CTC107 = 'frozen class set cannot be modified';
 $.CTC96 = new Isolate.$isolateProperties.UnsupportedOperationException('frozen class set cannot be modified');
-$.CTC113 = '|';
-$.CTC114 = new Isolate.$isolateProperties.StringWrapper('|');
-$.CTC115 = 'structured clone of other type';
+$.CTC108 = '-';
+$.CTC109 = new Isolate.$isolateProperties.StringWrapper('-');
+$.CTC110 = 12;
+$.CTC111 = 45;
+$.CTC70 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC109, 12, 45);
+$.CTC112 = 'structured clone of other type';
 $.CTC9 = new Isolate.$isolateProperties.NotImplementedException('structured clone of other type');
-$.CTC116 = '&=';
-$.CTC117 = new Isolate.$isolateProperties.StringWrapper('&=');
-$.CTC118 = ']';
-$.CTC119 = new Isolate.$isolateProperties.StringWrapper(']');
-$.CTC120 = 93;
-$.CTC28 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC119, 0, 93);
-$.CTC121 = '-=';
-$.CTC122 = new Isolate.$isolateProperties.StringWrapper('-=');
-$.CTC123 = 1;
-$.CTC124 = 152;
-$.CTC69 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC122, 1, 152);
-$.CTC125 = 'on';
-$.CTC126 = new Isolate.$isolateProperties.Keyword('on', true, false, Isolate.$isolateProperties.CTC108);
-$.CTC127 = '++';
-$.CTC128 = new Isolate.$isolateProperties.StringWrapper('++');
-$.CTC129 = 'case';
-$.CTC130 = new Isolate.$isolateProperties.Keyword('case', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC131 = '|=';
-$.CTC132 = new Isolate.$isolateProperties.StringWrapper('|=');
-$.CTC133 = 147;
-$.CTC59 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC132, 1, 147);
-$.CTC134 = 'malformed input';
-$.CTC135 = new Isolate.$isolateProperties.StringWrapper('malformed input');
-$.CTC136 = 'as';
-$.CTC137 = new Isolate.$isolateProperties.StringWrapper('as');
-$.CTC138 = 10;
-$.CTC139 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC137, 10, 107);
-$.CTC140 = 'hex digit expected';
+$.CTC113 = '#';
+$.CTC114 = new Isolate.$isolateProperties.StringWrapper('#');
+$.CTC115 = 0;
+$.CTC116 = 35;
+$.CTC49 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC114, 0, 35);
+$.CTC117 = ')';
+$.CTC118 = new Isolate.$isolateProperties.StringWrapper(')');
+$.CTC119 = 41;
+$.CTC23 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC118, 0, 41);
+$.CTC120 = '+';
+$.CTC121 = new Isolate.$isolateProperties.StringWrapper('+');
+$.CTC122 = 'hex digit expected';
 $.CTC39 = new Isolate.$isolateProperties.StringWrapper('hex digit expected');
-$.CTC141 = '#';
-$.CTC142 = new Isolate.$isolateProperties.StringWrapper('#');
-$.CTC143 = 35;
-$.CTC49 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC142, 0, 35);
-$.CTC144 = '+';
-$.CTC145 = new Isolate.$isolateProperties.StringWrapper('+');
-$.CTC146 = ')';
-$.CTC147 = new Isolate.$isolateProperties.StringWrapper(')');
-$.CTC148 = 41;
-$.CTC23 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC147, 0, 41);
+$.CTC123 = '|=';
+$.CTC124 = new Isolate.$isolateProperties.StringWrapper('|=');
+$.CTC125 = 1;
+$.CTC126 = 147;
+$.CTC59 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC124, 1, 147);
+$.CTC127 = 'malformed input';
+$.CTC128 = new Isolate.$isolateProperties.StringWrapper('malformed input');
+$.CTC129 = 'as';
+$.CTC130 = new Isolate.$isolateProperties.StringWrapper('as');
+$.CTC131 = 10;
+$.CTC132 = 107;
+$.CTC133 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC130, 10, 107);
+$.CTC134 = 'on';
+$.CTC135 = true;
+$.CTC136 = false;
+$.CTC137 = 'keyword';
+$.CTC138 = new Isolate.$isolateProperties.StringWrapper('keyword');
+$.CTC139 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC138, 0, 107);
+$.CTC140 = new Isolate.$isolateProperties.Keyword('on', true, false, Isolate.$isolateProperties.CTC139);
+$.CTC141 = '++';
+$.CTC142 = new Isolate.$isolateProperties.StringWrapper('++');
+$.CTC143 = ']';
+$.CTC144 = new Isolate.$isolateProperties.StringWrapper(']');
+$.CTC145 = 93;
+$.CTC28 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC144, 0, 93);
+$.CTC146 = '&=';
+$.CTC147 = new Isolate.$isolateProperties.StringWrapper('&=');
+$.CTC148 = '-=';
+$.CTC149 = new Isolate.$isolateProperties.StringWrapper('-=');
+$.CTC150 = 152;
+$.CTC69 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC149, 1, 152);
+$.CTC151 = '|';
+$.CTC152 = new Isolate.$isolateProperties.StringWrapper('|');
+$.CTC153 = 'interface';
+$.CTC154 = new Isolate.$isolateProperties.Keyword('interface', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC155 = 'var';
+$.CTC156 = new Isolate.$isolateProperties.Keyword('var', false, false, Isolate.$isolateProperties.CTC139);
 $.CTC98 = new Isolate.$isolateProperties.IllegalAccessException();
-$.CTC149 = '-';
-$.CTC150 = new Isolate.$isolateProperties.StringWrapper('-');
-$.CTC151 = 12;
-$.CTC152 = 45;
-$.CTC70 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC150, 12, 45);
-$.CTC153 = '||';
-$.CTC154 = new Isolate.$isolateProperties.StringWrapper('||');
-$.CTC155 = 4;
-$.CTC156 = 146;
-$.CTC58 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC154, 4, 146);
 $.CTC10 = new Isolate.$isolateProperties.NoMoreElementsException();
 $.CTC157 = '';
-$.CTC16 = new Isolate.$isolateProperties.UnsupportedOperationException('');
+$.CTC15 = new Isolate.$isolateProperties.UnsupportedOperationException('');
 $.CTC14 = new Isolate.$isolateProperties.EmptyQueueException();
-$.CTC158 = '>>=';
-$.CTC159 = new Isolate.$isolateProperties.StringWrapper('>>=');
-$.CTC160 = '=';
-$.CTC161 = new Isolate.$isolateProperties.StringWrapper('=');
-$.CTC162 = 61;
-$.CTC80 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC161, 1, 61);
-$.CTC163 = 'Invalid list length';
+$.CTC158 = 'case';
+$.CTC159 = new Isolate.$isolateProperties.Keyword('case', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC160 = '${';
+$.CTC161 = new Isolate.$isolateProperties.StringWrapper('${');
+$.CTC162 = '^';
+$.CTC163 = new Isolate.$isolateProperties.StringWrapper('^');
+$.CTC164 = 7;
+$.CTC165 = 94;
+$.CTC57 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC163, 7, 94);
+$.CTC166 = '*';
+$.CTC167 = new Isolate.$isolateProperties.StringWrapper('*');
+$.CTC168 = 13;
+$.CTC169 = 42;
+$.CTC67 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC167, 13, 42);
+$.CTC170 = 'Invalid list length';
 $.CTC19 = new Isolate.$isolateProperties.ArgumentError('Invalid list length');
-$.CTC164 = '>';
-$.CTC165 = new Isolate.$isolateProperties.StringWrapper('>');
-$.CTC166 = 'show';
-$.CTC167 = new Isolate.$isolateProperties.Keyword('show', true, false, Isolate.$isolateProperties.CTC108);
-$.CTC168 = '..';
-$.CTC169 = new Isolate.$isolateProperties.StringWrapper('..');
-$.CTC170 = 2;
-$.CTC171 = 133;
-$.CTC35 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC169, 2, 133);
-$.CTC172 = '[]';
-$.CTC173 = new Isolate.$isolateProperties.StringWrapper('[]');
-$.CTC174 = 141;
-$.CTC54 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC173, 0, 141);
-$.CTC175 = 'TODO(jacobr): should we impl?';
-$.CTC94 = new Isolate.$isolateProperties.UnsupportedOperationException('TODO(jacobr): should we impl?');
+$.CTC171 = '<<';
+$.CTC172 = new Isolate.$isolateProperties.StringWrapper('<<');
+$.CTC173 = 11;
+$.CTC174 = 137;
+$.CTC87 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC172, 11, 137);
+$.CTC175 = 'library';
+$.CTC176 = new Isolate.$isolateProperties.Keyword('library', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC177 = '--';
+$.CTC178 = new Isolate.$isolateProperties.StringWrapper('--');
+$.CTC179 = '!=';
+$.CTC180 = new Isolate.$isolateProperties.StringWrapper('!=');
+$.CTC181 = '[]=';
+$.CTC182 = new Isolate.$isolateProperties.StringWrapper('[]=');
+$.CTC183 = 140;
+$.CTC53 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC182, 0, 140);
+$.CTC184 = '.';
+$.CTC185 = new Isolate.$isolateProperties.StringWrapper('.');
+$.CTC186 = '{';
+$.CTC187 = new Isolate.$isolateProperties.StringWrapper('{');
+$.CTC188 = 123;
+$.CTC30 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC187, 0, 123);
+$.CTC189 = '~/';
+$.CTC190 = new Isolate.$isolateProperties.StringWrapper('~/');
+$.CTC191 = 154;
+$.CTC51 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC190, 13, 154);
+$.CTC192 = 'switch';
+$.CTC193 = new Isolate.$isolateProperties.Keyword('switch', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC194 = 'identifier';
+$.CTC195 = new Isolate.$isolateProperties.StringWrapper('identifier');
+$.CTC196 = 'default';
+$.CTC197 = new Isolate.$isolateProperties.Keyword('default', false, false, Isolate.$isolateProperties.CTC139);
 $.CTC100 = new Isolate.$isolateProperties.Object();
-$.CTC176 = '^=';
-$.CTC177 = new Isolate.$isolateProperties.StringWrapper('^=');
-$.CTC178 = 157;
-$.CTC56 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC177, 1, 157);
-$.CTC179 = 'return';
-$.CTC180 = new Isolate.$isolateProperties.Keyword('return', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC181 = 'switch';
-$.CTC182 = new Isolate.$isolateProperties.Keyword('switch', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC183 = 'new';
-$.CTC184 = new Isolate.$isolateProperties.Keyword('new', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC185 = '~/';
-$.CTC186 = new Isolate.$isolateProperties.StringWrapper('~/');
-$.CTC187 = 13;
-$.CTC188 = 154;
-$.CTC51 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC186, 13, 154);
-$.CTC189 = 'identifier';
-$.CTC190 = new Isolate.$isolateProperties.StringWrapper('identifier');
-$.CTC191 = 'string';
-$.CTC192 = new Isolate.$isolateProperties.StringWrapper('string');
-$.CTC193 = 39;
-$.CTC41 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC192, 0, 39);
-$.CTC194 = '!==';
-$.CTC195 = new Isolate.$isolateProperties.StringWrapper('!==');
-$.CTC196 = 9;
-$.CTC197 = 142;
-$.CTC74 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC195, 9, 142);
-$.CTC198 = '.';
-$.CTC199 = new Isolate.$isolateProperties.StringWrapper('.');
-$.CTC200 = '<<';
-$.CTC201 = new Isolate.$isolateProperties.StringWrapper('<<');
-$.CTC202 = 11;
-$.CTC203 = 137;
-$.CTC87 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC201, 11, 137);
-$.CTC204 = '!=';
-$.CTC205 = new Isolate.$isolateProperties.StringWrapper('!=');
-$.CTC206 = '--';
-$.CTC207 = new Isolate.$isolateProperties.StringWrapper('--');
-$.CTC208 = '{';
-$.CTC209 = new Isolate.$isolateProperties.StringWrapper('{');
-$.CTC210 = 123;
-$.CTC30 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC209, 0, 123);
-$.CTC211 = '[]=';
-$.CTC212 = new Isolate.$isolateProperties.StringWrapper('[]=');
-$.CTC213 = 140;
-$.CTC53 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC212, 0, 140);
-$.CTC214 = 'library';
-$.CTC215 = new Isolate.$isolateProperties.Keyword('library', true, false, Isolate.$isolateProperties.CTC108);
-$.CTC216 = 'extends';
-$.CTC217 = new Isolate.$isolateProperties.Keyword('extends', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC218 = 'default';
-$.CTC219 = new Isolate.$isolateProperties.Keyword('default', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC220 = '^';
-$.CTC221 = new Isolate.$isolateProperties.StringWrapper('^');
-$.CTC222 = 7;
-$.CTC223 = 94;
-$.CTC57 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC221, 7, 94);
-$.CTC224 = '${';
-$.CTC225 = new Isolate.$isolateProperties.StringWrapper('${');
-$.CTC226 = '*';
-$.CTC227 = new Isolate.$isolateProperties.StringWrapper('*');
-$.CTC228 = 42;
-$.CTC67 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC227, 13, 42);
-$.CTC229 = '`';
-$.CTC230 = new Isolate.$isolateProperties.StringWrapper('`');
-$.CTC231 = 96;
-$.CTC29 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC230, 0, 96);
-$.CTC232 = 'comment';
-$.CTC233 = new Isolate.$isolateProperties.StringWrapper('comment');
-$.CTC234 = 'structured clone of ArrayBufferView';
+$.CTC198 = 'string';
+$.CTC199 = new Isolate.$isolateProperties.StringWrapper('string');
+$.CTC200 = 39;
+$.CTC41 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC199, 0, 39);
+$.CTC201 = '!==';
+$.CTC202 = new Isolate.$isolateProperties.StringWrapper('!==');
+$.CTC203 = 9;
+$.CTC204 = 142;
+$.CTC74 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC202, 9, 142);
+$.CTC205 = 'TODO(jacobr): should we impl?';
+$.CTC94 = new Isolate.$isolateProperties.UnsupportedOperationException('TODO(jacobr): should we impl?');
+$.CTC206 = 'new';
+$.CTC207 = new Isolate.$isolateProperties.Keyword('new', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC208 = 'extends';
+$.CTC209 = new Isolate.$isolateProperties.Keyword('extends', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC210 = '^=';
+$.CTC211 = new Isolate.$isolateProperties.StringWrapper('^=');
+$.CTC212 = 157;
+$.CTC56 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC211, 1, 157);
+$.CTC213 = 'return';
+$.CTC214 = new Isolate.$isolateProperties.Keyword('return', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC215 = '..';
+$.CTC216 = new Isolate.$isolateProperties.StringWrapper('..');
+$.CTC217 = 2;
+$.CTC218 = 133;
+$.CTC35 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC216, 2, 133);
+$.CTC219 = '[]';
+$.CTC220 = new Isolate.$isolateProperties.StringWrapper('[]');
+$.CTC221 = 141;
+$.CTC54 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC220, 0, 141);
+$.CTC222 = '>';
+$.CTC223 = new Isolate.$isolateProperties.StringWrapper('>');
+$.CTC224 = '=';
+$.CTC225 = new Isolate.$isolateProperties.StringWrapper('=');
+$.CTC226 = 61;
+$.CTC80 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC225, 1, 61);
+$.CTC227 = 'show';
+$.CTC228 = new Isolate.$isolateProperties.Keyword('show', true, false, Isolate.$isolateProperties.CTC139);
+$.CTC229 = 'EOF';
+$.CTC230 = new Isolate.$isolateProperties.StringWrapper('EOF');
+$.CTC20 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC230, 0, 0);
+$.CTC231 = '$';
+$.CTC232 = new Isolate.$isolateProperties.StringWrapper('$');
+$.CTC233 = '\\';
+$.CTC234 = new Isolate.$isolateProperties.StringWrapper('\\');
+$.CTC235 = 'is';
+$.CTC236 = new Isolate.$isolateProperties.StringWrapper('is');
+$.CTC237 = 'structured clone of ArrayBufferView';
 $.CTC8 = new Isolate.$isolateProperties.NotImplementedException('structured clone of ArrayBufferView');
-$.CTC235 = 'implements';
-$.CTC236 = new Isolate.$isolateProperties.Keyword('implements', false, true, Isolate.$isolateProperties.CTC108);
-$.CTC237 = '/=';
-$.CTC238 = new Isolate.$isolateProperties.StringWrapper('/=');
-$.CTC239 = '>=';
-$.CTC240 = new Isolate.$isolateProperties.StringWrapper('>=');
-$.CTC241 = 'true';
-$.CTC242 = new Isolate.$isolateProperties.Keyword('true', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC243 = '+=';
-$.CTC244 = new Isolate.$isolateProperties.StringWrapper('+=');
-$.CTC245 = 150;
-$.CTC72 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC244, 1, 150);
-$.CTC246 = 'break';
-$.CTC247 = new Isolate.$isolateProperties.Keyword('break', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC248 = 'catch';
-$.CTC249 = new Isolate.$isolateProperties.Keyword('catch', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC250 = 'class';
-$.CTC251 = new Isolate.$isolateProperties.Keyword('class', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC252 = 'const';
-$.CTC253 = new Isolate.$isolateProperties.Keyword('const', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC254 = 'continue';
-$.CTC255 = new Isolate.$isolateProperties.Keyword('continue', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC256 = 'do';
-$.CTC257 = new Isolate.$isolateProperties.Keyword('do', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC258 = 'else';
-$.CTC259 = new Isolate.$isolateProperties.Keyword('else', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC260 = 'false';
-$.CTC261 = new Isolate.$isolateProperties.Keyword('false', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC262 = 'final';
-$.CTC263 = new Isolate.$isolateProperties.Keyword('final', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC264 = 'finally';
-$.CTC265 = new Isolate.$isolateProperties.Keyword('finally', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC266 = 'for';
-$.CTC267 = new Isolate.$isolateProperties.Keyword('for', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC268 = 'if';
-$.CTC269 = new Isolate.$isolateProperties.Keyword('if', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC270 = 'in';
-$.CTC271 = new Isolate.$isolateProperties.Keyword('in', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC272 = 'is';
-$.CTC273 = new Isolate.$isolateProperties.StringWrapper('is');
-$.CTC274 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC273, 10, 107);
-$.CTC275 = new Isolate.$isolateProperties.Keyword('is', false, false, Isolate.$isolateProperties.CTC274);
-$.CTC276 = 'null';
-$.CTC277 = new Isolate.$isolateProperties.Keyword('null', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC278 = 'super';
-$.CTC279 = new Isolate.$isolateProperties.Keyword('super', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC280 = 'this';
-$.CTC281 = new Isolate.$isolateProperties.Keyword('this', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC282 = 'throw';
-$.CTC283 = new Isolate.$isolateProperties.Keyword('throw', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC284 = 'try';
-$.CTC285 = new Isolate.$isolateProperties.Keyword('try', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC286 = 'void';
-$.CTC287 = new Isolate.$isolateProperties.Keyword('void', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC288 = 'while';
-$.CTC289 = new Isolate.$isolateProperties.Keyword('while', false, false, Isolate.$isolateProperties.CTC108);
-$.CTC290 = 'abstract';
-$.CTC291 = new Isolate.$isolateProperties.Keyword('abstract', false, true, Isolate.$isolateProperties.CTC108);
-$.CTC292 = new Isolate.$isolateProperties.Keyword('as', false, true, Isolate.$isolateProperties.CTC139);
-$.CTC293 = 'assert';
-$.CTC294 = new Isolate.$isolateProperties.Keyword('assert', false, true, Isolate.$isolateProperties.CTC108);
-$.CTC295 = 'external';
-$.CTC296 = new Isolate.$isolateProperties.Keyword('external', false, true, Isolate.$isolateProperties.CTC108);
-$.CTC297 = 'factory';
-$.CTC298 = new Isolate.$isolateProperties.Keyword('factory', false, true, Isolate.$isolateProperties.CTC108);
-$.CTC299 = 'get';
-$.CTC300 = new Isolate.$isolateProperties.Keyword('get', false, true, Isolate.$isolateProperties.CTC108);
-$.CTC301 = 'operator';
-$.CTC302 = new Isolate.$isolateProperties.Keyword('operator', false, true, Isolate.$isolateProperties.CTC108);
-$.CTC303 = 'set';
-$.CTC304 = new Isolate.$isolateProperties.Keyword('set', false, true, Isolate.$isolateProperties.CTC108);
-$.CTC305 = 'static';
-$.CTC306 = new Isolate.$isolateProperties.Keyword('static', false, true, Isolate.$isolateProperties.CTC108);
-$.CTC307 = 'typedef';
-$.CTC308 = new Isolate.$isolateProperties.Keyword('typedef', false, true, Isolate.$isolateProperties.CTC108);
-$.CTC309 = 'export';
-$.CTC310 = new Isolate.$isolateProperties.Keyword('export', true, false, Isolate.$isolateProperties.CTC108);
-$.CTC311 = 'hide';
-$.CTC312 = new Isolate.$isolateProperties.Keyword('hide', true, false, Isolate.$isolateProperties.CTC108);
-$.CTC313 = 'import';
-$.CTC314 = new Isolate.$isolateProperties.Keyword('import', true, false, Isolate.$isolateProperties.CTC108);
-$.CTC315 = 'native';
-$.CTC316 = new Isolate.$isolateProperties.Keyword('native', true, false, Isolate.$isolateProperties.CTC108);
-$.CTC317 = 'of';
-$.CTC318 = new Isolate.$isolateProperties.Keyword('of', true, false, Isolate.$isolateProperties.CTC108);
-$.CTC319 = 'part';
-$.CTC320 = new Isolate.$isolateProperties.Keyword('part', true, false, Isolate.$isolateProperties.CTC108);
-$.CTC321 = 'source';
-$.CTC322 = new Isolate.$isolateProperties.Keyword('source', true, false, Isolate.$isolateProperties.CTC108);
-$.CTC92 = Isolate.makeConstantList([Isolate.$isolateProperties.CTC247, Isolate.$isolateProperties.CTC130, Isolate.$isolateProperties.CTC249, Isolate.$isolateProperties.CTC251, Isolate.$isolateProperties.CTC253, Isolate.$isolateProperties.CTC255, Isolate.$isolateProperties.CTC219, Isolate.$isolateProperties.CTC257, Isolate.$isolateProperties.CTC259, Isolate.$isolateProperties.CTC217, Isolate.$isolateProperties.CTC261, Isolate.$isolateProperties.CTC263, Isolate.$isolateProperties.CTC265, Isolate.$isolateProperties.CTC267, Isolate.$isolateProperties.CTC269, Isolate.$isolateProperties.CTC271, Isolate.$isolateProperties.CTC275, Isolate.$isolateProperties.CTC184, Isolate.$isolateProperties.CTC277, Isolate.$isolateProperties.CTC180, Isolate.$isolateProperties.CTC279, Isolate.$isolateProperties.CTC182, Isolate.$isolateProperties.CTC281, Isolate.$isolateProperties.CTC283, Isolate.$isolateProperties.CTC242, Isolate.$isolateProperties.CTC285, Isolate.$isolateProperties.CTC111, Isolate.$isolateProperties.CTC287, Isolate.$isolateProperties.CTC289, Isolate.$isolateProperties.CTC291, Isolate.$isolateProperties.CTC292, Isolate.$isolateProperties.CTC294, Isolate.$isolateProperties.CTC296, Isolate.$isolateProperties.CTC298, Isolate.$isolateProperties.CTC300, Isolate.$isolateProperties.CTC236, Isolate.$isolateProperties.CTC109, Isolate.$isolateProperties.CTC302, Isolate.$isolateProperties.CTC304, Isolate.$isolateProperties.CTC306, Isolate.$isolateProperties.CTC308, Isolate.$isolateProperties.CTC310, Isolate.$isolateProperties.CTC312, Isolate.$isolateProperties.CTC314, Isolate.$isolateProperties.CTC215, Isolate.$isolateProperties.CTC316, Isolate.$isolateProperties.CTC318, Isolate.$isolateProperties.CTC126, Isolate.$isolateProperties.CTC320, Isolate.$isolateProperties.CTC167, Isolate.$isolateProperties.CTC322]);
-$.CTC323 = ',';
-$.CTC324 = new Isolate.$isolateProperties.StringWrapper(',');
-$.CTC325 = 44;
-$.CTC24 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC324, 0, 44);
-$.CTC326 = '/';
-$.CTC327 = new Isolate.$isolateProperties.StringWrapper('/');
-$.CTC328 = '===';
-$.CTC329 = new Isolate.$isolateProperties.StringWrapper('===');
-$.CTC330 = 134;
-$.CTC77 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC329, 9, 134);
-$.CTC331 = '[-[\\]{}()*+?.,\\\\^$|#\\s]';
-$.CTC15 = new Isolate.$isolateProperties.JSSyntaxRegExp('[-[\\]{}()*+?.,\\\\^$|#\\s]', false, false);
-$.CTC332 = '%';
-$.CTC333 = new Isolate.$isolateProperties.StringWrapper('%');
-$.CTC334 = 37;
-$.CTC65 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC333, 13, 37);
-$.CTC335 = '==';
-$.CTC336 = new Isolate.$isolateProperties.StringWrapper('==');
-$.CTC337 = 135;
-$.CTC78 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC336, 9, 135);
-$.CTC338 = '}';
-$.CTC339 = new Isolate.$isolateProperties.StringWrapper('}');
-$.CTC340 = 'double';
-$.CTC341 = new Isolate.$isolateProperties.StringWrapper('double');
-$.CTC342 = '&&';
-$.CTC343 = new Isolate.$isolateProperties.StringWrapper('&&');
-$.CTC344 = '!';
-$.CTC345 = new Isolate.$isolateProperties.StringWrapper('!');
-$.CTC346 = 'structured clone of Blob';
+$.CTC238 = '*=';
+$.CTC239 = new Isolate.$isolateProperties.StringWrapper('*=');
+$.CTC240 = '!';
+$.CTC241 = new Isolate.$isolateProperties.StringWrapper('!');
+$.CTC242 = 'continue';
+$.CTC243 = new Isolate.$isolateProperties.Keyword('continue', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC244 = 'of';
+$.CTC245 = new Isolate.$isolateProperties.Keyword('of', true, false, Isolate.$isolateProperties.CTC139);
+$.CTC246 = '&&';
+$.CTC247 = new Isolate.$isolateProperties.StringWrapper('&&');
+$.CTC248 = 'double';
+$.CTC249 = new Isolate.$isolateProperties.StringWrapper('double');
+$.CTC250 = '==';
+$.CTC251 = new Isolate.$isolateProperties.StringWrapper('==');
+$.CTC252 = 135;
+$.CTC78 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC251, 9, 135);
+$.CTC253 = 'part';
+$.CTC254 = new Isolate.$isolateProperties.Keyword('part', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC255 = '%';
+$.CTC256 = new Isolate.$isolateProperties.StringWrapper('%');
+$.CTC257 = 37;
+$.CTC65 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC256, 13, 37);
+$.CTC258 = '}';
+$.CTC259 = new Isolate.$isolateProperties.StringWrapper('}');
+$.CTC260 = '[-[\\]{}()*+?.,\\\\^$|#\\s]';
+$.CTC18 = new Isolate.$isolateProperties.JSSyntaxRegExp('[-[\\]{}()*+?.,\\\\^$|#\\s]', false, false);
+$.CTC261 = '/';
+$.CTC262 = new Isolate.$isolateProperties.StringWrapper('/');
+$.CTC263 = '===';
+$.CTC264 = new Isolate.$isolateProperties.StringWrapper('===');
+$.CTC265 = 134;
+$.CTC77 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC264, 9, 134);
+$.CTC266 = ',';
+$.CTC267 = new Isolate.$isolateProperties.StringWrapper(',');
+$.CTC268 = 44;
+$.CTC24 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC267, 0, 44);
+$.CTC269 = '>=';
+$.CTC270 = new Isolate.$isolateProperties.StringWrapper('>=');
+$.CTC271 = 'structured clone of Blob';
 $.CTC5 = new Isolate.$isolateProperties.NotImplementedException('structured clone of Blob');
-$.CTC347 = '*=';
-$.CTC348 = new Isolate.$isolateProperties.StringWrapper('*=');
-$.CTC349 = 'EOF';
-$.CTC350 = new Isolate.$isolateProperties.StringWrapper('EOF');
-$.CTC20 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC350, 0, 0);
-$.CTC351 = '\\';
-$.CTC352 = new Isolate.$isolateProperties.StringWrapper('\\');
-$.CTC353 = '$';
-$.CTC354 = new Isolate.$isolateProperties.StringWrapper('$');
-$.CTC355 = '(';
-$.CTC356 = new Isolate.$isolateProperties.StringWrapper('(');
-$.CTC357 = '?';
-$.CTC358 = new Isolate.$isolateProperties.StringWrapper('?');
-$.CTC359 = '[';
-$.CTC360 = new Isolate.$isolateProperties.StringWrapper('[');
-$.CTC361 = 14;
-$.CTC362 = 91;
-$.CTC55 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC360, 14, 91);
-$.CTC363 = '&';
-$.CTC364 = new Isolate.$isolateProperties.StringWrapper('&');
-$.CTC365 = 8;
-$.CTC366 = 38;
-$.CTC63 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC364, 8, 38);
-$.CTC367 = '<<=';
-$.CTC368 = new Isolate.$isolateProperties.StringWrapper('<<=');
-$.CTC369 = 'structured clone of ImageData';
+$.CTC272 = '/=';
+$.CTC273 = new Isolate.$isolateProperties.StringWrapper('/=');
+$.CTC274 = 'implements';
+$.CTC275 = new Isolate.$isolateProperties.Keyword('implements', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC276 = '+=';
+$.CTC277 = new Isolate.$isolateProperties.StringWrapper('+=');
+$.CTC278 = 150;
+$.CTC72 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC277, 1, 150);
+$.CTC279 = '`';
+$.CTC280 = new Isolate.$isolateProperties.StringWrapper('`');
+$.CTC281 = 96;
+$.CTC29 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC280, 0, 96);
+$.CTC282 = 'comment';
+$.CTC283 = new Isolate.$isolateProperties.StringWrapper('comment');
+$.CTC284 = 'true';
+$.CTC285 = new Isolate.$isolateProperties.Keyword('true', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC286 = 'get';
+$.CTC287 = new Isolate.$isolateProperties.Keyword('get', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC288 = ':';
+$.CTC289 = new Isolate.$isolateProperties.StringWrapper(':');
+$.CTC290 = '...';
+$.CTC291 = new Isolate.$isolateProperties.StringWrapper('...');
+$.CTC292 = 'int';
+$.CTC293 = new Isolate.$isolateProperties.StringWrapper('int');
+$.CTC294 = 105;
+$.CTC33 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC293, 0, 105);
+$.CTC295 = 'structured clone of ImageData';
 $.CTC6 = new Isolate.$isolateProperties.NotImplementedException('structured clone of ImageData');
-$.CTC370 = '~/=';
-$.CTC371 = new Isolate.$isolateProperties.StringWrapper('~/=');
-$.CTC372 = 153;
-$.CTC50 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC371, 1, 153);
-$.CTC373 = '<';
-$.CTC374 = new Isolate.$isolateProperties.StringWrapper('<');
-$.CTC375 = 60;
-$.CTC88 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC374, 10, 60);
-$.CTC376 = '%=';
-$.CTC377 = new Isolate.$isolateProperties.StringWrapper('%=');
-$.CTC378 = 155;
-$.CTC64 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC377, 1, 155);
-$.CTC379 = 'Cannot removeLast on immutable List.';
+$.CTC296 = '@';
+$.CTC297 = new Isolate.$isolateProperties.StringWrapper('@');
+$.CTC298 = '>>';
+$.CTC299 = new Isolate.$isolateProperties.StringWrapper('>>');
+$.CTC300 = ';';
+$.CTC301 = new Isolate.$isolateProperties.StringWrapper(';');
+$.CTC302 = 59;
+$.CTC26 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC301, 0, 59);
+$.CTC303 = 'in';
+$.CTC304 = new Isolate.$isolateProperties.Keyword('in', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC305 = '~';
+$.CTC306 = new Isolate.$isolateProperties.StringWrapper('~');
+$.CTC307 = 126;
+$.CTC52 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC306, 0, 126);
+$.CTC308 = '=>';
+$.CTC309 = new Isolate.$isolateProperties.StringWrapper('=>');
+$.CTC310 = 'hexadecimal';
+$.CTC311 = new Isolate.$isolateProperties.StringWrapper('hexadecimal');
+$.CTC312 = 'import';
+$.CTC313 = new Isolate.$isolateProperties.Keyword('import', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC314 = '<=';
+$.CTC315 = new Isolate.$isolateProperties.StringWrapper('<=');
+$.CTC316 = 129;
+$.CTC85 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC315, 10, 129);
+$.CTC317 = 'Cannot removeLast on immutable List.';
 $.CTC11 = new Isolate.$isolateProperties.UnsupportedOperationException('Cannot removeLast on immutable List.');
-$.CTC380 = 'hexadecimal';
-$.CTC381 = new Isolate.$isolateProperties.StringWrapper('hexadecimal');
-$.CTC382 = '<=';
-$.CTC383 = new Isolate.$isolateProperties.StringWrapper('<=');
-$.CTC384 = 129;
-$.CTC85 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC383, 10, 129);
-$.CTC385 = ';';
-$.CTC386 = new Isolate.$isolateProperties.StringWrapper(';');
-$.CTC387 = 59;
-$.CTC26 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC386, 0, 59);
-$.CTC388 = '=>';
-$.CTC389 = new Isolate.$isolateProperties.StringWrapper('=>');
-$.CTC390 = '~';
-$.CTC391 = new Isolate.$isolateProperties.StringWrapper('~');
-$.CTC392 = 126;
-$.CTC52 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC391, 0, 126);
-$.CTC393 = '>>';
-$.CTC394 = new Isolate.$isolateProperties.StringWrapper('>>');
-$.CTC395 = '@';
-$.CTC396 = new Isolate.$isolateProperties.StringWrapper('@');
-$.CTC397 = 'Cannot sort immutable List.';
+$.CTC318 = '~/=';
+$.CTC319 = new Isolate.$isolateProperties.StringWrapper('~/=');
+$.CTC320 = 153;
+$.CTC50 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC319, 1, 153);
+$.CTC321 = '%=';
+$.CTC322 = new Isolate.$isolateProperties.StringWrapper('%=');
+$.CTC323 = 155;
+$.CTC64 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC322, 1, 155);
+$.CTC324 = 'Cannot sort immutable List.';
 $.CTC93 = new Isolate.$isolateProperties.UnsupportedOperationException('Cannot sort immutable List.');
-$.CTC398 = 'int';
-$.CTC399 = new Isolate.$isolateProperties.StringWrapper('int');
-$.CTC400 = 105;
-$.CTC33 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC399, 0, 105);
-$.CTC401 = '...';
-$.CTC402 = new Isolate.$isolateProperties.StringWrapper('...');
-$.CTC403 = ':';
-$.CTC404 = new Isolate.$isolateProperties.StringWrapper(':');
-$.CTC405 = 64;
-$.CTC45 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC396, 0, 64);
-$.CTC406 = 139;
-$.CTC82 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC159, 1, 139);
-$.CTC407 = 47;
-$.CTC47 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC327, 13, 47);
-$.CTC408 = 145;
-$.CTC62 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC117, 1, 145);
-$.CTC409 = 149;
-$.CTC71 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC128, 14, 149);
-$.CTC410 = 33;
-$.CTC76 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC345, 0, 33);
-$.CTC411 = null;
-$.CTC = new Isolate.$isolateProperties.NullPointerException(null, Isolate.$isolateProperties.CTC0);
-$.CTC412 = 120;
-$.CTC40 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC381, 0, 120);
-$.CTC413 = 92;
-$.CTC21 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC352, 0, 92);
-$.CTC414 = 'digit expected';
+$.CTC325 = 'throw';
+$.CTC326 = new Isolate.$isolateProperties.Keyword('throw', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC327 = '&';
+$.CTC328 = new Isolate.$isolateProperties.StringWrapper('&');
+$.CTC329 = 8;
+$.CTC330 = 38;
+$.CTC63 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC328, 8, 38);
+$.CTC331 = '<<=';
+$.CTC332 = new Isolate.$isolateProperties.StringWrapper('<<=');
+$.CTC333 = 'export';
+$.CTC334 = new Isolate.$isolateProperties.Keyword('export', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC335 = '?';
+$.CTC336 = new Isolate.$isolateProperties.StringWrapper('?');
+$.CTC337 = '(';
+$.CTC338 = new Isolate.$isolateProperties.StringWrapper('(');
+$.CTC339 = '<';
+$.CTC340 = new Isolate.$isolateProperties.StringWrapper('<');
+$.CTC341 = 60;
+$.CTC88 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC340, 10, 60);
+$.CTC342 = 'digit expected';
 $.CTC38 = new Isolate.$isolateProperties.StringWrapper('digit expected');
-$.CTC415 = 40;
-$.CTC22 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC356, 14, 40);
-$.CTC416 = 'Dynamic';
-$.CTC90 = new Isolate.$isolateProperties.Keyword('Dynamic', false, true, Isolate.$isolateProperties.CTC108);
-$.CTC417 = 151;
-$.CTC68 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC207, 14, 151);
-$.CTC418 = 143;
-$.CTC75 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC205, 9, 143);
+$.CTC343 = '[';
+$.CTC344 = new Isolate.$isolateProperties.StringWrapper('[');
+$.CTC345 = 14;
+$.CTC346 = 91;
+$.CTC55 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC344, 14, 91);
+$.CTC347 = 'set';
+$.CTC348 = new Isolate.$isolateProperties.Keyword('set', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC349 = 120;
+$.CTC40 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC311, 0, 120);
+$.CTC350 = 33;
+$.CTC76 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC241, 0, 33);
+$.CTC351 = 'assert';
+$.CTC352 = new Isolate.$isolateProperties.Keyword('assert', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC353 = 'break';
+$.CTC354 = new Isolate.$isolateProperties.Keyword('break', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC355 = 'catch';
+$.CTC356 = new Isolate.$isolateProperties.Keyword('catch', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC357 = 'class';
+$.CTC358 = new Isolate.$isolateProperties.Keyword('class', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC359 = 'const';
+$.CTC360 = new Isolate.$isolateProperties.Keyword('const', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC361 = 'do';
+$.CTC362 = new Isolate.$isolateProperties.Keyword('do', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC363 = 'else';
+$.CTC364 = new Isolate.$isolateProperties.Keyword('else', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC365 = 'false';
+$.CTC366 = new Isolate.$isolateProperties.Keyword('false', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC367 = 'final';
+$.CTC368 = new Isolate.$isolateProperties.Keyword('final', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC369 = 'finally';
+$.CTC370 = new Isolate.$isolateProperties.Keyword('finally', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC371 = 'for';
+$.CTC372 = new Isolate.$isolateProperties.Keyword('for', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC373 = 'if';
+$.CTC374 = new Isolate.$isolateProperties.Keyword('if', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC375 = 'null';
+$.CTC376 = new Isolate.$isolateProperties.Keyword('null', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC377 = 'super';
+$.CTC378 = new Isolate.$isolateProperties.Keyword('super', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC379 = 'this';
+$.CTC380 = new Isolate.$isolateProperties.Keyword('this', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC381 = 'try';
+$.CTC382 = new Isolate.$isolateProperties.Keyword('try', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC383 = 'void';
+$.CTC384 = new Isolate.$isolateProperties.Keyword('void', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC385 = 'while';
+$.CTC386 = new Isolate.$isolateProperties.Keyword('while', false, false, Isolate.$isolateProperties.CTC139);
+$.CTC387 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC236, 10, 107);
+$.CTC388 = new Isolate.$isolateProperties.Keyword('is', false, false, Isolate.$isolateProperties.CTC387);
+$.CTC389 = 'abstract';
+$.CTC390 = new Isolate.$isolateProperties.Keyword('abstract', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC391 = new Isolate.$isolateProperties.Keyword('as', false, true, Isolate.$isolateProperties.CTC133);
+$.CTC392 = 'dynamic';
+$.CTC393 = new Isolate.$isolateProperties.Keyword('dynamic', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC394 = 'external';
+$.CTC395 = new Isolate.$isolateProperties.Keyword('external', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC396 = 'factory';
+$.CTC397 = new Isolate.$isolateProperties.Keyword('factory', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC398 = 'operator';
+$.CTC399 = new Isolate.$isolateProperties.Keyword('operator', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC400 = 'static';
+$.CTC401 = new Isolate.$isolateProperties.Keyword('static', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC402 = 'typedef';
+$.CTC403 = new Isolate.$isolateProperties.Keyword('typedef', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC404 = 'hide';
+$.CTC405 = new Isolate.$isolateProperties.Keyword('hide', true, false, Isolate.$isolateProperties.CTC139);
+$.CTC406 = 'native';
+$.CTC407 = new Isolate.$isolateProperties.Keyword('native', true, false, Isolate.$isolateProperties.CTC139);
+$.CTC408 = 'source';
+$.CTC409 = new Isolate.$isolateProperties.Keyword('source', true, false, Isolate.$isolateProperties.CTC139);
+$.CTC92 = Isolate.makeConstantList([Isolate.$isolateProperties.CTC352, Isolate.$isolateProperties.CTC354, Isolate.$isolateProperties.CTC159, Isolate.$isolateProperties.CTC356, Isolate.$isolateProperties.CTC358, Isolate.$isolateProperties.CTC360, Isolate.$isolateProperties.CTC243, Isolate.$isolateProperties.CTC197, Isolate.$isolateProperties.CTC362, Isolate.$isolateProperties.CTC364, Isolate.$isolateProperties.CTC209, Isolate.$isolateProperties.CTC366, Isolate.$isolateProperties.CTC368, Isolate.$isolateProperties.CTC370, Isolate.$isolateProperties.CTC372, Isolate.$isolateProperties.CTC374, Isolate.$isolateProperties.CTC304, Isolate.$isolateProperties.CTC207, Isolate.$isolateProperties.CTC376, Isolate.$isolateProperties.CTC214, Isolate.$isolateProperties.CTC378, Isolate.$isolateProperties.CTC193, Isolate.$isolateProperties.CTC380, Isolate.$isolateProperties.CTC326, Isolate.$isolateProperties.CTC285, Isolate.$isolateProperties.CTC382, Isolate.$isolateProperties.CTC156, Isolate.$isolateProperties.CTC384, Isolate.$isolateProperties.CTC386, Isolate.$isolateProperties.CTC388, Isolate.$isolateProperties.CTC390, Isolate.$isolateProperties.CTC391, Isolate.$isolateProperties.CTC393, Isolate.$isolateProperties.CTC334, Isolate.$isolateProperties.CTC395, Isolate.$isolateProperties.CTC397, Isolate.$isolateProperties.CTC287, Isolate.$isolateProperties.CTC275, Isolate.$isolateProperties.CTC313, Isolate.$isolateProperties.CTC154, Isolate.$isolateProperties.CTC176, Isolate.$isolateProperties.CTC399, Isolate.$isolateProperties.CTC254, Isolate.$isolateProperties.CTC348, Isolate.$isolateProperties.CTC401, Isolate.$isolateProperties.CTC403, Isolate.$isolateProperties.CTC405, Isolate.$isolateProperties.CTC407, Isolate.$isolateProperties.CTC245, Isolate.$isolateProperties.CTC140, Isolate.$isolateProperties.CTC228, Isolate.$isolateProperties.CTC409]);
+$.CTC410 = 149;
+$.CTC71 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC142, 14, 149);
+$.CTC411 = 145;
+$.CTC62 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC147, 1, 145);
+$.CTC412 = 47;
+$.CTC47 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC262, 13, 47);
+$.CTC413 = 64;
+$.CTC45 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC297, 0, 64);
+$.CTC414 = 139;
+$.CTC82 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC106, 1, 139);
+$.CTC415 = null;
+$.CTC = new Isolate.$isolateProperties.NullPointerException(null, Isolate.$isolateProperties.CTC0);
+$.CTC416 = 125;
+$.CTC31 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC259, 0, 125);
+$.CTC417 = 100;
+$.CTC37 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC249, 0, 100);
+$.CTC418 = 'expected identifier';
+$.CTC89 = new Isolate.$isolateProperties.StringWrapper('expected identifier');
 $.CTC419 = '^#[_a-zA-Z]\\w*$';
 $.CTC99 = new Isolate.$isolateProperties.JSSyntaxRegExp('^#[_a-zA-Z]\\w*$', false, false);
-$.CTC420 = 3;
-$.CTC421 = 63;
-$.CTC27 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC358, 3, 63);
-$.CTC422 = 128;
-$.CTC44 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC225, 0, 128);
-$.CTC423 = 'structured clone of RegExp';
+$.CTC420 = 58;
+$.CTC25 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC289, 0, 58);
+$.CTC421 = 'structured clone of RegExp';
 $.CTC3 = new Isolate.$isolateProperties.NotImplementedException('structured clone of RegExp');
-$.CTC424 = 58;
-$.CTC25 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC404, 0, 58);
-$.CTC425 = 'expected identifier';
-$.CTC89 = new Isolate.$isolateProperties.StringWrapper('expected identifier');
-$.CTC426 = 100;
-$.CTC37 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC341, 0, 100);
-$.CTC427 = 125;
-$.CTC31 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC339, 0, 125);
-$.CTC428 = 'unterminated string literal';
-$.CTC42 = new Isolate.$isolateProperties.StringWrapper('unterminated string literal');
-$.CTC429 = 159;
-$.CTC43 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC354, 0, 159);
-$.CTC430 = 148;
-$.CTC66 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC348, 1, 148);
-$.CTC431 = 5;
-$.CTC432 = 144;
-$.CTC61 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC343, 5, 144);
-$.CTC433 = 131;
-$.CTC46 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC238, 1, 131);
-$.CTC434 = 'structured clone of ArrayBuffer';
+$.CTC422 = 3;
+$.CTC423 = 63;
+$.CTC27 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC336, 3, 63);
+$.CTC424 = 128;
+$.CTC44 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC161, 0, 128);
+$.CTC425 = 143;
+$.CTC75 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC180, 9, 143);
+$.CTC426 = 151;
+$.CTC68 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC178, 14, 151);
+$.CTC427 = 92;
+$.CTC21 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC234, 0, 92);
+$.CTC428 = 'Dynamic';
+$.CTC90 = new Isolate.$isolateProperties.Keyword('Dynamic', false, true, Isolate.$isolateProperties.CTC139);
+$.CTC429 = 40;
+$.CTC22 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC338, 14, 40);
+$.CTC430 = 158;
+$.CTC48 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC283, 0, 158);
+$.CTC431 = 131;
+$.CTC46 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC273, 1, 131);
+$.CTC432 = 43;
+$.CTC73 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC121, 12, 43);
+$.CTC433 = 97;
+$.CTC91 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC195, 0, 97);
+$.CTC434 = 138;
+$.CTC81 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC270, 10, 138);
+$.CTC435 = 5;
+$.CTC436 = 144;
+$.CTC61 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC247, 5, 144);
+$.CTC95 = new Isolate.$isolateProperties.Link();
+$.CTC437 = 'structured clone of ArrayBuffer';
 $.CTC7 = new Isolate.$isolateProperties.NotImplementedException('structured clone of ArrayBuffer');
-$.CTC435 = 97;
-$.CTC91 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC190, 0, 97);
-$.CTC436 = 43;
-$.CTC73 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC145, 12, 43);
-$.CTC437 = 138;
-$.CTC81 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC240, 10, 138);
-$.CTC95 = new Isolate.$isolateProperties.LinkTail();
-$.CTC438 = 'Cannot add to immutable List.';
+$.CTC438 = 159;
+$.CTC43 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC232, 0, 159);
+$.CTC439 = 148;
+$.CTC66 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC239, 1, 148);
+$.CTC440 = 'Cannot add to immutable List.';
 $.CTC1 = new Isolate.$isolateProperties.UnsupportedOperationException('Cannot add to immutable List.');
-$.CTC439 = 158;
-$.CTC48 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC233, 0, 158);
-$.CTC440 = '^\\[name=["\'][^\'"]+[\'"]\\]$';
-$.CTC17 = new Isolate.$isolateProperties.JSSyntaxRegExp('^\\[name=["\'][^\'"]+[\'"]\\]$', false, false);
-$.CTC441 = 130;
-$.CTC79 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC389, 0, 130);
-$.CTC442 = 6;
-$.CTC443 = 124;
-$.CTC60 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC114, 6, 124);
-$.CTC444 = 156;
-$.CTC83 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC394, 11, 156);
-$.CTC445 = 88;
-$.CTC32 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC135, 0, 88);
-$.CTC446 = 62;
-$.CTC84 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC165, 10, 62);
-$.CTC447 = 132;
-$.CTC34 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC402, 0, 132);
-$.CTC448 = 'IDBKey containing Date';
+$.CTC441 = 'unterminated string literal';
+$.CTC42 = new Isolate.$isolateProperties.StringWrapper('unterminated string literal');
+$.CTC442 = '^\\[name=["\'][^\'"]+[\'"]\\]$';
+$.CTC16 = new Isolate.$isolateProperties.JSSyntaxRegExp('^\\[name=["\'][^\'"]+[\'"]\\]$', false, false);
+$.CTC443 = 46;
+$.CTC36 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC185, 14, 46);
+$.CTC444 = 136;
+$.CTC86 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC332, 1, 136);
+$.CTC445 = 'IDBKey containing Date';
 $.CTC12 = new Isolate.$isolateProperties.NotImplementedException('IDBKey containing Date');
-$.CTC449 = 'structured clone of File';
+$.CTC446 = 'structured clone of File';
 $.CTC4 = new Isolate.$isolateProperties.NotImplementedException('structured clone of File');
-$.CTC450 = '^[*a-zA-Z0-9]+$';
-$.CTC18 = new Isolate.$isolateProperties.JSSyntaxRegExp('^[*a-zA-Z0-9]+$', false, false);
-$.CTC451 = 136;
-$.CTC86 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC368, 1, 136);
-$.CTC452 = 'structured clone of Date';
+$.CTC447 = '^[*a-zA-Z0-9]+$';
+$.CTC17 = new Isolate.$isolateProperties.JSSyntaxRegExp('^[*a-zA-Z0-9]+$', false, false);
+$.CTC448 = 156;
+$.CTC83 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC299, 11, 156);
+$.CTC449 = 'structured clone of Date';
 $.CTC2 = new Isolate.$isolateProperties.NotImplementedException('structured clone of Date');
-$.CTC453 = 46;
-$.CTC36 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC199, 14, 46);
+$.CTC450 = 132;
+$.CTC34 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC291, 0, 132);
+$.CTC451 = 62;
+$.CTC84 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC223, 10, 62);
+$.CTC452 = 88;
+$.CTC32 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC128, 0, 88);
+$.CTC453 = 6;
+$.CTC454 = 124;
+$.CTC60 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC152, 6, 124);
+$.CTC455 = 130;
+$.CTC79 = new Isolate.$isolateProperties.PrecedenceInfo(Isolate.$isolateProperties.CTC309, 0, 130);
 $.libraryList = null;
 $.$$PERIOD = 46;
 $.$$CLOSE_SQUARE_BRACKET = 93;
@@ -8238,7 +8241,7 @@ $.$$OPEN_CURLY_BRACKET = 123;
 $.LT_LT_EQ_INFO = Isolate.$isolateProperties.CTC86;
 $.$$LF = 10;
 $.EQ_EQ_EQ_INFO = Isolate.$isolateProperties.CTC77;
-$.AS_INFO = Isolate.$isolateProperties.CTC139;
+$.AS_INFO = Isolate.$isolateProperties.CTC133;
 $.$$6 = 54;
 $.FUNCTION_TOKEN = 130;
 $.LT_INFO = Isolate.$isolateProperties.CTC88;
@@ -8350,13 +8353,13 @@ $.$$COMMA = 44;
 $.GT_TOKEN = 62;
 $.CARET_INFO = Isolate.$isolateProperties.CTC57;
 $.$$QUESTION = 63;
-$.Keyword_DYNAMIC = Isolate.$isolateProperties.CTC90;
 $.LT_LT_EQ_TOKEN = 136;
 $.dropdown = null;
 $.Classification_ERROR = 'e';
 $.OPEN_PAREN_INFO = Isolate.$isolateProperties.CTC22;
 $.SLASH_INFO = Isolate.$isolateProperties.CTC47;
 $.Classification_OPERATOR = 'o';
+$.Keyword_DYNAMIC_DEPRECATED = Isolate.$isolateProperties.CTC90;
 $.Classification_PUNCTUATION = 'p';
 $.LIBRARY = 'library';
 $.STAR_EQ_TOKEN = 148;
@@ -8452,7 +8455,7 @@ $.POSTFIX_PRECEDENCE = 14;
 $.EQ_INFO = Isolate.$isolateProperties.CTC80;
 $.$$PERCENT = 37;
 $.MEMBERS = 'members';
-$.IS_INFO = Isolate.$isolateProperties.CTC274;
+$.IS_INFO = Isolate.$isolateProperties.CTC387;
 $.BAR_EQ_INFO = Isolate.$isolateProperties.CTC59;
 $.Keyword__keywords = null;
 $.INTERFACE = 'interface';
@@ -8491,7 +8494,7 @@ $.$$f = 102;
 $.PLUS_INFO = Isolate.$isolateProperties.CTC73;
 $.ASSIGNMENT_PRECEDENCE = 1;
 $.Classification_ARROW_OPERATOR = 'a';
-$.KEYWORD_INFO = Isolate.$isolateProperties.CTC108;
+$.KEYWORD_INFO = Isolate.$isolateProperties.CTC139;
 $.KeyName_DOWN = 'Down';
 var $ = null;
 Isolate.$finishClasses($$);
@@ -9098,14 +9101,8 @@ return this[index];
 });
 
 $.$defineNativeClass('DOMTokenList', ["length?"], {
- add$1: function(token) {
-  return this.add(token);
-},
  contains$1: function(token) {
   return this.contains(token);
-},
- remove$1: function(token) {
-  return this.remove(token);
 },
  toString$0: function() {
   return this.toString();
@@ -9249,7 +9246,7 @@ $.$defineNativeClass('HTMLDocument', ["head?"], {
   return this.$dom_querySelector$1(selectors);
 },
  queryAll$1: function(selectors) {
-  if ($.CTC17.hasMatch$1(selectors) === true) {
+  if ($.CTC16.hasMatch$1(selectors) === true) {
     var mutableMatches = this.$dom_getElementsByName$1($.substring$2(selectors, 7, selectors.length - 2));
     if (typeof mutableMatches !== 'string' && (typeof mutableMatches !== 'object' || mutableMatches === null || mutableMatches.constructor !== Array && !mutableMatches.is$JavaScriptIndexingBehavior()))
       return this.queryAll$1$bailout(1, mutableMatches);
@@ -9261,7 +9258,7 @@ $.$defineNativeClass('HTMLDocument', ["head?"], {
       copyOfMatches[i] = mutableMatches[i];
     }
     return $._FrozenElementList$_wrap(copyOfMatches);
-  } else if ($.CTC18.hasMatch$1(selectors) === true) {
+  } else if ($.CTC17.hasMatch$1(selectors) === true) {
     mutableMatches = this.$dom_getElementsByTagName$1(selectors);
     if (typeof mutableMatches !== 'string' && (typeof mutableMatches !== 'object' || mutableMatches === null || mutableMatches.constructor !== Array && !mutableMatches.is$JavaScriptIndexingBehavior()))
       return this.queryAll$1$bailout(2, mutableMatches);
@@ -9276,8 +9273,8 @@ $.$defineNativeClass('HTMLDocument', ["head?"], {
   } else
     return $._FrozenElementList$_wrap(this.$dom_querySelectorAll$1(selectors));
 },
- queryAll$1$bailout: function(state, env0) {
-  switch (state) {
+ queryAll$1$bailout: function(state0, env0) {
+  switch (state0) {
     case 1:
       mutableMatches = env0;
       break;
@@ -9285,15 +9282,15 @@ $.$defineNativeClass('HTMLDocument', ["head?"], {
       mutableMatches = env0;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
     default:
-      if (state === 1 || state === 0 && $.CTC17.hasMatch$1(selectors) === true)
-        switch (state) {
+      if (state0 === 1 || state0 === 0 && $.CTC16.hasMatch$1(selectors) === true)
+        switch (state0) {
           case 0:
             var mutableMatches = this.$dom_getElementsByName$1($.substring$2(selectors, 7, selectors.length - 2));
           case 1:
-            state = 0;
+            state0 = 0;
             var len = $.get$length(mutableMatches);
             var copyOfMatches = $.ListImplementation_List(len);
             for (var i = 0; $.ltB(i, len); ++i) {
@@ -9305,15 +9302,15 @@ $.$defineNativeClass('HTMLDocument', ["head?"], {
             return $._FrozenElementList$_wrap(copyOfMatches);
         }
       else
-        switch (state) {
+        switch (state0) {
           case 0:
           case 2:
-            if (state === 2 || state === 0 && $.CTC18.hasMatch$1(selectors) === true)
-              switch (state) {
+            if (state0 === 2 || state0 === 0 && $.CTC17.hasMatch$1(selectors) === true)
+              switch (state0) {
                 case 0:
                   mutableMatches = this.$dom_getElementsByTagName$1(selectors);
                 case 2:
-                  state = 0;
+                  state0 = 0;
                   len = $.get$length(mutableMatches);
                   copyOfMatches = $.ListImplementation_List(len);
                   for (i = 0; $.ltB(i, len); ++i) {
@@ -12833,8 +12830,8 @@ $.$defineNativeClass('XSLTProcessor', [], {
     ['AudioParam', 'AudioParam|AudioGain|AudioGain'],
     ['Blob', 'Blob|File|File'],
     ['CSSRule', 'CSSRule|CSSUnknownRule|CSSStyleRule|CSSPageRule|CSSMediaRule|WebKitCSSKeyframesRule|WebKitCSSKeyframeRule|CSSImportRule|CSSFontFaceRule|CSSCharsetRule|CSSUnknownRule|CSSStyleRule|CSSPageRule|CSSMediaRule|WebKitCSSKeyframesRule|WebKitCSSKeyframeRule|CSSImportRule|CSSFontFaceRule|CSSCharsetRule'],
-    ['CSSValueList', 'CSSValueList|WebKitCSSFilterValue|WebKitCSSTransformValue|WebKitCSSFilterValue|WebKitCSSTransformValue'],
     ['WorkerContext', v14/*class(_WorkerContextImpl)*/],
+    ['CSSValueList', 'CSSValueList|WebKitCSSFilterValue|WebKitCSSTransformValue|WebKitCSSFilterValue|WebKitCSSTransformValue'],
     ['DOMTokenList', 'DOMTokenList|DOMSettableTokenList|DOMSettableTokenList'],
     ['Entry', 'Entry|FileEntry|DirectoryEntry|FileEntry|DirectoryEntry'],
     ['EntrySync', 'EntrySync|FileEntrySync|DirectoryEntrySync|FileEntrySync|DirectoryEntrySync'],

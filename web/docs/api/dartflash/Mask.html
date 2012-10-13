@@ -97,10 +97,16 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
+<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
+<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
+<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -113,6 +119,68 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<pre class="source">
+class Mask
+{
+  int _type;
+
+  Rectangle _rectangle;
+  Circle _circle;
+  List&lt;Point&gt; _points;
+
+  Mask.rectangle(num x, num y, num width, num height)
+  {
+    _type = 0;
+    _rectangle = new Rectangle(x, y, width, height);
+  }
+
+  Mask.circle(num x, num y, num radius)
+  {
+    _type = 1;
+    _circle = new Circle(x, y, radius);
+  }
+
+  Mask.custom(List&lt;Point&gt; points)
+  {
+    _type = 2;
+    _points = points;
+
+    if (_points.length &lt; 3)
+      throw new ArgumentError("A custom mask needs at least 3 points.");
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  void render(RenderState renderState)
+  {
+    var context = renderState.context;
+
+    context.beginPath();
+
+    switch(_type) {
+      case 0:
+        context.rect(_rectangle.x, _rectangle.y, _rectangle.width, _rectangle.height);
+        break;
+
+      case 1:
+        context.arc(_circle.x, _circle.y, _circle.radius, 0, PI * 2.0, false);
+        break;
+
+      case 2:
+        context.moveTo(_points[0].x, _points[0].y);
+
+        for(int i = 1; i &lt; _points.length; i++)
+          context.lineTo(_points[i].x, _points[i].y);
+
+        break;
+    }
+
+    context.clip();
+  }
+
+}
+</pre>
 </div>
 <div>
 <h3>Constructors</h3>
@@ -163,7 +231,23 @@ Mask.rectangle(num x, num y, num width, num height)
 </div>
 </div>
 <div>
-<h3>Methods</h3>
+<h3>Properties</h3>
+<div class="field inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to Mask.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Operators</h3>
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
@@ -180,6 +264,9 @@ bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Methods</h3>
 <div class="method inherited"><h4 id="hashCode">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
@@ -198,6 +285,51 @@ external int hashCode();
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="Mask.circle">
+<button class="show-code">Code</button>
+new <strong>Mask.circle</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y, <a href="http://api.dartlang.org/dart_core/num.html">num</a> radius) <a class="anchor-link" href="#Mask.circle"
+              title="Permalink to Mask.Mask.circle">#</a></h4>
+<div class="doc">
+<pre class="source">
+Mask.circle(num x, num y, num radius)
+{
+  _type = 1;
+  _circle = new Circle(x, y, radius);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="Mask.custom">
+<button class="show-code">Code</button>
+new <strong>Mask.custom</strong>(<a href="http://api.dartlang.org/dart_core/List.html">List</a>&lt;<a href="../dartflash/Point.html">Point</a>&gt; points) <a class="anchor-link" href="#Mask.custom"
+              title="Permalink to Mask.Mask.custom">#</a></h4>
+<div class="doc">
+<pre class="source">
+Mask.custom(List&lt;Point&gt; points)
+{
+  _type = 2;
+  _points = points;
+
+  if (_points.length &lt; 3)
+    throw new ArgumentError("A custom mask needs at least 3 points.");
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="Mask.rectangle">
+<button class="show-code">Code</button>
+new <strong>Mask.rectangle</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y, <a href="http://api.dartlang.org/dart_core/num.html">num</a> width, <a href="http://api.dartlang.org/dart_core/num.html">num</a> height) <a class="anchor-link" href="#Mask.rectangle"
+              title="Permalink to Mask.Mask.rectangle">#</a></h4>
+<div class="doc">
+<pre class="source">
+Mask.rectangle(num x, num y, num width, num height)
+{
+  _type = 0;
+  _rectangle = new Rectangle(x, y, width, height);
+}
+</pre>
+</div>
+</div>
 <div class="method inherited"><h4 id="noSuchMethod">
 <button class="show-code">Code</button>
 <strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
@@ -212,6 +344,20 @@ invocation.</p>
 <code>noSuchMethodError</code>.</p>
 <pre class="source">
 external Dynamic noSuchMethod(String name, List args);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="Object">
+<button class="show-code">Code</button>
+const <strong>Object</strong>() <a class="anchor-link" href="#Object"
+              title="Permalink to Mask.Object">#</a></h4>
+<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
+<pre class="source">
+const Object();
 </pre>
 </div>
 </div>
@@ -250,17 +396,6 @@ void render(RenderState renderState)
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
-              title="Permalink to Mask.get runtimeType">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="toString">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
@@ -278,7 +413,7 @@ external String toString();
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-08 19:24:31.195</div>
+          <div>This page was generated at 2012-10-13 21:36:08.921</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

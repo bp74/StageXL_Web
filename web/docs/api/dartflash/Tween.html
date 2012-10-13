@@ -97,10 +97,16 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
+<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
+<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
 <li><div class="icon-class"></div><strong>Tween</strong></li>
-<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
+<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
+<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -113,6 +119,191 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<pre class="source">
+class Tween implements Animatable
+{
+  DisplayObject _displayObject;
+  TransitionFunction _transitionFunction;
+
+  List&lt;_TweenProperty&gt; _tweenProperties;
+
+  TweenStart _onStart;
+  TweenUpdate _onUpdate;
+  TweenComplete _onComplete;
+
+  num _totalTime;
+  num _currentTime;
+  num _delay;
+  bool _roundToInt;
+  bool _started;
+
+  Tween(DisplayObject displayObject, num time, [TransitionFunction transitionFunction = null])
+  {
+    _displayObject = displayObject;
+    _transitionFunction = (transitionFunction != null) ? transitionFunction : Transitions.linear;
+
+    _currentTime = 0.0;
+    _totalTime = max(0.0001, time);
+    _delay = 0.0;
+    _roundToInt = false;
+    _started = false;
+
+    _tweenProperties = new List&lt;_TweenProperty&gt;();
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  void animate(String property, num targetValue)
+  {
+    var properties = ['x', 'y', 'pivotX', 'pivotY', 'scaleX', 'scaleY', 'rotation', 'alpha'];
+
+    if (properties.indexOf(property) == -1)
+      throw new ArgumentError("Error #9003: The supplied property ('$property') is not supported at this time.");
+
+    if (_displayObject != null &amp;&amp; _started == false)
+      _tweenProperties.add(new _TweenProperty(property, 0.0, targetValue));
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void scaleTo(num factor)
+  {
+    animate('scaleX', factor);
+    animate('scaleY', factor);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void moveTo(num x, num y)
+  {
+    animate('x', x);
+    animate('y', y);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void fadeTo(num alpha)
+  {
+    animate('alpha', alpha);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  void complete()
+  {
+    if (this.isComplete == false)
+      advanceTime(_totalTime - _currentTime);
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  bool advanceTime(num time)
+  {
+    if (_currentTime &lt; _totalTime || _started == false)
+    {
+      _currentTime = _currentTime + time;
+
+      if (_currentTime &gt; _totalTime)
+        _currentTime = _totalTime;
+
+      if (_currentTime &gt;= 0.0)
+      {
+        if (_started == false)
+        {
+          _started = true;
+
+          for(int i = 0; i &lt; _tweenProperties.length; i++)
+          {
+            var tp = _tweenProperties[i];
+
+            switch(tp.name) {
+              case 'x':        tp.startValue = _displayObject.x; break;
+              case 'y':        tp.startValue = _displayObject.y; break;
+              case 'pivotX':   tp.startValue = _displayObject.pivotX; break;
+              case 'pivotY':   tp.startValue = _displayObject.pivotY; break;
+              case 'scaleX':   tp.startValue = _displayObject.scaleX; break;
+              case 'scaleY':   tp.startValue = _displayObject.scaleY; break;
+              case 'rotation': tp.startValue = _displayObject.rotation; break;
+              case 'alpha':    tp.startValue = _displayObject.alpha; break;
+            }
+          }
+
+          if (_onStart != null)
+            _onStart();
+        }
+
+        //-------------
+
+        num ratio = _currentTime / _totalTime;
+        num transition = _transitionFunction(ratio);
+
+        for(int i = 0; i &lt; _tweenProperties.length; i++)
+        {
+          var tp = _tweenProperties[i];
+          var value = tp.startValue + transition * (tp.targetValue - tp.startValue);
+          value = _roundToInt ? value.round() : value;
+
+          switch(tp.name) {
+            case 'x':        _displayObject.x = value; break;
+            case 'y':        _displayObject.y = value; break;
+            case 'pivotX':   _displayObject.pivotX = value; break;
+            case 'pivotY':   _displayObject.pivotY = value; break;
+            case 'scaleX':   _displayObject.scaleX = value; break;
+            case 'scaleY':   _displayObject.scaleY = value; break;
+            case 'rotation': _displayObject.rotation = value; break;
+            case 'alpha':    _displayObject.alpha = value; break;
+          }
+        }
+
+        if (_onUpdate != null)
+          _onUpdate();
+
+        //-------------
+
+        if (_onComplete != null &amp;&amp; _currentTime == _totalTime)
+          _onComplete();
+      }
+    }
+
+    return _currentTime &lt; _totalTime;
+  }
+
+  //-------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------
+
+  DisplayObject get displayObject =&gt; _displayObject;
+  num get totalTime =&gt; _totalTime;
+  num get currentTime =&gt; _currentTime;
+  num get delay =&gt; _delay;
+  bool get roundToInt =&gt; _roundToInt;
+  bool get isComplete =&gt; _currentTime &gt;= _totalTime;
+
+  set delay(num value)
+  {
+    if (_started == false)
+      _currentTime = _currentTime + _delay - value;
+
+    _delay = value;
+  }
+
+  set roundToInt(bool value)
+  {
+    _roundToInt = value;
+  }
+
+  //-------------------------------------------------------------------------------------------------
+
+  TweenStart get onStart =&gt; _onStart;
+  TweenUpdate get onUpdate =&gt; _onUpdate;
+  TweenComplete get onComplete =&gt; _onComplete;
+
+  void set onStart(TweenStart value) { _onStart = value; }
+  void set onUpdate(TweenUpdate value) { _onUpdate = value; }
+  void set onComplete(TweenComplete value) { _onComplete = value; }
+}
+</pre>
 </div>
 <h3>Implements</h3>
 <p>
@@ -121,13 +312,13 @@
 <h3>Constructors</h3>
 <div class="method"><h4 id="Tween">
 <button class="show-code">Code</button>
-new <strong>Tween</strong>(target, <a href="http://api.dartlang.org/dart_core/num.html">num</a> time, [<a href="../dartflash/TransitionFunction.html">TransitionFunction</a> transitionFunction = null]) <a class="anchor-link" href="#Tween"
+new <strong>Tween</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> displayObject, <a href="http://api.dartlang.org/dart_core/num.html">num</a> time, [<a href="../dartflash/TransitionFunction.html">TransitionFunction</a> transitionFunction = null]) <a class="anchor-link" href="#Tween"
               title="Permalink to Tween.Tween">#</a></h4>
 <div class="doc">
 <pre class="source">
-Tween(Dynamic target, num time, [TransitionFunction transitionFunction = null])
+Tween(DisplayObject displayObject, num time, [TransitionFunction transitionFunction = null])
 {
-  _target = target;
+  _displayObject = displayObject;
   _transitionFunction = (transitionFunction != null) ? transitionFunction : Transitions.linear;
 
   _currentTime = 0.0;
@@ -136,15 +327,162 @@ Tween(Dynamic target, num time, [TransitionFunction transitionFunction = null])
   _roundToInt = false;
   _started = false;
 
-  _animateProperties = new List&lt;_AnimateProperty&gt;();
-  _animateValues = new List&lt;_AnimateValue&gt;();
+  _tweenProperties = new List&lt;_TweenProperty&gt;();
 }
 </pre>
 </div>
 </div>
 </div>
 <div>
-<h3>Methods</h3>
+<h3>Properties</h3>
+<div class="field"><h4 id="currentTime">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>currentTime</strong> <a class="anchor-link"
+            href="#currentTime"
+            title="Permalink to Tween.currentTime">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get currentTime =&gt; _currentTime;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="delay">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>delay</strong> <a class="anchor-link"
+            href="#delay"
+            title="Permalink to Tween.delay">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get delay =&gt; _delay;
+</pre>
+<pre class="source">
+set delay(num value)
+{
+  if (_started == false)
+    _currentTime = _currentTime + _delay - value;
+
+  _delay = value;
+}
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="displayObject">
+<button class="show-code">Code</button>
+final <a href="../dartflash/DisplayObject.html">DisplayObject</a>         <strong>displayObject</strong> <a class="anchor-link"
+            href="#displayObject"
+            title="Permalink to Tween.displayObject">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+DisplayObject get displayObject =&gt; _displayObject;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="isComplete">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>isComplete</strong> <a class="anchor-link"
+            href="#isComplete"
+            title="Permalink to Tween.isComplete">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get isComplete =&gt; _currentTime &gt;= _totalTime;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onComplete">
+<button class="show-code">Code</button>
+<a href="../dartflash/TweenComplete.html">TweenComplete</a>         <strong>onComplete</strong> <a class="anchor-link"
+            href="#onComplete"
+            title="Permalink to Tween.onComplete">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenComplete get onComplete =&gt; _onComplete;
+</pre>
+<pre class="source">
+void set onComplete(TweenComplete value) { _onComplete = value; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onStart">
+<button class="show-code">Code</button>
+<a href="../dartflash/TweenStart.html">TweenStart</a>         <strong>onStart</strong> <a class="anchor-link"
+            href="#onStart"
+            title="Permalink to Tween.onStart">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenStart get onStart =&gt; _onStart;
+</pre>
+<pre class="source">
+void set onStart(TweenStart value) { _onStart = value; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onUpdate">
+<button class="show-code">Code</button>
+<a href="../dartflash/TweenUpdate.html">TweenUpdate</a>         <strong>onUpdate</strong> <a class="anchor-link"
+            href="#onUpdate"
+            title="Permalink to Tween.onUpdate">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenUpdate get onUpdate =&gt; _onUpdate;
+</pre>
+<pre class="source">
+void set onUpdate(TweenUpdate value) { _onUpdate = value; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="roundToInt">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>roundToInt</strong> <a class="anchor-link"
+            href="#roundToInt"
+            title="Permalink to Tween.roundToInt">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get roundToInt =&gt; _roundToInt;
+</pre>
+<pre class="source">
+set roundToInt(bool value)
+{
+  _roundToInt = value;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to Tween.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
+<pre class="source">
+external Type get runtimeType;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="totalTime">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>totalTime</strong> <a class="anchor-link"
+            href="#totalTime"
+            title="Permalink to Tween.totalTime">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get totalTime =&gt; _totalTime;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Operators</h3>
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
@@ -161,6 +499,9 @@ bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Methods</h3>
 <div class="method"><h4 id="advanceTime">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>advanceTime</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> time) <a class="anchor-link" href="#advanceTime"
@@ -182,9 +523,20 @@ bool advanceTime(num time)
       {
         _started = true;
 
-        for(int i = 0; i &lt; _animateProperties.length; i++) {
-          var ap = _animateProperties[i];
-          ap.startValue = _getPropertyValue(_target, ap.name);
+        for(int i = 0; i &lt; _tweenProperties.length; i++)
+        {
+          var tp = _tweenProperties[i];
+
+          switch(tp.name) {
+            case 'x':        tp.startValue = _displayObject.x; break;
+            case 'y':        tp.startValue = _displayObject.y; break;
+            case 'pivotX':   tp.startValue = _displayObject.pivotX; break;
+            case 'pivotY':   tp.startValue = _displayObject.pivotY; break;
+            case 'scaleX':   tp.startValue = _displayObject.scaleX; break;
+            case 'scaleY':   tp.startValue = _displayObject.scaleY; break;
+            case 'rotation': tp.startValue = _displayObject.rotation; break;
+            case 'alpha':    tp.startValue = _displayObject.alpha; break;
+          }
         }
 
         if (_onStart != null)
@@ -196,16 +548,22 @@ bool advanceTime(num time)
       num ratio = _currentTime / _totalTime;
       num transition = _transitionFunction(ratio);
 
-      for(int i = 0; i &lt; _animateProperties.length; i++) {
-        var ap = _animateProperties[i];
-        var value = ap.startValue + transition * (ap.targetValue - ap.startValue);
-        _setPropertyValue(_target, ap.name, _roundToInt ? value.round() : value);
-      }
+      for(int i = 0; i &lt; _tweenProperties.length; i++)
+      {
+        var tp = _tweenProperties[i];
+        var value = tp.startValue + transition * (tp.targetValue - tp.startValue);
+        value = _roundToInt ? value.round() : value;
 
-      for(int i = 0; i &lt; _animateValues.length; i++) {
-        var av = _animateValues[i];
-        var value = av.startValue + transition * (av.targetValue - av.startValue);
-        av.tweenFunction(_roundToInt ? value.round() : value);
+        switch(tp.name) {
+          case 'x':        _displayObject.x = value; break;
+          case 'y':        _displayObject.y = value; break;
+          case 'pivotX':   _displayObject.pivotX = value; break;
+          case 'pivotY':   _displayObject.pivotY = value; break;
+          case 'scaleX':   _displayObject.scaleX = value; break;
+          case 'scaleY':   _displayObject.scaleY = value; break;
+          case 'rotation': _displayObject.rotation = value; break;
+          case 'alpha':    _displayObject.alpha = value; break;
+        }
       }
 
       if (_onUpdate != null)
@@ -231,22 +589,13 @@ void <strong>animate</strong>(<a href="http://api.dartlang.org/dart_core/String.
 <pre class="source">
 void animate(String property, num targetValue)
 {
-  if (_target != null &amp;&amp; _started == false)
-    _animateProperties.add(new _AnimateProperty(property, 0.0, targetValue));
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="animateValue">
-<button class="show-code">Code</button>
-void <strong>animateValue</strong>(<a href="../dartflash/TweenFunction.html">TweenFunction</a> tweenFunction, <a href="http://api.dartlang.org/dart_core/num.html">num</a> startValue, <a href="http://api.dartlang.org/dart_core/num.html">num</a> targetValue) <a class="anchor-link" href="#animateValue"
-              title="Permalink to Tween.animateValue">#</a></h4>
-<div class="doc">
-<pre class="source">
-void animateValue(TweenFunction tweenFunction, num startValue, num targetValue)
-{
-  if (_started == false)
-    _animateValues.add(new _AnimateValue(tweenFunction, startValue, targetValue));
+  var properties = ['x', 'y', 'pivotX', 'pivotY', 'scaleX', 'scaleY', 'rotation', 'alpha'];
+
+  if (properties.indexOf(property) == -1)
+    throw new ArgumentError("Error #9003: The supplied property ('$property') is not supported at this time.");
+
+  if (_displayObject != null &amp;&amp; _started == false)
+    _tweenProperties.add(new _TweenProperty(property, 0.0, targetValue));
 }
 </pre>
 </div>
@@ -265,42 +614,6 @@ void complete()
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="currentTime">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get currentTime</strong>() <a class="anchor-link" href="#currentTime"
-              title="Permalink to Tween.get currentTime">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get currentTime =&gt; _currentTime;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="delay">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get delay</strong>() <a class="anchor-link" href="#delay"
-              title="Permalink to Tween.get delay">#</a></h4>
-<div class="doc">
-<pre class="source">
-num get delay =&gt; _delay;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="delay=">
-<button class="show-code">Code</button>
-void <strong>set delay</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#delay="
-              title="Permalink to Tween.set delay">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set delay(num value)
-{
-  if (_started == false)
-    _currentTime = _currentTime + _delay - value;
-
-  _delay = value;
-}
-</pre>
-</div>
-</div>
 <div class="method"><h4 id="fadeTo">
 <button class="show-code">Code</button>
 void <strong>fadeTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> alpha) <a class="anchor-link" href="#fadeTo"
@@ -309,7 +622,7 @@ void <strong>fadeTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html
 <pre class="source">
 void fadeTo(num alpha)
 {
-  animate("alpha", alpha);
+  animate('alpha', alpha);
 }
 </pre>
 </div>
@@ -332,16 +645,6 @@ external int hashCode();
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="isComplete">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get isComplete</strong>() <a class="anchor-link" href="#isComplete"
-              title="Permalink to Tween.get isComplete">#</a></h4>
-<div class="doc">
-<pre class="source">
-bool get isComplete =&gt; _currentTime &gt;= _totalTime;
-</pre>
-</div>
-</div>
 <div class="method"><h4 id="moveTo">
 <button class="show-code">Code</button>
 void <strong>moveTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y) <a class="anchor-link" href="#moveTo"
@@ -350,8 +653,8 @@ void <strong>moveTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html
 <pre class="source">
 void moveTo(num x, num y)
 {
-  animate("x", x);
-  animate("y", y);
+  animate('x', x);
+  animate('y', y);
 }
 </pre>
 </div>
@@ -373,97 +676,17 @@ external Dynamic noSuchMethod(String name, List args);
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="onComplete">
+<div class="method inherited"><h4 id="Object">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Function.html">Function</a> <strong>get onComplete</strong>() <a class="anchor-link" href="#onComplete"
-              title="Permalink to Tween.get onComplete">#</a></h4>
-<div class="doc">
-<pre class="source">
-Function get onComplete =&gt; _onComplete;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="onComplete=">
-<button class="show-code">Code</button>
-void <strong>set onComplete</strong>(<a href="http://api.dartlang.org/dart_core/Function.html">Function</a> value) <a class="anchor-link" href="#onComplete="
-              title="Permalink to Tween.set onComplete">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set onComplete(Function value) { _onComplete = value; }
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="onStart">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Function.html">Function</a> <strong>get onStart</strong>() <a class="anchor-link" href="#onStart"
-              title="Permalink to Tween.get onStart">#</a></h4>
-<div class="doc">
-<pre class="source">
-Function get onStart =&gt; _onStart;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="onStart=">
-<button class="show-code">Code</button>
-void <strong>set onStart</strong>(<a href="http://api.dartlang.org/dart_core/Function.html">Function</a> value) <a class="anchor-link" href="#onStart="
-              title="Permalink to Tween.set onStart">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set onStart(Function value) { _onStart = value; }
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="onUpdate">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Function.html">Function</a> <strong>get onUpdate</strong>() <a class="anchor-link" href="#onUpdate"
-              title="Permalink to Tween.get onUpdate">#</a></h4>
-<div class="doc">
-<pre class="source">
-Function get onUpdate =&gt; _onUpdate;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="onUpdate=">
-<button class="show-code">Code</button>
-void <strong>set onUpdate</strong>(<a href="http://api.dartlang.org/dart_core/Function.html">Function</a> value) <a class="anchor-link" href="#onUpdate="
-              title="Permalink to Tween.set onUpdate">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set onUpdate(Function value) { _onUpdate = value; }
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="roundToInt">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>get roundToInt</strong>() <a class="anchor-link" href="#roundToInt"
-              title="Permalink to Tween.get roundToInt">#</a></h4>
-<div class="doc">
-<pre class="source">
-bool get roundToInt =&gt; _roundToInt;
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="roundToInt=">
-<button class="show-code">Code</button>
-void <strong>set roundToInt</strong>(<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> value) <a class="anchor-link" href="#roundToInt="
-              title="Permalink to Tween.set roundToInt">#</a></h4>
-<div class="doc">
-<pre class="source">
-void set roundToInt(bool value)
-{
-  _roundToInt = value;
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
-              title="Permalink to Tween.get runtimeType">#</a></h4>
+const <strong>Object</strong>() <a class="anchor-link" href="#Object"
+              title="Permalink to Tween.Object">#</a></h4>
 <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
 <pre class="source">
-external Type get runtimeType;
+const Object();
 </pre>
 </div>
 </div>
@@ -475,19 +698,9 @@ void <strong>scaleTo</strong>(<a href="http://api.dartlang.org/dart_core/num.htm
 <pre class="source">
 void scaleTo(num factor)
 {
-  animate("scaleX", factor);
-  animate("scaleY", factor);
+  animate('scaleX', factor);
+  animate('scaleY', factor);
 }
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="target">
-<button class="show-code">Code</button>
-<strong>get target</strong>() <a class="anchor-link" href="#target"
-              title="Permalink to Tween.get target">#</a></h4>
-<div class="doc">
-<pre class="source">
-Dynamic get target =&gt; _target;
 </pre>
 </div>
 </div>
@@ -502,13 +715,25 @@ external String toString();
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="totalTime">
+<div class="method"><h4 id="Tween">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get totalTime</strong>() <a class="anchor-link" href="#totalTime"
-              title="Permalink to Tween.get totalTime">#</a></h4>
+new <strong>Tween</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> displayObject, <a href="http://api.dartlang.org/dart_core/num.html">num</a> time, [<a href="../dartflash/TransitionFunction.html">TransitionFunction</a> transitionFunction = null]) <a class="anchor-link" href="#Tween"
+              title="Permalink to Tween.Tween">#</a></h4>
 <div class="doc">
 <pre class="source">
-num get totalTime =&gt; _totalTime;
+Tween(DisplayObject displayObject, num time, [TransitionFunction transitionFunction = null])
+{
+  _displayObject = displayObject;
+  _transitionFunction = (transitionFunction != null) ? transitionFunction : Transitions.linear;
+
+  _currentTime = 0.0;
+  _totalTime = max(0.0001, time);
+  _delay = 0.0;
+  _roundToInt = false;
+  _started = false;
+
+  _tweenProperties = new List&lt;_TweenProperty&gt;();
+}
 </pre>
 </div>
 </div>
@@ -518,7 +743,7 @@ num get totalTime =&gt; _totalTime;
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-08 19:24:30.508</div>
+          <div>This page was generated at 2012-10-13 21:36:08.726</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

@@ -97,10 +97,16 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
 <li><div class="icon-class"></div><strong>Transitions</strong></li>
+<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
+<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenFunction.html"><div class="icon-interface"></div>TweenFunction</a></li>
+<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
+<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
+<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -113,9 +119,286 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<pre class="source">
+class Transitions
+{
+  // Standard
+
+  static Random _random;
+
+  static num linear(num ratio) {
+    return ratio;
+  }
+
+  static num sine(num ratio) {
+    return 0.5 - 0.5 * cos(ratio * 2.0 * PI) ;
+  }
+
+  static num cosine(num ratio) {
+    return 0.5 + 0.5 * cos(ratio * 2.0 * PI);
+  }
+
+  static num random(num ratio) {
+    if (_random == null)
+      _random = new Random();
+
+    if (ratio == 0.0 || ratio == 1.0) return ratio;
+    return _random.nextDouble();
+  }
+
+  // Quadratic
+
+  static num easeInQuadratic(num ratio) {
+    return ratio * ratio;
+  }
+
+  static num easeOutQuadratic(num ratio) {
+    ratio = 1.0 - ratio;
+    return 1.0 - ratio * ratio;
+  }
+
+  static num easeInOutQuadratic(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeInQuadratic(ratio) : 0.5 * easeOutQuadratic(ratio - 1.0) + 0.5;
+  }
+
+  static num easeOutInQuadratic(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeOutQuadratic(ratio) : 0.5 * easeInQuadratic(ratio - 1.0) + 0.5;
+  }
+
+  // Cubic
+
+  static num easeInCubic(num ratio) {
+    return ratio * ratio * ratio;
+  }
+
+  static num easeOutCubic(num ratio) {
+    ratio = 1.0 - ratio;
+    return 1.0 - ratio * ratio * ratio;
+  }
+
+  static num easeInOutCubic(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeInCubic(ratio) : 0.5 * easeOutCubic(ratio - 1.0) + 0.5;
+  }
+
+  static num easeOutInCubic(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeOutCubic(ratio) : 0.5 * easeInCubic(ratio - 1.0) + 0.5;
+  }
+
+  // Quartic
+
+  static num easeInQuartic(num ratio) {
+    return ratio * ratio * ratio * ratio;
+  }
+
+  static num easeOutQuartic(num ratio) {
+    ratio = 1.0 - ratio;
+    return 1.0 - ratio * ratio * ratio * ratio;
+  }
+
+  static num easeInOutQuartic(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeInQuartic(ratio) : 0.5 * easeOutQuartic(ratio - 1.0) + 0.5;
+  }
+
+  static num easeOutInQuartic(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeOutQuartic(ratio) : 0.5 * easeInQuartic(ratio - 1.0) + 0.5;
+  }
+
+  // Quintic
+
+  static num easeInQuintic(num ratio) {
+    return ratio * ratio * ratio * ratio * ratio;
+  }
+
+  static num easeOutQuintic(num ratio) {
+    ratio = 1.0 - ratio;
+    return 1.0 - ratio * ratio * ratio * ratio * ratio;
+  }
+
+  static num easeInOutQuintic(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeInQuintic(ratio) : 0.5 * easeOutQuintic(ratio - 1.0) + 0.5;
+  }
+
+  static num easeOutInQuintic(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeOutQuintic(ratio) : 0.5 * easeInQuintic(ratio - 1.0) + 0.5;
+  }
+
+  // Circular
+
+  static num easeInCircular(num ratio) {
+    return 1.0 - sqrt(1.0 - ratio * ratio);
+  }
+
+  static num easeOutCircular(num ratio) {
+    ratio = 1.0 - ratio;
+    return sqrt(1.0 - ratio * ratio);
+  }
+
+  static num easeInOutCircular(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeInCircular(ratio) : 0.5 * easeOutCircular(ratio - 1.0) + 0.5;
+  }
+
+  static num easeOutInCircular(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeOutCircular(ratio) : 0.5 * easeInCircular(ratio - 1.0) + 0.5;
+  }
+
+  // Sine
+
+  static num easeInSine(num ratio) {
+    return 1.0 - cos(ratio * (PI / 2.0));
+  }
+
+  static num easeOutSine(num ratio) {
+    return sin(ratio * (PI / 2.0));
+  }
+
+  static num easeInOutSine(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeInSine(ratio) : 0.5 * easeOutSine(ratio - 1.0) + 0.5;
+  }
+
+  static num easeOutInSine(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeOutSine(ratio) : 0.5 * easeInSine(ratio - 1.0) + 0.5;
+  }
+
+  // Exponential
+
+  static num easeInExponential(num ratio) {
+    if (ratio == 0.0) return 0.0;
+    return pow(2.0, 10.0 * (ratio - 1.0));
+  }
+
+  static num easeOutExponential(num ratio) {
+    if (ratio == 1.0) return 1.0;
+    return 1.0 - pow(2.0, - 10.0 * ratio);
+  }
+
+  static num easeInOutExponential(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeInExponential(ratio) : 0.5 * easeOutExponential(ratio - 1.0) + 0.5;
+  }
+
+  static num easeOutInExponential(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeOutExponential(ratio) : 0.5 * easeInExponential(ratio - 1.0) + 0.5;
+  }
+
+  // Back
+
+  static num easeInBack(num ratio) {
+    num s = 1.70158;
+    return ratio * ratio * ((s + 1.0) * ratio - s);
+  }
+
+  static num easeOutBack(num ratio) {
+    num s = 1.70158;
+    ratio = ratio - 1.0;
+    return ratio * ratio * ((s + 1.0) * ratio + s) + 1.0;
+  }
+
+  static num easeInOutBack(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeInBack(ratio) : 0.5 * easeOutBack(ratio - 1.0) + 0.5;
+  }
+
+  static num easeOutInBack(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeOutBack(ratio) : 0.5 * easeInBack(ratio - 1.0) + 0.5;
+  }
+
+  // Elastic
+
+  static num easeInElastic(num ratio) {
+    if (ratio == 0.0 || ratio == 1.0) return ratio;
+    ratio = ratio - 1.0;
+    return - pow(2.0, 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) ;
+  }
+
+  static num easeOutElastic(num ratio) {
+    if (ratio == 0.0 || ratio == 1.0) return ratio;
+    return pow(2.0, - 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) + 1;
+  }
+
+  static num easeInOutElastic(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeInElastic(ratio) : 0.5 * easeOutElastic(ratio - 1.0) + 0.5;
+  }
+
+  static num easeOutInElastic(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeOutElastic(ratio) : 0.5 * easeInElastic(ratio - 1.0) + 0.5;
+  }
+
+  // Bounce
+
+  static num easeInBounce(num ratio) {
+    return 1.0 - easeOutBounce(1.0 - ratio);
+  }
+
+  static num easeOutBounce(num ratio) {
+    if (ratio &lt; 1 / 2.75) {
+      return 7.5625 * ratio * ratio;
+    } else if (ratio &lt; 2 / 2.75) {
+      ratio = ratio - 1.5 / 2.75;
+      return 7.5625 * ratio * ratio + 0.75;
+    } else if (ratio &lt; 2.5 / 2.75) {
+      ratio = ratio - 2.25 / 2.75;
+      return 7.5625 * ratio * ratio + 0.9375;
+    } else {
+      ratio = ratio - 2.625 / 2.75;
+      return 7.5625 * ratio * ratio + 0.984375;
+    }
+  }
+
+  static num easeInOutBounce(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeInBounce(ratio) : 0.5 * easeOutBounce(ratio - 1.0) + 0.5;
+  }
+
+  static num easeOutInBounce(num ratio) {
+    ratio = ratio * 2.0;
+    return (ratio &lt; 1.0) ? 0.5 * easeOutBounce(ratio) : 0.5 * easeInBounce(ratio - 1.0) + 0.5;
+  }
+
+}
+</pre>
 </div>
 <div>
 <h3>Static Methods</h3>
+<div class="method"><h4 id="linear">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>linear</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#linear"
+              title="Permalink to Transitions.linear">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num linear(num ratio) {
+  return ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="sine">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>sine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#sine"
+              title="Permalink to Transitions.sine">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num sine(num ratio) {
+  return 0.5 - 0.5 * cos(ratio * 2.0 * PI) ;
+}
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="cosine">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>cosine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#cosine"
@@ -124,6 +407,379 @@
 <pre class="source">
 static num cosine(num ratio) {
   return 0.5 + 0.5 * cos(ratio * 2.0 * PI);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="random">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>random</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#random"
+              title="Permalink to Transitions.random">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num random(num ratio) {
+  if (_random == null)
+    _random = new Random();
+
+  if (ratio == 0.0 || ratio == 1.0) return ratio;
+  return _random.nextDouble();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInQuadratic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInQuadratic"
+              title="Permalink to Transitions.easeInQuadratic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInQuadratic(num ratio) {
+  return ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutQuadratic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutQuadratic"
+              title="Permalink to Transitions.easeOutQuadratic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutQuadratic(num ratio) {
+  ratio = 1.0 - ratio;
+  return 1.0 - ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutQuadratic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutQuadratic"
+              title="Permalink to Transitions.easeInOutQuadratic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutQuadratic(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeInQuadratic(ratio) : 0.5 * easeOutQuadratic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInQuadratic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInQuadratic"
+              title="Permalink to Transitions.easeOutInQuadratic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInQuadratic(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeOutQuadratic(ratio) : 0.5 * easeInQuadratic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInCubic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInCubic"
+              title="Permalink to Transitions.easeInCubic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInCubic(num ratio) {
+  return ratio * ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutCubic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutCubic"
+              title="Permalink to Transitions.easeOutCubic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutCubic(num ratio) {
+  ratio = 1.0 - ratio;
+  return 1.0 - ratio * ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutCubic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutCubic"
+              title="Permalink to Transitions.easeInOutCubic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutCubic(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeInCubic(ratio) : 0.5 * easeOutCubic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInCubic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInCubic"
+              title="Permalink to Transitions.easeOutInCubic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInCubic(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeOutCubic(ratio) : 0.5 * easeInCubic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInQuartic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInQuartic"
+              title="Permalink to Transitions.easeInQuartic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInQuartic(num ratio) {
+  return ratio * ratio * ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutQuartic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutQuartic"
+              title="Permalink to Transitions.easeOutQuartic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutQuartic(num ratio) {
+  ratio = 1.0 - ratio;
+  return 1.0 - ratio * ratio * ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutQuartic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutQuartic"
+              title="Permalink to Transitions.easeInOutQuartic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutQuartic(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeInQuartic(ratio) : 0.5 * easeOutQuartic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInQuartic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInQuartic"
+              title="Permalink to Transitions.easeOutInQuartic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInQuartic(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeOutQuartic(ratio) : 0.5 * easeInQuartic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInQuintic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInQuintic"
+              title="Permalink to Transitions.easeInQuintic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInQuintic(num ratio) {
+  return ratio * ratio * ratio * ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutQuintic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutQuintic"
+              title="Permalink to Transitions.easeOutQuintic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutQuintic(num ratio) {
+  ratio = 1.0 - ratio;
+  return 1.0 - ratio * ratio * ratio * ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutQuintic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutQuintic"
+              title="Permalink to Transitions.easeInOutQuintic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutQuintic(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeInQuintic(ratio) : 0.5 * easeOutQuintic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInQuintic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInQuintic"
+              title="Permalink to Transitions.easeOutInQuintic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInQuintic(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeOutQuintic(ratio) : 0.5 * easeInQuintic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInCircular">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInCircular"
+              title="Permalink to Transitions.easeInCircular">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInCircular(num ratio) {
+  return 1.0 - sqrt(1.0 - ratio * ratio);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutCircular">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutCircular"
+              title="Permalink to Transitions.easeOutCircular">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutCircular(num ratio) {
+  ratio = 1.0 - ratio;
+  return sqrt(1.0 - ratio * ratio);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutCircular">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutCircular"
+              title="Permalink to Transitions.easeInOutCircular">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutCircular(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeInCircular(ratio) : 0.5 * easeOutCircular(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInCircular">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInCircular"
+              title="Permalink to Transitions.easeOutInCircular">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInCircular(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeOutCircular(ratio) : 0.5 * easeInCircular(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInSine">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInSine"
+              title="Permalink to Transitions.easeInSine">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInSine(num ratio) {
+  return 1.0 - cos(ratio * (PI / 2.0));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutSine">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutSine"
+              title="Permalink to Transitions.easeOutSine">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutSine(num ratio) {
+  return sin(ratio * (PI / 2.0));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutSine">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutSine"
+              title="Permalink to Transitions.easeInOutSine">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutSine(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeInSine(ratio) : 0.5 * easeOutSine(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInSine">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInSine"
+              title="Permalink to Transitions.easeOutInSine">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInSine(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeOutSine(ratio) : 0.5 * easeInSine(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInExponential">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInExponential"
+              title="Permalink to Transitions.easeInExponential">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInExponential(num ratio) {
+  if (ratio == 0.0) return 0.0;
+  return pow(2.0, 10.0 * (ratio - 1.0));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutExponential">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutExponential"
+              title="Permalink to Transitions.easeOutExponential">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutExponential(num ratio) {
+  if (ratio == 1.0) return 1.0;
+  return 1.0 - pow(2.0, - 10.0 * ratio);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutExponential">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutExponential"
+              title="Permalink to Transitions.easeInOutExponential">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutExponential(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeInExponential(ratio) : 0.5 * easeOutExponential(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInExponential">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInExponential"
+              title="Permalink to Transitions.easeOutInExponential">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInExponential(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeOutExponential(ratio) : 0.5 * easeInExponential(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -141,38 +797,42 @@ static num easeInBack(num ratio) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="easeInBounce">
+<div class="method"><h4 id="easeOutBack">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInBounce</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInBounce"
-              title="Permalink to Transitions.easeInBounce">#</a></h4>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutBack"
+              title="Permalink to Transitions.easeOutBack">#</a></h4>
 <div class="doc">
 <pre class="source">
-static num easeInBounce(num ratio) {
-  return 1.0 - easeOutBounce(1.0 - ratio);
+static num easeOutBack(num ratio) {
+  num s = 1.70158;
+  ratio = ratio - 1.0;
+  return ratio * ratio * ((s + 1.0) * ratio + s) + 1.0;
 }
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="easeInCircular">
+<div class="method"><h4 id="easeInOutBack">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInCircular"
-              title="Permalink to Transitions.easeInCircular">#</a></h4>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutBack"
+              title="Permalink to Transitions.easeInOutBack">#</a></h4>
 <div class="doc">
 <pre class="source">
-static num easeInCircular(num ratio) {
-  return 1.0 - sqrt(1.0 - ratio * ratio);
+static num easeInOutBack(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeInBack(ratio) : 0.5 * easeOutBack(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="easeInCubic">
+<div class="method"><h4 id="easeOutInBack">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInCubic"
-              title="Permalink to Transitions.easeInCubic">#</a></h4>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInBack"
+              title="Permalink to Transitions.easeOutInBack">#</a></h4>
 <div class="doc">
 <pre class="source">
-static num easeInCubic(num ratio) {
-  return ratio * ratio * ratio;
+static num easeOutInBack(num ratio) {
+  ratio = ratio * 2.0;
+  return (ratio &lt; 1.0) ? 0.5 * easeOutBack(ratio) : 0.5 * easeInBack(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -191,67 +851,15 @@ static num easeInElastic(num ratio) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="easeInExponential">
+<div class="method"><h4 id="easeOutElastic">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInExponential"
-              title="Permalink to Transitions.easeInExponential">#</a></h4>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutElastic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutElastic"
+              title="Permalink to Transitions.easeOutElastic">#</a></h4>
 <div class="doc">
 <pre class="source">
-static num easeInExponential(num ratio) {
-  if (ratio == 0.0) return 0.0;
-  return pow(2.0, 10.0 * (ratio - 1.0));
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeInOutBack">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutBack"
-              title="Permalink to Transitions.easeInOutBack">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeInOutBack(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInBack(ratio) : 0.5 * easeOutBack(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeInOutBounce">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutBounce</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutBounce"
-              title="Permalink to Transitions.easeInOutBounce">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeInOutBounce(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInBounce(ratio) : 0.5 * easeOutBounce(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeInOutCircular">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutCircular"
-              title="Permalink to Transitions.easeInOutCircular">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeInOutCircular(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInCircular(ratio) : 0.5 * easeOutCircular(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeInOutCubic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutCubic"
-              title="Permalink to Transitions.easeInOutCubic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeInOutCubic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInCubic(ratio) : 0.5 * easeOutCubic(ratio - 1.0) + 0.5;
+static num easeOutElastic(num ratio) {
+  if (ratio == 0.0 || ratio == 1.0) return ratio;
+  return pow(2.0, - 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) + 1;
 }
 </pre>
 </div>
@@ -269,129 +877,27 @@ static num easeInOutElastic(num ratio) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="easeInOutExponential">
+<div class="method"><h4 id="easeOutInElastic">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutExponential"
-              title="Permalink to Transitions.easeInOutExponential">#</a></h4>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInElastic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInElastic"
+              title="Permalink to Transitions.easeOutInElastic">#</a></h4>
 <div class="doc">
 <pre class="source">
-static num easeInOutExponential(num ratio) {
+static num easeOutInElastic(num ratio) {
   ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInExponential(ratio) : 0.5 * easeOutExponential(ratio - 1.0) + 0.5;
+  return (ratio &lt; 1.0) ? 0.5 * easeOutElastic(ratio) : 0.5 * easeInElastic(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="easeInOutQuadratic">
+<div class="method"><h4 id="easeInBounce">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutQuadratic"
-              title="Permalink to Transitions.easeInOutQuadratic">#</a></h4>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInBounce</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInBounce"
+              title="Permalink to Transitions.easeInBounce">#</a></h4>
 <div class="doc">
 <pre class="source">
-static num easeInOutQuadratic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInQuadratic(ratio) : 0.5 * easeOutQuadratic(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeInOutQuartic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutQuartic"
-              title="Permalink to Transitions.easeInOutQuartic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeInOutQuartic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInQuartic(ratio) : 0.5 * easeOutQuartic(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeInOutQuintic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutQuintic"
-              title="Permalink to Transitions.easeInOutQuintic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeInOutQuintic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInQuintic(ratio) : 0.5 * easeOutQuintic(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeInOutSine">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutSine"
-              title="Permalink to Transitions.easeInOutSine">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeInOutSine(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInSine(ratio) : 0.5 * easeOutSine(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeInQuadratic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInQuadratic"
-              title="Permalink to Transitions.easeInQuadratic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeInQuadratic(num ratio) {
-  return ratio * ratio;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeInQuartic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInQuartic"
-              title="Permalink to Transitions.easeInQuartic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeInQuartic(num ratio) {
-  return ratio * ratio * ratio * ratio;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeInQuintic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInQuintic"
-              title="Permalink to Transitions.easeInQuintic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeInQuintic(num ratio) {
-  return ratio * ratio * ratio * ratio * ratio;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeInSine">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInSine"
-              title="Permalink to Transitions.easeInSine">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeInSine(num ratio) {
-  return 1.0 - cos(ratio * (PI / 2.0));
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutBack">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutBack"
-              title="Permalink to Transitions.easeOutBack">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutBack(num ratio) {
-  num s = 1.70158;
-  ratio = ratio - 1.0;
-  return ratio * ratio * ((s + 1.0) * ratio + s) + 1.0;
+static num easeInBounce(num ratio) {
+  return 1.0 - easeOutBounce(1.0 - ratio);
 }
 </pre>
 </div>
@@ -419,67 +925,15 @@ static num easeOutBounce(num ratio) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="easeOutCircular">
+<div class="method"><h4 id="easeInOutBounce">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutCircular"
-              title="Permalink to Transitions.easeOutCircular">#</a></h4>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutBounce</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutBounce"
+              title="Permalink to Transitions.easeInOutBounce">#</a></h4>
 <div class="doc">
 <pre class="source">
-static num easeOutCircular(num ratio) {
-  ratio = 1.0 - ratio;
-  return sqrt(1.0 - ratio * ratio);
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutCubic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutCubic"
-              title="Permalink to Transitions.easeOutCubic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutCubic(num ratio) {
-  ratio = 1.0 - ratio;
-  return 1.0 - ratio * ratio * ratio;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutElastic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutElastic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutElastic"
-              title="Permalink to Transitions.easeOutElastic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutElastic(num ratio) {
-  if (ratio == 0.0 || ratio == 1.0) return ratio;
-  return pow(2.0, - 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) + 1;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutExponential">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutExponential"
-              title="Permalink to Transitions.easeOutExponential">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutExponential(num ratio) {
-  if (ratio == 1.0) return 1.0;
-  return 1.0 - pow(2.0, - 10.0 * ratio);
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutInBack">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInBack"
-              title="Permalink to Transitions.easeOutInBack">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutInBack(num ratio) {
+static num easeInOutBounce(num ratio) {
   ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutBack(ratio) : 0.5 * easeInBack(ratio - 1.0) + 0.5;
+  return (ratio &lt; 1.0) ? 0.5 * easeInBounce(ratio) : 0.5 * easeOutBounce(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -497,204 +951,25 @@ static num easeOutInBounce(num ratio) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="easeOutInCircular">
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field inherited"><h4 id="runtimeType">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInCircular"
-              title="Permalink to Transitions.easeOutInCircular">#</a></h4>
-<div class="doc">
+final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to Transitions.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
+<p>A representation of the runtime type of the object.</p>
 <pre class="source">
-static num easeOutInCircular(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutCircular(ratio) : 0.5 * easeInCircular(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutInCubic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInCubic"
-              title="Permalink to Transitions.easeOutInCubic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutInCubic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutCubic(ratio) : 0.5 * easeInCubic(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutInElastic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInElastic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInElastic"
-              title="Permalink to Transitions.easeOutInElastic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutInElastic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutElastic(ratio) : 0.5 * easeInElastic(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutInExponential">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInExponential"
-              title="Permalink to Transitions.easeOutInExponential">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutInExponential(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutExponential(ratio) : 0.5 * easeInExponential(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutInQuadratic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInQuadratic"
-              title="Permalink to Transitions.easeOutInQuadratic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutInQuadratic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutQuadratic(ratio) : 0.5 * easeInQuadratic(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutInQuartic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInQuartic"
-              title="Permalink to Transitions.easeOutInQuartic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutInQuartic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutQuartic(ratio) : 0.5 * easeInQuartic(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutInQuintic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInQuintic"
-              title="Permalink to Transitions.easeOutInQuintic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutInQuintic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutQuintic(ratio) : 0.5 * easeInQuintic(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutInSine">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInSine"
-              title="Permalink to Transitions.easeOutInSine">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutInSine(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutSine(ratio) : 0.5 * easeInSine(ratio - 1.0) + 0.5;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutQuadratic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutQuadratic"
-              title="Permalink to Transitions.easeOutQuadratic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutQuadratic(num ratio) {
-  ratio = 1.0 - ratio;
-  return 1.0 - ratio * ratio;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutQuartic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutQuartic"
-              title="Permalink to Transitions.easeOutQuartic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutQuartic(num ratio) {
-  ratio = 1.0 - ratio;
-  return 1.0 - ratio * ratio * ratio * ratio;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutQuintic">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutQuintic"
-              title="Permalink to Transitions.easeOutQuintic">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutQuintic(num ratio) {
-  ratio = 1.0 - ratio;
-  return 1.0 - ratio * ratio * ratio * ratio * ratio;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="easeOutSine">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutSine"
-              title="Permalink to Transitions.easeOutSine">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num easeOutSine(num ratio) {
-  return sin(ratio * (PI / 2.0));
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="linear">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>linear</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#linear"
-              title="Permalink to Transitions.linear">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num linear(num ratio) {
-  return ratio;
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="random">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>random</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#random"
-              title="Permalink to Transitions.random">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num random(num ratio) {
-  if (_random == null)
-    _random = new Random();
-
-  if (ratio == 0.0 || ratio == 1.0) return ratio;
-  return _random.nextDouble();
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="sine">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>sine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#sine"
-              title="Permalink to Transitions.sine">#</a></h4>
-<div class="doc">
-<pre class="source">
-static num sine(num ratio) {
-  return 0.5 - 0.5 * cos(ratio * 2.0 * PI) ;
-}
+external Type get runtimeType;
 </pre>
 </div>
 </div>
 </div>
 <div>
-<h3>Methods</h3>
+<h3>Operators</h3>
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
@@ -711,6 +986,9 @@ bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
+</div>
+<div>
+<h3>Methods</h3>
 <div class="method inherited"><h4 id="hashCode">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
@@ -746,14 +1024,17 @@ external Dynamic noSuchMethod(String name, List args);
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="runtimeType">
+<div class="method inherited"><h4 id="Object">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Type.html">Type</a> <strong>get runtimeType</strong>() <a class="anchor-link" href="#runtimeType"
-              title="Permalink to Transitions.get runtimeType">#</a></h4>
+const <strong>Object</strong>() <a class="anchor-link" href="#Object"
+              title="Permalink to Transitions.Object">#</a></h4>
 <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
 <pre class="source">
-external Type get runtimeType;
+const Object();
 </pre>
 </div>
 </div>
@@ -774,7 +1055,7 @@ external String toString();
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-08 19:24:32.021</div>
+          <div>This page was generated at 2012-10-13 21:36:09.317</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

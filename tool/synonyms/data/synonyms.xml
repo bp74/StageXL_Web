@@ -762,7 +762,7 @@ sprite.scaleY = 0.50;
 sprite.addEventListener(MouseEvent.CLICK, onMouseClick);
 
 // HTML5 audio playback
-var sound = resource.GetSound("CoolSound");
+var sound = resource.getSound("CoolSound");
 var soundChannel = s.play();
 ]]>
       </code>

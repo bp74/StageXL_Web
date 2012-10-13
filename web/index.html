@@ -98,7 +98,7 @@
                 <li><a href="#tabSound" data-toggle="tab">Sound</a></li>
                 <li><a href="#tabFilters" data-toggle="tab">Filters</a></li>
                 <li><a href="#tabJuggler" data-toggle="tab">Juggler</a></li>
-                <li><a href="#tabUtilities" data-toggle="tab">Utilities</a></li>
+                <li><a href="#tabResources" data-toggle="tab">Resources</a></li>
             </ul>
 
             <div class="tab-content">
@@ -180,7 +180,7 @@ void mouseClickListener(MouseEvent me) {
                                 <li class="first">EventPhase</li>
                                 <li class="first">Event<ul>
                                     <li>MouseEvent</li>
-                                    <li>TouchEvent<sup>*</sup></li>
+                                    <li>TouchEvent<sup>(todo)</sup></li>
                                     <li>KeyboardEvent</li>
                                     <li>TextEvent</li>
                                     <li class="last">EnterFrameEvent</li>
@@ -194,10 +194,28 @@ void mouseClickListener(MouseEvent me) {
                 <div class="tab-pane" id="tabText">
                 	<div class="row">
 	                	<div class="span8">
-	                		<p class="comment">// ToDo: Say something intelligent ...</p>
+	                		<p>To display and format text you use the TextField and TextFormat classes.
+                            The TextField class is the Display Object you can add to the Display List. Change
+                            the content of the TextField at any time by modifying the text property. The TextFormat
+                            class supports all the properties to set the font, color, alignment and style of the text.</p>
+                            <p>You are not limited to the typical HTML fonts. You can use Google's beautiful
+                            <a href="http://www.google.com/webfonts" target="_blank">open web fonts</a>  to bring
+                            quality typography to your application. Just add the css-style of the font to your
+                            page and use the font with TextFormat like you do with any other font.</p>
+                            <br/>
+                            <pre class="prettyprint lang-java">
+TextField textField = new TextField();
+textField.defaultTextFormat = new TextFormat(&apos;Spicy Rice&apos;, 30, Color.Black);
+textField.text = &apos;The quick brown fox jumps over the lazy dog.&apos;
+textField.x = 20;
+textField.y = 20;
+textField.width = 100;
+textField.height = 50;
+textField.wordWrap = true;
+addChild(textField);</pre>
 	                	</div>
 						<div class="span4">
-                            <ul class="classtree">
+                            <ul class="classtree" style="height:380px">
                                 <li class="first">TextFormat</li>
                                 <li class="first">TextFormatAlign</li>
                                 <li class="first">TextFieldType</li>
@@ -218,10 +236,28 @@ void mouseClickListener(MouseEvent me) {
                 <div class="tab-pane" id="tabSound">
 					<div class="row">
 	                	<div class="span8">
-	                		<p class="comment">// ToDo: Say something intelligent ...</p>
-	                	</div>
+	                		<p>Playing audio in HTML5 can be difficult. All modern browsers use slightly different
+                            implementations of the standard. Google Chrome supports the Web Audio API which is not
+                            a HTML5 standard yet, but offers the best audio playback capabilities for games. Another
+                            problem is the support of all the audio codecs (mp3/ogg/wav) used in different
+                            browsers.<p>
+                            <p>To hide all the problems and differences the dartflash library wraps those APIs and
+                            provides the familiar Sound APIs of Flash. The library also selects the codec which is
+                            supported by the browser. You just have to provide the audio file in mp3 and ogg format,
+                            this way your application will work in all major browsers.</p>
+                            <br/>
+                        <pre class="prettyprint lang-java">
+// The resource class substitutes embedded resources of Flash.
+Resource resource = new Resource();
+resource.addSound("plop", "sounds/plop.mp3");   // loads ogg-file in Firefox!
+...
+
+Sound sound = resource.getSound("plop");
+SoundTransform soundTransform = new SoundTransform(0.5);
+SoundChannel soundChannel = sound.play(false, soundTransform);</pre>
+                        </div>
 						<div class="span4">
-                            <ul class="classtree">
+                            <ul class="classtree" style="height:380px">
                                 <li class="first">SoundTransform</li>
                                 <li class="first">SoundMixer</li>
                                 <li class="first">Sound<ul>
@@ -243,18 +279,32 @@ void mouseClickListener(MouseEvent me) {
                 <div class="tab-pane" id="tabFilters">
 					<div class="row">
 	                	<div class="span8">
-	                		<p class="comment">// ToDo: Say something intelligent ...</p>
+	                		<p>Filters are used for visual effects like drop shadow, glow, blur and others. The
+                            dartflash library supports five different filters out of the box, but you can add
+                            your own filters by extending the BitmapFilter base class.</p>
+                            <p>Calculating visual effects is an expensive computational operation. Therefore
+                            BitmapFilters can only be applied to BitmapDatas but not to arbitrary Display Objects.
+                            However, applying the effects to BitmapDatas only should be sufficient for most use cases.</p>
+                            <br/>
+                            <pre class="prettyprint lang-java">
+BitmapData sourceBitmapData = new BitmapData(80, 80, true, Color.Red);
+Rectangle sourceRectangle = new Rectangle(0, 0, 80, 80);
+
+BitmapData destinationBitmapData = new BitmapData(100, 100, true, Color.Transparent);
+Point destinationPoint = new Point(0, 0);
+
+destinationBitmapData.applyFilter(
+    sourceBitmapData, sourceRectangle, destinationPoint,
+    new DropShadowFilter(10, PI / 4, Color.Black, 0.8, 8, 8));</pre>
 	                	</div>
 						<div class="span4">
-                            <ul class="classtree">
-                                <li class="first">EventDispatcher</li>
-                                <li class="first">BitmapFilterQuality</li>
+                            <ul class="classtree" style="height:360px">
                                 <li class="first">BitmapFilter<ul>
                                     <li>ColorMatrixFilter</li>
                                     <li>BlurFilter</li>
                                     <li>DropShadowFilter</li>
                                     <li>GlowFilter</li>
-                                    <li class="last">BevelFilter<sup>*</sup></li>
+                                    <li class="last">BevelFilter<sup>(todo)</sup></li>
                                 </ul></li>
                             </ul>
 				         </div>
@@ -265,14 +315,32 @@ void mouseClickListener(MouseEvent me) {
                 <div class="tab-pane" id="tabJuggler">
 					<div class="row">
 	                	<div class="span8">
-	                		<p class="comment">// ToDo: Say something intelligent ...</p>
+	                		<p>The dartflash library provides an easy to use animation framework. You can animate your
+                            objects by implementing the Animatable interface or simply use the Tween class to animate
+                            your Display Objects properties like x, y, scaleX, scaleY, rotation and alpha. In addition
+                            you can control the flow of your application by using the DelayedCall class.</p>
+                            <p>All classes which implements the Animatable interface can be added to the Juggler. The
+                            Juggler controls the timeline of your application and advances all Animatable objects by
+                            the time that has passed since the last frame. You should use the Juggler instance
+                            provided by the render loop to drive your animations. For more information please read
+                            the Wiki article about the Juggler animation framework.</p>
+                            <br/>
+                            <pre class="prettyprint lang-java">
+Tween tween = new Tween(sprite, 2.0, Transitions.easeOutBounce);
+tween.animate(&apos;x&apos;, 700);
+tween.animate(&apos;y&apos;, 500);
+tween.delay = 1.0;
+tween.onComplete = () => sprite.removeFromParent();
+
+renderLoop.juggler.add(tween);</pre>
 	                	</div>
 						<div class="span4">
-                            <ul class="classtree">
-                                <li class="first">Juggler</li>
+                            <ul class="classtree" style="height:380px">
                                 <li class="first">Transitions</li>
                                 <li class="first">Animatable<ul>
+                                    <li>Juggler</li>
                                     <li>Tween</li>
+                                    <li>Transition</li>
                                     <li class="last">DelayedCall</li>
                                 </ul></li>
                             </ul>
@@ -281,13 +349,36 @@ void mouseClickListener(MouseEvent me) {
                 </div>
                 
                 <!-- ------------------------------------------------- -->
-                <div class="tab-pane" id="tabUtilities">
+                <div class="tab-pane" id="tabResources">
 					<div class="row">
 	                	<div class="span8">
-	                		<p class="comment">// ToDo: Say something intelligent ...</p>
+	                		<p>In Flash the SWF file is often used to embed resources, this is not possible on the
+                            web but the Resource class provides an easy way to load images, sounds and other
+                            resources from the server. You only have to add the URLs and the Resource class
+                            will download all files. Once the files are loaded you will be notified by
+                            a Future.</p>
+                            <p>If your application uses a large number of small images, it is best practice to
+                            combine those small images into one big image. This big image is called texture atlas
+                            (or sprite sheet) and accelerates the download and improves the render performance. The
+                            dartflash library supports the file format of
+                            <a href="http://www.codeandweb.com/texturepacker" target="_blank">Texture Packer</a>,
+                            which is the most popular tool on the web.</p>
+                            <br/>
+                            <pre class="prettyprint lang-java">
+Resource resource = new Resource();
+resource.addImage(&apos;dog&apos;, &apos;images/dog.png&apos;);
+resource.addSound(&apos;plop&apos;, &apos;sounds/plop.mp3&apos;);
+resource.addTextureAtlas(&apos;fl&apos;, &apos;images/flowers.json&apos;, TextureAtlasFormat.JSONARRAY);
+
+resource.load().then((_) {
+  BitmapData dog = resource.getBitmapData(&apos;dog&apos;);
+  Sound plop = resource.getSound(&apos;plop&apos;);
+  TextureAtlas flowers = resource.getTextureAtlas(&apos;fl&apos;);
+  BitmapData daisy = flowers.getBitmapData('daisy');
+}</pre>
 	                	</div>
 						<div class="span4">
-                            <ul class="classtree">
+                            <ul class="classtree" style="height:440px">
                                 <li class="first">Resource</li>
                                 <li class="first">TextureAtlas</li>
                             </ul>

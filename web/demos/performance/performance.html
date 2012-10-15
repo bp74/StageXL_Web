@@ -139,19 +139,16 @@ import &apos;dart:math&apos;;
 import &apos;dart:html&apos; as html;
 import &apos;package:dartflash/dartflash.dart&apos;;
 
-class Flag extends Sprite implements Animatable
+class Flag extends Bitmap implements Animatable
 {
     num vx, vy;
 
-    Flag(BitmapData bitmapData, num vx, num vy)
+    Flag(BitmapData bitmapData, num vx, num vy):super(bitmapData)
     {
-      Bitmap bitmap = new Bitmap(bitmapData);
-      bitmap.x = -24;
-      bitmap.y = -18;
-
-      this.addChild(bitmap);
       this.vx = vx;
       this.vy = vy;
+      this.pivotX = 24;
+      this.pivotY = 18;
     }
 
     bool advanceTime(num time)
@@ -245,7 +242,7 @@ void removeFlags(int amount)
     juggler.remove(stage.removeChildAt(0));
 
   html.query(&apos;#spriteCounter&apos;).innerHTML = &apos;Sprites: ${stage.numChildren}&apos;;
-}                   </pre>
+}</pre>
                 </div>
             </div>
         </div> 

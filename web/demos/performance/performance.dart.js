@@ -212,7 +212,7 @@ $$.HashMapImplementation = {"":
     numberOfProbes = numberOfProbes0;
   }
 },
- _probeForAdding$1$bailout: function(state, key, t1) {
+ _probeForAdding$1$bailout: function(state0, key, t1) {
   var hash = $.and(t1, this._keys.length - 1);
   for (var numberOfProbes = 1, insertionIndex = -1; true;) {
     t1 = this._keys;
@@ -254,7 +254,7 @@ $$.HashMapImplementation = {"":
     numberOfProbes = numberOfProbes0;
   }
 },
- _probeForLookup$1$bailout: function(state, key, hash) {
+ _probeForLookup$1$bailout: function(state0, key, hash) {
   for (var numberOfProbes = 1; true;) {
     var t1 = this._keys;
     if (hash !== (hash | 0))
@@ -358,7 +358,7 @@ $$.HashMapImplementation = {"":
     throw $.ioore(index);
   return t1[index];
 },
- operator$index$1$bailout: function(state, index) {
+ operator$index$1$bailout: function(state0, index) {
   if ($.ltB(index, 0))
     return;
   var t1 = this._values;
@@ -390,7 +390,7 @@ $$.HashMapImplementation = {"":
   }
   return;
 },
- remove$1$bailout: function(state, index) {
+ remove$1$bailout: function(state0, index) {
   if ($.geB(index, 0)) {
     this._numberOfEntries = this._numberOfEntries - 1;
     var t1 = this._values;
@@ -789,11 +789,6 @@ $$.ArgumentError = {"":
 }
 };
 
-$$.IllegalArgumentException = {"":
- ["message"],
- "super": "ArgumentError"
-};
-
 $$.NoSuchMethodError = {"":
  ["_receiver", "_functionName", "_arguments", "_existingArgumentNames"],
  "super": "Object",
@@ -1000,8 +995,8 @@ $$.StringMatch = {"":
 };
 
 $$.Flag = {"":
- ["vx", "vy", "buttonMode", "useHandCursor", "_children", "_mouseChildren", "_tabChildren", "doubleClickEnabled", "mouseEnabled", "tabEnabled", "tabIndex", "_x", "_y", "_pivotX", "_pivotY", "_scaleX", "_scaleY", "_rotation", "_transformationMatrixPrivate", "_transformationMatrixRefresh", "_alpha", "_visible", "_name", "_lib1_parent", "mask", "_tmpMatrix", "_tmpMatrixIdentity", "_eventListenerLists"],
- "super": "Sprite",
+ ["vx", "vy", "bitmapData", "pixelSnapping", "smoothing", "clipRectangle", "_x", "_y", "_pivotX", "_pivotY", "_scaleX", "_scaleY", "_rotation", "_transformationMatrixPrivate", "_transformationMatrixRefresh", "_alpha", "_visible", "_name", "_lib1_parent", "mask", "_tmpMatrix", "_tmpMatrixIdentity", "_eventListenerLists"],
+ "super": "Bitmap",
  advanceTime$1: function(time) {
   if (typeof time !== 'number')
     return this.advanceTime$1$bailout(1, time, 0, 0, 0);
@@ -1035,8 +1030,8 @@ $$.Flag = {"":
     this.set$y(ty);
   return true;
 },
- advanceTime$1$bailout: function(state, env0, env1, env2, env3) {
-  switch (state) {
+ advanceTime$1$bailout: function(state0, env0, env1, env2, env3) {
+  switch (state0) {
     case 1:
       var time = env0;
       break;
@@ -1068,42 +1063,42 @@ $$.Flag = {"":
       t1 = env0;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
     case 1:
-      state = 0;
+      state0 = 0;
       var t1 = this.get$x();
     case 2:
-      state = 0;
+      state0 = 0;
       var t3 = this.vx;
     case 3:
-      state = 0;
+      state0 = 0;
       var tx = $.add(t1, $.mul(t3, time));
       t1 = this.get$y();
     case 4:
-      state = 0;
+      state0 = 0;
       var t6 = this.vy;
     case 5:
-      state = 0;
+      state0 = 0;
       var ty = $.add(t1, $.mul(t6, time));
     case 6:
-      if (state === 6 || state === 0 && ($.gtB(tx, 910) || $.ltB(tx, 30)))
-        switch (state) {
+      if (state0 === 6 || state0 === 0 && ($.gtB(tx, 910) || $.ltB(tx, 30)))
+        switch (state0) {
           case 0:
             t1 = this.vx;
           case 6:
-            state = 0;
+            state0 = 0;
             this.vx = $.neg(t1);
         }
       else
         this.set$x(tx);
     case 7:
-      if (state === 7 || state === 0 && ($.gtB(ty, 470) || $.ltB(ty, 30)))
-        switch (state) {
+      if (state0 === 7 || state0 === 0 && ($.gtB(ty, 470) || $.ltB(ty, 30)))
+        switch (state0) {
           case 0:
             t1 = this.vy;
           case 7:
-            state = 0;
+            state0 = 0;
             this.vy = $.neg(t1);
         }
       else
@@ -1112,12 +1107,10 @@ $$.Flag = {"":
   }
 },
  Flag$3: function(bitmapData, vx, vy) {
-  var bitmap = $.Bitmap$(bitmapData, 'auto', false);
-  bitmap.set$x(-24);
-  bitmap.set$y(-18);
-  this.addChild$1(bitmap);
   this.vx = vx;
   this.vy = vy;
+  this.set$pivotX(24);
+  this.set$pivotY(18);
 }
 };
 
@@ -1133,7 +1126,7 @@ $$._Random = {"":
     max = 4294967295;
   return (Math.random() * max) >>> 0;
 },
- nextInt$1$bailout: function(state, max) {
+ nextInt$1$bailout: function(state0, max) {
   if ($.ltB(max, 0))
     throw $.$$throw($.ArgumentError$('negative max: ' + $.S(max)));
   if ($.gtB(max, 4294967295))
@@ -1331,7 +1324,7 @@ $$._ChildrenElementList = {"":
   }
   return output;
 },
- _toList$0$bailout: function(state, t1) {
+ _toList$0$bailout: function(state0, t1) {
   var output = $.ListImplementation_List($.get$length(t1));
   for (var len = $.get$length(t1), i = 0; $.ltB(i, len); ++i) {
     var t2 = $.index(t1, i);
@@ -1493,7 +1486,7 @@ $$._FrozenElementListIterator = {"":
     return this.hasNext$0$bailout(1, t1, t2);
   return t1 < t2;
 },
- hasNext$0$bailout: function(state, t1, t2) {
+ hasNext$0$bailout: function(state0, t1, t2) {
   return $.lt(t1, t2);
 }
 };
@@ -2037,9 +2030,6 @@ $$._WorkerEventsImpl = {"":
 $$._DOMWindowCrossFrameImpl = {"":
  ["_window"],
  "super": "Object",
- get$parent: function() {
-  return $._DOMWindowCrossFrameImpl__createSafe(this._window.parent);
-},
  get$top: function() {
   return $._DOMWindowCrossFrameImpl__createSafe(this._window.top);
 },
@@ -2057,7 +2047,7 @@ $$._FixedSizeListIterator = {"":
     return this.hasNext$0$bailout(1, t1);
   return t1 > this._pos;
 },
- hasNext$0$bailout: function(state, t1) {
+ hasNext$0$bailout: function(state0, t1) {
   return $.gt(t1, this._pos);
 }
 };
@@ -2071,7 +2061,7 @@ $$._VariableSizeListIterator = {"":
     return this.hasNext$0$bailout(1, t1);
   return t1 > this._pos;
 },
- hasNext$0$bailout: function(state, t1) {
+ hasNext$0$bailout: function(state0, t1) {
   return $.gt(t1, this._pos);
 },
  next$0: function() {
@@ -2086,7 +2076,7 @@ $$._VariableSizeListIterator = {"":
     throw $.ioore(t3);
   return t1[t3];
 },
- next$0$bailout: function(state, t1) {
+ next$0$bailout: function(state0, t1) {
   var t3 = this._pos;
   this._pos = t3 + 1;
   return $.index(t1, t3);
@@ -2160,7 +2150,7 @@ $$._JsonParser = {"":
   this.position = $.add(this.position, 1);
   return object;
 },
- parseObject$0$bailout: function(state, object) {
+ parseObject$0$bailout: function(state0, object) {
   this.position = $.add(this.position, 1);
   if (this.isToken$1(125) !== true) {
     for (; true;) {
@@ -2308,7 +2298,7 @@ $$._JsonParser = {"":
     return this.isDigit$1$bailout(1, char$);
   return char$ >= 48 && char$ <= 57;
 },
- isDigit$1$bailout: function(state, char$) {
+ isDigit$1$bailout: function(state0, char$) {
   return $.geB(char$, 48) && $.leB(char$, 57);
 },
  isToken$1: function(tokenKind) {
@@ -2317,7 +2307,7 @@ $$._JsonParser = {"":
     return this.isToken$1$bailout(1, tokenKind, t1);
   return t1 === tokenKind;
 },
- isToken$1$bailout: function(state, tokenKind, t1) {
+ isToken$1$bailout: function(state0, tokenKind, t1) {
   return $.eq(t1, tokenKind);
 },
  char$0: function() {
@@ -2331,8 +2321,8 @@ $$._JsonParser = {"":
     this.error$1('Unexpected end of JSON stream');
   return $.charCodeAt(this.json, this.position);
 },
- char$0$bailout: function(state, env0, env1) {
-  switch (state) {
+ char$0$bailout: function(state0, env0, env1) {
+  switch (state0) {
     case 1:
       t1 = env0;
       break;
@@ -2341,14 +2331,14 @@ $$._JsonParser = {"":
       t3 = env1;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       var t1 = this.position;
     case 1:
-      state = 0;
+      state0 = 0;
       var t3 = $.get$length(this);
     case 2:
-      state = 0;
+      state0 = 0;
       if ($.geB(t1, t3))
         this.error$1('Unexpected end of JSON stream');
       return $.charCodeAt(this.json, this.position);
@@ -2369,8 +2359,8 @@ $$._JsonParser = {"":
     return 0;
   return $.charCodeAt(this.json, this.position);
 },
- nextChar$0$bailout: function(state, env0, env1) {
-  switch (state) {
+ nextChar$0$bailout: function(state0, env0, env1) {
+  switch (state0) {
     case 1:
       t1 = env0;
       break;
@@ -2382,18 +2372,18 @@ $$._JsonParser = {"":
       t3 = env1;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       var t1 = this.position;
     case 1:
-      state = 0;
+      state0 = 0;
       this.position = $.add(t1, 1);
       t1 = this.position;
     case 2:
-      state = 0;
+      state0 = 0;
       var t3 = $.get$length(this);
     case 3:
-      state = 0;
+      state0 = 0;
       if ($.geB(t1, t3))
         return 0;
       return $.charCodeAt(this.json, this.position);
@@ -2524,8 +2514,8 @@ $$.Juggler = {"":
   this._animatablesCount = c;
   return true;
 },
- advanceTime$1$bailout: function(state, env0, env1) {
-  switch (state) {
+ advanceTime$1$bailout: function(state0, env0, env1) {
+  switch (state0) {
     case 1:
       var time = env0;
       break;
@@ -2534,13 +2524,13 @@ $$.Juggler = {"":
       t1 = env1;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
     case 1:
-      state = 0;
+      state0 = 0;
       var t1 = this._elapsedTime;
     case 2:
-      state = 0;
+      state0 = 0;
       this._elapsedTime = $.add(t1, time);
       var animatablesCount = this._animatablesCount;
       for (var i = 0, c = 0; i < animatablesCount; ++i) {
@@ -2700,8 +2690,8 @@ $$.Matrix = {"":
   this._ty = tx1 * b2 + ty1 * d2 + ty2;
   this._det = det1 * det2;
 },
- concat$1$bailout: function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13) {
-  switch (state) {
+ concat$1$bailout: function(state0, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13) {
+  switch (state0) {
     case 1:
       var matrix = env0;
       a1 = env1;
@@ -2849,50 +2839,50 @@ $$.Matrix = {"":
       tx2 = env13;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       var a1 = this._a;
     case 1:
-      state = 0;
+      state0 = 0;
       var b1 = this._b;
     case 2:
-      state = 0;
+      state0 = 0;
       var c1 = this._c;
     case 3:
-      state = 0;
+      state0 = 0;
       var d1 = this._d;
     case 4:
-      state = 0;
+      state0 = 0;
       var tx1 = this._tx;
     case 5:
-      state = 0;
+      state0 = 0;
       var ty1 = this._ty;
     case 6:
-      state = 0;
+      state0 = 0;
       var det1 = this._det;
     case 7:
-      state = 0;
+      state0 = 0;
       var a2 = matrix.get$a();
     case 8:
-      state = 0;
+      state0 = 0;
       var b2 = matrix.get$b();
     case 9:
-      state = 0;
+      state0 = 0;
       var c2 = matrix.get$c();
     case 10:
-      state = 0;
+      state0 = 0;
       var d2 = matrix.get$d();
     case 11:
-      state = 0;
+      state0 = 0;
       var tx2 = matrix.get$tx();
     case 12:
-      state = 0;
+      state0 = 0;
       var ty2 = matrix.get$ty();
     case 13:
-      state = 0;
+      state0 = 0;
       var det2 = matrix.get$det();
     case 14:
-      state = 0;
+      state0 = 0;
       this._a = $.add($.mul(a1, a2), $.mul(b1, c2));
       this._b = $.add($.mul(a1, b2), $.mul(b1, d2));
       this._c = $.add($.mul(c1, a2), $.mul(d1, c2));
@@ -2989,8 +2979,8 @@ $$.Matrix = {"":
   this._ty = tx1 * b2 + ty1 * d2 + ty2;
   this._det = det1 * det2;
 },
- copyFromAndConcat$2$bailout: function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13) {
-  switch (state) {
+ copyFromAndConcat$2$bailout: function(state0, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13) {
+  switch (state0) {
     case 1:
       var copyMatrix = env0;
       var concatMatrix = env1;
@@ -3144,50 +3134,50 @@ $$.Matrix = {"":
       det2 = env13;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       var a1 = copyMatrix.get$a();
     case 1:
-      state = 0;
+      state0 = 0;
       var b1 = copyMatrix.get$b();
     case 2:
-      state = 0;
+      state0 = 0;
       var c1 = copyMatrix.get$c();
     case 3:
-      state = 0;
+      state0 = 0;
       var d1 = copyMatrix.get$d();
     case 4:
-      state = 0;
+      state0 = 0;
       var tx1 = copyMatrix.get$tx();
     case 5:
-      state = 0;
+      state0 = 0;
       var ty1 = copyMatrix.get$ty();
     case 6:
-      state = 0;
+      state0 = 0;
       var det1 = copyMatrix.get$det();
     case 7:
-      state = 0;
+      state0 = 0;
       var a2 = concatMatrix.get$a();
     case 8:
-      state = 0;
+      state0 = 0;
       var b2 = concatMatrix.get$b();
     case 9:
-      state = 0;
+      state0 = 0;
       var c2 = concatMatrix.get$c();
     case 10:
-      state = 0;
+      state0 = 0;
       var d2 = concatMatrix.get$d();
     case 11:
-      state = 0;
+      state0 = 0;
       var tx2 = concatMatrix.get$tx();
     case 12:
-      state = 0;
+      state0 = 0;
       var ty2 = concatMatrix.get$ty();
     case 13:
-      state = 0;
+      state0 = 0;
       var det2 = concatMatrix.get$det();
     case 14:
-      state = 0;
+      state0 = 0;
       this._a = $.add($.mul(a1, a2), $.mul(b1, c2));
       this._b = $.add($.mul(a1, b2), $.mul(b1, d2));
       this._c = $.add($.mul(c1, a2), $.mul(d1, c2));
@@ -3243,8 +3233,8 @@ $$.RenderLoop = {"":
     }
   }
 },
- _onAnimationFrame$1$bailout: function(state, env0, env1) {
-  switch (state) {
+ _onAnimationFrame$1$bailout: function(state0, env0, env1) {
+  switch (state0) {
     case 1:
       var currentTime = env0;
       break;
@@ -3265,26 +3255,26 @@ $$.RenderLoop = {"":
       t1 = env1;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
     case 1:
-      state = 0;
+      state0 = 0;
       $.window().requestAnimationFrame$1(this.get$_onAnimationFrame());
       if ($.isNaN(this._renderTime) === true)
         this._renderTime = currentTime;
       var t1 = this._renderTime;
     case 2:
-      state = 0;
+      state0 = 0;
       if ($.gtB(t1, currentTime))
         this._renderTime = currentTime;
       t1 = this._renderTime;
     case 3:
-      state = 0;
+      state0 = 0;
       var deltaTime = $.sub(currentTime, t1);
       var deltaTimeSec = $.div(deltaTime, 1000);
     default:
-      if (state === 5 || state === 4 || state === 0 && $.geB(deltaTime, 1))
-        switch (state) {
+      if (state0 === 5 || state0 === 4 || state0 === 0 && $.geB(deltaTime, 1))
+        switch (state0) {
           case 0:
             this._renderTime = currentTime;
             this._enterFrameEvent.set$_passedTime(deltaTimeSec);
@@ -3294,16 +3284,16 @@ $$.RenderLoop = {"":
           default:
             L0:
               while (true)
-                switch (state) {
+                switch (state0) {
                   case 0:
                     t1 = $.get$length(this._stages);
                   case 4:
-                    state = 0;
+                    state0 = 0;
                     if (!$.ltB(i, t1))
                       break L0;
                     t1 = this._stages;
                   case 5:
-                    state = 0;
+                    state0 = 0;
                     $.index(t1, i).materialize$0();
                     ++i;
                 }
@@ -3378,8 +3368,8 @@ $$.RenderState = {"":
   }
   this._depth = this._depth - 1;
 },
- renderDisplayObject$1$bailout: function(state, env0, env1, env2, env3, env4) {
-  switch (state) {
+ renderDisplayObject$1$bailout: function(state0, env0, env1, env2, env3, env4) {
+  switch (state0) {
     case 1:
       var displayObject = env0;
       t2 = env1;
@@ -3394,7 +3384,7 @@ $$.RenderState = {"":
       t7 = env4;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       this._depth = this._depth + 1;
       var t1 = this._matrices;
@@ -3416,10 +3406,10 @@ $$.RenderState = {"":
         throw $.ioore(t5);
       t5 = t2[t5];
     case 1:
-      state = 0;
+      state0 = 0;
       var t7 = displayObject.get$_alpha();
     case 2:
-      state = 0;
+      state0 = 0;
       t7 = $.mul(t5, t7);
       if (t4 < 0 || t4 >= t2.length)
         throw $.ioore(t4);
@@ -3530,7 +3520,7 @@ $$.EventDispatcher = {"":
     eventListenerList.dispatchEvent$1(event$);
   }
 },
- _dispatchEventInternal$4$bailout: function(state, event$, target, currentTarget, eventPhase, t1) {
+ _dispatchEventInternal$4$bailout: function(state0, event$, target, currentTarget, eventPhase, t1) {
   if (!(t1 == null)) {
     var eventListenerList = $.index(t1, event$.get$type());
     if (!(eventListenerList == null)) {
@@ -3567,41 +3557,37 @@ $$.EventListenerList = {"":
   return this._eventDispatcher;
 },
  add$2: function(eventListener, useCapture) {
-  var list = this._list;
-  var listLength = list.length;
-  for (var i = 0; i < listLength; ++i) {
-    if (i >= list.length)
-      throw $.ioore(i);
-    if ($.eqB(list[i].get$eventListener(), eventListener)) {
-      if (i >= list.length)
+  for (var i = 0; t1 = this._list, i < t1.length; ++i) {
+    if ($.eqB(t1[i].get$eventListener(), eventListener)) {
+      var t1 = this._list;
+      if (i >= t1.length)
         throw $.ioore(i);
-      var t1 = $.eqB(list[i].get$useCapture(), useCapture);
+      var t2 = $.eqB(t1[i].get$useCapture(), useCapture);
+      t1 = t2;
     } else
       t1 = false;
     if (t1)
       return;
   }
-  if ($.eqB(this._eventType, 'enterFrame') && listLength === 0)
+  if ($.eqB(this._eventType, 'enterFrame') && this._list.length === 0)
     $.add$1($.get$_EventListenerListIndex_enterFrame(), this);
-  $.add$1(list, $._EventListenerUseCapture$(eventListener, useCapture));
+  $.add$1(this._list, $._EventListenerUseCapture$(eventListener, useCapture));
 },
  add$1: function(eventListener) {
   return this.add$2(eventListener,false)
 },
  remove$2: function(eventListener, useCapture) {
-  var list = this._list;
-  var listLength = list.length;
-  for (var i = 0; i < listLength; ++i) {
-    if (i >= list.length)
-      throw $.ioore(i);
-    if ($.eqB(list[i].get$eventListener(), eventListener)) {
-      if (i >= list.length)
+  for (var i = 0; t1 = this._list, i < t1.length; ++i) {
+    if ($.eqB(t1[i].get$eventListener(), eventListener)) {
+      var t1 = this._list;
+      if (i >= t1.length)
         throw $.ioore(i);
-      var t1 = $.eqB(list[i].get$useCapture(), useCapture);
+      var t2 = $.eqB(t1[i].get$useCapture(), useCapture);
+      t1 = t2;
     } else
       t1 = false;
     if (t1) {
-      this._list = $.ListImplementation_List$from(list);
+      this._list = $.ListImplementation_List$from(this._list);
       $.removeAt$1(this._list, i);
       if ($.eqB(this._eventType, 'enterFrame') && this._list.length === 0)
         $.get$_EventListenerListIndex_enterFrame().remove$1(this);
@@ -3619,20 +3605,21 @@ $$.EventListenerList = {"":
   this.remove$2(eventListener, false);
 },
  dispatchEvent$1: function(event$) {
-  var list = this._list;
-  var listLength = list.length;
-  for (var i = 0; i < listLength; ++i) {
+  for (var i = 0; i < this._list.length; ++i) {
     if ($.eqB(event$.get$eventPhase(), 1)) {
-      if (i >= list.length)
+      var t1 = this._list;
+      if (i >= t1.length)
         throw $.ioore(i);
-      var t1 = list[i].get$useCapture() === true;
+      var t2 = t1[i].get$useCapture() === true;
+      t1 = t2;
     } else
       t1 = true;
     if (t1)
       if ($.eqB(event$.get$stopsImmediatePropagation(), false)) {
-        if (i >= list.length)
+        t1 = this._list;
+        if (i >= t1.length)
           throw $.ioore(i);
-        list[i].eventListener$1(event$);
+        t1[i].eventListener$1(event$);
       }
   }
 },
@@ -3662,7 +3649,7 @@ $$._EventListenerListIndex = {"":
     t1[index] = null;
   }
 },
- remove$1$bailout: function(state, index) {
+ remove$1$bailout: function(state0, index) {
   if (!$.eqB(index, -1)) {
     var t1 = this._lists;
     if (index !== (index | 0))
@@ -3844,6 +3831,14 @@ $$.DisplayObject = {"":
   this._y = value;
   this._transformationMatrixRefresh = true;
 },
+ set$pivotX: function(value) {
+  this._pivotX = value;
+  this._transformationMatrixRefresh = true;
+},
+ set$pivotY: function(value) {
+  this._pivotY = value;
+  this._transformationMatrixRefresh = true;
+},
  set$scaleX: function(value) {
   this._scaleX = value;
   this._transformationMatrixRefresh = true;
@@ -3877,22 +3872,10 @@ $$.DisplayObject = {"":
   if (this._transformationMatrixRefresh) {
     this._transformationMatrixRefresh = false;
     var t1 = this._rotation;
-    var t2 = t1 === 0;
-    var t3 = this._pivotY;
-    var t4 = this._pivotX;
-    if (t2) {
+    if (t1 === 0) {
       t1 = this._transformationMatrixPrivate;
-      t2 = this._scaleX;
-      var t5 = this._scaleY;
-      var t6 = this._x;
-      if (typeof t2 !== 'number')
-        throw $.iae(t2);
-      t6 = $.sub(t6, t4 * t2);
-      var t7 = this._y;
-      var t8 = this._scaleY;
-      if (typeof t8 !== 'number')
-        throw $.iae(t8);
-      t1.setTo$6(t2, 0, 0, t5, t6, $.sub(t7, t3 * t8));
+      var t2 = this._scaleX;
+      t1.setTo$6(t2, 0, 0, this._scaleY, $.sub(this._x, $.mul(this._pivotX, t2)), $.sub(this._y, $.mul(this._pivotY, this._scaleY)));
     } else {
       var cosR = $.cos(t1);
       var sinR = $.sin(t1);
@@ -3900,20 +3883,8 @@ $$.DisplayObject = {"":
       var b = $.mul(this._scaleX, sinR);
       var c = $.mul($.neg(this._scaleY), sinR);
       var d = $.mul(this._scaleY, cosR);
-      t1 = this._x;
-      if (typeof a !== 'number')
-        throw $.iae(a);
-      t1 = $.sub(t1, t4 * a);
-      if (typeof c !== 'number')
-        throw $.iae(c);
-      var tx = $.sub(t1, t3 * c);
-      t1 = this._y;
-      if (typeof b !== 'number')
-        throw $.iae(b);
-      t1 = $.sub(t1, t4 * b);
-      if (typeof d !== 'number')
-        throw $.iae(d);
-      var ty = $.sub(t1, t3 * d);
+      var tx = $.sub($.sub(this._x, $.mul(this._pivotX, a)), $.mul(this._pivotY, c));
+      var ty = $.sub($.sub(this._y, $.mul(this._pivotX, b)), $.mul(this._pivotY, d));
       this._transformationMatrixPrivate.setTo$6(a, b, c, d, tx, ty);
     }
   }
@@ -3988,8 +3959,8 @@ $$.DisplayObject = {"":
     }
   }
 },
- dispatchEvent$1$bailout: function(state, env0, env1, env2, env3) {
-  switch (state) {
+ dispatchEvent$1$bailout: function(state0, env0, env1, env2, env3) {
+  switch (state0) {
     case 1:
       var event$ = env0;
       t1 = env1;
@@ -4019,7 +3990,7 @@ $$.DisplayObject = {"":
       ancestors = env3;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       if (event$.get$captures() === true || event$.get$bubbles() === true) {
         for (var ancestor = this._lib1_parent, ancestors = null; !(ancestor == null); ancestor = ancestor.get$_lib1_parent())
@@ -4031,23 +4002,23 @@ $$.DisplayObject = {"":
       } else
         ancestors = null;
     default:
-      if (state === 2 || state === 1 || state === 0 && event$.get$captures() === true && !(ancestors == null))
-        switch (state) {
+      if (state0 === 2 || state0 === 1 || state0 === 0 && event$.get$captures() === true && !(ancestors == null))
+        switch (state0) {
           case 0:
             var t1 = $.get$length(ancestors);
           case 1:
-            state = 0;
+            state0 = 0;
             var i = $.sub(t1, 1);
           case 2:
             L0:
               while (true)
-                switch (state) {
+                switch (state0) {
                   case 0:
                     if (!$.geB(i, 0))
                       break L0;
                     t1 = event$.get$stopsPropagation();
                   case 2:
-                    state = 0;
+                    state0 = 0;
                     if ($.eqB(t1, false))
                       $.index(ancestors, i)._dispatchEventInternal$4(event$, this, $.index(ancestors, i), 1);
                     i = $.sub(i, 1);
@@ -4055,28 +4026,28 @@ $$.DisplayObject = {"":
         }
       t1 = event$.get$stopsPropagation();
     case 3:
-      state = 0;
+      state0 = 0;
       if ($.eqB(t1, false))
         this._dispatchEventInternal$4(event$, this, this, 2);
     case 4:
     case 5:
-      if (state === 5 || state === 4 || state === 0 && event$.get$bubbles() === true && !(ancestors == null))
-        switch (state) {
+      if (state0 === 5 || state0 === 4 || state0 === 0 && event$.get$bubbles() === true && !(ancestors == null))
+        switch (state0) {
           case 0:
             i = 0;
           default:
             L1:
               while (true)
-                switch (state) {
+                switch (state0) {
                   case 0:
                     t1 = $.get$length(ancestors);
                   case 4:
-                    state = 0;
+                    state0 = 0;
                     if (!$.ltB(i, t1))
                       break L1;
                     t1 = event$.get$stopsPropagation();
                   case 5:
-                    state = 0;
+                    state0 = 0;
                     if ($.eqB(t1, false))
                       $.index(ancestors, i)._dispatchEventInternal$4(event$, this, $.index(ancestors, i), 3);
                     ++i;
@@ -4087,7 +4058,7 @@ $$.DisplayObject = {"":
  _setParent$1: function(value) {
   for (var ancestor = value; !(ancestor == null); ancestor = ancestor.get$_lib1_parent())
     if ($.eqB(ancestor, this))
-      throw $.$$throw($.IllegalArgumentException$('Error #2150: An object cannot be added as a child to one of it\'s children (or children\'s children, etc.).'));
+      throw $.$$throw($.ArgumentError$('Error #2150: An object cannot be added as a child to one of it\'s children (or children\'s children, etc.).'));
   this._lib1_parent = value;
 },
  DisplayObject$0: function() {
@@ -4129,9 +4100,9 @@ $$.DisplayObjectContainer = {"":
 },
  addChildAt$2: function(child, index) {
   if (index < 0 && false)
-    throw $.$$throw($.IllegalArgumentException$('Error #2006: The supplied index is out of bounds.'));
+    throw $.$$throw($.ArgumentError$('Error #2006: The supplied index is out of bounds.'));
   if ($.eqB(child, this))
-    throw $.$$throw($.IllegalArgumentException$('Error #2024: An object cannot be added as a child of itself.'));
+    throw $.$$throw($.ArgumentError$('Error #2024: An object cannot be added as a child of itself.'));
   if ($.eqB(child.get$parent(), this)) {
     var t1 = this._children;
     $.removeAt$1(t1, $.indexOf$1(t1, child));
@@ -4152,14 +4123,14 @@ $$.DisplayObjectContainer = {"":
  removeChild$1: function(child) {
   var childIndex = $.indexOf$1(this._children, child);
   if ($.eqB(childIndex, -1))
-    throw $.$$throw($.IllegalArgumentException$('Error #2025: The supplied DisplayObject must be a child of the caller.'));
+    throw $.$$throw($.ArgumentError$('Error #2025: The supplied DisplayObject must be a child of the caller.'));
   return this.removeChildAt$1(childIndex);
 },
  removeChildAt$1: function(index) {
   if (typeof index !== 'number')
     return this.removeChildAt$1$bailout(1, index);
   if (index < 0 && index >= this._children.length)
-    throw $.$$throw($.IllegalArgumentException$('Error #2006: The supplied index is out of bounds.'));
+    throw $.$$throw($.ArgumentError$('Error #2006: The supplied index is out of bounds.'));
   var t1 = this._children;
   if (index !== (index | 0))
     throw $.iae(index);
@@ -4173,9 +4144,9 @@ $$.DisplayObjectContainer = {"":
   $.removeAt$1(this._children, index);
   return child;
 },
- removeChildAt$1$bailout: function(state, index) {
+ removeChildAt$1$bailout: function(state0, index) {
   if ($.ltB(index, 0) && $.geB(index, this._children.length))
-    throw $.$$throw($.IllegalArgumentException$('Error #2006: The supplied index is out of bounds.'));
+    throw $.$$throw($.ArgumentError$('Error #2006: The supplied index is out of bounds.'));
   var t1 = this._children;
   if (index !== (index | 0))
     throw $.iae(index);
@@ -4244,8 +4215,8 @@ $$.DisplayObjectContainer = {"":
   returnRectangle.set$height(bottom - top$);
   return returnRectangle;
 },
- getBoundsTransformed$2$bailout: function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9) {
-  switch (state) {
+ getBoundsTransformed$2$bailout: function(state0, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9) {
+  switch (state0) {
     case 1:
       var matrix = env0;
       t1 = env1;
@@ -4338,7 +4309,7 @@ $$.DisplayObjectContainer = {"":
       returnRectangle = env7;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       if (returnRectangle == null)
         var returnRectangle = $.Rectangle$zero();
@@ -4353,7 +4324,7 @@ $$.DisplayObjectContainer = {"":
     default:
       L0:
         while (true)
-          switch (state) {
+          switch (state0) {
             case 0:
               if (!(i < t1))
                 break L0;
@@ -4368,47 +4339,47 @@ $$.DisplayObjectContainer = {"":
               var rectangle = t2[i].getBoundsTransformed$2(this._tmpMatrix, returnRectangle);
               t2 = rectangle.get$left();
             case 1:
-              state = 0;
+              state0 = 0;
             case 2:
-              if (state === 2 || state === 0 && $.ltB(t2, left))
-                switch (state) {
+              if (state0 === 2 || state0 === 0 && $.ltB(t2, left))
+                switch (state0) {
                   case 0:
                     left = rectangle.get$left();
                   case 2:
-                    state = 0;
+                    state0 = 0;
                 }
               t2 = rectangle.get$top();
             case 3:
-              state = 0;
+              state0 = 0;
             case 4:
-              if (state === 4 || state === 0 && $.ltB(t2, top$))
-                switch (state) {
+              if (state0 === 4 || state0 === 0 && $.ltB(t2, top$))
+                switch (state0) {
                   case 0:
                     top$ = rectangle.get$top();
                   case 4:
-                    state = 0;
+                    state0 = 0;
                 }
               t2 = rectangle.get$right();
             case 5:
-              state = 0;
+              state0 = 0;
             case 6:
-              if (state === 6 || state === 0 && $.gtB(t2, right))
-                switch (state) {
+              if (state0 === 6 || state0 === 0 && $.gtB(t2, right))
+                switch (state0) {
                   case 0:
                     right = rectangle.get$right();
                   case 6:
-                    state = 0;
+                    state0 = 0;
                 }
               t2 = rectangle.get$bottom();
             case 7:
-              state = 0;
+              state0 = 0;
             case 8:
-              if (state === 8 || state === 0 && $.gtB(t2, bottom))
-                switch (state) {
+              if (state0 === 8 || state0 === 0 && $.gtB(t2, bottom))
+                switch (state0) {
                   case 0:
                     bottom = rectangle.get$bottom();
                   case 8:
-                    state = 0;
+                    state0 = 0;
                 }
               ++i;
           }
@@ -4476,8 +4447,8 @@ $$.DisplayObjectContainer = {"":
   }
   return hit;
 },
- hitTestInput$2$bailout: function(state, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10) {
-  switch (state) {
+ hitTestInput$2$bailout: function(state0, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10) {
+  switch (state0) {
     case 1:
       var localX = env0;
       var localY = env1;
@@ -4579,17 +4550,17 @@ $$.DisplayObjectContainer = {"":
       hit = env8;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
     case 1:
-      state = 0;
+      state0 = 0;
       var i = this._children.length - 1;
       var t1 = this._mouseChildren;
       var hit = null;
     default:
       L0:
         while (true)
-          switch (state) {
+          switch (state0) {
             case 0:
               if (!(i >= 0))
                 break L0;
@@ -4598,41 +4569,41 @@ $$.DisplayObjectContainer = {"":
                 throw $.ioore(i);
               var child = t2[i];
             default:
-              if (state === 9 || state === 8 || state === 7 || state === 6 || state === 5 || state === 4 || state === 3 || state === 2 || state === 0 && child.get$visible() === true)
-                switch (state) {
+              if (state0 === 9 || state0 === 8 || state0 === 7 || state0 === 6 || state0 === 5 || state0 === 4 || state0 === 3 || state0 === 2 || state0 === 0 && child.get$visible() === true)
+                switch (state0) {
                   case 0:
                     var matrix = child.get$_transformationMatrix();
                     t2 = matrix.get$tx();
                   case 2:
-                    state = 0;
+                    state0 = 0;
                     var deltaX = $.sub(localX, t2);
                     t2 = matrix.get$ty();
                   case 3:
-                    state = 0;
+                    state0 = 0;
                     var deltaY = $.sub(localY, t2);
                     t2 = matrix.get$d();
                   case 4:
-                    state = 0;
+                    state0 = 0;
                     t2 = $.mul(t2, deltaX);
                     var t6 = matrix.get$c();
                   case 5:
-                    state = 0;
+                    state0 = 0;
                     t2 = $.sub(t2, $.mul(t6, deltaY));
                     var t8 = matrix.get$det();
                   case 6:
-                    state = 0;
+                    state0 = 0;
                     var childX = $.div(t2, t8);
                     t8 = matrix.get$a();
                   case 7:
-                    state = 0;
+                    state0 = 0;
                     t8 = $.mul(t8, deltaY);
                     var t10 = matrix.get$b();
                   case 8:
-                    state = 0;
+                    state0 = 0;
                     t8 = $.sub(t8, $.mul(t10, deltaX));
                     var t12 = matrix.get$det();
                   case 9:
-                    state = 0;
+                    state0 = 0;
                     var displayObject = child.hitTestInput$2(childX, $.div(t8, t12));
                     if (!(displayObject == null)) {
                       if (typeof displayObject === 'object' && displayObject !== null && !!displayObject.is$InteractiveObject)
@@ -4647,15 +4618,12 @@ $$.DisplayObjectContainer = {"":
   }
 },
  render$1: function(renderState) {
-  var childrenLength = this._children.length;
-  for (var i = 0; i < childrenLength; ++i) {
-    var t1 = this._children;
-    if (i >= t1.length)
-      throw $.ioore(i);
+  for (var i = 0; t1 = this._children, i < t1.length; ++i) {
     var child = t1[i];
     if (child.get$visible() === true)
       renderState.renderDisplayObject$1(child);
   }
+  var t1;
 },
  _dispatchEventOnChildren$2: function(displayObject, event$) {
   displayObject.dispatchEvent$1(event$);
@@ -4683,7 +4651,7 @@ $$.Stage = {"":
 },
  focus$0: function() { return this.get$focus().call$0(); },
  _throwStageException$0: function() {
-  throw $.$$throw($.ExceptionImplementation$('Error #2071: The Stage class does not implement this property or method.'));
+  throw $.$$throw($.UnsupportedOperationException$('Error #2071: The Stage class does not implement this property or method.'));
 },
  set$scaleX: function(value) {
   this._throwStageException$0();
@@ -4715,8 +4683,8 @@ $$.Stage = {"":
       this._renderMode = 'stop';
   }
 },
- materialize$0$bailout: function(state, env0) {
-  switch (state) {
+ materialize$0$bailout: function(state0, env0) {
+  switch (state0) {
     case 1:
       t1 = env0;
       break;
@@ -4727,31 +4695,31 @@ $$.Stage = {"":
       t1 = env0;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       var t1 = this._renderMode;
     case 1:
-      state = 0;
+      state0 = 0;
     case 2:
-      if (state === 2 || state === 0 && !$.eqB(t1, 'auto'))
-        switch (state) {
+      if (state0 === 2 || state0 === 0 && !$.eqB(t1, 'auto'))
+        switch (state0) {
           case 0:
             t1 = this._renderMode;
           case 2:
-            state = 0;
+            state0 = 0;
             t1 = $.eqB(t1, 'once');
         }
       else
         t1 = true;
     case 3:
-      if (state === 3 || state === 0 && t1)
-        switch (state) {
+      if (state0 === 3 || state0 === 0 && t1)
+        switch (state0) {
           case 0:
             this._renderState.reset$0();
             this.render$1(this._renderState);
             t1 = this._renderMode;
           case 3:
-            state = 0;
+            state0 = 0;
             if ($.eqB(t1, 'once'))
               this._renderMode = 'stop';
         }
@@ -4771,7 +4739,7 @@ $$.Stage = {"":
   var stagePoint = $.Point$(event$.get$offsetX(), event$.get$offsetY());
   var target = !$.eqB(event$.get$type(), 'mouseout') ? $.propertyTypeCast(this.hitTestInput$2(stagePoint.x, stagePoint.y), 'is$InteractiveObject') : null;
   if (typeof target === 'object' && target !== null && !!target.is$Sprite)
-    var mouseCursor = target.useHandCursor ? 'button' : 'arrow';
+    var mouseCursor = target.useHandCursor === true ? 'button' : 'arrow';
   else
     mouseCursor = 'arrow';
   if (typeof target === 'object' && target !== null && !!target.is$SimpleButton)
@@ -4972,14 +4940,8 @@ $$.Stage = {"":
  is$Stage: true
 };
 
-$$.Sprite = {"":
- [],
- "super": "DisplayObjectContainer",
- is$Sprite: true
-};
-
 $$.Bitmap = {"":
- ["bitmapData", "pixelSnapping", "smoothing", "clipRectangle", "_x", "_y", "_pivotX", "_pivotY", "_scaleX", "_scaleY", "_rotation", "_transformationMatrixPrivate", "_transformationMatrixRefresh", "_alpha", "_visible", "_name", "_lib1_parent", "mask", "_tmpMatrix", "_tmpMatrixIdentity", "_eventListenerLists"],
+ [],
  "super": "DisplayObject",
  getBoundsTransformed$2: function(matrix, returnRectangle) {
   var t1 = this.bitmapData;
@@ -5000,8 +4962,8 @@ $$.Bitmap = {"":
     height = 0;
   return $._getBoundsTransformedHelper(matrix, width, height, returnRectangle);
 },
- getBoundsTransformed$2$bailout: function(state, env0, env1, env2, env3, env4) {
-  switch (state) {
+ getBoundsTransformed$2$bailout: function(state0, env0, env1, env2, env3, env4) {
+  switch (state0) {
     case 1:
       var matrix = env0;
       var returnRectangle = env1;
@@ -5016,28 +4978,28 @@ $$.Bitmap = {"":
       t1 = env3;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       var t1 = this.bitmapData;
       var t2 = !(t1 == null);
     case 1:
-      if (state === 1 || state === 0 && t2)
-        switch (state) {
+      if (state0 === 1 || state0 === 0 && t2)
+        switch (state0) {
           case 0:
             var t3 = t1.get$width();
           case 1:
-            state = 0;
+            state0 = 0;
             var width = t3;
         }
       else
         width = 0;
     case 2:
-      if (state === 2 || state === 0 && t2)
-        switch (state) {
+      if (state0 === 2 || state0 === 0 && t2)
+        switch (state0) {
           case 0:
             t1 = t1.get$height();
           case 2:
-            state = 0;
+            state0 = 0;
             var height = t1;
         }
       else
@@ -5077,8 +5039,8 @@ $$.Bitmap = {"":
     return this;
   return;
 },
- hitTestInput$2$bailout: function(state, env0, env1, env2, env3) {
-  switch (state) {
+ hitTestInput$2$bailout: function(state0, env0, env1, env2, env3) {
+  switch (state0) {
     case 1:
       var localX = env0;
       var localY = env1;
@@ -5094,33 +5056,33 @@ $$.Bitmap = {"":
       t1 = env1;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
     case 1:
-      state = 0;
+      state0 = 0;
       var t1 = this.bitmapData;
     default:
-      if (state === 3 || state === 2 || state === 0 && !(t1 == null))
-        switch (state) {
+      if (state0 === 3 || state0 === 2 || state0 === 0 && !(t1 == null))
+        switch (state0) {
           case 0:
           default:
-            if (state === 3 || state === 2 || state === 0 && $.geB(localX, 0))
-              switch (state) {
+            if (state0 === 3 || state0 === 2 || state0 === 0 && $.geB(localX, 0))
+              switch (state0) {
                 case 0:
                 default:
-                  if (state === 3 || state === 2 || state === 0 && $.geB(localY, 0))
-                    switch (state) {
+                  if (state0 === 3 || state0 === 2 || state0 === 0 && $.geB(localY, 0))
+                    switch (state0) {
                       case 0:
                         var t2 = t1.get$width();
                       case 2:
-                        state = 0;
+                        state0 = 0;
                       case 3:
-                        if (state === 3 || state === 0 && $.ltB(localX, t2))
-                          switch (state) {
+                        if (state0 === 3 || state0 === 0 && $.ltB(localX, t2))
+                          switch (state0) {
                             case 0:
                               t1 = t1.get$height();
                             case 3:
-                              state = 0;
+                              state0 = 0;
                               t1 = $.ltB(localY, t1);
                           }
                         else
@@ -5310,7 +5272,7 @@ $$.TextureAtlas = {"":
     ++i;
   }
   if (bitmapData == null)
-    throw $.$$throw('TextureAtlasFrame not found: \'' + $.S(name$) + '\'');
+    throw $.$$throw($.ArgumentError$('TextureAtlasFrame not found: \'' + $.S(name$) + '\''));
   return bitmapData;
 },
  get$frameNames: function() {
@@ -5521,7 +5483,7 @@ $$._convertDartToNative_PrepareForStructuredClone_findSlot = {"":
   $.add$1(this.copies_3, null);
   return length$;
 },
- call$1$bailout: function(state, value, t1) {
+ call$1$bailout: function(state0, value, t1) {
   var length$ = $.get$length(t1);
   for (var i = 0; $.ltB(i, length$); ++i) {
     var t2 = $.index(t1, i);
@@ -5676,8 +5638,8 @@ $$._convertDartToNative_PrepareForStructuredClone_walk = {"":
   }
   throw $.$$throw($.CTC11);
 },
- call$1$bailout: function(state, env0, env1, env2, env3, env4, env5, env6) {
-  switch (state) {
+ call$1$bailout: function(state0, env0, env1, env2, env3, env4, env5, env6) {
+  switch (state0) {
     case 1:
       var e = env0;
       break;
@@ -5697,7 +5659,7 @@ $$._convertDartToNative_PrepareForStructuredClone_walk = {"":
       length$ = env3;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       var t1 = {};
       if (e == null)
@@ -5746,11 +5708,11 @@ $$._convertDartToNative_PrepareForStructuredClone_walk = {"":
         return t1.copy_1;
       }
     default:
-      if (state === 3 || state === 2 || state === 1 || state === 0 && typeof e === 'object' && e !== null && (e.constructor === Array || e.is$List()))
-        switch (state) {
+      if (state0 === 3 || state0 === 2 || state0 === 1 || state0 === 0 && typeof e === 'object' && e !== null && (e.constructor === Array || e.is$List()))
+        switch (state0) {
           case 0:
           case 1:
-            state = 0;
+            state0 = 0;
             var length$ = $.get$length(e);
             slot = this.findSlot_8.call$1(e);
             t2 = this.readSlot_7;
@@ -5765,23 +5727,23 @@ $$._convertDartToNative_PrepareForStructuredClone_walk = {"":
             t1 = e instanceof Array && !!!(e.immutable$list);
             var t3 = this.writeSlot_6;
           case 2:
-            if (state === 2 || state === 0 && t1)
-              switch (state) {
+            if (state0 === 2 || state0 === 0 && t1)
+              switch (state0) {
                 case 0:
                   t3.call$2(slot, true);
                   var i = 0;
                 case 2:
                   L0:
                     while (true)
-                      switch (state) {
+                      switch (state0) {
                         case 0:
                           if (!$.ltB(i, length$))
                             break L0;
                           var element = $.index(e, i);
                           var elementCopy = this.call$1(element);
                         case 2:
-                          if (state === 2 || state === 0 && !(elementCopy == null ? element == null : elementCopy === element))
-                            switch (state) {
+                          if (state0 === 2 || state0 === 0 && !(elementCopy == null ? element == null : elementCopy === element))
+                            switch (state0) {
                               case 0:
                                 copy = t2.call$1(slot);
                                 if (true === copy) {
@@ -5789,7 +5751,7 @@ $$._convertDartToNative_PrepareForStructuredClone_walk = {"":
                                   t3.call$2(slot, copy);
                                 }
                               case 2:
-                                state = 0;
+                                state0 = 0;
                                 for (var j = 0; j < i; ++j)
                                   $.indexSet(copy, j, $.index(e, j));
                                 $.indexSet(copy, i, elementCopy);
@@ -5809,7 +5771,7 @@ $$._convertDartToNative_PrepareForStructuredClone_walk = {"":
               i = 0;
             }
           case 3:
-            state = 0;
+            state0 = 0;
             for (; $.ltB(i, length$); ++i)
               $.indexSet(copy, i, this.call$1($.index(e, i)));
             return copy;
@@ -5905,7 +5867,7 @@ $$._convertNativeToDart_AcceptStructuredClone_findSlot = {"":
   $.add$1(this.copies_1, null);
   return length$;
 },
- call$1$bailout: function(state, value, t1) {
+ call$1$bailout: function(state0, value, t1) {
   var length$ = $.get$length(t1);
   for (var i = 0; $.ltB(i, length$); ++i) {
     var t2 = $.index(t1, i);
@@ -5989,8 +5951,8 @@ $$._convertNativeToDart_AcceptStructuredClone_walk = {"":
   }
   return e;
 },
- call$1$bailout: function(state, env0, env1, env2, env3) {
-  switch (state) {
+ call$1$bailout: function(state0, env0, env1, env2, env3) {
+  switch (state0) {
     case 1:
       var e = env0;
       break;
@@ -6006,10 +5968,10 @@ $$._convertNativeToDart_AcceptStructuredClone_walk = {"":
       slot = env3;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
     case 1:
-      state = 0;
+      state0 = 0;
       if (e == null)
         return e;
       if (typeof e === 'boolean')
@@ -6023,8 +5985,8 @@ $$._convertNativeToDart_AcceptStructuredClone_walk = {"":
       if (e instanceof RegExp)
         throw $.$$throw($.CTC5);
     case 2:
-      if (state === 2 || state === 0 && $._isJavaScriptSimpleObject(e))
-        switch (state) {
+      if (state0 === 2 || state0 === 0 && $._isJavaScriptSimpleObject(e))
+        switch (state0) {
           case 0:
             var slot = this.findSlot_6.call$1(e);
             var copy = this.readSlot_5.call$1(slot);
@@ -6032,7 +5994,7 @@ $$._convertNativeToDart_AcceptStructuredClone_walk = {"":
               return copy;
             copy = $.makeLiteralMap([]);
           case 2:
-            state = 0;
+            state0 = 0;
             this.writeSlot_4.call$2(slot, copy);
             for (var t1 = $.iterator(Object.keys(e)); t1.hasNext$0() === true;) {
               var t2 = t1.next$0();
@@ -6041,8 +6003,8 @@ $$._convertNativeToDart_AcceptStructuredClone_walk = {"":
             return copy;
         }
     case 3:
-      if (state === 3 || state === 0 && e instanceof Array)
-        switch (state) {
+      if (state0 === 3 || state0 === 0 && e instanceof Array)
+        switch (state0) {
           case 0:
             slot = this.findSlot_6.call$1(e);
             copy = this.readSlot_5.call$1(slot);
@@ -6051,7 +6013,7 @@ $$._convertNativeToDart_AcceptStructuredClone_walk = {"":
             var length$ = $.get$length(e);
             copy = this.mustCopy_7 === true ? new Array(length$) : e;
           case 3:
-            state = 0;
+            state0 = 0;
             this.writeSlot_4.call$2(slot, copy);
             for (var i = 0; $.ltB(i, length$); ++i)
               $.indexSet(copy, i, this.call$1($.index(e, i)));
@@ -6077,22 +6039,22 @@ $$._convertNativeToDart_IDBKey_containsDate = {"":
   }
   return false;
 },
- call$1$bailout: function(state, env0) {
-  switch (state) {
+ call$1$bailout: function(state0, env0) {
+  switch (state0) {
     case 1:
       var object = env0;
       break;
   }
-  switch (state) {
+  switch (state0) {
     case 0:
       if (object instanceof Date)
         return true;
     case 1:
-      if (state === 1 || state === 0 && typeof object === 'object' && object !== null && (object.constructor === Array || object.is$List()))
-        switch (state) {
+      if (state0 === 1 || state0 === 0 && typeof object === 'object' && object !== null && (object.constructor === Array || object.is$List()))
+        switch (state0) {
           case 0:
           case 1:
-            state = 0;
+            state0 = 0;
             for (var i = 0; $.ltB(i, $.get$length(object)); ++i)
               if (this.call$1($.index(object, i)) === true)
                 return true;
@@ -6585,9 +6547,9 @@ $._PeerConnection00EventsImpl$ = function(_ptr) {
 };
 
 $.Flag$ = function(bitmapData, vx, vy) {
-  var t1 = new $.Flag(null, null, false, false, null, true, true, false, true, true, 0, 0, 0, 0, 0, 1, 1, 0, null, null, 1, true, '', null, null, null, null, null);
+  var t1 = new $.Flag(null, null, bitmapData, 'auto', false, null, 0, 0, 0, 0, 1, 1, 0, null, null, 1, true, '', null, null, null, null, null);
   t1.DisplayObject$0();
-  t1.DisplayObjectContainer$0();
+  t1.Bitmap$3(bitmapData, 'auto', false);
   t1.Flag$3(bitmapData, vx, vy);
   return t1;
 };
@@ -6854,10 +6816,6 @@ $.TextEvent$ = function(type, bubbles) {
   return t1;
 };
 
-$.IllegalArgumentException$ = function(argument) {
-  return new $.IllegalArgumentException(argument);
-};
-
 $._convertNativeToDart_Window = function(win) {
   return $._DOMWindowCrossFrameImpl__createSafe(win);
 };
@@ -7062,10 +7020,6 @@ $._dynamicMetadata0 = function() {
 $.regExpGetNative = function(regExp) {
   var r = regExp._re;
   return r == null ? regExp._re = $.regExpMakeNative(regExp, false) : r;
-};
-
-$.throwNoSuchMethod = function(obj, name$, arguments$) {
-  throw $.$$throw($.NoSuchMethodError$(obj, name$, arguments$, null));
 };
 
 $.InteractiveObjectEvents$ = function(target) {
@@ -7749,7 +7703,7 @@ $.UnsupportedOperationException$ = function(_message) {
 
 $._convertNativeToDart_EventTarget = function(e) {
   if ("setInterval" in e)
-    return $._DOMWindowCrossFrameImpl__createSafe($.throwNoSuchMethod('', 'get event', []));
+    return $._DOMWindowCrossFrameImpl__createSafe(e);
   else
     return e;
 };
@@ -8115,12 +8069,11 @@ $.listInsertRange = function(receiver, start, length$, initialValue) {
   $.set$length(receiver, t1);
   var t2 = start + length$;
   $.Arrays_copy(receiver, start, receiver, t2, receiverLength - start);
-  if (!(initialValue == null))
-    for (var t3 = receiver.length, i = start; i < t2; ++i) {
-      if (i < 0)
-        throw $.ioore(i);
-      receiver[i] = initialValue;
-    }
+  for (var t3 = receiver.length, i = start; i < t2; ++i) {
+    if (i < 0)
+      throw $.ioore(i);
+    receiver[i] = initialValue;
+  }
   $.set$length(receiver, t1);
 };
 
@@ -8259,13 +8212,6 @@ $.gt$slow = function(a, b) {
 
 $.ioore = function(index) {
   throw $.$$throw($.IndexOutOfRangeException$(index));
-};
-
-$.Bitmap$ = function(bitmapData, pixelSnapping, smoothing) {
-  var t1 = new $.Bitmap(bitmapData, pixelSnapping, smoothing, null, 0, 0, 0, 0, 1, 1, 0, null, null, 1, true, '', null, null, null, null, null);
-  t1.DisplayObject$0();
-  t1.Bitmap$3(bitmapData, pixelSnapping, smoothing);
-  return t1;
 };
 
 $.hashCode = function(receiver) {
@@ -8493,7 +8439,7 @@ $.sub = function(a, b) {
   return typeof a === 'number' && typeof b === 'number' ? a - b : $.sub$slow(a, b);
 };
 
-$.Arrays_copy$bailout = function(state, src, srcStart, dst, dstStart, count) {
+$.Arrays_copy$bailout = function(state0, src, srcStart, dst, dstStart, count) {
   if (srcStart < dstStart)
     for (var i = srcStart + count - 1, j = dstStart + count - 1; i >= srcStart; --i, --j)
       $.indexSet(dst, j, $.index(src, i));
@@ -8502,7 +8448,7 @@ $.Arrays_copy$bailout = function(state, src, srcStart, dst, dstStart, count) {
       $.indexSet(dst, j, $.index(src, i));
 };
 
-$._Lists_indexOf$bailout = function(state, a, element, startIndex, endIndex) {
+$._Lists_indexOf$bailout = function(state0, a, element, startIndex, endIndex) {
   if ($.geB(startIndex, $.get$length(a)))
     return -1;
   if ($.ltB(startIndex, 0))
@@ -8513,7 +8459,7 @@ $._Lists_indexOf$bailout = function(state, a, element, startIndex, endIndex) {
   return -1;
 };
 
-$.Arrays_indexOf$bailout = function(state, a, element, startIndex, endIndex) {
+$.Arrays_indexOf$bailout = function(state0, a, element, startIndex, endIndex) {
   if ($.geB(startIndex, $.get$length(a)))
     return -1;
   if (startIndex < 0)
@@ -8524,7 +8470,7 @@ $.Arrays_indexOf$bailout = function(state, a, element, startIndex, endIndex) {
   return -1;
 };
 
-$.listInsertRange$bailout = function(state, receiver, start, length$, initialValue) {
+$.listInsertRange$bailout = function(state0, receiver, start, length$, initialValue) {
   if (length$ === 0)
     return;
   $.checkNull(start);
@@ -8538,13 +8484,12 @@ $.listInsertRange$bailout = function(state, receiver, start, length$, initialVal
   $.set$length(receiver, t1);
   var t2 = start + length$;
   $.Arrays_copy(receiver, start, receiver, t2, receiverLength - start);
-  if (!(initialValue == null))
-    for (var i = start; i < t2; ++i)
-      $.indexSet(receiver, i, initialValue);
+  for (var i = start; i < t2; ++i)
+    $.indexSet(receiver, i, initialValue);
   $.set$length(receiver, t1);
 };
 
-$._Lists_getRange$bailout = function(state, a, start, length$, accumulator) {
+$._Lists_getRange$bailout = function(state0, a, start, length$, accumulator) {
   if ($.ltB(length$, 0))
     throw $.$$throw($.ArgumentError$('length'));
   if ($.ltB(start, 0))
@@ -8557,7 +8502,7 @@ $._Lists_getRange$bailout = function(state, a, start, length$, accumulator) {
   return accumulator;
 };
 
-$.StringImplementation__toJsStringArray$bailout = function(state, strings) {
+$.StringImplementation__toJsStringArray$bailout = function(state0, strings) {
   $.checkNull(strings);
   var length$ = $.get$length(strings);
   if ($.isJsArray(strings)) {
@@ -9457,12 +9402,6 @@ return this[index];
 });
 
 $.$defineNativeClass('DOMTokenList', ["length?"], {
- add$1: function(token) {
-  return this.add(token);
-},
- remove$1: function(token) {
-  return this.remove(token);
-},
  toString$0: function() {
   return this.toString();
 }
@@ -10670,9 +10609,6 @@ return this.open(url, name, options);
 },
  get$on: function() {
   return $._LocalWindowEventsImpl$(this);
-},
- get$parent: function() {
-  return $._convertNativeToDart_Window(this.get$_parent());
 },
  get$_parent: function() {
 return this.parent;
@@ -13216,8 +13152,8 @@ $.$defineNativeClass('XSLTProcessor', [], {
     ['AudioParam', 'AudioParam|AudioGain|AudioGain'],
     ['Blob', 'Blob|File|File'],
     ['CSSRule', 'CSSRule|CSSUnknownRule|CSSStyleRule|CSSPageRule|CSSMediaRule|WebKitCSSKeyframesRule|WebKitCSSKeyframeRule|CSSImportRule|CSSFontFaceRule|CSSCharsetRule|CSSUnknownRule|CSSStyleRule|CSSPageRule|CSSMediaRule|WebKitCSSKeyframesRule|WebKitCSSKeyframeRule|CSSImportRule|CSSFontFaceRule|CSSCharsetRule'],
-    ['CSSValueList', 'CSSValueList|WebKitCSSFilterValue|WebKitCSSTransformValue|WebKitCSSFilterValue|WebKitCSSTransformValue'],
     ['WorkerContext', v14/*class(_WorkerContextImpl)*/],
+    ['CSSValueList', 'CSSValueList|WebKitCSSFilterValue|WebKitCSSTransformValue|WebKitCSSFilterValue|WebKitCSSTransformValue'],
     ['CanvasRenderingContext', 'CanvasRenderingContext|WebGLRenderingContext|CanvasRenderingContext2D|WebGLRenderingContext|CanvasRenderingContext2D'],
     ['DOMTokenList', 'DOMTokenList|DOMSettableTokenList|DOMSettableTokenList'],
     ['Entry', 'Entry|FileEntry|DirectoryEntry|FileEntry|DirectoryEntry'],

@@ -2,19 +2,16 @@ import 'dart:math';
 import 'dart:html' as html;
 import 'package:dartflash/dartflash.dart';
 
-class Flag extends Sprite implements Animatable
+class Flag extends Bitmap implements Animatable
 {
     num vx, vy;
 
-    Flag(BitmapData bitmapData, num vx, num vy)
+    Flag(BitmapData bitmapData, num vx, num vy):super(bitmapData)
     {
-      Bitmap bitmap = new Bitmap(bitmapData);
-      bitmap.x = -24;
-      bitmap.y = -18;
-
-      this.addChild(bitmap);
       this.vx = vx;
       this.vy = vy;
+      this.pivotX = 24;
+      this.pivotY = 18;
     }
 
     bool advanceTime(num time)

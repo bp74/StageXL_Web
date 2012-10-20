@@ -41,6 +41,8 @@ void drawFilters(BitmapData kingBitmapData)
 
   // apply all filters to the BitmapData
 
+  var backgroundBitmapData = new BitmapData(235, 235, true, 0xFFF0F0F0);
+
   for(int i = 0; i < filters.length; i++)
   {
     var x = 240 * (i % 4);
@@ -48,14 +50,19 @@ void drawFilters(BitmapData kingBitmapData)
     var filter = filters[i]["filter"];
     var name = filters[i]["name"];
 
-    bitmapData.applyFilter(kingBitmapData, kingRectangle, new Point(x, y + 30), filter);
+    bitmapData.applyFilter(kingBitmapData, kingRectangle, new Point(x + 50, y + 35), filter);
+
+    var backgroundBitmap = new Bitmap(backgroundBitmapData);
+    backgroundBitmap.x = x;
+    backgroundBitmap.y = y;
+    stage.addChildAt(backgroundBitmap, 0);
 
     var textField = new TextField();
     textField.defaultTextFormat = new TextFormat('Helvetica Neue, Helvetica, Arial', 14, Color.Black);
-    textField.x = x;
-    textField.y = y;
+    textField.x = x + 5;
+    textField.y = y + 5;
     textField.width = 200;
     textField.text = name;
-    bitmapData.draw(textField, textField.transformationMatrix);
+    stage.addChild(textField);
   }
 }

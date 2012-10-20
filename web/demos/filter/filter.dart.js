@@ -1596,9 +1596,6 @@ $$.Point = {"": ["x=", "y="],
 },
  add$1: function(p) {
   return $.Point$($.add(this.x, p.get$x()), $.add(this.y, p.get$y()));
-},
- clone$0: function() {
-  return $.Point$(this.x, this.y);
 }
 };
 
@@ -1619,9 +1616,6 @@ $$.Rectangle = {"": ["x=", "y=", "width=", "height="],
  get$size: function() {
   return $.Point$(this.width, this.height);
 },
- clone$0: function() {
-  return $.Rectangle$(this.x, this.y, this.width, this.height);
-},
  contains$2: function(px, py) {
   return $.leB(this.x, px) && $.leB(this.y, py) && $.geB(this.get$right(), px) && $.geB(this.get$bottom(), py);
 },
@@ -1640,9 +1634,6 @@ $$.Rectangle = {"": ["x=", "y=", "width=", "height="],
 
 $$.Matrix = {"": ["_a", "_b", "_c", "_d", "_tx", "_ty", "_det"],
  "super": "Object",
- clone$0: function() {
-  return $.Matrix$(this._a, this._b, this._c, this._d, this._tx, this._ty);
-},
  get$a: function() {
   return this._a;
 },
@@ -1954,30 +1945,266 @@ $$.Matrix = {"": ["_a", "_b", "_c", "_d", "_tx", "_ty", "_det"],
   this._d = d;
   this._tx = tx;
   this._ty = ty;
-  this._det = $.sub($.mul(a, d), $.mul(b, c));
+  this._det = $.sub($.mul(a, d), b * c);
 },
  copyFromAndConcat$2: function(copyMatrix, concatMatrix) {
   var a1 = copyMatrix.get$a();
+  if (typeof a1 !== 'number')
+    return this.copyFromAndConcat$2$bailout(1, copyMatrix, concatMatrix, a1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   var b1 = copyMatrix.get$b();
+  if (typeof b1 !== 'number')
+    return this.copyFromAndConcat$2$bailout(2, copyMatrix, concatMatrix, a1, b1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   var c1 = copyMatrix.get$c();
+  if (typeof c1 !== 'number')
+    return this.copyFromAndConcat$2$bailout(3, copyMatrix, concatMatrix, a1, b1, c1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   var d1 = copyMatrix.get$d();
+  if (typeof d1 !== 'number')
+    return this.copyFromAndConcat$2$bailout(4, copyMatrix, concatMatrix, a1, b1, c1, d1, 0, 0, 0, 0, 0, 0, 0, 0);
   var tx1 = copyMatrix.get$tx();
+  if (typeof tx1 !== 'number')
+    return this.copyFromAndConcat$2$bailout(5, copyMatrix, concatMatrix, a1, b1, c1, d1, tx1, 0, 0, 0, 0, 0, 0, 0);
   var ty1 = copyMatrix.get$ty();
+  if (typeof ty1 !== 'number')
+    return this.copyFromAndConcat$2$bailout(6, copyMatrix, concatMatrix, a1, b1, c1, d1, tx1, ty1, 0, 0, 0, 0, 0, 0);
   var det1 = copyMatrix.get$det();
+  if (typeof det1 !== 'number')
+    return this.copyFromAndConcat$2$bailout(7, concatMatrix, a1, b1, c1, d1, tx1, ty1, det1, 0, 0, 0, 0, 0, 0);
   var a2 = concatMatrix.get$a();
+  if (typeof a2 !== 'number')
+    return this.copyFromAndConcat$2$bailout(8, concatMatrix, a1, b1, c1, d1, tx1, ty1, det1, a2, 0, 0, 0, 0, 0);
   var b2 = concatMatrix.get$b();
+  if (typeof b2 !== 'number')
+    return this.copyFromAndConcat$2$bailout(9, concatMatrix, a1, b1, c1, d1, tx1, ty1, det1, a2, b2, 0, 0, 0, 0);
   var c2 = concatMatrix.get$c();
+  if (typeof c2 !== 'number')
+    return this.copyFromAndConcat$2$bailout(10, concatMatrix, a1, b1, c1, d1, tx1, ty1, det1, a2, b2, c2, 0, 0, 0);
   var d2 = concatMatrix.get$d();
+  if (typeof d2 !== 'number')
+    return this.copyFromAndConcat$2$bailout(11, concatMatrix, a1, b1, c1, d1, tx1, ty1, det1, a2, b2, c2, d2, 0, 0);
   var tx2 = concatMatrix.get$tx();
+  if (typeof tx2 !== 'number')
+    return this.copyFromAndConcat$2$bailout(12, concatMatrix, a1, b1, c1, d1, tx1, ty1, det1, a2, b2, c2, d2, tx2, 0);
   var ty2 = concatMatrix.get$ty();
+  if (typeof ty2 !== 'number')
+    return this.copyFromAndConcat$2$bailout(13, concatMatrix, a1, b1, c1, d1, tx1, ty1, det1, a2, b2, c2, d2, tx2, ty2);
   var det2 = concatMatrix.get$det();
-  this._a = $.add($.mul(a1, a2), $.mul(b1, c2));
-  this._b = $.add($.mul(a1, b2), $.mul(b1, d2));
-  this._c = $.add($.mul(c1, a2), $.mul(d1, c2));
-  this._d = $.add($.mul(c1, b2), $.mul(d1, d2));
-  this._tx = $.add($.add($.mul(tx1, a2), $.mul(ty1, c2)), tx2);
-  this._ty = $.add($.add($.mul(tx1, b2), $.mul(ty1, d2)), ty2);
-  this._det = $.mul(det1, det2);
+  if (typeof det2 !== 'number')
+    return this.copyFromAndConcat$2$bailout(14, a1, b1, c1, d1, tx1, ty1, det1, a2, b2, c2, d2, tx2, ty2, det2);
+  this._a = a1 * a2 + b1 * c2;
+  this._b = a1 * b2 + b1 * d2;
+  this._c = c1 * a2 + d1 * c2;
+  this._d = c1 * b2 + d1 * d2;
+  this._tx = tx1 * a2 + ty1 * c2 + tx2;
+  this._ty = tx1 * b2 + ty1 * d2 + ty2;
+  this._det = det1 * det2;
+},
+ copyFromAndConcat$2$bailout: function(state0, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9, env10, env11, env12, env13) {
+  switch (state0) {
+    case 1:
+      var copyMatrix = env0;
+      var concatMatrix = env1;
+      a1 = env2;
+      break;
+    case 2:
+      copyMatrix = env0;
+      concatMatrix = env1;
+      a1 = env2;
+      b1 = env3;
+      break;
+    case 3:
+      copyMatrix = env0;
+      concatMatrix = env1;
+      a1 = env2;
+      b1 = env3;
+      c1 = env4;
+      break;
+    case 4:
+      copyMatrix = env0;
+      concatMatrix = env1;
+      a1 = env2;
+      b1 = env3;
+      c1 = env4;
+      d1 = env5;
+      break;
+    case 5:
+      copyMatrix = env0;
+      concatMatrix = env1;
+      a1 = env2;
+      b1 = env3;
+      c1 = env4;
+      d1 = env5;
+      tx1 = env6;
+      break;
+    case 6:
+      copyMatrix = env0;
+      concatMatrix = env1;
+      a1 = env2;
+      b1 = env3;
+      c1 = env4;
+      d1 = env5;
+      tx1 = env6;
+      ty1 = env7;
+      break;
+    case 7:
+      concatMatrix = env0;
+      a1 = env1;
+      b1 = env2;
+      c1 = env3;
+      d1 = env4;
+      tx1 = env5;
+      ty1 = env6;
+      det1 = env7;
+      break;
+    case 8:
+      concatMatrix = env0;
+      a1 = env1;
+      b1 = env2;
+      c1 = env3;
+      d1 = env4;
+      tx1 = env5;
+      ty1 = env6;
+      det1 = env7;
+      a2 = env8;
+      break;
+    case 9:
+      concatMatrix = env0;
+      a1 = env1;
+      b1 = env2;
+      c1 = env3;
+      d1 = env4;
+      tx1 = env5;
+      ty1 = env6;
+      det1 = env7;
+      a2 = env8;
+      b2 = env9;
+      break;
+    case 10:
+      concatMatrix = env0;
+      a1 = env1;
+      b1 = env2;
+      c1 = env3;
+      d1 = env4;
+      tx1 = env5;
+      ty1 = env6;
+      det1 = env7;
+      a2 = env8;
+      b2 = env9;
+      c2 = env10;
+      break;
+    case 11:
+      concatMatrix = env0;
+      a1 = env1;
+      b1 = env2;
+      c1 = env3;
+      d1 = env4;
+      tx1 = env5;
+      ty1 = env6;
+      det1 = env7;
+      a2 = env8;
+      b2 = env9;
+      c2 = env10;
+      d2 = env11;
+      break;
+    case 12:
+      concatMatrix = env0;
+      a1 = env1;
+      b1 = env2;
+      c1 = env3;
+      d1 = env4;
+      tx1 = env5;
+      ty1 = env6;
+      det1 = env7;
+      a2 = env8;
+      b2 = env9;
+      c2 = env10;
+      d2 = env11;
+      tx2 = env12;
+      break;
+    case 13:
+      concatMatrix = env0;
+      a1 = env1;
+      b1 = env2;
+      c1 = env3;
+      d1 = env4;
+      tx1 = env5;
+      ty1 = env6;
+      det1 = env7;
+      a2 = env8;
+      b2 = env9;
+      c2 = env10;
+      d2 = env11;
+      tx2 = env12;
+      ty2 = env13;
+      break;
+    case 14:
+      a1 = env0;
+      b1 = env1;
+      c1 = env2;
+      d1 = env3;
+      tx1 = env4;
+      ty1 = env5;
+      det1 = env6;
+      a2 = env7;
+      b2 = env8;
+      c2 = env9;
+      d2 = env10;
+      tx2 = env11;
+      ty2 = env12;
+      det2 = env13;
+      break;
+  }
+  switch (state0) {
+    case 0:
+      var a1 = copyMatrix.get$a();
+    case 1:
+      state0 = 0;
+      var b1 = copyMatrix.get$b();
+    case 2:
+      state0 = 0;
+      var c1 = copyMatrix.get$c();
+    case 3:
+      state0 = 0;
+      var d1 = copyMatrix.get$d();
+    case 4:
+      state0 = 0;
+      var tx1 = copyMatrix.get$tx();
+    case 5:
+      state0 = 0;
+      var ty1 = copyMatrix.get$ty();
+    case 6:
+      state0 = 0;
+      var det1 = copyMatrix.get$det();
+    case 7:
+      state0 = 0;
+      var a2 = concatMatrix.get$a();
+    case 8:
+      state0 = 0;
+      var b2 = concatMatrix.get$b();
+    case 9:
+      state0 = 0;
+      var c2 = concatMatrix.get$c();
+    case 10:
+      state0 = 0;
+      var d2 = concatMatrix.get$d();
+    case 11:
+      state0 = 0;
+      var tx2 = concatMatrix.get$tx();
+    case 12:
+      state0 = 0;
+      var ty2 = concatMatrix.get$ty();
+    case 13:
+      state0 = 0;
+      var det2 = concatMatrix.get$det();
+    case 14:
+      state0 = 0;
+      this._a = $.add($.mul(a1, a2), $.mul(b1, c2));
+      this._b = $.add($.mul(a1, b2), $.mul(b1, d2));
+      this._c = $.add($.mul(c1, a2), $.mul(d1, c2));
+      this._d = $.add($.mul(c1, b2), $.mul(d1, d2));
+      this._tx = $.add($.add($.mul(tx1, a2), $.mul(ty1, c2)), tx2);
+      this._ty = $.add($.add($.mul(tx1, b2), $.mul(ty1, d2)), ty2);
+      this._det = $.mul(det1, det2);
+  }
 }
 };
 
@@ -2115,46 +2342,36 @@ $$.RenderState = {"": ["_context", "_matrices", "_alphas", "_depth"],
   this._depth = 0;
 },
  renderDisplayObject$1: function(displayObject) {
-  var t1 = this._depth;
-  if (typeof t1 !== 'number')
-    return this.renderDisplayObject$1$bailout(1, displayObject, t1, 0, 0, 0);
-  this._depth = t1 + 1;
-  var t3 = this._matrices;
-  var t4 = this._depth;
-  if (t4 !== (t4 | 0))
-    throw $.iae(t4);
-  if (t4 < 0 || t4 >= t3.length)
-    throw $.ioore(t4);
-  var matrix = t3[t4];
-  t4 = displayObject.get$_transformationMatrix();
-  t3 = this._matrices;
-  var t5 = this._depth;
-  if (t5 !== (t5 | 0))
-    return this.renderDisplayObject$1$bailout(2, displayObject, matrix, t4, t3, t5);
-  --t5;
-  if (t5 < 0 || t5 >= t3.length)
-    throw $.ioore(t5);
-  matrix.copyFromAndConcat$2(t4, t3[t5]);
+  this._depth = this._depth + 1;
+  var t1 = this._matrices;
+  var t2 = this._depth;
+  if (t2 < 0 || t2 >= t1.length)
+    throw $.ioore(t2);
+  var matrix = t1[t2];
+  t2 = displayObject.get$_transformationMatrix();
+  t1 = this._matrices;
+  var t3 = this._depth - 1;
+  if (t3 < 0 || t3 >= t1.length)
+    throw $.ioore(t3);
+  matrix.copyFromAndConcat$2(t2, t1[t3]);
   this._context.setTransform$6(matrix.get$a(), matrix.get$b(), matrix.get$c(), matrix.get$d(), matrix.get$tx(), matrix.get$ty());
-  t4 = this._alphas;
-  var t7 = this._depth;
-  if (t7 !== (t7 | 0))
-    return this.renderDisplayObject$1$bailout(3, displayObject, t4, t7, 0, 0);
-  var t9 = t7 - 1;
-  var t10 = t4.length;
-  if (t9 < 0 || t9 >= t10)
-    throw $.ioore(t9);
-  t9 = t4[t9];
-  if (typeof t9 !== 'number')
-    return this.renderDisplayObject$1$bailout(4, displayObject, t4, t7, t9, 0);
-  var t12 = displayObject.get$_alpha();
-  if (typeof t12 !== 'number')
-    return this.renderDisplayObject$1$bailout(5, displayObject, t4, t7, t9, t12);
-  t12 = t9 * t12;
-  if (t7 < 0 || t7 >= t10)
-    throw $.ioore(t7);
-  t4[t7] = t12;
-  this._context.set$globalAlpha(t12);
+  t2 = this._alphas;
+  var t4 = this._depth;
+  var t5 = t4 - 1;
+  var t6 = t2.length;
+  if (t5 < 0 || t5 >= t6)
+    throw $.ioore(t5);
+  t5 = t2[t5];
+  if (typeof t5 !== 'number')
+    return this.renderDisplayObject$1$bailout(1, displayObject, t2, t4, t5, 0);
+  var t8 = displayObject.get$_alpha();
+  if (typeof t8 !== 'number')
+    return this.renderDisplayObject$1$bailout(2, displayObject, t2, t4, t5, t8);
+  t8 = t5 * t8;
+  if (t4 < 0 || t4 >= t6)
+    throw $.ioore(t4);
+  t2[t4] = t8;
+  this._context.set$globalAlpha(t8);
   if (displayObject.get$mask() == null)
     displayObject.render$1(this);
   else {
@@ -2163,93 +2380,55 @@ $$.RenderState = {"": ["_context", "_matrices", "_alphas", "_depth"],
     displayObject.render$1(this);
     this._context.restore$0();
   }
-  t1 = this._depth;
-  if (typeof t1 !== 'number')
-    return this.renderDisplayObject$1$bailout(6, t1, 0, 0, 0, 0);
-  this._depth = t1 - 1;
+  this._depth = this._depth - 1;
 },
  renderDisplayObject$1$bailout: function(state0, env0, env1, env2, env3, env4) {
   switch (state0) {
     case 1:
       var displayObject = env0;
-      t1 = env1;
+      t2 = env1;
+      t4 = env2;
+      t5 = env3;
       break;
     case 2:
       displayObject = env0;
-      matrix = env1;
+      t2 = env1;
       t4 = env2;
-      t3 = env3;
-      t5 = env4;
-      break;
-    case 3:
-      displayObject = env0;
-      t4 = env1;
-      t7 = env2;
-      break;
-    case 4:
-      displayObject = env0;
-      t4 = env1;
-      t7 = env2;
-      t9 = env3;
-      break;
-    case 5:
-      displayObject = env0;
-      t4 = env1;
-      t7 = env2;
-      t9 = env3;
-      t11 = env4;
-      break;
-    case 6:
-      t1 = env0;
+      t5 = env3;
+      t7 = env4;
       break;
   }
   switch (state0) {
     case 0:
-      var t1 = this._depth;
+      this._depth = this._depth + 1;
+      var t1 = this._matrices;
+      var t2 = this._depth;
+      if (t2 < 0 || t2 >= t1.length)
+        throw $.ioore(t2);
+      var matrix = t1[t2];
+      t2 = displayObject.get$_transformationMatrix();
+      t1 = this._matrices;
+      var t3 = this._depth - 1;
+      if (t3 < 0 || t3 >= t1.length)
+        throw $.ioore(t3);
+      matrix.copyFromAndConcat$2(t2, t1[t3]);
+      this._context.setTransform$6(matrix.get$a(), matrix.get$b(), matrix.get$c(), matrix.get$d(), matrix.get$tx(), matrix.get$ty());
+      t2 = this._alphas;
+      var t4 = this._depth;
+      var t5 = t4 - 1;
+      if (t5 < 0 || t5 >= t2.length)
+        throw $.ioore(t5);
+      t5 = t2[t5];
     case 1:
       state0 = 0;
-      this._depth = $.add(t1, 1);
-      var t3 = this._matrices;
-      var t4 = this._depth;
-      if (t4 !== (t4 | 0))
-        throw $.iae(t4);
-      if (t4 < 0 || t4 >= t3.length)
-        throw $.ioore(t4);
-      var matrix = t3[t4];
-      t4 = displayObject.get$_transformationMatrix();
-      t3 = this._matrices;
-      var t5 = this._depth;
+      var t7 = displayObject.get$_alpha();
     case 2:
       state0 = 0;
-      t5 = $.sub(t5, 1);
-      if (t5 !== (t5 | 0))
-        throw $.iae(t5);
-      if (t5 < 0 || t5 >= t3.length)
-        throw $.ioore(t5);
-      matrix.copyFromAndConcat$2(t4, t3[t5]);
-      this._context.setTransform$6(matrix.get$a(), matrix.get$b(), matrix.get$c(), matrix.get$d(), matrix.get$tx(), matrix.get$ty());
-      t4 = this._alphas;
-      var t7 = this._depth;
-    case 3:
-      state0 = 0;
-      var t9 = $.sub(t7, 1);
-      if (t9 !== (t9 | 0))
-        throw $.iae(t9);
-      if (t9 < 0 || t9 >= t4.length)
-        throw $.ioore(t9);
-      t9 = t4[t9];
-    case 4:
-      state0 = 0;
-      var t11 = displayObject.get$_alpha();
-    case 5:
-      state0 = 0;
-      t11 = $.mul(t9, t11);
-      if (t7 !== (t7 | 0))
-        throw $.iae(t7);
-      if (t7 < 0 || t7 >= t4.length)
-        throw $.ioore(t7);
-      t4[t7] = t11;
-      this._context.set$globalAlpha(t11);
+      t7 = $.mul(t5, t7);
+      if (t4 < 0 || t4 >= t2.length)
+        throw $.ioore(t4);
+      t2[t4] = t7;
+      this._context.set$globalAlpha(t7);
       if (displayObject.get$mask() == null)
         displayObject.render$1(this);
       else {
@@ -2258,10 +2437,7 @@ $$.RenderState = {"": ["_context", "_matrices", "_alphas", "_depth"],
         displayObject.render$1(this);
         this._context.restore$0();
       }
-      t1 = this._depth;
-    case 6:
-      state0 = 0;
-      this._depth = $.sub(t1, 1);
+      this._depth = this._depth - 1;
   }
 },
  RenderState$fromCanvasRenderingContext2D$1: function(context) {
@@ -2665,17 +2841,12 @@ $$.TextEvent = {"": ["_text", "_type", "_bubbles", "_eventPhase", "_target", "_c
 
 $$.BitmapFilter = {"": [],
  "super": "Object",
- clone$0: function() {
-},
  apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
 }
 };
 
 $$.BlurFilter = {"": ["blurX", "blurY"],
  "super": "BitmapFilter",
- clone$0: function() {
-  return $.BlurFilter$(this.blurX, this.blurY);
-},
  apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
   var sourceImageData = sourceBitmapData._getContext$0().getImageData$4(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
   var sourceData = sourceImageData.get$data();
@@ -3060,76 +3231,74 @@ $$.BlurFilter = {"": ["blurX", "blurY"],
 
 $$.ColorMatrixFilter = {"": ["matrix"],
  "super": "BitmapFilter",
- clone$0: function() {
-  return $.ColorMatrixFilter$($.ListImplementation_List$from(this.matrix));
-},
  apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
   var imageData = sourceBitmapData._getContext$0().getImageData$4(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
   var data = imageData.get$data();
   if (typeof data !== 'object' || data === null || (data.constructor !== Array || !!data.immutable$list) && !data.is$JavaScriptIndexingBehavior())
     return this.apply$4$bailout(1, destinationBitmapData, destinationPoint, imageData, data, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a00 = $.toInt($.mul($.index(this.matrix, 0), 65536));
+  var t2 = this.matrix;
+  var a00 = $.toInt($.mul($.index(t2, 0), 65536));
   if (typeof a00 !== 'number')
-    return this.apply$4$bailout(2, destinationBitmapData, destinationPoint, imageData, data, a00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a01 = $.toInt($.mul($.index(this.matrix, 1), 65536));
+    return this.apply$4$bailout(2, destinationBitmapData, destinationPoint, a00, imageData, data, t2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var a01 = $.toInt($.mul($.index(t2, 1), 65536));
   if (typeof a01 !== 'number')
-    return this.apply$4$bailout(3, destinationBitmapData, destinationPoint, a00, imageData, data, a01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a02 = $.toInt($.mul($.index(this.matrix, 2), 65536));
+    return this.apply$4$bailout(3, destinationBitmapData, destinationPoint, a00, imageData, data, a01, t2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var a02 = $.toInt($.mul($.index(t2, 2), 65536));
   if (typeof a02 !== 'number')
-    return this.apply$4$bailout(4, destinationBitmapData, destinationPoint, a00, a02, imageData, data, a01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a03 = $.toInt($.mul($.index(this.matrix, 3), 65536));
+    return this.apply$4$bailout(4, destinationBitmapData, destinationPoint, a00, a02, imageData, data, a01, t2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var a03 = $.toInt($.mul($.index(t2, 3), 65536));
   if (typeof a03 !== 'number')
-    return this.apply$4$bailout(5, destinationBitmapData, destinationPoint, a00, a02, imageData, data, a01, a03, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a04 = $.toInt($.mul($.index(this.matrix, 4), 65536));
+    return this.apply$4$bailout(5, destinationBitmapData, destinationPoint, a00, a02, imageData, data, a01, a03, t2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var a04 = $.toInt($.mul($.index(t2, 4), 65536));
   if (typeof a04 !== 'number')
-    return this.apply$4$bailout(6, destinationBitmapData, destinationPoint, a00, a02, a04, imageData, data, a01, a03, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a05 = $.toInt($.mul($.index(this.matrix, 5), 65536));
+    return this.apply$4$bailout(6, destinationBitmapData, destinationPoint, a00, a02, a04, imageData, data, a01, a03, t2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var a05 = $.toInt($.mul($.index(t2, 5), 65536));
   if (typeof a05 !== 'number')
-    return this.apply$4$bailout(7, a05, destinationBitmapData, destinationPoint, a00, a02, a04, imageData, data, a01, a03, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a06 = $.toInt($.mul($.index(this.matrix, 6), 65536));
+    return this.apply$4$bailout(7, a05, destinationBitmapData, destinationPoint, a00, a02, a04, imageData, data, a01, a03, t2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var a06 = $.toInt($.mul($.index(t2, 6), 65536));
   if (typeof a06 !== 'number')
-    return this.apply$4$bailout(8, a05, destinationBitmapData, destinationPoint, a06, a00, a02, imageData, data, a01, a03, a04, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a07 = $.toInt($.mul($.index(this.matrix, 7), 65536));
+    return this.apply$4$bailout(8, destinationBitmapData, destinationPoint, a06, a02, imageData, data, a03, t2, a04, a00, a01, a05, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var a07 = $.toInt($.mul($.index(t2, 7), 65536));
   if (typeof a07 !== 'number')
-    return this.apply$4$bailout(9, destinationBitmapData, destinationPoint, a06, a02, imageData, data, a03, a07, a00, a04, a01, a05, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a08 = $.toInt($.mul($.index(this.matrix, 8), 65536));
+    return this.apply$4$bailout(9, destinationBitmapData, destinationPoint, a06, a02, imageData, data, a03, a07, t2, a00, a04, a01, a05, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var a08 = $.toInt($.mul($.index(t2, 8), 65536));
   if (typeof a08 !== 'number')
-    return this.apply$4$bailout(10, destinationBitmapData, destinationPoint, a06, a02, imageData, data, a03, a07, a08, a00, a04, a01, a05, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a09 = $.toInt($.mul($.index(this.matrix, 9), 65536));
+    return this.apply$4$bailout(10, destinationBitmapData, destinationPoint, a02, a06, imageData, data, a07, a03, t2, a08, a00, a04, a01, a05, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var a09 = $.toInt($.mul($.index(t2, 9), 65536));
   if (typeof a09 !== 'number')
-    return this.apply$4$bailout(11, a05, destinationBitmapData, destinationPoint, a06, a02, imageData, data, a07, a03, a08, a00, a04, a09, a01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a10 = $.toInt($.mul($.index(this.matrix, 10), 65536));
+    return this.apply$4$bailout(11, a05, destinationBitmapData, destinationPoint, a06, a02, imageData, data, a07, a03, t2, a08, a00, a04, a09, a01, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  var a10 = $.toInt($.mul($.index(t2, 10), 65536));
   if (typeof a10 !== 'number')
-    return this.apply$4$bailout(12, a05, destinationBitmapData, destinationPoint, a06, a10, a02, imageData, data, a07, a03, a08, a00, a04, a09, a01, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a11 = $.toInt($.mul($.index(this.matrix, 11), 65536));
+    return this.apply$4$bailout(12, a05, destinationBitmapData, destinationPoint, a06, a10, a02, imageData, data, a07, a03, t2, a08, a00, a04, a09, a01, 0, 0, 0, 0, 0, 0, 0, 0);
+  var a11 = $.toInt($.mul($.index(t2, 11), 65536));
   if (typeof a11 !== 'number')
-    return this.apply$4$bailout(13, a05, destinationBitmapData, destinationPoint, a06, a10, a02, imageData, data, a07, a11, a03, a08, a00, a04, a09, a01, 0, 0, 0, 0, 0, 0, 0, 0);
-  var a12 = $.toInt($.mul($.index(this.matrix, 12), 65536));
+    return this.apply$4$bailout(13, a05, destinationBitmapData, destinationPoint, a06, a10, a02, imageData, data, a07, a11, t2, a03, a08, a00, a04, a09, a01, 0, 0, 0, 0, 0, 0, 0);
+  var a12 = $.toInt($.mul($.index(t2, 12), 65536));
   if (typeof a12 !== 'number')
-    return this.apply$4$bailout(14, a05, destinationBitmapData, destinationPoint, a06, a10, a02, imageData, data, a07, a11, a03, a08, a00, a12, a04, a09, a01, 0, 0, 0, 0, 0, 0, 0);
-  var a13 = $.toInt($.mul($.index(this.matrix, 13), 65536));
+    return this.apply$4$bailout(14, a05, destinationBitmapData, destinationPoint, a06, a10, a02, imageData, data, a07, a11, t2, a03, a08, a00, a12, a04, a09, a01, 0, 0, 0, 0, 0, 0);
+  var a13 = $.toInt($.mul($.index(t2, 13), 65536));
   if (typeof a13 !== 'number')
-    return this.apply$4$bailout(15, a05, destinationBitmapData, destinationPoint, a06, a10, a13, a02, imageData, data, a07, a11, a03, a08, a00, a12, a04, a09, a01, 0, 0, 0, 0, 0, 0);
-  var a14 = $.toInt($.mul($.index(this.matrix, 14), 65536));
+    return this.apply$4$bailout(15, a05, destinationBitmapData, destinationPoint, a06, a10, a13, a02, imageData, data, a07, a11, t2, a03, a08, a00, a12, a04, a09, a01, 0, 0, 0, 0, 0);
+  var a14 = $.toInt($.mul($.index(t2, 14), 65536));
   if (typeof a14 !== 'number')
-    return this.apply$4$bailout(16, a05, destinationBitmapData, destinationPoint, a14, a06, a13, a10, imageData, data, a07, a11, a02, a03, a08, a00, a12, a04, a09, a01, 0, 0, 0, 0, 0);
-  var a15 = $.toInt($.mul($.index(this.matrix, 15), 65536));
+    return this.apply$4$bailout(16, a05, destinationBitmapData, destinationPoint, a14, a06, a13, a10, imageData, data, a07, a11, t2, a03, a02, a00, a08, a12, a04, a01, a09, 0, 0, 0, 0);
+  var a15 = $.toInt($.mul($.index(t2, 15), 65536));
   if (typeof a15 !== 'number')
-    return this.apply$4$bailout(17, a05, destinationBitmapData, destinationPoint, a14, a06, a13, a10, imageData, data, a15, a07, a02, a11, a03, a08, a00, a12, a04, a01, a09, 0, 0, 0, 0);
-  var a16 = $.toInt($.mul($.index(this.matrix, 16), 65536));
+    return this.apply$4$bailout(17, a05, destinationBitmapData, destinationPoint, a14, a06, a13, a10, imageData, data, a15, a07, t2, a11, a03, a02, a00, a08, a12, a04, a01, a09, 0, 0, 0);
+  var a16 = $.toInt($.mul($.index(t2, 16), 65536));
   if (typeof a16 !== 'number')
-    return this.apply$4$bailout(18, a05, destinationBitmapData, destinationPoint, a14, a06, a13, a10, imageData, data, a15, a07, a02, a11, a03, a16, a08, a00, a12, a01, a09, a04, 0, 0, 0);
-  var a17 = $.toInt($.mul($.index(this.matrix, 17), 65536));
+    return this.apply$4$bailout(18, a05, destinationBitmapData, destinationPoint, a14, a06, a13, a10, imageData, data, a15, a07, t2, a11, a03, a02, a00, a08, a16, a12, a01, a09, a04, 0, 0);
+  var a17 = $.toInt($.mul($.index(t2, 17), 65536));
   if (typeof a17 !== 'number')
-    return this.apply$4$bailout(19, a17, destinationBitmapData, destinationPoint, a14, a06, a05, a10, imageData, data, a15, a07, a02, a11, a13, a03, a16, a08, a00, a12, a01, a09, a04, 0, 0);
-  var a18 = $.toInt($.mul($.index(this.matrix, 18), 65536));
+    return this.apply$4$bailout(19, a17, destinationBitmapData, destinationPoint, a14, a06, a05, a10, imageData, data, a15, a07, t2, a11, a13, a03, a02, a00, a08, a16, a12, a01, a09, a04, 0);
+  var a18 = $.toInt($.mul($.index(t2, 18), 65536));
   if (typeof a18 !== 'number')
-    return this.apply$4$bailout(20, a17, destinationBitmapData, destinationPoint, a14, a06, a05, a18, imageData, data, a15, a07, a10, a11, a13, a03, a02, a16, a08, a00, a12, a01, a09, a04, 0);
-  var a19 = $.toInt($.mul($.index(this.matrix, 19), 65536));
+    return this.apply$4$bailout(20, destinationBitmapData, destinationPoint, a14, a06, imageData, data, a15, a07, t2, a00, a08, a16, a17, a01, a09, a18, a10, a02, a11, a03, a12, a04, a05, a13);
+  var a19 = $.toInt($.mul($.index(t2, 19), 65536));
   if (typeof a19 !== 'number')
     return this.apply$4$bailout(21, destinationBitmapData, destinationPoint, a14, a06, imageData, data, a15, a07, a16, a08, a00, a17, a01, a09, a18, a10, a02, a19, a11, a03, a12, a04, a05, a13);
   for (var t1 = data.length - 4, index = 0; index <= t1; index += 4) {
-    var t2 = index + 0;
+    t2 = index + 0;
     var srcR = data[t2];
     var t3 = index + 1;
     var srcG = data[t3];
@@ -3166,9 +3335,10 @@ $$.ColorMatrixFilter = {"": ["matrix"],
     case 2:
       destinationBitmapData = env0;
       destinationPoint = env1;
-      imageData = env2;
-      data = env3;
-      a00 = env4;
+      a00 = env2;
+      imageData = env3;
+      data = env4;
+      t2 = env5;
       break;
     case 3:
       destinationBitmapData = env0;
@@ -3177,6 +3347,7 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       imageData = env3;
       data = env4;
       a01 = env5;
+      t2 = env6;
       break;
     case 4:
       destinationBitmapData = env0;
@@ -3186,6 +3357,7 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       imageData = env4;
       data = env5;
       a01 = env6;
+      t2 = env7;
       break;
     case 5:
       destinationBitmapData = env0;
@@ -3196,6 +3368,7 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env5;
       a01 = env6;
       a03 = env7;
+      t2 = env8;
       break;
     case 6:
       destinationBitmapData = env0;
@@ -3207,6 +3380,7 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env6;
       a01 = env7;
       a03 = env8;
+      t2 = env9;
       break;
     case 7:
       a05 = env0;
@@ -3219,19 +3393,21 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env7;
       a01 = env8;
       a03 = env9;
+      t2 = env10;
       break;
     case 8:
-      a05 = env0;
-      destinationBitmapData = env1;
-      destinationPoint = env2;
-      a06 = env3;
-      a00 = env4;
-      a02 = env5;
-      imageData = env6;
-      data = env7;
-      a01 = env8;
-      a03 = env9;
-      a04 = env10;
+      destinationBitmapData = env0;
+      destinationPoint = env1;
+      a06 = env2;
+      a02 = env3;
+      imageData = env4;
+      data = env5;
+      a03 = env6;
+      t2 = env7;
+      a04 = env8;
+      a00 = env9;
+      a01 = env10;
+      a05 = env11;
       break;
     case 9:
       destinationBitmapData = env0;
@@ -3242,25 +3418,27 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env5;
       a03 = env6;
       a07 = env7;
-      a00 = env8;
-      a04 = env9;
-      a01 = env10;
-      a05 = env11;
-      break;
-    case 10:
-      destinationBitmapData = env0;
-      destinationPoint = env1;
-      a06 = env2;
-      a02 = env3;
-      imageData = env4;
-      data = env5;
-      a03 = env6;
-      a07 = env7;
-      a08 = env8;
+      t2 = env8;
       a00 = env9;
       a04 = env10;
       a01 = env11;
       a05 = env12;
+      break;
+    case 10:
+      destinationBitmapData = env0;
+      destinationPoint = env1;
+      a02 = env2;
+      a06 = env3;
+      imageData = env4;
+      data = env5;
+      a07 = env6;
+      a03 = env7;
+      t2 = env8;
+      a08 = env9;
+      a00 = env10;
+      a04 = env11;
+      a01 = env12;
+      a05 = env13;
       break;
     case 11:
       a05 = env0;
@@ -3272,11 +3450,12 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env6;
       a07 = env7;
       a03 = env8;
-      a08 = env9;
-      a00 = env10;
-      a04 = env11;
-      a09 = env12;
-      a01 = env13;
+      t2 = env9;
+      a08 = env10;
+      a00 = env11;
+      a04 = env12;
+      a09 = env13;
+      a01 = env14;
       break;
     case 12:
       a05 = env0;
@@ -3289,11 +3468,12 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env7;
       a07 = env8;
       a03 = env9;
-      a08 = env10;
-      a00 = env11;
-      a04 = env12;
-      a09 = env13;
-      a01 = env14;
+      t2 = env10;
+      a08 = env11;
+      a00 = env12;
+      a04 = env13;
+      a09 = env14;
+      a01 = env15;
       break;
     case 13:
       a05 = env0;
@@ -3306,12 +3486,13 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env7;
       a07 = env8;
       a11 = env9;
-      a03 = env10;
-      a08 = env11;
-      a00 = env12;
-      a04 = env13;
-      a09 = env14;
-      a01 = env15;
+      t2 = env10;
+      a03 = env11;
+      a08 = env12;
+      a00 = env13;
+      a04 = env14;
+      a09 = env15;
+      a01 = env16;
       break;
     case 14:
       a05 = env0;
@@ -3324,13 +3505,14 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env7;
       a07 = env8;
       a11 = env9;
-      a03 = env10;
-      a08 = env11;
-      a00 = env12;
-      a12 = env13;
-      a04 = env14;
-      a09 = env15;
-      a01 = env16;
+      t2 = env10;
+      a03 = env11;
+      a08 = env12;
+      a00 = env13;
+      a12 = env14;
+      a04 = env15;
+      a09 = env16;
+      a01 = env17;
       break;
     case 15:
       a05 = env0;
@@ -3344,13 +3526,14 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env8;
       a07 = env9;
       a11 = env10;
-      a03 = env11;
-      a08 = env12;
-      a00 = env13;
-      a12 = env14;
-      a04 = env15;
-      a09 = env16;
-      a01 = env17;
+      t2 = env11;
+      a03 = env12;
+      a08 = env13;
+      a00 = env14;
+      a12 = env15;
+      a04 = env16;
+      a09 = env17;
+      a01 = env18;
       break;
     case 16:
       a05 = env0;
@@ -3364,14 +3547,15 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env8;
       a07 = env9;
       a11 = env10;
-      a02 = env11;
+      t2 = env11;
       a03 = env12;
-      a08 = env13;
+      a02 = env13;
       a00 = env14;
-      a12 = env15;
-      a04 = env16;
-      a09 = env17;
+      a08 = env15;
+      a12 = env16;
+      a04 = env17;
       a01 = env18;
+      a09 = env19;
       break;
     case 17:
       a05 = env0;
@@ -3385,15 +3569,16 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env8;
       a15 = env9;
       a07 = env10;
-      a02 = env11;
+      t2 = env11;
       a11 = env12;
       a03 = env13;
-      a08 = env14;
+      a02 = env14;
       a00 = env15;
-      a12 = env16;
-      a04 = env17;
-      a01 = env18;
-      a09 = env19;
+      a08 = env16;
+      a12 = env17;
+      a04 = env18;
+      a01 = env19;
+      a09 = env20;
       break;
     case 18:
       a05 = env0;
@@ -3407,16 +3592,17 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env8;
       a15 = env9;
       a07 = env10;
-      a02 = env11;
+      t2 = env11;
       a11 = env12;
       a03 = env13;
-      a16 = env14;
-      a08 = env15;
-      a00 = env16;
-      a12 = env17;
-      a01 = env18;
-      a09 = env19;
-      a04 = env20;
+      a02 = env14;
+      a00 = env15;
+      a08 = env16;
+      a16 = env17;
+      a12 = env18;
+      a01 = env19;
+      a09 = env20;
+      a04 = env21;
       break;
     case 19:
       a17 = env0;
@@ -3430,42 +3616,44 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       data = env8;
       a15 = env9;
       a07 = env10;
-      a02 = env11;
-      a11 = env12;
-      a13 = env13;
-      a03 = env14;
-      a16 = env15;
-      a08 = env16;
-      a00 = env17;
-      a12 = env18;
-      a01 = env19;
-      a09 = env20;
-      a04 = env21;
-      break;
-    case 20:
-      a17 = env0;
-      destinationBitmapData = env1;
-      destinationPoint = env2;
-      a14 = env3;
-      a06 = env4;
-      a05 = env5;
-      a18 = env6;
-      imageData = env7;
-      data = env8;
-      a15 = env9;
-      a07 = env10;
-      a10 = env11;
+      t2 = env11;
       a11 = env12;
       a13 = env13;
       a03 = env14;
       a02 = env15;
-      a16 = env16;
+      a00 = env16;
       a08 = env17;
-      a00 = env18;
+      a16 = env18;
       a12 = env19;
       a01 = env20;
       a09 = env21;
       a04 = env22;
+      break;
+    case 20:
+      destinationBitmapData = env0;
+      destinationPoint = env1;
+      a14 = env2;
+      a06 = env3;
+      imageData = env4;
+      data = env5;
+      a15 = env6;
+      a07 = env7;
+      t2 = env8;
+      a00 = env9;
+      a08 = env10;
+      a16 = env11;
+      a17 = env12;
+      a01 = env13;
+      a09 = env14;
+      a18 = env15;
+      a10 = env16;
+      a02 = env17;
+      a11 = env18;
+      a03 = env19;
+      a12 = env20;
+      a04 = env21;
+      a05 = env22;
+      a13 = env23;
       break;
     case 21:
       destinationBitmapData = env0;
@@ -3500,70 +3688,71 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       var data = imageData.get$data();
     case 1:
       state0 = 0;
-      var a00 = $.toInt($.mul($.index(this.matrix, 0), 65536));
+      var t2 = this.matrix;
+      var a00 = $.toInt($.mul($.index(t2, 0), 65536));
     case 2:
       state0 = 0;
-      var a01 = $.toInt($.mul($.index(this.matrix, 1), 65536));
+      var a01 = $.toInt($.mul($.index(t2, 1), 65536));
     case 3:
       state0 = 0;
-      var a02 = $.toInt($.mul($.index(this.matrix, 2), 65536));
+      var a02 = $.toInt($.mul($.index(t2, 2), 65536));
     case 4:
       state0 = 0;
-      var a03 = $.toInt($.mul($.index(this.matrix, 3), 65536));
+      var a03 = $.toInt($.mul($.index(t2, 3), 65536));
     case 5:
       state0 = 0;
-      var a04 = $.toInt($.mul($.index(this.matrix, 4), 65536));
+      var a04 = $.toInt($.mul($.index(t2, 4), 65536));
     case 6:
       state0 = 0;
-      var a05 = $.toInt($.mul($.index(this.matrix, 5), 65536));
+      var a05 = $.toInt($.mul($.index(t2, 5), 65536));
     case 7:
       state0 = 0;
-      var a06 = $.toInt($.mul($.index(this.matrix, 6), 65536));
+      var a06 = $.toInt($.mul($.index(t2, 6), 65536));
     case 8:
       state0 = 0;
-      var a07 = $.toInt($.mul($.index(this.matrix, 7), 65536));
+      var a07 = $.toInt($.mul($.index(t2, 7), 65536));
     case 9:
       state0 = 0;
-      var a08 = $.toInt($.mul($.index(this.matrix, 8), 65536));
+      var a08 = $.toInt($.mul($.index(t2, 8), 65536));
     case 10:
       state0 = 0;
-      var a09 = $.toInt($.mul($.index(this.matrix, 9), 65536));
+      var a09 = $.toInt($.mul($.index(t2, 9), 65536));
     case 11:
       state0 = 0;
-      var a10 = $.toInt($.mul($.index(this.matrix, 10), 65536));
+      var a10 = $.toInt($.mul($.index(t2, 10), 65536));
     case 12:
       state0 = 0;
-      var a11 = $.toInt($.mul($.index(this.matrix, 11), 65536));
+      var a11 = $.toInt($.mul($.index(t2, 11), 65536));
     case 13:
       state0 = 0;
-      var a12 = $.toInt($.mul($.index(this.matrix, 12), 65536));
+      var a12 = $.toInt($.mul($.index(t2, 12), 65536));
     case 14:
       state0 = 0;
-      var a13 = $.toInt($.mul($.index(this.matrix, 13), 65536));
+      var a13 = $.toInt($.mul($.index(t2, 13), 65536));
     case 15:
       state0 = 0;
-      var a14 = $.toInt($.mul($.index(this.matrix, 14), 65536));
+      var a14 = $.toInt($.mul($.index(t2, 14), 65536));
     case 16:
       state0 = 0;
-      var a15 = $.toInt($.mul($.index(this.matrix, 15), 65536));
+      var a15 = $.toInt($.mul($.index(t2, 15), 65536));
     case 17:
       state0 = 0;
-      var a16 = $.toInt($.mul($.index(this.matrix, 16), 65536));
+      var a16 = $.toInt($.mul($.index(t2, 16), 65536));
     case 18:
       state0 = 0;
-      var a17 = $.toInt($.mul($.index(this.matrix, 17), 65536));
+      var a17 = $.toInt($.mul($.index(t2, 17), 65536));
     case 19:
       state0 = 0;
-      var a18 = $.toInt($.mul($.index(this.matrix, 18), 65536));
+      var a18 = $.toInt($.mul($.index(t2, 18), 65536));
     case 20:
       state0 = 0;
-      var a19 = $.toInt($.mul($.index(this.matrix, 19), 65536));
+      var a19 = $.toInt($.mul($.index(t2, 19), 65536));
     case 21:
       state0 = 0;
       for (var index = 0; $.leB(index, $.sub($.get$length(data), 4)); index += 4) {
         var t1 = index + 0;
         var srcR = $.index(data, t1);
-        var t2 = index + 1;
+        t2 = index + 1;
         var srcG = $.index(data, t2);
         var t3 = index + 2;
         var srcB = $.index(data, t3);
@@ -3576,18 +3765,11 @@ $$.ColorMatrixFilter = {"": ["matrix"],
       }
       destinationBitmapData._getContext$0().putImageData$3(imageData, destinationPoint.x, destinationPoint.y);
   }
-},
- ColorMatrixFilter$1: function(matrix) {
-  if (!$.eqB($.get$length(this.matrix), 20))
-    throw $.$$throw($.ArgumentError$('The supplied matrix needs to be a 4 x 5 matrix.'));
 }
 };
 
 $$.DropShadowFilter = {"": ["distance", "angle", "color?", "alpha", "blurX", "blurY", "strength", "inner", "knockout", "hideObject"],
  "super": "BitmapFilter",
- clone$0: function() {
-  return $.DropShadowFilter$(this.distance, this.angle, this.color, this.alpha, this.blurX, this.blurY, this.strength, this.inner, this.knockout, this.hideObject);
-},
  apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
   var sourceContext = sourceBitmapData._getContext$0();
   var sourceData = sourceContext.getImageData$4(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height).get$data();
@@ -4055,9 +4237,6 @@ $$.DropShadowFilter = {"": ["distance", "angle", "color?", "alpha", "blurX", "bl
 
 $$.GlowFilter = {"": ["color?", "alpha", "blurX", "blurY", "strength", "inner", "knockout", "hideObject"],
  "super": "BitmapFilter",
- clone$0: function() {
-  return $.GlowFilter$(this.color, this.alpha, this.blurX, this.blurY, this.strength, this.inner, this.knockout, this.hideObject);
-},
  apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
   var sourceContext = sourceBitmapData._getContext$0();
   var sourceData = sourceContext.getImageData$4(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height).get$data();
@@ -4628,9 +4807,6 @@ $$.DisplayObject = {"": ["_alpha?", "_lib0_parent?", "mask?"],
   }
   return this._transformationMatrixPrivate;
 },
- get$transformationMatrix: function() {
-  return this.get$_transformationMatrix().clone$0();
-},
  getBoundsTransformed$2: function(matrix, returnRectangle) {
   if (returnRectangle == null)
     returnRectangle = $.Rectangle$zero();
@@ -4835,6 +5011,30 @@ $$.DisplayObjectContainer = {"": [],
   return child;
 },
  addChildAt$2: function(child, index) {
+  if (typeof index !== 'number')
+    return this.addChildAt$2$bailout(1, child, index);
+  if (index < 0 && index > this._children.length)
+    throw $.$$throw($.ArgumentError$('Error #2006: The supplied index is out of bounds.'));
+  if ($.eqB(child, this))
+    throw $.$$throw($.ArgumentError$('Error #2024: An object cannot be added as a child of itself.'));
+  if ($.eqB(child.get$parent(), this)) {
+    var t1 = this._children;
+    $.removeAt$1(t1, $.indexOf$1(t1, child));
+    t1 = this._children;
+    if (index > t1.length)
+      --index;
+    $.insertRange$3(t1, index, 1, child);
+  } else {
+    child.removeFromParent$0();
+    child._setParent$1(this);
+    $.insertRange$3(this._children, index, 1, child);
+    child.dispatchEvent$1($.Event$('added', true));
+    if (!(this.get$stage() == null))
+      this._dispatchEventOnChildren$2(child, $.Event$('addedToStage', false));
+  }
+  return child;
+},
+ addChildAt$2$bailout: function(state0, child, index) {
   if ($.ltB(index, 0) && $.gtB(index, this._children.length))
     throw $.$$throw($.ArgumentError$('Error #2006: The supplied index is out of bounds.'));
   if ($.eqB(child, this))
@@ -4893,20 +5093,219 @@ $$.DisplayObjectContainer = {"": [],
     if (i >= t2.length)
       throw $.ioore(i);
     var rectangle = t2[i].getBoundsTransformed$2(this._tmpMatrix, returnRectangle);
-    if ($.ltB(rectangle.get$left(), left))
+    t2 = rectangle.get$left();
+    if (typeof t2 !== 'number')
+      return this.getBoundsTransformed$2$bailout(1, matrix, t1, left, bottom, right, top$, i, rectangle, returnRectangle, t2);
+    if (t2 < left) {
       left = rectangle.get$left();
-    if ($.ltB(rectangle.get$top(), top$))
+      if (typeof left !== 'number')
+        return this.getBoundsTransformed$2$bailout(2, matrix, t1, left, bottom, right, top$, i, rectangle, returnRectangle, 0);
+    }
+    t2 = rectangle.get$top();
+    if (typeof t2 !== 'number')
+      return this.getBoundsTransformed$2$bailout(3, matrix, t1, bottom, right, left, top$, t2, i, rectangle, returnRectangle);
+    if (t2 < top$) {
       top$ = rectangle.get$top();
-    if ($.gtB(rectangle.get$right(), right))
+      if (typeof top$ !== 'number')
+        return this.getBoundsTransformed$2$bailout(4, matrix, t1, bottom, right, left, i, rectangle, top$, returnRectangle, 0);
+    }
+    t2 = rectangle.get$right();
+    if (typeof t2 !== 'number')
+      return this.getBoundsTransformed$2$bailout(5, matrix, top$, t1, t2, bottom, right, left, i, rectangle, returnRectangle);
+    if (t2 > right) {
       right = rectangle.get$right();
-    if ($.gtB(rectangle.get$bottom(), bottom))
+      if (typeof right !== 'number')
+        return this.getBoundsTransformed$2$bailout(6, matrix, top$, t1, bottom, left, right, i, rectangle, returnRectangle, 0);
+    }
+    t2 = rectangle.get$bottom();
+    if (typeof t2 !== 'number')
+      return this.getBoundsTransformed$2$bailout(7, matrix, top$, t1, bottom, left, i, right, rectangle, t2, returnRectangle);
+    if (t2 > bottom) {
       bottom = rectangle.get$bottom();
+      if (typeof bottom !== 'number')
+        return this.getBoundsTransformed$2$bailout(8, matrix, top$, bottom, t1, left, i, right, returnRectangle, 0, 0);
+    }
   }
   returnRectangle.set$x(left);
   returnRectangle.set$y(top$);
-  returnRectangle.set$width($.sub(right, left));
-  returnRectangle.set$height($.sub(bottom, top$));
+  returnRectangle.set$width(right - left);
+  returnRectangle.set$height(bottom - top$);
   return returnRectangle;
+},
+ getBoundsTransformed$2$bailout: function(state0, env0, env1, env2, env3, env4, env5, env6, env7, env8, env9) {
+  switch (state0) {
+    case 1:
+      var matrix = env0;
+      t1 = env1;
+      left = env2;
+      bottom = env3;
+      right = env4;
+      top$ = env5;
+      i = env6;
+      rectangle = env7;
+      returnRectangle = env8;
+      t2 = env9;
+      break;
+    case 2:
+      matrix = env0;
+      t1 = env1;
+      left = env2;
+      bottom = env3;
+      right = env4;
+      top$ = env5;
+      i = env6;
+      rectangle = env7;
+      returnRectangle = env8;
+      break;
+    case 3:
+      matrix = env0;
+      t1 = env1;
+      bottom = env2;
+      right = env3;
+      left = env4;
+      top$ = env5;
+      t2 = env6;
+      i = env7;
+      rectangle = env8;
+      returnRectangle = env9;
+      break;
+    case 4:
+      matrix = env0;
+      t1 = env1;
+      bottom = env2;
+      right = env3;
+      left = env4;
+      i = env5;
+      rectangle = env6;
+      top$ = env7;
+      returnRectangle = env8;
+      break;
+    case 5:
+      matrix = env0;
+      top$ = env1;
+      t1 = env2;
+      t2 = env3;
+      bottom = env4;
+      right = env5;
+      left = env6;
+      i = env7;
+      rectangle = env8;
+      returnRectangle = env9;
+      break;
+    case 6:
+      matrix = env0;
+      top$ = env1;
+      t1 = env2;
+      bottom = env3;
+      left = env4;
+      right = env5;
+      i = env6;
+      rectangle = env7;
+      returnRectangle = env8;
+      break;
+    case 7:
+      matrix = env0;
+      top$ = env1;
+      t1 = env2;
+      bottom = env3;
+      left = env4;
+      i = env5;
+      right = env6;
+      rectangle = env7;
+      t2 = env8;
+      returnRectangle = env9;
+      break;
+    case 8:
+      matrix = env0;
+      top$ = env1;
+      bottom = env2;
+      t1 = env3;
+      left = env4;
+      i = env5;
+      right = env6;
+      returnRectangle = env7;
+      break;
+  }
+  switch (state0) {
+    case 0:
+      if (returnRectangle == null)
+        var returnRectangle = $.Rectangle$zero();
+      var t1 = this._children.length;
+      if (t1 === 0)
+        return $.DisplayObject.prototype.getBoundsTransformed$2.call(this, matrix, returnRectangle);
+      var left = (1/0);
+      var bottom = (-1/0);
+      var right = (-1/0);
+      var top$ = (1/0);
+      var i = 0;
+    default:
+      L0:
+        while (true)
+          switch (state0) {
+            case 0:
+              if (!(i < t1))
+                break L0;
+              var t2 = this._tmpMatrix;
+              var t3 = this._children;
+              if (i >= t3.length)
+                throw $.ioore(i);
+              t2.copyFromAndConcat$2(t3[i].get$_transformationMatrix(), matrix);
+              t2 = this._children;
+              if (i >= t2.length)
+                throw $.ioore(i);
+              var rectangle = t2[i].getBoundsTransformed$2(this._tmpMatrix, returnRectangle);
+              t2 = rectangle.get$left();
+            case 1:
+              state0 = 0;
+            case 2:
+              if (state0 === 2 || state0 === 0 && $.ltB(t2, left))
+                switch (state0) {
+                  case 0:
+                    left = rectangle.get$left();
+                  case 2:
+                    state0 = 0;
+                }
+              t2 = rectangle.get$top();
+            case 3:
+              state0 = 0;
+            case 4:
+              if (state0 === 4 || state0 === 0 && $.ltB(t2, top$))
+                switch (state0) {
+                  case 0:
+                    top$ = rectangle.get$top();
+                  case 4:
+                    state0 = 0;
+                }
+              t2 = rectangle.get$right();
+            case 5:
+              state0 = 0;
+            case 6:
+              if (state0 === 6 || state0 === 0 && $.gtB(t2, right))
+                switch (state0) {
+                  case 0:
+                    right = rectangle.get$right();
+                  case 6:
+                    state0 = 0;
+                }
+              t2 = rectangle.get$bottom();
+            case 7:
+              state0 = 0;
+            case 8:
+              if (state0 === 8 || state0 === 0 && $.gtB(t2, bottom))
+                switch (state0) {
+                  case 0:
+                    bottom = rectangle.get$bottom();
+                  case 8:
+                    state0 = 0;
+                }
+              ++i;
+          }
+      returnRectangle.set$x(left);
+      returnRectangle.set$y(top$);
+      returnRectangle.set$width($.sub(right, left));
+      returnRectangle.set$height($.sub(bottom, top$));
+      return returnRectangle;
+  }
 },
  getBoundsTransformed$1: function(matrix) {
   return this.getBoundsTransformed$2(matrix,null)
@@ -5646,26 +6045,8 @@ $$.BitmapData = {"": ["_width", "_height", "_transparent", "_htmlElement", "_con
  get$height: function() {
   return this._height;
 },
- clone$0: function() {
-  var bitmapData = $.BitmapData$(this._width, this._height, true, 0);
-  bitmapData.draw$1(this);
-  return bitmapData;
-},
  applyFilter$4: function(sourceBitmapData, sourceRect, destPoint, filter) {
   filter.apply$4(sourceBitmapData, sourceRect, this, destPoint);
-},
- draw$2: function(source, matrix) {
-  var renderState = $.RenderState$fromCanvasRenderingContext2D(this._getContext$0());
-  if (!(matrix == null)) {
-    var warp = $.Warp$();
-    warp.set$matrix(matrix);
-    warp.addChild$1(source);
-    warp.render$1(renderState);
-  } else
-    source.render$1(renderState);
-},
- draw$1: function(source) {
-  return this.draw$2(source,null)
 },
  render$1: function(renderState) {
   switch (this._frameMode) {
@@ -5837,19 +6218,6 @@ $$.InteractiveObjectEvents = {"": ["_eventDispatcher"],
 }
 };
 
-$$.Warp = {"": ["_matrix", "_children", "_mouseChildren", "_tabChildren", "doubleClickEnabled", "mouseEnabled", "tabEnabled", "tabIndex", "_x", "_y", "_pivotX", "_pivotY", "_scaleX", "_scaleY", "_rotation", "_transformationMatrixPrivate", "_transformationMatrixRefresh", "_alpha", "_visible", "_name", "_lib0_parent", "mask", "_tmpMatrix", "_tmpMatrixIdentity", "_eventListenerLists"],
- "super": "DisplayObjectContainer",
- get$_transformationMatrix: function() {
-  return this._matrix;
-},
- set$matrix: function(value) {
-  this._matrix = value;
-},
- Warp$0: function() {
-  this._matrix = $.Matrix$fromIdentity();
-}
-};
-
 $$.TextField = {"": ["_text", "_textColor", "_defaultTextFormat", "_autoSize", "_gridFitType", "_type", "_wordWrap", "_background", "_backgroundColor", "_border", "_borderColor", "_textWidth", "_textHeight", "_linesText", "_linesMetrics", "_canvasRefreshPending", "_canvasWidth", "_canvasHeight", "_canvas", "_context", "doubleClickEnabled", "mouseEnabled", "tabEnabled", "tabIndex", "_x", "_y", "_pivotX", "_pivotY", "_scaleX", "_scaleY", "_rotation", "_transformationMatrixPrivate", "_transformationMatrixRefresh", "_alpha", "_visible", "_name", "_lib0_parent", "mask", "_tmpMatrix", "_tmpMatrixIdentity", "_eventListenerLists"],
  "super": "InteractiveObject",
  get$type: function() {
@@ -6002,7 +6370,11 @@ $$.TextField = {"": ["_text", "_textColor", "_defaultTextFormat", "_autoSize", "
     var textLineMetrics = $.TextLineMetrics$(offsetX, metrics.get$width(), this._defaultTextFormat.get$size(), 0, 0, 0);
     this._linesMetrics.push(textLineMetrics);
     this._textWidth = $.max(this._textWidth, textLineMetrics.width);
-    this._textHeight = $.add(this._textHeight, textLineMetrics.height);
+    t2 = this._textHeight;
+    var t3 = textLineMetrics.height;
+    if (typeof t3 !== 'number')
+      throw $.iae(t3);
+    this._textHeight = t2 + t3;
   }
 },
  _canvasRefresh$0: function() {
@@ -6827,14 +7199,14 @@ $.regExpMatchStart = function(m) {
   return m.index;
 };
 
-$.JSSyntaxRegExp$ = function(pattern, ignoreCase, multiLine) {
-  return new $.JSSyntaxRegExp(pattern, multiLine, ignoreCase);
-};
-
 $.Mouse__eventDispatcher = function() {
   if ($.Mouse___eventDispatcher == null)
     $.Mouse___eventDispatcher = $.EventDispatcher$();
   return $.Mouse___eventDispatcher;
+};
+
+$.JSSyntaxRegExp$ = function(pattern, ignoreCase, multiLine) {
+  return new $.JSSyntaxRegExp(pattern, multiLine, ignoreCase);
 };
 
 $.MouseEvent$ = function(type, bubbles) {
@@ -6913,6 +7285,22 @@ $.indexSet = function(a, index, value) {
     }
   }
   $.indexSet$slow(a, index, value);
+};
+
+$.Arrays_indexOf = function(a, element, startIndex, endIndex) {
+  if (typeof a !== 'string' && (typeof a !== 'object' || a === null || a.constructor !== Array && !a.is$JavaScriptIndexingBehavior()))
+    return $.Arrays_indexOf$bailout(1, a, element, startIndex, endIndex);
+  if (startIndex >= a.length)
+    return -1;
+  if (startIndex < 0)
+    startIndex = 0;
+  for (var i = startIndex; i < endIndex; ++i) {
+    if (i < 0 || i >= a.length)
+      throw $.ioore(i);
+    if ($.eqB(a[i], element))
+      return i;
+  }
+  return -1;
 };
 
 $.StringMatch$ = function(_start, str, pattern) {
@@ -7051,6 +7439,13 @@ $.$$throw = function(ex) {
   throw jsError;
 };
 
+$.forEach = function(receiver, f) {
+  if (!$.isJsArray(receiver))
+    return receiver.forEach$1(f);
+  else
+    return $.Collections_forEach(receiver, f);
+};
+
 $._DocumentEventsImpl$ = function(_ptr) {
   return new $._DocumentEventsImpl(_ptr);
 };
@@ -7088,20 +7483,13 @@ $.typeNameInOpera = function(obj) {
   return name$;
 };
 
-$.forEach = function(receiver, f) {
-  if (!$.isJsArray(receiver))
-    return receiver.forEach$1(f);
-  else
-    return $.Collections_forEach(receiver, f);
+$.Collections_forEach = function(iterable, f) {
+  for (var t1 = $.iterator(iterable); t1.hasNext$0() === true;)
+    f.call$1(t1.next$0());
 };
 
 $.stringSplitUnchecked = function(receiver, pattern) {
   return receiver.split(pattern);
-};
-
-$.Collections_forEach = function(iterable, f) {
-  for (var t1 = $.iterator(iterable); t1.hasNext$0() === true;)
-    f.call$1(t1.next$0());
 };
 
 $._SpeechRecognitionEventsImpl$ = function(_ptr) {
@@ -7211,22 +7599,6 @@ $._Device_isFirefox = function() {
   return $.contains$2($._Device_userAgent(), 'Firefox', 0);
 };
 
-$.Arrays_indexOf = function(a, element, startIndex, endIndex) {
-  if (typeof a !== 'string' && (typeof a !== 'object' || a === null || a.constructor !== Array && !a.is$JavaScriptIndexingBehavior()))
-    return $.Arrays_indexOf$bailout(1, a, element, startIndex, endIndex);
-  if (startIndex >= a.length)
-    return -1;
-  if (startIndex < 0)
-    startIndex = 0;
-  for (var i = startIndex; i < endIndex; ++i) {
-    if (i < 0 || i >= a.length)
-      throw $.ioore(i);
-    if ($.eqB(a[i], element))
-      return i;
-  }
-  return -1;
-};
-
 $._Collections_forEach = function(iterable, f) {
   for (var t1 = $.iterator(iterable); t1.hasNext$0() === true;)
     f.call$1(t1.next$0());
@@ -7234,10 +7606,6 @@ $._Collections_forEach = function(iterable, f) {
 
 $.ColorMatrixFilter$invert = function() {
   return new $.ColorMatrixFilter([-1, 0, 0, 0, 255, 0, -1, 0, 0, 255, 0, 0, -1, 0, 255, 0, 0, 0, 1, 0]);
-};
-
-$.Matrix$ = function(a, b, c, d, tx, ty) {
-  return new $.Matrix(a, b, c, d, tx, ty, $.sub($.mul(a, d), $.mul(b, c)));
 };
 
 $._FileReaderEventsImpl$ = function(_ptr) {
@@ -7264,13 +7632,6 @@ $.add$slow = function(a, b) {
   if ($.checkNumbers(a, b))
     return a + b;
   return a.operator$add$1(b);
-};
-
-$.addLast = function(receiver, value) {
-  if (!$.isJsArray(receiver))
-    return receiver.addLast$1(value);
-  $.checkGrowable(receiver, 'addLast');
-  receiver.push(value);
 };
 
 $.ListImplementation_List$from = function(other) {
@@ -7704,12 +8065,34 @@ $.FormatException$ = function(message) {
   return new $.FormatException(message);
 };
 
+$.toString = function(value) {
+  if (typeof value == "object" && value !== null)
+    if ($.isJsArray(value))
+      return $.Collections_collectionToString(value);
+    else
+      return value.toString$0();
+  if (value === 0 && (1 / value) < 0)
+    return '-0.0';
+  if (value == null)
+    return 'null';
+  if (typeof value == "function")
+    return 'Closure';
+  return String(value);
+};
+
 $.NoSuchMethodError$ = function(_receiver, _functionName, _arguments, existingArgumentNames) {
   return new $.NoSuchMethodError(_receiver, _functionName, _arguments, existingArgumentNames);
 };
 
 $.gtB = function(a, b) {
   return typeof a === 'number' && typeof b === 'number' ? a > b : $.gt$slow(a, b) === true;
+};
+
+$.addLast = function(receiver, value) {
+  if (!$.isJsArray(receiver))
+    return receiver.addLast$1(value);
+  $.checkGrowable(receiver, 'addLast');
+  receiver.push(value);
 };
 
 $.document = function() {
@@ -7924,6 +8307,7 @@ $.drawFilters = function(kingBitmapData) {
   var bitmap = $.Bitmap$(bitmapData, 'auto', false);
   $.stage.addChild$1(bitmap);
   var filters = [$.makeLiteralMap(['name', 'DropShadowFilter (black)', 'filter', $.DropShadowFilter$(10, 0.7853981633974483, 4278190080, 0.8, 8, 8, 1, false, false, false)]), $.makeLiteralMap(['name', 'GlowFilter (red)', 'filter', $.GlowFilter$(4294901760, 1, 20, 20, 2, false, false, false)]), $.makeLiteralMap(['name', 'ColorMatrixFilter (grayscale)', 'filter', $.ColorMatrixFilter$grayscale()]), $.makeLiteralMap(['name', 'ColorMatrixFilter (invert)', 'filter', $.ColorMatrixFilter$invert()]), $.makeLiteralMap(['name', 'BlurFilter (radius 1)', 'filter', $.BlurFilter$(1, 1)]), $.makeLiteralMap(['name', 'BlurFilter (radius 5)', 'filter', $.BlurFilter$(5, 5)]), $.makeLiteralMap(['name', 'BlurFilter (radius 10)', 'filter', $.BlurFilter$(10, 10)]), $.makeLiteralMap(['name', 'BlurFilter (radius 20)', 'filter', $.BlurFilter$(20, 20)])];
+  var backgroundBitmapData = $.BitmapData$(235, 235, true, 4293980400);
   for (var i = 0; i < filters.length; ++i) {
     var x = 240 * $.mod(i, 4);
     var y = 240 * $.tdiv(i, 4);
@@ -7931,14 +8315,18 @@ $.drawFilters = function(kingBitmapData) {
     if (i >= filters.length)
       throw $.ioore(i);
     var name$ = $.index(filters[i], 'name');
-    bitmapData.applyFilter$4(kingBitmapData, kingRectangle, $.Point$(x, y + 30), filter);
+    bitmapData.applyFilter$4(kingBitmapData, kingRectangle, $.Point$(x + 50, y + 35), filter);
+    var backgroundBitmap = $.Bitmap$(backgroundBitmapData, 'auto', false);
+    backgroundBitmap.set$x(x);
+    backgroundBitmap.set$y(y);
+    $.stage.addChildAt$2(backgroundBitmap, 0);
     var textField = $.TextField$();
     textField.set$defaultTextFormat($.TextFormat$('Helvetica Neue, Helvetica, Arial', 14, 4278190080, 'left', false, 0, false, 0, 0, 0, false));
-    textField.set$x(x);
-    textField.set$y(y);
+    textField.set$x(x + 5);
+    textField.set$y(y + 5);
     textField.set$width(200);
     textField.set$text(name$);
-    bitmapData.draw$2(textField, textField.get$transformationMatrix());
+    $.stage.addChild$1(textField);
   }
 };
 
@@ -8159,14 +8547,6 @@ $.Primitives_lazyAsJsDate = function(receiver) {
   if (receiver.date === (void 0))
     receiver.date = new Date(receiver.millisecondsSinceEpoch);
   return receiver.date;
-};
-
-$.Warp$ = function() {
-  var t1 = new $.Warp(null, null, true, true, false, true, true, 0, 0, 0, 0, 0, 1, 1, 0, null, null, 1, true, '', null, null, null, null, null);
-  t1.DisplayObject$0();
-  t1.DisplayObjectContainer$0();
-  t1.Warp$0();
-  return t1;
 };
 
 $._IDBDatabaseEventsImpl$ = function(_ptr) {
@@ -8556,12 +8936,6 @@ $.listInsertRange = function(receiver, start, length$, initialValue) {
   $.set$length(receiver, t1);
 };
 
-$.ColorMatrixFilter$ = function(matrix) {
-  var t1 = new $.ColorMatrixFilter(matrix);
-  t1.ColorMatrixFilter$1(matrix);
-  return t1;
-};
-
 $.ImageElement_ImageElement = function(src, width, height) {
   var t1 = $ === src;
   if (t1)
@@ -8591,27 +8965,18 @@ $.iterator = function(receiver) {
   return receiver.iterator$0();
 };
 
-$.toString = function(value) {
-  if (typeof value == "object" && value !== null)
-    if ($.isJsArray(value))
-      return $.Collections_collectionToString(value);
-    else
-      return value.toString$0();
-  if (value === 0 && (1 / value) < 0)
-    return '-0.0';
-  if (value == null)
-    return 'null';
-  if (typeof value == "function")
-    return 'Closure';
-  return String(value);
-};
-
 $._TextTrackEventsImpl$ = function(_ptr) {
   return new $._TextTrackEventsImpl(_ptr);
 };
 
 $._BatteryManagerEventsImpl$ = function(_ptr) {
   return new $._BatteryManagerEventsImpl(_ptr);
+};
+
+$.Juggler$ = function() {
+  var t1 = new $.Juggler(null, null, null);
+  t1.Juggler$0();
+  return t1;
 };
 
 $._WebSocketEventsImpl$ = function(_ptr) {
@@ -8626,12 +8991,6 @@ $.Collections_collectionToString = function(c) {
 
 $.MetaInfo$ = function(_tag, _tags, _set) {
   return new $.MetaInfo(_tag, _tags, _set);
-};
-
-$.Juggler$ = function() {
-  var t1 = new $.Juggler(null, null, null);
-  t1.Juggler$0();
-  return t1;
 };
 
 $._MediaStreamEventsImpl$ = function(_ptr) {
@@ -8872,16 +9231,6 @@ $.KeyboardEvent$ = function(type, bubbles) {
   return t1;
 };
 
-$.removeLast = function(receiver) {
-  if ($.isJsArray(receiver)) {
-    $.checkGrowable(receiver, 'removeLast');
-    if ($.eqB($.get$length(receiver), 0))
-      throw $.$$throw($.IndexOutOfRangeException$(-1));
-    return receiver.pop();
-  }
-  return receiver.removeLast$0();
-};
-
 $._SharedWorkerContextEventsImpl$ = function(_ptr) {
   return new $._SharedWorkerContextEventsImpl(_ptr);
 };
@@ -8945,6 +9294,16 @@ $.RuntimeError$ = function(message) {
   return new $.RuntimeError(message);
 };
 
+$.removeLast = function(receiver) {
+  if ($.isJsArray(receiver)) {
+    $.checkGrowable(receiver, 'removeLast');
+    if ($.eqB($.get$length(receiver), 0))
+      throw $.$$throw($.IndexOutOfRangeException$(-1));
+    return receiver.pop();
+  }
+  return receiver.removeLast$0();
+};
+
 $.cos = function(x) {
   return Math.cos($.checkNum(x));
 };
@@ -8966,23 +9325,23 @@ $.Arrays_copy$bailout = function(state0, src, srcStart, dst, dstStart, count) {
       $.indexSet(dst, j, $.index(src, i));
 };
 
-$.Arrays_indexOf$bailout = function(state0, a, element, startIndex, endIndex) {
-  if ($.geB(startIndex, $.get$length(a)))
-    return -1;
-  if (startIndex < 0)
-    startIndex = 0;
-  for (var i = startIndex; i < endIndex; ++i)
-    if ($.eqB($.index(a, i), element))
-      return i;
-  return -1;
-};
-
 $._Lists_indexOf$bailout = function(state0, a, element, startIndex, endIndex) {
   if ($.geB(startIndex, $.get$length(a)))
     return -1;
   if ($.ltB(startIndex, 0))
     startIndex = 0;
   for (var i = startIndex; $.ltB(i, endIndex); i = $.add(i, 1))
+    if ($.eqB($.index(a, i), element))
+      return i;
+  return -1;
+};
+
+$.Arrays_indexOf$bailout = function(state0, a, element, startIndex, endIndex) {
+  if ($.geB(startIndex, $.get$length(a)))
+    return -1;
+  if (startIndex < 0)
+    startIndex = 0;
+  for (var i = startIndex; i < endIndex; ++i)
     if ($.eqB($.index(a, i), element))
       return i;
   return -1;
@@ -9116,8 +9475,8 @@ $.StageRenderMode_AUTO = 'auto';
 $.MouseCursor_AUTO = 'auto';
 $.MouseEvent_MOUSE_UP = 'mouseUp';
 $.double_NEGATIVE_INFINITY = (-1/0);
-$.TextEvent_TEXT_INPUT = 'textInput';
 $.Event_ADDED = 'added';
+$.TextEvent_TEXT_INPUT = 'textInput';
 $.KeyLocation_MOBILE = 4;
 $.KeyboardEvent_KEY_UP = 'keyUp';
 $.Primitives_DOLLAR_CHAR_VALUE = 36;
@@ -9136,9 +9495,9 @@ $._cachedBrowserPrefix = null;
 $.KeyLocation_LEFT = 1;
 $.KeyLocation_LEFT0 = 1;
 $.TextFormatAlign_END = 'end';
-$.TextFormatAlign_RIGHT = 'right';
 $.KeyLocation_RIGHT = 2;
 $.KeyLocation_RIGHT0 = 2;
+$.TextFormatAlign_RIGHT = 'right';
 $.TextFieldAutoSize_NONE = 'none';
 $.EventPhase_AT_TARGET = 2;
 $.KeyLocation_JOYSTICK = 5;

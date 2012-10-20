@@ -8307,15 +8307,15 @@ $.drawFilters = function(kingBitmapData) {
   var bitmap = $.Bitmap$(bitmapData, 'auto', false);
   $.stage.addChild$1(bitmap);
   var filters = [$.makeLiteralMap(['name', 'DropShadowFilter (black)', 'filter', $.DropShadowFilter$(10, 0.7853981633974483, 4278190080, 0.8, 8, 8, 1, false, false, false)]), $.makeLiteralMap(['name', 'GlowFilter (red)', 'filter', $.GlowFilter$(4294901760, 1, 20, 20, 2, false, false, false)]), $.makeLiteralMap(['name', 'ColorMatrixFilter (grayscale)', 'filter', $.ColorMatrixFilter$grayscale()]), $.makeLiteralMap(['name', 'ColorMatrixFilter (invert)', 'filter', $.ColorMatrixFilter$invert()]), $.makeLiteralMap(['name', 'BlurFilter (radius 1)', 'filter', $.BlurFilter$(1, 1)]), $.makeLiteralMap(['name', 'BlurFilter (radius 5)', 'filter', $.BlurFilter$(5, 5)]), $.makeLiteralMap(['name', 'BlurFilter (radius 10)', 'filter', $.BlurFilter$(10, 10)]), $.makeLiteralMap(['name', 'BlurFilter (radius 20)', 'filter', $.BlurFilter$(20, 20)])];
-  var backgroundBitmapData = $.BitmapData$(235, 235, true, 4293980400);
+  var backgroundBitmapData = $.BitmapData$(230, 245, true, 4293980400);
   for (var i = 0; i < filters.length; ++i) {
-    var x = 240 * $.mod(i, 4);
-    var y = 240 * $.tdiv(i, 4);
+    var x = 235 * $.mod(i, 4);
+    var y = 250 * $.tdiv(i, 4);
     var filter = $.index(filters[i], 'filter');
     if (i >= filters.length)
       throw $.ioore(i);
     var name$ = $.index(filters[i], 'name');
-    bitmapData.applyFilter$4(kingBitmapData, kingRectangle, $.Point$(x + 50, y + 35), filter);
+    bitmapData.applyFilter$4(kingBitmapData, kingRectangle, $.Point$(x + 40, y + 45), filter);
     var backgroundBitmap = $.Bitmap$(backgroundBitmapData, 'auto', false);
     backgroundBitmap.set$x(x);
     backgroundBitmap.set$y(y);

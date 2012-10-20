@@ -41,16 +41,16 @@ void drawFilters(BitmapData kingBitmapData)
 
   // apply all filters to the BitmapData
 
-  var backgroundBitmapData = new BitmapData(235, 235, true, 0xFFF0F0F0);
+  var backgroundBitmapData = new BitmapData(230, 245, true, 0xFFF0F0F0);
 
   for(int i = 0; i < filters.length; i++)
   {
-    var x = 240 * (i % 4);
-    var y = 240 * (i ~/ 4);
+    var x = 235 * (i % 4);
+    var y = 250 * (i ~/ 4);
     var filter = filters[i]["filter"];
     var name = filters[i]["name"];
 
-    bitmapData.applyFilter(kingBitmapData, kingRectangle, new Point(x + 50, y + 35), filter);
+    bitmapData.applyFilter(kingBitmapData, kingRectangle, new Point(x + 40, y + 45), filter);
 
     var backgroundBitmap = new Bitmap(backgroundBitmapData);
     backgroundBitmap.x = x;

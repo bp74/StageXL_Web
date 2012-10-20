@@ -13,12 +13,12 @@ void main()
   renderLoop.addStage(stage);
 
   // load the astronaut image
-  BitmapData.loadImage('../common/images/Astronaut.jpg').then(drawFilters);
+  BitmapData.loadImage('../common/images/king.png').then(drawFilters);
 }
 
-void drawFilters(BitmapData astronautBitmapData)
+void drawFilters(BitmapData kingBitmapData)
 {
-  var astronautRectangle = new Rectangle(0, 0, astronautBitmapData.width, astronautBitmapData.height);
+  var kingRectangle = new Rectangle(0, 0, kingBitmapData.width, kingBitmapData.height);
 
   // all filters will be applied to this BitmapData
 
@@ -30,13 +30,13 @@ void drawFilters(BitmapData astronautBitmapData)
 
   List filters = [
     {'name': 'DropShadowFilter (black)', 'filter': new DropShadowFilter(10, PI / 4, Color.Black, 0.8, 8, 8) },
-    {'name': 'GlowFilter (red)', 'filter': new GlowFilter(Color.Red, 1.0, 16, 16) },
+    {'name': 'GlowFilter (red)', 'filter': new GlowFilter(Color.Red, 1.0, 20, 20) },
     {'name': 'ColorMatrixFilter (grayscale)', 'filter': new ColorMatrixFilter.grayscale() },
     {'name': 'ColorMatrixFilter (invert)', 'filter': new ColorMatrixFilter.invert() },
     {'name': 'BlurFilter (radius 1)', 'filter': new BlurFilter(1, 1) },
-    {'name': 'BlurFilter (radius 2)', 'filter': new BlurFilter(2, 2) },
-    {'name': 'BlurFilter (radius 4)', 'filter': new BlurFilter(4, 4) },
-    {'name': 'BlurFilter (radius 8)', 'filter': new BlurFilter(8, 8) }
+    {'name': 'BlurFilter (radius 5)', 'filter': new BlurFilter(5, 5) },
+    {'name': 'BlurFilter (radius 10)', 'filter': new BlurFilter(10, 10) },
+    {'name': 'BlurFilter (radius 20)', 'filter': new BlurFilter(20, 20) }
   ];
 
   // apply all filters to the BitmapData
@@ -48,7 +48,7 @@ void drawFilters(BitmapData astronautBitmapData)
     var filter = filters[i]["filter"];
     var name = filters[i]["name"];
 
-    bitmapData.applyFilter(astronautBitmapData, astronautRectangle, new Point(x, y + 20), filter);
+    bitmapData.applyFilter(kingBitmapData, kingRectangle, new Point(x, y + 30), filter);
 
     var textField = new TextField();
     textField.defaultTextFormat = new TextFormat('Helvetica Neue, Helvetica, Arial', 14, Color.Black);

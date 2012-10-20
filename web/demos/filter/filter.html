@@ -82,8 +82,8 @@
                     <canvas id="stage" width="940" height="470">
                     </canvas>
                     <hr />
-                    <p>This image is in the public domain because it was solely created by <a href="http://www.nasa.gov" target="_blank">NASA</a>.<br />
-					NASA copyright policy states that "NASA material is not protected by copyright unless noted".</p>
+                    <p>The cartoon-king image is licensed under the Creative Commons BY-NC-SA 3.0 license.<br />
+                    Credits to laetissima: <a href="http://opengameart.org/content/cartoon-king" target="_blank">http://opengameart.org/content/cartoon-king</a></p>
                     
                 </div>
                 <div class="tab-pane" id="demoHTML">
@@ -108,12 +108,12 @@ void main()
   renderLoop.addStage(stage);
 
   // load the astronaut image
-  BitmapData.loadImage(&apos;../common/images/Astronaut.jpg&apos;).then(drawFilters);
+  BitmapData.loadImage(&apos;../common/images/king.png&apos;).then(drawFilters);
 }
 
-void drawFilters(BitmapData astronautBitmapData)
+void drawFilters(BitmapData kingBitmapData)
 {
-  var astronautRectangle = new Rectangle(0, 0, astronautBitmapData.width, astronautBitmapData.height);
+  var kingRectangle = new Rectangle(0, 0, kingBitmapData.width, kingBitmapData.height);
 
   // all filters will be applied to this BitmapData
 
@@ -124,26 +124,26 @@ void drawFilters(BitmapData astronautBitmapData)
   // define some filters
 
   List filters = [
-    {&apos;name&apos;: &apos;BlurFilter (radius 0)&apos;, &apos;filter&apos;: new BlurFilter(0, 0) },
-    {&apos;name&apos;: &apos;BlurFilter (radius 2)&apos;, &apos;filter&apos;: new BlurFilter(2, 2) },
-    {&apos;name&apos;: &apos;BlurFilter (radius 5)&apos;, &apos;filter&apos;: new BlurFilter(5, 5) },
-    {&apos;name&apos;: &apos;BlurFilter (radius 10)&apos;, &apos;filter&apos;: new BlurFilter(10, 10) },
+    {&apos;name&apos;: &apos;DropShadowFilter (black)&apos;, &apos;filter&apos;: new DropShadowFilter(10, PI / 4, Color.Black, 0.8, 8, 8) },
+    {&apos;name&apos;: &apos;GlowFilter (red)&apos;, &apos;filter&apos;: new GlowFilter(Color.Red, 1.0, 20, 20) },
     {&apos;name&apos;: &apos;ColorMatrixFilter (grayscale)&apos;, &apos;filter&apos;: new ColorMatrixFilter.grayscale() },
     {&apos;name&apos;: &apos;ColorMatrixFilter (invert)&apos;, &apos;filter&apos;: new ColorMatrixFilter.invert() },
-    {&apos;name&apos;: &apos;GlowFilter (yellow)&apos;, &apos;filter&apos;: new GlowFilter(Color.Yellow, 1.0, 10, 10) },
-    {&apos;name&apos;: &apos;DropShadowFilter (black)&apos;, &apos;filter&apos;: new DropShadowFilter(10, PI / 4, Color.Black, 0.8, 6, 6) }
+    {&apos;name&apos;: &apos;BlurFilter (radius 1)&apos;, &apos;filter&apos;: new BlurFilter(1, 1) },
+    {&apos;name&apos;: &apos;BlurFilter (radius 5)&apos;, &apos;filter&apos;: new BlurFilter(5, 5) },
+    {&apos;name&apos;: &apos;BlurFilter (radius 10)&apos;, &apos;filter&apos;: new BlurFilter(10, 10) },
+    {&apos;name&apos;: &apos;BlurFilter (radius 20)&apos;, &apos;filter&apos;: new BlurFilter(20, 20) }
   ];
 
   // apply all filters to the BitmapData
 
-  for(int i = 0; i &lt; filters.length; i++)
+  for(int i = 0; i &gt; filters.length; i++)
   {
     var x = 240 * (i % 4);
     var y = 240 * (i ~/ 4);
     var filter = filters[i]["filter"];
     var name = filters[i]["name"];
 
-    bitmapData.applyFilter(astronautBitmapData, astronautRectangle, new Point(x, y + 20), filter);
+    bitmapData.applyFilter(kingBitmapData, kingRectangle, new Point(x, y + 30), filter);
 
     var textField = new TextField();
     textField.defaultTextFormat = new TextFormat(&apos;Helvetica Neue, Helvetica, Arial&apos;, 14, Color.Black);

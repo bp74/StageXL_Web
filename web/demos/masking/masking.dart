@@ -2,33 +2,61 @@ import 'dart:math';
 import 'dart:html' as html;
 import 'package:dartflash/dartflash.dart';
 
+Stage stage;
 Resource resource;
+RenderLoop renderLoop;
+Random random = new Random();
+
+class FlowerField extends DisplayObjectContainer
+{
+  FlowerField()
+  {
+    for(int i = 0; i < 150; i++)
+    {
+      int f = 1 + random.nextInt(3);
+
+      BitmapData bitmapData = resource.getBitmapData('flower$f');
+      Bitmap bitmap = new Bitmap(bitmapData);
+      bitmap.pivotX = 64;
+      bitmap.pivotY = 64;
+      bitmap.x = 64 + random.nextInt(940 - 128);
+      bitmap.y = 64 + random.nextInt(500 - 128);
+      addChild(bitmap);
+
+      Tween tween = new Tween(bitmap, 600, Transitions.linear);
+      tween.animate('rotation', PI * 60.0);
+      renderLoop.juggler.add(tween);
+    }
+  }
+}
+
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
 
 void main()
 {
-  // Initialize the Display List
+  // initialize the Display List
 
-  Stage stage = new Stage('myStage', html.document.query('#stage'));
-
-  RenderLoop renderLoop = new RenderLoop();
+  stage = new Stage('myStage', html.document.query('#stage'));
+  renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
 
-  // prepare different Masks for later use
+  // define three Masks for later use
 
   List<Point> starPath = new List<Point>();
 
   for(int i = 0; i < 6; i++) {
-    num a1 = PI * (i * 60.0) / 180.0;
-    num a2 = PI * (i * 60.0 + 30.0) / 180.0;
-    starPath.add(new Point(470.0 + 200.0 * cos(a1), 250.0 + 200.0 * sin(a1)));
-    starPath.add(new Point(470.0 + 100.0 * cos(a2), 250.0 + 100.0 * sin(a2)));
+    num a1 = (i * 60) * PI / 180;
+    num a2 = (i * 60 + 30) * PI / 180;
+    starPath.add(new Point(470 + 200 * cos(a1), 250 + 200 * sin(a1)));
+    starPath.add(new Point(470 + 100 * cos(a2), 250 + 100 * sin(a2)));
   }
 
-  Mask rectangleMask = new Mask.rectangle(100.0, 100.0, 740.0, 300.0);
-  Mask circleMask = new Mask.circle(470.0, 250.0, 200.0);
+  Mask rectangleMask = new Mask.rectangle(100, 100, 740, 300);
+  Mask circleMask = new Mask.circle(470, 250, 200);
   Mask customMask = new Mask.custom(starPath);
 
-  // Use the Resource class to load some Bitmaps
+  // use the Resource class to load some Bitmaps
 
   resource = new Resource();
   resource.addImage('flower1', '../common/images/Flower1.png');
@@ -37,42 +65,25 @@ void main()
 
   resource.load().then((result)
   {
-    // Draw a nice looking animation
+    // draw a nice looking field of flowers
 
-    Sprite animation = new Sprite();
-    Random random = new Random();
-
-    for(int i = 0; i < 150; i++) {
-      int f = 1 + random.nextInt(3);
-      BitmapData bitmapData = resource.getBitmapData('flower$f');
-      Bitmap bitmap = new Bitmap(bitmapData);
-      bitmap.pivotX = 64;
-      bitmap.pivotY = 64;
-      bitmap.x = 64 + random.nextInt(940 - 128);
-      bitmap.y = 64 + random.nextInt(500 - 128);
-      animation.addChild(bitmap);
-
-      Tween tween = new Tween(bitmap, 600, Transitions.linear);
-      tween.animate('rotation', PI * 60.0);
-      renderLoop.juggler.add(tween);
-    }
-
-    animation.pivotX = 470;
-    animation.pivotY = 250;
-    animation.x = 470;
-    animation.y = 250;
-    stage.addChild(animation);
+    FlowerField flowerField = new FlowerField();
+    flowerField.pivotX = 470;
+    flowerField.pivotY = 250;
+    flowerField.x = 470;
+    flowerField.y = 250;
+    stage.addChild(flowerField);
 
     // add html-button event listeners
 
-    html.query('#mask-none').on.click.add((e) => animation.mask = null);
-    html.query('#mask-rectangle').on.click.add((e) => animation.mask = rectangleMask);
-    html.query('#mask-circle').on.click.add((e) => animation.mask = circleMask);
-    html.query('#mask-custom').on.click.add((e) => animation.mask = customMask);
+    html.query('#mask-none').on.click.add((e) => flowerField.mask = null);
+    html.query('#mask-rectangle').on.click.add((e) => flowerField.mask = rectangleMask);
+    html.query('#mask-circle').on.click.add((e) => flowerField.mask = circleMask);
+    html.query('#mask-custom').on.click.add((e) => flowerField.mask = customMask);
     html.query('#mask-spin').on.click.add((e) {
-      Tween rotate = new Tween(animation, 2.0, Transitions.easeInOutBack);
+      Tween rotate = new Tween(flowerField, 2.0, Transitions.easeInOutBack);
       rotate.animate('rotation', PI * 4.0);
-      rotate.onComplete = () => animation.rotation = 0.0;
+      rotate.onComplete = () => flowerField.rotation = 0.0;
       renderLoop.juggler.add(rotate);
     });
   });

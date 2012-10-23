@@ -48,8 +48,8 @@ void main()
       Bitmap bitmap = new Bitmap(bitmapData);
       bitmap.pivotX = 64;
       bitmap.pivotY = 64;
-      bitmap.x = 64.0 + random.nextDouble() * (940 - 128);
-      bitmap.y = 64.0 + random.nextDouble() * (500 - 128);
+      bitmap.x = 64 + random.nextInt(940 - 128);
+      bitmap.y = 64 + random.nextInt(500 - 128);
       animation.addChild(bitmap);
 
       Tween tween = new Tween(bitmap, 600, Transitions.linear);

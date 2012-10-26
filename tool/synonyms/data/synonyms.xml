@@ -654,6 +654,32 @@ var func = (String text) => print(text.toUpperCase());
       </code>
     </synonym>
     
+    
+<synonym id="syn-method-cascades">
+      <title>Method cascades</title>
+      <code language="as3"><![CDATA[
+// this feature is not available in ActionScript, 
+// therefore you write something like this:
+
+var sprite:Sprite = new Sprite();
+sprite.x = 100;
+sprite.y = 150;
+sprite.addEventListener(MouseEvent.CLICK, onMouseClick);
+stage.addChild(sprite);]]>
+      </code>
+      <code language="dart"><![CDATA[
+// Dart offers so called method cascades, it is
+// a shorter way to write code like this:
+
+var sprite = new Sprite()
+..x = 100
+..y = 150
+..addEventListener(MouseEvent.CLICK, onMouseClick)
+..addTo(stage);]]>
+      </code>
+    </synonym>
+    
+    
     <synonym id="syn-console">
       <title>Printing to the console</title>
       <code language="as3"><![CDATA[

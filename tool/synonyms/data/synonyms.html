@@ -672,6 +672,31 @@ var func = (String text) =&gt; print(text.toUpperCase());
   </section>
   <section class="section-synonym">
     <div class="row">
+      <div class="span12"><h3 class="section">Method cascades</h3></div>
+    </div>
+    <div class="row">
+      <div class="span6"><pre class="prettyprint lang-js">
+// this feature is not available in ActionScript, 
+// therefore you write something like this:
+
+var sprite:Sprite = new Sprite();
+sprite.x = 100;
+sprite.y = 150;
+sprite.addEventListener(MouseEvent.CLICK, onMouseClick);
+stage.addChild(sprite);</pre></div>
+      <div class="span6"><pre class="prettyprint lang-java">
+// Dart offers so called method cascades, it is
+// a shorter way to write code like this:
+
+var sprite = new Sprite()
+..x = 100
+..y = 150
+..addEventListener(MouseEvent.CLICK, onMouseClick)
+..addTo(stage);</pre></div>
+    </div>
+  </section>
+  <section class="section-synonym">
+    <div class="row">
       <div class="span12"><h3 class="section">Printing to the console</h3></div>
     </div>
     <div class="row">

@@ -7,43 +7,42 @@ RenderLoop renderLoop;
 Resource resource;
 
 var heyJudeNotes = [
-  'C4','A3','A3','C4','D4','G3',
-  'G3','A3','A3#','F4','F4','E4','C4','D4','C4','A3#','A3',
-  'C4','D4','D4','D4','G4','F4','E4','F4','D4','C4',
-  'F3','G3','A3','D4','C4','C4','A3#','A3','E3','F3'];
+  'C4', 'A3', 'A3', 'C4', 'D4', 'G3',
+  'G3', 'A3', 'A3#', 'F4', 'F4', 'E4', 'C4', 'D4', 'C4', 'A3#', 'A3',
+  'C4', 'D4', 'D4', 'D4', 'G4', 'F4', 'E4', 'F4', 'D4', 'C4',
+  'F3', 'G3', 'A3', 'D4', 'C4', 'C4', 'A3#', 'A3', 'E3', 'F3'];
 
 var heyJudeLyrics = [
-  'Hey ','Jude, ',"don't ",'make ','it ','bad.<br>',
-  'Take ','a ','sad ','song ','and ','make ','it ','better.<br>', '', '', '',
-  'Remember ','','','to ','let ','her ','into ','','your ','heart.<br>',
-  'Than ','you ','can ','start ', '', 'to ','make ','things ','better.', '', ' '];
+  'Hey ', 'Jude, ', "don't ", 'make ', 'it ', 'bad.<br>',
+  'Take ', 'a ', 'sad ', 'song ', 'and ', 'make ', 'it ', 'better.<br>',  '',  '',  '',
+  'Remember ', '', '', 'to ', 'let ', 'her ', 'into ', '', 'your ', 'heart.<br>',
+  'Than ', 'you ', 'can ', 'start ', '', 'to ', 'make ', 'things ', 'better.', '', ' '];
+
+List noteNames = [
+  'C3','C3#','D3','D3#','E3','F3','F3#','G3','G3#','A3','A3#','B3',
+  'C4','C4#','D4','D4#','E4','F4','F4#','G4','G4#','A4','A4#','B4','C5'];
 
 //-----------------------------------------------------------------------------------
 
 class Piano extends DisplayObjectContainer
 {
-  List noteNames = [
-    'C3', 'C3#', 'D3', 'D3#', 'E3', 'F3', 'F3#', 'G3', 'G3#', 'A3', 'A3#', 'B3',
-    'C4', 'C4#', 'D4', 'D4#', 'E4', 'F4', 'F4#', 'G4', 'G4#', 'A4', 'A4#', 'B4', 'C5'
-  ];
+  List notes;
+  List lyrics;
+  int noteIndex;
+  Bitmap noteFinger;
 
-  Map song;
-  int songIndex;
-  Bitmap songPointer;
-
-  Piano(this.song)
+  Piano(this.notes, this.lyrics)
   {
     // add all piano keys
 
     for(int n = 0, x = 0; n < noteNames.length; n++) {
-      var noteName = noteNames[n];
-      var noteSound = resource.getSound('Note${n+1}');
 
-      var pianoKey = new PianoKey(this, noteName, noteSound);
-      pianoKey.x = x + (noteName.endsWith('#') ? -16 : 0);
+      var pianoKey = new PianoKey(this, noteNames[n], resource.getSound('Note${n+1}'));
+      pianoKey.x = x;
       pianoKey.y = 35;
 
-      if (noteName.endsWith('#')) {
+      if (noteNames[n].endsWith('#')) {
+        pianoKey.x = x -16;
         addChild(pianoKey);
       } else {
         addChildAt(pianoKey, 0);
@@ -53,37 +52,37 @@ class Piano extends DisplayObjectContainer
 
     // prepare karaoke
 
-    this.songIndex = 0;
-    this.songPointer = new Bitmap(resource.getBitmapData('Finger'));
-    this.songPointer.pivotX = 20;
-    addChild(this.songPointer);
+    this.noteIndex = 0;
+    this.noteFinger = new Bitmap(resource.getBitmapData('Finger'));
+    this.noteFinger.pivotX = 20;
+    addChild(this.noteFinger);
     this.update();
   }
 
   void checkSongNote(String noteName)
   {
-    var notes = this.song['notes'];
-    if (noteName == notes[this.songIndex]) {
-      if (this.songIndex == notes.length - 1)
+    // is it the next note of the song?
+
+    if (this.noteIndex < notes.length && noteName == notes[this.noteIndex]) {
+
+      if (this.noteIndex == notes.length - 1)
         resource.getSound('Cheer').play();
-      this.songIndex++;
+
+      this.noteIndex++;
       this.update();
     }
   }
 
   void update()
   {
-    var lyrics = this.song['lyrics'];
-    var notes = this.song['notes'];
-
     // update karaoke lyrics
 
     var lyricsDiv = html.query('#lyrics');
     var current = -1;
 
-    for(int w = 0, c = 0; w < lyrics.length; w++) {
+    for(int w = 0, c = 0; w < lyrics.length; w++)  {
       if (lyrics[w] != '') c = w;
-      if (w == this.songIndex) current = c;
+      if (w == this.noteIndex) current = c;
     }
 
     lyricsDiv.innerHTML = '';
@@ -97,23 +96,22 @@ class Piano extends DisplayObjectContainer
 
     // update finger position
 
-    if (this.songIndex < notes.length) {
-      var noteName = notes[songIndex];
+    if (this.noteIndex < notes.length) {
       for(int i = 0; i < this.numChildren; i++) {
         var displayObject = this.getChildAt(i);
         if (displayObject is PianoKey) {
-          if (displayObject.noteName == noteName) {
-            Tween tweenX = new Tween(this.songPointer, 0.4, Transitions.easeInOutCubic);
+          if (displayObject.noteName == notes[noteIndex]) {
+            Tween tweenX = new Tween(this.noteFinger, 0.4, Transitions.easeInOutCubic);
             tweenX.animate('x', displayObject.x + displayObject.width / 2);
             renderLoop.juggler.add(tweenX);
-            Tween tweenY = new Tween(this.songPointer, 0.4, Transitions.sine);
+            Tween tweenY = new Tween(this.noteFinger, 0.4, Transitions.sine);
             tweenY.animate('y', -10);
             renderLoop.juggler.add(tweenY);
           }
         }
       }
     } else {
-      Tween tweenY = new Tween(this.songPointer, 0.4, Transitions.linear);
+      Tween tweenY = new Tween(this.noteFinger, 0.4, Transitions.linear);
       tweenY.animate('alpha', 0);
       renderLoop.juggler.add(tweenY);
     }
@@ -121,8 +119,8 @@ class Piano extends DisplayObjectContainer
 
   void reset()
   {
-    this.songIndex = 0;
-    this.songPointer.alpha = 1;
+    this.noteIndex = 0;
+    this.noteFinger.alpha = 1;
     this.update();
   }
 }
@@ -226,7 +224,7 @@ void main()
     resource.addSound('Note$i','../common/sounds/piano/Note$i.mp3');
 
   resource.load().then((res) {
-    var piano = new Piano({'notes': heyJudeNotes, 'lyrics': heyJudeLyrics});
+    var piano = new Piano(heyJudeNotes, heyJudeLyrics);
     piano.x = 120;
     piano.y = 30;
     stage.addChild(piano);

@@ -134,29 +134,29 @@ var heyJudeLyrics = [
   &apos;Remember &apos;, &apos;&apos;, &apos;&apos;, &apos;to &apos;, &apos;let &apos;, &apos;her &apos;, &apos;into &apos;, &apos;&apos;, &apos;your &apos;, &apos;heart.&lt;br&gt;&apos;,
   &apos;Than &apos;, &apos;you &apos;, &apos;can &apos;, &apos;start &apos;, &apos;&apos;, &apos;to &apos;, &apos;make &apos;, &apos;things &apos;, &apos;better.&apos;, &apos;&apos;, &apos; &apos;];
 
-List noteNames = [
-  &apos;C3&apos;,&apos;C3#&apos;,&apos;D3&apos;,&apos;D3#&apos;,&apos;E3&apos;,&apos;F3&apos;,&apos;F3#&apos;,&apos;G3&apos;,&apos;G3#&apos;,&apos;A3&apos;,&apos;A3#&apos;,&apos;B3&apos;,
-  &apos;C4&apos;,&apos;C4#&apos;,&apos;D4&apos;,&apos;D4#&apos;,&apos;E4&apos;,&apos;F4&apos;,&apos;F4#&apos;,&apos;G4&apos;,&apos;G4#&apos;,&apos;A4&apos;,&apos;A4#&apos;,&apos;B4&apos;,&apos;C5&apos;];
+List pianoNotes = [
+  &apos;C3&apos;, &apos;C3#&apos;, &apos;D3&apos;, &apos;D3#&apos;, &apos;E3&apos;, &apos;F3&apos;, &apos;F3#&apos;, &apos;G3&apos;, &apos;G3#&apos;, &apos;A3&apos;, &apos;A3#&apos;, &apos;B3&apos;,
+  &apos;C4&apos;, &apos;C4#&apos;, &apos;D4&apos;, &apos;D4#&apos;, &apos;E4&apos;, &apos;F4&apos;, &apos;F4#&apos;, &apos;G4&apos;, &apos;G4#&apos;, &apos;A4&apos;, &apos;A4#&apos;, &apos;B4&apos;, &apos;C5&apos;];
 
 //-----------------------------------------------------------------------------------
 
 class Piano extends DisplayObjectContainer
 {
-  List notes;
-  List lyrics;
+  List songNotes;
+  List songLyrics;
   int noteIndex;
   Bitmap noteFinger;
 
-  Piano(this.notes, this.lyrics)
+  Piano(this.songNotes, this.songLyrics)
   {
     // add all piano keys
 
-    for(int n = 0, x = 0; n &lt; noteNames.length; n++) {
-      var pianoKey = new PianoKey(this, noteNames[n], resource.getSound(&apos;Note${n+1}&apos;));
+    for(int n = 0, x = 0; n &lt; pianoNotes.length; n++) {
+      var pianoKey = new PianoKey(this, pianoNotes[n], resource.getSound(&apos;Note${n+1}&apos;));
       pianoKey.x = x;
       pianoKey.y = 35;
 
-      if (noteNames[n].endsWith(&apos;#&apos;)) {
+      if (pianoNotes[n].endsWith(&apos;#&apos;)) {
         pianoKey.x = x - 16;
         addChild(pianoKey);
       } else {
@@ -174,13 +174,13 @@ class Piano extends DisplayObjectContainer
     this.update();
   }
 
-  void checkSongNote(String noteName)
+  void checkSongNote(String note)
   {
     // is it the next note of the song?
 
-    if (this.noteIndex &lt; notes.length && noteName == notes[this.noteIndex]) {
-      if (this.noteIndex == notes.length - 1) {
-        var soundTransform = new SoundTransform(0.75);
+    if (this.noteIndex &lt; songNotes.length && songNotes[this.noteIndex] == note) {
+      if (this.noteIndex == songNotes.length - 1) {
+        var soundTransform = new SoundTransform(0.70);
         resource.getSound(&apos;Cheer&apos;).play(false, soundTransform);
       }
       this.noteIndex++;
@@ -193,29 +193,29 @@ class Piano extends DisplayObjectContainer
     // update karaoke lyrics
 
     var lyricsDiv = html.query(&apos;#lyrics&apos;);
-    var current = -1;
-
-    for(int w = 0, c = 0; w &lt; lyrics.length; w++)  {
-      if (lyrics[w] != &apos;&apos;) c = w;
-      if (w == this.noteIndex) current = c;
-    }
+    var wordIndex = -1;
 
     lyricsDiv.innerHTML = &apos;&apos;;
 
-    for(int w = 0; w &lt; lyrics.length; w++) {
-      if (w == current)
-        lyricsDiv.addHTML(&apos;&lt;span id=&quot;word&quot;&gt;${lyrics[w]}&lt;/span&gt;&apos;);
+    for(int w = 0, last = 0; w &lt; songLyrics.length; w++)  {
+      if (songLyrics[w] != &apos;&apos;) last = w;
+      if (w == this.noteIndex) wordIndex = last;
+    }
+
+    for(int w = 0; w &lt; songLyrics.length; w++) {
+      if (w == wordIndex)
+        lyricsDiv.addHTML(&apos;&lt;span id=&quot;word&quot;&gt;${songLyrics[w]}&lt;/span&gt;&apos;);
       else
-        lyricsDiv.addHTML(lyrics[w]);
+        lyricsDiv.addHTML(songLyrics[w]);
     }
 
     // update finger position
 
-    if (this.noteIndex &lt; notes.length) {
+    if (this.noteIndex &lt; songNotes.length) {
       for(int i = 0; i &lt; this.numChildren; i++) {
         var displayObject = this.getChildAt(i);
         if (displayObject is PianoKey) {
-          if (displayObject.noteName == notes[noteIndex]) {
+          if (displayObject.note == songNotes[noteIndex]) {
             Tween tweenX = new Tween(this.noteFinger, 0.4, Transitions.easeInOutCubic);
             tweenX.animate(&apos;x&apos;, displayObject.x + displayObject.width / 2);
             renderLoop.juggler.add(tweenX);
@@ -245,22 +245,22 @@ class Piano extends DisplayObjectContainer
 class PianoKey extends DisplayObjectContainer
 {
   Piano piano;
-  String noteName;
+  String note;
   Sound sound;
 
-  PianoKey(this.piano, this.noteName, this.sound)
+  PianoKey(this.piano, this.note, this.sound)
   {
     var key = null;
 
-    if (noteName.endsWith(&apos;#&apos;)) {
+    if (note.endsWith(&apos;#&apos;)) {
       key = &apos;KeyBlack&apos;;
-    } else if (noteName.startsWith(&apos;C5&apos;)) {
+    } else if (note.startsWith(&apos;C5&apos;)) {
       key = &apos;KeyWhite0&apos;;
-    } else if (noteName.startsWith(&apos;C&apos;) || noteName.startsWith(&apos;F&apos;)) {
+    } else if (note.startsWith(&apos;C&apos;) || note.startsWith(&apos;F&apos;)) {
       key = &apos;KeyWhite1&apos;;
-    } else if (noteName.startsWith(&apos;D&apos;) || noteName.startsWith(&apos;G&apos;) || noteName.startsWith(&apos;A&apos;)) {
+    } else if (note.startsWith(&apos;D&apos;) || note.startsWith(&apos;G&apos;) || note.startsWith(&apos;A&apos;)) {
       key = &apos;KeyWhite2&apos;;
-    } else if (noteName.startsWith(&apos;E&apos;) || noteName.startsWith(&apos;B&apos;)) {
+    } else if (note.startsWith(&apos;E&apos;) || note.startsWith(&apos;B&apos;)) {
       key = &apos;KeyWhite3&apos;;
     }
 
@@ -273,11 +273,11 @@ class PianoKey extends DisplayObjectContainer
     // print note on key
 
     var textFormat = new TextFormat(&apos;Helvetica,Arial&apos;, 10, 0x000000, align:TextFormatAlign.CENTER);
-    textFormat.color = noteName.endsWith(&apos;#&apos;) ? Color.White : Color.Black;
+    textFormat.color = note.endsWith(&apos;#&apos;) ? Color.White : Color.Black;
 
     var textField = new TextField();
     textField.defaultTextFormat = textFormat;
-    textField.text = noteName;
+    textField.text = note;
     textField.width = bitmapData.width;
     textField.height = 20;
     textField.mouseEnabled = false;
@@ -297,7 +297,7 @@ class PianoKey extends DisplayObjectContainer
     if (me.buttonDown) {
       this.sound.play();
       this.alpha = 0.7;
-      this.piano.checkSongNote(this.noteName);
+      this.piano.checkSongNote(this.note);
     }
   }
 
@@ -346,7 +346,7 @@ void main()
 
     html.query(&apos;#startOver&apos;).on.click.add((e) =&gt; piano.reset());
   });
-}     </pre>
+}   </pre>
                 </div>
             </div>
         </div>

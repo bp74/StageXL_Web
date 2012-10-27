@@ -41,14 +41,14 @@ p.comment {
 .hero-unit p {
     text-align:justify;
     line-height:25px;
-    font-size:16px;    
+    font-size:16px;
 }
 
 .hero-unit hr {
     color: #C0C0C0;
     background-color: #C0C0C0;
     height: 1px;
-    border: 0px; 
+    border: 0px;
     margin-top: 7px;
     margin-bottom: 7px;
 }
@@ -57,21 +57,21 @@ p.comment {
 
 .section-theme {
     margin-top: 15px;
-    margin-bottom: 10px;    
+    margin-bottom: 10px;
 }
 
 .section-theme h2 {
     color: #505050;
     font-size: 28px;
-    line-height: 28px;  
+    line-height: 28px;
     padding-top:10px;
     padding-bottom:6px;
-    border-bottom:1px solid #505050; 
+    border-bottom:1px solid #505050;
 }
 
 .section-synonym h3 {
     font-size: 18px;
-    line-height: 20px;   
+    line-height: 20px;
 }
 
 .section-synonym:hover pre {
@@ -98,7 +98,7 @@ ul.classtree ul {
 	margin: 0px;
 	padding: 0;
 }
- 
+
 ul.classtree ul {
 	margin-left: 4px;
 }
@@ -115,12 +115,25 @@ ul.classtree li {
 ul.classtree li.last {
 	background: #FFFFFF url(../img/tree-lastnode.png) no-repeat;
 }
- 
+
 ul.classtree li.first {
 	background: #FFFFFF no-repeat;
 	margin: 0;
 	padding: 0;
 }
-  
+
 /* -------------------------------------------------------------- */
-  
+
+#lyrics {
+    text-align:center;
+    vertical-align:middle;
+    padding: 20px 0px 30px 0px;
+    font-family:  Sofadi One;
+    font-size: 20px;
+}
+
+#lyrics #word {
+    font-weight: bold;
+    color: #00008b;
+}
+

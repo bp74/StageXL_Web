@@ -12,7 +12,7 @@ void main()
   renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
 
-  // load the astronaut image
+  // load the cartoon-king image
   BitmapData.loadImage('../common/images/king.png').then(drawFilters);
 }
 

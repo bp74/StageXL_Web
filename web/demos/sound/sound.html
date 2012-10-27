@@ -10,6 +10,7 @@
     <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../../assets/css/prettify.css" type="text/css" rel="stylesheet" />
     <link href="../../assets/css/dartflash.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Sofadi+One' rel='stylesheet' type='text/css' />
 
     <script type="text/javascript">
         var _gaq = _gaq || [];
@@ -63,12 +64,14 @@
         <h1>
             Sound</h1>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-            deserunt mollit anim id est laborum.</p>
+            Playing audio in HTML5 can be difficult. All modern browsers use slightly different implementations
+            of the standard. Google Chrome supports the Web Audio API which is not a HTML5 standard yet, but offers
+            the best audio playback capabilities for games. Another problem is the support of all the audio
+            codecs (mp3/ogg/wav) used in different browsers. To hide all the problems and differences the dartflash
+            library wraps those APIs and provides the familiar Sound APIs of Flash. The library also selects the
+            codec which is supported by the browser. You just have to provide the audio file in mp3 and ogg format,
+            this way your application will work in all major browsers. Nevertheless Firefox and especially Internet
+            Explorer have latency problems, let's hope those browser vendors are working on this issue.</p>
         <br />
         <div class="tabbable">
             <ul class="nav nav-tabs">
@@ -79,16 +82,274 @@
 
             <div class="tab-content">
                 <div class="tab-pane active" id="demoShow">
-                    <canvas id="stage" width="940" height="500">
+                    <div class="row">
+                        <div class="span9">
+                            <div id="lyrics">
+                            </div>
+                        </div>
+                        <div class="offset1 span2">
+                            <br><br><br>
+                            <button id="startOver" class="btn btn-large btn-block btn-warning">Start over</button>
+                        </div>
+                    </div>
+
+                    <canvas id="stage" width="940" height="250">
                     </canvas>
                 </div>
                 <div class="tab-pane" id="demoHTML">
                     <pre class="prettyprint lang-html">
-&lt;canvas id=&quot;stage&quot; width=&quot;940&quot; height=&quot;500&quot;&gt;
-&lt;/canvas&gt;</pre>
+&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;span9&quot;&gt;
+    &lt;div id=&quot;lyrics&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;offset1 span2&quot;&gt;
+    &lt;br&gt;&lt;br&gt;&lt;br&gt;
+    &lt;button id=&quot;startOver&quot; class=&quot;btn btn-large btn-block btn-warning&quot;&gt;Start over&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;canvas id=&quot;stage&quot; width=&quot;940&quot; height=&quot;250&quot;&gt;
+&lt;/canvas&gt; </pre>
                 </div>
                 <div class="tab-pane" id="demoDart">
                      <pre class="prettyprint lang-java">
+import &apos;dart:math&apos;;
+import &apos;dart:html&apos; as html;
+import &apos;package:dartflash/dartflash.dart&apos;;
+
+Stage stage;
+RenderLoop renderLoop;
+Resource resource;
+
+var heyJudeNotes = [
+  &apos;C4&apos;,&apos;A3&apos;,&apos;A3&apos;,&apos;C4&apos;,&apos;D4&apos;,&apos;G3&apos;,
+  &apos;G3&apos;,&apos;A3&apos;,&apos;A3#&apos;,&apos;F4&apos;,&apos;F4&apos;,&apos;E4&apos;,&apos;C4&apos;,&apos;D4&apos;,&apos;C4&apos;,&apos;A3#&apos;,&apos;A3&apos;,
+  &apos;C4&apos;,&apos;D4&apos;,&apos;D4&apos;,&apos;D4&apos;,&apos;G4&apos;,&apos;F4&apos;,&apos;E4&apos;,&apos;F4&apos;,&apos;D4&apos;,&apos;C4&apos;,
+  &apos;F3&apos;,&apos;G3&apos;,&apos;A3&apos;,&apos;D4&apos;,&apos;C4&apos;,&apos;C4&apos;,&apos;A3#&apos;,&apos;A3&apos;,&apos;E3&apos;,&apos;F3&apos;];
+
+var heyJudeLyrics = [
+  &apos;Hey &apos;,&apos;Jude, &apos;,&quot;don&apos;t &quot;,&apos;make &apos;,&apos;it &apos;,&apos;bad.&lt;br&gt;&apos;,
+  &apos;Take &apos;,&apos;a &apos;,&apos;sad &apos;,&apos;song &apos;,&apos;and &apos;,&apos;make &apos;,&apos;it &apos;,&apos;better.&lt;br&gt;&apos;, &apos;&apos;, &apos;&apos;, &apos;&apos;,
+  &apos;Remember &apos;,&apos;&apos;,&apos;&apos;,&apos;to &apos;,&apos;let &apos;,&apos;her &apos;,&apos;into &apos;,&apos;&apos;,&apos;your &apos;,&apos;heart.&lt;br&gt;&apos;,
+  &apos;Than &apos;,&apos;you &apos;,&apos;can &apos;,&apos;start &apos;, &apos;&apos;, &apos;to &apos;,&apos;make &apos;,&apos;things &apos;,&apos;better.&apos;, &apos;&apos;, &apos; &apos;];
+
+//-----------------------------------------------------------------------------------
+
+class Piano extends DisplayObjectContainer
+{
+  List noteNames = [
+    &apos;C3&apos;, &apos;C3#&apos;, &apos;D3&apos;, &apos;D3#&apos;, &apos;E3&apos;, &apos;F3&apos;, &apos;F3#&apos;, &apos;G3&apos;, &apos;G3#&apos;, &apos;A3&apos;, &apos;A3#&apos;, &apos;B3&apos;,
+    &apos;C4&apos;, &apos;C4#&apos;, &apos;D4&apos;, &apos;D4#&apos;, &apos;E4&apos;, &apos;F4&apos;, &apos;F4#&apos;, &apos;G4&apos;, &apos;G4#&apos;, &apos;A4&apos;, &apos;A4#&apos;, &apos;B4&apos;, &apos;C5&apos;
+  ];
+
+  Map song;
+  int songIndex;
+  Bitmap songPointer;
+
+  Piano(this.song)
+  {
+    // add all piano keys
+
+    for(int n = 0, x = 0; n &lt; noteNames.length; n++) {
+      var noteName = noteNames[n];
+      var noteSound = resource.getSound(&apos;Note${n+1}&apos;);
+
+      var pianoKey = new PianoKey(this, noteName, noteSound);
+      pianoKey.x = x + (noteName.endsWith(&apos;#&apos;) ? -16 : 0);
+      pianoKey.y = 35;
+
+      if (noteName.endsWith(&apos;#&apos;)) {
+        addChild(pianoKey);
+      } else {
+        addChildAt(pianoKey, 0);
+        x = x + 47;
+      }
+    }
+
+    // prepare karaoke
+
+    this.songIndex = 0;
+    this.songPointer = new Bitmap(resource.getBitmapData(&apos;Finger&apos;));
+    this.songPointer.pivotX = 20;
+    addChild(this.songPointer);
+    this.update();
+  }
+
+  void checkSongNote(String noteName)
+  {
+    var notes = this.song[&apos;notes&apos;];
+    if (noteName == notes[this.songIndex]) {
+      if (this.songIndex == notes.length - 1)
+        resource.getSound(&apos;Cheer&apos;).play();
+      this.songIndex++;
+      this.update();
+    }
+  }
+
+  void update()
+  {
+    var lyrics = this.song[&apos;lyrics&apos;];
+    var notes = this.song[&apos;notes&apos;];
+
+    // update karaoke lyrics
+
+    var lyricsDiv = html.query(&apos;#lyrics&apos;);
+    var current = -1;
+
+    for(int w = 0, c = 0; w &lt; lyrics.length; w++) {
+      if (lyrics[w] != &apos;&apos;) c = w;
+      if (w == this.songIndex) current = c;
+    }
+
+    lyricsDiv.innerHTML = &apos;&apos;;
+
+    for(int w = 0; w &lt; lyrics.length; w++) {
+      if (w == current)
+        lyricsDiv.addHTML(&apos;&lt;span id=&quot;word&quot;&gt;${lyrics[w]}&lt;/span&gt;&apos;);
+      else
+        lyricsDiv.addHTML(lyrics[w]);
+    }
+
+    // update finger position
+
+    if (this.songIndex &lt; notes.length) {
+      var noteName = notes[songIndex];
+      for(int i = 0; i &lt; this.numChildren; i++) {
+        var displayObject = this.getChildAt(i);
+        if (displayObject is PianoKey) {
+          if (displayObject.noteName == noteName) {
+            Tween tweenX = new Tween(this.songPointer, 0.4, Transitions.easeInOutCubic);
+            tweenX.animate(&apos;x&apos;, displayObject.x + displayObject.width / 2);
+            renderLoop.juggler.add(tweenX);
+            Tween tweenY = new Tween(this.songPointer, 0.4, Transitions.sine);
+            tweenY.animate(&apos;y&apos;, -10);
+            renderLoop.juggler.add(tweenY);
+          }
+        }
+      }
+    } else {
+      Tween tweenY = new Tween(this.songPointer, 0.4, Transitions.linear);
+      tweenY.animate(&apos;alpha&apos;, 0);
+      renderLoop.juggler.add(tweenY);
+    }
+  }
+
+  void reset()
+  {
+    this.songIndex = 0;
+    this.songPointer.alpha = 1;
+    this.update();
+  }
+}
+
+//-----------------------------------------------------------------------------------
+
+class PianoKey extends DisplayObjectContainer
+{
+  Piano piano;
+  String noteName;
+  Sound sound;
+
+  PianoKey(this.piano, this.noteName, this.sound)
+  {
+    var key = null;
+
+    if (noteName.endsWith(&apos;#&apos;)) {
+      key = &apos;KeyBlack&apos;;
+    } else if (noteName.startsWith(&apos;C5&apos;)) {
+      key = &apos;KeyWhite0&apos;;
+    } else if (noteName.startsWith(&apos;C&apos;) || noteName.startsWith(&apos;F&apos;)) {
+      key = &apos;KeyWhite1&apos;;
+    } else if (noteName.startsWith(&apos;D&apos;) || noteName.startsWith(&apos;G&apos;) || noteName.startsWith(&apos;A&apos;)) {
+      key = &apos;KeyWhite2&apos;;
+    } else if (noteName.startsWith(&apos;E&apos;) || noteName.startsWith(&apos;B&apos;)) {
+      key = &apos;KeyWhite3&apos;;
+    }
+
+    // draw the key
+
+    var bitmapData = resource.getBitmapData(key);
+    var bitmap = new Bitmap(bitmapData);
+    this.addChild(bitmap);
+
+    // print note on key
+
+    var textFormat = new TextFormat(&apos;Helvetica,Arial&apos;, 10, 0x000000, align:TextFormatAlign.CENTER);
+    textFormat.color = noteName.endsWith(&apos;#&apos;) ? Color.White : Color.Black;
+
+    var textField = new TextField();
+    textField.defaultTextFormat = textFormat;
+    textField.text = noteName;
+    textField.width = bitmapData.width;
+    textField.height = 20;
+    textField.mouseEnabled = false;
+    textField.y = bitmapData.height - 20;
+    addChild(textField);
+
+    // add event handlers
+
+    this.on.mouseDown.add(keyDown);
+    this.on.mouseOver.add(keyDown);
+    this.on.mouseUp.add(keyUp);
+    this.on.mouseOut.add(keyUp);
+  }
+
+  void keyDown(MouseEvent me)
+  {
+    if (me.buttonDown) {
+      this.sound.play();
+      this.alpha = 0.7;
+      this.piano.checkSongNote(this.noteName);
+    }
+  }
+
+  void keyUp(MouseEvent me)
+  {
+      this.alpha = 1.0;
+  }
+}
+
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+
+void main()
+{
+  // Initialize the Display List
+
+  stage = new Stage(&apos;stage&apos;, html.document.query(&apos;#stage&apos;));
+  renderLoop = new RenderLoop();
+  renderLoop.addStage(stage);
+
+  // add a background image
+
+  var backgroundBitmapData = new BitmapData(940, 500, false, 0xA0A0A0);
+  var backgroundBitmap = new Bitmap(backgroundBitmapData);
+  stage.addChild(backgroundBitmap);
+
+  // load the images and sounds for the piano
+
+  resource = new Resource();
+  resource.addImage(&apos;KeyBlack&apos;,&apos;../common/images/piano/KeyBlack.png&apos;);
+  resource.addImage(&apos;KeyWhite0&apos;,&apos;../common/images/piano/KeyWhite0.png&apos;);
+  resource.addImage(&apos;KeyWhite1&apos;,&apos;../common/images/piano/KeyWhite1.png&apos;);
+  resource.addImage(&apos;KeyWhite2&apos;,&apos;../common/images/piano/KeyWhite2.png&apos;);
+  resource.addImage(&apos;KeyWhite3&apos;,&apos;../common/images/piano/KeyWhite3.png&apos;);
+  resource.addImage(&apos;Finger&apos;,&apos;../common/images/piano/Finger.png&apos;);
+  resource.addSound(&apos;Cheer&apos;,&apos;../common/sounds/Cheer.mp3&apos;);
+
+  for(int i = 1; i &lt;= 25; i++)
+    resource.addSound(&apos;Note$i&apos;,&apos;../common/sounds/piano/Note$i.mp3&apos;);
+
+  resource.load().then((res) {
+    var piano = new Piano({&apos;notes&apos;: heyJudeNotes, &apos;lyrics&apos;: heyJudeLyrics});
+    piano.x = 120;
+    piano.y = 30;
+    stage.addChild(piano);
+
+    html.query(&apos;#startOver&apos;).on.click.add((e) =&gt; piano.reset());
+  });
+}
                      </pre>
                 </div>
             </div>
@@ -97,7 +358,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src="../../assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../assets/js/prettify.js"></script>
-    
+
     <script type="application/dart" src="sound.dart"></script>
     <script type="text/javascript" src="../../assets/js/dart.js"></script>
 </body>

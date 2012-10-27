@@ -152,13 +152,12 @@ class Piano extends DisplayObjectContainer
     // add all piano keys
 
     for(int n = 0, x = 0; n &lt; noteNames.length; n++) {
-
       var pianoKey = new PianoKey(this, noteNames[n], resource.getSound(&apos;Note${n+1}&apos;));
       pianoKey.x = x;
       pianoKey.y = 35;
 
       if (noteNames[n].endsWith(&apos;#&apos;)) {
-        pianoKey.x = x -16;
+        pianoKey.x = x - 16;
         addChild(pianoKey);
       } else {
         addChildAt(pianoKey, 0);
@@ -180,10 +179,10 @@ class Piano extends DisplayObjectContainer
     // is it the next note of the song?
 
     if (this.noteIndex &lt; notes.length && noteName == notes[this.noteIndex]) {
-
-      if (this.noteIndex == notes.length - 1)
-        resource.getSound(&apos;Cheer&apos;).play();
-
+      if (this.noteIndex == notes.length - 1) {
+        var soundTransform = new SoundTransform(0.75);
+        resource.getSound(&apos;Cheer&apos;).play(false, soundTransform);
+      }
       this.noteIndex++;
       this.update();
     }

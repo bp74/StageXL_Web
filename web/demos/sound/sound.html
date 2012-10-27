@@ -318,12 +318,6 @@ void main()
   renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
 
-  // add a background image
-
-  var backgroundBitmapData = new BitmapData(940, 500, false, 0xA0A0A0);
-  var backgroundBitmap = new Bitmap(backgroundBitmapData);
-  stage.addChild(backgroundBitmap);
-
   // load the images and sounds for the piano
 
   resource = new Resource();
@@ -333,12 +327,16 @@ void main()
   resource.addImage(&apos;KeyWhite2&apos;,&apos;../common/images/piano/KeyWhite2.png&apos;);
   resource.addImage(&apos;KeyWhite3&apos;,&apos;../common/images/piano/KeyWhite3.png&apos;);
   resource.addImage(&apos;Finger&apos;,&apos;../common/images/piano/Finger.png&apos;);
+  resource.addImage(&apos;Background&apos;,&apos;../common/images/piano/Background.jpg&apos;);
   resource.addSound(&apos;Cheer&apos;,&apos;../common/sounds/Cheer.mp3&apos;);
 
   for(int i = 1; i &lt;= 25; i++)
     resource.addSound(&apos;Note$i&apos;,&apos;../common/sounds/piano/Note$i.mp3&apos;);
 
   resource.load().then((res) {
+    var background = new Bitmap(resource.getBitmapData(&apos;Background&apos;));
+    stage.addChild(background);
+
     var piano = new Piano(heyJudeNotes, heyJudeLyrics);
     piano.x = 120;
     piano.y = 30;
@@ -346,7 +344,7 @@ void main()
 
     html.query(&apos;#startOver&apos;).on.click.add((e) =&gt; piano.reset());
   });
-}   </pre>
+}                 </pre>
                 </div>
             </div>
         </div>

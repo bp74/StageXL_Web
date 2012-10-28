@@ -63,10 +63,8 @@ class Piano extends DisplayObjectContainer
     // is it the next note of the song?
 
     if (this.noteIndex < songNotes.length && songNotes[this.noteIndex] == note) {
-      if (this.noteIndex == songNotes.length - 1) {
-        var soundTransform = new SoundTransform(0.70);
-        resource.getSound('Cheer').play(false, soundTransform);
-      }
+      if (this.noteIndex == songNotes.length - 1)
+        resource.getSound('Cheer').play();
       this.noteIndex++;
       this.update();
     }

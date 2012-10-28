@@ -90,8 +90,9 @@ void addFlags(int amount)
     var flag = new Flag(flagBitmapData, random.nextInt(200) - 100, random.nextInt(200) - 100);
     flag.x = 30 + random.nextInt(940 - 60);
     flag.y = 30 + random.nextInt(500 - 60);
+    flag.addTo(stage);
 
-    juggler.add(stage.addChild(flag));
+    juggler.add(flag);
   }
 
   html.query('#spriteCounter').innerHTML = 'Sprites: ${stage.numChildren}';
@@ -101,8 +102,11 @@ void addFlags(int amount)
 
 void removeFlags(int amount)
 {
-  while(--amount >= 0 && stage.numChildren > 0)
-    juggler.remove(stage.removeChildAt(0));
+  while(--amount >= 0 && stage.numChildren > 0) {
+    var displayObject = stage.getChildAt(0);
+    displayObject.removeFromParent();
+    juggler.remove(displayObject);
+  }
 
   html.query('#spriteCounter').innerHTML = 'Sprites: ${stage.numChildren}';
 }

@@ -98,11 +98,13 @@ class Piano extends DisplayObjectContainer
         var displayObject = this.getChildAt(i);
         if (displayObject is PianoKey) {
           if (displayObject.note == songNotes[noteIndex]) {
+            this.noteFinger.y = 0;
             Tween tweenX = new Tween(this.noteFinger, 0.4, Transitions.easeInOutCubic);
             tweenX.animate('x', displayObject.x + displayObject.width / 2);
-            renderLoop.juggler.add(tweenX);
             Tween tweenY = new Tween(this.noteFinger, 0.4, Transitions.sine);
             tweenY.animate('y', -10);
+            renderLoop.juggler.removeTweens(this.noteFinger);
+            renderLoop.juggler.add(tweenX);
             renderLoop.juggler.add(tweenY);
           }
         }
@@ -124,7 +126,7 @@ class Piano extends DisplayObjectContainer
 
 //-----------------------------------------------------------------------------------
 
-class PianoKey extends DisplayObjectContainer
+class PianoKey extends Sprite
 {
   Piano piano;
   String note;
@@ -168,6 +170,7 @@ class PianoKey extends DisplayObjectContainer
 
     // add event handlers
 
+    this.useHandCursor = true;
     this.on.mouseDown.add(keyDown);
     this.on.mouseOver.add(keyDown);
     this.on.mouseUp.add(keyUp);

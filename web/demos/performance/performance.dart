@@ -6,12 +6,10 @@ class Flag extends Bitmap implements Animatable
 {
     num vx, vy;
 
-    Flag(BitmapData bitmapData, num vx, num vy):super(bitmapData)
+    Flag(BitmapData bitmapData, this.vx, this.vy):super(bitmapData)
     {
-      this.vx = vx;
-      this.vy = vy;
-      this.pivotX = 24;
-      this.pivotY = 18;
+      this.pivotX = bitmapData.width / 2;
+      this.pivotY = bitmapData.height / 2;
     }
 
     bool advanceTime(num time)
@@ -32,8 +30,7 @@ RenderLoop renderLoop;
 Juggler juggler;
 TextureAtlas textureAtlas;
 Random random = new Random();
-List frameTimes = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-int frameTimesIndex = 0;
+num fpsAverage;
 
 void main()
 {
@@ -46,8 +43,7 @@ void main()
   // load the texture atlas with flag images
   Future loader = TextureAtlas.load('../common/images/flags.json', TextureAtlasFormat.JSONARRAY);
 
-  loader.then((result)
-  {
+  loader.then((result) {
     textureAtlas = result;
 
     // let's start with 250 flags
@@ -69,20 +65,20 @@ void main()
 
 void onEnterFrame(EnterFrameEvent e)
 {
-  num frameTimeSum = 0;
-  frameTimesIndex = (frameTimesIndex + 1) % frameTimes.length;
-  frameTimes[frameTimesIndex] = e.passedTime;
-  frameTimes.forEach((t) => frameTimeSum += t);
+  if (fpsAverage == null) {
+    fpsAverage = 1.00 / e.passedTime;
+  } else {
+    fpsAverage = 0.05 / e.passedTime + 0.95 * fpsAverage;
+  }
 
-  html.query('#fpsMeter').innerHTML = 'fps: ${(frameTimes.length / frameTimeSum).round()}';
+  html.query('#fpsMeter').innerHTML = 'fps: ${fpsAverage.round()}';
 }
 
 //-----------------------------------------------------------------------------------
 
 void addFlags(int amount)
 {
-  while(--amount >= 0)
-  {
+  while(--amount >= 0) {
     var flagIndex = random.nextInt(textureAtlas.frameNames.length);
     var flagName = textureAtlas.frameNames[flagIndex];
     var flagBitmapData = textureAtlas.getBitmapData(flagName);

@@ -143,12 +143,10 @@ class Flag extends Bitmap implements Animatable
 {
     num vx, vy;
 
-    Flag(BitmapData bitmapData, num vx, num vy):super(bitmapData)
+    Flag(BitmapData bitmapData, this.vx, this.vy):super(bitmapData)
     {
-      this.vx = vx;
-      this.vy = vy;
-      this.pivotX = 24;
-      this.pivotY = 18;
+      this.pivotX = bitmapData.width / 2;
+      this.pivotY = bitmapData.height / 2;
     }
 
     bool advanceTime(num time)
@@ -169,8 +167,7 @@ RenderLoop renderLoop;
 Juggler juggler;
 TextureAtlas textureAtlas;
 Random random = new Random();
-List frameTimes = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-int frameTimesIndex = 0;
+num fpsAverage;
 
 void main()
 {
@@ -183,8 +180,7 @@ void main()
   // load the texture atlas with flag images
   Future loader = TextureAtlas.load(&apos;../common/images/flags.json&apos;, TextureAtlasFormat.JSONARRAY);
 
-  loader.then((result)
-  {
+  loader.then((result) {
     textureAtlas = result;
 
     // let&apos;s start with 250 flags
@@ -206,20 +202,20 @@ void main()
 
 void onEnterFrame(EnterFrameEvent e)
 {
-  num frameTimeSum = 0;
-  frameTimesIndex = (frameTimesIndex + 1) % frameTimes.length;
-  frameTimes[frameTimesIndex] = e.passedTime;
-  frameTimes.forEach((t) =&gt; frameTimeSum += t);
+  if (fpsAverage == null) {
+    fpsAverage = 1.00 / e.passedTime;
+  } else {
+    fpsAverage = 0.05 / e.passedTime + 0.95 * fpsAverage;
+  }
 
-  html.query(&apos;#fpsMeter&apos;).innerHTML = &apos;fps: ${(frameTimes.length / frameTimeSum).round()}&apos;;
+  html.query(&apos;#fpsMeter&apos;).innerHTML = &apos;fps: ${fpsAverage.round()}&apos;;
 }
 
 //-----------------------------------------------------------------------------------
 
 void addFlags(int amount)
 {
-  while(--amount &gt;= 0)
-  {
+  while(--amount &gt;= 0) {
     var flagIndex = random.nextInt(textureAtlas.frameNames.length);
     var flagName = textureAtlas.frameNames[flagIndex];
     var flagBitmapData = textureAtlas.getBitmapData(flagName);
@@ -239,7 +235,7 @@ void addFlags(int amount)
 
 void removeFlags(int amount)
 {
-  while(--amount >= 0 && stage.numChildren > 0) {
+  while(--amount &gt;= 0 && stage.numChildren &gt; 0) {
     var displayObject = stage.getChildAt(0);
     displayObject.removeFromParent();
     juggler.remove(displayObject);

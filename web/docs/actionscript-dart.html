@@ -133,13 +133,19 @@ var p = new Point(1, 2);</pre></div>
       <div class="span6"><pre class="prettyprint lang-js">
 public var name:String; 
 private var _text:String;
+internal var _code:String;
 
-// there is no match for &apos;internal&apos; and &apos;protected&apos; modifiers.</pre></div>
+// there is no match for the &apos;protected&apos; modifier.
+ 
+ </pre></div>
       <div class="span6"><pre class="prettyprint lang-java">
-String name;   // public
-String _text;  // private
+String name;     // public
+String _text;    // private  (see comment below)
+String _code;    // internal (see comment below)
 
-// The underscore convention controls the access.</pre></div>
+// The underscore convention is the access modifier!
+// The field or method is accessible everywhere in the
+// current library, but hidden to other libraries.</pre></div>
     </div>
   </section>
   <section class="section-synonym">
@@ -711,7 +717,7 @@ public function foo(s:String = null, b:Boolean = false):void {
 </pre></div>
       <div class="span6"><pre class="prettyprint lang-java">
 // Positional optional parameters    
-void foo([String s = null, bool b]):void {
+void foo([String s = null, bool b]) {
   if (?b == false) {
     // Parameter &apos;b&apos; was not provided.
   }

@@ -46,14 +46,20 @@ var p = new Point(1, 2);]]>
       <code language="as3"><![CDATA[
 public var name:String; 
 private var _text:String;
+internal var _code:String;
 
-// there is no match for 'internal' and 'protected' modifiers.]]>
+// there is no match for the 'protected' modifier.
+ 
+ ]]>
       </code>
       <code language="dart"><![CDATA[
-String name;   // public
-String _text;  // private
+String name;     // public
+String _text;    // private  (see comment below)
+String _code;    // internal (see comment below)
 
-// The underscore convention controls the access.]]>
+// The underscore convention is the access modifier!
+// The field or method is accessible everywhere in the
+// current library, but hidden to other libraries.]]>
       </code>
     </synonym>
 
@@ -610,7 +616,7 @@ public function foo(s:String = null, b:Boolean = false):void {
       </code>
       <code language="dart"><![CDATA[
 // Positional optional parameters	  
-void foo([String s = null, bool b]):void {
+void foo([String s = null, bool b]) {
   if (?b == false) {
     // Parameter 'b' was not provided.
   }

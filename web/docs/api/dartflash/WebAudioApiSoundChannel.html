@@ -51,6 +51,7 @@
 <li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -97,6 +99,7 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
 <li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
@@ -122,48 +125,48 @@
 <pre class="source">
 class WebAudioApiSoundChannel extends SoundChannel
 {
-  WebAudioApiSound _webAudioApiSound;
-  html.AudioGainNode _gainNode;
-  html.AudioBufferSourceNode _sourceNode;
+ WebAudioApiSound _webAudioApiSound;
+ SoundTransform _soundTransform;
+ bool _loop;
+ 
+ html.GainNode _gainNode;
+ html.AudioBufferSourceNode _sourceNode;
 
-  bool _loop;
-  SoundTransform _soundTransform;
+ WebAudioApiSoundChannel(WebAudioApiSound webAudioApiSound, bool loop, SoundTransform soundTransform)
+ {
+   _webAudioApiSound = webAudioApiSound;
+   _loop = loop;
+   _soundTransform = soundTransform;
 
-  WebAudioApiSoundChannel(WebAudioApiSound webAudioApiSound, bool loop, SoundTransform soundTransform)
-  {
-    _webAudioApiSound = webAudioApiSound;
-    _loop = loop;
-    _soundTransform = soundTransform;
+   var context = SoundMixer._audioContext;
 
-    var context = SoundMixer._audioContext;
+   _gainNode = context.createGain();
+   _gainNode.connect(context.destination, 0, 0);
+   _gainNode.gain.value =  (_soundTransform != null) ? pow(_soundTransform.volume , 2) : 1;
 
-    _gainNode = context.createGainNode();
-    _gainNode.connect(context.destination, 0, 0);
-    _gainNode.gain.value =  (_soundTransform != null) ? pow(_soundTransform.volume , 2) : 1;
+   _sourceNode = context.createBufferSource();
+   _sourceNode.buffer = _webAudioApiSound._buffer;
+   _sourceNode.loop = loop;
+   _sourceNode.connect(_gainNode, 0, 0);
+   _sourceNode.start(0);
+ }
 
-    _sourceNode = context.createBufferSource();
-    _sourceNode.buffer = _webAudioApiSound._buffer;
-    _sourceNode.loop = loop;
-    _sourceNode.connect(_gainNode, 0, 0);
-    _sourceNode.start(0);
-  }
+ //-------------------------------------------------------------------------------------------------
 
-  //-------------------------------------------------------------------------------------------------
+ SoundTransform get soundTransform =&gt; _soundTransform;
 
-  SoundTransform get soundTransform =&gt; _soundTransform;
+ void set soundTransform(SoundTransform value)
+ {
+   _soundTransform = value;
+   _gainNode.gain.value =  (_soundTransform != null) ? pow(_soundTransform.volume , 2) : 1;
+ }
 
-  void set soundTransform(SoundTransform value)
-  {
-    _soundTransform = value;
-    _gainNode.gain.value =  (_soundTransform != null) ? pow(_soundTransform.volume , 2) : 1;
-  }
+ //-------------------------------------------------------------------------------------------------
 
-  //-------------------------------------------------------------------------------------------------
-
-  void stop()
-  {
-    _sourceNode.stop(0);
-  }
+ void stop()
+ {
+   _sourceNode.stop(0);
+ }
 }
 </pre>
 </div>
@@ -180,21 +183,21 @@ new <strong>WebAudioApiSoundChannel</strong>(<a href="../dartflash/WebAudioApiSo
 <pre class="source">
 WebAudioApiSoundChannel(WebAudioApiSound webAudioApiSound, bool loop, SoundTransform soundTransform)
 {
-  _webAudioApiSound = webAudioApiSound;
-  _loop = loop;
-  _soundTransform = soundTransform;
+ _webAudioApiSound = webAudioApiSound;
+ _loop = loop;
+ _soundTransform = soundTransform;
 
-  var context = SoundMixer._audioContext;
+ var context = SoundMixer._audioContext;
 
-  _gainNode = context.createGainNode();
-  _gainNode.connect(context.destination, 0, 0);
-  _gainNode.gain.value =  (_soundTransform != null) ? pow(_soundTransform.volume , 2) : 1;
+ _gainNode = context.createGain();
+ _gainNode.connect(context.destination, 0, 0);
+ _gainNode.gain.value =  (_soundTransform != null) ? pow(_soundTransform.volume , 2) : 1;
 
-  _sourceNode = context.createBufferSource();
-  _sourceNode.buffer = _webAudioApiSound._buffer;
-  _sourceNode.loop = loop;
-  _sourceNode.connect(_gainNode, 0, 0);
-  _sourceNode.start(0);
+ _sourceNode = context.createBufferSource();
+ _sourceNode.buffer = _webAudioApiSound._buffer;
+ _sourceNode.loop = loop;
+ _sourceNode.connect(_gainNode, 0, 0);
+ _sourceNode.start(0);
 }
 </pre>
 </div>
@@ -214,19 +217,6 @@ Events get on =&gt; new Events(this);
 </pre>
 </div>
 </div>
-<div class="field inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
-            href="#runtimeType"
-            title="Permalink to WebAudioApiSoundChannel.runtimeType">#</a>
-        </h4>
-        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
-</pre>
-</div>
-</div>
 <div class="field"><h4 id="soundTransform">
 <button class="show-code">Code</button>
 <a href="../dartflash/SoundTransform.html">SoundTransform</a>         <strong>soundTransform</strong> <a class="anchor-link"
@@ -240,28 +230,9 @@ SoundTransform get soundTransform =&gt; _soundTransform;
 <pre class="source">
 void set soundTransform(SoundTransform value)
 {
-  _soundTransform = value;
-  _gainNode.gain.value =  (_soundTransform != null) ? pow(_soundTransform.volume , 2) : 1;
+ _soundTransform = value;
+ _gainNode.gain.value =  (_soundTransform != null) ? pow(_soundTransform.volume , 2) : 1;
 }
-</pre>
-</div>
-</div>
-</div>
-<div>
-<h3>Operators</h3>
-<div class="method inherited"><h4 id="==">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
-              title="Permalink to WebAudioApiSoundChannel.operator ==">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>The equality operator.</p>
-<p>The default behavior for all <code>Object</code>s is to return true if and
-only if <code>this</code> and 
-<span class="param">other</span> are the same object.</p>
-<p>If a subclass overrides the equality operator it should override
-the <code>hashCode</code> method as well to maintain consistency.</p>
-<pre class="source">
-bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
@@ -276,7 +247,7 @@ void <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_cor
 <pre class="source">
 void addEventListener(String type, EventListener eventListener, [bool useCapture = false])
 {
-  _getEventListenerList(type).add(eventListener, useCapture);
+ _getEventListenerList(type).add(eventListener, useCapture);
 }
 </pre>
 </div>
@@ -289,7 +260,7 @@ void <strong>dispatchEvent</strong>(<a href="../dartflash/Event.html">Event</a> 
 <pre class="source">
 void dispatchEvent(Event event)
 {
-  _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
+ _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
 }
 </pre>
 </div>
@@ -302,57 +273,8 @@ void dispatchEvent(Event event)
 <pre class="source">
 bool hasEventListener(String type)
 {
-  return _eventListenerLists != null &amp;&amp; _eventListenerLists.containsKey(type);
+ return _eventListenerLists != null &amp;&amp; _eventListenerLists.containsKey(type);
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="hashCode">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
-              title="Permalink to WebAudioApiSoundChannel.hashCode">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Get a hash code for this object.</p>
-<p>All objects have hash codes. Hash codes are guaranteed to be the
-same for objects that are equal when compared using the equality
-operator <code>==</code>. Other than that there are no guarantees about
-the hash codes. They will not be consistent between runs and
-there are no distribution guarantees.</p>
-<p>If a subclass overrides <code>hashCode</code> it should override the
-equality operator as well to maintain consistency.</p>
-<pre class="source">
-external int hashCode();
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="noSuchMethod">
-<button class="show-code">Code</button>
-<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
-              title="Permalink to WebAudioApiSoundChannel.noSuchMethod">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
-on an object. The name of the method and the arguments of the
-invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
-returns a value, that value becomes the result of the original
-invocation.</p>
-<p>The default behavior of <code>noSuchMethod</code> is to throw a
-<code>noSuchMethodError</code>.</p>
-<pre class="source">
-external Dynamic noSuchMethod(String name, List args);
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="Object">
-<button class="show-code">Code</button>
-const <strong>Object</strong>() <a class="anchor-link" href="#Object"
-              title="Permalink to WebAudioApiSoundChannel.Object">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Creates a new <code>Object</code> instance.</p>
-<p><code>Object</code> instances have no meaningful state, and are only useful
-through their identity. An <code>Object</code> instance is equal to itself
-only.</p>
-<pre class="source">
-const Object();
 </pre>
 </div>
 </div>
@@ -364,7 +286,7 @@ void <strong>removeEventListener</strong>(<a href="http://api.dartlang.org/dart_
 <pre class="source">
 void removeEventListener(String type, EventListener eventListener, [bool useCapture = false])
 {
-  _getEventListenerList(type).remove(eventListener, useCapture);
+ _getEventListenerList(type).remove(eventListener, useCapture);
 }
 </pre>
 </div>
@@ -377,45 +299,7 @@ void <strong>stop</strong>() <a class="anchor-link" href="#stop"
 <pre class="source">
 void stop()
 {
-  _sourceNode.stop(0);
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="toString">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
-              title="Permalink to WebAudioApiSoundChannel.toString">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Returns a string representation of this object.</p>
-<pre class="source">
-external String toString();
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="WebAudioApiSoundChannel">
-<button class="show-code">Code</button>
-new <strong>WebAudioApiSoundChannel</strong>(<a href="../dartflash/WebAudioApiSound.html">WebAudioApiSound</a> webAudioApiSound, <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> loop, <a href="../dartflash/SoundTransform.html">SoundTransform</a> soundTransform) <a class="anchor-link" href="#WebAudioApiSoundChannel"
-              title="Permalink to WebAudioApiSoundChannel.WebAudioApiSoundChannel">#</a></h4>
-<div class="doc">
-<pre class="source">
-WebAudioApiSoundChannel(WebAudioApiSound webAudioApiSound, bool loop, SoundTransform soundTransform)
-{
-  _webAudioApiSound = webAudioApiSound;
-  _loop = loop;
-  _soundTransform = soundTransform;
-
-  var context = SoundMixer._audioContext;
-
-  _gainNode = context.createGainNode();
-  _gainNode.connect(context.destination, 0, 0);
-  _gainNode.gain.value =  (_soundTransform != null) ? pow(_soundTransform.volume , 2) : 1;
-
-  _sourceNode = context.createBufferSource();
-  _sourceNode.buffer = _webAudioApiSound._buffer;
-  _sourceNode.loop = loop;
-  _sourceNode.connect(_gainNode, 0, 0);
-  _sourceNode.start(0);
+ _sourceNode.stop(0);
 }
 </pre>
 </div>
@@ -426,7 +310,7 @@ WebAudioApiSoundChannel(WebAudioApiSound webAudioApiSound, bool loop, SoundTrans
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-13 21:36:09.150</div>
+          <div>This page was generated at 2012-11-03 13:33:35.353</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

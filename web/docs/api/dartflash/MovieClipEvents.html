@@ -2,19 +2,19 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>DisplayObjectContainerEvents class / dartflash Library / Dart Documentation</title>
+        <title>MovieClipEvents class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
-        <body data-library="dartflash" data-type="DisplayObjectContainerEvents">
+        <body data-library="dartflash" data-type="MovieClipEvents">
         <div class="page">
         <div class="header">
           <a href="../index.html"><div class="logo"></div></a>
           <a href="../index.html">Dart Documentation</a>
-         &rsaquo; <a href="../dartflash.html">dartflash</a> &rsaquo; <a href="../dartflash/DisplayObjectContainerEvents.html">DisplayObjectContainerEvents</a>        <div id="search-box">
+         &rsaquo; <a href="../dartflash.html">dartflash</a> &rsaquo; <a href="../dartflash/MovieClipEvents.html">MovieClipEvents</a>        <div id="search-box">
           <input type="search" name="q" id="q" autocomplete="off"
               class="search-input" placeholder="Search API">
         </div>
@@ -41,7 +41,7 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
-<li><div class="icon-class"></div><strong>DisplayObjectContainerEvents</strong></li>
+<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
 <li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
@@ -72,7 +72,7 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
-<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
+<li><div class="icon-class"></div><strong>MovieClipEvents</strong></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -116,42 +116,45 @@
 </ul>
 </div>
 <div class="content">
-        <h2><strong>DisplayObjectContainerEvents</strong>
+        <h2><strong>MovieClipEvents</strong>
           class
         </h2>
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class DisplayObjectContainerEvents extends InteractiveObjectEvents
-{
- DisplayObjectContainerEvents(EventDispatcher target) : super(target);
+class MovieClipEvents extends InteractiveObjectEvents {
+
+ MovieClipEvents(EventDispatcher target) : super(target);
+
+ EventListenerList get progress =&gt; this[Event.PROGRESS];
+ EventListenerList get complete =&gt; this[Event.COMPLETE];
 }
 </pre>
 </div>
 <h3>Extends</h3>
 <p>
-<span class="type-box"><span class="icon-class"></span><a href="../dartflash/Events.html">Events</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dartflash/DisplayObjectEvents.html">DisplayObjectEvents</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>DisplayObjectContainerEvents</strong></span></p>
+<span class="type-box"><span class="icon-class"></span><a href="../dartflash/Events.html">Events</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dartflash/DisplayObjectEvents.html">DisplayObjectEvents</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>MovieClipEvents</strong></span></p>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="DisplayObjectContainerEvents">
+<div class="method"><h4 id="MovieClipEvents">
 <button class="show-code">Code</button>
-new <strong>DisplayObjectContainerEvents</strong>(<a href="../dartflash/EventDispatcher.html">EventDispatcher</a> target) <a class="anchor-link" href="#DisplayObjectContainerEvents"
-              title="Permalink to DisplayObjectContainerEvents.DisplayObjectContainerEvents">#</a></h4>
+new <strong>MovieClipEvents</strong>(<a href="../dartflash/EventDispatcher.html">EventDispatcher</a> target) <a class="anchor-link" href="#MovieClipEvents"
+              title="Permalink to MovieClipEvents.MovieClipEvents">#</a></h4>
 <div class="doc">
 <pre class="source">
-DisplayObjectContainerEvents(EventDispatcher target) : super(target);
+MovieClipEvents(EventDispatcher target) : super(target);
 </pre>
 </div>
 </div>
 </div>
-<div class="inherited">
+<div>
 <h3>Properties</h3>
 <div class="field inherited"><h4 id="added">
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>added</strong> <a class="anchor-link"
             href="#added"
-            title="Permalink to DisplayObjectContainerEvents.added">#</a>
+            title="Permalink to MovieClipEvents.added">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectEvents.html">DisplayObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -163,7 +166,7 @@ EventListenerList get added =&gt; this[Event.ADDED];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>addedToStage</strong> <a class="anchor-link"
             href="#addedToStage"
-            title="Permalink to DisplayObjectContainerEvents.addedToStage">#</a>
+            title="Permalink to MovieClipEvents.addedToStage">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectEvents.html">DisplayObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -171,11 +174,23 @@ EventListenerList get addedToStage =&gt; this[Event.ADDED_TO_STAGE];
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="complete">
+<button class="show-code">Code</button>
+final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>complete</strong> <a class="anchor-link"
+            href="#complete"
+            title="Permalink to MovieClipEvents.complete">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+EventListenerList get complete =&gt; this[Event.COMPLETE];
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="enterFrame">
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>enterFrame</strong> <a class="anchor-link"
             href="#enterFrame"
-            title="Permalink to DisplayObjectContainerEvents.enterFrame">#</a>
+            title="Permalink to MovieClipEvents.enterFrame">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectEvents.html">DisplayObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -187,7 +202,7 @@ EventListenerList get enterFrame =&gt; this[Event.ENTER_FRAME];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>keyDown</strong> <a class="anchor-link"
             href="#keyDown"
-            title="Permalink to DisplayObjectContainerEvents.keyDown">#</a>
+            title="Permalink to MovieClipEvents.keyDown">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -199,7 +214,7 @@ EventListenerList get keyDown =&gt; this[KeyboardEvent.KEY_DOWN];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>keyUp</strong> <a class="anchor-link"
             href="#keyUp"
-            title="Permalink to DisplayObjectContainerEvents.keyUp">#</a>
+            title="Permalink to MovieClipEvents.keyUp">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -211,7 +226,7 @@ EventListenerList get keyUp =&gt; this[KeyboardEvent.KEY_UP];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseClick</strong> <a class="anchor-link"
             href="#mouseClick"
-            title="Permalink to DisplayObjectContainerEvents.mouseClick">#</a>
+            title="Permalink to MovieClipEvents.mouseClick">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -223,7 +238,7 @@ EventListenerList get mouseClick =&gt; this[MouseEvent.CLICK];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseDoubleClick</strong> <a class="anchor-link"
             href="#mouseDoubleClick"
-            title="Permalink to DisplayObjectContainerEvents.mouseDoubleClick">#</a>
+            title="Permalink to MovieClipEvents.mouseDoubleClick">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -235,7 +250,7 @@ EventListenerList get mouseDoubleClick =&gt; this[MouseEvent.DOUBLE_CLICK];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseDown</strong> <a class="anchor-link"
             href="#mouseDown"
-            title="Permalink to DisplayObjectContainerEvents.mouseDown">#</a>
+            title="Permalink to MovieClipEvents.mouseDown">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -247,7 +262,7 @@ EventListenerList get mouseDown =&gt; this[MouseEvent.MOUSE_DOWN];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseMiddleClick</strong> <a class="anchor-link"
             href="#mouseMiddleClick"
-            title="Permalink to DisplayObjectContainerEvents.mouseMiddleClick">#</a>
+            title="Permalink to MovieClipEvents.mouseMiddleClick">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -259,7 +274,7 @@ EventListenerList get mouseMiddleClick =&gt; this[MouseEvent.MIDDLE_CLICK];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseMiddleDown</strong> <a class="anchor-link"
             href="#mouseMiddleDown"
-            title="Permalink to DisplayObjectContainerEvents.mouseMiddleDown">#</a>
+            title="Permalink to MovieClipEvents.mouseMiddleDown">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -271,7 +286,7 @@ EventListenerList get mouseMiddleDown =&gt; this[MouseEvent.MIDDLE_MOUSE_DOWN];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseMiddleUp</strong> <a class="anchor-link"
             href="#mouseMiddleUp"
-            title="Permalink to DisplayObjectContainerEvents.mouseMiddleUp">#</a>
+            title="Permalink to MovieClipEvents.mouseMiddleUp">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -283,7 +298,7 @@ EventListenerList get mouseMiddleUp =&gt; this[MouseEvent.MIDDLE_MOUSE_UP];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseMove</strong> <a class="anchor-link"
             href="#mouseMove"
-            title="Permalink to DisplayObjectContainerEvents.mouseMove">#</a>
+            title="Permalink to MovieClipEvents.mouseMove">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -295,7 +310,7 @@ EventListenerList get mouseMove =&gt; this[MouseEvent.MOUSE_MOVE];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseOut</strong> <a class="anchor-link"
             href="#mouseOut"
-            title="Permalink to DisplayObjectContainerEvents.mouseOut">#</a>
+            title="Permalink to MovieClipEvents.mouseOut">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -307,7 +322,7 @@ EventListenerList get mouseOut =&gt; this[MouseEvent.MOUSE_OUT];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseOver</strong> <a class="anchor-link"
             href="#mouseOver"
-            title="Permalink to DisplayObjectContainerEvents.mouseOver">#</a>
+            title="Permalink to MovieClipEvents.mouseOver">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -319,7 +334,7 @@ EventListenerList get mouseOver =&gt; this[MouseEvent.MOUSE_OVER];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseRightClick</strong> <a class="anchor-link"
             href="#mouseRightClick"
-            title="Permalink to DisplayObjectContainerEvents.mouseRightClick">#</a>
+            title="Permalink to MovieClipEvents.mouseRightClick">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -331,7 +346,7 @@ EventListenerList get mouseRightClick =&gt; this[MouseEvent.RIGHT_CLICK];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseRightDown</strong> <a class="anchor-link"
             href="#mouseRightDown"
-            title="Permalink to DisplayObjectContainerEvents.mouseRightDown">#</a>
+            title="Permalink to MovieClipEvents.mouseRightDown">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -343,7 +358,7 @@ EventListenerList get mouseRightDown =&gt; this[MouseEvent.RIGHT_MOUSE_DOWN];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseRightUp</strong> <a class="anchor-link"
             href="#mouseRightUp"
-            title="Permalink to DisplayObjectContainerEvents.mouseRightUp">#</a>
+            title="Permalink to MovieClipEvents.mouseRightUp">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -355,7 +370,7 @@ EventListenerList get mouseRightUp =&gt; this[MouseEvent.RIGHT_MOUSE_UP];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseUp</strong> <a class="anchor-link"
             href="#mouseUp"
-            title="Permalink to DisplayObjectContainerEvents.mouseUp">#</a>
+            title="Permalink to MovieClipEvents.mouseUp">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -367,7 +382,7 @@ EventListenerList get mouseUp =&gt; this[MouseEvent.MOUSE_UP];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>mouseWheel</strong> <a class="anchor-link"
             href="#mouseWheel"
-            title="Permalink to DisplayObjectContainerEvents.mouseWheel">#</a>
+            title="Permalink to MovieClipEvents.mouseWheel">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -375,11 +390,23 @@ EventListenerList get mouseWheel =&gt; this[MouseEvent.MOUSE_WHEEL];
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="progress">
+<button class="show-code">Code</button>
+final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>progress</strong> <a class="anchor-link"
+            href="#progress"
+            title="Permalink to MovieClipEvents.progress">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+EventListenerList get progress =&gt; this[Event.PROGRESS];
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="removed">
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>removed</strong> <a class="anchor-link"
             href="#removed"
-            title="Permalink to DisplayObjectContainerEvents.removed">#</a>
+            title="Permalink to MovieClipEvents.removed">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectEvents.html">DisplayObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -391,7 +418,7 @@ EventListenerList get removed =&gt; this[Event.REMOVED];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>removedFromStage</strong> <a class="anchor-link"
             href="#removedFromStage"
-            title="Permalink to DisplayObjectContainerEvents.removedFromStage">#</a>
+            title="Permalink to MovieClipEvents.removedFromStage">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectEvents.html">DisplayObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -403,7 +430,7 @@ EventListenerList get removedFromStage =&gt; this[Event.REMOVED_FROM_STAGE];
 <button class="show-code">Code</button>
 final <a href="../dartflash/EventListenerList.html">EventListenerList</a>         <strong>textInput</strong> <a class="anchor-link"
             href="#textInput"
-            title="Permalink to DisplayObjectContainerEvents.textInput">#</a>
+            title="Permalink to MovieClipEvents.textInput">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObjectEvents.html">InteractiveObjectEvents</a> </div><div class="doc">
 <pre class="source">
@@ -417,7 +444,7 @@ EventListenerList get textInput =&gt; this[TextEvent.TEXT_INPUT];
 <div class="method inherited"><h4 id="[]">
 <button class="show-code">Code</button>
 <a href="../dartflash/EventListenerList.html">EventListenerList</a> <strong>operator []</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType) <a class="anchor-link" href="#[]"
-              title="Permalink to DisplayObjectContainerEvents.operator []">#</a></h4>
+              title="Permalink to MovieClipEvents.operator []">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/Events.html">Events</a> </div><div class="doc">
 <pre class="source">
 EventListenerList operator [](String eventType)
@@ -433,7 +460,7 @@ EventListenerList operator [](String eventType)
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-11-03 13:33:35.491</div>
+          <div>This page was generated at 2012-11-03 13:33:35.478</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

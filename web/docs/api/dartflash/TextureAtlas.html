@@ -51,6 +51,7 @@
 <li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -97,6 +99,7 @@
 <li><div class="icon-class"></div><strong>TextureAtlas</strong></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
 <li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
@@ -122,158 +125,141 @@
 <pre class="source">
 class TextureAtlas
 {
-  html.ImageElement _imageElement;
-  List&lt;TextureAtlasFrame&gt; _frames;
+ html.ImageElement _imageElement;
+ List&lt;TextureAtlasFrame&gt; _frames;
 
-  TextureAtlas()
-  {
-    _imageElement = new html.ImageElement();
-    _frames = new List&lt;TextureAtlasFrame&gt;();
-  }
+ TextureAtlas()
+ {
+   _imageElement = new html.ImageElement();
+   _frames = new List&lt;TextureAtlasFrame&gt;();
+ }
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat)
-  {
-    Completer&lt;TextureAtlas&gt; completer = new Completer&lt;TextureAtlas&gt;();
-    TextureAtlas textureAtlas = new TextureAtlas();
+ static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat)
+ {
+   Completer&lt;TextureAtlas&gt; completer = new Completer&lt;TextureAtlas&gt;();
+   TextureAtlas textureAtlas = new TextureAtlas();
 
-    switch(textureAtlasFormat)
-    {
-      case TextureAtlasFormat.JSON:
-      case TextureAtlasFormat.JSONARRAY:
+   switch(textureAtlasFormat)
+   {
+     case TextureAtlasFormat.JSON:
+     case TextureAtlasFormat.JSONARRAY:
 
-        var request = new html.HttpRequest();
+       var request = new html.HttpRequest();
 
-        request.open('GET', url, true);
+       request.open('GET', url, true);
 
-        request.on.load.add((event)
-        {
-          void parseFrame(String filename, Dynamic frame) {
-            var frameName = _getFilenameWithoutExtension(filename);
-            var taf = new TextureAtlasFrame(frameName, textureAtlas);
-            taf._frameX = frame["frame"]["x"].toInt();
-            taf._frameY = frame["frame"]["y"].toInt();
-            taf._frameWidth = frame["frame"]["w"].toInt();
-            taf._frameHeight = frame["frame"]["h"].toInt();
-            taf._offsetX = frame["spriteSourceSize"]["x"].toInt();
-            taf._offsetY = frame["spriteSourceSize"]["y"].toInt();
-            taf._originalWidth = frame["sourceSize"]["w"].toInt();
-            taf._originalHeight = frame["sourceSize"]["h"].toInt();
-            taf._rotated = frame["rotated"] as bool;
-            textureAtlas._frames.add(taf);
-          }
+       request.on.load.add((event)
+       {
+         void parseFrame(String filename, Map frame) {
+           var frameName = _getFilenameWithoutExtension(filename);
+           var taf = new TextureAtlasFrame(frameName, textureAtlas);
+           taf._frameX = frame["frame"]["x"].toInt();
+           taf._frameY = frame["frame"]["y"].toInt();
+           taf._frameWidth = frame["frame"]["w"].toInt();
+           taf._frameHeight = frame["frame"]["h"].toInt();
+           taf._offsetX = frame["spriteSourceSize"]["x"].toInt();
+           taf._offsetY = frame["spriteSourceSize"]["y"].toInt();
+           taf._originalWidth = frame["sourceSize"]["w"].toInt();
+           taf._originalHeight = frame["sourceSize"]["h"].toInt();
+           taf._rotated = frame["rotated"] as bool;
+           textureAtlas._frames.add(taf);
+         }
 
-          Dynamic data = JSON.parse(request.responseText);
-          Dynamic frames = data["frames"];
-          Dynamic meta = data["meta"];
+         var data = JSON.parse(request.responseText);
+         var frames = data["frames"];
+         var meta = data["meta"];
 
-          if (frames is List)
-            for(Dynamic frame in frames)
-              parseFrame(frame["filename"], frame);
+         if (frames is List)
+           for(var frame in frames)
+             parseFrame(frame["filename"], frame);
 
-          if (frames is Map)
-            for(String filename in frames.getKeys())
-               parseFrame(filename, frames[filename]);
+         if (frames is Map)
+           for(String filename in frames.getKeys())
+              parseFrame(filename, frames[filename]);
 
-          textureAtlas._imageElement.on.load.add((e) =&gt; completer.complete(textureAtlas));
-          textureAtlas._imageElement.on.error.add((e) =&gt; completer.completeException("Failed to load image."));
-          textureAtlas._imageElement.src = _replaceFilename(url, meta["image"]);
-        });
+         textureAtlas._imageElement.on.load.add((e) =&gt; completer.complete(textureAtlas));
+         textureAtlas._imageElement.on.error.add((e) =&gt; completer.completeException("Failed to load image."));
+         textureAtlas._imageElement.src = _replaceFilename(url, meta["image"]);
+       });
 
-        request.on.error.add((event) =&gt; completer.completeException("Failed to load json file."));
-        request.send();
+       request.on.error.add((event) =&gt; completer.completeException("Failed to load json file."));
+       request.send();
 
-        break;
-    }
+       break;
+   }
 
-    return completer.future;
-  }
+   return completer.future;
+ }
 
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  html.ImageElement get imageElement =&gt; _imageElement;
+ html.ImageElement get imageElement =&gt; _imageElement;
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  BitmapData getBitmapData(String name)
-  {
-    BitmapData bitmapData;
+ BitmapData getBitmapData(String name)
+ {
+   BitmapData bitmapData;
 
-    for(int i = 0; i &lt; _frames.length &amp;&amp; bitmapData == null; i++)
-      if (_frames[i].name == name)
-        bitmapData = new BitmapData.fromTextureAtlasFrame(_frames[i]);
+   for(int i = 0; i &lt; _frames.length &amp;&amp; bitmapData == null; i++)
+     if (_frames[i].name == name)
+       bitmapData = new BitmapData.fromTextureAtlasFrame(_frames[i]);
 
-    if (bitmapData == null)
-      throw new ArgumentError("TextureAtlasFrame not found: '$name'");
+   if (bitmapData == null)
+     throw new ArgumentError("TextureAtlasFrame not found: '$name'");
 
-    return bitmapData;
-  }
+   return bitmapData;
+ }
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  List&lt;BitmapData&gt; getBitmapDatas(String namePrefix)
-  {
-    List&lt;BitmapData&gt; bitmapDataList = new List&lt;BitmapData&gt;();
+ List&lt;BitmapData&gt; getBitmapDatas(String namePrefix)
+ {
+   List&lt;BitmapData&gt; bitmapDataList = new List&lt;BitmapData&gt;();
 
-    for(int i = 0; i &lt; _frames.length; i++)
-      if (_frames[i].name.indexOf(namePrefix) == 0)
-        bitmapDataList.add(new BitmapData.fromTextureAtlasFrame(_frames[i]));
+   for(int i = 0; i &lt; _frames.length; i++)
+     if (_frames[i].name.indexOf(namePrefix) == 0)
+       bitmapDataList.add(new BitmapData.fromTextureAtlasFrame(_frames[i]));
 
-    return bitmapDataList;
-  }
+   return bitmapDataList;
+ }
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  List&lt;String&gt; get frameNames
-  {
-    List&lt;String&gt; names = new List&lt;String&gt;();
+ List&lt;String&gt; get frameNames
+ {
+   List&lt;String&gt; names = new List&lt;String&gt;();
 
-    for(int i = 0; i &lt; _frames.length; i++)
-      names.add(_frames[i].name);
+   for(int i = 0; i &lt; _frames.length; i++)
+     names.add(_frames[i].name);
 
-    return names;
-  }
+   return names;
+ }
 
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  static String _getFilenameWithoutExtension(String filename)
-  {
-    RegExp regex = const RegExp(r"(.+?)(\.[^.]*$|$)", multiLine:false, ignoreCase:true);
-    Match match = regex.firstMatch(filename);
-    return match.group(1);
-  }
+ static String _getFilenameWithoutExtension(String filename)
+ {
+   RegExp regex = const RegExp(r"(.+?)(\.[^.]*$|$)", multiLine:false, ignoreCase:true);
+   Match match = regex.firstMatch(filename);
+   return match.group(1);
+ }
 
-  static String _replaceFilename(String url, String filename)
-  {
-    RegExp regex = const RegExp(r"^(.*/)?(?:$|(.+?)(?:(\.[^.]*$)|$))", multiLine:false, ignoreCase:true);
-    Match match = regex.firstMatch(url);
-    String path = match.group(1);
-    return (path == null) ? filename : "$path$filename";
-  }
+ static String _replaceFilename(String url, String filename)
+ {
+   RegExp regex = const RegExp(r"^(.*/)?(?:$|(.+?)(?:(\.[^.]*$)|$))", multiLine:false, ignoreCase:true);
+   Match match = regex.firstMatch(url);
+   String path = match.group(1);
+   return (path == null) ? filename : "$path$filename";
+ }
 
 
 }
 </pre>
-</div>
-<div>
-<h3>Constructors</h3>
-<div class="method"><h4 id="TextureAtlas">
-<button class="show-code">Code</button>
-new <strong>TextureAtlas</strong>() <a class="anchor-link" href="#TextureAtlas"
-              title="Permalink to TextureAtlas.TextureAtlas">#</a></h4>
-<div class="doc">
-<pre class="source">
-TextureAtlas()
-{
-  _imageElement = new html.ImageElement();
-  _frames = new List&lt;TextureAtlasFrame&gt;();
-}
-</pre>
-</div>
-</div>
 </div>
 <div>
 <h3>Static Methods</h3>
@@ -285,59 +271,76 @@ TextureAtlas()
 <pre class="source">
 static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat)
 {
-  Completer&lt;TextureAtlas&gt; completer = new Completer&lt;TextureAtlas&gt;();
-  TextureAtlas textureAtlas = new TextureAtlas();
+ Completer&lt;TextureAtlas&gt; completer = new Completer&lt;TextureAtlas&gt;();
+ TextureAtlas textureAtlas = new TextureAtlas();
 
-  switch(textureAtlasFormat)
-  {
-    case TextureAtlasFormat.JSON:
-    case TextureAtlasFormat.JSONARRAY:
+ switch(textureAtlasFormat)
+ {
+   case TextureAtlasFormat.JSON:
+   case TextureAtlasFormat.JSONARRAY:
 
-      var request = new html.HttpRequest();
+     var request = new html.HttpRequest();
 
-      request.open('GET', url, true);
+     request.open('GET', url, true);
 
-      request.on.load.add((event)
-      {
-        void parseFrame(String filename, Dynamic frame) {
-          var frameName = _getFilenameWithoutExtension(filename);
-          var taf = new TextureAtlasFrame(frameName, textureAtlas);
-          taf._frameX = frame["frame"]["x"].toInt();
-          taf._frameY = frame["frame"]["y"].toInt();
-          taf._frameWidth = frame["frame"]["w"].toInt();
-          taf._frameHeight = frame["frame"]["h"].toInt();
-          taf._offsetX = frame["spriteSourceSize"]["x"].toInt();
-          taf._offsetY = frame["spriteSourceSize"]["y"].toInt();
-          taf._originalWidth = frame["sourceSize"]["w"].toInt();
-          taf._originalHeight = frame["sourceSize"]["h"].toInt();
-          taf._rotated = frame["rotated"] as bool;
-          textureAtlas._frames.add(taf);
-        }
+     request.on.load.add((event)
+     {
+       void parseFrame(String filename, Map frame) {
+         var frameName = _getFilenameWithoutExtension(filename);
+         var taf = new TextureAtlasFrame(frameName, textureAtlas);
+         taf._frameX = frame["frame"]["x"].toInt();
+         taf._frameY = frame["frame"]["y"].toInt();
+         taf._frameWidth = frame["frame"]["w"].toInt();
+         taf._frameHeight = frame["frame"]["h"].toInt();
+         taf._offsetX = frame["spriteSourceSize"]["x"].toInt();
+         taf._offsetY = frame["spriteSourceSize"]["y"].toInt();
+         taf._originalWidth = frame["sourceSize"]["w"].toInt();
+         taf._originalHeight = frame["sourceSize"]["h"].toInt();
+         taf._rotated = frame["rotated"] as bool;
+         textureAtlas._frames.add(taf);
+       }
 
-        Dynamic data = JSON.parse(request.responseText);
-        Dynamic frames = data["frames"];
-        Dynamic meta = data["meta"];
+       var data = JSON.parse(request.responseText);
+       var frames = data["frames"];
+       var meta = data["meta"];
 
-        if (frames is List)
-          for(Dynamic frame in frames)
-            parseFrame(frame["filename"], frame);
+       if (frames is List)
+         for(var frame in frames)
+           parseFrame(frame["filename"], frame);
 
-        if (frames is Map)
-          for(String filename in frames.getKeys())
-             parseFrame(filename, frames[filename]);
+       if (frames is Map)
+         for(String filename in frames.getKeys())
+            parseFrame(filename, frames[filename]);
 
-        textureAtlas._imageElement.on.load.add((e) =&gt; completer.complete(textureAtlas));
-        textureAtlas._imageElement.on.error.add((e) =&gt; completer.completeException("Failed to load image."));
-        textureAtlas._imageElement.src = _replaceFilename(url, meta["image"]);
-      });
+       textureAtlas._imageElement.on.load.add((e) =&gt; completer.complete(textureAtlas));
+       textureAtlas._imageElement.on.error.add((e) =&gt; completer.completeException("Failed to load image."));
+       textureAtlas._imageElement.src = _replaceFilename(url, meta["image"]);
+     });
 
-      request.on.error.add((event) =&gt; completer.completeException("Failed to load json file."));
-      request.send();
+     request.on.error.add((event) =&gt; completer.completeException("Failed to load json file."));
+     request.send();
 
-      break;
-  }
+     break;
+ }
 
-  return completer.future;
+ return completer.future;
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="TextureAtlas">
+<button class="show-code">Code</button>
+new <strong>TextureAtlas</strong>() <a class="anchor-link" href="#TextureAtlas"
+              title="Permalink to TextureAtlas.TextureAtlas">#</a></h4>
+<div class="doc">
+<pre class="source">
+TextureAtlas()
+{
+ _imageElement = new html.ImageElement();
+ _frames = new List&lt;TextureAtlasFrame&gt;();
 }
 </pre>
 </div>
@@ -355,12 +358,12 @@ final <a href="http://api.dartlang.org/dart_core/List.html">List</a>&lt;<a href=
 <pre class="source">
 List&lt;String&gt; get frameNames
 {
-  List&lt;String&gt; names = new List&lt;String&gt;();
+ List&lt;String&gt; names = new List&lt;String&gt;();
 
-  for(int i = 0; i &lt; _frames.length; i++)
-    names.add(_frames[i].name);
+ for(int i = 0; i &lt; _frames.length; i++)
+   names.add(_frames[i].name);
 
-  return names;
+ return names;
 }
 </pre>
 </div>
@@ -377,38 +380,6 @@ html.ImageElement get imageElement =&gt; _imageElement;
 </pre>
 </div>
 </div>
-<div class="field inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
-            href="#runtimeType"
-            title="Permalink to TextureAtlas.runtimeType">#</a>
-        </h4>
-        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
-</pre>
-</div>
-</div>
-</div>
-<div>
-<h3>Operators</h3>
-<div class="method inherited"><h4 id="==">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
-              title="Permalink to TextureAtlas.operator ==">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>The equality operator.</p>
-<p>The default behavior for all <code>Object</code>s is to return true if and
-only if <code>this</code> and 
-<span class="param">other</span> are the same object.</p>
-<p>If a subclass overrides the equality operator it should override
-the <code>hashCode</code> method as well to maintain consistency.</p>
-<pre class="source">
-bool operator ==(other) =&gt; identical(this, other);
-</pre>
-</div>
-</div>
 </div>
 <div>
 <h3>Methods</h3>
@@ -420,16 +391,16 @@ bool operator ==(other) =&gt; identical(this, other);
 <pre class="source">
 BitmapData getBitmapData(String name)
 {
-  BitmapData bitmapData;
+ BitmapData bitmapData;
 
-  for(int i = 0; i &lt; _frames.length &amp;&amp; bitmapData == null; i++)
-    if (_frames[i].name == name)
-      bitmapData = new BitmapData.fromTextureAtlasFrame(_frames[i]);
+ for(int i = 0; i &lt; _frames.length &amp;&amp; bitmapData == null; i++)
+   if (_frames[i].name == name)
+     bitmapData = new BitmapData.fromTextureAtlasFrame(_frames[i]);
 
-  if (bitmapData == null)
-    throw new ArgumentError("TextureAtlasFrame not found: '$name'");
+ if (bitmapData == null)
+   throw new ArgumentError("TextureAtlasFrame not found: '$name'");
 
-  return bitmapData;
+ return bitmapData;
 }
 </pre>
 </div>
@@ -442,88 +413,14 @@ BitmapData getBitmapData(String name)
 <pre class="source">
 List&lt;BitmapData&gt; getBitmapDatas(String namePrefix)
 {
-  List&lt;BitmapData&gt; bitmapDataList = new List&lt;BitmapData&gt;();
+ List&lt;BitmapData&gt; bitmapDataList = new List&lt;BitmapData&gt;();
 
-  for(int i = 0; i &lt; _frames.length; i++)
-    if (_frames[i].name.indexOf(namePrefix) == 0)
-      bitmapDataList.add(new BitmapData.fromTextureAtlasFrame(_frames[i]));
+ for(int i = 0; i &lt; _frames.length; i++)
+   if (_frames[i].name.indexOf(namePrefix) == 0)
+     bitmapDataList.add(new BitmapData.fromTextureAtlasFrame(_frames[i]));
 
-  return bitmapDataList;
+ return bitmapDataList;
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="hashCode">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
-              title="Permalink to TextureAtlas.hashCode">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Get a hash code for this object.</p>
-<p>All objects have hash codes. Hash codes are guaranteed to be the
-same for objects that are equal when compared using the equality
-operator <code>==</code>. Other than that there are no guarantees about
-the hash codes. They will not be consistent between runs and
-there are no distribution guarantees.</p>
-<p>If a subclass overrides <code>hashCode</code> it should override the
-equality operator as well to maintain consistency.</p>
-<pre class="source">
-external int hashCode();
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="noSuchMethod">
-<button class="show-code">Code</button>
-<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
-              title="Permalink to TextureAtlas.noSuchMethod">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
-on an object. The name of the method and the arguments of the
-invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
-returns a value, that value becomes the result of the original
-invocation.</p>
-<p>The default behavior of <code>noSuchMethod</code> is to throw a
-<code>noSuchMethodError</code>.</p>
-<pre class="source">
-external Dynamic noSuchMethod(String name, List args);
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="Object">
-<button class="show-code">Code</button>
-const <strong>Object</strong>() <a class="anchor-link" href="#Object"
-              title="Permalink to TextureAtlas.Object">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Creates a new <code>Object</code> instance.</p>
-<p><code>Object</code> instances have no meaningful state, and are only useful
-through their identity. An <code>Object</code> instance is equal to itself
-only.</p>
-<pre class="source">
-const Object();
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="TextureAtlas">
-<button class="show-code">Code</button>
-new <strong>TextureAtlas</strong>() <a class="anchor-link" href="#TextureAtlas"
-              title="Permalink to TextureAtlas.TextureAtlas">#</a></h4>
-<div class="doc">
-<pre class="source">
-TextureAtlas()
-{
-  _imageElement = new html.ImageElement();
-  _frames = new List&lt;TextureAtlasFrame&gt;();
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="toString">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
-              title="Permalink to TextureAtlas.toString">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Returns a string representation of this object.</p>
-<pre class="source">
-external String toString();
 </pre>
 </div>
 </div>
@@ -533,7 +430,7 @@ external String toString();
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-13 21:36:08.396</div>
+          <div>This page was generated at 2012-11-03 13:33:35.127</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

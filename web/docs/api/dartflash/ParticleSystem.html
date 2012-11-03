@@ -51,6 +51,7 @@
 <li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><div class="icon-class"></div><strong>ParticleSystem</strong></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -97,6 +99,7 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
 <li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
@@ -122,332 +125,332 @@
 <pre class="source">
 class ParticleSystem extends DisplayObject implements Animatable
 {
-  Random _random;
-  List&lt;_Particle&gt; _particles;
-  int _particleCount;
-  html.CanvasElement _particleCanvas;
-  num _frameTime;
-  num _emissionTime;
-
-  static const int EMITTER_TYPE_GRAVITY = 0;
-  static const int EMITTER_TYPE_RADIAL = 1;
-
-  // emitter configuration
-  int emitterType;
-  num emitterX, emitterY;
-  num emitterXVariance, emitterYVariance;
-
-  // particle configuration
-  int maxNumParticles;
-  num lifespan, lifespanVariance;
-  num startSize, startSizeVariance;
-  num endSize, endSizeVariance;
-  num emitAngle, emitAngleVariance;
-
-  // gravity configuration
-  num gravityX, gravityY;
-  num speed, speedVariance;
-  num radialAcceleration, radialAccelerationVariance;
-  num tangentialAcceleration, tangentialAccelerationVariance;
-
-  // radial configuration
-  num minRadius;
-  num maxRadius, maxRadiusVariance;
-  num rotatePerSecond, rotatePerSecondVariance;
-
-  // color configuration
-  _ParticleColor startColor;
-  _ParticleColor endColor;
-
-  //-------------------------------------------------------------------------------------------------
-
-  ParticleSystem(String jsonConfig)
-  {
-    _random = new Random();
-    _emissionTime = 0.0;
-    _frameTime = 0.0;
-
-    _particles = new List&lt;_Particle&gt;();
-    _particleCount = 0;
-
-    var pex = JSON.parse(jsonConfig);
-
-    emitterType = pex["emitterType"].toInt();
-    emitterX = pex["sourcePosition"]["x"] as num;
-    emitterY = pex["sourcePosition"]["y"] as num;
-    emitterXVariance = pex["sourcePositionVariance"]["x"] as num;
-    emitterYVariance = pex["sourcePositionVariance"]["y"] as num;
-
-    maxNumParticles = pex["maxParticles"].toInt();
-    lifespan = max(0.01, pex["particleLifeSpan"] as num);
-    lifespanVariance = pex["particleLifespanVariance"] as num;
-    startSize = pex["startParticleSize"] as num;
-    startSizeVariance = pex["startParticleSizeVariance"] as num;
-    endSize = pex["finishParticleSize"] as num;
-    endSizeVariance = pex["FinishParticleSizeVariance"] as num;
-    emitAngle = (pex["angle"] as num) * PI / 180.0;
-    emitAngleVariance = (pex["angleVariance"] as num) * PI / 180.0;
-
-    gravityX = pex["gravity"]["x"] as num;
-    gravityY = pex["gravity"]["y"] as num;
-    speed = pex["speed"] as num;
-    speedVariance = pex["speedVariance"] as num;
-    radialAcceleration = pex["radialAcceleration"] as num;
-    radialAccelerationVariance = pex["radialAccelVariance"] as num;
-    tangentialAcceleration = pex["tangentialAcceleration"] as num;
-    tangentialAccelerationVariance = pex["tangentialAccelVariance"] as num;
-
-    minRadius = pex["minRadius"] as num;
-    maxRadius = pex["maxRadius"] as num;
-    maxRadiusVariance = pex["maxRadiusVariance"] as num;
-    rotatePerSecond = (pex["rotatePerSecond"] as num) * PI / 180.0;
-    rotatePerSecondVariance = (pex["rotatePerSecondVariance"] as num) * PI / 180.0;
-
-    startColor = new _ParticleColor.fromJSON(pex["startColor"]);
-    endColor = new _ParticleColor.fromJSON(pex["finishColor"]);
-
-    _drawParticleCanvas();
-  }
-
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
-
-  void _drawParticleCanvas()
-  {
-    _particleCanvas = new html.CanvasElement(256, 256);
-    var context = _particleCanvas.context2d;
-
-    for(int i = 0; i&lt; 64; i++)
-    {
-      var radius = 15;
-      num targetX = (i  % 8) * 32 + 15.5;
-      num targetY = (i ~/ 8) * 32 + 15.5;
-
-      num colorRed   = startColor.red   + i * (endColor.red    - startColor.red ) / 63;
-      num colorGreen = startColor.green + i * (endColor.green - startColor.green) / 63;
-      num colorBlue  = startColor.blue  + i * (endColor.blue  - startColor.blue ) / 63;
-      num colorAlpha = startColor.alpha + i * (endColor.alpha - startColor.alpha) / 63;
-
-      int cRed = (255.0 * colorRed).toInt();
-      int cGreen = (255.0 * colorGreen).toInt();
-      int cBlue = (255.0 * colorBlue).toInt();
-      int cAlpha = (255.0 * colorAlpha).toInt();
-
-      if (cRed &lt; 0) cRed = 0; else if (cRed &gt; 255) cRed = 255;
-      if (cGreen &lt; 0) cGreen = 0; else if (cGreen &gt; 255) cGreen = 255;
-      if (cBlue &lt; 0) cBlue = 0; else if (cBlue &gt; 255) cBlue = 255;
-      if (cAlpha &lt; 0) cAlpha = 0; else if (cAlpha &gt; 255) cAlpha = 255;
-
-      var gradient = context.createRadialGradient(targetX, targetY, 0, targetX, targetY, radius);
-      gradient.addColorStop(0.0, "rgba($cRed, $cGreen, $cBlue, ${cAlpha / 255.0})");
-      gradient.addColorStop(1.0, "rgba($cRed, $cGreen, $cBlue, 0.0)");
-
-      context.beginPath();
-      context.moveTo(targetX + radius, targetY);
-      context.arc(targetX, targetY, radius, 0, PI * 2.0, false);
-      context.fillStyle = gradient;
-      context.fill();
-    }
-  }
-
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
-
-  void _initParticle(_Particle particle)
-  {
-    particle.currentTime = 0.0;
-    particle.totalTime = lifespan + lifespanVariance * (_random.nextDouble() * 2.0 - 1.0);
-
-    if (particle.totalTime &lt;= 0.0) return;
-
-    particle.x = emitterX + emitterXVariance * (_random.nextDouble() * 2.0 - 1.0);
-    particle.y = emitterY + emitterYVariance * (_random.nextDouble() * 2.0 - 1.0);
-    particle.startX = emitterX;
-    particle.startY = emitterY;
-
-    num angle = emitAngle + emitAngleVariance * (_random.nextDouble() * 2.0 - 1.0);
-    num velocity = speed + speedVariance * (_random.nextDouble() * 2.0 - 1.0);
-    particle.velocityX = velocity * cos(angle);
-    particle.velocityY = velocity * sin(angle);
-
-    particle.emitRadius = maxRadius + maxRadiusVariance * (_random.nextDouble() * 2.0 - 1.0);
-    particle.emitRadiusDelta = maxRadius / particle.totalTime;
-    particle.emitRotation = emitAngle + emitAngleVariance * (_random.nextDouble() * 2.0 - 1.0);
-    particle.emitRotationDelta = rotatePerSecond + rotatePerSecondVariance * (_random.nextDouble() * 2.0 - 1.0);
-    particle.radialAcceleration = radialAcceleration + radialAccelerationVariance * (_random.nextDouble() * 2.0 - 1.0);
-    particle.tangentialAcceleration = tangentialAcceleration + tangentialAccelerationVariance * (_random.nextDouble() * 2.0 - 1.0);
-
-    num size1 = startSize + startSizeVariance * (_random.nextDouble() * 2.0 - 1.0);
-    num size2 = endSize + endSizeVariance * (_random.nextDouble() * 2.0 - 1.0);
-    if (size1 &lt; 0.1) size1 = 0.1;
-    if (size2 &lt; 0.1) size2 = 0.1;
-    particle.size = size1;
-    particle.sizeDelta = (size2 - size1) / particle.totalTime;
-
-    // colors
-    /*
-    ParticleColor color = particle.color;
-    ParticleColor colorDelta = particle.colorDelta;
-
-    color.red   = startColor.red;
-    color.green = startColor.green;
-    color.blue  = startColor.blue;
-    color.alpha = startColor.alpha;
-
-    colorDelta.red   = (endColor.red   - startColor.red)   / particle.totalTime;
-    colorDelta.green = (endColor.green - startColor.green) / particle.totalTime;
-    colorDelta.blue  = (endColor.blue  - startColor.blue)  / particle.totalTime;
-    colorDelta.alpha = (endColor.alpha - startColor.alpha) / particle.totalTime;
-    */
-  }
-
-  //-------------------------------------------------------------------------------------------------
-
-  void _advanceParticle(_Particle particle, num passedTime)
-  {
-    num restTime = particle.totalTime - particle.currentTime;
-    passedTime = (restTime &gt; passedTime) ? passedTime : restTime;
-    particle.currentTime += passedTime;
-
-    if (emitterType == EMITTER_TYPE_RADIAL)
-    {
-      particle.emitRotation += particle.emitRotationDelta * passedTime;
-      particle.emitRadius   -= particle.emitRadiusDelta   * passedTime;
-      particle.x = emitterX - cos(particle.emitRotation) * particle.emitRadius;
-      particle.y = emitterY - sin(particle.emitRotation) * particle.emitRadius;
-
-      if (particle.emitRadius &lt; minRadius)
-        particle.currentTime = particle.totalTime;
-    }
-    else
-    {
-      num distanceX = particle.x - particle.startX;
-      num distanceY = particle.y - particle.startY;
-      num distanceScalar = sqrt(distanceX * distanceX + distanceY * distanceY);
-      if (distanceScalar &lt; 0.01) distanceScalar = 0.01;
-      distanceX = distanceX / distanceScalar;
-      distanceY = distanceY / distanceScalar;
-
-      particle.velocityX += passedTime * (gravityX + distanceX * particle.radialAcceleration - distanceY * particle.tangentialAcceleration);
-      particle.velocityY += passedTime * (gravityY + distanceY * particle.radialAcceleration + distanceX * particle.tangentialAcceleration);
-      particle.x += particle.velocityX * passedTime;
-      particle.y += particle.velocityY * passedTime;
-    }
-
-    particle.size += particle.sizeDelta * passedTime;
-
-    /*
-    ParticleColor color = particle.color;
-    ParticleColor colorDelta = particle.colorDelta;
-    color.red   += colorDelta.red   * passedTime;
-    color.green += colorDelta.green * passedTime;
-    color.blue  += colorDelta.blue  * passedTime;
-    color.alpha += colorDelta.alpha * passedTime;
-    */
-  }
-
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
-
-  void start([num duration = double.INFINITY])
-  {
-    _emissionTime = duration;
-  }
-
-  void stop(bool clear)
-  {
-    _emissionTime = 0.0;
-
-    if (clear)
-      _particleCount = 0;
-  }
-
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
-
-  bool advanceTime(num passedTime)
-  {
-    int particleIndex = 0;
-
-    //--------------------------------------------------------
-    // advance existing particles
-
-    while (particleIndex &lt; _particleCount)
-    {
-      _Particle particle = _particles[particleIndex];
-
-      if (particle.currentTime &lt; particle.totalTime)
-      {
-        _advanceParticle(particle, passedTime);
-        particleIndex++;
-      }
-      else
-      {
-        var swapParticle = _particles[_particleCount - 1];
-        _particles[_particleCount - 1] = particle;
-        _particles[particleIndex] = swapParticle;
-        _particleCount--;
-      }
-    }
-
-    //--------------------------------------------------------
-    // create and advance new particles
-
-    if (_emissionTime &gt; 0.0)
-    {
-      num timeBetweenParticles = lifespan / maxNumParticles;
-      _frameTime += passedTime;
-
-      while (_frameTime &gt; 0.0)
-      {
-        if (_particleCount &lt; maxNumParticles)
-        {
-          if (_particleCount &gt;= _particles.length)
-            _particles.add(new _Particle());
-
-          var particle = _particles[_particleCount++];
-          _initParticle(particle);
-          _advanceParticle(particle, _frameTime);
-        }
-
-        _frameTime -= timeBetweenParticles;
-      }
-
-      _emissionTime = max(0.0, _emissionTime - passedTime);
-    }
-
-    //--------------------------------------------------------
-
-    return (_particleCount &gt; 0);
-  }
-
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
-
-  void render(RenderState renderState)
-  {
-    var context = renderState.context;
-
-    context.save();
-    context.globalCompositeOperation = "lighter";
-
-    for(int i = 0; i &lt; _particleCount; i++)
-    {
-      var particle = _particles[i];
-
-      int time = ((particle.currentTime / particle.totalTime) * 63).toInt();
-      int sourceX = (time  % 8) * 32;
-      int sourceY = (time ~/ 8) * 32;
-
-      int targetSize = particle.size.toInt();
-      int targetX = (particle.x - targetSize / 2.0).toInt();
-      int targetY = (particle.y - targetSize / 2.0).toInt();
-
-      context.drawImage(_particleCanvas, sourceX, sourceY, 32, 32, targetX, targetY, targetSize, targetSize);
-    }
-
-    context.restore();
-  }
+ Random _random;
+ List&lt;_Particle&gt; _particles;
+ int _particleCount;
+ html.CanvasElement _particleCanvas;
+ num _frameTime;
+ num _emissionTime;
+
+ static const int EMITTER_TYPE_GRAVITY = 0;
+ static const int EMITTER_TYPE_RADIAL = 1;
+
+ // emitter configuration
+ int emitterType;
+ num emitterX, emitterY;
+ num emitterXVariance, emitterYVariance;
+
+ // particle configuration
+ int maxNumParticles;
+ num lifespan, lifespanVariance;
+ num startSize, startSizeVariance;
+ num endSize, endSizeVariance;
+ num emitAngle, emitAngleVariance;
+
+ // gravity configuration
+ num gravityX, gravityY;
+ num speed, speedVariance;
+ num radialAcceleration, radialAccelerationVariance;
+ num tangentialAcceleration, tangentialAccelerationVariance;
+
+ // radial configuration
+ num minRadius;
+ num maxRadius, maxRadiusVariance;
+ num rotatePerSecond, rotatePerSecondVariance;
+
+ // color configuration
+ _ParticleColor startColor;
+ _ParticleColor endColor;
+
+ //-------------------------------------------------------------------------------------------------
+
+ ParticleSystem(String jsonConfig)
+ {
+   _random = new Random();
+   _emissionTime = 0.0;
+   _frameTime = 0.0;
+
+   _particles = new List&lt;_Particle&gt;();
+   _particleCount = 0;
+
+   var pex = JSON.parse(jsonConfig);
+
+   emitterType = pex["emitterType"].toInt();
+   emitterX = pex["sourcePosition"]["x"] as num;
+   emitterY = pex["sourcePosition"]["y"] as num;
+   emitterXVariance = pex["sourcePositionVariance"]["x"] as num;
+   emitterYVariance = pex["sourcePositionVariance"]["y"] as num;
+
+   maxNumParticles = pex["maxParticles"].toInt();
+   lifespan = max(0.01, pex["particleLifeSpan"] as num);
+   lifespanVariance = pex["particleLifespanVariance"] as num;
+   startSize = pex["startParticleSize"] as num;
+   startSizeVariance = pex["startParticleSizeVariance"] as num;
+   endSize = pex["finishParticleSize"] as num;
+   endSizeVariance = pex["FinishParticleSizeVariance"] as num;
+   emitAngle = (pex["angle"] as num) * PI / 180.0;
+   emitAngleVariance = (pex["angleVariance"] as num) * PI / 180.0;
+
+   gravityX = pex["gravity"]["x"] as num;
+   gravityY = pex["gravity"]["y"] as num;
+   speed = pex["speed"] as num;
+   speedVariance = pex["speedVariance"] as num;
+   radialAcceleration = pex["radialAcceleration"] as num;
+   radialAccelerationVariance = pex["radialAccelVariance"] as num;
+   tangentialAcceleration = pex["tangentialAcceleration"] as num;
+   tangentialAccelerationVariance = pex["tangentialAccelVariance"] as num;
+
+   minRadius = pex["minRadius"] as num;
+   maxRadius = pex["maxRadius"] as num;
+   maxRadiusVariance = pex["maxRadiusVariance"] as num;
+   rotatePerSecond = (pex["rotatePerSecond"] as num) * PI / 180.0;
+   rotatePerSecondVariance = (pex["rotatePerSecondVariance"] as num) * PI / 180.0;
+
+   startColor = new _ParticleColor.fromJSON(pex["startColor"]);
+   endColor = new _ParticleColor.fromJSON(pex["finishColor"]);
+
+   _drawParticleCanvas();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void _drawParticleCanvas()
+ {
+   _particleCanvas = new html.CanvasElement(width: 256, height: 256);
+   var context = _particleCanvas.context2d;
+
+   for(int i = 0; i&lt; 64; i++)
+   {
+     var radius = 15;
+     num targetX = (i  % 8) * 32 + 15.5;
+     num targetY = (i ~/ 8) * 32 + 15.5;
+
+     num colorRed   = startColor.red   + i * (endColor.red    - startColor.red ) / 63;
+     num colorGreen = startColor.green + i * (endColor.green - startColor.green) / 63;
+     num colorBlue  = startColor.blue  + i * (endColor.blue  - startColor.blue ) / 63;
+     num colorAlpha = startColor.alpha + i * (endColor.alpha - startColor.alpha) / 63;
+
+     int cRed = (255.0 * colorRed).toInt();
+     int cGreen = (255.0 * colorGreen).toInt();
+     int cBlue = (255.0 * colorBlue).toInt();
+     int cAlpha = (255.0 * colorAlpha).toInt();
+
+     if (cRed &lt; 0) cRed = 0; else if (cRed &gt; 255) cRed = 255;
+     if (cGreen &lt; 0) cGreen = 0; else if (cGreen &gt; 255) cGreen = 255;
+     if (cBlue &lt; 0) cBlue = 0; else if (cBlue &gt; 255) cBlue = 255;
+     if (cAlpha &lt; 0) cAlpha = 0; else if (cAlpha &gt; 255) cAlpha = 255;
+
+     var gradient = context.createRadialGradient(targetX, targetY, 0, targetX, targetY, radius);
+     gradient.addColorStop(0.0, "rgba($cRed, $cGreen, $cBlue, ${cAlpha / 255.0})");
+     gradient.addColorStop(1.0, "rgba($cRed, $cGreen, $cBlue, 0.0)");
+
+     context.beginPath();
+     context.moveTo(targetX + radius, targetY);
+     context.arc(targetX, targetY, radius, 0, PI * 2.0, false);
+     context.fillStyle = gradient;
+     context.fill();
+   }
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void _initParticle(_Particle particle)
+ {
+   particle.currentTime = 0.0;
+   particle.totalTime = lifespan + lifespanVariance * (_random.nextDouble() * 2.0 - 1.0);
+
+   if (particle.totalTime &lt;= 0.0) return;
+
+   particle.x = emitterX + emitterXVariance * (_random.nextDouble() * 2.0 - 1.0);
+   particle.y = emitterY + emitterYVariance * (_random.nextDouble() * 2.0 - 1.0);
+   particle.startX = emitterX;
+   particle.startY = emitterY;
+
+   num angle = emitAngle + emitAngleVariance * (_random.nextDouble() * 2.0 - 1.0);
+   num velocity = speed + speedVariance * (_random.nextDouble() * 2.0 - 1.0);
+   particle.velocityX = velocity * cos(angle);
+   particle.velocityY = velocity * sin(angle);
+
+   particle.emitRadius = maxRadius + maxRadiusVariance * (_random.nextDouble() * 2.0 - 1.0);
+   particle.emitRadiusDelta = maxRadius / particle.totalTime;
+   particle.emitRotation = emitAngle + emitAngleVariance * (_random.nextDouble() * 2.0 - 1.0);
+   particle.emitRotationDelta = rotatePerSecond + rotatePerSecondVariance * (_random.nextDouble() * 2.0 - 1.0);
+   particle.radialAcceleration = radialAcceleration + radialAccelerationVariance * (_random.nextDouble() * 2.0 - 1.0);
+   particle.tangentialAcceleration = tangentialAcceleration + tangentialAccelerationVariance * (_random.nextDouble() * 2.0 - 1.0);
+
+   num size1 = startSize + startSizeVariance * (_random.nextDouble() * 2.0 - 1.0);
+   num size2 = endSize + endSizeVariance * (_random.nextDouble() * 2.0 - 1.0);
+   if (size1 &lt; 0.1) size1 = 0.1;
+   if (size2 &lt; 0.1) size2 = 0.1;
+   particle.size = size1;
+   particle.sizeDelta = (size2 - size1) / particle.totalTime;
+
+   // colors
+   /*
+   ParticleColor color = particle.color;
+   ParticleColor colorDelta = particle.colorDelta;
+
+   color.red   = startColor.red;
+   color.green = startColor.green;
+   color.blue  = startColor.blue;
+   color.alpha = startColor.alpha;
+
+   colorDelta.red   = (endColor.red   - startColor.red)   / particle.totalTime;
+   colorDelta.green = (endColor.green - startColor.green) / particle.totalTime;
+   colorDelta.blue  = (endColor.blue  - startColor.blue)  / particle.totalTime;
+   colorDelta.alpha = (endColor.alpha - startColor.alpha) / particle.totalTime;
+   */
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void _advanceParticle(_Particle particle, num passedTime)
+ {
+   num restTime = particle.totalTime - particle.currentTime;
+   passedTime = (restTime &gt; passedTime) ? passedTime : restTime;
+   particle.currentTime += passedTime;
+
+   if (emitterType == EMITTER_TYPE_RADIAL)
+   {
+     particle.emitRotation += particle.emitRotationDelta * passedTime;
+     particle.emitRadius   -= particle.emitRadiusDelta   * passedTime;
+     particle.x = emitterX - cos(particle.emitRotation) * particle.emitRadius;
+     particle.y = emitterY - sin(particle.emitRotation) * particle.emitRadius;
+
+     if (particle.emitRadius &lt; minRadius)
+       particle.currentTime = particle.totalTime;
+   }
+   else
+   {
+     num distanceX = particle.x - particle.startX;
+     num distanceY = particle.y - particle.startY;
+     num distanceScalar = sqrt(distanceX * distanceX + distanceY * distanceY);
+     if (distanceScalar &lt; 0.01) distanceScalar = 0.01;
+     distanceX = distanceX / distanceScalar;
+     distanceY = distanceY / distanceScalar;
+
+     particle.velocityX += passedTime * (gravityX + distanceX * particle.radialAcceleration - distanceY * particle.tangentialAcceleration);
+     particle.velocityY += passedTime * (gravityY + distanceY * particle.radialAcceleration + distanceX * particle.tangentialAcceleration);
+     particle.x += particle.velocityX * passedTime;
+     particle.y += particle.velocityY * passedTime;
+   }
+
+   particle.size += particle.sizeDelta * passedTime;
+
+   /*
+   ParticleColor color = particle.color;
+   ParticleColor colorDelta = particle.colorDelta;
+   color.red   += colorDelta.red   * passedTime;
+   color.green += colorDelta.green * passedTime;
+   color.blue  += colorDelta.blue  * passedTime;
+   color.alpha += colorDelta.alpha * passedTime;
+   */
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void start([num duration = double.INFINITY])
+ {
+   _emissionTime = duration;
+ }
+
+ void stop(bool clear)
+ {
+   _emissionTime = 0.0;
+
+   if (clear)
+     _particleCount = 0;
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ bool advanceTime(num passedTime)
+ {
+   int particleIndex = 0;
+
+   //--------------------------------------------------------
+   // advance existing particles
+
+   while (particleIndex &lt; _particleCount)
+   {
+     _Particle particle = _particles[particleIndex];
+
+     if (particle.currentTime &lt; particle.totalTime)
+     {
+       _advanceParticle(particle, passedTime);
+       particleIndex++;
+     }
+     else
+     {
+       var swapParticle = _particles[_particleCount - 1];
+       _particles[_particleCount - 1] = particle;
+       _particles[particleIndex] = swapParticle;
+       _particleCount--;
+     }
+   }
+
+   //--------------------------------------------------------
+   // create and advance new particles
+
+   if (_emissionTime &gt; 0.0)
+   {
+     num timeBetweenParticles = lifespan / maxNumParticles;
+     _frameTime += passedTime;
+
+     while (_frameTime &gt; 0.0)
+     {
+       if (_particleCount &lt; maxNumParticles)
+       {
+         if (_particleCount &gt;= _particles.length)
+           _particles.add(new _Particle());
+
+         var particle = _particles[_particleCount++];
+         _initParticle(particle);
+         _advanceParticle(particle, _frameTime);
+       }
+
+       _frameTime -= timeBetweenParticles;
+     }
+
+     _emissionTime = max(0.0, _emissionTime - passedTime);
+   }
+
+   //--------------------------------------------------------
+
+   return (_particleCount &gt; 0);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void render(RenderState renderState)
+ {
+   var context = renderState.context;
+
+   context.save();
+   context.globalCompositeOperation = "lighter";
+
+   for(int i = 0; i &lt; _particleCount; i++)
+   {
+     var particle = _particles[i];
+
+     int time = ((particle.currentTime / particle.totalTime) * 63).toInt();
+     int sourceX = (time  % 8) * 32;
+     int sourceY = (time ~/ 8) * 32;
+
+     int targetSize = particle.size.toInt();
+     int targetX = (particle.x - targetSize / 2.0).toInt();
+     int targetY = (particle.y - targetSize / 2.0).toInt();
+
+     context.drawImage(_particleCanvas, sourceX, sourceY, 32, 32, targetX, targetY, targetSize, targetSize);
+   }
+
+   context.restore();
+ }
 
 }
 </pre>
@@ -458,65 +461,6 @@ class ParticleSystem extends DisplayObject implements Animatable
 <h3>Implements</h3>
 <p>
 <span class="type-box"><span class="icon-class"></span><a href="../dartflash/Animatable.html">Animatable</a></span></p>
-<div>
-<h3>Constructors</h3>
-<div class="method"><h4 id="ParticleSystem">
-<button class="show-code">Code</button>
-new <strong>ParticleSystem</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> jsonConfig) <a class="anchor-link" href="#ParticleSystem"
-              title="Permalink to ParticleSystem.ParticleSystem">#</a></h4>
-<div class="doc">
-<pre class="source">
-ParticleSystem(String jsonConfig)
-{
-  _random = new Random();
-  _emissionTime = 0.0;
-  _frameTime = 0.0;
-
-  _particles = new List&lt;_Particle&gt;();
-  _particleCount = 0;
-
-  var pex = JSON.parse(jsonConfig);
-
-  emitterType = pex["emitterType"].toInt();
-  emitterX = pex["sourcePosition"]["x"] as num;
-  emitterY = pex["sourcePosition"]["y"] as num;
-  emitterXVariance = pex["sourcePositionVariance"]["x"] as num;
-  emitterYVariance = pex["sourcePositionVariance"]["y"] as num;
-
-  maxNumParticles = pex["maxParticles"].toInt();
-  lifespan = max(0.01, pex["particleLifeSpan"] as num);
-  lifespanVariance = pex["particleLifespanVariance"] as num;
-  startSize = pex["startParticleSize"] as num;
-  startSizeVariance = pex["startParticleSizeVariance"] as num;
-  endSize = pex["finishParticleSize"] as num;
-  endSizeVariance = pex["FinishParticleSizeVariance"] as num;
-  emitAngle = (pex["angle"] as num) * PI / 180.0;
-  emitAngleVariance = (pex["angleVariance"] as num) * PI / 180.0;
-
-  gravityX = pex["gravity"]["x"] as num;
-  gravityY = pex["gravity"]["y"] as num;
-  speed = pex["speed"] as num;
-  speedVariance = pex["speedVariance"] as num;
-  radialAcceleration = pex["radialAcceleration"] as num;
-  radialAccelerationVariance = pex["radialAccelVariance"] as num;
-  tangentialAcceleration = pex["tangentialAcceleration"] as num;
-  tangentialAccelerationVariance = pex["tangentialAccelVariance"] as num;
-
-  minRadius = pex["minRadius"] as num;
-  maxRadius = pex["maxRadius"] as num;
-  maxRadiusVariance = pex["maxRadiusVariance"] as num;
-  rotatePerSecond = (pex["rotatePerSecond"] as num) * PI / 180.0;
-  rotatePerSecondVariance = (pex["rotatePerSecondVariance"] as num) * PI / 180.0;
-
-  startColor = new _ParticleColor.fromJSON(pex["startColor"]);
-  endColor = new _ParticleColor.fromJSON(pex["finishColor"]);
-
-  _drawParticleCanvas();
-}
-</pre>
-</div>
-</div>
-</div>
 <div>
 <h3>Static Properties</h3>
 <div class="field"><h4 id="EMITTER_TYPE_GRAVITY">
@@ -540,6 +484,65 @@ const <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <stro
         <div class="doc">
 <pre class="source">
 static const int EMITTER_TYPE_RADIAL = 1;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="ParticleSystem">
+<button class="show-code">Code</button>
+new <strong>ParticleSystem</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> jsonConfig) <a class="anchor-link" href="#ParticleSystem"
+              title="Permalink to ParticleSystem.ParticleSystem">#</a></h4>
+<div class="doc">
+<pre class="source">
+ParticleSystem(String jsonConfig)
+{
+ _random = new Random();
+ _emissionTime = 0.0;
+ _frameTime = 0.0;
+
+ _particles = new List&lt;_Particle&gt;();
+ _particleCount = 0;
+
+ var pex = JSON.parse(jsonConfig);
+
+ emitterType = pex["emitterType"].toInt();
+ emitterX = pex["sourcePosition"]["x"] as num;
+ emitterY = pex["sourcePosition"]["y"] as num;
+ emitterXVariance = pex["sourcePositionVariance"]["x"] as num;
+ emitterYVariance = pex["sourcePositionVariance"]["y"] as num;
+
+ maxNumParticles = pex["maxParticles"].toInt();
+ lifespan = max(0.01, pex["particleLifeSpan"] as num);
+ lifespanVariance = pex["particleLifespanVariance"] as num;
+ startSize = pex["startParticleSize"] as num;
+ startSizeVariance = pex["startParticleSizeVariance"] as num;
+ endSize = pex["finishParticleSize"] as num;
+ endSizeVariance = pex["FinishParticleSizeVariance"] as num;
+ emitAngle = (pex["angle"] as num) * PI / 180.0;
+ emitAngleVariance = (pex["angleVariance"] as num) * PI / 180.0;
+
+ gravityX = pex["gravity"]["x"] as num;
+ gravityY = pex["gravity"]["y"] as num;
+ speed = pex["speed"] as num;
+ speedVariance = pex["speedVariance"] as num;
+ radialAcceleration = pex["radialAcceleration"] as num;
+ radialAccelerationVariance = pex["radialAccelVariance"] as num;
+ tangentialAcceleration = pex["tangentialAcceleration"] as num;
+ tangentialAccelerationVariance = pex["tangentialAccelVariance"] as num;
+
+ minRadius = pex["minRadius"] as num;
+ maxRadius = pex["maxRadius"] as num;
+ maxRadiusVariance = pex["maxRadiusVariance"] as num;
+ rotatePerSecond = (pex["rotatePerSecond"] as num) * PI / 180.0;
+ rotatePerSecondVariance = (pex["rotatePerSecondVariance"] as num) * PI / 180.0;
+
+ startColor = new _ParticleColor.fromJSON(pex["startColor"]);
+ endColor = new _ParticleColor.fromJSON(pex["finishColor"]);
+
+ _drawParticleCanvas();
+}
 </pre>
 </div>
 </div>
@@ -718,9 +721,9 @@ num get height =&gt; getBoundsTransformed(_transformationMatrix).height;
 <pre class="source">
 void set height(num value)
 {
-  this.scaleY = 1;
-  num normalHeight = this.height;
-  this.scaleY = (normalHeight != 0.0) ? value / normalHeight : 1.0;
+ this.scaleY = 1;
+ num normalHeight = this.height;
+ this.scaleY = (normalHeight != 0.0) ? value / normalHeight : 1.0;
 }
 </pre>
 </div>
@@ -912,12 +915,12 @@ final <a href="../dartflash/DisplayObject.html">DisplayObject</a>         <stron
 <pre class="source">
 DisplayObject get root
 {
-  DisplayObject currentObject = this;
+ DisplayObject currentObject = this;
 
-  while (currentObject._parent != null)
-    currentObject = currentObject._parent;
+ while (currentObject._parent != null)
+   currentObject = currentObject._parent;
 
-  return currentObject;
+ return currentObject;
 }
 </pre>
 </div>
@@ -958,19 +961,6 @@ num get rotation =&gt; _rotation;
 </pre>
 <pre class="source">
 void set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true; }
-</pre>
-</div>
-</div>
-<div class="field inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
-            href="#runtimeType"
-            title="Permalink to ParticleSystem.runtimeType">#</a>
-        </h4>
-        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
 </pre>
 </div>
 </div>
@@ -1038,12 +1028,12 @@ final <a href="../dartflash/Stage.html">Stage</a>         <strong>stage</strong>
 <pre class="source">
 Stage get stage
 {
-  DisplayObject root = this.root;
+ DisplayObject root = this.root;
 
-  if (root is Stage)
-    return root;
+ if (root is Stage)
+   return root;
 
-  return null;
+ return null;
 }
 </pre>
 </div>
@@ -1118,7 +1108,7 @@ final <a href="../dartflash/Matrix.html">Matrix</a>         <strong>transformati
 <pre class="source">
 Matrix get transformationMatrix
 {
-  return _transformationMatrix.clone();
+ return _transformationMatrix.clone();
 }
 </pre>
 </div>
@@ -1151,9 +1141,9 @@ num get width =&gt; getBoundsTransformed(_transformationMatrix).width;
 <pre class="source">
 void set width(num value)
 {
-  this.scaleX = 1;
-  num normalWidth = this.width;
-  this.scaleX = (normalWidth != 0.0) ? value / normalWidth : 1.0;
+ this.scaleX = 1;
+ num normalWidth = this.width;
+ this.scaleX = (normalWidth != 0.0) ? value / normalWidth : 1.0;
 }
 </pre>
 </div>
@@ -1190,25 +1180,6 @@ void set y(num value) { _y = value; _transformationMatrixRefresh = true; }
 </div>
 </div>
 <div>
-<h3>Operators</h3>
-<div class="method inherited"><h4 id="==">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
-              title="Permalink to ParticleSystem.operator ==">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>The equality operator.</p>
-<p>The default behavior for all <code>Object</code>s is to return true if and
-only if <code>this</code> and 
-<span class="param">other</span> are the same object.</p>
-<p>If a subclass overrides the equality operator it should override
-the <code>hashCode</code> method as well to maintain consistency.</p>
-<pre class="source">
-bool operator ==(other) =&gt; identical(this, other);
-</pre>
-</div>
-</div>
-</div>
-<div>
 <h3>Methods</h3>
 <div class="method inherited"><h4 id="addEventListener">
 <button class="show-code">Code</button>
@@ -1218,7 +1189,20 @@ void <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_cor
 <pre class="source">
 void addEventListener(String type, EventListener eventListener, [bool useCapture = false])
 {
-  _getEventListenerList(type).add(eventListener, useCapture);
+ _getEventListenerList(type).add(eventListener, useCapture);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="addTo">
+<button class="show-code">Code</button>
+void <strong>addTo</strong>(<a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> parent) <a class="anchor-link" href="#addTo"
+              title="Permalink to ParticleSystem.addTo">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void addTo(DisplayObjectContainer parent)
+{
+ parent.addChild(this);
 }
 </pre>
 </div>
@@ -1231,58 +1215,58 @@ void addEventListener(String type, EventListener eventListener, [bool useCapture
 <pre class="source">
 bool advanceTime(num passedTime)
 {
-  int particleIndex = 0;
+ int particleIndex = 0;
 
-  //--------------------------------------------------------
-  // advance existing particles
+ //--------------------------------------------------------
+ // advance existing particles
 
-  while (particleIndex &lt; _particleCount)
-  {
-    _Particle particle = _particles[particleIndex];
+ while (particleIndex &lt; _particleCount)
+ {
+   _Particle particle = _particles[particleIndex];
 
-    if (particle.currentTime &lt; particle.totalTime)
-    {
-      _advanceParticle(particle, passedTime);
-      particleIndex++;
-    }
-    else
-    {
-      var swapParticle = _particles[_particleCount - 1];
-      _particles[_particleCount - 1] = particle;
-      _particles[particleIndex] = swapParticle;
-      _particleCount--;
-    }
-  }
+   if (particle.currentTime &lt; particle.totalTime)
+   {
+     _advanceParticle(particle, passedTime);
+     particleIndex++;
+   }
+   else
+   {
+     var swapParticle = _particles[_particleCount - 1];
+     _particles[_particleCount - 1] = particle;
+     _particles[particleIndex] = swapParticle;
+     _particleCount--;
+   }
+ }
 
-  //--------------------------------------------------------
-  // create and advance new particles
+ //--------------------------------------------------------
+ // create and advance new particles
 
-  if (_emissionTime &gt; 0.0)
-  {
-    num timeBetweenParticles = lifespan / maxNumParticles;
-    _frameTime += passedTime;
+ if (_emissionTime &gt; 0.0)
+ {
+   num timeBetweenParticles = lifespan / maxNumParticles;
+   _frameTime += passedTime;
 
-    while (_frameTime &gt; 0.0)
-    {
-      if (_particleCount &lt; maxNumParticles)
-      {
-        if (_particleCount &gt;= _particles.length)
-          _particles.add(new _Particle());
+   while (_frameTime &gt; 0.0)
+   {
+     if (_particleCount &lt; maxNumParticles)
+     {
+       if (_particleCount &gt;= _particles.length)
+         _particles.add(new _Particle());
 
-        var particle = _particles[_particleCount++];
-        _initParticle(particle);
-        _advanceParticle(particle, _frameTime);
-      }
+       var particle = _particles[_particleCount++];
+       _initParticle(particle);
+       _advanceParticle(particle, _frameTime);
+     }
 
-      _frameTime -= timeBetweenParticles;
-    }
+     _frameTime -= timeBetweenParticles;
+   }
 
-    _emissionTime = max(0.0, _emissionTime - passedTime);
-  }
+   _emissionTime = max(0.0, _emissionTime - passedTime);
+ }
 
-  //--------------------------------------------------------
+ //--------------------------------------------------------
 
-  return (_particleCount &gt; 0);
+ return (_particleCount &gt; 0);
 }
 </pre>
 </div>
@@ -1295,44 +1279,27 @@ void <strong>dispatchEvent</strong>(<a href="../dartflash/Event.html">Event</a> 
 <pre class="source">
 void dispatchEvent(Event event)
 {
-  List&lt;DisplayObject&gt; ancestors = null;
+ List&lt;DisplayObject&gt; ancestors = null;
 
-  if (event.captures || event.bubbles)
-    for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent)
-      if (ancestor.hasEventListener(event.type)) {
-        if (ancestors == null) ancestors = new List&lt;DisplayObject&gt;();
-        ancestors.add(ancestor);
-      }
+ if (event.captures || event.bubbles)
+   for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent)
+     if (ancestor.hasEventListener(event.type)) {
+       if (ancestors == null) ancestors = new List&lt;DisplayObject&gt;();
+       ancestors.add(ancestor);
+     }
 
-  if (event.captures &amp;&amp; ancestors != null)
-    for(int i = ancestors.length - 1 ; i &gt;= 0; i--)
-      if (event.stopsPropagation == false)
-        ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
+ if (event.captures &amp;&amp; ancestors != null)
+   for(int i = ancestors.length - 1 ; i &gt;= 0; i--)
+     if (event.stopsPropagation == false)
+       ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
 
-  if (event.stopsPropagation == false)
-    _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
+ if (event.stopsPropagation == false)
+   _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
 
-  if (event.bubbles &amp;&amp; ancestors != null)
-    for(int i = 0; i &lt; ancestors.length; i++)
-      if (event.stopsPropagation == false)
-        ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="DisplayObject">
-<button class="show-code">Code</button>
-new <strong>DisplayObject</strong>() <a class="anchor-link" href="#DisplayObject"
-              title="Permalink to ParticleSystem.DisplayObject">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-DisplayObject()
-{
-  _transformationMatrixPrivate = new Matrix.fromIdentity();
-  _transformationMatrixRefresh = true;
-
-  _tmpMatrix = new Matrix.fromIdentity();
-  _tmpMatrixIdentity = new Matrix.fromIdentity();
+ if (event.bubbles &amp;&amp; ancestors != null)
+   for(int i = 0; i &lt; ancestors.length; i++)
+     if (event.stopsPropagation == false)
+       ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
 }
 </pre>
 </div>
@@ -1345,10 +1312,10 @@ DisplayObject()
 <pre class="source">
 Rectangle getBounds(DisplayObject targetSpace)
 {
-  Rectangle returnRectangle = new Rectangle.zero();
-  Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
+ Rectangle returnRectangle = new Rectangle.zero();
+ Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
 
-  return getBoundsTransformed(matrix, returnRectangle);
+ return getBoundsTransformed(matrix, returnRectangle);
 }
 </pre>
 </div>
@@ -1361,15 +1328,15 @@ Rectangle getBounds(DisplayObject targetSpace)
 <pre class="source">
 Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle = null])
 {
-  if (returnRectangle == null)
-    returnRectangle = new Rectangle.zero();
+ if (returnRectangle == null)
+   returnRectangle = new Rectangle.zero();
 
-  returnRectangle.x = matrix.tx;
-  returnRectangle.y = matrix.ty;
-  returnRectangle.width = 0;
-  returnRectangle.height = 0;
+ returnRectangle.x = matrix.tx;
+ returnRectangle.y = matrix.ty;
+ returnRectangle.width = 0;
+ returnRectangle.height = 0;
 
-  return returnRectangle;
+ return returnRectangle;
 }
 </pre>
 </div>
@@ -1382,14 +1349,14 @@ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle = null]
 <pre class="source">
 Point globalToLocal(Point globalPoint)
 {
-  _tmpMatrix.identity();
+ _tmpMatrix.identity();
 
-  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
-    _tmpMatrix.concat(displayObject._transformationMatrix);
+ for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
+   _tmpMatrix.concat(displayObject._transformationMatrix);
 
-  _tmpMatrix.invert();
+ _tmpMatrix.invert();
 
-  return _tmpMatrix.transformPoint(globalPoint);
+ return _tmpMatrix.transformPoint(globalPoint);
 }
 </pre>
 </div>
@@ -1402,26 +1369,8 @@ Point globalToLocal(Point globalPoint)
 <pre class="source">
 bool hasEventListener(String type)
 {
-  return _eventListenerLists != null &amp;&amp; _eventListenerLists.containsKey(type);
+ return _eventListenerLists != null &amp;&amp; _eventListenerLists.containsKey(type);
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="hashCode">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
-              title="Permalink to ParticleSystem.hashCode">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Get a hash code for this object.</p>
-<p>All objects have hash codes. Hash codes are guaranteed to be the
-same for objects that are equal when compared using the equality
-operator <code>==</code>. Other than that there are no guarantees about
-the hash codes. They will not be consistent between runs and
-there are no distribution guarantees.</p>
-<p>If a subclass overrides <code>hashCode</code> it should override the
-equality operator as well to maintain consistency.</p>
-<pre class="source">
-external int hashCode();
 </pre>
 </div>
 </div>
@@ -1433,10 +1382,10 @@ external int hashCode();
 <pre class="source">
 DisplayObject hitTestInput(num localX, num localY)
 {
-  if (getBoundsTransformed(_tmpMatrixIdentity).contains(localX, localY))
-    return this;
+ if (getBoundsTransformed(_tmpMatrixIdentity).contains(localX, localY))
+   return this;
 
-  return null;
+ return null;
 }
 </pre>
 </div>
@@ -1449,9 +1398,9 @@ DisplayObject hitTestInput(num localX, num localY)
 <pre class="source">
 bool hitTestObject(DisplayObject other)
 {
-  //ToDo
+ //ToDo
 
-  throw new NotImplementedException("Error #2014: Feature is not available at this time.");
+ throw new UnimplementedError("Error #2014: Feature is not available at this time.");
 }
 </pre>
 </div>
@@ -1464,18 +1413,18 @@ bool hitTestObject(DisplayObject other)
 <pre class="source">
 bool hitTestPoint(num x, num y, [bool shapeFlag = false])
 {
-  Stage stage = this.stage;
+ Stage stage = this.stage;
 
-  if (stage == null)
-    return false;
+ if (stage == null)
+   return false;
 
-  Matrix matrix = this.transformationMatrixTo(stage);
-  matrix.invert();
+ Matrix matrix = this.transformationMatrixTo(stage);
+ matrix.invert();
 
-  Point point = new Point(x, y);
-  point.transform(matrix);
+ Point point = new Point(x, y);
+ point.transform(matrix);
 
-  return getBoundsTransformed(_tmpMatrixIdentity).contains(point.x, point.y);
+ return getBoundsTransformed(_tmpMatrixIdentity).contains(point.x, point.y);
 }
 </pre>
 </div>
@@ -1488,99 +1437,12 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false])
 <pre class="source">
 Point localToGlobal(Point localPoint)
 {
-  _tmpMatrix.identity();
+ _tmpMatrix.identity();
 
-  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
-    _tmpMatrix.concat(displayObject._transformationMatrix);
+ for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
+   _tmpMatrix.concat(displayObject._transformationMatrix);
 
-  return _tmpMatrix.transformPoint(localPoint);
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="noSuchMethod">
-<button class="show-code">Code</button>
-<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
-              title="Permalink to ParticleSystem.noSuchMethod">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
-on an object. The name of the method and the arguments of the
-invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
-returns a value, that value becomes the result of the original
-invocation.</p>
-<p>The default behavior of <code>noSuchMethod</code> is to throw a
-<code>noSuchMethodError</code>.</p>
-<pre class="source">
-external Dynamic noSuchMethod(String name, List args);
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="Object">
-<button class="show-code">Code</button>
-const <strong>Object</strong>() <a class="anchor-link" href="#Object"
-              title="Permalink to ParticleSystem.Object">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Creates a new <code>Object</code> instance.</p>
-<p><code>Object</code> instances have no meaningful state, and are only useful
-through their identity. An <code>Object</code> instance is equal to itself
-only.</p>
-<pre class="source">
-const Object();
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="ParticleSystem">
-<button class="show-code">Code</button>
-new <strong>ParticleSystem</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> jsonConfig) <a class="anchor-link" href="#ParticleSystem"
-              title="Permalink to ParticleSystem.ParticleSystem">#</a></h4>
-<div class="doc">
-<pre class="source">
-ParticleSystem(String jsonConfig)
-{
-  _random = new Random();
-  _emissionTime = 0.0;
-  _frameTime = 0.0;
-
-  _particles = new List&lt;_Particle&gt;();
-  _particleCount = 0;
-
-  var pex = JSON.parse(jsonConfig);
-
-  emitterType = pex["emitterType"].toInt();
-  emitterX = pex["sourcePosition"]["x"] as num;
-  emitterY = pex["sourcePosition"]["y"] as num;
-  emitterXVariance = pex["sourcePositionVariance"]["x"] as num;
-  emitterYVariance = pex["sourcePositionVariance"]["y"] as num;
-
-  maxNumParticles = pex["maxParticles"].toInt();
-  lifespan = max(0.01, pex["particleLifeSpan"] as num);
-  lifespanVariance = pex["particleLifespanVariance"] as num;
-  startSize = pex["startParticleSize"] as num;
-  startSizeVariance = pex["startParticleSizeVariance"] as num;
-  endSize = pex["finishParticleSize"] as num;
-  endSizeVariance = pex["FinishParticleSizeVariance"] as num;
-  emitAngle = (pex["angle"] as num) * PI / 180.0;
-  emitAngleVariance = (pex["angleVariance"] as num) * PI / 180.0;
-
-  gravityX = pex["gravity"]["x"] as num;
-  gravityY = pex["gravity"]["y"] as num;
-  speed = pex["speed"] as num;
-  speedVariance = pex["speedVariance"] as num;
-  radialAcceleration = pex["radialAcceleration"] as num;
-  radialAccelerationVariance = pex["radialAccelVariance"] as num;
-  tangentialAcceleration = pex["tangentialAcceleration"] as num;
-  tangentialAccelerationVariance = pex["tangentialAccelVariance"] as num;
-
-  minRadius = pex["minRadius"] as num;
-  maxRadius = pex["maxRadius"] as num;
-  maxRadiusVariance = pex["maxRadiusVariance"] as num;
-  rotatePerSecond = (pex["rotatePerSecond"] as num) * PI / 180.0;
-  rotatePerSecondVariance = (pex["rotatePerSecondVariance"] as num) * PI / 180.0;
-
-  startColor = new _ParticleColor.fromJSON(pex["startColor"]);
-  endColor = new _ParticleColor.fromJSON(pex["finishColor"]);
-
-  _drawParticleCanvas();
+ return _tmpMatrix.transformPoint(localPoint);
 }
 </pre>
 </div>
@@ -1593,7 +1455,7 @@ void <strong>removeEventListener</strong>(<a href="http://api.dartlang.org/dart_
 <pre class="source">
 void removeEventListener(String type, EventListener eventListener, [bool useCapture = false])
 {
-  _getEventListenerList(type).remove(eventListener, useCapture);
+ _getEventListenerList(type).remove(eventListener, useCapture);
 }
 </pre>
 </div>
@@ -1606,8 +1468,8 @@ void <strong>removeFromParent</strong>() <a class="anchor-link" href="#removeFro
 <pre class="source">
 void removeFromParent()
 {
-  if (_parent != null)
-    _parent.removeChild(this);
+ if (_parent != null)
+   _parent.removeChild(this);
 }
 </pre>
 </div>
@@ -1620,27 +1482,27 @@ void <strong>render</strong>(<a href="../dartflash/RenderState.html">RenderState
 <pre class="source">
 void render(RenderState renderState)
 {
-  var context = renderState.context;
+ var context = renderState.context;
 
-  context.save();
-  context.globalCompositeOperation = "lighter";
+ context.save();
+ context.globalCompositeOperation = "lighter";
 
-  for(int i = 0; i &lt; _particleCount; i++)
-  {
-    var particle = _particles[i];
+ for(int i = 0; i &lt; _particleCount; i++)
+ {
+   var particle = _particles[i];
 
-    int time = ((particle.currentTime / particle.totalTime) * 63).toInt();
-    int sourceX = (time  % 8) * 32;
-    int sourceY = (time ~/ 8) * 32;
+   int time = ((particle.currentTime / particle.totalTime) * 63).toInt();
+   int sourceX = (time  % 8) * 32;
+   int sourceY = (time ~/ 8) * 32;
 
-    int targetSize = particle.size.toInt();
-    int targetX = (particle.x - targetSize / 2.0).toInt();
-    int targetY = (particle.y - targetSize / 2.0).toInt();
+   int targetSize = particle.size.toInt();
+   int targetX = (particle.x - targetSize / 2.0).toInt();
+   int targetY = (particle.y - targetSize / 2.0).toInt();
 
-    context.drawImage(_particleCanvas, sourceX, sourceY, 32, 32, targetX, targetY, targetSize, targetSize);
-  }
+   context.drawImage(_particleCanvas, sourceX, sourceY, 32, 32, targetX, targetY, targetSize, targetSize);
+ }
 
-  context.restore();
+ context.restore();
 }
 </pre>
 </div>
@@ -1653,7 +1515,7 @@ void <strong>start</strong>([<a href="http://api.dartlang.org/dart_core/num.html
 <pre class="source">
 void start([num duration = double.INFINITY])
 {
-  _emissionTime = duration;
+ _emissionTime = duration;
 }
 </pre>
 </div>
@@ -1666,22 +1528,11 @@ void <strong>stop</strong>(<a href="http://api.dartlang.org/dart_core/bool.html"
 <pre class="source">
 void stop(bool clear)
 {
-  _emissionTime = 0.0;
+ _emissionTime = 0.0;
 
-  if (clear)
-    _particleCount = 0;
+ if (clear)
+   _particleCount = 0;
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="toString">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
-              title="Permalink to ParticleSystem.toString">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Returns a string representation of this object.</p>
-<pre class="source">
-external String toString();
 </pre>
 </div>
 </div>
@@ -1693,51 +1544,51 @@ external String toString();
 <pre class="source">
 Matrix transformationMatrixTo(DisplayObject targetSpace)
 {
-  if (targetSpace == _parent)
-    return _transformationMatrix.clone();
+ if (targetSpace == _parent)
+   return _transformationMatrix.clone();
 
-  if (targetSpace._parent == this)
-    return _transformationMatrix.cloneInvert();
+ if (targetSpace._parent == this)
+   return _transformationMatrix.cloneInvert();
 
-  //------------------------------------------------
+ //------------------------------------------------
 
-  Matrix resultMatrix = new Matrix.fromIdentity();
-  DisplayObject resultObject = this;
+ Matrix resultMatrix = new Matrix.fromIdentity();
+ DisplayObject resultObject = this;
 
-  while(resultObject != targetSpace &amp;&amp; resultObject._parent != null) {
-    resultMatrix.concat(resultObject._transformationMatrix);
-    resultObject = resultObject._parent;
-  }
+ while(resultObject != targetSpace &amp;&amp; resultObject._parent != null) {
+   resultMatrix.concat(resultObject._transformationMatrix);
+   resultObject = resultObject._parent;
+ }
 
-  if (targetSpace == null &amp;&amp; resultObject != null) {
-    resultMatrix.concat(resultObject._transformationMatrix);
-    resultObject = null;
-  }
+ if (targetSpace == null &amp;&amp; resultObject != null) {
+   resultMatrix.concat(resultObject._transformationMatrix);
+   resultObject = null;
+ }
 
-  if (resultObject == targetSpace)
-    return resultMatrix;
+ if (resultObject == targetSpace)
+   return resultMatrix;
 
-  //------------------------------------------------
+ //------------------------------------------------
 
-  Matrix targetMatrix = new Matrix.fromIdentity();
-  DisplayObject targetObject = targetSpace;
+ Matrix targetMatrix = new Matrix.fromIdentity();
+ DisplayObject targetObject = targetSpace;
 
-  while(targetObject != this &amp;&amp; targetObject._parent != null) {
-    targetMatrix.concat(targetObject._transformationMatrix);
-    targetObject = targetObject._parent;
-  }
+ while(targetObject != this &amp;&amp; targetObject._parent != null) {
+   targetMatrix.concat(targetObject._transformationMatrix);
+   targetObject = targetObject._parent;
+ }
 
-  targetMatrix.invert();
+ targetMatrix.invert();
 
-  if (targetObject == this)
-    return targetMatrix;
+ if (targetObject == this)
+   return targetMatrix;
 
-  if (targetObject != resultObject)
-    throw new ArgumentError("Error #9001: The supplied DisplayObject has no relationship to the caller.");
+ if (targetObject != resultObject)
+   throw new ArgumentError("Error #9001: The supplied DisplayObject has no relationship to the caller.");
 
-  resultMatrix.concat(targetMatrix);
+ resultMatrix.concat(targetMatrix);
 
-  return resultMatrix;
+ return resultMatrix;
 }
 </pre>
 </div>
@@ -1748,7 +1599,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace)
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-13 21:36:08.766</div>
+          <div>This page was generated at 2012-11-03 13:33:35.437</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

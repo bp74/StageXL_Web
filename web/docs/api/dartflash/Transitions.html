@@ -51,6 +51,7 @@
 <li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -97,6 +99,7 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
 <li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
@@ -119,256 +122,260 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<p>The <a class="crossref" href="../dartflash/Transitions.html">Transitions</a> class offers predefined transitions used for
+<a class="crossref" href="../dartflash/Transition.html">Transition</a> and <a class="crossref" href="../dartflash/Tween.html">Tween</a> animations.</p>
+<p>Overview of all available transitions:
+<a href="http://www.dartflash.com/docs/juggler/transitions.html">http://www.dartflash.com/docs/juggler/transitions.html</a></p>
 <pre class="source">
 class Transitions
 {
-  // Standard
+ // Standard
 
-  static Random _random;
+ static Random _random;
 
-  static num linear(num ratio) {
-    return ratio;
-  }
+ static num linear(num ratio) {
+   return ratio;
+ }
 
-  static num sine(num ratio) {
-    return 0.5 - 0.5 * cos(ratio * 2.0 * PI) ;
-  }
+ static num sine(num ratio) {
+   return 0.5 - 0.5 * cos(ratio * 2.0 * PI) ;
+ }
 
-  static num cosine(num ratio) {
-    return 0.5 + 0.5 * cos(ratio * 2.0 * PI);
-  }
+ static num cosine(num ratio) {
+   return 0.5 + 0.5 * cos(ratio * 2.0 * PI);
+ }
 
-  static num random(num ratio) {
-    if (_random == null)
-      _random = new Random();
+ static num random(num ratio) {
+   if (_random == null)
+     _random = new Random();
 
-    if (ratio == 0.0 || ratio == 1.0) return ratio;
-    return _random.nextDouble();
-  }
+   if (ratio == 0.0 || ratio == 1.0) return ratio;
+   return _random.nextDouble();
+ }
 
-  // Quadratic
+ // Quadratic
 
-  static num easeInQuadratic(num ratio) {
-    return ratio * ratio;
-  }
+ static num easeInQuadratic(num ratio) {
+   return ratio * ratio;
+ }
 
-  static num easeOutQuadratic(num ratio) {
-    ratio = 1.0 - ratio;
-    return 1.0 - ratio * ratio;
-  }
+ static num easeOutQuadratic(num ratio) {
+   ratio = 1.0 - ratio;
+   return 1.0 - ratio * ratio;
+ }
 
-  static num easeInOutQuadratic(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeInQuadratic(ratio) : 0.5 * easeOutQuadratic(ratio - 1.0) + 0.5;
-  }
+ static num easeInOutQuadratic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInQuadratic(ratio) : 0.5 * easeOutQuadratic(ratio - 1.0) + 0.5;
+ }
 
-  static num easeOutInQuadratic(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeOutQuadratic(ratio) : 0.5 * easeInQuadratic(ratio - 1.0) + 0.5;
-  }
+ static num easeOutInQuadratic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutQuadratic(ratio) : 0.5 * easeInQuadratic(ratio - 1.0) + 0.5;
+ }
 
-  // Cubic
+ // Cubic
 
-  static num easeInCubic(num ratio) {
-    return ratio * ratio * ratio;
-  }
+ static num easeInCubic(num ratio) {
+   return ratio * ratio * ratio;
+ }
 
-  static num easeOutCubic(num ratio) {
-    ratio = 1.0 - ratio;
-    return 1.0 - ratio * ratio * ratio;
-  }
+ static num easeOutCubic(num ratio) {
+   ratio = 1.0 - ratio;
+   return 1.0 - ratio * ratio * ratio;
+ }
 
-  static num easeInOutCubic(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeInCubic(ratio) : 0.5 * easeOutCubic(ratio - 1.0) + 0.5;
-  }
+ static num easeInOutCubic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInCubic(ratio) : 0.5 * easeOutCubic(ratio - 1.0) + 0.5;
+ }
 
-  static num easeOutInCubic(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeOutCubic(ratio) : 0.5 * easeInCubic(ratio - 1.0) + 0.5;
-  }
+ static num easeOutInCubic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutCubic(ratio) : 0.5 * easeInCubic(ratio - 1.0) + 0.5;
+ }
 
-  // Quartic
+ // Quartic
 
-  static num easeInQuartic(num ratio) {
-    return ratio * ratio * ratio * ratio;
-  }
+ static num easeInQuartic(num ratio) {
+   return ratio * ratio * ratio * ratio;
+ }
 
-  static num easeOutQuartic(num ratio) {
-    ratio = 1.0 - ratio;
-    return 1.0 - ratio * ratio * ratio * ratio;
-  }
+ static num easeOutQuartic(num ratio) {
+   ratio = 1.0 - ratio;
+   return 1.0 - ratio * ratio * ratio * ratio;
+ }
 
-  static num easeInOutQuartic(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeInQuartic(ratio) : 0.5 * easeOutQuartic(ratio - 1.0) + 0.5;
-  }
+ static num easeInOutQuartic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInQuartic(ratio) : 0.5 * easeOutQuartic(ratio - 1.0) + 0.5;
+ }
 
-  static num easeOutInQuartic(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeOutQuartic(ratio) : 0.5 * easeInQuartic(ratio - 1.0) + 0.5;
-  }
+ static num easeOutInQuartic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutQuartic(ratio) : 0.5 * easeInQuartic(ratio - 1.0) + 0.5;
+ }
 
-  // Quintic
+ // Quintic
 
-  static num easeInQuintic(num ratio) {
-    return ratio * ratio * ratio * ratio * ratio;
-  }
+ static num easeInQuintic(num ratio) {
+   return ratio * ratio * ratio * ratio * ratio;
+ }
 
-  static num easeOutQuintic(num ratio) {
-    ratio = 1.0 - ratio;
-    return 1.0 - ratio * ratio * ratio * ratio * ratio;
-  }
+ static num easeOutQuintic(num ratio) {
+   ratio = 1.0 - ratio;
+   return 1.0 - ratio * ratio * ratio * ratio * ratio;
+ }
 
-  static num easeInOutQuintic(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeInQuintic(ratio) : 0.5 * easeOutQuintic(ratio - 1.0) + 0.5;
-  }
+ static num easeInOutQuintic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInQuintic(ratio) : 0.5 * easeOutQuintic(ratio - 1.0) + 0.5;
+ }
 
-  static num easeOutInQuintic(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeOutQuintic(ratio) : 0.5 * easeInQuintic(ratio - 1.0) + 0.5;
-  }
+ static num easeOutInQuintic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutQuintic(ratio) : 0.5 * easeInQuintic(ratio - 1.0) + 0.5;
+ }
 
-  // Circular
+ // Circular
 
-  static num easeInCircular(num ratio) {
-    return 1.0 - sqrt(1.0 - ratio * ratio);
-  }
+ static num easeInCircular(num ratio) {
+   return 1.0 - sqrt(1.0 - ratio * ratio);
+ }
 
-  static num easeOutCircular(num ratio) {
-    ratio = 1.0 - ratio;
-    return sqrt(1.0 - ratio * ratio);
-  }
+ static num easeOutCircular(num ratio) {
+   ratio = 1.0 - ratio;
+   return sqrt(1.0 - ratio * ratio);
+ }
 
-  static num easeInOutCircular(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeInCircular(ratio) : 0.5 * easeOutCircular(ratio - 1.0) + 0.5;
-  }
+ static num easeInOutCircular(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInCircular(ratio) : 0.5 * easeOutCircular(ratio - 1.0) + 0.5;
+ }
 
-  static num easeOutInCircular(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeOutCircular(ratio) : 0.5 * easeInCircular(ratio - 1.0) + 0.5;
-  }
+ static num easeOutInCircular(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutCircular(ratio) : 0.5 * easeInCircular(ratio - 1.0) + 0.5;
+ }
 
-  // Sine
+ // Sine
 
-  static num easeInSine(num ratio) {
-    return 1.0 - cos(ratio * (PI / 2.0));
-  }
+ static num easeInSine(num ratio) {
+   return 1.0 - cos(ratio * (PI / 2.0));
+ }
 
-  static num easeOutSine(num ratio) {
-    return sin(ratio * (PI / 2.0));
-  }
+ static num easeOutSine(num ratio) {
+   return sin(ratio * (PI / 2.0));
+ }
 
-  static num easeInOutSine(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeInSine(ratio) : 0.5 * easeOutSine(ratio - 1.0) + 0.5;
-  }
+ static num easeInOutSine(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInSine(ratio) : 0.5 * easeOutSine(ratio - 1.0) + 0.5;
+ }
 
-  static num easeOutInSine(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeOutSine(ratio) : 0.5 * easeInSine(ratio - 1.0) + 0.5;
-  }
+ static num easeOutInSine(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutSine(ratio) : 0.5 * easeInSine(ratio - 1.0) + 0.5;
+ }
 
-  // Exponential
+ // Exponential
 
-  static num easeInExponential(num ratio) {
-    if (ratio == 0.0) return 0.0;
-    return pow(2.0, 10.0 * (ratio - 1.0));
-  }
+ static num easeInExponential(num ratio) {
+   if (ratio == 0.0) return 0.0;
+   return pow(2.0, 10.0 * (ratio - 1.0));
+ }
 
-  static num easeOutExponential(num ratio) {
-    if (ratio == 1.0) return 1.0;
-    return 1.0 - pow(2.0, - 10.0 * ratio);
-  }
+ static num easeOutExponential(num ratio) {
+   if (ratio == 1.0) return 1.0;
+   return 1.0 - pow(2.0, - 10.0 * ratio);
+ }
 
-  static num easeInOutExponential(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeInExponential(ratio) : 0.5 * easeOutExponential(ratio - 1.0) + 0.5;
-  }
+ static num easeInOutExponential(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInExponential(ratio) : 0.5 * easeOutExponential(ratio - 1.0) + 0.5;
+ }
 
-  static num easeOutInExponential(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeOutExponential(ratio) : 0.5 * easeInExponential(ratio - 1.0) + 0.5;
-  }
+ static num easeOutInExponential(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutExponential(ratio) : 0.5 * easeInExponential(ratio - 1.0) + 0.5;
+ }
 
-  // Back
+ // Back
 
-  static num easeInBack(num ratio) {
-    num s = 1.70158;
-    return ratio * ratio * ((s + 1.0) * ratio - s);
-  }
+ static num easeInBack(num ratio) {
+   num s = 1.70158;
+   return ratio * ratio * ((s + 1.0) * ratio - s);
+ }
 
-  static num easeOutBack(num ratio) {
-    num s = 1.70158;
-    ratio = ratio - 1.0;
-    return ratio * ratio * ((s + 1.0) * ratio + s) + 1.0;
-  }
+ static num easeOutBack(num ratio) {
+   num s = 1.70158;
+   ratio = ratio - 1.0;
+   return ratio * ratio * ((s + 1.0) * ratio + s) + 1.0;
+ }
 
-  static num easeInOutBack(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeInBack(ratio) : 0.5 * easeOutBack(ratio - 1.0) + 0.5;
-  }
+ static num easeInOutBack(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInBack(ratio) : 0.5 * easeOutBack(ratio - 1.0) + 0.5;
+ }
 
-  static num easeOutInBack(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeOutBack(ratio) : 0.5 * easeInBack(ratio - 1.0) + 0.5;
-  }
+ static num easeOutInBack(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutBack(ratio) : 0.5 * easeInBack(ratio - 1.0) + 0.5;
+ }
 
-  // Elastic
+ // Elastic
 
-  static num easeInElastic(num ratio) {
-    if (ratio == 0.0 || ratio == 1.0) return ratio;
-    ratio = ratio - 1.0;
-    return - pow(2.0, 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) ;
-  }
+ static num easeInElastic(num ratio) {
+   if (ratio == 0.0 || ratio == 1.0) return ratio;
+   ratio = ratio - 1.0;
+   return - pow(2.0, 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) ;
+ }
 
-  static num easeOutElastic(num ratio) {
-    if (ratio == 0.0 || ratio == 1.0) return ratio;
-    return pow(2.0, - 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) + 1;
-  }
+ static num easeOutElastic(num ratio) {
+   if (ratio == 0.0 || ratio == 1.0) return ratio;
+   return pow(2.0, - 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) + 1;
+ }
 
-  static num easeInOutElastic(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeInElastic(ratio) : 0.5 * easeOutElastic(ratio - 1.0) + 0.5;
-  }
+ static num easeInOutElastic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInElastic(ratio) : 0.5 * easeOutElastic(ratio - 1.0) + 0.5;
+ }
 
-  static num easeOutInElastic(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeOutElastic(ratio) : 0.5 * easeInElastic(ratio - 1.0) + 0.5;
-  }
+ static num easeOutInElastic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutElastic(ratio) : 0.5 * easeInElastic(ratio - 1.0) + 0.5;
+ }
 
-  // Bounce
+ // Bounce
 
-  static num easeInBounce(num ratio) {
-    return 1.0 - easeOutBounce(1.0 - ratio);
-  }
+ static num easeInBounce(num ratio) {
+   return 1.0 - easeOutBounce(1.0 - ratio);
+ }
 
-  static num easeOutBounce(num ratio) {
-    if (ratio &lt; 1 / 2.75) {
-      return 7.5625 * ratio * ratio;
-    } else if (ratio &lt; 2 / 2.75) {
-      ratio = ratio - 1.5 / 2.75;
-      return 7.5625 * ratio * ratio + 0.75;
-    } else if (ratio &lt; 2.5 / 2.75) {
-      ratio = ratio - 2.25 / 2.75;
-      return 7.5625 * ratio * ratio + 0.9375;
-    } else {
-      ratio = ratio - 2.625 / 2.75;
-      return 7.5625 * ratio * ratio + 0.984375;
-    }
-  }
+ static num easeOutBounce(num ratio) {
+   if (ratio &lt; 1 / 2.75) {
+     return 7.5625 * ratio * ratio;
+   } else if (ratio &lt; 2 / 2.75) {
+     ratio = ratio - 1.5 / 2.75;
+     return 7.5625 * ratio * ratio + 0.75;
+   } else if (ratio &lt; 2.5 / 2.75) {
+     ratio = ratio - 2.25 / 2.75;
+     return 7.5625 * ratio * ratio + 0.9375;
+   } else {
+     ratio = ratio - 2.625 / 2.75;
+     return 7.5625 * ratio * ratio + 0.984375;
+   }
+ }
 
-  static num easeInOutBounce(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeInBounce(ratio) : 0.5 * easeOutBounce(ratio - 1.0) + 0.5;
-  }
+ static num easeInOutBounce(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInBounce(ratio) : 0.5 * easeOutBounce(ratio - 1.0) + 0.5;
+ }
 
-  static num easeOutInBounce(num ratio) {
-    ratio = ratio * 2.0;
-    return (ratio &lt; 1.0) ? 0.5 * easeOutBounce(ratio) : 0.5 * easeInBounce(ratio - 1.0) + 0.5;
-  }
+ static num easeOutInBounce(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutBounce(ratio) : 0.5 * easeInBounce(ratio - 1.0) + 0.5;
+ }
 
 }
 </pre>
@@ -382,7 +389,7 @@ class Transitions
 <div class="doc">
 <pre class="source">
 static num linear(num ratio) {
-  return ratio;
+ return ratio;
 }
 </pre>
 </div>
@@ -394,7 +401,7 @@ static num linear(num ratio) {
 <div class="doc">
 <pre class="source">
 static num sine(num ratio) {
-  return 0.5 - 0.5 * cos(ratio * 2.0 * PI) ;
+ return 0.5 - 0.5 * cos(ratio * 2.0 * PI) ;
 }
 </pre>
 </div>
@@ -406,7 +413,7 @@ static num sine(num ratio) {
 <div class="doc">
 <pre class="source">
 static num cosine(num ratio) {
-  return 0.5 + 0.5 * cos(ratio * 2.0 * PI);
+ return 0.5 + 0.5 * cos(ratio * 2.0 * PI);
 }
 </pre>
 </div>
@@ -418,11 +425,11 @@ static num cosine(num ratio) {
 <div class="doc">
 <pre class="source">
 static num random(num ratio) {
-  if (_random == null)
-    _random = new Random();
+ if (_random == null)
+   _random = new Random();
 
-  if (ratio == 0.0 || ratio == 1.0) return ratio;
-  return _random.nextDouble();
+ if (ratio == 0.0 || ratio == 1.0) return ratio;
+ return _random.nextDouble();
 }
 </pre>
 </div>
@@ -434,7 +441,7 @@ static num random(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInQuadratic(num ratio) {
-  return ratio * ratio;
+ return ratio * ratio;
 }
 </pre>
 </div>
@@ -446,8 +453,8 @@ static num easeInQuadratic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutQuadratic(num ratio) {
-  ratio = 1.0 - ratio;
-  return 1.0 - ratio * ratio;
+ ratio = 1.0 - ratio;
+ return 1.0 - ratio * ratio;
 }
 </pre>
 </div>
@@ -459,8 +466,8 @@ static num easeOutQuadratic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInOutQuadratic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInQuadratic(ratio) : 0.5 * easeOutQuadratic(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInQuadratic(ratio) : 0.5 * easeOutQuadratic(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -472,8 +479,8 @@ static num easeInOutQuadratic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutInQuadratic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutQuadratic(ratio) : 0.5 * easeInQuadratic(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutQuadratic(ratio) : 0.5 * easeInQuadratic(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -485,7 +492,7 @@ static num easeOutInQuadratic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInCubic(num ratio) {
-  return ratio * ratio * ratio;
+ return ratio * ratio * ratio;
 }
 </pre>
 </div>
@@ -497,8 +504,8 @@ static num easeInCubic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutCubic(num ratio) {
-  ratio = 1.0 - ratio;
-  return 1.0 - ratio * ratio * ratio;
+ ratio = 1.0 - ratio;
+ return 1.0 - ratio * ratio * ratio;
 }
 </pre>
 </div>
@@ -510,8 +517,8 @@ static num easeOutCubic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInOutCubic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInCubic(ratio) : 0.5 * easeOutCubic(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInCubic(ratio) : 0.5 * easeOutCubic(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -523,8 +530,8 @@ static num easeInOutCubic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutInCubic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutCubic(ratio) : 0.5 * easeInCubic(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutCubic(ratio) : 0.5 * easeInCubic(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -536,7 +543,7 @@ static num easeOutInCubic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInQuartic(num ratio) {
-  return ratio * ratio * ratio * ratio;
+ return ratio * ratio * ratio * ratio;
 }
 </pre>
 </div>
@@ -548,8 +555,8 @@ static num easeInQuartic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutQuartic(num ratio) {
-  ratio = 1.0 - ratio;
-  return 1.0 - ratio * ratio * ratio * ratio;
+ ratio = 1.0 - ratio;
+ return 1.0 - ratio * ratio * ratio * ratio;
 }
 </pre>
 </div>
@@ -561,8 +568,8 @@ static num easeOutQuartic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInOutQuartic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInQuartic(ratio) : 0.5 * easeOutQuartic(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInQuartic(ratio) : 0.5 * easeOutQuartic(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -574,8 +581,8 @@ static num easeInOutQuartic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutInQuartic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutQuartic(ratio) : 0.5 * easeInQuartic(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutQuartic(ratio) : 0.5 * easeInQuartic(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -587,7 +594,7 @@ static num easeOutInQuartic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInQuintic(num ratio) {
-  return ratio * ratio * ratio * ratio * ratio;
+ return ratio * ratio * ratio * ratio * ratio;
 }
 </pre>
 </div>
@@ -599,8 +606,8 @@ static num easeInQuintic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutQuintic(num ratio) {
-  ratio = 1.0 - ratio;
-  return 1.0 - ratio * ratio * ratio * ratio * ratio;
+ ratio = 1.0 - ratio;
+ return 1.0 - ratio * ratio * ratio * ratio * ratio;
 }
 </pre>
 </div>
@@ -612,8 +619,8 @@ static num easeOutQuintic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInOutQuintic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInQuintic(ratio) : 0.5 * easeOutQuintic(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInQuintic(ratio) : 0.5 * easeOutQuintic(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -625,8 +632,8 @@ static num easeInOutQuintic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutInQuintic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutQuintic(ratio) : 0.5 * easeInQuintic(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutQuintic(ratio) : 0.5 * easeInQuintic(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -638,7 +645,7 @@ static num easeOutInQuintic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInCircular(num ratio) {
-  return 1.0 - sqrt(1.0 - ratio * ratio);
+ return 1.0 - sqrt(1.0 - ratio * ratio);
 }
 </pre>
 </div>
@@ -650,8 +657,8 @@ static num easeInCircular(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutCircular(num ratio) {
-  ratio = 1.0 - ratio;
-  return sqrt(1.0 - ratio * ratio);
+ ratio = 1.0 - ratio;
+ return sqrt(1.0 - ratio * ratio);
 }
 </pre>
 </div>
@@ -663,8 +670,8 @@ static num easeOutCircular(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInOutCircular(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInCircular(ratio) : 0.5 * easeOutCircular(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInCircular(ratio) : 0.5 * easeOutCircular(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -676,8 +683,8 @@ static num easeInOutCircular(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutInCircular(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutCircular(ratio) : 0.5 * easeInCircular(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutCircular(ratio) : 0.5 * easeInCircular(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -689,7 +696,7 @@ static num easeOutInCircular(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInSine(num ratio) {
-  return 1.0 - cos(ratio * (PI / 2.0));
+ return 1.0 - cos(ratio * (PI / 2.0));
 }
 </pre>
 </div>
@@ -701,7 +708,7 @@ static num easeInSine(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutSine(num ratio) {
-  return sin(ratio * (PI / 2.0));
+ return sin(ratio * (PI / 2.0));
 }
 </pre>
 </div>
@@ -713,8 +720,8 @@ static num easeOutSine(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInOutSine(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInSine(ratio) : 0.5 * easeOutSine(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInSine(ratio) : 0.5 * easeOutSine(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -726,8 +733,8 @@ static num easeInOutSine(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutInSine(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutSine(ratio) : 0.5 * easeInSine(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutSine(ratio) : 0.5 * easeInSine(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -739,8 +746,8 @@ static num easeOutInSine(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInExponential(num ratio) {
-  if (ratio == 0.0) return 0.0;
-  return pow(2.0, 10.0 * (ratio - 1.0));
+ if (ratio == 0.0) return 0.0;
+ return pow(2.0, 10.0 * (ratio - 1.0));
 }
 </pre>
 </div>
@@ -752,8 +759,8 @@ static num easeInExponential(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutExponential(num ratio) {
-  if (ratio == 1.0) return 1.0;
-  return 1.0 - pow(2.0, - 10.0 * ratio);
+ if (ratio == 1.0) return 1.0;
+ return 1.0 - pow(2.0, - 10.0 * ratio);
 }
 </pre>
 </div>
@@ -765,8 +772,8 @@ static num easeOutExponential(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInOutExponential(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInExponential(ratio) : 0.5 * easeOutExponential(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInExponential(ratio) : 0.5 * easeOutExponential(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -778,8 +785,8 @@ static num easeInOutExponential(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutInExponential(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutExponential(ratio) : 0.5 * easeInExponential(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutExponential(ratio) : 0.5 * easeInExponential(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -791,8 +798,8 @@ static num easeOutInExponential(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInBack(num ratio) {
-  num s = 1.70158;
-  return ratio * ratio * ((s + 1.0) * ratio - s);
+ num s = 1.70158;
+ return ratio * ratio * ((s + 1.0) * ratio - s);
 }
 </pre>
 </div>
@@ -804,9 +811,9 @@ static num easeInBack(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutBack(num ratio) {
-  num s = 1.70158;
-  ratio = ratio - 1.0;
-  return ratio * ratio * ((s + 1.0) * ratio + s) + 1.0;
+ num s = 1.70158;
+ ratio = ratio - 1.0;
+ return ratio * ratio * ((s + 1.0) * ratio + s) + 1.0;
 }
 </pre>
 </div>
@@ -818,8 +825,8 @@ static num easeOutBack(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInOutBack(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInBack(ratio) : 0.5 * easeOutBack(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInBack(ratio) : 0.5 * easeOutBack(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -831,8 +838,8 @@ static num easeInOutBack(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutInBack(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutBack(ratio) : 0.5 * easeInBack(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutBack(ratio) : 0.5 * easeInBack(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -844,9 +851,9 @@ static num easeOutInBack(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInElastic(num ratio) {
-  if (ratio == 0.0 || ratio == 1.0) return ratio;
-  ratio = ratio - 1.0;
-  return - pow(2.0, 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) ;
+ if (ratio == 0.0 || ratio == 1.0) return ratio;
+ ratio = ratio - 1.0;
+ return - pow(2.0, 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) ;
 }
 </pre>
 </div>
@@ -858,8 +865,8 @@ static num easeInElastic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutElastic(num ratio) {
-  if (ratio == 0.0 || ratio == 1.0) return ratio;
-  return pow(2.0, - 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) + 1;
+ if (ratio == 0.0 || ratio == 1.0) return ratio;
+ return pow(2.0, - 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) + 1;
 }
 </pre>
 </div>
@@ -871,8 +878,8 @@ static num easeOutElastic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInOutElastic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInElastic(ratio) : 0.5 * easeOutElastic(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInElastic(ratio) : 0.5 * easeOutElastic(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -884,8 +891,8 @@ static num easeInOutElastic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutInElastic(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutElastic(ratio) : 0.5 * easeInElastic(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutElastic(ratio) : 0.5 * easeInElastic(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -897,7 +904,7 @@ static num easeOutInElastic(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInBounce(num ratio) {
-  return 1.0 - easeOutBounce(1.0 - ratio);
+ return 1.0 - easeOutBounce(1.0 - ratio);
 }
 </pre>
 </div>
@@ -909,18 +916,18 @@ static num easeInBounce(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutBounce(num ratio) {
-  if (ratio &lt; 1 / 2.75) {
-    return 7.5625 * ratio * ratio;
-  } else if (ratio &lt; 2 / 2.75) {
-    ratio = ratio - 1.5 / 2.75;
-    return 7.5625 * ratio * ratio + 0.75;
-  } else if (ratio &lt; 2.5 / 2.75) {
-    ratio = ratio - 2.25 / 2.75;
-    return 7.5625 * ratio * ratio + 0.9375;
-  } else {
-    ratio = ratio - 2.625 / 2.75;
-    return 7.5625 * ratio * ratio + 0.984375;
-  }
+ if (ratio &lt; 1 / 2.75) {
+   return 7.5625 * ratio * ratio;
+ } else if (ratio &lt; 2 / 2.75) {
+   ratio = ratio - 1.5 / 2.75;
+   return 7.5625 * ratio * ratio + 0.75;
+ } else if (ratio &lt; 2.5 / 2.75) {
+   ratio = ratio - 2.25 / 2.75;
+   return 7.5625 * ratio * ratio + 0.9375;
+ } else {
+   ratio = ratio - 2.625 / 2.75;
+   return 7.5625 * ratio * ratio + 0.984375;
+ }
 }
 </pre>
 </div>
@@ -932,8 +939,8 @@ static num easeOutBounce(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeInOutBounce(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeInBounce(ratio) : 0.5 * easeOutBounce(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInBounce(ratio) : 0.5 * easeOutBounce(ratio - 1.0) + 0.5;
 }
 </pre>
 </div>
@@ -945,107 +952,9 @@ static num easeInOutBounce(num ratio) {
 <div class="doc">
 <pre class="source">
 static num easeOutInBounce(num ratio) {
-  ratio = ratio * 2.0;
-  return (ratio &lt; 1.0) ? 0.5 * easeOutBounce(ratio) : 0.5 * easeInBounce(ratio - 1.0) + 0.5;
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutBounce(ratio) : 0.5 * easeInBounce(ratio - 1.0) + 0.5;
 }
-</pre>
-</div>
-</div>
-</div>
-<div>
-<h3>Properties</h3>
-<div class="field inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
-            href="#runtimeType"
-            title="Permalink to Transitions.runtimeType">#</a>
-        </h4>
-        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
-</pre>
-</div>
-</div>
-</div>
-<div>
-<h3>Operators</h3>
-<div class="method inherited"><h4 id="==">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
-              title="Permalink to Transitions.operator ==">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>The equality operator.</p>
-<p>The default behavior for all <code>Object</code>s is to return true if and
-only if <code>this</code> and 
-<span class="param">other</span> are the same object.</p>
-<p>If a subclass overrides the equality operator it should override
-the <code>hashCode</code> method as well to maintain consistency.</p>
-<pre class="source">
-bool operator ==(other) =&gt; identical(this, other);
-</pre>
-</div>
-</div>
-</div>
-<div>
-<h3>Methods</h3>
-<div class="method inherited"><h4 id="hashCode">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
-              title="Permalink to Transitions.hashCode">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Get a hash code for this object.</p>
-<p>All objects have hash codes. Hash codes are guaranteed to be the
-same for objects that are equal when compared using the equality
-operator <code>==</code>. Other than that there are no guarantees about
-the hash codes. They will not be consistent between runs and
-there are no distribution guarantees.</p>
-<p>If a subclass overrides <code>hashCode</code> it should override the
-equality operator as well to maintain consistency.</p>
-<pre class="source">
-external int hashCode();
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="noSuchMethod">
-<button class="show-code">Code</button>
-<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
-              title="Permalink to Transitions.noSuchMethod">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
-on an object. The name of the method and the arguments of the
-invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
-returns a value, that value becomes the result of the original
-invocation.</p>
-<p>The default behavior of <code>noSuchMethod</code> is to throw a
-<code>noSuchMethodError</code>.</p>
-<pre class="source">
-external Dynamic noSuchMethod(String name, List args);
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="Object">
-<button class="show-code">Code</button>
-const <strong>Object</strong>() <a class="anchor-link" href="#Object"
-              title="Permalink to Transitions.Object">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Creates a new <code>Object</code> instance.</p>
-<p><code>Object</code> instances have no meaningful state, and are only useful
-through their identity. An <code>Object</code> instance is equal to itself
-only.</p>
-<pre class="source">
-const Object();
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="toString">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
-              title="Permalink to Transitions.toString">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Returns a string representation of this object.</p>
-<pre class="source">
-external String toString();
 </pre>
 </div>
 </div>
@@ -1055,7 +964,7 @@ external String toString();
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-13 21:36:09.317</div>
+          <div>This page was generated at 2012-11-03 13:33:35.871</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

@@ -51,6 +51,7 @@
 <li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -97,6 +99,7 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
 <li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
@@ -122,18 +125,18 @@
 <pre class="source">
 class EnterFrameEvent extends Event
 {
-  num _passedTime;
+ num _passedTime;
 
-  EnterFrameEvent(num passedTime):super(Event.ENTER_FRAME, false)
-  {
-    _passedTime = passedTime;
-  }
+ EnterFrameEvent(num passedTime):super(Event.ENTER_FRAME, false)
+ {
+   _passedTime = passedTime;
+ }
 
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  num get passedTime =&gt; _passedTime;
-  bool get captures =&gt; false;
+ num get passedTime =&gt; _passedTime;
+ bool get captures =&gt; false;
 
 }
 </pre>
@@ -151,7 +154,7 @@ new <strong>EnterFrameEvent</strong>(<a href="http://api.dartlang.org/dart_core/
 <pre class="source">
 EnterFrameEvent(num passedTime):super(Event.ENTER_FRAME, false)
 {
-  _passedTime = passedTime;
+ _passedTime = passedTime;
 }
 </pre>
 </div>
@@ -219,19 +222,6 @@ num get passedTime =&gt; _passedTime;
 </pre>
 </div>
 </div>
-<div class="field inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
-            href="#runtimeType"
-            title="Permalink to EnterFrameEvent.runtimeType">#</a>
-        </h4>
-        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="stopsImmediatePropagation">
 <button class="show-code">Code</button>
 final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>stopsImmediatePropagation</strong> <a class="anchor-link"
@@ -281,102 +271,8 @@ String get type =&gt; _type;
 </div>
 </div>
 </div>
-<div>
-<h3>Operators</h3>
-<div class="method inherited"><h4 id="==">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
-              title="Permalink to EnterFrameEvent.operator ==">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>The equality operator.</p>
-<p>The default behavior for all <code>Object</code>s is to return true if and
-only if <code>this</code> and 
-<span class="param">other</span> are the same object.</p>
-<p>If a subclass overrides the equality operator it should override
-the <code>hashCode</code> method as well to maintain consistency.</p>
-<pre class="source">
-bool operator ==(other) =&gt; identical(this, other);
-</pre>
-</div>
-</div>
-</div>
-<div>
+<div class="inherited">
 <h3>Methods</h3>
-<div class="method"><h4 id="EnterFrameEvent">
-<button class="show-code">Code</button>
-new <strong>EnterFrameEvent</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> passedTime) <a class="anchor-link" href="#EnterFrameEvent"
-              title="Permalink to EnterFrameEvent.EnterFrameEvent">#</a></h4>
-<div class="doc">
-<pre class="source">
-EnterFrameEvent(num passedTime):super(Event.ENTER_FRAME, false)
-{
-  _passedTime = passedTime;
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="Event">
-<button class="show-code">Code</button>
-new <strong>Event</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> bubbles = false]) <a class="anchor-link" href="#Event"
-              title="Permalink to EnterFrameEvent.Event">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/Event.html">Event</a> </div><div class="doc">
-<pre class="source">
-Event(String type, [bool bubbles = false])
-{
-  _reset(type, bubbles);
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="hashCode">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
-              title="Permalink to EnterFrameEvent.hashCode">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Get a hash code for this object.</p>
-<p>All objects have hash codes. Hash codes are guaranteed to be the
-same for objects that are equal when compared using the equality
-operator <code>==</code>. Other than that there are no guarantees about
-the hash codes. They will not be consistent between runs and
-there are no distribution guarantees.</p>
-<p>If a subclass overrides <code>hashCode</code> it should override the
-equality operator as well to maintain consistency.</p>
-<pre class="source">
-external int hashCode();
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="noSuchMethod">
-<button class="show-code">Code</button>
-<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
-              title="Permalink to EnterFrameEvent.noSuchMethod">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
-on an object. The name of the method and the arguments of the
-invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
-returns a value, that value becomes the result of the original
-invocation.</p>
-<p>The default behavior of <code>noSuchMethod</code> is to throw a
-<code>noSuchMethodError</code>.</p>
-<pre class="source">
-external Dynamic noSuchMethod(String name, List args);
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="Object">
-<button class="show-code">Code</button>
-const <strong>Object</strong>() <a class="anchor-link" href="#Object"
-              title="Permalink to EnterFrameEvent.Object">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Creates a new <code>Object</code> instance.</p>
-<p><code>Object</code> instances have no meaningful state, and are only useful
-through their identity. An <code>Object</code> instance is equal to itself
-only.</p>
-<pre class="source">
-const Object();
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="stopImmediatePropagation">
 <button class="show-code">Code</button>
 void <strong>stopImmediatePropagation</strong>() <a class="anchor-link" href="#stopImmediatePropagation"
@@ -385,8 +281,8 @@ void <strong>stopImmediatePropagation</strong>() <a class="anchor-link" href="#s
 <pre class="source">
 void stopImmediatePropagation()
 {
-  _stopsPropagation = true;
-  _stopsImmediatePropagation = true;
+ _stopsPropagation = true;
+ _stopsImmediatePropagation = true;
 }
 </pre>
 </div>
@@ -399,19 +295,8 @@ void <strong>stopPropagation</strong>() <a class="anchor-link" href="#stopPropag
 <pre class="source">
 void stopPropagation()
 {
-  _stopsPropagation = true;
+ _stopsPropagation = true;
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="toString">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
-              title="Permalink to EnterFrameEvent.toString">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Returns a string representation of this object.</p>
-<pre class="source">
-external String toString();
 </pre>
 </div>
 </div>
@@ -421,7 +306,7 @@ external String toString();
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-13 21:36:08.693</div>
+          <div>This page was generated at 2012-11-03 13:33:35.723</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

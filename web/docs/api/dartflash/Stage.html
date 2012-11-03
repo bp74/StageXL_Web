@@ -51,6 +51,7 @@
 <li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -97,6 +99,7 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
 <li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
@@ -122,335 +125,335 @@
 <pre class="source">
 class Stage extends DisplayObjectContainer
 {
-  html.CanvasElement _canvas;
-  html.CanvasRenderingContext2D _context;
+ html.CanvasElement _canvas;
+ html.CanvasRenderingContext2D _context;
 
-  InteractiveObject _focus;
-  RenderState _renderState;
-  String _renderMode;
-  String _mouseCursor;
+ InteractiveObject _focus;
+ RenderState _renderState;
+ String _renderMode;
+ String _mouseCursor;
 
-  List&lt;bool&gt; _buttonState;
-  List&lt;DisplayObject&gt; _clickTarget;
-  List&lt;int&gt; _clickTime;
-  List&lt;int&gt; _clickCount;
-  List&lt;String&gt; _mouseDownEventTypes;
-  List&lt;String&gt; _mouseUpEventTypes;
-  List&lt;String&gt; _mouseClickEventTypes;
-  List&lt;String&gt; _mouseDoubleClickEventTypes;
-  InteractiveObject _mouseOverTarget;
+ List&lt;bool&gt; _buttonState;
+ List&lt;DisplayObject&gt; _clickTarget;
+ List&lt;int&gt; _clickTime;
+ List&lt;int&gt; _clickCount;
+ List&lt;String&gt; _mouseDownEventTypes;
+ List&lt;String&gt; _mouseUpEventTypes;
+ List&lt;String&gt; _mouseClickEventTypes;
+ List&lt;String&gt; _mouseDoubleClickEventTypes;
+ InteractiveObject _mouseOverTarget;
 
-  MouseEvent _mouseEvent;
-  KeyboardEvent _keyboardEvent;
+ MouseEvent _mouseEvent;
+ KeyboardEvent _keyboardEvent;
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  Stage(String name, html.CanvasElement canvas)
-  {
-    _name = name;
+ Stage(String name, html.CanvasElement canvas)
+ {
+   _name = name;
 
-    _canvas = canvas;
-    _canvas.style.outline = "none";
-    _canvas.focus();
+   _canvas = canvas;
+   _canvas.style.outline = "none";
+   _canvas.focus();
 
-    _context = canvas.context2d;
+   _context = canvas.context2d;
 
-    _renderState = new RenderState.fromCanvasRenderingContext2D(_context);
-    _renderMode = StageRenderMode.AUTO;
-    _mouseCursor = MouseCursor.ARROW;
+   _renderState = new RenderState.fromCanvasRenderingContext2D(_context);
+   _renderMode = StageRenderMode.AUTO;
+   _mouseCursor = MouseCursor.ARROW;
 
-    //-----------
+   //-----------
 
-    _buttonState = [false, false, false];
+   _buttonState = [false, false, false];
 
-    _clickTarget = [null, null, null];
-    _clickTime = [0, 0, 0];
-    _clickCount = [0, 0, 0];
+   _clickTarget = [null, null, null];
+   _clickTime = [0, 0, 0];
+   _clickCount = [0, 0, 0];
 
-    _mouseDownEventTypes = [MouseEvent.MOUSE_DOWN, MouseEvent.MIDDLE_MOUSE_DOWN, MouseEvent.RIGHT_MOUSE_DOWN];
-    _mouseUpEventTypes =  [MouseEvent.MOUSE_UP, MouseEvent.MIDDLE_MOUSE_UP, MouseEvent.RIGHT_MOUSE_UP];
-    _mouseClickEventTypes = [MouseEvent.CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
-    _mouseDoubleClickEventTypes = [MouseEvent.DOUBLE_CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
+   _mouseDownEventTypes = [MouseEvent.MOUSE_DOWN, MouseEvent.MIDDLE_MOUSE_DOWN, MouseEvent.RIGHT_MOUSE_DOWN];
+   _mouseUpEventTypes =  [MouseEvent.MOUSE_UP, MouseEvent.MIDDLE_MOUSE_UP, MouseEvent.RIGHT_MOUSE_UP];
+   _mouseClickEventTypes = [MouseEvent.CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
+   _mouseDoubleClickEventTypes = [MouseEvent.DOUBLE_CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
 
-    _mouseOverTarget = null;
+   _mouseOverTarget = null;
 
-    _canvas.on.mouseDown.add(_onMouseEvent);
-    _canvas.on.mouseUp.add(_onMouseEvent);
-    _canvas.on.mouseMove.add(_onMouseEvent);
-    _canvas.on.mouseOut.add(_onMouseEvent);
+   _canvas.on.mouseDown.add(_onMouseEvent);
+   _canvas.on.mouseUp.add(_onMouseEvent);
+   _canvas.on.mouseMove.add(_onMouseEvent);
+   _canvas.on.mouseOut.add(_onMouseEvent);
 
-    _canvas.on.mouseWheel.add(_onMouseWheel);
+   _canvas.on.mouseWheel.add(_onMouseWheel);
 
-    _canvas.on.keyDown.add(_onKeyEvent);
-    _canvas.on.keyUp.add(_onKeyEvent);
-    _canvas.on.keyPress.add(_onTextEvent);
+   _canvas.on.keyDown.add(_onKeyEvent);
+   _canvas.on.keyUp.add(_onKeyEvent);
+   _canvas.on.keyPress.add(_onTextEvent);
 
-    //-----------
+   //-----------
 
-    _mouseEvent = new MouseEvent(MouseEvent.CLICK, true);
-    _keyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true);
+   _mouseEvent = new MouseEvent(MouseEvent.CLICK, true);
+   _keyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true);
 
-    Mouse._eventDispatcher.addEventListener("mouseCursorChanged", _onMouseCursorChanged);
-  }
+   Mouse._eventDispatcher.addEventListener("mouseCursorChanged", _onMouseCursorChanged);
+ }
 
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  int stageWidth() =&gt; _canvas.width;
-  int stageHeight() =&gt; _canvas.height;
+ int stageWidth() =&gt; _canvas.width;
+ int stageHeight() =&gt; _canvas.height;
 
-  InteractiveObject get focus =&gt; _focus;
-  void set focus(InteractiveObject value) { _focus = value; }
+ InteractiveObject get focus =&gt; _focus;
+ void set focus(InteractiveObject value) { _focus = value; }
 
-  String get renderMode =&gt; _renderMode;
-  void set renderMode(String value) { _renderMode = value; }
+ String get renderMode =&gt; _renderMode;
+ void set renderMode(String value) { _renderMode = value; }
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  void _throwStageException() {
-    throw new UnsupportedOperationException("Error #2071: The Stage class does not implement this property or method.");
-  }
+ void _throwStageException() {
+   throw new UnsupportedError("Error #2071: The Stage class does not implement this property or method.");
+ }
 
-  void set x(num value) { _throwStageException(); }
-  void set y(num value) { _throwStageException(); }
-  void set pivotX(num value) { _throwStageException(); }
-  void set pivotY(num value) { _throwStageException(); }
-  void set scaleX(num value) { _throwStageException(); }
-  void set scaleY(num value) { _throwStageException(); }
-  void set rotation(num value) { _throwStageException(); }
-  void set alpha(num value) { _throwStageException(); }
-  void set width(num value) { _throwStageException(); }
-  void set height(num value) { _throwStageException(); }
+ void set x(num value) { _throwStageException(); }
+ void set y(num value) { _throwStageException(); }
+ void set pivotX(num value) { _throwStageException(); }
+ void set pivotY(num value) { _throwStageException(); }
+ void set scaleX(num value) { _throwStageException(); }
+ void set scaleY(num value) { _throwStageException(); }
+ void set rotation(num value) { _throwStageException(); }
+ void set alpha(num value) { _throwStageException(); }
+ void set width(num value) { _throwStageException(); }
+ void set height(num value) { _throwStageException(); }
 
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
-
-  void materialize()
-  {
-    if (_renderMode == StageRenderMode.AUTO || _renderMode == StageRenderMode.ONCE)
-    {
-      _renderState.reset();
-      render(_renderState);
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void materialize()
+ {
+   if (_renderMode == StageRenderMode.AUTO || _renderMode == StageRenderMode.ONCE)
+   {
+     _renderState.reset();
+     render(_renderState);
 
-      if (_renderMode == StageRenderMode.ONCE)
-        _renderMode = StageRenderMode.STOP;
-    }
-  }
+     if (_renderMode == StageRenderMode.ONCE)
+       _renderMode = StageRenderMode.STOP;
+   }
+ }
 
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
-
-  void _onMouseCursorChanged(Event event)
-  {
-    _canvas.style.cursor = Mouse._getCssStyle(_mouseCursor);
-  }
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void _onMouseCursorChanged(Event event)
+ {
+   _canvas.style.cursor = Mouse._getCssStyle(_mouseCursor);
+ }
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  void _onMouseEvent(html.MouseEvent event)
-  {
-    event.preventDefault();
+ void _onMouseEvent(html.MouseEvent event)
+ {
+   event.preventDefault();
 
-    int time = new Date.now().millisecondsSinceEpoch;
-    int button = event.button;
-    InteractiveObject target = null;
+   int time = new Date.now().millisecondsSinceEpoch;
+   int button = event.button;
+   InteractiveObject target = null;
 
-    if (button &lt; 0 || button &gt; 2)
-      return;
+   if (button &lt; 0 || button &gt; 2)
+     return;
 
-    Point stagePoint = new Point(event.offsetX, event.offsetY);
-    Point localPoint = null;
+   Point stagePoint = new Point(event.offsetX, event.offsetY);
+   Point localPoint = null;
 
-    if (event.type != "mouseout")
-      target = hitTestInput(stagePoint.x, stagePoint.y) as InteractiveObject;
-
-    //------------------------------------------------------
-
-    String mouseCursor = MouseCursor.ARROW;
-
-    if (target is Sprite)
-      if (target.useHandCursor)
-        mouseCursor = MouseCursor.BUTTON;
+   if (event.type != "mouseout")
+     target = hitTestInput(stagePoint.x, stagePoint.y) as InteractiveObject;
+
+   //------------------------------------------------------
+
+   String mouseCursor = MouseCursor.ARROW;
+
+   if (target is Sprite)
+     if (target.useHandCursor)
+       mouseCursor = MouseCursor.BUTTON;
 
-    if (target is SimpleButton)
-      if (target.useHandCursor)
-        mouseCursor = MouseCursor.BUTTON;
+   if (target is SimpleButton)
+     if (target.useHandCursor)
+       mouseCursor = MouseCursor.BUTTON;
 
-    if (_mouseCursor != mouseCursor) {
-      _mouseCursor = mouseCursor;
-      _canvas.style.cursor = Mouse._getCssStyle(mouseCursor);
-    }
-
-    //------------------------------------------------------
+   if (_mouseCursor != mouseCursor) {
+     _mouseCursor = mouseCursor;
+     _canvas.style.cursor = Mouse._getCssStyle(mouseCursor);
+   }
+
+   //------------------------------------------------------
 
-    if (_mouseOverTarget != null &amp;&amp; _mouseOverTarget != target)
-    {
-      if (_mouseOverTarget.stage != null)
-        localPoint = _mouseOverTarget.globalToLocal(stagePoint);
-      else
-        localPoint = new Point.zero();
+   if (_mouseOverTarget != null &amp;&amp; _mouseOverTarget != target)
+   {
+     if (_mouseOverTarget.stage != null)
+       localPoint = _mouseOverTarget.globalToLocal(stagePoint);
+     else
+       localPoint = new Point.zero();
 
-      _mouseEvent._reset(MouseEvent.MOUSE_OUT, true);
-      _mouseEvent._localX = localPoint.x;
-      _mouseEvent._localY = localPoint.y;
-      _mouseEvent._stageX = stagePoint.x;
-      _mouseEvent._stageY = stagePoint.y;
-      _mouseEvent._buttonDown = _buttonState[button];
-
-      _mouseOverTarget.dispatchEvent(_mouseEvent);
-      _mouseOverTarget = null;
-    }
-
-    if (target != null &amp;&amp; target != _mouseOverTarget)
-    {
-      localPoint = target.globalToLocal(stagePoint);
-
-      _mouseEvent._reset(MouseEvent.MOUSE_OVER, true);
-      _mouseEvent._localX = localPoint.x;
-      _mouseEvent._localY = localPoint.y;
-      _mouseEvent._stageX = stagePoint.x;
-      _mouseEvent._stageY = stagePoint.y;
-      _mouseEvent._buttonDown = _buttonState[button];
-
-      _mouseOverTarget = target;
-      _mouseOverTarget.dispatchEvent(_mouseEvent);
-    }
-
-    //------------------------------------------------------
-
-    String mouseEventType = null;
-    int clickCount = _clickCount[button];
-    bool isClick = false;
-    bool isDoubleClick = false;
+     _mouseEvent._reset(MouseEvent.MOUSE_OUT, true);
+     _mouseEvent._localX = localPoint.x;
+     _mouseEvent._localY = localPoint.y;
+     _mouseEvent._stageX = stagePoint.x;
+     _mouseEvent._stageY = stagePoint.y;
+     _mouseEvent._buttonDown = _buttonState[button];
+
+     _mouseOverTarget.dispatchEvent(_mouseEvent);
+     _mouseOverTarget = null;
+   }
+
+   if (target != null &amp;&amp; target != _mouseOverTarget)
+   {
+     localPoint = target.globalToLocal(stagePoint);
+
+     _mouseEvent._reset(MouseEvent.MOUSE_OVER, true);
+     _mouseEvent._localX = localPoint.x;
+     _mouseEvent._localY = localPoint.y;
+     _mouseEvent._stageX = stagePoint.x;
+     _mouseEvent._stageY = stagePoint.y;
+     _mouseEvent._buttonDown = _buttonState[button];
+
+     _mouseOverTarget = target;
+     _mouseOverTarget.dispatchEvent(_mouseEvent);
+   }
+
+   //------------------------------------------------------
+
+   String mouseEventType = null;
+   int clickCount = _clickCount[button];
+   bool isClick = false;
+   bool isDoubleClick = false;
 
-    if (event.type == "mousedown")
-    {
-        mouseEventType = _mouseDownEventTypes[button];
-
-        _buttonState[button] = true;
-
-        if (target != _clickTarget[button] || time &gt; _clickTime[button] + 500) clickCount = 0;
-
-        _clickTarget[button] = target;
-        _clickTime[button] = time;
-        _clickCount[button] = ++clickCount;
-    }
-
-    if (event.type == "mouseup")
-    {
-        mouseEventType = _mouseUpEventTypes[button];
-
-        _buttonState[button] = false;
-
-        isClick = (_clickTarget[button] == target);
-        isDoubleClick = isClick &amp;&amp; _clickCount[button].isEven() &amp;&amp; (time &lt; _clickTime[button] + 500);
-    }
-
-    if (event.type == "mousemove")
-    {
-        mouseEventType = MouseEvent.MOUSE_MOVE;
-        clickCount = 0;
-    }
-
-    //-----------------------------------------------------------------
-
-    if (mouseEventType != null &amp;&amp; target != null)
-    {
-      localPoint = target.globalToLocal(stagePoint);
-
-      _mouseEvent._reset(mouseEventType, true);
-      _mouseEvent._localX = localPoint.x;
-      _mouseEvent._localY = localPoint.y;
-      _mouseEvent._stageX = stagePoint.x;
-      _mouseEvent._stageY = stagePoint.y;
-      _mouseEvent._buttonDown = _buttonState[button];
-      _mouseEvent._clickCount = clickCount;
-
-      target.dispatchEvent(_mouseEvent);
-
-      //----------------------------------------------
-
-      if (isClick)
-      {
-        isDoubleClick = isDoubleClick &amp;&amp; target.doubleClickEnabled;
-        mouseEventType = isDoubleClick ? _mouseDoubleClickEventTypes[button] : _mouseClickEventTypes[button];
-
-        _mouseEvent._reset(mouseEventType, true);
-        _mouseEvent._localX = localPoint.x;
-        _mouseEvent._localY = localPoint.y;
-        _mouseEvent._stageX = stagePoint.x;
-        _mouseEvent._stageY = stagePoint.y;
-        _mouseEvent._buttonDown = _buttonState[button];
-
-        target.dispatchEvent(_mouseEvent);
-      }
-    }
-  }
-
-  //-------------------------------------------------------------------------------------------------
-
-  void _onMouseWheel(html.WheelEvent event)
-  {
-    InteractiveObject target = hitTestInput(event.offsetX, event.offsetY);
-
-    if (target != null)
-    {
-      Point stagePoint = new Point(event.offsetX, event.offsetY);
-      Point localPoint = target.globalToLocal(stagePoint);
-
-      _mouseEvent._reset(MouseEvent.MOUSE_WHEEL, true);
-      _mouseEvent._localX = localPoint.x;
-      _mouseEvent._localY = localPoint.y;
-      _mouseEvent._stageX = stagePoint.x;
-      _mouseEvent._stageY = stagePoint.y;
-      _mouseEvent._deltaX = event.deltaX;
-      _mouseEvent._deltaY = event.deltaY;
-
-      target.dispatchEvent(_mouseEvent);
-    }
-  }
-
-  //-------------------------------------------------------------------------------------------------
-
-  void _onKeyEvent(html.KeyboardEvent event)
-  {
-    event.preventDefault();
-
-    String keyboardEventType = null;
-
-    if (event.type == "keyup") keyboardEventType = KeyboardEvent.KEY_UP;
-    if (event.type == "keydown") keyboardEventType = KeyboardEvent.KEY_DOWN;
-
-    _keyboardEvent._reset(keyboardEventType, true);
-    _keyboardEvent._altKey = event.altKey;
-    _keyboardEvent._ctrlKey = event.ctrlKey;
-    _keyboardEvent._shiftKey = event.shiftKey;
-    _keyboardEvent._charCode = event.charCode;
-    _keyboardEvent._keyCode = event.keyCode;
-    _keyboardEvent._keyLocation = KeyLocation.STANDARD;
-
-    if (event.keyLocation == html.KeyLocation.LEFT) _keyboardEvent._keyLocation = KeyLocation.LEFT;
-    if (event.keyLocation == html.KeyLocation.RIGHT) _keyboardEvent._keyLocation = KeyLocation.RIGHT;
-    if (event.keyLocation == html.KeyLocation.NUMPAD) _keyboardEvent._keyLocation = KeyLocation.NUM_PAD;
-    if (event.keyLocation == html.KeyLocation.JOYSTICK) _keyboardEvent._keyLocation = KeyLocation.D_PAD;
-    if (event.keyLocation == html.KeyLocation.MOBILE) _keyboardEvent._keyLocation = KeyLocation.D_PAD;
-
-    if (_focus != null)
-      _focus.dispatchEvent(_keyboardEvent);
-  }
-
-  //-------------------------------------------------------------------------------------------------
-
-  void _onTextEvent(html.KeyboardEvent event)
-  {
-    int charCode = (event.charCode != 0) ? event.charCode : event.keyCode;
-
-    TextEvent textEvent = new TextEvent(TextEvent.TEXT_INPUT, true);
-    textEvent._text = new String.fromCharCodes([charCode]);
-
-    if (_focus != null)
-      _focus.dispatchEvent(textEvent);
-  }
+   if (event.type == "mousedown")
+   {
+       mouseEventType = _mouseDownEventTypes[button];
+
+       _buttonState[button] = true;
+
+       if (target != _clickTarget[button] || time &gt; _clickTime[button] + 500) clickCount = 0;
+
+       _clickTarget[button] = target;
+       _clickTime[button] = time;
+       _clickCount[button] = ++clickCount;
+   }
+
+   if (event.type == "mouseup")
+   {
+       mouseEventType = _mouseUpEventTypes[button];
+
+       _buttonState[button] = false;
+
+       isClick = (_clickTarget[button] == target);
+       isDoubleClick = isClick &amp;&amp; _clickCount[button].isEven &amp;&amp; (time &lt; _clickTime[button] + 500);
+   }
+
+   if (event.type == "mousemove")
+   {
+       mouseEventType = MouseEvent.MOUSE_MOVE;
+       clickCount = 0;
+   }
+
+   //-----------------------------------------------------------------
+
+   if (mouseEventType != null &amp;&amp; target != null)
+   {
+     localPoint = target.globalToLocal(stagePoint);
+
+     _mouseEvent._reset(mouseEventType, true);
+     _mouseEvent._localX = localPoint.x;
+     _mouseEvent._localY = localPoint.y;
+     _mouseEvent._stageX = stagePoint.x;
+     _mouseEvent._stageY = stagePoint.y;
+     _mouseEvent._buttonDown = _buttonState[button];
+     _mouseEvent._clickCount = clickCount;
+
+     target.dispatchEvent(_mouseEvent);
+
+     //----------------------------------------------
+
+     if (isClick)
+     {
+       isDoubleClick = isDoubleClick &amp;&amp; target.doubleClickEnabled;
+       mouseEventType = isDoubleClick ? _mouseDoubleClickEventTypes[button] : _mouseClickEventTypes[button];
+
+       _mouseEvent._reset(mouseEventType, true);
+       _mouseEvent._localX = localPoint.x;
+       _mouseEvent._localY = localPoint.y;
+       _mouseEvent._stageX = stagePoint.x;
+       _mouseEvent._stageY = stagePoint.y;
+       _mouseEvent._buttonDown = _buttonState[button];
+
+       target.dispatchEvent(_mouseEvent);
+     }
+   }
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void _onMouseWheel(html.WheelEvent event)
+ {
+   InteractiveObject target = hitTestInput(event.offsetX, event.offsetY);
+
+   if (target != null)
+   {
+     Point stagePoint = new Point(event.offsetX, event.offsetY);
+     Point localPoint = target.globalToLocal(stagePoint);
+
+     _mouseEvent._reset(MouseEvent.MOUSE_WHEEL, true);
+     _mouseEvent._localX = localPoint.x;
+     _mouseEvent._localY = localPoint.y;
+     _mouseEvent._stageX = stagePoint.x;
+     _mouseEvent._stageY = stagePoint.y;
+     _mouseEvent._deltaX = event.deltaX;
+     _mouseEvent._deltaY = event.deltaY;
+
+     target.dispatchEvent(_mouseEvent);
+   }
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void _onKeyEvent(html.KeyboardEvent event)
+ {
+   event.preventDefault();
+
+   String keyboardEventType = null;
+
+   if (event.type == "keyup") keyboardEventType = KeyboardEvent.KEY_UP;
+   if (event.type == "keydown") keyboardEventType = KeyboardEvent.KEY_DOWN;
+
+   _keyboardEvent._reset(keyboardEventType, true);
+   _keyboardEvent._altKey = event.altKey;
+   _keyboardEvent._ctrlKey = event.ctrlKey;
+   _keyboardEvent._shiftKey = event.shiftKey;
+   _keyboardEvent._charCode = event.charCode;
+   _keyboardEvent._keyCode = event.keyCode;
+   _keyboardEvent._keyLocation = KeyLocation.STANDARD;
+
+   if (event.keyLocation == html.KeyLocation.LEFT) _keyboardEvent._keyLocation = KeyLocation.LEFT;
+   if (event.keyLocation == html.KeyLocation.RIGHT) _keyboardEvent._keyLocation = KeyLocation.RIGHT;
+   if (event.keyLocation == html.KeyLocation.NUMPAD) _keyboardEvent._keyLocation = KeyLocation.NUM_PAD;
+   if (event.keyLocation == html.KeyLocation.JOYSTICK) _keyboardEvent._keyLocation = KeyLocation.D_PAD;
+   if (event.keyLocation == html.KeyLocation.MOBILE) _keyboardEvent._keyLocation = KeyLocation.D_PAD;
+
+   if (_focus != null)
+     _focus.dispatchEvent(_keyboardEvent);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void _onTextEvent(html.KeyboardEvent event)
+ {
+   int charCode = (event.charCode != 0) ? event.charCode : event.keyCode;
+
+   TextEvent textEvent = new TextEvent(TextEvent.TEXT_INPUT, true);
+   textEvent._text = new String.fromCharCodes([charCode]);
+
+   if (_focus != null)
+     _focus.dispatchEvent(textEvent);
+ }
 
 }
 </pre>
@@ -468,50 +471,50 @@ new <strong>Stage</strong>(<a href="http://api.dartlang.org/dart_core/String.htm
 <pre class="source">
 Stage(String name, html.CanvasElement canvas)
 {
-  _name = name;
+ _name = name;
 
-  _canvas = canvas;
-  _canvas.style.outline = "none";
-  _canvas.focus();
+ _canvas = canvas;
+ _canvas.style.outline = "none";
+ _canvas.focus();
 
-  _context = canvas.context2d;
+ _context = canvas.context2d;
 
-  _renderState = new RenderState.fromCanvasRenderingContext2D(_context);
-  _renderMode = StageRenderMode.AUTO;
-  _mouseCursor = MouseCursor.ARROW;
+ _renderState = new RenderState.fromCanvasRenderingContext2D(_context);
+ _renderMode = StageRenderMode.AUTO;
+ _mouseCursor = MouseCursor.ARROW;
 
-  //-----------
+ //-----------
 
-  _buttonState = [false, false, false];
+ _buttonState = [false, false, false];
 
-  _clickTarget = [null, null, null];
-  _clickTime = [0, 0, 0];
-  _clickCount = [0, 0, 0];
+ _clickTarget = [null, null, null];
+ _clickTime = [0, 0, 0];
+ _clickCount = [0, 0, 0];
 
-  _mouseDownEventTypes = [MouseEvent.MOUSE_DOWN, MouseEvent.MIDDLE_MOUSE_DOWN, MouseEvent.RIGHT_MOUSE_DOWN];
-  _mouseUpEventTypes =  [MouseEvent.MOUSE_UP, MouseEvent.MIDDLE_MOUSE_UP, MouseEvent.RIGHT_MOUSE_UP];
-  _mouseClickEventTypes = [MouseEvent.CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
-  _mouseDoubleClickEventTypes = [MouseEvent.DOUBLE_CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
+ _mouseDownEventTypes = [MouseEvent.MOUSE_DOWN, MouseEvent.MIDDLE_MOUSE_DOWN, MouseEvent.RIGHT_MOUSE_DOWN];
+ _mouseUpEventTypes =  [MouseEvent.MOUSE_UP, MouseEvent.MIDDLE_MOUSE_UP, MouseEvent.RIGHT_MOUSE_UP];
+ _mouseClickEventTypes = [MouseEvent.CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
+ _mouseDoubleClickEventTypes = [MouseEvent.DOUBLE_CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
 
-  _mouseOverTarget = null;
+ _mouseOverTarget = null;
 
-  _canvas.on.mouseDown.add(_onMouseEvent);
-  _canvas.on.mouseUp.add(_onMouseEvent);
-  _canvas.on.mouseMove.add(_onMouseEvent);
-  _canvas.on.mouseOut.add(_onMouseEvent);
+ _canvas.on.mouseDown.add(_onMouseEvent);
+ _canvas.on.mouseUp.add(_onMouseEvent);
+ _canvas.on.mouseMove.add(_onMouseEvent);
+ _canvas.on.mouseOut.add(_onMouseEvent);
 
-  _canvas.on.mouseWheel.add(_onMouseWheel);
+ _canvas.on.mouseWheel.add(_onMouseWheel);
 
-  _canvas.on.keyDown.add(_onKeyEvent);
-  _canvas.on.keyUp.add(_onKeyEvent);
-  _canvas.on.keyPress.add(_onTextEvent);
+ _canvas.on.keyDown.add(_onKeyEvent);
+ _canvas.on.keyUp.add(_onKeyEvent);
+ _canvas.on.keyPress.add(_onTextEvent);
 
-  //-----------
+ //-----------
 
-  _mouseEvent = new MouseEvent(MouseEvent.CLICK, true);
-  _keyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true);
+ _mouseEvent = new MouseEvent(MouseEvent.CLICK, true);
+ _keyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true);
 
-  Mouse._eventDispatcher.addEventListener("mouseCursorChanged", _onMouseCursorChanged);
+ Mouse._eventDispatcher.addEventListener("mouseCursorChanged", _onMouseCursorChanged);
 }
 </pre>
 </div>
@@ -741,12 +744,12 @@ final <a href="../dartflash/DisplayObject.html">DisplayObject</a>         <stron
 <pre class="source">
 DisplayObject get root
 {
-  DisplayObject currentObject = this;
+ DisplayObject currentObject = this;
 
-  while (currentObject._parent != null)
-    currentObject = currentObject._parent;
+ while (currentObject._parent != null)
+   currentObject = currentObject._parent;
 
-  return currentObject;
+ return currentObject;
 }
 </pre>
 </div>
@@ -768,19 +771,6 @@ void <strong>set rotation</strong>(<a href="http://api.dartlang.org/dart_core/nu
 <div class="doc">
 <pre class="source">
 void set rotation(num value) { _throwStageException(); }
-</pre>
-</div>
-</div>
-<div class="field inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
-            href="#runtimeType"
-            title="Permalink to Stage.runtimeType">#</a>
-        </h4>
-        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
 </pre>
 </div>
 </div>
@@ -834,12 +824,12 @@ final <a href="../dartflash/Stage.html">Stage</a>         <strong>stage</strong>
 <pre class="source">
 Stage get stage
 {
-  DisplayObject root = this.root;
+ DisplayObject root = this.root;
 
-  if (root is Stage)
-    return root;
+ if (root is Stage)
+   return root;
 
-  return null;
+ return null;
 }
 </pre>
 </div>
@@ -893,7 +883,7 @@ final <a href="../dartflash/Matrix.html">Matrix</a>         <strong>transformati
 <pre class="source">
 Matrix get transformationMatrix
 {
-  return _transformationMatrix.clone();
+ return _transformationMatrix.clone();
 }
 </pre>
 </div>
@@ -975,87 +965,64 @@ void set y(num value) { _throwStageException(); }
 </div>
 </div>
 <div>
-<h3>Operators</h3>
-<div class="method inherited"><h4 id="==">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
-              title="Permalink to Stage.operator ==">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>The equality operator.</p>
-<p>The default behavior for all <code>Object</code>s is to return true if and
-only if <code>this</code> and 
-<span class="param">other</span> are the same object.</p>
-<p>If a subclass overrides the equality operator it should override
-the <code>hashCode</code> method as well to maintain consistency.</p>
-<pre class="source">
-bool operator ==(other) =&gt; identical(this, other);
-</pre>
-</div>
-</div>
-</div>
-<div>
 <h3>Methods</h3>
 <div class="method inherited"><h4 id="addChild">
 <button class="show-code">Code</button>
-<strong>addChild</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> child) <a class="anchor-link" href="#addChild"
+void <strong>addChild</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> child) <a class="anchor-link" href="#addChild"
               title="Permalink to Stage.addChild">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-Dynamic addChild(DisplayObject child)
+void addChild(DisplayObject child)
 {
-  if (child.parent == this)
-  {
-    int index = _children.indexOf(child);
-    _children.removeAt(index);
-    _children.add(child);
-  }
-  else
-  {
-    addChildAt(child, _children.length);
-  }
-
-  return child;
+ if (child.parent == this)
+ {
+   int index = _children.indexOf(child);
+   _children.removeAt(index);
+   _children.add(child);
+ }
+ else
+ {
+   addChildAt(child, _children.length);
+ }
 }
 </pre>
 </div>
 </div>
 <div class="method inherited"><h4 id="addChildAt">
 <button class="show-code">Code</button>
-<strong>addChildAt</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> child, <a href="http://api.dartlang.org/dart_core/int.html">int</a> index) <a class="anchor-link" href="#addChildAt"
+void <strong>addChildAt</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> child, <a href="http://api.dartlang.org/dart_core/int.html">int</a> index) <a class="anchor-link" href="#addChildAt"
               title="Permalink to Stage.addChildAt">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-Dynamic addChildAt(DisplayObject child, int index)
+void addChildAt(DisplayObject child, int index)
 {
-  if (index &lt; 0 &amp;&amp; index &gt; _children.length)
-    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ if (index &lt; 0 &amp;&amp; index &gt; _children.length)
+   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
-  if (child == this)
-    throw new ArgumentError("Error #2024: An object cannot be added as a child of itself.");
+ if (child == this)
+   throw new ArgumentError("Error #2024: An object cannot be added as a child of itself.");
 
-  if (child.parent == this)
-  {
-    _children.removeAt(_children.indexOf(child));
+ if (child.parent == this)
+ {
+   _children.removeAt(_children.indexOf(child));
 
-    if (index &gt; _children.length)
-      index --;
+   if (index &gt; _children.length)
+     index --;
 
-    _children.insertRange(index, 1, child);
-  }
-  else
-  {
-    child.removeFromParent();
+   _children.insertRange(index, 1, child);
+ }
+ else
+ {
+   child.removeFromParent();
 
-    child._setParent(this);
-    _children.insertRange(index, 1, child);
+   child._setParent(this);
+   _children.insertRange(index, 1, child);
 
-    child.dispatchEvent(new Event(Event.ADDED, true));
+   child.dispatchEvent(new Event(Event.ADDED, true));
 
-    if (this.stage != null)
-      _dispatchEventOnChildren(child, new Event(Event.ADDED_TO_STAGE));
-  }
-
-  return child;
+   if (this.stage != null)
+     _dispatchEventOnChildren(child, new Event(Event.ADDED_TO_STAGE));
+ }
 }
 </pre>
 </div>
@@ -1068,7 +1035,20 @@ void <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_cor
 <pre class="source">
 void addEventListener(String type, EventListener eventListener, [bool useCapture = false])
 {
-  _getEventListenerList(type).add(eventListener, useCapture);
+ _getEventListenerList(type).add(eventListener, useCapture);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="addTo">
+<button class="show-code">Code</button>
+void <strong>addTo</strong>(<a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> parent) <a class="anchor-link" href="#addTo"
+              title="Permalink to Stage.addTo">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void addTo(DisplayObjectContainer parent)
+{
+ parent.addChild(this);
 }
 </pre>
 </div>
@@ -1081,11 +1061,11 @@ void addEventListener(String type, EventListener eventListener, [bool useCapture
 <pre class="source">
 bool contains(DisplayObject child)
 {
-  for(; child != null; child = child._parent)
-    if (child == this)
-      return true;
+ for(; child != null; child = child._parent)
+   if (child == this)
+     return true;
 
-  return false;
+ return false;
 }
 </pre>
 </div>
@@ -1098,57 +1078,27 @@ void <strong>dispatchEvent</strong>(<a href="../dartflash/Event.html">Event</a> 
 <pre class="source">
 void dispatchEvent(Event event)
 {
-  List&lt;DisplayObject&gt; ancestors = null;
+ List&lt;DisplayObject&gt; ancestors = null;
 
-  if (event.captures || event.bubbles)
-    for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent)
-      if (ancestor.hasEventListener(event.type)) {
-        if (ancestors == null) ancestors = new List&lt;DisplayObject&gt;();
-        ancestors.add(ancestor);
-      }
+ if (event.captures || event.bubbles)
+   for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent)
+     if (ancestor.hasEventListener(event.type)) {
+       if (ancestors == null) ancestors = new List&lt;DisplayObject&gt;();
+       ancestors.add(ancestor);
+     }
 
-  if (event.captures &amp;&amp; ancestors != null)
-    for(int i = ancestors.length - 1 ; i &gt;= 0; i--)
-      if (event.stopsPropagation == false)
-        ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
+ if (event.captures &amp;&amp; ancestors != null)
+   for(int i = ancestors.length - 1 ; i &gt;= 0; i--)
+     if (event.stopsPropagation == false)
+       ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
 
-  if (event.stopsPropagation == false)
-    _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
+ if (event.stopsPropagation == false)
+   _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
 
-  if (event.bubbles &amp;&amp; ancestors != null)
-    for(int i = 0; i &lt; ancestors.length; i++)
-      if (event.stopsPropagation == false)
-        ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="DisplayObject">
-<button class="show-code">Code</button>
-new <strong>DisplayObject</strong>() <a class="anchor-link" href="#DisplayObject"
-              title="Permalink to Stage.DisplayObject">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
-<pre class="source">
-DisplayObject()
-{
-  _transformationMatrixPrivate = new Matrix.fromIdentity();
-  _transformationMatrixRefresh = true;
-
-  _tmpMatrix = new Matrix.fromIdentity();
-  _tmpMatrixIdentity = new Matrix.fromIdentity();
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="DisplayObjectContainer">
-<button class="show-code">Code</button>
-new <strong>DisplayObjectContainer</strong>() <a class="anchor-link" href="#DisplayObjectContainer"
-              title="Permalink to Stage.DisplayObjectContainer">#</a></h4>
-<div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
-<pre class="source">
-DisplayObjectContainer()
-{
-  _children = new List&lt;DisplayObject&gt;();
+ if (event.bubbles &amp;&amp; ancestors != null)
+   for(int i = 0; i &lt; ancestors.length; i++)
+     if (event.stopsPropagation == false)
+       ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
 }
 </pre>
 </div>
@@ -1161,10 +1111,10 @@ DisplayObjectContainer()
 <pre class="source">
 Rectangle getBounds(DisplayObject targetSpace)
 {
-  Rectangle returnRectangle = new Rectangle.zero();
-  Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
+ Rectangle returnRectangle = new Rectangle.zero();
+ Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
 
-  return getBoundsTransformed(matrix, returnRectangle);
+ return getBoundsTransformed(matrix, returnRectangle);
 }
 </pre>
 </div>
@@ -1177,37 +1127,37 @@ Rectangle getBounds(DisplayObject targetSpace)
 <pre class="source">
 Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle = null])
 {
-  if (returnRectangle == null)
-    returnRectangle = new Rectangle.zero();
+ if (returnRectangle == null)
+   returnRectangle = new Rectangle.zero();
 
-  if (_children.length == 0)
-    return super.getBoundsTransformed(matrix, returnRectangle);
+ if (_children.length == 0)
+   return super.getBoundsTransformed(matrix, returnRectangle);
 
-  num left = double.INFINITY;
-  num top = double.INFINITY;
-  num right = double.NEGATIVE_INFINITY;
-  num bottom = double.NEGATIVE_INFINITY;
+ num left = double.INFINITY;
+ num top = double.INFINITY;
+ num right = double.NEGATIVE_INFINITY;
+ num bottom = double.NEGATIVE_INFINITY;
 
-  int childrenLength = _children.length;
+ int childrenLength = _children.length;
 
-  for (int i = 0; i &lt; childrenLength; i++)
-  {
-    _tmpMatrix.copyFromAndConcat(_children[i]._transformationMatrix, matrix);
+ for (int i = 0; i &lt; childrenLength; i++)
+ {
+   _tmpMatrix.copyFromAndConcat(_children[i]._transformationMatrix, matrix);
 
-    Rectangle rectangle = _children[i].getBoundsTransformed(_tmpMatrix, returnRectangle);
+   Rectangle rectangle = _children[i].getBoundsTransformed(_tmpMatrix, returnRectangle);
 
-    if (rectangle.left &lt; left) left = rectangle.left;
-    if (rectangle.top &lt; top ) top = rectangle.top;
-    if (rectangle.right &gt; right) right = rectangle.right;
-    if (rectangle.bottom &gt; bottom) bottom = rectangle.bottom;
-  }
+   if (rectangle.left &lt; left) left = rectangle.left;
+   if (rectangle.top &lt; top ) top = rectangle.top;
+   if (rectangle.right &gt; right) right = rectangle.right;
+   if (rectangle.bottom &gt; bottom) bottom = rectangle.bottom;
+ }
 
-  returnRectangle.x = left;
-  returnRectangle.y = top;
-  returnRectangle.width = right - left;
-  returnRectangle.height = bottom - top;
+ returnRectangle.x = left;
+ returnRectangle.y = top;
+ returnRectangle.width = right - left;
+ returnRectangle.height = bottom - top;
 
-  return returnRectangle;
+ return returnRectangle;
 }
 </pre>
 </div>
@@ -1218,12 +1168,12 @@ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle = null]
               title="Permalink to Stage.getChildAt">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-Dynamic getChildAt(int index)
+dynamic getChildAt(int index)
 {
-  if (index &lt; 0 &amp;&amp; index &gt;= _children.length)
-    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ if (index &lt; 0 &amp;&amp; index &gt;= _children.length)
+   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
-  return _children[index];
+ return _children[index];
 }
 </pre>
 </div>
@@ -1234,15 +1184,15 @@ Dynamic getChildAt(int index)
               title="Permalink to Stage.getChildByName">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-Dynamic getChildByName(String name)
+dynamic getChildByName(String name)
 {
-  var childrenLength = _children.length;
+ var childrenLength = _children.length;
 
-  for(int i = 0; i &lt; childrenLength; i++)
-    if (_children[i].name == name)
-      return _children[i];
+ for(int i = 0; i &lt; childrenLength; i++)
+   if (_children[i].name == name)
+     return _children[i];
 
-    return null;
+   return null;
 }
 </pre>
 </div>
@@ -1255,7 +1205,7 @@ Dynamic getChildByName(String name)
 <pre class="source">
 int getChildIndex(DisplayObject child)
 {
-    return _children.indexOf(child);
+   return _children.indexOf(child);
 }
 </pre>
 </div>
@@ -1268,14 +1218,14 @@ int getChildIndex(DisplayObject child)
 <pre class="source">
 Point globalToLocal(Point globalPoint)
 {
-  _tmpMatrix.identity();
+ _tmpMatrix.identity();
 
-  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
-    _tmpMatrix.concat(displayObject._transformationMatrix);
+ for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
+   _tmpMatrix.concat(displayObject._transformationMatrix);
 
-  _tmpMatrix.invert();
+ _tmpMatrix.invert();
 
-  return _tmpMatrix.transformPoint(globalPoint);
+ return _tmpMatrix.transformPoint(globalPoint);
 }
 </pre>
 </div>
@@ -1288,26 +1238,8 @@ Point globalToLocal(Point globalPoint)
 <pre class="source">
 bool hasEventListener(String type)
 {
-  return _eventListenerLists != null &amp;&amp; _eventListenerLists.containsKey(type);
+ return _eventListenerLists != null &amp;&amp; _eventListenerLists.containsKey(type);
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="hashCode">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
-              title="Permalink to Stage.hashCode">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Get a hash code for this object.</p>
-<p>All objects have hash codes. Hash codes are guaranteed to be the
-same for objects that are equal when compared using the equality
-operator <code>==</code>. Other than that there are no guarantees about
-the hash codes. They will not be consistent between runs and
-there are no distribution guarantees.</p>
-<p>If a subclass overrides <code>hashCode</code> it should override the
-equality operator as well to maintain consistency.</p>
-<pre class="source">
-external int hashCode();
 </pre>
 </div>
 </div>
@@ -1319,35 +1251,35 @@ external int hashCode();
 <pre class="source">
 DisplayObject hitTestInput(num localX, num localY)
 {
-  DisplayObject hit = null;
+ DisplayObject hit = null;
 
-  for (int i = _children.length - 1; i &gt;= 0; i--)
-  {
-    DisplayObject child = _children[i];
+ for (int i = _children.length - 1; i &gt;= 0; i--)
+ {
+   DisplayObject child = _children[i];
 
-    if (child.visible)
-    {
-      Matrix matrix = child._transformationMatrix;
+   if (child.visible)
+   {
+     Matrix matrix = child._transformationMatrix;
 
-      double deltaX = localX - matrix.tx;
-      double deltaY = localY - matrix.ty;
-      double childX = (matrix.d * deltaX - matrix.c * deltaY) / matrix.det;
-      double childY = (matrix.a * deltaY - matrix.b * deltaX) / matrix.det;
+     double deltaX = localX - matrix.tx;
+     double deltaY = localY - matrix.ty;
+     double childX = (matrix.d * deltaX - matrix.c * deltaY) / matrix.det;
+     double childY = (matrix.a * deltaY - matrix.b * deltaX) / matrix.det;
 
-      var displayObject = child.hitTestInput(childX, childY);
+     var displayObject = child.hitTestInput(childX, childY);
 
-      if (displayObject != null)
-      {
-        if (displayObject is InteractiveObject)
-          if (displayObject.mouseEnabled)
-            return _mouseChildren ? displayObject : this;
+     if (displayObject != null)
+     {
+       if (displayObject is InteractiveObject)
+         if (displayObject.mouseEnabled)
+           return _mouseChildren ? displayObject : this;
 
-        hit = this;
-      }
-    }
-  }
+       hit = this;
+     }
+   }
+ }
 
-  return hit;
+ return hit;
 }
 </pre>
 </div>
@@ -1360,9 +1292,9 @@ DisplayObject hitTestInput(num localX, num localY)
 <pre class="source">
 bool hitTestObject(DisplayObject other)
 {
-  //ToDo
+ //ToDo
 
-  throw new NotImplementedException("Error #2014: Feature is not available at this time.");
+ throw new UnimplementedError("Error #2014: Feature is not available at this time.");
 }
 </pre>
 </div>
@@ -1375,18 +1307,18 @@ bool hitTestObject(DisplayObject other)
 <pre class="source">
 bool hitTestPoint(num x, num y, [bool shapeFlag = false])
 {
-  Stage stage = this.stage;
+ Stage stage = this.stage;
 
-  if (stage == null)
-    return false;
+ if (stage == null)
+   return false;
 
-  Matrix matrix = this.transformationMatrixTo(stage);
-  matrix.invert();
+ Matrix matrix = this.transformationMatrixTo(stage);
+ matrix.invert();
 
-  Point point = new Point(x, y);
-  point.transform(matrix);
+ Point point = new Point(x, y);
+ point.transform(matrix);
 
-  return getBoundsTransformed(_tmpMatrixIdentity).contains(point.x, point.y);
+ return getBoundsTransformed(_tmpMatrixIdentity).contains(point.x, point.y);
 }
 </pre>
 </div>
@@ -1399,12 +1331,12 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false])
 <pre class="source">
 Point localToGlobal(Point localPoint)
 {
-  _tmpMatrix.identity();
+ _tmpMatrix.identity();
 
-  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
-    _tmpMatrix.concat(displayObject._transformationMatrix);
+ for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
+   _tmpMatrix.concat(displayObject._transformationMatrix);
 
-  return _tmpMatrix.transformPoint(localPoint);
+ return _tmpMatrix.transformPoint(localPoint);
 }
 </pre>
 </div>
@@ -1417,89 +1349,56 @@ void <strong>materialize</strong>() <a class="anchor-link" href="#materialize"
 <pre class="source">
 void materialize()
 {
-  if (_renderMode == StageRenderMode.AUTO || _renderMode == StageRenderMode.ONCE)
-  {
-    _renderState.reset();
-    render(_renderState);
+ if (_renderMode == StageRenderMode.AUTO || _renderMode == StageRenderMode.ONCE)
+ {
+   _renderState.reset();
+   render(_renderState);
 
-    if (_renderMode == StageRenderMode.ONCE)
-      _renderMode = StageRenderMode.STOP;
-  }
+   if (_renderMode == StageRenderMode.ONCE)
+     _renderMode = StageRenderMode.STOP;
+ }
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="noSuchMethod">
-<button class="show-code">Code</button>
-<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
-              title="Permalink to Stage.noSuchMethod">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
-on an object. The name of the method and the arguments of the
-invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
-returns a value, that value becomes the result of the original
-invocation.</p>
-<p>The default behavior of <code>noSuchMethod</code> is to throw a
-<code>noSuchMethodError</code>.</p>
-<pre class="source">
-external Dynamic noSuchMethod(String name, List args);
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="Object">
-<button class="show-code">Code</button>
-const <strong>Object</strong>() <a class="anchor-link" href="#Object"
-              title="Permalink to Stage.Object">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Creates a new <code>Object</code> instance.</p>
-<p><code>Object</code> instances have no meaningful state, and are only useful
-through their identity. An <code>Object</code> instance is equal to itself
-only.</p>
-<pre class="source">
-const Object();
 </pre>
 </div>
 </div>
 <div class="method inherited"><h4 id="removeChild">
 <button class="show-code">Code</button>
-<strong>removeChild</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> child) <a class="anchor-link" href="#removeChild"
+void <strong>removeChild</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> child) <a class="anchor-link" href="#removeChild"
               title="Permalink to Stage.removeChild">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-Dynamic removeChild(DisplayObject child)
+void removeChild(DisplayObject child)
 {
-  int childIndex = _children.indexOf(child);
+ int childIndex = _children.indexOf(child);
 
-  if (childIndex == -1)
-    throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+ if (childIndex == -1)
+   throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
 
-  return removeChildAt(childIndex);
+ removeChildAt(childIndex);
 }
 </pre>
 </div>
 </div>
 <div class="method inherited"><h4 id="removeChildAt">
 <button class="show-code">Code</button>
-<strong>removeChildAt</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> index) <a class="anchor-link" href="#removeChildAt"
+void <strong>removeChildAt</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> index) <a class="anchor-link" href="#removeChildAt"
               title="Permalink to Stage.removeChildAt">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-Dynamic removeChildAt(int index)
+void removeChildAt(int index)
 {
-  if (index &lt; 0 &amp;&amp; index &gt;= _children.length)
-    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ if (index &lt; 0 &amp;&amp; index &gt;= _children.length)
+   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
-  DisplayObject child = _children[index];
+ DisplayObject child = _children[index];
 
-  child.dispatchEvent(new Event(Event.REMOVED, true));
+ child.dispatchEvent(new Event(Event.REMOVED, true));
 
-  if (this.stage != null)
-    _dispatchEventOnChildren(child, new Event(Event.REMOVED_FROM_STAGE));
+ if (this.stage != null)
+   _dispatchEventOnChildren(child, new Event(Event.REMOVED_FROM_STAGE));
 
-  child._setParent(null);
-  _children.removeAt(index);
-
-  return child;
+ child._setParent(null);
+ _children.removeAt(index);
 }
 </pre>
 </div>
@@ -1512,7 +1411,7 @@ void <strong>removeEventListener</strong>(<a href="http://api.dartlang.org/dart_
 <pre class="source">
 void removeEventListener(String type, EventListener eventListener, [bool useCapture = false])
 {
-  _getEventListenerList(type).remove(eventListener, useCapture);
+ _getEventListenerList(type).remove(eventListener, useCapture);
 }
 </pre>
 </div>
@@ -1525,8 +1424,8 @@ void <strong>removeFromParent</strong>() <a class="anchor-link" href="#removeFro
 <pre class="source">
 void removeFromParent()
 {
-  if (_parent != null)
-    _parent.removeChild(this);
+ if (_parent != null)
+   _parent.removeChild(this);
 }
 </pre>
 </div>
@@ -1539,13 +1438,13 @@ void <strong>render</strong>(<a href="../dartflash/RenderState.html">RenderState
 <pre class="source">
 void render(RenderState renderState)
 {
-  for(int i = 0; i &lt; _children.length; i++)
-  {
-    DisplayObject child = _children[i];
+ for(int i = 0; i &lt; _children.length; i++)
+ {
+   DisplayObject child = _children[i];
 
-    if (child.visible)
-      renderState.renderDisplayObject(child);
-  }
+   if (child.visible)
+     renderState.renderDisplayObject(child);
+ }
 }
 </pre>
 </div>
@@ -1558,16 +1457,16 @@ void <strong>setChildIndex</strong>(<a href="../dartflash/DisplayObject.html">Di
 <pre class="source">
 void setChildIndex(DisplayObject child, int index)
 {
-  if (index &lt; 0 &amp;&amp; index &gt;= _children.length)
-    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ if (index &lt; 0 &amp;&amp; index &gt;= _children.length)
+   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
-  int oldIndex = getChildIndex(child);
+ int oldIndex = getChildIndex(child);
 
-  if (oldIndex == -1)
-    throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+ if (oldIndex == -1)
+   throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
 
-  _children.removeAt(oldIndex);
-  _children.insertRange(index, 1, child);
+ _children.removeAt(oldIndex);
+ _children.insertRange(index, 1, child);
 }
 </pre>
 </div>
@@ -1580,63 +1479,7 @@ void <strong>sortChildren</strong>(<a href="http://api.dartlang.org/dart_core/Fu
 <pre class="source">
 void sortChildren(Function compareFunction)
 {
-  _children.sort(compareFunction);
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="Stage">
-<button class="show-code">Code</button>
-new <strong>Stage</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_html/CanvasElement.html">CanvasElement</a> canvas) <a class="anchor-link" href="#Stage"
-              title="Permalink to Stage.Stage">#</a></h4>
-<div class="doc">
-<pre class="source">
-Stage(String name, html.CanvasElement canvas)
-{
-  _name = name;
-
-  _canvas = canvas;
-  _canvas.style.outline = "none";
-  _canvas.focus();
-
-  _context = canvas.context2d;
-
-  _renderState = new RenderState.fromCanvasRenderingContext2D(_context);
-  _renderMode = StageRenderMode.AUTO;
-  _mouseCursor = MouseCursor.ARROW;
-
-  //-----------
-
-  _buttonState = [false, false, false];
-
-  _clickTarget = [null, null, null];
-  _clickTime = [0, 0, 0];
-  _clickCount = [0, 0, 0];
-
-  _mouseDownEventTypes = [MouseEvent.MOUSE_DOWN, MouseEvent.MIDDLE_MOUSE_DOWN, MouseEvent.RIGHT_MOUSE_DOWN];
-  _mouseUpEventTypes =  [MouseEvent.MOUSE_UP, MouseEvent.MIDDLE_MOUSE_UP, MouseEvent.RIGHT_MOUSE_UP];
-  _mouseClickEventTypes = [MouseEvent.CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
-  _mouseDoubleClickEventTypes = [MouseEvent.DOUBLE_CLICK, MouseEvent.MIDDLE_CLICK, MouseEvent.RIGHT_CLICK];
-
-  _mouseOverTarget = null;
-
-  _canvas.on.mouseDown.add(_onMouseEvent);
-  _canvas.on.mouseUp.add(_onMouseEvent);
-  _canvas.on.mouseMove.add(_onMouseEvent);
-  _canvas.on.mouseOut.add(_onMouseEvent);
-
-  _canvas.on.mouseWheel.add(_onMouseWheel);
-
-  _canvas.on.keyDown.add(_onKeyEvent);
-  _canvas.on.keyUp.add(_onKeyEvent);
-  _canvas.on.keyPress.add(_onTextEvent);
-
-  //-----------
-
-  _mouseEvent = new MouseEvent(MouseEvent.CLICK, true);
-  _keyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true);
-
-  Mouse._eventDispatcher.addEventListener("mouseCursorChanged", _onMouseCursorChanged);
+ _children.sort(compareFunction);
 }
 </pre>
 </div>
@@ -1669,13 +1512,13 @@ void <strong>swapChildren</strong>(<a href="../dartflash/DisplayObject.html">Dis
 <pre class="source">
 void swapChildren(DisplayObject child1, DisplayObject child2)
 {
-    int index1 = getChildIndex(child1);
-    int index2 = getChildIndex(child2);
+   int index1 = getChildIndex(child1);
+   int index2 = getChildIndex(child2);
 
-    if (index1 == -1 || index2 == -1)
-      throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+   if (index1 == -1 || index2 == -1)
+     throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
 
-    swapChildrenAt(index1, index2);
+   swapChildrenAt(index1, index2);
 }
 </pre>
 </div>
@@ -1688,22 +1531,11 @@ void <strong>swapChildrenAt</strong>(<a href="http://api.dartlang.org/dart_core/
 <pre class="source">
 void swapChildrenAt(int index1, int index2)
 {
-  DisplayObject child1 = getChildAt(index1);
-  DisplayObject child2 = getChildAt(index2);
-  _children[index1] = child2;
-  _children[index2] = child1;
+ DisplayObject child1 = getChildAt(index1);
+ DisplayObject child2 = getChildAt(index2);
+ _children[index1] = child2;
+ _children[index2] = child1;
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="toString">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
-              title="Permalink to Stage.toString">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Returns a string representation of this object.</p>
-<pre class="source">
-external String toString();
 </pre>
 </div>
 </div>
@@ -1715,51 +1547,51 @@ external String toString();
 <pre class="source">
 Matrix transformationMatrixTo(DisplayObject targetSpace)
 {
-  if (targetSpace == _parent)
-    return _transformationMatrix.clone();
+ if (targetSpace == _parent)
+   return _transformationMatrix.clone();
 
-  if (targetSpace._parent == this)
-    return _transformationMatrix.cloneInvert();
+ if (targetSpace._parent == this)
+   return _transformationMatrix.cloneInvert();
 
-  //------------------------------------------------
+ //------------------------------------------------
 
-  Matrix resultMatrix = new Matrix.fromIdentity();
-  DisplayObject resultObject = this;
+ Matrix resultMatrix = new Matrix.fromIdentity();
+ DisplayObject resultObject = this;
 
-  while(resultObject != targetSpace &amp;&amp; resultObject._parent != null) {
-    resultMatrix.concat(resultObject._transformationMatrix);
-    resultObject = resultObject._parent;
-  }
+ while(resultObject != targetSpace &amp;&amp; resultObject._parent != null) {
+   resultMatrix.concat(resultObject._transformationMatrix);
+   resultObject = resultObject._parent;
+ }
 
-  if (targetSpace == null &amp;&amp; resultObject != null) {
-    resultMatrix.concat(resultObject._transformationMatrix);
-    resultObject = null;
-  }
+ if (targetSpace == null &amp;&amp; resultObject != null) {
+   resultMatrix.concat(resultObject._transformationMatrix);
+   resultObject = null;
+ }
 
-  if (resultObject == targetSpace)
-    return resultMatrix;
+ if (resultObject == targetSpace)
+   return resultMatrix;
 
-  //------------------------------------------------
+ //------------------------------------------------
 
-  Matrix targetMatrix = new Matrix.fromIdentity();
-  DisplayObject targetObject = targetSpace;
+ Matrix targetMatrix = new Matrix.fromIdentity();
+ DisplayObject targetObject = targetSpace;
 
-  while(targetObject != this &amp;&amp; targetObject._parent != null) {
-    targetMatrix.concat(targetObject._transformationMatrix);
-    targetObject = targetObject._parent;
-  }
+ while(targetObject != this &amp;&amp; targetObject._parent != null) {
+   targetMatrix.concat(targetObject._transformationMatrix);
+   targetObject = targetObject._parent;
+ }
 
-  targetMatrix.invert();
+ targetMatrix.invert();
 
-  if (targetObject == this)
-    return targetMatrix;
+ if (targetObject == this)
+   return targetMatrix;
 
-  if (targetObject != resultObject)
-    throw new ArgumentError("Error #9001: The supplied DisplayObject has no relationship to the caller.");
+ if (targetObject != resultObject)
+   throw new ArgumentError("Error #9001: The supplied DisplayObject has no relationship to the caller.");
 
-  resultMatrix.concat(targetMatrix);
+ resultMatrix.concat(targetMatrix);
 
-  return resultMatrix;
+ return resultMatrix;
 }
 </pre>
 </div>
@@ -1770,7 +1602,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace)
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-13 21:36:09.236</div>
+          <div>This page was generated at 2012-11-03 13:33:35.634</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

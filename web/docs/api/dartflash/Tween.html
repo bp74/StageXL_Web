@@ -51,6 +51,7 @@
 <li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -97,6 +99,7 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
 <li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
@@ -119,189 +122,198 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<p>The <a class="crossref" href="../dartflash/Tween.html#Tween">Tween</a> class animates the properties of a <a class="crossref" href="../dartflash/DisplayObject.html">DisplayObject</a>.
+Use one of the predefined <a class="crossref" href="../dartflash/Transitions.html">Transitions</a> or create your own.
+Add the instance to the <a class="crossref" href="../dartflash/Juggler.html">Juggler</a> to start the animation.</p>
+<pre><code>var tween = new Tween(mySprite, 1.0, Transitions.easeInCubic);
+tween.delay = 0.5;
+tween.animate("alpha", 0.0);
+tween.onComplete = () =&gt; print('completed');
+renderLoop.juggler.add(tween);
+</code></pre>
 <pre class="source">
 class Tween implements Animatable
 {
-  DisplayObject _displayObject;
-  TransitionFunction _transitionFunction;
+ DisplayObject _displayObject;
+ TransitionFunction _transitionFunction;
 
-  List&lt;_TweenProperty&gt; _tweenProperties;
+ List&lt;_TweenProperty&gt; _tweenProperties;
 
-  TweenStart _onStart;
-  TweenUpdate _onUpdate;
-  TweenComplete _onComplete;
+ TweenStart _onStart;
+ TweenUpdate _onUpdate;
+ TweenComplete _onComplete;
 
-  num _totalTime;
-  num _currentTime;
-  num _delay;
-  bool _roundToInt;
-  bool _started;
+ num _totalTime;
+ num _currentTime;
+ num _delay;
+ bool _roundToInt;
+ bool _started;
 
-  Tween(DisplayObject displayObject, num time, [TransitionFunction transitionFunction = null])
-  {
-    _displayObject = displayObject;
-    _transitionFunction = (transitionFunction != null) ? transitionFunction : Transitions.linear;
+ Tween(DisplayObject displayObject, num time, [TransitionFunction transitionFunction = null])
+ {
+   _displayObject = displayObject;
+   _transitionFunction = (transitionFunction != null) ? transitionFunction : Transitions.linear;
 
-    _currentTime = 0.0;
-    _totalTime = max(0.0001, time);
-    _delay = 0.0;
-    _roundToInt = false;
-    _started = false;
+   _currentTime = 0.0;
+   _totalTime = max(0.0001, time);
+   _delay = 0.0;
+   _roundToInt = false;
+   _started = false;
 
-    _tweenProperties = new List&lt;_TweenProperty&gt;();
-  }
+   _tweenProperties = new List&lt;_TweenProperty&gt;();
+ }
 
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  void animate(String property, num targetValue)
-  {
-    var properties = ['x', 'y', 'pivotX', 'pivotY', 'scaleX', 'scaleY', 'rotation', 'alpha'];
+ void animate(String property, num targetValue)
+ {
+   var properties = ['x', 'y', 'pivotX', 'pivotY', 'scaleX', 'scaleY', 'rotation', 'alpha'];
 
-    if (properties.indexOf(property) == -1)
-      throw new ArgumentError("Error #9003: The supplied property ('$property') is not supported at this time.");
+   if (properties.indexOf(property) == -1)
+     throw new ArgumentError("Error #9003: The supplied property ('$property') is not supported at this time.");
 
-    if (_displayObject != null &amp;&amp; _started == false)
-      _tweenProperties.add(new _TweenProperty(property, 0.0, targetValue));
-  }
+   if (_displayObject != null &amp;&amp; _started == false)
+     _tweenProperties.add(new _TweenProperty(property, 0.0, targetValue));
+ }
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  void scaleTo(num factor)
-  {
-    animate('scaleX', factor);
-    animate('scaleY', factor);
-  }
+ void scaleTo(num factor)
+ {
+   animate('scaleX', factor);
+   animate('scaleY', factor);
+ }
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  void moveTo(num x, num y)
-  {
-    animate('x', x);
-    animate('y', y);
-  }
+ void moveTo(num x, num y)
+ {
+   animate('x', x);
+   animate('y', y);
+ }
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  void fadeTo(num alpha)
-  {
-    animate('alpha', alpha);
-  }
+ void fadeTo(num alpha)
+ {
+   animate('alpha', alpha);
+ }
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  void complete()
-  {
-    if (this.isComplete == false)
-      advanceTime(_totalTime - _currentTime);
-  }
+ void complete()
+ {
+   if (_totalTime &gt;= _currentTime)
+     advanceTime(_totalTime - _currentTime);
+ }
 
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  bool advanceTime(num time)
-  {
-    if (_currentTime &lt; _totalTime || _started == false)
-    {
-      _currentTime = _currentTime + time;
+ bool advanceTime(num time)
+ {
+   if (_currentTime &lt; _totalTime || _started == false)
+   {
+     _currentTime = _currentTime + time;
 
-      if (_currentTime &gt; _totalTime)
-        _currentTime = _totalTime;
+     if (_currentTime &gt; _totalTime)
+       _currentTime = _totalTime;
 
-      if (_currentTime &gt;= 0.0)
-      {
-        if (_started == false)
-        {
-          _started = true;
+     if (_currentTime &gt;= 0.0)
+     {
+       if (_started == false)
+       {
+         _started = true;
 
-          for(int i = 0; i &lt; _tweenProperties.length; i++)
-          {
-            var tp = _tweenProperties[i];
+         for(int i = 0; i &lt; _tweenProperties.length; i++)
+         {
+           var tp = _tweenProperties[i];
 
-            switch(tp.name) {
-              case 'x':        tp.startValue = _displayObject.x; break;
-              case 'y':        tp.startValue = _displayObject.y; break;
-              case 'pivotX':   tp.startValue = _displayObject.pivotX; break;
-              case 'pivotY':   tp.startValue = _displayObject.pivotY; break;
-              case 'scaleX':   tp.startValue = _displayObject.scaleX; break;
-              case 'scaleY':   tp.startValue = _displayObject.scaleY; break;
-              case 'rotation': tp.startValue = _displayObject.rotation; break;
-              case 'alpha':    tp.startValue = _displayObject.alpha; break;
-            }
-          }
+           switch(tp.name) {
+             case 'x':        tp.startValue = _displayObject.x; break;
+             case 'y':        tp.startValue = _displayObject.y; break;
+             case 'pivotX':   tp.startValue = _displayObject.pivotX; break;
+             case 'pivotY':   tp.startValue = _displayObject.pivotY; break;
+             case 'scaleX':   tp.startValue = _displayObject.scaleX; break;
+             case 'scaleY':   tp.startValue = _displayObject.scaleY; break;
+             case 'rotation': tp.startValue = _displayObject.rotation; break;
+             case 'alpha':    tp.startValue = _displayObject.alpha; break;
+           }
+         }
 
-          if (_onStart != null)
-            _onStart();
-        }
+         if (_onStart != null)
+           _onStart();
+       }
 
-        //-------------
+       //-------------
 
-        num ratio = _currentTime / _totalTime;
-        num transition = _transitionFunction(ratio);
+       num ratio = _currentTime / _totalTime;
+       num transition = _transitionFunction(ratio);
 
-        for(int i = 0; i &lt; _tweenProperties.length; i++)
-        {
-          var tp = _tweenProperties[i];
-          var value = tp.startValue + transition * (tp.targetValue - tp.startValue);
-          value = _roundToInt ? value.round() : value;
+       for(int i = 0; i &lt; _tweenProperties.length; i++)
+       {
+         var tp = _tweenProperties[i];
+         var value = tp.startValue + transition * (tp.targetValue - tp.startValue);
+         value = _roundToInt ? value.round() : value;
 
-          switch(tp.name) {
-            case 'x':        _displayObject.x = value; break;
-            case 'y':        _displayObject.y = value; break;
-            case 'pivotX':   _displayObject.pivotX = value; break;
-            case 'pivotY':   _displayObject.pivotY = value; break;
-            case 'scaleX':   _displayObject.scaleX = value; break;
-            case 'scaleY':   _displayObject.scaleY = value; break;
-            case 'rotation': _displayObject.rotation = value; break;
-            case 'alpha':    _displayObject.alpha = value; break;
-          }
-        }
+         switch(tp.name) {
+           case 'x':        _displayObject.x = value; break;
+           case 'y':        _displayObject.y = value; break;
+           case 'pivotX':   _displayObject.pivotX = value; break;
+           case 'pivotY':   _displayObject.pivotY = value; break;
+           case 'scaleX':   _displayObject.scaleX = value; break;
+           case 'scaleY':   _displayObject.scaleY = value; break;
+           case 'rotation': _displayObject.rotation = value; break;
+           case 'alpha':    _displayObject.alpha = value; break;
+         }
+       }
 
-        if (_onUpdate != null)
-          _onUpdate();
+       if (_onUpdate != null)
+         _onUpdate();
 
-        //-------------
+       //-------------
 
-        if (_onComplete != null &amp;&amp; _currentTime == _totalTime)
-          _onComplete();
-      }
-    }
+       if (_onComplete != null &amp;&amp; _currentTime == _totalTime)
+         _onComplete();
+     }
+   }
 
-    return _currentTime &lt; _totalTime;
-  }
+   return _currentTime &lt; _totalTime;
+ }
 
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  DisplayObject get displayObject =&gt; _displayObject;
-  num get totalTime =&gt; _totalTime;
-  num get currentTime =&gt; _currentTime;
-  num get delay =&gt; _delay;
-  bool get roundToInt =&gt; _roundToInt;
-  bool get isComplete =&gt; _currentTime &gt;= _totalTime;
+ DisplayObject get displayObject =&gt; _displayObject;
+ num get totalTime =&gt; _totalTime;
+ num get currentTime =&gt; _currentTime;
+ num get delay =&gt; _delay;
+ bool get roundToInt =&gt; _roundToInt;
+ bool get isComplete =&gt; _currentTime &gt;= _totalTime;
 
-  set delay(num value)
-  {
-    if (_started == false)
-      _currentTime = _currentTime + _delay - value;
+ set delay(num value)
+ {
+   if (_started == false)
+     _currentTime = _currentTime + _delay - value;
 
-    _delay = value;
-  }
+   _delay = value;
+ }
 
-  set roundToInt(bool value)
-  {
-    _roundToInt = value;
-  }
+ set roundToInt(bool value)
+ {
+   _roundToInt = value;
+ }
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  TweenStart get onStart =&gt; _onStart;
-  TweenUpdate get onUpdate =&gt; _onUpdate;
-  TweenComplete get onComplete =&gt; _onComplete;
+ TweenStart get onStart =&gt; _onStart;
+ TweenUpdate get onUpdate =&gt; _onUpdate;
+ TweenComplete get onComplete =&gt; _onComplete;
 
-  void set onStart(TweenStart value) { _onStart = value; }
-  void set onUpdate(TweenUpdate value) { _onUpdate = value; }
-  void set onComplete(TweenComplete value) { _onComplete = value; }
+ void set onStart(TweenStart value) { _onStart = value; }
+ void set onUpdate(TweenUpdate value) { _onUpdate = value; }
+ void set onComplete(TweenComplete value) { _onComplete = value; }
 }
 </pre>
 </div>
@@ -318,16 +330,16 @@ new <strong>Tween</strong>(<a href="../dartflash/DisplayObject.html">DisplayObje
 <pre class="source">
 Tween(DisplayObject displayObject, num time, [TransitionFunction transitionFunction = null])
 {
-  _displayObject = displayObject;
-  _transitionFunction = (transitionFunction != null) ? transitionFunction : Transitions.linear;
+ _displayObject = displayObject;
+ _transitionFunction = (transitionFunction != null) ? transitionFunction : Transitions.linear;
 
-  _currentTime = 0.0;
-  _totalTime = max(0.0001, time);
-  _delay = 0.0;
-  _roundToInt = false;
-  _started = false;
+ _currentTime = 0.0;
+ _totalTime = max(0.0001, time);
+ _delay = 0.0;
+ _roundToInt = false;
+ _started = false;
 
-  _tweenProperties = new List&lt;_TweenProperty&gt;();
+ _tweenProperties = new List&lt;_TweenProperty&gt;();
 }
 </pre>
 </div>
@@ -360,10 +372,10 @@ num get delay =&gt; _delay;
 <pre class="source">
 set delay(num value)
 {
-  if (_started == false)
-    _currentTime = _currentTime + _delay - value;
+ if (_started == false)
+   _currentTime = _currentTime + _delay - value;
 
-  _delay = value;
+ _delay = value;
 }
 </pre>
 </div>
@@ -450,21 +462,8 @@ bool get roundToInt =&gt; _roundToInt;
 <pre class="source">
 set roundToInt(bool value)
 {
-  _roundToInt = value;
+ _roundToInt = value;
 }
-</pre>
-</div>
-</div>
-<div class="field inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
-            href="#runtimeType"
-            title="Permalink to Tween.runtimeType">#</a>
-        </h4>
-        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
 </pre>
 </div>
 </div>
@@ -482,25 +481,6 @@ num get totalTime =&gt; _totalTime;
 </div>
 </div>
 <div>
-<h3>Operators</h3>
-<div class="method inherited"><h4 id="==">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
-              title="Permalink to Tween.operator ==">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>The equality operator.</p>
-<p>The default behavior for all <code>Object</code>s is to return true if and
-only if <code>this</code> and 
-<span class="param">other</span> are the same object.</p>
-<p>If a subclass overrides the equality operator it should override
-the <code>hashCode</code> method as well to maintain consistency.</p>
-<pre class="source">
-bool operator ==(other) =&gt; identical(this, other);
-</pre>
-</div>
-</div>
-</div>
-<div>
 <h3>Methods</h3>
 <div class="method"><h4 id="advanceTime">
 <button class="show-code">Code</button>
@@ -510,73 +490,73 @@ bool operator ==(other) =&gt; identical(this, other);
 <pre class="source">
 bool advanceTime(num time)
 {
-  if (_currentTime &lt; _totalTime || _started == false)
-  {
-    _currentTime = _currentTime + time;
+ if (_currentTime &lt; _totalTime || _started == false)
+ {
+   _currentTime = _currentTime + time;
 
-    if (_currentTime &gt; _totalTime)
-      _currentTime = _totalTime;
+   if (_currentTime &gt; _totalTime)
+     _currentTime = _totalTime;
 
-    if (_currentTime &gt;= 0.0)
-    {
-      if (_started == false)
-      {
-        _started = true;
+   if (_currentTime &gt;= 0.0)
+   {
+     if (_started == false)
+     {
+       _started = true;
 
-        for(int i = 0; i &lt; _tweenProperties.length; i++)
-        {
-          var tp = _tweenProperties[i];
+       for(int i = 0; i &lt; _tweenProperties.length; i++)
+       {
+         var tp = _tweenProperties[i];
 
-          switch(tp.name) {
-            case 'x':        tp.startValue = _displayObject.x; break;
-            case 'y':        tp.startValue = _displayObject.y; break;
-            case 'pivotX':   tp.startValue = _displayObject.pivotX; break;
-            case 'pivotY':   tp.startValue = _displayObject.pivotY; break;
-            case 'scaleX':   tp.startValue = _displayObject.scaleX; break;
-            case 'scaleY':   tp.startValue = _displayObject.scaleY; break;
-            case 'rotation': tp.startValue = _displayObject.rotation; break;
-            case 'alpha':    tp.startValue = _displayObject.alpha; break;
-          }
-        }
+         switch(tp.name) {
+           case 'x':        tp.startValue = _displayObject.x; break;
+           case 'y':        tp.startValue = _displayObject.y; break;
+           case 'pivotX':   tp.startValue = _displayObject.pivotX; break;
+           case 'pivotY':   tp.startValue = _displayObject.pivotY; break;
+           case 'scaleX':   tp.startValue = _displayObject.scaleX; break;
+           case 'scaleY':   tp.startValue = _displayObject.scaleY; break;
+           case 'rotation': tp.startValue = _displayObject.rotation; break;
+           case 'alpha':    tp.startValue = _displayObject.alpha; break;
+         }
+       }
 
-        if (_onStart != null)
-          _onStart();
-      }
+       if (_onStart != null)
+         _onStart();
+     }
 
-      //-------------
+     //-------------
 
-      num ratio = _currentTime / _totalTime;
-      num transition = _transitionFunction(ratio);
+     num ratio = _currentTime / _totalTime;
+     num transition = _transitionFunction(ratio);
 
-      for(int i = 0; i &lt; _tweenProperties.length; i++)
-      {
-        var tp = _tweenProperties[i];
-        var value = tp.startValue + transition * (tp.targetValue - tp.startValue);
-        value = _roundToInt ? value.round() : value;
+     for(int i = 0; i &lt; _tweenProperties.length; i++)
+     {
+       var tp = _tweenProperties[i];
+       var value = tp.startValue + transition * (tp.targetValue - tp.startValue);
+       value = _roundToInt ? value.round() : value;
 
-        switch(tp.name) {
-          case 'x':        _displayObject.x = value; break;
-          case 'y':        _displayObject.y = value; break;
-          case 'pivotX':   _displayObject.pivotX = value; break;
-          case 'pivotY':   _displayObject.pivotY = value; break;
-          case 'scaleX':   _displayObject.scaleX = value; break;
-          case 'scaleY':   _displayObject.scaleY = value; break;
-          case 'rotation': _displayObject.rotation = value; break;
-          case 'alpha':    _displayObject.alpha = value; break;
-        }
-      }
+       switch(tp.name) {
+         case 'x':        _displayObject.x = value; break;
+         case 'y':        _displayObject.y = value; break;
+         case 'pivotX':   _displayObject.pivotX = value; break;
+         case 'pivotY':   _displayObject.pivotY = value; break;
+         case 'scaleX':   _displayObject.scaleX = value; break;
+         case 'scaleY':   _displayObject.scaleY = value; break;
+         case 'rotation': _displayObject.rotation = value; break;
+         case 'alpha':    _displayObject.alpha = value; break;
+       }
+     }
 
-      if (_onUpdate != null)
-        _onUpdate();
+     if (_onUpdate != null)
+       _onUpdate();
 
-      //-------------
+     //-------------
 
-      if (_onComplete != null &amp;&amp; _currentTime == _totalTime)
-        _onComplete();
-    }
-  }
+     if (_onComplete != null &amp;&amp; _currentTime == _totalTime)
+       _onComplete();
+   }
+ }
 
-  return _currentTime &lt; _totalTime;
+ return _currentTime &lt; _totalTime;
 }
 </pre>
 </div>
@@ -589,13 +569,13 @@ void <strong>animate</strong>(<a href="http://api.dartlang.org/dart_core/String.
 <pre class="source">
 void animate(String property, num targetValue)
 {
-  var properties = ['x', 'y', 'pivotX', 'pivotY', 'scaleX', 'scaleY', 'rotation', 'alpha'];
+ var properties = ['x', 'y', 'pivotX', 'pivotY', 'scaleX', 'scaleY', 'rotation', 'alpha'];
 
-  if (properties.indexOf(property) == -1)
-    throw new ArgumentError("Error #9003: The supplied property ('$property') is not supported at this time.");
+ if (properties.indexOf(property) == -1)
+   throw new ArgumentError("Error #9003: The supplied property ('$property') is not supported at this time.");
 
-  if (_displayObject != null &amp;&amp; _started == false)
-    _tweenProperties.add(new _TweenProperty(property, 0.0, targetValue));
+ if (_displayObject != null &amp;&amp; _started == false)
+   _tweenProperties.add(new _TweenProperty(property, 0.0, targetValue));
 }
 </pre>
 </div>
@@ -608,8 +588,8 @@ void <strong>complete</strong>() <a class="anchor-link" href="#complete"
 <pre class="source">
 void complete()
 {
-  if (this.isComplete == false)
-    advanceTime(_totalTime - _currentTime);
+ if (_totalTime &gt;= _currentTime)
+   advanceTime(_totalTime - _currentTime);
 }
 </pre>
 </div>
@@ -622,26 +602,8 @@ void <strong>fadeTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html
 <pre class="source">
 void fadeTo(num alpha)
 {
-  animate('alpha', alpha);
+ animate('alpha', alpha);
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="hashCode">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
-              title="Permalink to Tween.hashCode">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Get a hash code for this object.</p>
-<p>All objects have hash codes. Hash codes are guaranteed to be the
-same for objects that are equal when compared using the equality
-operator <code>==</code>. Other than that there are no guarantees about
-the hash codes. They will not be consistent between runs and
-there are no distribution guarantees.</p>
-<p>If a subclass overrides <code>hashCode</code> it should override the
-equality operator as well to maintain consistency.</p>
-<pre class="source">
-external int hashCode();
 </pre>
 </div>
 </div>
@@ -653,40 +615,9 @@ void <strong>moveTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html
 <pre class="source">
 void moveTo(num x, num y)
 {
-  animate('x', x);
-  animate('y', y);
+ animate('x', x);
+ animate('y', y);
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="noSuchMethod">
-<button class="show-code">Code</button>
-<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
-              title="Permalink to Tween.noSuchMethod">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
-on an object. The name of the method and the arguments of the
-invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
-returns a value, that value becomes the result of the original
-invocation.</p>
-<p>The default behavior of <code>noSuchMethod</code> is to throw a
-<code>noSuchMethodError</code>.</p>
-<pre class="source">
-external Dynamic noSuchMethod(String name, List args);
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="Object">
-<button class="show-code">Code</button>
-const <strong>Object</strong>() <a class="anchor-link" href="#Object"
-              title="Permalink to Tween.Object">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Creates a new <code>Object</code> instance.</p>
-<p><code>Object</code> instances have no meaningful state, and are only useful
-through their identity. An <code>Object</code> instance is equal to itself
-only.</p>
-<pre class="source">
-const Object();
 </pre>
 </div>
 </div>
@@ -698,41 +629,8 @@ void <strong>scaleTo</strong>(<a href="http://api.dartlang.org/dart_core/num.htm
 <pre class="source">
 void scaleTo(num factor)
 {
-  animate('scaleX', factor);
-  animate('scaleY', factor);
-}
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="toString">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
-              title="Permalink to Tween.toString">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Returns a string representation of this object.</p>
-<pre class="source">
-external String toString();
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="Tween">
-<button class="show-code">Code</button>
-new <strong>Tween</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> displayObject, <a href="http://api.dartlang.org/dart_core/num.html">num</a> time, [<a href="../dartflash/TransitionFunction.html">TransitionFunction</a> transitionFunction = null]) <a class="anchor-link" href="#Tween"
-              title="Permalink to Tween.Tween">#</a></h4>
-<div class="doc">
-<pre class="source">
-Tween(DisplayObject displayObject, num time, [TransitionFunction transitionFunction = null])
-{
-  _displayObject = displayObject;
-  _transitionFunction = (transitionFunction != null) ? transitionFunction : Transitions.linear;
-
-  _currentTime = 0.0;
-  _totalTime = max(0.0001, time);
-  _delay = 0.0;
-  _roundToInt = false;
-  _started = false;
-
-  _tweenProperties = new List&lt;_TweenProperty&gt;();
+ animate('scaleX', factor);
+ animate('scaleY', factor);
 }
 </pre>
 </div>
@@ -743,7 +641,7 @@ Tween(DisplayObject displayObject, num time, [TransitionFunction transitionFunct
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-13 21:36:08.726</div>
+          <div>This page was generated at 2012-11-03 13:33:35.849</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

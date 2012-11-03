@@ -51,6 +51,7 @@
 <li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
 <li><a href="../dartflash/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><div class="icon-class"></div><strong>Point</strong></li>
@@ -97,6 +99,7 @@
 <li><a href="../dartflash/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
 <li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
 <li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
@@ -122,112 +125,79 @@
 <pre class="source">
 class Point
 {
-  num x;
-  num y;
+ num x;
+ num y;
 
-  Point(this.x, this.y);
+ Point(this.x, this.y);
 
-  Point.zero() : this(0, 0);
+ Point.zero() : this(0, 0);
 
-  Point.from(Point p) : this(p.x, p.y);
+ Point.from(Point p) : this(p.x, p.y);
 
-  //-------------------------------------------------------------------------------------------------
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  static num distance(Point p1, Point p2) =&gt; p1.distanceTo(p2);
+ static num distance(Point p1, Point p2) =&gt; p1.distanceTo(p2);
 
-  static Point interpolate(Point p1, Point p2) =&gt; new Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+ static Point interpolate(Point p1, Point p2) =&gt; new Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 
-  static Point polar(num len, num angle) =&gt; new Point(len * cos(angle), - len * sin(angle));
+ static Point polar(num len, num angle) =&gt; new Point(len * cos(angle), - len * sin(angle));
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  num get length =&gt; sqrt(this.x * this.x + this.y * this.y);
+ num get length =&gt; sqrt(this.x * this.x + this.y * this.y);
 
-  //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
 
-  Point add(Point p) =&gt; new Point(this.x + p.x, this.y + p.y);
+ Point add(Point p) =&gt; new Point(this.x + p.x, this.y + p.y);
 
-  Point subtract(Point p) =&gt; new Point(this.x - p.y, this.y - p.y);
+ Point subtract(Point p) =&gt; new Point(this.x - p.y, this.y - p.y);
 
-  Point clone() =&gt; new Point(this.x, this.y);
+ Point clone() =&gt; new Point(this.x, this.y);
 
-  void copyFrom(Point p) { this.x = p.x; this.y = p.y; }
+ void copyFrom(Point p) { this.x = p.x; this.y = p.y; }
 
-  void setTo(num px, num py) { this.x = px; this.y = py; }
+ void setTo(num px, num py) { this.x = px; this.y = py; }
 
-  bool equals(Point p) =&gt; this.x == p.x &amp;&amp; this.y == p.y;
+ bool equals(Point p) =&gt; this.x == p.x &amp;&amp; this.y == p.y;
 
-  void normalize(num length)
-  {
-    num currentLength = this.length;
-    this.x = this.x * length / currentLength;
-    this.y = this.y * length / currentLength;
-  }
+ void normalize(num length)
+ {
+   num currentLength = this.length;
+   this.x = this.x * length / currentLength;
+   this.y = this.y * length / currentLength;
+ }
 
-  void offset(num dx, num dy)
-  {
-    this.x = this.x + dx;
-    this.y = this.y + dy;
-  }
+ void offset(num dx, num dy)
+ {
+   this.x = this.x + dx;
+   this.y = this.y + dy;
+ }
 
-  void transform(Matrix matrix)
-  {
-    num currentX = this.x;
-    num currentY = this.y;
+ void transform(Matrix matrix)
+ {
+   num currentX = this.x;
+   num currentY = this.y;
 
-    this.x = currentX * matrix.a + currentY * matrix.c + matrix.tx;
-    this.y = currentX * matrix.b + currentY * matrix.d + matrix.ty;
-  }
+   this.x = currentX * matrix.a + currentY * matrix.c + matrix.tx;
+   this.y = currentX * matrix.b + currentY * matrix.d + matrix.ty;
+ }
 
-  void copyFromAndTransfrom(Point p, Matrix matrix)
-  {
-    this.x = p.x * matrix.a + p.y * matrix.c + matrix.tx;
-    this.y = p.x * matrix.b + p.y * matrix.d + matrix.ty;
-  }
+ void copyFromAndTransfrom(Point p, Matrix matrix)
+ {
+   this.x = p.x * matrix.a + p.y * matrix.c + matrix.tx;
+   this.y = p.x * matrix.b + p.y * matrix.d + matrix.ty;
+ }
 
-  num distanceTo(Point other)
-  {
-      num dx = x - other.x;
-      num dy = y - other.y;
-      return sqrt(dx * dx + dy * dy);
-  }
+ num distanceTo(Point other)
+ {
+     num dx = x - other.x;
+     num dy = y - other.y;
+     return sqrt(dx * dx + dy * dy);
+ }
 
 }
 </pre>
-</div>
-<div>
-<h3>Constructors</h3>
-<div class="method"><h4 id="Point">
-<button class="show-code">Code</button>
-new <strong>Point</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y) <a class="anchor-link" href="#Point"
-              title="Permalink to Point.Point">#</a></h4>
-<div class="doc">
-<pre class="source">
-Point(this.x, this.y);
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="Point.from">
-<button class="show-code">Code</button>
-new <strong>Point.from</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#Point.from"
-              title="Permalink to Point.Point.from">#</a></h4>
-<div class="doc">
-<pre class="source">
-Point.from(Point p) : this(p.x, p.y);
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="Point.zero">
-<button class="show-code">Code</button>
-new <strong>Point.zero</strong>() <a class="anchor-link" href="#Point.zero"
-              title="Permalink to Point.Point.zero">#</a></h4>
-<div class="doc">
-<pre class="source">
-Point.zero() : this(0, 0);
-</pre>
-</div>
-</div>
 </div>
 <div>
 <h3>Static Methods</h3>
@@ -263,6 +233,39 @@ static Point polar(num len, num angle) =&gt; new Point(len * cos(angle), - len *
 </div>
 </div>
 <div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="Point">
+<button class="show-code">Code</button>
+new <strong>Point</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y) <a class="anchor-link" href="#Point"
+              title="Permalink to Point.Point">#</a></h4>
+<div class="doc">
+<pre class="source">
+Point(this.x, this.y);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="Point.from">
+<button class="show-code">Code</button>
+new <strong>Point.from</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#Point.from"
+              title="Permalink to Point.Point.from">#</a></h4>
+<div class="doc">
+<pre class="source">
+Point.from(Point p) : this(p.x, p.y);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="Point.zero">
+<button class="show-code">Code</button>
+new <strong>Point.zero</strong>() <a class="anchor-link" href="#Point.zero"
+              title="Permalink to Point.Point.zero">#</a></h4>
+<div class="doc">
+<pre class="source">
+Point.zero() : this(0, 0);
+</pre>
+</div>
+</div>
+</div>
+<div>
 <h3>Properties</h3>
 <div class="field"><h4 id="length">
 <button class="show-code">Code</button>
@@ -273,19 +276,6 @@ final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <stro
         <div class="doc">
 <pre class="source">
 num get length =&gt; sqrt(this.x * this.x + this.y * this.y);
-</pre>
-</div>
-</div>
-<div class="field inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-final <a href="http://api.dartlang.org/dart_core/Type.html">Type</a>         <strong>runtimeType</strong> <a class="anchor-link"
-            href="#runtimeType"
-            title="Permalink to Point.runtimeType">#</a>
-        </h4>
-        <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>A representation of the runtime type of the object.</p>
-<pre class="source">
-external Type get runtimeType;
 </pre>
 </div>
 </div>
@@ -310,25 +300,6 @@ num x;
         <div class="doc">
 <pre class="source">
 num y;
-</pre>
-</div>
-</div>
-</div>
-<div>
-<h3>Operators</h3>
-<div class="method inherited"><h4 id="==">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
-              title="Permalink to Point.operator ==">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>The equality operator.</p>
-<p>The default behavior for all <code>Object</code>s is to return true if and
-only if <code>this</code> and 
-<span class="param">other</span> are the same object.</p>
-<p>If a subclass overrides the equality operator it should override
-the <code>hashCode</code> method as well to maintain consistency.</p>
-<pre class="source">
-bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
@@ -373,8 +344,8 @@ void <strong>copyFromAndTransfrom</strong>(<a href="../dartflash/Point.html">Poi
 <pre class="source">
 void copyFromAndTransfrom(Point p, Matrix matrix)
 {
-  this.x = p.x * matrix.a + p.y * matrix.c + matrix.tx;
-  this.y = p.x * matrix.b + p.y * matrix.d + matrix.ty;
+ this.x = p.x * matrix.a + p.y * matrix.c + matrix.tx;
+ this.y = p.x * matrix.b + p.y * matrix.d + matrix.ty;
 }
 </pre>
 </div>
@@ -387,9 +358,9 @@ void copyFromAndTransfrom(Point p, Matrix matrix)
 <pre class="source">
 num distanceTo(Point other)
 {
-    num dx = x - other.x;
-    num dy = y - other.y;
-    return sqrt(dx * dx + dy * dy);
+   num dx = x - other.x;
+   num dy = y - other.y;
+   return sqrt(dx * dx + dy * dy);
 }
 </pre>
 </div>
@@ -404,24 +375,6 @@ bool equals(Point p) =&gt; this.x == p.x &amp;&amp; this.y == p.y;
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="hashCode">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>hashCode</strong>() <a class="anchor-link" href="#hashCode"
-              title="Permalink to Point.hashCode">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Get a hash code for this object.</p>
-<p>All objects have hash codes. Hash codes are guaranteed to be the
-same for objects that are equal when compared using the equality
-operator <code>==</code>. Other than that there are no guarantees about
-the hash codes. They will not be consistent between runs and
-there are no distribution guarantees.</p>
-<p>If a subclass overrides <code>hashCode</code> it should override the
-equality operator as well to maintain consistency.</p>
-<pre class="source">
-external int hashCode();
-</pre>
-</div>
-</div>
 <div class="method"><h4 id="normalize">
 <button class="show-code">Code</button>
 void <strong>normalize</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> length) <a class="anchor-link" href="#normalize"
@@ -430,41 +383,10 @@ void <strong>normalize</strong>(<a href="http://api.dartlang.org/dart_core/num.h
 <pre class="source">
 void normalize(num length)
 {
-  num currentLength = this.length;
-  this.x = this.x * length / currentLength;
-  this.y = this.y * length / currentLength;
+ num currentLength = this.length;
+ this.x = this.x * length / currentLength;
+ this.y = this.y * length / currentLength;
 }
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="noSuchMethod">
-<button class="show-code">Code</button>
-<strong>noSuchMethod</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/List.html">List</a> args) <a class="anchor-link" href="#noSuchMethod"
-              title="Permalink to Point.noSuchMethod">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p><code>noSuchMethod</code> is invoked when users invoke a non-existant method
-on an object. The name of the method and the arguments of the
-invocation are passed to <code>noSuchMethod</code>. If <code>noSuchMethod</code>
-returns a value, that value becomes the result of the original
-invocation.</p>
-<p>The default behavior of <code>noSuchMethod</code> is to throw a
-<code>noSuchMethodError</code>.</p>
-<pre class="source">
-external Dynamic noSuchMethod(String name, List args);
-</pre>
-</div>
-</div>
-<div class="method inherited"><h4 id="Object">
-<button class="show-code">Code</button>
-const <strong>Object</strong>() <a class="anchor-link" href="#Object"
-              title="Permalink to Point.Object">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Creates a new <code>Object</code> instance.</p>
-<p><code>Object</code> instances have no meaningful state, and are only useful
-through their identity. An <code>Object</code> instance is equal to itself
-only.</p>
-<pre class="source">
-const Object();
 </pre>
 </div>
 </div>
@@ -476,39 +398,9 @@ void <strong>offset</strong>(<a href="http://api.dartlang.org/dart_core/num.html
 <pre class="source">
 void offset(num dx, num dy)
 {
-  this.x = this.x + dx;
-  this.y = this.y + dy;
+ this.x = this.x + dx;
+ this.y = this.y + dy;
 }
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="Point">
-<button class="show-code">Code</button>
-new <strong>Point</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y) <a class="anchor-link" href="#Point"
-              title="Permalink to Point.Point">#</a></h4>
-<div class="doc">
-<pre class="source">
-Point(this.x, this.y);
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="Point.from">
-<button class="show-code">Code</button>
-new <strong>Point.from</strong>(<a href="../dartflash/Point.html">Point</a> p) <a class="anchor-link" href="#Point.from"
-              title="Permalink to Point.Point.from">#</a></h4>
-<div class="doc">
-<pre class="source">
-Point.from(Point p) : this(p.x, p.y);
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="Point.zero">
-<button class="show-code">Code</button>
-new <strong>Point.zero</strong>() <a class="anchor-link" href="#Point.zero"
-              title="Permalink to Point.Point.zero">#</a></h4>
-<div class="doc">
-<pre class="source">
-Point.zero() : this(0, 0);
 </pre>
 </div>
 </div>
@@ -532,17 +424,6 @@ Point subtract(Point p) =&gt; new Point(this.x - p.y, this.y - p.y);
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="toString">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
-              title="Permalink to Point.toString">#</a></h4>
-<div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_core/Object.html">Object</a> </div><div class="doc">
-<p>Returns a string representation of this object.</p>
-<pre class="source">
-external String toString();
-</pre>
-</div>
-</div>
 <div class="method"><h4 id="transform">
 <button class="show-code">Code</button>
 void <strong>transform</strong>(<a href="../dartflash/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#transform"
@@ -551,11 +432,11 @@ void <strong>transform</strong>(<a href="../dartflash/Matrix.html">Matrix</a> ma
 <pre class="source">
 void transform(Matrix matrix)
 {
-  num currentX = this.x;
-  num currentY = this.y;
+ num currentX = this.x;
+ num currentY = this.y;
 
-  this.x = currentX * matrix.a + currentY * matrix.c + matrix.tx;
-  this.y = currentX * matrix.b + currentY * matrix.d + matrix.ty;
+ this.x = currentX * matrix.a + currentY * matrix.c + matrix.tx;
+ this.y = currentX * matrix.b + currentY * matrix.d + matrix.ty;
 }
 </pre>
 </div>
@@ -566,7 +447,7 @@ void transform(Matrix matrix)
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-10-13 21:36:08.802</div>
+          <div>This page was generated at 2012-11-03 13:33:35.814</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

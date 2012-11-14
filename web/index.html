@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title>dartflash library - Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="The dartflash library is intended for Flash developers who want to 
-    	migrate their projects as well as their skills to HTML5. Therefore the library provides the 
+    <meta name="description" content="The dartflash library is intended for Flash developers who want to
+    	migrate their projects as well as their skills to HTML5. Therefore the library provides the
     	familiar Flash API built on top of the Dart programming language.">
     <meta name="author" content="" />
 	<link href="./assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -84,12 +84,12 @@
                 </div>
             </div>
             <hr />
-            <p>The dartflash library is intended for Flash developers who want to migrate their projects 
-            as well as their skills to HTML5. Therefore the library provides the familiar Flash API built 
-            on top of the Dart programming language. Dart is very similar to ActionScript 3 and avoids 
+            <p>The dartflash library is intended for Flash developers who want to migrate their projects
+            as well as their skills to HTML5. Therefore the library provides the familiar Flash API built
+            on top of the Dart programming language. Dart is very similar to ActionScript 3 and avoids
             all the hassle of JavaScript.</p>
         </div>
-      
+
 		<div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tabDisplay" data-toggle="tab">Display List</a></li>
@@ -102,26 +102,26 @@
             </ul>
 
             <div class="tab-content">
-                
+
                 <!-- ------------------------------------------------- -->
                 <div class="tab-pane active" id="tabDisplay">
-                 
+
                 <div class="row">
                 	<div class="span8">
                 		<p>To simplify the migration from Flash to HTML5, the dartflash library uses
                 		the same class hierarchy as Flash does. You can extend your UI-objects from DisplayObject(Container) or
                 		just work with the Sprite class. The methods and properties of the classes are the ones
-                		you already know from the Flash API.</p>	
-                		<p>The BitmapData class represents the pixels of an image or the content you draw at runtime. 
-                		Add an instance of the Bitmap class to the Display List to make the BitmapData visible. 
-                		Of course all DisplayObjects are scalable, rotatable, movable and blendable with the familiar 
+                		you already know from the Flash API.</p>
+                		<p>The BitmapData class represents the pixels of an image or the content you draw at runtime.
+                		Add an instance of the Bitmap class to the Display List to make the BitmapData visible.
+                		Of course all DisplayObjects are scalable, rotatable, movable and blendable with the familiar
                 		properties like x, y, rotation, scaleX, scaleY and alpha.</p>
                 		<p>In some cases the classes even extend the capabilities of Flash. One example are the handy
-                		pivotX and pivotY properties of every DisplayObject which allow you to set the pivot or anchor point 
-                		of your DisplayObject.</p> 
-                		<p>The Stage class represents the main drawing area and is a wrapper over the HTML5 Canvas 
+                		pivotX and pivotY properties of every DisplayObject which allow you to set the pivot or anchor point
+                		of your DisplayObject.</p>
+                		<p>The Stage class represents the main drawing area and is a wrapper over the HTML5 Canvas
                 		element. Use the addChild or removeChild methods to add or remove other DisplayObjects to or from
-                		the Stage.</p> 
+                		the Stage.</p>
                 	</div>
                 	<div class="span4">
                         <ul class="classtree" style="height:320px">
@@ -144,7 +144,7 @@
                         </ul>
 					</div>
                 </div>
-	            
+
                 </div>
 
                 <!-- ------------------------------------------------- -->
@@ -230,10 +230,10 @@ addChild(textField);</pre>
                                 </ul></li>
                             </ul>
 				         </div>
-					</div>                         	
+					</div>
                 </div>
-                
-                <!-- ------------------------------------------------- -->                
+
+                <!-- ------------------------------------------------- -->
                 <div class="tab-pane" id="tabSound">
 					<div class="row">
 	                	<div class="span8">
@@ -273,7 +273,7 @@ SoundChannel soundChannel = sound.play(false, soundTransform);</pre>
                                 </ul></li>
                             </ul>
 				         </div>
-					</div>                         	
+					</div>
                 </div>
 
                 <!-- ------------------------------------------------- -->
@@ -309,9 +309,9 @@ destinationBitmapData.applyFilter(
                                 </ul></li>
                             </ul>
 				         </div>
-					</div>                 
+					</div>
                 </div>
-                                
+
                 <!-- ------------------------------------------------- -->
                 <div class="tab-pane" id="tabJuggler">
 					<div class="row">
@@ -327,7 +327,7 @@ destinationBitmapData.applyFilter(
                             the Wiki article about the Juggler animation framework.</p>
                             <br/>
                             <pre class="prettyprint lang-java">
-Tween tween = new Tween(sprite, 2.0, Transitions.easeOutBounce);
+Tween tween = new Tween(sprite, 2.0, TransitionType.easeOutBounce);
 tween.animate(&apos;x&apos;, 700);
 tween.animate(&apos;y&apos;, 500);
 tween.delay = 1.0;
@@ -337,17 +337,18 @@ renderLoop.juggler.add(tween);</pre>
 	                	</div>
 						<div class="span4">
                             <ul class="classtree" style="height:380px">
-                                <li class="first">Transitions</li>
+                                <li class="first">TransitionType</li>
                                 <li class="first">Animatable<ul>
                                     <li>Juggler</li>
                                     <li>Tween</li>
+                                    <li>Transition</li>
                                     <li class="last">DelayedCall</li>
                                 </ul></li>
                             </ul>
 				         </div>
-					</div>                 
+					</div>
                 </div>
-                
+
                 <!-- ------------------------------------------------- -->
                 <div class="tab-pane" id="tabResources">
 					<div class="row">
@@ -385,13 +386,13 @@ resource.load().then((result) {
 				         </div>
 					</div>
                 </div>
-            </div>		
+            </div>
 		</div>
     </div>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src="./assets/js/bootstrap.min.js" ></script>
-    <script type="text/javascript" src="./assets/js/prettify.js"></script>    
-    	
+    <script type="text/javascript" src="./assets/js/prettify.js"></script>
+
 </body>
 </html>

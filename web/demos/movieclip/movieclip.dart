@@ -48,7 +48,7 @@ void startWalking()
 
   // Add a tween to make the man walk from the left to the right.
 
-  Tween tween = new Tween(movieClip, 5.0 + (1.0 - rnd) * 5.0, Transitions.linear);
+  Tween tween = new Tween(movieClip, 5.0 + (1.0 - rnd) * 5.0, TransitionType.linear);
   tween.animate('x', 940.0);
   tween.onComplete = ()
   {

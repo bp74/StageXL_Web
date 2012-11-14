@@ -142,7 +142,7 @@ void startWalking()
 
   // Add a tween to make the man walk from the left to the right.
 
-  Tween tween = new Tween(movieClip, 5.0 + (1.0 - rnd) * 5.0, Transitions.linear);
+  Tween tween = new Tween(movieClip, 5.0 + (1.0 - rnd) * 5.0, TransitionType.linear);
   tween.animate(&apos;x&apos;, 940.0);
   tween.onComplete = ()
   {
@@ -165,7 +165,7 @@ void startWalking()
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src="../../assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../assets/js/prettify.js"></script>
-    
+
     <script type="application/dart" src="movieclip.dart"></script>
     <script type="text/javascript" src="../../assets/js/dart.js"></script>
 </body>

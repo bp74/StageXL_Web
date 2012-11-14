@@ -3,66 +3,66 @@ import 'package:dartflash/dartflash.dart';
 
 void main() {
 
-  var transitions = [
+  var TransitionType = [
 
-    { "name": "linear", "transition": Transitions.linear },
-    { "name": "sine", "transition": Transitions.sine },
-    { "name": "cosine", "transition": Transitions.cosine },
-    { "name": "random", "transition": Transitions.random },
+    { "name": "linear", "transition": TransitionType.linear },
+    { "name": "sine", "transition": TransitionType.sine },
+    { "name": "cosine", "transition": TransitionType.cosine },
+    { "name": "random", "transition": TransitionType.random },
 
-    { "name": "easeInQuadratic", "transition": Transitions.easeInQuadratic },
-    { "name": "easeOutQuadratic", "transition": Transitions.easeOutQuadratic },
-    { "name": "easeInOutQuadratic", "transition": Transitions.easeInOutQuadratic },
-    { "name": "easeOutInQuadratic", "transition": Transitions.easeOutInQuadratic },
+    { "name": "easeInQuadratic", "transition": TransitionType.easeInQuadratic },
+    { "name": "easeOutQuadratic", "transition": TransitionType.easeOutQuadratic },
+    { "name": "easeInOutQuadratic", "transition": TransitionType.easeInOutQuadratic },
+    { "name": "easeOutInQuadratic", "transition": TransitionType.easeOutInQuadratic },
 
-    { "name": "easeInCubic", "transition": Transitions.easeInCubic },
-    { "name": "easeOutCubic", "transition": Transitions.easeOutCubic },
-    { "name": "easeInOutCubic", "transition": Transitions.easeInOutCubic },
-    { "name": "easeOutInCubic", "transition": Transitions.easeOutInCubic },
+    { "name": "easeInCubic", "transition": TransitionType.easeInCubic },
+    { "name": "easeOutCubic", "transition": TransitionType.easeOutCubic },
+    { "name": "easeInOutCubic", "transition": TransitionType.easeInOutCubic },
+    { "name": "easeOutInCubic", "transition": TransitionType.easeOutInCubic },
 
-    { "name": "easeInQuartic", "transition": Transitions.easeInQuartic },
-    { "name": "easeOutQuartic", "transition": Transitions.easeOutQuartic },
-    { "name": "easeInOutQuartic", "transition": Transitions.easeInOutQuartic },
-    { "name": "easeOutInQuartic", "transition": Transitions.easeOutInQuartic },
+    { "name": "easeInQuartic", "transition": TransitionType.easeInQuartic },
+    { "name": "easeOutQuartic", "transition": TransitionType.easeOutQuartic },
+    { "name": "easeInOutQuartic", "transition": TransitionType.easeInOutQuartic },
+    { "name": "easeOutInQuartic", "transition": TransitionType.easeOutInQuartic },
 
-    { "name": "easeInQuintic", "transition": Transitions.easeInQuintic },
-    { "name": "easeOutQuintic", "transition": Transitions.easeOutQuintic },
-    { "name": "easeInOutQuintic", "transition": Transitions.easeInOutQuintic },
-    { "name": "easeOutInQuintic", "transition": Transitions.easeOutInQuintic },
+    { "name": "easeInQuintic", "transition": TransitionType.easeInQuintic },
+    { "name": "easeOutQuintic", "transition": TransitionType.easeOutQuintic },
+    { "name": "easeInOutQuintic", "transition": TransitionType.easeInOutQuintic },
+    { "name": "easeOutInQuintic", "transition": TransitionType.easeOutInQuintic },
 
-    { "name": "easeInCircular", "transition": Transitions.easeInCircular },
-    { "name": "easeOutCircular", "transition": Transitions.easeOutCircular },
-    { "name": "easeInOutCircular", "transition": Transitions.easeInOutCircular },
-    { "name": "easeOutInCircular", "transition": Transitions.easeOutInCircular },
+    { "name": "easeInCircular", "transition": TransitionType.easeInCircular },
+    { "name": "easeOutCircular", "transition": TransitionType.easeOutCircular },
+    { "name": "easeInOutCircular", "transition": TransitionType.easeInOutCircular },
+    { "name": "easeOutInCircular", "transition": TransitionType.easeOutInCircular },
 
-    { "name": "easeInSine", "transition": Transitions.easeInSine },
-    { "name": "easeOutSine", "transition": Transitions.easeOutSine },
-    { "name": "easeInOutSine", "transition": Transitions.easeInOutSine },
-    { "name": "easeOutInSine", "transition": Transitions.easeOutInSine },
+    { "name": "easeInSine", "transition": TransitionType.easeInSine },
+    { "name": "easeOutSine", "transition": TransitionType.easeOutSine },
+    { "name": "easeInOutSine", "transition": TransitionType.easeInOutSine },
+    { "name": "easeOutInSine", "transition": TransitionType.easeOutInSine },
 
-    { "name": "easeInExponential", "transition": Transitions.easeInExponential },
-    { "name": "easeOutExponential", "transition": Transitions.easeOutExponential },
-    { "name": "easeInOutExponential", "transition": Transitions.easeInOutExponential },
-    { "name": "easeOutInExponential", "transition": Transitions.easeOutInExponential },
+    { "name": "easeInExponential", "transition": TransitionType.easeInExponential },
+    { "name": "easeOutExponential", "transition": TransitionType.easeOutExponential },
+    { "name": "easeInOutExponential", "transition": TransitionType.easeInOutExponential },
+    { "name": "easeOutInExponential", "transition": TransitionType.easeOutInExponential },
 
-    { "name": "easeInBack", "transition": Transitions.easeInBack },
-    { "name": "easeOutBack", "transition": Transitions.easeOutBack },
-    { "name": "easeInOutBack", "transition": Transitions.easeInOutBack },
-    { "name": "easeOutInBack", "transition": Transitions.easeOutInBack },
+    { "name": "easeInBack", "transition": TransitionType.easeInBack },
+    { "name": "easeOutBack", "transition": TransitionType.easeOutBack },
+    { "name": "easeInOutBack", "transition": TransitionType.easeInOutBack },
+    { "name": "easeOutInBack", "transition": TransitionType.easeOutInBack },
 
-    { "name": "easeInElastic", "transition": Transitions.easeInElastic },
-    { "name": "easeOutElastic", "transition": Transitions.easeOutElastic },
-    { "name": "easeInOutElastic", "transition": Transitions.easeInOutElastic },
-    { "name": "easeOutInElastic", "transition": Transitions.easeOutInElastic },
+    { "name": "easeInElastic", "transition": TransitionType.easeInElastic },
+    { "name": "easeOutElastic", "transition": TransitionType.easeOutElastic },
+    { "name": "easeInOutElastic", "transition": TransitionType.easeInOutElastic },
+    { "name": "easeOutInElastic", "transition": TransitionType.easeOutInElastic },
 
-    { "name": "easeInBounce", "transition": Transitions.easeInBounce },
-    { "name": "easeOutBounce", "transition": Transitions.easeOutBounce },
-    { "name": "easeInOutBounce", "transition": Transitions.easeInOutBounce },
-    { "name": "easeOutInBounce", "transition": Transitions.easeOutInBounce },
+    { "name": "easeInBounce", "transition": TransitionType.easeInBounce },
+    { "name": "easeOutBounce", "transition": TransitionType.easeOutBounce },
+    { "name": "easeInOutBounce", "transition": TransitionType.easeInOutBounce },
+    { "name": "easeOutInBounce", "transition": TransitionType.easeOutInBounce },
 
   ];
 
-  for(int i = 0; i < transitions.length / 4; i++)
+  for(int i = 0; i < TransitionType.length / 4; i++)
   {
     var rowDiv = new html.DivElement();
     rowDiv.classes.add("row");
@@ -70,8 +70,8 @@ void main() {
 
     for(int j = 0; j < 4; j++)
     {
-      var name = transitions[i * 4 + j]["name"];
-      var transition = transitions[i * 4 + j]["transition"];
+      var name = TransitionType[i * 4 + j]["name"];
+      var transition = TransitionType[i * 4 + j]["transition"];
 
       var cellDiv = drawTransition(name, transition);
       cellDiv.id = "cell";
@@ -84,7 +84,7 @@ void main() {
 }
 
 
-html.DivElement drawTransition(String name, TransitionFunction transitionFunction) {
+html.DivElement drawTransition(String name, num transitionType(num ratio)) {
 
   var div = new html.DivElement();
   div.classes.add("span3");
@@ -123,7 +123,7 @@ html.DivElement drawTransition(String name, TransitionFunction transitionFunctio
   for(int i = 0; i <= 199; i++) {
     var ratio = i / 199.0;
     var x = 0.5 + ratio * 199.0;
-    var y = 109.5 - 79.0 * transitionFunction(ratio);
+    var y = 109.5 - 79.0 * transitionType(ratio);
     graphics.lineTo(x, y);
   }
 

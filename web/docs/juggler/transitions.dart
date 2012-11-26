@@ -3,7 +3,7 @@ import 'package:dartflash/dartflash.dart';
 
 void main() {
 
-  var TransitionType = [
+  var transitionTypes = [
 
     { "name": "linear", "transition": TransitionType.linear },
     { "name": "sine", "transition": TransitionType.sine },
@@ -62,7 +62,7 @@ void main() {
 
   ];
 
-  for(int i = 0; i < TransitionType.length / 4; i++)
+  for(int i = 0; i < transitionTypes.length / 4; i++)
   {
     var rowDiv = new html.DivElement();
     rowDiv.classes.add("row");
@@ -70,8 +70,8 @@ void main() {
 
     for(int j = 0; j < 4; j++)
     {
-      var name = TransitionType[i * 4 + j]["name"];
-      var transition = TransitionType[i * 4 + j]["transition"];
+      var name = transitionTypes[i * 4 + j]["name"];
+      var transition = transitionTypes[i * 4 + j]["transition"];
 
       var cellDiv = drawTransition(name, transition);
       cellDiv.id = "cell";

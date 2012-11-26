@@ -2,7 +2,9 @@ file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implement
 file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/core_patch.dart
 file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/interceptors.dart
 file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/isolate_patch.dart
+file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/js_array.dart
 file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/js_helper.dart
+file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/js_number.dart
 file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/js_string.dart
 file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/math_patch.dart
 file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/mirror_opt_in_message.dart

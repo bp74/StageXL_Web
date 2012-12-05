@@ -1,75 +1,76 @@
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/constant_map.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/core_patch.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/interceptors.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/isolate_patch.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/js_array.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/js_helper.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/js_number.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/js_string.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/math_patch.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/mirror_opt_in_message.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/native_helper.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/regexp_helper.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/_internal/compiler/implementation/lib/string_helper.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/collection/arrays.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/collection/collection.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/collection/collections.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/collection/maps.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/collection/splay_tree.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/bool.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/collection.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/comparable.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/core.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/date.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/double.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/duration.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/errors.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/exceptions.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/expando.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/expect.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/function.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/future.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/future_impl.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/hashable.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/identical.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/int.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/invocation_mirror.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/iterable.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/iterator.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/list.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/map.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/num.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/object.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/options.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/pattern.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/print.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/queue.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/regexp.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/sequences.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/set.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/sort.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/stopwatch.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/string.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/string_buffer.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/strings.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/core/type.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/html/dart2js/html_dart2js.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/isolate/base.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/isolate/isolate.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/isolate/timer.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/json/json.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/math/base.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/math/math.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/math/random.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/svg/dart2js/svg_dart2js.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/uri/encode_decode.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/uri/helpers.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/uri/uri.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/utf/utf.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/utf/utf16.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/utf/utf32.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/utf/utf8.dart
-file:///C:/Users/Bernhard/Desktop/dart/dart-sdk/lib/utf/utf_core.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/constant_map.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/core_patch.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/interceptors.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/isolate_patch.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/js_array.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/js_helper.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/js_number.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/js_string.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/math_patch.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/mirror_opt_in_message.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/native_helper.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/regexp_helper.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/string_helper.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/collection/arrays.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/collection/collection.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/collection/collections.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/collection/maps.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/collection/splay_tree.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/bool.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/collection.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/comparable.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/core.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/date.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/double.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/duration.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/errors.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/exceptions.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/expando.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/expect.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/function.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/future.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/future_impl.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/hashable.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/identical.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/int.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/invocation_mirror.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/iterable.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/iterator.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/list.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/map.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/num.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/object.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/options.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/pattern.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/print.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/queue.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/regexp.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/sequences.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/set.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/sort.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/stopwatch.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/string.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/string_buffer.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/strings.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/type.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/html/dart2js/html_dart2js.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/isolate/base.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/isolate/isolate.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/isolate/timer.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/json/json.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/math/base.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/math/math.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/math/random.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/svg/dart2js/svg_dart2js.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/uri/encode_decode.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/uri/helpers.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/uri/uri.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/utf/utf.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/utf/utf16.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/utf/utf32.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/utf/utf8.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/utf/utf_core.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/web_audio/dart2js/web_audio_dart2js.dart
 file:///D:/GitHub/bp74/dartflash-web/web/docs/juggler/packages/dartflash/dartflash.dart
 file:///D:/GitHub/bp74/dartflash-web/web/docs/juggler/packages/dartflash/src/animation/Animatable.dart
 file:///D:/GitHub/bp74/dartflash-web/web/docs/juggler/packages/dartflash/src/animation/DelayedCall.dart

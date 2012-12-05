@@ -86,9 +86,9 @@ class Piano extends DisplayObjectContainer
 
     for(int w = 0; w < songLyrics.length; w++) {
       if (w == wordIndex)
-        lyricsDiv.addHtml('<span id="word">${songLyrics[w]}</span>');
+        lyricsDiv.appendHtml('<span id="word">${songLyrics[w]}</span>');
       else
-        lyricsDiv.addHtml(songLyrics[w]);
+        lyricsDiv.appendHtml(songLyrics[w]);
     }
 
     // update finger position

@@ -348,7 +348,7 @@ for(var key:String in data) {
       </code>
       <code language="dart"><![CDATA[
 var data = {'name1' : 'Susan', 'name2' : 'Michael'};
-for (var key in data.getKeys()) {
+for (var key in data.keys) {
   var value = data[key];
 }]]>
       </code>

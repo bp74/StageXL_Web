@@ -1,4 +1,4 @@
-name: dartflash-web
+name: dartflash_web
 description: The website for the dartflash library.
 dependencies:
   browser: any

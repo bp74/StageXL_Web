@@ -1,6 +1,7 @@
 name: dartflash-web
 description: The website for the dartflash library.
 dependencies:
+  browser: any
   dartflash:
     git:
       url: https://github.com/bp74/dartflash.git

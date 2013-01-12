@@ -73,6 +73,8 @@
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
+<li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -100,16 +102,10 @@
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
 <li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../dartflash/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
-<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
-<li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
-<li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
-<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
-<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
+<li><a href="../dartflash/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
-<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
-<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -174,17 +170,9 @@ class BlurFilter extends BitmapFilter
    var destinationImageData = destinationContext.createImageData(destinationWidth, destinationHeight);
    var destinationData = destinationImageData.data;
 
+   _premultiplyAlpha(sourceData);
+
    List&lt;int&gt; buffer = new List&lt;int&gt;(1024);
-
-   //--------------------------------------------------
-   // premultiply alpha
-
-   for(var i = 0; i &lt;= sourceData.length - 4; i += 4) {
-     var alpha = sourceData[i + 3];
-     sourceData[i + 0] = (sourceData[i + 0] * alpha) ~/ 255;
-     sourceData[i + 1] = (sourceData[i + 1] * alpha) ~/ 255;
-     sourceData[i + 2] = (sourceData[i + 2] * alpha) ~/ 255;
-   }
 
    //--------------------------------------------------
    // blur vertical
@@ -205,9 +193,9 @@ class BlurFilter extends BitmapFilter
            dif -= 2 * buffer[y &amp; 1023];
          }
 
-         int alpha = (y &lt; sourceHeight) ? sourceData[offsetSource] : 0;
-         buffer[(y + ry1) &amp; 1023] = alpha;
-         sum += dif += alpha;
+         int color = (y &lt; sourceHeight) ? sourceData[offsetSource] : 0;
+         buffer[(y + ry1) &amp; 1023] = color;
+         sum += dif += color;
          offsetSource += sourceWidth4;
        }
      }
@@ -232,27 +220,17 @@ class BlurFilter extends BitmapFilter
            dif -= 2 * buffer[x &amp; 1023];
          }
 
-         int alpha = (x &lt; sourceWidth) ? destinationData[offsetSource] : 0;
-         buffer[(x + rx1) &amp; 1023] = alpha;
-         sum += dif += alpha;
+         int color = (x &lt; sourceWidth) ? destinationData[offsetSource] : 0;
+         buffer[(x + rx1) &amp; 1023] = color;
+         sum += dif += color;
          offsetSource += 4;
        }
      }
    }
 
    //--------------------------------------------------
-   // unpremultiply alpha
 
-   for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
-     var alpha = destinationData[i + 3];
-     if (alpha &gt; 0) {
-       destinationData[i + 0] = (destinationData[i + 0] * 255) ~/ alpha;
-       destinationData[i + 1] = (destinationData[i + 1] * 255) ~/ alpha;
-       destinationData[i + 2] = (destinationData[i + 2] * 255) ~/ alpha;
-     }
-   }
-
-   //--------------------------------------------------
+   _unpremultiplyAlpha(destinationData);
 
    destinationContext.putImageData(destinationImageData, destinationPoint.x - rx1, destinationPoint.y - ry1);
  }
@@ -588,7 +566,7 @@ BlurFilter([this.blurX = 4, this.blurY = 4])
         </h4>
         <div class="doc">
 <pre class="source">
-int blurX;
+blurX
 </pre>
 </div>
 </div>
@@ -600,7 +578,7 @@ int blurX;
         </h4>
         <div class="doc">
 <pre class="source">
-int blurY;
+blurY
 </pre>
 </div>
 </div>
@@ -636,17 +614,9 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
  var destinationImageData = destinationContext.createImageData(destinationWidth, destinationHeight);
  var destinationData = destinationImageData.data;
 
+ _premultiplyAlpha(sourceData);
+
  List&lt;int&gt; buffer = new List&lt;int&gt;(1024);
-
- //--------------------------------------------------
- // premultiply alpha
-
- for(var i = 0; i &lt;= sourceData.length - 4; i += 4) {
-   var alpha = sourceData[i + 3];
-   sourceData[i + 0] = (sourceData[i + 0] * alpha) ~/ 255;
-   sourceData[i + 1] = (sourceData[i + 1] * alpha) ~/ 255;
-   sourceData[i + 2] = (sourceData[i + 2] * alpha) ~/ 255;
- }
 
  //--------------------------------------------------
  // blur vertical
@@ -667,9 +637,9 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
          dif -= 2 * buffer[y &amp; 1023];
        }
 
-       int alpha = (y &lt; sourceHeight) ? sourceData[offsetSource] : 0;
-       buffer[(y + ry1) &amp; 1023] = alpha;
-       sum += dif += alpha;
+       int color = (y &lt; sourceHeight) ? sourceData[offsetSource] : 0;
+       buffer[(y + ry1) &amp; 1023] = color;
+       sum += dif += color;
        offsetSource += sourceWidth4;
      }
    }
@@ -694,27 +664,17 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
          dif -= 2 * buffer[x &amp; 1023];
        }
 
-       int alpha = (x &lt; sourceWidth) ? destinationData[offsetSource] : 0;
-       buffer[(x + rx1) &amp; 1023] = alpha;
-       sum += dif += alpha;
+       int color = (x &lt; sourceWidth) ? destinationData[offsetSource] : 0;
+       buffer[(x + rx1) &amp; 1023] = color;
+       sum += dif += color;
        offsetSource += 4;
      }
    }
  }
 
  //--------------------------------------------------
- // unpremultiply alpha
 
- for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
-   var alpha = destinationData[i + 3];
-   if (alpha &gt; 0) {
-     destinationData[i + 0] = (destinationData[i + 0] * 255) ~/ alpha;
-     destinationData[i + 1] = (destinationData[i + 1] * 255) ~/ alpha;
-     destinationData[i + 2] = (destinationData[i + 2] * 255) ~/ alpha;
-   }
- }
-
- //--------------------------------------------------
+ _unpremultiplyAlpha(destinationData);
 
  destinationContext.putImageData(destinationImageData, destinationPoint.x - rx1, destinationPoint.y - ry1);
 }
@@ -753,7 +713,7 @@ Rectangle getBounds()
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-11-03 13:33:35.689</div>
+          <div>This page was generated at 2013-01-04 19:33:44.489</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

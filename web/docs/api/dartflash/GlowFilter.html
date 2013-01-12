@@ -73,6 +73,8 @@
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
+<li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -100,16 +102,10 @@
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
 <li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../dartflash/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
-<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
-<li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
-<li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
-<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
-<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
+<li><a href="../dartflash/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
-<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
-<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -171,6 +167,7 @@ class GlowFilter extends BitmapFilter
    int destinationHeight = sourceHeight + ry2;
    int sourceWidth4 = sourceWidth * 4;
    int destinationWidth4 = destinationWidth * 4;
+   int alphaChannel = _isLittleEndianSystem ? 3 : 0;
 
    var destinationContext = destinationBitmapData._getContext();
    var destinationImageData = destinationContext.createImageData(destinationWidth, destinationHeight);
@@ -183,8 +180,8 @@ class GlowFilter extends BitmapFilter
 
    for (int x = 0; x &lt; sourceWidth; x++) {
      int dif = 0, sum = weightY &gt;&gt; 1;
-     int offsetSource = x * 4 + 3;
-     int offsetDestination = (x + rx1) * 4 + 3;
+     int offsetSource = x * 4 + alphaChannel;
+     int offsetDestination = (x + rx1) * 4 + alphaChannel;
 
      for (int y = 0; y &lt; destinationHeight; y++) {
        destinationData[offsetDestination] = sum ~/ weightY;
@@ -206,21 +203,13 @@ class GlowFilter extends BitmapFilter
    //--------------------------------------------------
    // blur horizontal
 
-   int rColor = (color &gt;&gt; 16) &amp; 0xFF;
-   int gColor = (color &gt;&gt;  8) &amp; 0xFF;
-   int bColor = (color &gt;&gt;  0) &amp; 0xFF;
-   int weightXAlpha = (weightX / (this.alpha + 0.0001)).round().toInt();
-
    for (int y = 0; y &lt; destinationHeight; y++) {
      int dif = 0, sum = weightX &gt;&gt; 1;
-     int offsetSource = y * destinationWidth4 + rx1 * 4 + 3;
-     int offsetDestination = y * destinationWidth4;
+     int offsetSource = y * destinationWidth4 + rx1 * 4 + alphaChannel;
+     int offsetDestination = y * destinationWidth4 + alphaChannel;
 
      for (int x = 0; x &lt; destinationWidth; x++) {
-       destinationData[offsetDestination + 0] = rColor;
-       destinationData[offsetDestination + 1] = gColor;
-       destinationData[offsetDestination + 2] = bColor;
-       destinationData[offsetDestination + 3] = sum ~/ weightXAlpha;
+       destinationData[offsetDestination] = sum ~/ weightX;
        offsetDestination += 4;
 
        if (x &gt;= rx2) {
@@ -233,6 +222,39 @@ class GlowFilter extends BitmapFilter
        buffer[(x + rx1) &amp; 1023] = alpha;
        sum += dif += alpha;
        offsetSource += 4;
+     }
+   }
+
+   //--------------------------------------------------
+   // set color
+
+   // ToDo: We can optimize this code if we can use Uint32Arrays.
+   // With a 32 bit array we can set all channels at once.
+
+   int aColor = (alpha * 256).toInt();
+   int rColor = (color &gt;&gt; 16) &amp; 0xFF;
+   int gColor = (color &gt;&gt;  8) &amp; 0xFF;
+   int bColor = (color &gt;&gt;  0) &amp; 0xFF;
+
+   if (_isLittleEndianSystem) {
+     for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
+       var alpha = destinationData[i + 3];
+       if (alpha &gt; 0) {
+         destinationData[i + 0] = rColor;
+         destinationData[i + 1] = gColor;
+         destinationData[i + 2] = bColor;
+         destinationData[i + 3] = (destinationData[i + 3] * aColor) ~/ 256;
+       }
+     }
+   } else {
+     for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
+       var alpha = destinationData[i + 3];
+       if (alpha &gt; 0) {
+         destinationData[i + 0] = (destinationData[i + 0] * aColor) ~/ 256;
+         destinationData[i + 1] = bColor;
+         destinationData[i + 2] = gColor;
+         destinationData[i + 3] = rColor;
+       }
      }
    }
 
@@ -294,7 +316,7 @@ GlowFilter([this.color = 0, this.alpha = 1.0, this.blurX = 4, this.blurY = 4, th
         </h4>
         <div class="doc">
 <pre class="source">
-num alpha;
+alpha
 </pre>
 </div>
 </div>
@@ -306,7 +328,7 @@ num alpha;
         </h4>
         <div class="doc">
 <pre class="source">
-int blurX;
+blurX
 </pre>
 </div>
 </div>
@@ -318,7 +340,7 @@ int blurX;
         </h4>
         <div class="doc">
 <pre class="source">
-int blurY;
+blurY
 </pre>
 </div>
 </div>
@@ -330,7 +352,7 @@ int blurY;
         </h4>
         <div class="doc">
 <pre class="source">
-int color;
+color
 </pre>
 </div>
 </div>
@@ -342,7 +364,7 @@ int color;
         </h4>
         <div class="doc">
 <pre class="source">
-bool hideObject;
+hideObject
 </pre>
 </div>
 </div>
@@ -354,7 +376,7 @@ bool hideObject;
         </h4>
         <div class="doc">
 <pre class="source">
-bool inner;
+inner
 </pre>
 </div>
 </div>
@@ -366,7 +388,7 @@ bool inner;
         </h4>
         <div class="doc">
 <pre class="source">
-bool knockout;
+knockout
 </pre>
 </div>
 </div>
@@ -378,7 +400,7 @@ bool knockout;
         </h4>
         <div class="doc">
 <pre class="source">
-num strength;
+strength
 </pre>
 </div>
 </div>
@@ -409,6 +431,7 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
  int destinationHeight = sourceHeight + ry2;
  int sourceWidth4 = sourceWidth * 4;
  int destinationWidth4 = destinationWidth * 4;
+ int alphaChannel = _isLittleEndianSystem ? 3 : 0;
 
  var destinationContext = destinationBitmapData._getContext();
  var destinationImageData = destinationContext.createImageData(destinationWidth, destinationHeight);
@@ -421,8 +444,8 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
 
  for (int x = 0; x &lt; sourceWidth; x++) {
    int dif = 0, sum = weightY &gt;&gt; 1;
-   int offsetSource = x * 4 + 3;
-   int offsetDestination = (x + rx1) * 4 + 3;
+   int offsetSource = x * 4 + alphaChannel;
+   int offsetDestination = (x + rx1) * 4 + alphaChannel;
 
    for (int y = 0; y &lt; destinationHeight; y++) {
      destinationData[offsetDestination] = sum ~/ weightY;
@@ -444,21 +467,13 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
  //--------------------------------------------------
  // blur horizontal
 
- int rColor = (color &gt;&gt; 16) &amp; 0xFF;
- int gColor = (color &gt;&gt;  8) &amp; 0xFF;
- int bColor = (color &gt;&gt;  0) &amp; 0xFF;
- int weightXAlpha = (weightX / (this.alpha + 0.0001)).round().toInt();
-
  for (int y = 0; y &lt; destinationHeight; y++) {
    int dif = 0, sum = weightX &gt;&gt; 1;
-   int offsetSource = y * destinationWidth4 + rx1 * 4 + 3;
-   int offsetDestination = y * destinationWidth4;
+   int offsetSource = y * destinationWidth4 + rx1 * 4 + alphaChannel;
+   int offsetDestination = y * destinationWidth4 + alphaChannel;
 
    for (int x = 0; x &lt; destinationWidth; x++) {
-     destinationData[offsetDestination + 0] = rColor;
-     destinationData[offsetDestination + 1] = gColor;
-     destinationData[offsetDestination + 2] = bColor;
-     destinationData[offsetDestination + 3] = sum ~/ weightXAlpha;
+     destinationData[offsetDestination] = sum ~/ weightX;
      offsetDestination += 4;
 
      if (x &gt;= rx2) {
@@ -471,6 +486,39 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
      buffer[(x + rx1) &amp; 1023] = alpha;
      sum += dif += alpha;
      offsetSource += 4;
+   }
+ }
+
+ //--------------------------------------------------
+ // set color
+
+ // ToDo: We can optimize this code if we can use Uint32Arrays.
+ // With a 32 bit array we can set all channels at once.
+
+ int aColor = (alpha * 256).toInt();
+ int rColor = (color &gt;&gt; 16) &amp; 0xFF;
+ int gColor = (color &gt;&gt;  8) &amp; 0xFF;
+ int bColor = (color &gt;&gt;  0) &amp; 0xFF;
+
+ if (_isLittleEndianSystem) {
+   for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
+     var alpha = destinationData[i + 3];
+     if (alpha &gt; 0) {
+       destinationData[i + 0] = rColor;
+       destinationData[i + 1] = gColor;
+       destinationData[i + 2] = bColor;
+       destinationData[i + 3] = (destinationData[i + 3] * aColor) ~/ 256;
+     }
+   }
+ } else {
+   for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
+     var alpha = destinationData[i + 3];
+     if (alpha &gt; 0) {
+       destinationData[i + 0] = (destinationData[i + 0] * aColor) ~/ 256;
+       destinationData[i + 1] = bColor;
+       destinationData[i + 2] = gColor;
+       destinationData[i + 3] = rColor;
+     }
    }
  }
 
@@ -526,7 +574,7 @@ Rectangle getBounds()
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-11-03 13:33:35.670</div>
+          <div>This page was generated at 2013-01-04 19:33:44.463</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

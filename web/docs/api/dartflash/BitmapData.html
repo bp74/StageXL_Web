@@ -73,6 +73,8 @@
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
+<li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -100,16 +102,10 @@
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
 <li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../dartflash/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
-<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
-<li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
-<li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
-<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
-<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
+<li><a href="../dartflash/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
-<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
-<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -129,8 +125,8 @@ class BitmapData implements BitmapDrawable
  int _height;
  bool _transparent;
 
- html.Element _htmlElement;
- html.CanvasRenderingContext2D _context;
+ Element _element;
+ CanvasRenderingContext2D _context;
 
  int _frameMode;
  double _frameOffsetX;
@@ -149,25 +145,25 @@ class BitmapData implements BitmapDrawable
    _height = height;
    _transparent = transparent;
 
-   var canvas = new html.CanvasElement(width: _width, height: _height);
+   var canvas = new CanvasElement(width: _width, height: _height);
 
    _context = canvas.context2d;
    _context.fillStyle = _transparent ? _color2rgba(fillColor) : _color2rgb(fillColor);
    _context.fillRect(0, 0, width, height);
 
-   _htmlElement = canvas;
+   _element = canvas;
    _frameMode = 0;
  }
 
  //-------------------------------------------------------------------------------------------------
 
- BitmapData.fromImageElement(html.ImageElement imageElement)
+ BitmapData.fromImageElement(ImageElement imageElement)
  {
    _width = imageElement.naturalWidth;
    _height = imageElement.naturalHeight;
    _transparent = true;
 
-   _htmlElement = imageElement;
+   _element = imageElement;
    _frameMode = 0;
  }
 
@@ -179,7 +175,7 @@ class BitmapData implements BitmapDrawable
    _height = textureAtlasFrame.originalHeight;
    _transparent = true;
 
-   _htmlElement = textureAtlasFrame.textureAtlas.imageElement;
+   _element = textureAtlasFrame.textureAtlas.imageElement;
 
    _frameMode = textureAtlasFrame.rotated ? 2 : 1;
    _frameOffsetX = textureAtlasFrame.offsetX.toDouble();
@@ -197,7 +193,7 @@ class BitmapData implements BitmapDrawable
  {
    Completer&lt;BitmapData&gt; completer = new Completer&lt;BitmapData&gt;();
 
-   var image = new html.ImageElement();
+   var image = new ImageElement();
    image.on.load.add((event) =&gt; completer.complete(new BitmapData.fromImageElement(image)));
    image.on.error.add((event) =&gt; completer.completeException("Failed to load image."));
    image.src = url;
@@ -232,10 +228,10 @@ class BitmapData implements BitmapDrawable
 
  void colorTransform(Rectangle rect, ColorTransform transform)
  {
-   html.CanvasRenderingContext2D context = _getContext();
-   html.ImageData image = context.getImageData(rect.x, rect.y, rect.width, rect.height);
-   html.Uint8ClampedArray data = image.data;
-   int length = data.length;
+   var context = _getContext();
+   var image = context.getImageData(rect.x, rect.y, rect.width, rect.height);
+   var data = image.data;
+   var length = data.length;
 
    int r = transform.redOffset;
    int g = transform.greenOffset;
@@ -247,12 +243,20 @@ class BitmapData implements BitmapDrawable
    num bm = transform.blueMultiplier;
    num am = transform.alphaMultiplier;
 
-   for (int i = 0; i &lt; length;)
-   {
-     data[i] = data[i++] * (1 - rm) + (r * rm);
-     data[i] = data[i++] * (1 - gm) + (g * gm);
-     data[i] = data[i++] * (1 - bm) + (b * bm);
-     data[i] = data[i++] * (1 - am) + (a * am);
+   if (_isLittleEndianSystem) {
+     for (int i = 0; i &lt;= length - 4; i += 4) {
+       data[i + 0] = data[i + 0] * (1 - rm) + (r * rm);
+       data[i + 1] = data[i + 1] * (1 - gm) + (g * gm);
+       data[i + 2] = data[i + 2] * (1 - bm) + (b * bm);
+       data[i + 3] = data[i + 3] * (1 - am) + (a * am);
+     }
+   } else {
+     for (int i = 0; i &lt;= length - 4; i += 4) {
+       data[i + 0] = data[i + 0] * (1 - am) + (a * am);
+       data[i + 1] = data[i + 1] * (1 - bm) + (b * bm);
+       data[i + 2] = data[i + 2] * (1 - gm) + (g * gm);
+       data[i + 3] = data[i + 3] * (1 - rm) + (r * rm);
+     }
    }
 
    context.putImageData(image, rect.x, rect.y);
@@ -262,7 +266,7 @@ class BitmapData implements BitmapDrawable
 
  void copyPixels(BitmapData sourceBitmapData, Rectangle sourceRect, Point destPoint, [BitmapData alphaBitmapData = null, Point alphaPoint = null, bool mergeAlpha = false])
  {
-   html.ImageData imageData = sourceBitmapData._getContext().getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+   var imageData = sourceBitmapData._getContext().getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
 
    _getContext().putImageData(imageData, destPoint.x, destPoint.y);
  }
@@ -271,23 +275,18 @@ class BitmapData implements BitmapDrawable
 
  void draw(BitmapDrawable source, [Matrix matrix = null])
  {
-   var renderState = new RenderState.fromCanvasRenderingContext2D(_getContext());
-
-   if (matrix != null) {
-     var warp = new Warp();
-     warp.matrix = matrix;
-     warp.addChild(source);
-     warp.render(renderState);
-   } else {
-     source.render(renderState);
-   }
+   var context = _getContext();
+   var renderState = new RenderState.fromCanvasRenderingContext2D(context, matrix);
+   
+   source.render(renderState);
+   context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
  }
 
  //-------------------------------------------------------------------------------------------------
 
  void fillRect(Rectangle rect, int color)
  {
-   html.CanvasRenderingContext2D context = _getContext();
+   var context = _getContext();
 
    context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
    context.fillStyle = _color2rgba(color);
@@ -298,32 +297,46 @@ class BitmapData implements BitmapDrawable
 
  int getPixel(int x, int y)
  {
-   html.Uint8ClampedArray data = _getContext().getImageData(x, y, 1, 1).data;
+   Uint8ClampedArray data = _getContext().getImageData(x, y, 1, 1).data;
 
-   return (data[0] &lt;&lt; 16) + (data[1] &lt;&lt; 8) + (data[2] &lt;&lt; 0);
+   if (_isLittleEndianSystem) {
+     return (data[0] &lt;&lt; 16) + (data[1] &lt;&lt; 8) + (data[2] &lt;&lt; 0);
+   } else {
+     return (data[3] &lt;&lt; 16) + (data[2] &lt;&lt; 8) + (data[1] &lt;&lt; 0);
+   }
+
  }
 
  //-------------------------------------------------------------------------------------------------
 
  int getPixel32(int x, int y)
  {
-   html.Uint8ClampedArray data = _getContext().getImageData(x, y, 1, 1).data;
+   Uint8ClampedArray data = _getContext().getImageData(x, y, 1, 1).data;
 
-   return (data[0] &lt;&lt; 16) + (data[1] &lt;&lt; 8) + (data[2] &lt;&lt; 0) + (data[3] &lt;&lt; 24);
+   if (_isLittleEndianSystem) {
+     return (data[0] &lt;&lt; 16) + (data[1] &lt;&lt; 8) + (data[2] &lt;&lt; 0) + (data[3] &lt;&lt; 24);
+   } else {
+     return (data[3] &lt;&lt; 16) + (data[2] &lt;&lt; 8) + (data[1] &lt;&lt; 0) + (data[0] &lt;&lt; 24);
+   }
  }
 
  //-------------------------------------------------------------------------------------------------
 
  void setPixel(int x, int y, int color)
  {
-   html.CanvasRenderingContext2D context = _getContext();
-   html.ImageData imageData = context.getImageData(x, y, 1, 1);
-   html.Uint8ClampedArray data = imageData.data;
+   var context = _getContext();
+   var imageData = context.getImageData(x, y, 1, 1);
+   var data = imageData.data;
 
-   data[0] = (color &gt;&gt; 16) &amp; 0xFF;
-   data[1] = (color &gt;&gt;  8) &amp; 0xFF;
-   data[2] = (color &gt;&gt;  0) &amp; 0xFF;
-   data[3] = data[3];
+   if (_isLittleEndianSystem) {
+     data[0] = (color &gt;&gt; 16) &amp; 0xFF;
+     data[1] = (color &gt;&gt;  8) &amp; 0xFF;
+     data[2] = (color &gt;&gt;  0) &amp; 0xFF;
+   } else {
+     data[1] = (color &gt;&gt;  0) &amp; 0xFF;
+     data[2] = (color &gt;&gt;  8) &amp; 0xFF;
+     data[3] = (color &gt;&gt; 16) &amp; 0xFF;
+   }
 
    context.putImageData(imageData, x, y);
  }
@@ -332,14 +345,21 @@ class BitmapData implements BitmapDrawable
 
  void setPixel32(int x, int y, int color)
  {
-   html.CanvasRenderingContext2D context = _getContext();
-   html.ImageData imageData = context.getImageData(x, y, 1, 1);
-   html.Uint8ClampedArray data = imageData.data;
+   var context = _getContext();
+   var imageData = context.getImageData(x, y, 1, 1);
+   var data = imageData.data;
 
-   data[0] = (color &gt;&gt; 16) &amp; 0xFF;
-   data[1] = (color &gt;&gt;  8) &amp; 0xFF;
-   data[2] = (color &gt;&gt;  0) &amp; 0xFF;
-   data[3] = (color &gt;&gt; 24) &amp; 0xFF;
+   if (_isLittleEndianSystem) {
+     data[0] = (color &gt;&gt; 16) &amp; 0xFF;
+     data[1] = (color &gt;&gt;  8) &amp; 0xFF;
+     data[2] = (color &gt;&gt;  0) &amp; 0xFF;
+     data[3] = (color &gt;&gt; 24) &amp; 0xFF;
+   } else {
+     data[0] = (color &gt;&gt; 24) &amp; 0xFF;
+     data[1] = (color &gt;&gt;  0) &amp; 0xFF;
+     data[2] = (color &gt;&gt;  8) &amp; 0xFF;
+     data[3] = (color &gt;&gt; 16) &amp; 0xFF;
+   }
 
    context.putImageData(imageData, x, y);
  }
@@ -352,16 +372,16 @@ class BitmapData implements BitmapDrawable
    switch(_frameMode)
    {
      case 0:
-       renderState.context.drawImage(_htmlElement, 0.0, 0.0);
+       renderState.context.drawImage(_element, 0.0, 0.0);
        break;
 
      case 1:
-       renderState.context.drawImage(_htmlElement, _frameX, _frameY, _frameWidth, _frameHeight, _frameOffsetX, _frameOffsetY, _frameWidth, _frameHeight);
+       renderState.context.drawImage(_element, _frameX, _frameY, _frameWidth, _frameHeight, _frameOffsetX, _frameOffsetY, _frameWidth, _frameHeight);
        break;
 
      case 2:
        renderState.context.transform(0.0, -1.0, 1.0, 0.0, _frameOffsetX, _frameOffsetY + _frameHeight);
-       renderState.context.drawImage(_htmlElement, _frameX, _frameY, _frameHeight, _frameWidth, 0.0, 0.0, _frameHeight, _frameWidth);
+       renderState.context.drawImage(_element, _frameX, _frameY, _frameHeight, _frameWidth, 0.0, 0.0, _frameHeight, _frameWidth);
        break;
    }
  }
@@ -376,7 +396,7 @@ class BitmapData implements BitmapDrawable
    switch(_frameMode)
    {
      case 0:
-       renderState.context.drawImage(_htmlElement,
+       renderState.context.drawImage(_element,
          clipRectangle.x, clipRectangle.y, clipRectangle.width, clipRectangle.height,
          clipRectangle.x, clipRectangle.y, clipRectangle.width, clipRectangle.height);
        break;
@@ -403,7 +423,7 @@ class BitmapData implements BitmapDrawable
        double iHeight = iBottom - iTop;
 
        if (iWidth &gt; 0.0 &amp;&amp; iHeight &gt; 0.0) {
-         renderState.context.drawImage(_htmlElement, iLeft, iTop, iWidth, iHeight, iOffsetX, iOffsetY, iWidth, iHeight);
+         renderState.context.drawImage(_element, iLeft, iTop, iWidth, iHeight, iOffsetX, iOffsetY, iWidth, iHeight);
        }
 
        break;
@@ -431,7 +451,7 @@ class BitmapData implements BitmapDrawable
 
        if (iWidth &gt; 0.0 &amp;&amp; iHeight &gt; 0.0) {
          renderState.context.transform(0.0, -1.0, 1.0, 0.0, iOffsetX, iOffsetY + iHeight);
-         renderState.context.drawImage(_htmlElement, iLeft, iTop, iHeight, iWidth, 0.0, 0.0, iHeight, iWidth);
+         renderState.context.drawImage(_element, iLeft, iTop, iHeight, iWidth, 0.0, 0.0, iHeight, iWidth);
        }
 
        break;
@@ -441,32 +461,32 @@ class BitmapData implements BitmapDrawable
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- html.CanvasRenderingContext2D _getContext()
+ CanvasRenderingContext2D _getContext()
  {
    if (_context == null)
    {
-     var canvas = new html.CanvasElement(width: _width, height: _height);
+     var canvas = new CanvasElement(width: _width, height: _height);
 
      _context = canvas.context2d;
 
      switch(_frameMode)
      {
        case 0:
-         _context.drawImage(_htmlElement, 0, 0);
+         _context.drawImage(_element, 0, 0);
          break;
 
        case 1:
-         _context.drawImage(_htmlElement, _frameX, _frameY, _frameWidth, _frameHeight, _frameOffsetX, _frameOffsetY, _frameWidth, _frameHeight);
+         _context.drawImage(_element, _frameX, _frameY, _frameWidth, _frameHeight, _frameOffsetX, _frameOffsetY, _frameWidth, _frameHeight);
          break;
 
        case 2:
          _context.setTransform(0.0, -1.0, 1.0, 0.0, _frameOffsetX, _frameOffsetY + _frameHeight);
-         _context.drawImage(_htmlElement, _frameX, _frameY, _frameHeight, _frameWidth, 0.0, 0.0, _frameHeight, _frameWidth);
+         _context.drawImage(_element, _frameX, _frameY, _frameHeight, _frameWidth, 0.0, 0.0, _frameHeight, _frameWidth);
          _context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
          break;
      }
 
-     _htmlElement = canvas;
+     _element = canvas;
      _frameMode = 0;
    }
 
@@ -492,7 +512,7 @@ static Future&lt;BitmapData&gt; loadImage(String url)
 {
  Completer&lt;BitmapData&gt; completer = new Completer&lt;BitmapData&gt;();
 
- var image = new html.ImageElement();
+ var image = new ImageElement();
  image.on.load.add((event) =&gt; completer.complete(new BitmapData.fromImageElement(image)));
  image.on.error.add((event) =&gt; completer.completeException("Failed to load image."));
  image.src = url;
@@ -517,13 +537,13 @@ BitmapData(int width, int height, [bool transparent = true, int fillColor = 0xFF
  _height = height;
  _transparent = transparent;
 
- var canvas = new html.CanvasElement(width: _width, height: _height);
+ var canvas = new CanvasElement(width: _width, height: _height);
 
  _context = canvas.context2d;
  _context.fillStyle = _transparent ? _color2rgba(fillColor) : _color2rgb(fillColor);
  _context.fillRect(0, 0, width, height);
 
- _htmlElement = canvas;
+ _element = canvas;
  _frameMode = 0;
 }
 </pre>
@@ -535,13 +555,13 @@ new <strong>BitmapData.fromImageElement</strong>(<a href="http://api.dartlang.or
               title="Permalink to BitmapData.BitmapData.fromImageElement">#</a></h4>
 <div class="doc">
 <pre class="source">
-BitmapData.fromImageElement(html.ImageElement imageElement)
+BitmapData.fromImageElement(ImageElement imageElement)
 {
  _width = imageElement.naturalWidth;
  _height = imageElement.naturalHeight;
  _transparent = true;
 
- _htmlElement = imageElement;
+ _element = imageElement;
  _frameMode = 0;
 }
 </pre>
@@ -559,7 +579,7 @@ BitmapData.fromTextureAtlasFrame(TextureAtlasFrame textureAtlasFrame)
  _height = textureAtlasFrame.originalHeight;
  _transparent = true;
 
- _htmlElement = textureAtlasFrame.textureAtlas.imageElement;
+ _element = textureAtlasFrame.textureAtlas.imageElement;
 
  _frameMode = textureAtlasFrame.rotated ? 2 : 1;
  _frameOffsetX = textureAtlasFrame.offsetX.toDouble();
@@ -639,10 +659,10 @@ void <strong>colorTransform</strong>(<a href="../dartflash/Rectangle.html">Recta
 <pre class="source">
 void colorTransform(Rectangle rect, ColorTransform transform)
 {
- html.CanvasRenderingContext2D context = _getContext();
- html.ImageData image = context.getImageData(rect.x, rect.y, rect.width, rect.height);
- html.Uint8ClampedArray data = image.data;
- int length = data.length;
+ var context = _getContext();
+ var image = context.getImageData(rect.x, rect.y, rect.width, rect.height);
+ var data = image.data;
+ var length = data.length;
 
  int r = transform.redOffset;
  int g = transform.greenOffset;
@@ -654,12 +674,20 @@ void colorTransform(Rectangle rect, ColorTransform transform)
  num bm = transform.blueMultiplier;
  num am = transform.alphaMultiplier;
 
- for (int i = 0; i &lt; length;)
- {
-   data[i] = data[i++] * (1 - rm) + (r * rm);
-   data[i] = data[i++] * (1 - gm) + (g * gm);
-   data[i] = data[i++] * (1 - bm) + (b * bm);
-   data[i] = data[i++] * (1 - am) + (a * am);
+ if (_isLittleEndianSystem) {
+   for (int i = 0; i &lt;= length - 4; i += 4) {
+     data[i + 0] = data[i + 0] * (1 - rm) + (r * rm);
+     data[i + 1] = data[i + 1] * (1 - gm) + (g * gm);
+     data[i + 2] = data[i + 2] * (1 - bm) + (b * bm);
+     data[i + 3] = data[i + 3] * (1 - am) + (a * am);
+   }
+ } else {
+   for (int i = 0; i &lt;= length - 4; i += 4) {
+     data[i + 0] = data[i + 0] * (1 - am) + (a * am);
+     data[i + 1] = data[i + 1] * (1 - bm) + (b * bm);
+     data[i + 2] = data[i + 2] * (1 - gm) + (g * gm);
+     data[i + 3] = data[i + 3] * (1 - rm) + (r * rm);
+   }
  }
 
  context.putImageData(image, rect.x, rect.y);
@@ -675,7 +703,7 @@ void <strong>copyPixels</strong>(<a href="../dartflash/BitmapData.html">BitmapDa
 <pre class="source">
 void copyPixels(BitmapData sourceBitmapData, Rectangle sourceRect, Point destPoint, [BitmapData alphaBitmapData = null, Point alphaPoint = null, bool mergeAlpha = false])
 {
- html.ImageData imageData = sourceBitmapData._getContext().getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+ var imageData = sourceBitmapData._getContext().getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
 
  _getContext().putImageData(imageData, destPoint.x, destPoint.y);
 }
@@ -690,16 +718,11 @@ void <strong>draw</strong>(<a href="../dartflash/BitmapDrawable.html">BitmapDraw
 <pre class="source">
 void draw(BitmapDrawable source, [Matrix matrix = null])
 {
- var renderState = new RenderState.fromCanvasRenderingContext2D(_getContext());
-
- if (matrix != null) {
-   var warp = new Warp();
-   warp.matrix = matrix;
-   warp.addChild(source);
-   warp.render(renderState);
- } else {
-   source.render(renderState);
- }
+ var context = _getContext();
+ var renderState = new RenderState.fromCanvasRenderingContext2D(context, matrix);
+ 
+ source.render(renderState);
+ context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
 }
 </pre>
 </div>
@@ -712,7 +735,7 @@ void <strong>fillRect</strong>(<a href="../dartflash/Rectangle.html">Rectangle</
 <pre class="source">
 void fillRect(Rectangle rect, int color)
 {
- html.CanvasRenderingContext2D context = _getContext();
+ var context = _getContext();
 
  context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
  context.fillStyle = _color2rgba(color);
@@ -729,9 +752,14 @@ void fillRect(Rectangle rect, int color)
 <pre class="source">
 int getPixel(int x, int y)
 {
- html.Uint8ClampedArray data = _getContext().getImageData(x, y, 1, 1).data;
+ Uint8ClampedArray data = _getContext().getImageData(x, y, 1, 1).data;
 
- return (data[0] &lt;&lt; 16) + (data[1] &lt;&lt; 8) + (data[2] &lt;&lt; 0);
+ if (_isLittleEndianSystem) {
+   return (data[0] &lt;&lt; 16) + (data[1] &lt;&lt; 8) + (data[2] &lt;&lt; 0);
+ } else {
+   return (data[3] &lt;&lt; 16) + (data[2] &lt;&lt; 8) + (data[1] &lt;&lt; 0);
+ }
+
 }
 </pre>
 </div>
@@ -744,9 +772,13 @@ int getPixel(int x, int y)
 <pre class="source">
 int getPixel32(int x, int y)
 {
- html.Uint8ClampedArray data = _getContext().getImageData(x, y, 1, 1).data;
+ Uint8ClampedArray data = _getContext().getImageData(x, y, 1, 1).data;
 
- return (data[0] &lt;&lt; 16) + (data[1] &lt;&lt; 8) + (data[2] &lt;&lt; 0) + (data[3] &lt;&lt; 24);
+ if (_isLittleEndianSystem) {
+   return (data[0] &lt;&lt; 16) + (data[1] &lt;&lt; 8) + (data[2] &lt;&lt; 0) + (data[3] &lt;&lt; 24);
+ } else {
+   return (data[3] &lt;&lt; 16) + (data[2] &lt;&lt; 8) + (data[1] &lt;&lt; 0) + (data[0] &lt;&lt; 24);
+ }
 }
 </pre>
 </div>
@@ -762,16 +794,16 @@ void render(RenderState renderState)
  switch(_frameMode)
  {
    case 0:
-     renderState.context.drawImage(_htmlElement, 0.0, 0.0);
+     renderState.context.drawImage(_element, 0.0, 0.0);
      break;
 
    case 1:
-     renderState.context.drawImage(_htmlElement, _frameX, _frameY, _frameWidth, _frameHeight, _frameOffsetX, _frameOffsetY, _frameWidth, _frameHeight);
+     renderState.context.drawImage(_element, _frameX, _frameY, _frameWidth, _frameHeight, _frameOffsetX, _frameOffsetY, _frameWidth, _frameHeight);
      break;
 
    case 2:
      renderState.context.transform(0.0, -1.0, 1.0, 0.0, _frameOffsetX, _frameOffsetY + _frameHeight);
-     renderState.context.drawImage(_htmlElement, _frameX, _frameY, _frameHeight, _frameWidth, 0.0, 0.0, _frameHeight, _frameWidth);
+     renderState.context.drawImage(_element, _frameX, _frameY, _frameHeight, _frameWidth, 0.0, 0.0, _frameHeight, _frameWidth);
      break;
  }
 }
@@ -792,7 +824,7 @@ void renderClipped(RenderState renderState, Rectangle clipRectangle)
  switch(_frameMode)
  {
    case 0:
-     renderState.context.drawImage(_htmlElement,
+     renderState.context.drawImage(_element,
        clipRectangle.x, clipRectangle.y, clipRectangle.width, clipRectangle.height,
        clipRectangle.x, clipRectangle.y, clipRectangle.width, clipRectangle.height);
      break;
@@ -819,7 +851,7 @@ void renderClipped(RenderState renderState, Rectangle clipRectangle)
      double iHeight = iBottom - iTop;
 
      if (iWidth &gt; 0.0 &amp;&amp; iHeight &gt; 0.0) {
-       renderState.context.drawImage(_htmlElement, iLeft, iTop, iWidth, iHeight, iOffsetX, iOffsetY, iWidth, iHeight);
+       renderState.context.drawImage(_element, iLeft, iTop, iWidth, iHeight, iOffsetX, iOffsetY, iWidth, iHeight);
      }
 
      break;
@@ -847,7 +879,7 @@ void renderClipped(RenderState renderState, Rectangle clipRectangle)
 
      if (iWidth &gt; 0.0 &amp;&amp; iHeight &gt; 0.0) {
        renderState.context.transform(0.0, -1.0, 1.0, 0.0, iOffsetX, iOffsetY + iHeight);
-       renderState.context.drawImage(_htmlElement, iLeft, iTop, iHeight, iWidth, 0.0, 0.0, iHeight, iWidth);
+       renderState.context.drawImage(_element, iLeft, iTop, iHeight, iWidth, 0.0, 0.0, iHeight, iWidth);
      }
 
      break;
@@ -864,14 +896,19 @@ void <strong>setPixel</strong>(<a href="http://api.dartlang.org/dart_core/int.ht
 <pre class="source">
 void setPixel(int x, int y, int color)
 {
- html.CanvasRenderingContext2D context = _getContext();
- html.ImageData imageData = context.getImageData(x, y, 1, 1);
- html.Uint8ClampedArray data = imageData.data;
+ var context = _getContext();
+ var imageData = context.getImageData(x, y, 1, 1);
+ var data = imageData.data;
 
- data[0] = (color &gt;&gt; 16) &amp; 0xFF;
- data[1] = (color &gt;&gt;  8) &amp; 0xFF;
- data[2] = (color &gt;&gt;  0) &amp; 0xFF;
- data[3] = data[3];
+ if (_isLittleEndianSystem) {
+   data[0] = (color &gt;&gt; 16) &amp; 0xFF;
+   data[1] = (color &gt;&gt;  8) &amp; 0xFF;
+   data[2] = (color &gt;&gt;  0) &amp; 0xFF;
+ } else {
+   data[1] = (color &gt;&gt;  0) &amp; 0xFF;
+   data[2] = (color &gt;&gt;  8) &amp; 0xFF;
+   data[3] = (color &gt;&gt; 16) &amp; 0xFF;
+ }
 
  context.putImageData(imageData, x, y);
 }
@@ -886,14 +923,21 @@ void <strong>setPixel32</strong>(<a href="http://api.dartlang.org/dart_core/int.
 <pre class="source">
 void setPixel32(int x, int y, int color)
 {
- html.CanvasRenderingContext2D context = _getContext();
- html.ImageData imageData = context.getImageData(x, y, 1, 1);
- html.Uint8ClampedArray data = imageData.data;
+ var context = _getContext();
+ var imageData = context.getImageData(x, y, 1, 1);
+ var data = imageData.data;
 
- data[0] = (color &gt;&gt; 16) &amp; 0xFF;
- data[1] = (color &gt;&gt;  8) &amp; 0xFF;
- data[2] = (color &gt;&gt;  0) &amp; 0xFF;
- data[3] = (color &gt;&gt; 24) &amp; 0xFF;
+ if (_isLittleEndianSystem) {
+   data[0] = (color &gt;&gt; 16) &amp; 0xFF;
+   data[1] = (color &gt;&gt;  8) &amp; 0xFF;
+   data[2] = (color &gt;&gt;  0) &amp; 0xFF;
+   data[3] = (color &gt;&gt; 24) &amp; 0xFF;
+ } else {
+   data[0] = (color &gt;&gt; 24) &amp; 0xFF;
+   data[1] = (color &gt;&gt;  0) &amp; 0xFF;
+   data[2] = (color &gt;&gt;  8) &amp; 0xFF;
+   data[3] = (color &gt;&gt; 16) &amp; 0xFF;
+ }
 
  context.putImageData(imageData, x, y);
 }
@@ -906,7 +950,7 @@ void setPixel32(int x, int y, int color)
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-11-03 13:33:35.586</div>
+          <div>This page was generated at 2013-01-04 19:33:44.374</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

@@ -73,6 +73,8 @@
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
+<li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -100,16 +102,10 @@
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
 <li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../dartflash/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
 <li><div class="icon-class"></div><strong>Transition</strong></li>
-<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
-<li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
-<li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
-<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
-<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
+<li><a href="../dartflash/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
-<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
-<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -122,11 +118,10 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
-<p>The <a class="crossref" href="../dartflash/Transition.html#Transition">Transition</a> class animates a value by calling the <a class="crossref" href="../dartflash/Transition.html#onUpdate">onUpdate</a> function continuously.</p>
-<pre><code>var transition = new Transition(0.0, 100.0, 1.0, Transitions.linear);
-transition.onUpdate = (value) =&gt; print('the value changed to $value');
-renderLoop.juggler.add(transition);
-</code></pre>
+<p>The <a class="crossref" href="../dartflash/Transition.html#Transition">Transition</a> class animates a value by calling the <code>onUpdate</code> function continuously.</p>
+<pre><span class="k ">var</span> <span class="i ">transition</span> <span class="o ">=</span> <span class="k ">new</span> <span class="t ">Transition</span><span class="p ">(</span><span class="n ">0.0</span><span class="p ">,</span> <span class="n ">100.0</span><span class="p ">,</span> <span class="n ">1.0</span><span class="p ">,</span> <span class="t ">TransitionFunction</span><span class="p ">.</span><span class="i ">linear</span><span class="p ">)</span><span class="p ">;</span>
+<span class="i ">transition</span><span class="p ">.</span><span class="i ">onUpdate</span> <span class="o ">=</span> <span class="p ">(</span><span class="i ">value</span><span class="p ">)</span> <span class="a ">=&gt;</span> <span class="i ">print</span><span class="p ">(</span><span class="s si">'the value changed to </span>$<span class="i ">value</span><span class="s si">'</span><span class="p ">)</span><span class="p ">;</span>
+<span class="i ">renderLoop</span><span class="p ">.</span><span class="i ">juggler</span><span class="p ">.</span><span class="i ">add</span><span class="p ">(</span><span class="i ">transition</span><span class="p ">)</span><span class="p ">;</span></pre>
 <pre class="source">
 class Transition extends Animatable
 {
@@ -134,11 +129,11 @@ class Transition extends Animatable
  num _targetValue;
  num _currentValue;
 
- TransitionFunction _transitionFunction;
+ Function _transitionFunction;
 
- TransitionStart _onStart;
- TransitionUpdate _onUpdate;
- TransitionComplete _onComplete;
+ Function _onStart;
+ Function _onUpdate;
+ Function _onComplete;
 
  num _totalTime;
  num _currentTime;
@@ -146,13 +141,13 @@ class Transition extends Animatable
  bool _roundToInt;
  bool _started;
 
- Transition(num startValue, num targetValue, num time, [TransitionFunction transitionFunction = null])
+ Transition(num startValue, num targetValue, num time, [num transitionFunction(num ratio)])
  {
    _startValue = startValue;
    _targetValue = targetValue;
    _currentValue = startValue;
 
-   _transitionFunction = (transitionFunction != null) ? transitionFunction : Transitions.linear;
+   _transitionFunction = (transitionFunction != null) ? transitionFunction : TransitionFunction.linear;
 
    _currentTime = 0.0;
    _totalTime = max(0.0001, time);
@@ -231,13 +226,20 @@ class Transition extends Animatable
 
  //-------------------------------------------------------------------------------------------------
 
- TransitionStart get onStart =&gt; _onStart;
- TransitionUpdate get onUpdate =&gt; _onUpdate;
- TransitionComplete get onComplete =&gt; _onComplete;
+ /**
+  * The function that is called when a [Transition] starts. This happens after the specified delay.
+  **/
+ void set onStart(void function()) { _onStart = function; }
 
- void set onStart(TransitionStart value) { _onStart = value; }
- void set onUpdate(TransitionUpdate value) { _onUpdate = value; }
- void set onComplete(TransitionComplete value) { _onComplete = value; }
+ /**
+  * The function that is called every time a [Transition] updates the value.
+  **/
+ void set onUpdate(void function(num value)) { _onUpdate = function; }
+
+ /**
+  * The function that is called when a [Transition] is completed.
+  **/
+ void set onComplete(void function()) { _onComplete = function; }
 }
 </pre>
 </div>
@@ -248,17 +250,17 @@ class Transition extends Animatable
 <h3>Constructors</h3>
 <div class="method"><h4 id="Transition">
 <button class="show-code">Code</button>
-new <strong>Transition</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> startValue, <a href="http://api.dartlang.org/dart_core/num.html">num</a> targetValue, <a href="http://api.dartlang.org/dart_core/num.html">num</a> time, [<a href="../dartflash/TransitionFunction.html">TransitionFunction</a> transitionFunction = null]) <a class="anchor-link" href="#Transition"
+new <strong>Transition</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> startValue, <a href="http://api.dartlang.org/dart_core/num.html">num</a> targetValue, <a href="http://api.dartlang.org/dart_core/num.html">num</a> time, [<a href="http://api.dartlang.org/dart_core/num.html">num</a> transitionFunction(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio)]) <a class="anchor-link" href="#Transition"
               title="Permalink to Transition.Transition">#</a></h4>
 <div class="doc">
 <pre class="source">
-Transition(num startValue, num targetValue, num time, [TransitionFunction transitionFunction = null])
+Transition(num startValue, num targetValue, num time, [num transitionFunction(num ratio)])
 {
  _startValue = startValue;
  _targetValue = targetValue;
  _currentValue = startValue;
 
- _transitionFunction = (transitionFunction != null) ? transitionFunction : Transitions.linear;
+ _transitionFunction = (transitionFunction != null) ? transitionFunction : TransitionFunction.linear;
 
  _currentTime = 0.0;
  _totalTime = max(0.0001, time);
@@ -329,48 +331,36 @@ bool get isComplete =&gt; _currentTime &gt;= _totalTime;
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="onComplete">
+<div class="method"><h4 id="onComplete=">
 <button class="show-code">Code</button>
-<a href="../dartflash/TransitionComplete.html">TransitionComplete</a>         <strong>onComplete</strong> <a class="anchor-link"
-            href="#onComplete"
-            title="Permalink to Transition.onComplete">#</a>
-        </h4>
-        <div class="doc">
+void <strong>set onComplete</strong>(void function()) <a class="anchor-link" href="#onComplete="
+              title="Permalink to Transition.set onComplete">#</a></h4>
+<div class="doc">
+<p>The function that is called when a <a class="crossref" href="../dartflash/Transition.html#Transition">Transition</a> is completed.</p>
 <pre class="source">
-TransitionComplete get onComplete =&gt; _onComplete;
-</pre>
-<pre class="source">
-void set onComplete(TransitionComplete value) { _onComplete = value; }
+void set onComplete(void function()) { _onComplete = function; }
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="onStart">
+<div class="method"><h4 id="onStart=">
 <button class="show-code">Code</button>
-<a href="../dartflash/TransitionStart.html">TransitionStart</a>         <strong>onStart</strong> <a class="anchor-link"
-            href="#onStart"
-            title="Permalink to Transition.onStart">#</a>
-        </h4>
-        <div class="doc">
+void <strong>set onStart</strong>(void function()) <a class="anchor-link" href="#onStart="
+              title="Permalink to Transition.set onStart">#</a></h4>
+<div class="doc">
+<p>The function that is called when a <a class="crossref" href="../dartflash/Transition.html#Transition">Transition</a> starts. This happens after the specified delay.</p>
 <pre class="source">
-TransitionStart get onStart =&gt; _onStart;
-</pre>
-<pre class="source">
-void set onStart(TransitionStart value) { _onStart = value; }
+void set onStart(void function()) { _onStart = function; }
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="onUpdate">
+<div class="method"><h4 id="onUpdate=">
 <button class="show-code">Code</button>
-<a href="../dartflash/TransitionUpdate.html">TransitionUpdate</a>         <strong>onUpdate</strong> <a class="anchor-link"
-            href="#onUpdate"
-            title="Permalink to Transition.onUpdate">#</a>
-        </h4>
-        <div class="doc">
+void <strong>set onUpdate</strong>(void function(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value)) <a class="anchor-link" href="#onUpdate="
+              title="Permalink to Transition.set onUpdate">#</a></h4>
+<div class="doc">
+<p>The function that is called every time a <a class="crossref" href="../dartflash/Transition.html#Transition">Transition</a> updates the value.</p>
 <pre class="source">
-TransitionUpdate get onUpdate =&gt; _onUpdate;
-</pre>
-<pre class="source">
-void set onUpdate(TransitionUpdate value) { _onUpdate = value; }
+void set onUpdate(void function(num value)) { _onUpdate = function; }
 </pre>
 </div>
 </div>
@@ -483,7 +473,7 @@ bool advanceTime(num time)
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-11-03 13:33:35.826</div>
+          <div>This page was generated at 2013-01-04 19:33:44.620</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

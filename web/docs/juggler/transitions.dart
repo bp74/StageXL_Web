@@ -3,66 +3,66 @@ import 'package:dartflash/dartflash.dart';
 
 void main() {
 
-  var transitionTypes = [
+  var TransitionFunctions = [
 
-    { "name": "linear", "transition": TransitionType.linear },
-    { "name": "sine", "transition": TransitionType.sine },
-    { "name": "cosine", "transition": TransitionType.cosine },
-    { "name": "random", "transition": TransitionType.random },
+    { "name": "linear", "transition": TransitionFunction.linear },
+    { "name": "sine", "transition": TransitionFunction.sine },
+    { "name": "cosine", "transition": TransitionFunction.cosine },
+    { "name": "random", "transition": TransitionFunction.random },
 
-    { "name": "easeInQuadratic", "transition": TransitionType.easeInQuadratic },
-    { "name": "easeOutQuadratic", "transition": TransitionType.easeOutQuadratic },
-    { "name": "easeInOutQuadratic", "transition": TransitionType.easeInOutQuadratic },
-    { "name": "easeOutInQuadratic", "transition": TransitionType.easeOutInQuadratic },
+    { "name": "easeInQuadratic", "transition": TransitionFunction.easeInQuadratic },
+    { "name": "easeOutQuadratic", "transition": TransitionFunction.easeOutQuadratic },
+    { "name": "easeInOutQuadratic", "transition": TransitionFunction.easeInOutQuadratic },
+    { "name": "easeOutInQuadratic", "transition": TransitionFunction.easeOutInQuadratic },
 
-    { "name": "easeInCubic", "transition": TransitionType.easeInCubic },
-    { "name": "easeOutCubic", "transition": TransitionType.easeOutCubic },
-    { "name": "easeInOutCubic", "transition": TransitionType.easeInOutCubic },
-    { "name": "easeOutInCubic", "transition": TransitionType.easeOutInCubic },
+    { "name": "easeInCubic", "transition": TransitionFunction.easeInCubic },
+    { "name": "easeOutCubic", "transition": TransitionFunction.easeOutCubic },
+    { "name": "easeInOutCubic", "transition": TransitionFunction.easeInOutCubic },
+    { "name": "easeOutInCubic", "transition": TransitionFunction.easeOutInCubic },
 
-    { "name": "easeInQuartic", "transition": TransitionType.easeInQuartic },
-    { "name": "easeOutQuartic", "transition": TransitionType.easeOutQuartic },
-    { "name": "easeInOutQuartic", "transition": TransitionType.easeInOutQuartic },
-    { "name": "easeOutInQuartic", "transition": TransitionType.easeOutInQuartic },
+    { "name": "easeInQuartic", "transition": TransitionFunction.easeInQuartic },
+    { "name": "easeOutQuartic", "transition": TransitionFunction.easeOutQuartic },
+    { "name": "easeInOutQuartic", "transition": TransitionFunction.easeInOutQuartic },
+    { "name": "easeOutInQuartic", "transition": TransitionFunction.easeOutInQuartic },
 
-    { "name": "easeInQuintic", "transition": TransitionType.easeInQuintic },
-    { "name": "easeOutQuintic", "transition": TransitionType.easeOutQuintic },
-    { "name": "easeInOutQuintic", "transition": TransitionType.easeInOutQuintic },
-    { "name": "easeOutInQuintic", "transition": TransitionType.easeOutInQuintic },
+    { "name": "easeInQuintic", "transition": TransitionFunction.easeInQuintic },
+    { "name": "easeOutQuintic", "transition": TransitionFunction.easeOutQuintic },
+    { "name": "easeInOutQuintic", "transition": TransitionFunction.easeInOutQuintic },
+    { "name": "easeOutInQuintic", "transition": TransitionFunction.easeOutInQuintic },
 
-    { "name": "easeInCircular", "transition": TransitionType.easeInCircular },
-    { "name": "easeOutCircular", "transition": TransitionType.easeOutCircular },
-    { "name": "easeInOutCircular", "transition": TransitionType.easeInOutCircular },
-    { "name": "easeOutInCircular", "transition": TransitionType.easeOutInCircular },
+    { "name": "easeInCircular", "transition": TransitionFunction.easeInCircular },
+    { "name": "easeOutCircular", "transition": TransitionFunction.easeOutCircular },
+    { "name": "easeInOutCircular", "transition": TransitionFunction.easeInOutCircular },
+    { "name": "easeOutInCircular", "transition": TransitionFunction.easeOutInCircular },
 
-    { "name": "easeInSine", "transition": TransitionType.easeInSine },
-    { "name": "easeOutSine", "transition": TransitionType.easeOutSine },
-    { "name": "easeInOutSine", "transition": TransitionType.easeInOutSine },
-    { "name": "easeOutInSine", "transition": TransitionType.easeOutInSine },
+    { "name": "easeInSine", "transition": TransitionFunction.easeInSine },
+    { "name": "easeOutSine", "transition": TransitionFunction.easeOutSine },
+    { "name": "easeInOutSine", "transition": TransitionFunction.easeInOutSine },
+    { "name": "easeOutInSine", "transition": TransitionFunction.easeOutInSine },
 
-    { "name": "easeInExponential", "transition": TransitionType.easeInExponential },
-    { "name": "easeOutExponential", "transition": TransitionType.easeOutExponential },
-    { "name": "easeInOutExponential", "transition": TransitionType.easeInOutExponential },
-    { "name": "easeOutInExponential", "transition": TransitionType.easeOutInExponential },
+    { "name": "easeInExponential", "transition": TransitionFunction.easeInExponential },
+    { "name": "easeOutExponential", "transition": TransitionFunction.easeOutExponential },
+    { "name": "easeInOutExponential", "transition": TransitionFunction.easeInOutExponential },
+    { "name": "easeOutInExponential", "transition": TransitionFunction.easeOutInExponential },
 
-    { "name": "easeInBack", "transition": TransitionType.easeInBack },
-    { "name": "easeOutBack", "transition": TransitionType.easeOutBack },
-    { "name": "easeInOutBack", "transition": TransitionType.easeInOutBack },
-    { "name": "easeOutInBack", "transition": TransitionType.easeOutInBack },
+    { "name": "easeInBack", "transition": TransitionFunction.easeInBack },
+    { "name": "easeOutBack", "transition": TransitionFunction.easeOutBack },
+    { "name": "easeInOutBack", "transition": TransitionFunction.easeInOutBack },
+    { "name": "easeOutInBack", "transition": TransitionFunction.easeOutInBack },
 
-    { "name": "easeInElastic", "transition": TransitionType.easeInElastic },
-    { "name": "easeOutElastic", "transition": TransitionType.easeOutElastic },
-    { "name": "easeInOutElastic", "transition": TransitionType.easeInOutElastic },
-    { "name": "easeOutInElastic", "transition": TransitionType.easeOutInElastic },
+    { "name": "easeInElastic", "transition": TransitionFunction.easeInElastic },
+    { "name": "easeOutElastic", "transition": TransitionFunction.easeOutElastic },
+    { "name": "easeInOutElastic", "transition": TransitionFunction.easeInOutElastic },
+    { "name": "easeOutInElastic", "transition": TransitionFunction.easeOutInElastic },
 
-    { "name": "easeInBounce", "transition": TransitionType.easeInBounce },
-    { "name": "easeOutBounce", "transition": TransitionType.easeOutBounce },
-    { "name": "easeInOutBounce", "transition": TransitionType.easeInOutBounce },
-    { "name": "easeOutInBounce", "transition": TransitionType.easeOutInBounce },
+    { "name": "easeInBounce", "transition": TransitionFunction.easeInBounce },
+    { "name": "easeOutBounce", "transition": TransitionFunction.easeOutBounce },
+    { "name": "easeInOutBounce", "transition": TransitionFunction.easeInOutBounce },
+    { "name": "easeOutInBounce", "transition": TransitionFunction.easeOutInBounce },
 
   ];
 
-  for(int i = 0; i < transitionTypes.length / 4; i++)
+  for(int i = 0; i < TransitionFunctions.length / 4; i++)
   {
     var rowDiv = new html.DivElement();
     rowDiv.classes.add("row");
@@ -70,8 +70,8 @@ void main() {
 
     for(int j = 0; j < 4; j++)
     {
-      var name = transitionTypes[i * 4 + j]["name"];
-      var transition = transitionTypes[i * 4 + j]["transition"];
+      var name = TransitionFunctions[i * 4 + j]["name"];
+      var transition = TransitionFunctions[i * 4 + j]["transition"];
 
       var cellDiv = drawTransition(name, transition);
       cellDiv.id = "cell";
@@ -84,7 +84,7 @@ void main() {
 }
 
 
-html.DivElement drawTransition(String name, num transitionType(num ratio)) {
+html.DivElement drawTransition(String name, num transitionFunction(num ratio)) {
 
   var div = new html.DivElement();
   div.classes.add("span3");
@@ -94,14 +94,14 @@ html.DivElement drawTransition(String name, num transitionType(num ratio)) {
   var canvasElement = new html.CanvasElement(width:200, height:140);
   canvasElement.style.position = "absolute";
   canvasElement.style.zIndex = "1";
-  div.elements.add(canvasElement);
+  div.children.add(canvasElement);
 
   var headline = new html.DivElement();
   headline.text = name;
   headline.style.position = "relative";
   headline.style.zIndex = "2";
   headline.style.top = "6px";
-  div.elements.add(headline);
+  div.children.add(headline);
 
   var stage = new Stage("stage", canvasElement);
   var shape = new Shape();
@@ -123,7 +123,7 @@ html.DivElement drawTransition(String name, num transitionType(num ratio)) {
   for(int i = 0; i <= 199; i++) {
     var ratio = i / 199.0;
     var x = 0.5 + ratio * 199.0;
-    var y = 109.5 - 79.0 * transitionType(ratio);
+    var y = 109.5 - 79.0 * transitionFunction(ratio);
     graphics.lineTo(x, y);
   }
 

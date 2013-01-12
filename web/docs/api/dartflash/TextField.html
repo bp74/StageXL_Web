@@ -73,6 +73,8 @@
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
+<li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -100,16 +102,10 @@
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
 <li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../dartflash/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
-<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
-<li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
-<li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
-<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
-<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
+<li><a href="../dartflash/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
-<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
-<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -148,8 +144,8 @@ class TextField extends InteractiveObject
  bool _canvasRefreshPending = true;
  num _canvasWidth = 100;
  num _canvasHeight = 100;
- html.CanvasElement _canvas = null;
- html.CanvasRenderingContext2D _context = null;
+ CanvasElement _canvas = null;
+ CanvasRenderingContext2D _context = null;
 
  //-------------------------------------------------------------------------------------------------
 
@@ -211,7 +207,7 @@ class TextField extends InteractiveObject
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle = null])
+ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
  {
    return _getBoundsTransformedHelper(matrix, _canvasWidth, _canvasHeight, returnRectangle);
  }
@@ -256,26 +252,35 @@ class TextField extends InteractiveObject
      String line;
 
      // ToDo: very simple implementation, we can do better ...
-
-     for(String word in _text.split(" "))
+     
+     for(String paragraph in _text.replaceAll('\r', '').split('\n')) 
      {
-       previousLength = lineBuffer.length;
-       lineBuffer.add((previousLength &gt; 0) ? " $word": word);
-       line = lineBuffer.toString();
-
-       if (_context.measureText(line).width &gt; _canvasWidth)
+       for(String word in paragraph.split(' ')) 
        {
-         if (previousLength &gt; 0) line = line.substring(0, previousLength); else word = "";
-
-         _linesText.add(line);
-
+         previousLength = lineBuffer.length;
+         lineBuffer.add((previousLength &gt; 0) ? " $word": word);
+         line = lineBuffer.toString();
+ 
+         if (_context.measureText(line).width &gt; _canvasWidth)
+         {
+           if (previousLength &gt; 0) 
+             line = line.substring(0, previousLength); 
+           else 
+             word = "";
+ 
+           _linesText.add(line);
+ 
+           lineBuffer.clear();
+           lineBuffer.add(word);
+         }
+       }
+ 
+       if (lineBuffer.isEmpty == false)
+       {
+         _linesText.add(lineBuffer.toString());
          lineBuffer.clear();
-         lineBuffer.add(word);
        }
      }
-
-     if (lineBuffer.isEmpty == false)
-       _linesText.add(lineBuffer.toString());
    }
 
    //---------------------------
@@ -285,8 +290,8 @@ class TextField extends InteractiveObject
 
    for(String line in _linesText)
    {
-     html.TextMetrics metrics = _context.measureText(line);
-     num offsetX = 0;
+     var metrics = _context.measureText(line);
+     var offsetX = 0;
 
      if (_defaultTextFormat.align == TextFormatAlign.CENTER || _defaultTextFormat.align == TextFormatAlign.JUSTIFY)
        offsetX = (_canvasWidth - metrics.width) / 2;
@@ -315,7 +320,7 @@ class TextField extends InteractiveObject
 
      if (_canvas == null)
      {
-       _canvas = new html.CanvasElement(width: canvasWidthInt, height: canvasHeightInt);
+       _canvas = new CanvasElement(width: canvasWidthInt, height: canvasHeightInt);
        _context = _canvas.context2d;
      }
 
@@ -525,7 +530,7 @@ void set defaultTextFormat(TextFormat value) { _defaultTextFormat = value; _text
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
 <pre class="source">
-bool doubleClickEnabled = false;
+doubleClickEnabled = false
 </pre>
 </div>
 </div>
@@ -567,7 +572,7 @@ void set height(num value) { _canvasHeight = value; _canvasRefreshPending = true
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Mask mask;
+mask
 </pre>
 </div>
 </div>
@@ -579,7 +584,7 @@ Mask mask;
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
 <pre class="source">
-bool mouseEnabled = true;
+mouseEnabled = true
 </pre>
 </div>
 </div>
@@ -757,7 +762,7 @@ Stage get stage
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
 <pre class="source">
-bool tabEnabled = true;
+tabEnabled = true
 </pre>
 </div>
 </div>
@@ -769,7 +774,7 @@ bool tabEnabled = true;
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
 <pre class="source">
-int tabIndex = 0;
+tabIndex = 0
 </pre>
 </div>
 </div>
@@ -1012,11 +1017,11 @@ Rectangle getBounds(DisplayObject targetSpace)
 </div>
 <div class="method"><h4 id="getBoundsTransformed">
 <button class="show-code">Code</button>
-<a href="../dartflash/Rectangle.html">Rectangle</a> <strong>getBoundsTransformed</strong>(<a href="../dartflash/Matrix.html">Matrix</a> matrix, [<a href="../dartflash/Rectangle.html">Rectangle</a> returnRectangle = null]) <a class="anchor-link" href="#getBoundsTransformed"
+<a href="../dartflash/Rectangle.html">Rectangle</a> <strong>getBoundsTransformed</strong>(<a href="../dartflash/Matrix.html">Matrix</a> matrix, [<a href="../dartflash/Rectangle.html">Rectangle</a> returnRectangle]) <a class="anchor-link" href="#getBoundsTransformed"
               title="Permalink to TextField.getBoundsTransformed">#</a></h4>
 <div class="doc">
 <pre class="source">
-Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle = null])
+Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
 {
  return _getBoundsTransformedHelper(matrix, _canvasWidth, _canvasHeight, returnRectangle);
 }
@@ -1264,7 +1269,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace)
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-11-03 13:33:35.306</div>
+          <div>This page was generated at 2013-01-04 19:33:44.079</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

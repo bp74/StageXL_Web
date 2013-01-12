@@ -23,7 +23,7 @@ class FlowerField extends DisplayObjectContainer
       bitmap.y = 64 + random.nextInt(500 - 128);
       addChild(bitmap);
 
-      Tween tween = new Tween(bitmap, 600, TransitionType.linear);
+      Tween tween = new Tween(bitmap, 600, TransitionFunction.linear);
       tween.animate('rotation', PI * 60.0);
       renderLoop.juggler.add(tween);
     }
@@ -81,7 +81,7 @@ void main()
     html.query('#mask-circle').on.click.add((e) => flowerField.mask = circleMask);
     html.query('#mask-custom').on.click.add((e) => flowerField.mask = customMask);
     html.query('#mask-spin').on.click.add((e) {
-      Tween rotate = new Tween(flowerField, 2.0, TransitionType.easeInOutBack);
+      Tween rotate = new Tween(flowerField, 2.0, TransitionFunction.easeInOutBack);
       rotate.animate('rotation', PI * 4.0);
       rotate.onComplete = () => flowerField.rotation = 0.0;
       renderLoop.juggler.add(rotate);

@@ -73,6 +73,8 @@
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
+<li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -100,16 +102,10 @@
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
 <li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../dartflash/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
-<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
-<li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
-<li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
-<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
-<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
+<li><a href="../dartflash/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
-<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
-<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -136,13 +132,13 @@ class SoundMixer
 
  //-------------------------------------------------------------------------------------------------
 
- static html.AudioContext _audioContextPrivate;
+ static AudioContext _audioContextPrivate;
 
- static html.AudioContext get _audioContext
+ static AudioContext get _audioContext
  {
    if (_audioContextPrivate == null) {
      try {
-       _audioContextPrivate = new html.AudioContext();
+       _audioContextPrivate = new AudioContext();
      } catch(e) {
        _audioContextPrivate = null;
      }
@@ -163,11 +159,13 @@ class SoundMixer
 
      var ua = html.window.navigator.userAgent;
 
-     if (ua.contains("IEMobile") &amp;&amp; ua.contains("9.0"))
-       _engine = "Mock";
+     if (ua.contains("IEMobile"))
+       if (ua.contains("9.0"))
+         _engine = "Mock";
 
-     if ((ua.contains("iPhone") || ua.contains("iPad")) &amp;&amp; (ua.contains("OS 3") || ua.contains("OS 4") || ua.contains("OS 5")))
-       _engine = "Mock";
+     if (ua.contains("iPhone") || ua.contains("iPad") || ua.contains("iPod"))
+       if (ua.contains("OS 3") || ua.contains("OS 4") || ua.contains("OS 5"))
+         _engine = "Mock";
    }
 
    return _engine;
@@ -194,11 +192,13 @@ static String get engine
 
    var ua = html.window.navigator.userAgent;
 
-   if (ua.contains("IEMobile") &amp;&amp; ua.contains("9.0"))
-     _engine = "Mock";
+   if (ua.contains("IEMobile"))
+     if (ua.contains("9.0"))
+       _engine = "Mock";
 
-   if ((ua.contains("iPhone") || ua.contains("iPad")) &amp;&amp; (ua.contains("OS 3") || ua.contains("OS 4") || ua.contains("OS 5")))
-     _engine = "Mock";
+   if (ua.contains("iPhone") || ua.contains("iPad") || ua.contains("iPod"))
+     if (ua.contains("OS 3") || ua.contains("OS 4") || ua.contains("OS 5"))
+       _engine = "Mock";
  }
 
  return _engine;
@@ -230,7 +230,7 @@ static void set soundTransform(SoundTransform value)
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-11-03 13:33:35.376</div>
+          <div>This page was generated at 2013-01-04 19:33:44.127</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

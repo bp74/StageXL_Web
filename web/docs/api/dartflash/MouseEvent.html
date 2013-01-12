@@ -73,6 +73,8 @@
 <li><div class="icon-class"></div><strong>MouseEvent</strong></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
+<li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -100,16 +102,10 @@
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
 <li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../dartflash/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
-<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
-<li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
-<li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
-<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
-<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
+<li><a href="../dartflash/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
-<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
-<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -162,9 +158,6 @@ class MouseEvent extends Event
  int _deltaX;
  int _deltaY;
 
- bool _isRelatedObjectInaccessible;
- InteractiveObject _relatedObject;
-
  MouseEvent(String type, [bool bubbles = false]):super(type, bubbles)
  {
    _reset(type, bubbles);
@@ -189,9 +182,16 @@ class MouseEvent extends Event
    _clickCount = 0;
    _deltaX = 0;
    _deltaY = 0;
+ }
 
-   _isRelatedObjectInaccessible = false;
-   _relatedObject = null;
+ set _localPoint(Point point) {
+   _localX = point.x;
+   _localY = point.y;
+ }
+
+ set _stagePoint(Point point) {
+   _stageX = point.x;
+   _stageY = point.y;
  }
 
  //-------------------------------------------------------------------------------------------------
@@ -211,10 +211,6 @@ class MouseEvent extends Event
  int get clickCount =&gt; _clickCount;
  int get deltaX =&gt; _deltaX;
  int get deltaY =&gt; _deltaY;
-
- bool get isRelatedObjectInaccessible =&gt; _isRelatedObjectInaccessible;
- InteractiveObject get relatedObject =&gt; _relatedObject;
-
 }
 </pre>
 </div>
@@ -231,7 +227,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String CLICK = "click";
+CLICK = "click"
 </pre>
 </div>
 </div>
@@ -243,7 +239,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String CONTEXT_MENU = "contextMenu";
+CONTEXT_MENU = "contextMenu"
 </pre>
 </div>
 </div>
@@ -255,7 +251,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String DOUBLE_CLICK = "doubleClick";
+DOUBLE_CLICK = "doubleClick"
 </pre>
 </div>
 </div>
@@ -267,7 +263,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String MIDDLE_CLICK = "middleClick";
+MIDDLE_CLICK = "middleClick"
 </pre>
 </div>
 </div>
@@ -279,7 +275,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String MIDDLE_MOUSE_DOWN = "middleMouseDown";
+MIDDLE_MOUSE_DOWN = "middleMouseDown"
 </pre>
 </div>
 </div>
@@ -291,7 +287,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String MIDDLE_MOUSE_UP = "middleMouseUp";
+MIDDLE_MOUSE_UP = "middleMouseUp"
 </pre>
 </div>
 </div>
@@ -303,7 +299,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String MOUSE_DOWN = "mouseDown";
+MOUSE_DOWN = "mouseDown"
 </pre>
 </div>
 </div>
@@ -315,7 +311,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String MOUSE_MOVE = "mouseMove";
+MOUSE_MOVE = "mouseMove"
 </pre>
 </div>
 </div>
@@ -327,7 +323,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String MOUSE_OUT = "mouseOut";
+MOUSE_OUT = "mouseOut"
 </pre>
 </div>
 </div>
@@ -339,7 +335,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String MOUSE_OVER = "mouseOver";
+MOUSE_OVER = "mouseOver"
 </pre>
 </div>
 </div>
@@ -351,7 +347,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String MOUSE_UP = "mouseUp";
+MOUSE_UP = "mouseUp"
 </pre>
 </div>
 </div>
@@ -363,7 +359,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String MOUSE_WHEEL = "mouseWheel";
+MOUSE_WHEEL = "mouseWheel"
 </pre>
 </div>
 </div>
@@ -375,7 +371,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String RIGHT_CLICK = "rightClick";
+RIGHT_CLICK = "rightClick"
 </pre>
 </div>
 </div>
@@ -387,7 +383,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String RIGHT_MOUSE_DOWN = "rightMouseDown";
+RIGHT_MOUSE_DOWN = "rightMouseDown"
 </pre>
 </div>
 </div>
@@ -399,7 +395,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String RIGHT_MOUSE_UP = "rightMouseUp";
+RIGHT_MOUSE_UP = "rightMouseUp"
 </pre>
 </div>
 </div>
@@ -411,7 +407,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String ROLL_OUT = "rollOut";
+ROLL_OUT = "rollOut"
 </pre>
 </div>
 </div>
@@ -423,7 +419,7 @@ const <a href="http://api.dartlang.org/dart_core/String.html">String</a>        
         </h4>
         <div class="doc">
 <pre class="source">
-static const String ROLL_OVER = "rollOver";
+ROLL_OVER = "rollOver"
 </pre>
 </div>
 </div>
@@ -578,18 +574,6 @@ int get eventPhase =&gt; _eventPhase;
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="isRelatedObjectInaccessible">
-<button class="show-code">Code</button>
-final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>isRelatedObjectInaccessible</strong> <a class="anchor-link"
-            href="#isRelatedObjectInaccessible"
-            title="Permalink to MouseEvent.isRelatedObjectInaccessible">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-bool get isRelatedObjectInaccessible =&gt; _isRelatedObjectInaccessible;
-</pre>
-</div>
-</div>
 <div class="field"><h4 id="localX">
 <button class="show-code">Code</button>
 final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>localX</strong> <a class="anchor-link"
@@ -611,18 +595,6 @@ final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <stro
         <div class="doc">
 <pre class="source">
 num get localY =&gt; _localY;
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="relatedObject">
-<button class="show-code">Code</button>
-final <a href="../dartflash/InteractiveObject.html">InteractiveObject</a>         <strong>relatedObject</strong> <a class="anchor-link"
-            href="#relatedObject"
-            title="Permalink to MouseEvent.relatedObject">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-InteractiveObject get relatedObject =&gt; _relatedObject;
 </pre>
 </div>
 </div>
@@ -746,7 +718,7 @@ void stopPropagation()
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-11-03 13:33:35.717</div>
+          <div>This page was generated at 2013-01-04 19:33:44.520</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

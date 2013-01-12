@@ -99,9 +99,9 @@ class Piano extends DisplayObjectContainer
         if (displayObject is PianoKey) {
           if (displayObject.note == songNotes[noteIndex]) {
             this.noteFinger.y = 0;
-            Tween tweenX = new Tween(this.noteFinger, 0.4, TransitionType.easeInOutCubic);
+            Tween tweenX = new Tween(this.noteFinger, 0.4, TransitionFunction.easeInOutCubic);
             tweenX.animate('x', displayObject.x + displayObject.width / 2);
-            Tween tweenY = new Tween(this.noteFinger, 0.4, TransitionType.sine);
+            Tween tweenY = new Tween(this.noteFinger, 0.4, TransitionFunction.sine);
             tweenY.animate('y', -10);
             renderLoop.juggler.removeTweens(this.noteFinger);
             renderLoop.juggler.add(tweenX);
@@ -110,7 +110,7 @@ class Piano extends DisplayObjectContainer
         }
       }
     } else {
-      Tween tweenY = new Tween(this.noteFinger, 0.4, TransitionType.linear);
+      Tween tweenY = new Tween(this.noteFinger, 0.4, TransitionFunction.linear);
       tweenY.animate('alpha', 0);
       renderLoop.juggler.add(tweenY);
     }

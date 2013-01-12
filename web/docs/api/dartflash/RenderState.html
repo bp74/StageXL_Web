@@ -73,6 +73,8 @@
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
+<li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -100,16 +102,10 @@
 <li><a href="../dartflash/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
 <li><a href="../dartflash/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
 <li><a href="../dartflash/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../dartflash/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
 <li><a href="../dartflash/Transition.html"><div class="icon-class"></div>Transition</a></li>
-<li><a href="../dartflash/TransitionComplete.html"><div class="icon-interface"></div>TransitionComplete</a></li>
-<li><a href="../dartflash/TransitionFunction.html"><div class="icon-interface"></div>TransitionFunction</a></li>
-<li><a href="../dartflash/Transitions.html"><div class="icon-class"></div>Transitions</a></li>
-<li><a href="../dartflash/TransitionStart.html"><div class="icon-interface"></div>TransitionStart</a></li>
-<li><a href="../dartflash/TransitionUpdate.html"><div class="icon-interface"></div>TransitionUpdate</a></li>
+<li><a href="../dartflash/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
 <li><a href="../dartflash/Tween.html"><div class="icon-class"></div>Tween</a></li>
-<li><a href="../dartflash/TweenComplete.html"><div class="icon-interface"></div>TweenComplete</a></li>
-<li><a href="../dartflash/TweenStart.html"><div class="icon-interface"></div>TweenStart</a></li>
-<li><a href="../dartflash/TweenUpdate.html"><div class="icon-interface"></div>TweenUpdate</a></li>
 <li><a href="../dartflash/Warp.html"><div class="icon-class"></div>Warp</a></li>
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
@@ -125,74 +121,84 @@
 <pre class="source">
 class RenderState
 {
- html.CanvasRenderingContext2D _context;
+ CanvasRenderingContext2D _context;
 
  List&lt;Matrix&gt; _matrices;
  List&lt;double&gt; _alphas;
 
  int _depth;
 
- RenderState.fromCanvasRenderingContext2D(html.CanvasRenderingContext2D context)
+ RenderState.fromCanvasRenderingContext2D(CanvasRenderingContext2D context, [Matrix matrix])
  {
    _context = context;
-
-   _matrices = new List&lt;Matrix&gt;();
-   _alphas = new List&lt;double&gt;();
-   _depth = 0;
+   _matrices = new List&lt;Matrix&gt;(100);
+   _alphas = new List&lt;double&gt;(100);
 
    for(int i = 0; i &lt; 100; i++) {
-     _matrices.add(new Matrix.fromIdentity());
-     _alphas.add(1.0);
+     _matrices[i] = new Matrix.fromIdentity();
+     _alphas[i] = 1.0;
    }
+
+   _depth = 0;
+   
+   if (matrix != null)
+     _matrices[0].copyFrom(matrix);
+   
+   var m = _matrices[0];
+   var a = _alphas[0];
+   
+   _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+   _context.globalAlpha = a;
  }
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- html.CanvasRenderingContext2D get context =&gt; _context;
+ CanvasRenderingContext2D get context =&gt; _context;
 
  //-------------------------------------------------------------------------------------------------
 
  void reset()
  {
-   _context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
-   _context.globalAlpha = 1;
-
-   _context.clearRect(0, 0, _context.canvas.width, _context.canvas.height);
    _depth = 0;
+   
+   var m = _matrices[0];
+   var a = _alphas[0];
+   
+   _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+   _context.globalAlpha = a;
+   _context.clearRect(0, 0, _context.canvas.width, _context.canvas.height);
  }
 
  //-------------------------------------------------------------------------------------------------
 
  void renderDisplayObject(DisplayObject displayObject)
  {
-   _depth++;
+   var d1 = _depth;
+   var d2 = _depth + 1;
+   var m1 = _matrices[d1];
+   var m2 = _matrices[d2];
+   var a1 = _alphas[d1];
+   var a2 = _alphas[d2] = displayObject._alpha * a1;
 
-   Matrix matrix = _matrices[_depth];
-   matrix.copyFromAndConcat(displayObject._transformationMatrix, _matrices[_depth - 1]);
+   m2.copyFromAndConcat(displayObject._transformationMatrix, m1);
 
-   _context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
-   _context.globalAlpha = _alphas[_depth] = _alphas[_depth - 1] * displayObject._alpha;
+   _context.setTransform(m2.a, m2.b, m2.c, m2.d, m2.tx, m2.ty);
+   _context.globalAlpha = a2;
 
-   if (displayObject.mask == null)
-   {
+   _depth = d2;
+
+   if (displayObject.mask == null) {
      displayObject.render(this);
-   }
-   else
-   {
+   } else {
      _context.save();
      displayObject.mask.render(this);
      displayObject.render(this);
      _context.restore();
    }
 
-   _depth--;
+   _depth = d1;
  }
-
-
-
-
-
 
 }
 </pre>
@@ -201,22 +207,31 @@ class RenderState
 <h3>Constructors</h3>
 <div class="method"><h4 id="RenderState.fromCanvasRenderingContext2D">
 <button class="show-code">Code</button>
-new <strong>RenderState.fromCanvasRenderingContext2D</strong>(<a href="http://api.dartlang.org/dart_html/CanvasRenderingContext2D.html">CanvasRenderingContext2D</a> context) <a class="anchor-link" href="#RenderState.fromCanvasRenderingContext2D"
+new <strong>RenderState.fromCanvasRenderingContext2D</strong>(<a href="http://api.dartlang.org/dart_html/CanvasRenderingContext2D.html">CanvasRenderingContext2D</a> context, [<a href="../dartflash/Matrix.html">Matrix</a> matrix]) <a class="anchor-link" href="#RenderState.fromCanvasRenderingContext2D"
               title="Permalink to RenderState.RenderState.fromCanvasRenderingContext2D">#</a></h4>
 <div class="doc">
 <pre class="source">
-RenderState.fromCanvasRenderingContext2D(html.CanvasRenderingContext2D context)
+RenderState.fromCanvasRenderingContext2D(CanvasRenderingContext2D context, [Matrix matrix])
 {
  _context = context;
-
- _matrices = new List&lt;Matrix&gt;();
- _alphas = new List&lt;double&gt;();
- _depth = 0;
+ _matrices = new List&lt;Matrix&gt;(100);
+ _alphas = new List&lt;double&gt;(100);
 
  for(int i = 0; i &lt; 100; i++) {
-   _matrices.add(new Matrix.fromIdentity());
-   _alphas.add(1.0);
+   _matrices[i] = new Matrix.fromIdentity();
+   _alphas[i] = 1.0;
  }
+
+ _depth = 0;
+ 
+ if (matrix != null)
+   _matrices[0].copyFrom(matrix);
+ 
+ var m = _matrices[0];
+ var a = _alphas[0];
+ 
+ _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+ _context.globalAlpha = a;
 }
 </pre>
 </div>
@@ -232,7 +247,7 @@ final <a href="http://api.dartlang.org/dart_html/CanvasRenderingContext2D.html">
         </h4>
         <div class="doc">
 <pre class="source">
-html.CanvasRenderingContext2D get context =&gt; _context;
+CanvasRenderingContext2D get context =&gt; _context;
 </pre>
 </div>
 </div>
@@ -247,27 +262,30 @@ void <strong>renderDisplayObject</strong>(<a href="../dartflash/DisplayObject.ht
 <pre class="source">
 void renderDisplayObject(DisplayObject displayObject)
 {
- _depth++;
+ var d1 = _depth;
+ var d2 = _depth + 1;
+ var m1 = _matrices[d1];
+ var m2 = _matrices[d2];
+ var a1 = _alphas[d1];
+ var a2 = _alphas[d2] = displayObject._alpha * a1;
 
- Matrix matrix = _matrices[_depth];
- matrix.copyFromAndConcat(displayObject._transformationMatrix, _matrices[_depth - 1]);
+ m2.copyFromAndConcat(displayObject._transformationMatrix, m1);
 
- _context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
- _context.globalAlpha = _alphas[_depth] = _alphas[_depth - 1] * displayObject._alpha;
+ _context.setTransform(m2.a, m2.b, m2.c, m2.d, m2.tx, m2.ty);
+ _context.globalAlpha = a2;
 
- if (displayObject.mask == null)
- {
+ _depth = d2;
+
+ if (displayObject.mask == null) {
    displayObject.render(this);
- }
- else
- {
+ } else {
    _context.save();
    displayObject.mask.render(this);
    displayObject.render(this);
    _context.restore();
  }
 
- _depth--;
+ _depth = d1;
 }
 </pre>
 </div>
@@ -280,11 +298,14 @@ void <strong>reset</strong>() <a class="anchor-link" href="#reset"
 <pre class="source">
 void reset()
 {
- _context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
- _context.globalAlpha = 1;
-
- _context.clearRect(0, 0, _context.canvas.width, _context.canvas.height);
  _depth = 0;
+ 
+ var m = _matrices[0];
+ var a = _alphas[0];
+ 
+ _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+ _context.globalAlpha = a;
+ _context.clearRect(0, 0, _context.canvas.width, _context.canvas.height);
 }
 </pre>
 </div>
@@ -295,7 +316,7 @@ void reset()
         </div>
         
         <div class="footer">
-          <div>This page was generated at 2012-11-03 13:33:35.780</div>
+          <div>This page was generated at 2013-01-04 19:33:44.573</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

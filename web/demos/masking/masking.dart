@@ -76,11 +76,11 @@ void main()
 
     // add html-button event listeners
 
-    html.query('#mask-none').on.click.add((e) => flowerField.mask = null);
-    html.query('#mask-rectangle').on.click.add((e) => flowerField.mask = rectangleMask);
-    html.query('#mask-circle').on.click.add((e) => flowerField.mask = circleMask);
-    html.query('#mask-custom').on.click.add((e) => flowerField.mask = customMask);
-    html.query('#mask-spin').on.click.add((e) {
+    html.query('#mask-none').onClick.listen((e) => flowerField.mask = null);
+    html.query('#mask-rectangle').onClick.listen((e) => flowerField.mask = rectangleMask);
+    html.query('#mask-circle').onClick.listen((e) => flowerField.mask = circleMask);
+    html.query('#mask-custom').onClick.listen((e) => flowerField.mask = customMask);
+    html.query('#mask-spin').onClick.listen((e) {
       Tween rotate = new Tween(flowerField, 2.0, TransitionFunction.easeInOutBack);
       rotate.animate('rotation', PI * 4.0);
       rotate.onComplete = () => flowerField.rotation = 0.0;

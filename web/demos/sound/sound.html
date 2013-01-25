@@ -194,7 +194,7 @@ class Piano extends DisplayObjectContainer
     var lyricsDiv = html.query(&apos;#lyrics&apos;);
     var wordIndex = -1;
 
-    lyricsDiv.innerHTML = &apos;&apos;;
+    lyricsDiv.innerHtml = &apos;&apos;;
 
     for(int w = 0, last = 0; w &lt; songLyrics.length; w++)  {
       if (songLyrics[w] != &apos;&apos;) last = w;
@@ -344,7 +344,7 @@ void main()
     piano.y = 30;
     stage.addChild(piano);
 
-    html.query(&apos;#startOver&apos;).on.click.add((e) =&gt; piano.reset());
+    html.query(&apos;#startOver&apos;).onClick.listen((e) =&gt; piano.reset());
   });
 }                 </pre>
                 </div>

@@ -77,7 +77,7 @@ class Piano extends DisplayObjectContainer
     var lyricsDiv = html.query('#lyrics');
     var wordIndex = -1;
 
-    lyricsDiv.innerHTML = '';
+    lyricsDiv.innerHtml = '';
 
     for(int w = 0, last = 0; w < songLyrics.length; w++)  {
       if (songLyrics[w] != '') last = w;
@@ -227,6 +227,6 @@ void main()
     piano.y = 30;
     stage.addChild(piano);
 
-    html.query('#startOver').on.click.add((e) => piano.reset());
+    html.query('#startOver').onClick.listen((e) => piano.reset());
   });
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:html' as html;
 import 'package:dartflash/dartflash.dart';
@@ -50,10 +51,10 @@ void main()
     addFlags(250);
 
     // add html-button event listeners
-    html.query('#minus10').on.click.add((e) => removeFlags(10));
-    html.query('#minus50').on.click.add((e) => removeFlags(50));
-    html.query('#plus50').on.click.add((e) => addFlags(50));
-    html.query('#plus10').on.click.add((e) => addFlags(10));
+    html.query('#minus10').onClick.listen((e) => removeFlags(10));
+    html.query('#minus50').onClick.listen((e) => removeFlags(50));
+    html.query('#plus50').onClick.listen((e) => addFlags(50));
+    html.query('#plus10').onClick.listen((e) => addFlags(10));
 
     // add event listener for EnterFrame (fps meter)
     stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -71,7 +72,7 @@ void onEnterFrame(EnterFrameEvent e)
     fpsAverage = 0.05 / e.passedTime + 0.95 * fpsAverage;
   }
 
-  html.query('#fpsMeter').innerHTML = 'fps: ${fpsAverage.round()}';
+  html.query('#fpsMeter').innerHtml = 'fps: ${fpsAverage.round()}';
 }
 
 //-----------------------------------------------------------------------------------
@@ -91,7 +92,7 @@ void addFlags(int amount)
     juggler.add(flag);
   }
 
-  html.query('#spriteCounter').innerHTML = 'Sprites: ${stage.numChildren}';
+  html.query('#spriteCounter').innerHtml = 'Sprites: ${stage.numChildren}';
 }
 
 //-----------------------------------------------------------------------------------
@@ -104,5 +105,5 @@ void removeFlags(int amount)
     juggler.remove(displayObject);
   }
 
-  html.query('#spriteCounter').innerHTML = 'Sprites: ${stage.numChildren}';
+  html.query('#spriteCounter').innerHtml = 'Sprites: ${stage.numChildren}';
 }

@@ -66,7 +66,7 @@ void main() {
   {
     var rowDiv = new html.DivElement();
     rowDiv.classes.add("row");
-    html.query("#transitions").elements.add(rowDiv);
+    html.query("#transitions").children.add(rowDiv);
 
     for(int j = 0; j < 4; j++)
     {
@@ -75,12 +75,12 @@ void main() {
 
       var cellDiv = drawTransition(name, transition);
       cellDiv.id = "cell";
-      rowDiv.elements.add(cellDiv);
+      rowDiv.children.add(cellDiv);
     }
   }
 
-  html.document.body.elements.add(new html.Element.tag("br"));
-  html.document.body.elements.add(new html.Element.tag("br"));
+  html.document.body.children.add(new html.Element.tag("br"));
+  html.document.body.children.add(new html.Element.tag("br"));
 }
 
 

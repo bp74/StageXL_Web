@@ -188,10 +188,10 @@ void main()
     addFlags(250);
 
     // add html-button event listeners
-    html.query(&apos;#minus10&apos;).on.click.add((e) =&gt; removeFlags(10));
-    html.query(&apos;#minus50&apos;).on.click.add((e) =&gt; removeFlags(50));
-    html.query(&apos;#plus50&apos;).on.click.add((e) =&gt; addFlags(50));
-    html.query(&apos;#plus10&apos;).on.click.add((e) =&gt; addFlags(10));
+    html.query(&apos;#minus10&apos;).onClick.listen((e) =&gt; removeFlags(10));
+    html.query(&apos;#minus50&apos;).onClick.listen((e) =&gt; removeFlags(50));
+    html.query(&apos;#plus50&apos;).onClick.listen((e) =&gt; addFlags(50));
+    html.query(&apos;#plus10&apos;).onClick.listen((e) =&gt; addFlags(10));
 
     // add event listener for EnterFrame (fps meter)
     stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -209,7 +209,7 @@ void onEnterFrame(EnterFrameEvent e)
     fpsAverage = 0.05 / e.passedTime + 0.95 * fpsAverage;
   }
 
-  html.query(&apos;#fpsMeter&apos;).innerHTML = &apos;fps: ${fpsAverage.round()}&apos;;
+  html.query(&apos;#fpsMeter&apos;).innerHtml = &apos;fps: ${fpsAverage.round()}&apos;;
 }
 
 //-----------------------------------------------------------------------------------
@@ -229,7 +229,7 @@ void addFlags(int amount)
     juggler.add(flag);
   }
 
-  html.query(&apos;#spriteCounter&apos;).innerHTML = &apos;Sprites: ${stage.numChildren}&apos;;
+  html.query(&apos;#spriteCounter&apos;).innerHtml = &apos;Sprites: ${stage.numChildren}&apos;;
 }
 
 //-----------------------------------------------------------------------------------
@@ -242,7 +242,7 @@ void removeFlags(int amount)
     juggler.remove(displayObject);
   }
 
-  html.query(&apos;#spriteCounter&apos;).innerHTML = &apos;Sprites: ${stage.numChildren}&apos;;
+  html.query(&apos;#spriteCounter&apos;).innerHtml = &apos;Sprites: ${stage.numChildren}&apos;;
 }</pre>
                 </div>
             </div>

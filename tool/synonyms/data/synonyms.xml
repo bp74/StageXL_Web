@@ -113,7 +113,7 @@ class Point {
 }
 
 // Dart also supports 'named' and 'factory' constructors.
-// http://www.dartlang.org/docs/language-tour/#constructors]]>
+// http://www.dartlang.org/docs/language-tour]]>
       </code>
     </synonym>
 

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>dartflash library - Tweener demo</title>
+    <title>dartflash library - Texture Packer runtime</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -51,8 +51,8 @@
                             Runtimes<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="../../demos/texturepacker/texturepacker.html">Texture Packer</a></li>
-                            <li><a href="../../demos/flump/flump.html">Flump</a></li>
+                            <li><a href="../../runtimes/texturepacker/texturepacker.html">Texture Packer</a></li>
+                            <li><a href="../../runtimes/flump/flump.html">Flump</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Documents<b
@@ -71,14 +71,16 @@
     </div>
     <div class="container">
         <h1>
-            Tweener</h1>
+            Texture Packer</h1>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-            deserunt mollit anim id est laborum.</p>
+            Texture Packer is a popular tool to convert your image assets to a texture atlas. The dartflash library
+            supports the JSON output formats of Texture Packer and all layout optimizations available in
+            Texture Packer. Using a texture atlas accelerates the download of your assets and can improve
+            the render performance in some browsers. The demo blow shows the texture atlas on the left and
+            a small animation on the right using the assets from the texture atlas.</p>
+        Visit the Texture Packer homepage for more information:
+        <a href="http://www.codeandweb.com/texturepacker" target="_blank">Texture Packer</a>
+        <br />
         <br />
         <div class="tabbable">
             <ul class="nav nav-tabs">
@@ -99,7 +101,71 @@
                 </div>
                 <div class="tab-pane" id="demoDart">
                      <pre class="prettyprint lang-java">
-                     </pre>
+import &apos;dart:html&apos; as html;
+import &apos;package:dartflash/dartflash.dart&apos;;
+
+Stage stage;
+RenderLoop renderLoop;
+
+void main()
+{
+  // Initialize the Display List
+
+  stage = new Stage(&apos;myStage&apos;, html.document.query(&apos;#stage&apos;));
+
+  renderLoop = new RenderLoop();
+  renderLoop.addStage(stage);
+
+  // Load the texture atlas
+
+  TextureAtlas.load("images/LevelUpTextureAtlas.json", TextureAtlasFormat.JSONARRAY).then((textureAtlas) {
+
+    BitmapData.loadImage("images/LevelupTextureAtlas.png").then((bitmapData) {
+      Bitmap bitmap = new Bitmap(bitmapData);
+      bitmap.x = 70;
+      bitmap.y = 40;
+      bitmap.addTo(stage);
+    });
+
+    showLevelupAnimation(textureAtlas);
+  });
+}
+
+void showLevelupAnimation(textureAtlas) {
+  num offset = 330;
+
+  for(int i = 0; i &lt; 7; i++) {
+
+    BitmapData bitmapData = textureAtlas.getBitmapData("LevelUp${i}");
+
+    Bitmap bitmap = new Bitmap(bitmapData);
+    bitmap.pivotX = bitmapData.width / 2;
+    bitmap.pivotY = bitmapData.height / 2;
+    bitmap.x = offset + bitmapData.width / 2;
+    bitmap.y = 150;
+    bitmap.scaleX = 0.0;
+    bitmap.scaleY = 0.0;
+    bitmap.addTo(stage);
+
+    Tween tween1 = new Tween(bitmap, 2.0, TransitionFunction.easeOutElastic);
+    tween1.animate("scaleX", 1.0);
+    tween1.animate("scaleY", 1.0);
+    tween1.delay = i * 0.05;
+
+    Tween tween2 = new Tween(bitmap, 0.4, TransitionFunction.linear);
+    tween2.animate("scaleX", 0.0);
+    tween2.animate("scaleY", 0.0);
+    tween2.delay = 2.0;
+    tween2.onComplete = () =&gt; bitmap.removeFromParent();
+
+    renderLoop.juggler.add(tween1);
+    renderLoop.juggler.add(tween2);
+
+    offset = offset + 5 + bitmapData.width;
+  }
+
+  renderLoop.juggler.delayCall(() =&gt; showLevelupAnimation(textureAtlas), 3.0);
+}                   </pre>
                 </div>
             </div>
         </div>
@@ -108,7 +174,7 @@
     <script type="text/javascript" src="../../assets/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../assets/js/prettify.js"></script>
     
-    <script type="application/dart" src="tweener.dart"></script>
+    <script type="application/dart" src="texturepacker.dart"></script>
     <script type="text/javascript" src="../../assets/js/dart.js"></script>
 </body>
 </html>

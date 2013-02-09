@@ -41,16 +41,14 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
-<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
-<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
-<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
-<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
-<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
@@ -59,7 +57,6 @@
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
-<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
@@ -72,7 +69,6 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
-<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
@@ -110,7 +106,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-</div>
+<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>TextureAtlas</strong>
           class
@@ -142,28 +138,24 @@ class TextureAtlas
      case TextureAtlasFormat.JSON:
      case TextureAtlasFormat.JSONARRAY:
 
-       var request = new HttpRequest();
-
-       request.open('GET', url, true);
-
-       request.on.load.add((event)
-       {
-         void parseFrame(String filename, Map frame) {
-           var frameName = _getFilenameWithoutExtension(filename);
-           var taf = new TextureAtlasFrame(frameName, textureAtlas);
-           taf._frameX = frame["frame"]["x"].toInt();
-           taf._frameY = frame["frame"]["y"].toInt();
-           taf._frameWidth = frame["frame"]["w"].toInt();
-           taf._frameHeight = frame["frame"]["h"].toInt();
-           taf._offsetX = frame["spriteSourceSize"]["x"].toInt();
-           taf._offsetY = frame["spriteSourceSize"]["y"].toInt();
-           taf._originalWidth = frame["sourceSize"]["w"].toInt();
-           taf._originalHeight = frame["sourceSize"]["h"].toInt();
-           taf._rotated = frame["rotated"] as bool;
-           textureAtlas._frames.add(taf);
-         }
-
-         var data = JSON.parse(request.responseText);
+       void parseFrame(String filename, Map frame) {
+         var frameName = _getFilenameWithoutExtension(filename);
+         var taf = new TextureAtlasFrame(frameName, textureAtlas);
+         taf._frameX = frame["frame"]["x"].toInt();
+         taf._frameY = frame["frame"]["y"].toInt();
+         taf._frameWidth = frame["frame"]["w"].toInt();
+         taf._frameHeight = frame["frame"]["h"].toInt();
+         taf._offsetX = frame["spriteSourceSize"]["x"].toInt();
+         taf._offsetY = frame["spriteSourceSize"]["y"].toInt();
+         taf._originalWidth = frame["sourceSize"]["w"].toInt();
+         taf._originalHeight = frame["sourceSize"]["h"].toInt();
+         taf._rotated = frame["rotated"] as bool;
+         textureAtlas._frames.add(taf);
+       }
+       
+       HttpRequest.getString(url).then((textureAtlasJson) {
+       
+         var data = json.parse(textureAtlasJson);
          var frames = data["frames"];
          var meta = data["meta"];
 
@@ -175,14 +167,17 @@ class TextureAtlas
            for(String filename in frames.keys)
               parseFrame(filename, frames[filename]);
 
-         textureAtlas._imageElement.on.load.add((e) =&gt; completer.complete(textureAtlas));
-         textureAtlas._imageElement.on.error.add((e) =&gt; completer.completeException("Failed to load image."));
-         textureAtlas._imageElement.src = _replaceFilename(url, meta["image"]);
+         textureAtlas._imageElement
+           ..onLoad.listen((e) =&gt; completer.complete(textureAtlas))
+           ..onError.listen((e) =&gt; completer.completeError(new StateError("Failed to load image.")))
+           ..src = _replaceFilename(url, meta["image"]);
+       
+       }).catchError((error) {
+         
+         completer.completeError(new StateError("Failed to load json file."));
+         
        });
-
-       request.on.error.add((event) =&gt; completer.completeException("Failed to load json file."));
-       request.send();
-
+       
        break;
    }
 
@@ -235,25 +230,6 @@ class TextureAtlas
    return names;
  }
 
- //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
-
- static String _getFilenameWithoutExtension(String filename)
- {
-   RegExp regex = new RegExp(r"(.+?)(\.[^.]*$|$)", multiLine:false, ignoreCase:true);
-   Match match = regex.firstMatch(filename);
-   return match.group(1);
- }
-
- static String _replaceFilename(String url, String filename)
- {
-   RegExp regex = new RegExp(r"^(.*/)?(?:$|(.+?)(?:(\.[^.]*$)|$))", multiLine:false, ignoreCase:true);
-   Match match = regex.firstMatch(url);
-   String path = match.group(1);
-   return (path == null) ? filename : "$path$filename";
- }
-
-
 }
 </pre>
 </div>
@@ -261,7 +237,7 @@ class TextureAtlas
 <h3>Static Methods</h3>
 <div class="method"><h4 id="load">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Future.html">Future</a>&lt;<a href="../dartflash/TextureAtlas.html">TextureAtlas</a>&gt; <strong>load</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> url, <a href="http://api.dartlang.org/dart_core/String.html">String</a> textureAtlasFormat) <a class="anchor-link" href="#load"
+<a href="http://api.dartlang.org/dart_async/Future.html">Future</a>&lt;<a href="../dartflash/TextureAtlas.html">TextureAtlas</a>&gt; <strong>load</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> url, <a href="http://api.dartlang.org/dart_core/String.html">String</a> textureAtlasFormat) <a class="anchor-link" href="#load"
               title="Permalink to TextureAtlas.load">#</a></h4>
 <div class="doc">
 <pre class="source">
@@ -275,28 +251,24 @@ static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat)
    case TextureAtlasFormat.JSON:
    case TextureAtlasFormat.JSONARRAY:
 
-     var request = new HttpRequest();
-
-     request.open('GET', url, true);
-
-     request.on.load.add((event)
-     {
-       void parseFrame(String filename, Map frame) {
-         var frameName = _getFilenameWithoutExtension(filename);
-         var taf = new TextureAtlasFrame(frameName, textureAtlas);
-         taf._frameX = frame["frame"]["x"].toInt();
-         taf._frameY = frame["frame"]["y"].toInt();
-         taf._frameWidth = frame["frame"]["w"].toInt();
-         taf._frameHeight = frame["frame"]["h"].toInt();
-         taf._offsetX = frame["spriteSourceSize"]["x"].toInt();
-         taf._offsetY = frame["spriteSourceSize"]["y"].toInt();
-         taf._originalWidth = frame["sourceSize"]["w"].toInt();
-         taf._originalHeight = frame["sourceSize"]["h"].toInt();
-         taf._rotated = frame["rotated"] as bool;
-         textureAtlas._frames.add(taf);
-       }
-
-       var data = JSON.parse(request.responseText);
+     void parseFrame(String filename, Map frame) {
+       var frameName = _getFilenameWithoutExtension(filename);
+       var taf = new TextureAtlasFrame(frameName, textureAtlas);
+       taf._frameX = frame["frame"]["x"].toInt();
+       taf._frameY = frame["frame"]["y"].toInt();
+       taf._frameWidth = frame["frame"]["w"].toInt();
+       taf._frameHeight = frame["frame"]["h"].toInt();
+       taf._offsetX = frame["spriteSourceSize"]["x"].toInt();
+       taf._offsetY = frame["spriteSourceSize"]["y"].toInt();
+       taf._originalWidth = frame["sourceSize"]["w"].toInt();
+       taf._originalHeight = frame["sourceSize"]["h"].toInt();
+       taf._rotated = frame["rotated"] as bool;
+       textureAtlas._frames.add(taf);
+     }
+     
+     HttpRequest.getString(url).then((textureAtlasJson) {
+     
+       var data = json.parse(textureAtlasJson);
        var frames = data["frames"];
        var meta = data["meta"];
 
@@ -308,14 +280,17 @@ static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat)
          for(String filename in frames.keys)
             parseFrame(filename, frames[filename]);
 
-       textureAtlas._imageElement.on.load.add((e) =&gt; completer.complete(textureAtlas));
-       textureAtlas._imageElement.on.error.add((e) =&gt; completer.completeException("Failed to load image."));
-       textureAtlas._imageElement.src = _replaceFilename(url, meta["image"]);
+       textureAtlas._imageElement
+         ..onLoad.listen((e) =&gt; completer.complete(textureAtlas))
+         ..onError.listen((e) =&gt; completer.completeError(new StateError("Failed to load image.")))
+         ..src = _replaceFilename(url, meta["image"]);
+     
+     }).catchError((error) {
+       
+       completer.completeError(new StateError("Failed to load json file."));
+       
      });
-
-     request.on.error.add((event) =&gt; completer.completeException("Failed to load json file."));
-     request.send();
-
+     
      break;
  }
 
@@ -424,9 +399,8 @@ List&lt;BitmapData&gt; getBitmapDatas(String namePrefix)
         </div>
         <div class="clear"></div>
         </div>
-        
         <div class="footer">
-          <div>This page was generated at 2013-01-04 19:33:43.956</div>
+          <div>This page was generated at 2013-02-09 23:19:04.425</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

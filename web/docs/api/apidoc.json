@@ -1,4 +1,3 @@
-
 [
   {
     "kind": "library",
@@ -61,8 +60,14 @@
         "children": [
           {
             "ref": {
-              "name": "Uint8ClampedArray",
-              "refId": "Uint8ClampedArray"
+              "name": "List",
+              "refId": "List",
+              "arguments": [
+                {
+                  "name": "int",
+                  "refId": "int"
+                }
+              ]
             },
             "kind": "param",
             "name": "data",
@@ -81,8 +86,14 @@
         "children": [
           {
             "ref": {
-              "name": "Uint8ClampedArray",
-              "refId": "Uint8ClampedArray"
+              "name": "List",
+              "refId": "List",
+              "arguments": [
+                {
+                  "name": "int",
+                  "refId": "int"
+                }
+              ]
             },
             "kind": "param",
             "name": "data",
@@ -99,6 +110,55 @@
         "kind": "method",
         "name": "_checkLittleEndianSystem",
         "id": "_checkLittleEndianSystem0()"
+      },
+      {
+        "returnType": {
+          "name": "String",
+          "refId": "String"
+        },
+        "kind": "method",
+        "name": "_replaceFilename",
+        "children": [
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "param",
+            "name": "url",
+            "id": "url"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "param",
+            "name": "filename",
+            "id": "filename"
+          }
+        ],
+        "id": "_replaceFilename2()"
+      },
+      {
+        "returnType": {
+          "name": "String",
+          "refId": "String"
+        },
+        "kind": "method",
+        "name": "_getFilenameWithoutExtension",
+        "children": [
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "param",
+            "name": "filename",
+            "id": "filename"
+          }
+        ],
+        "id": "_getFilenameWithoutExtension1()"
       },
       {
         "returnType": {
@@ -668,57 +728,6 @@
             "kind": "method",
             "name": "frameNames",
             "id": "frameNames0()"
-          },
-          {
-            "isStatic": true,
-            "returnType": {
-              "name": "String",
-              "refId": "String"
-            },
-            "kind": "method",
-            "name": "_getFilenameWithoutExtension",
-            "children": [
-              {
-                "ref": {
-                  "name": "String",
-                  "refId": "String"
-                },
-                "kind": "param",
-                "name": "filename",
-                "id": "filename"
-              }
-            ],
-            "id": "_getFilenameWithoutExtension1()"
-          },
-          {
-            "isStatic": true,
-            "returnType": {
-              "name": "String",
-              "refId": "String"
-            },
-            "kind": "method",
-            "name": "_replaceFilename",
-            "children": [
-              {
-                "ref": {
-                  "name": "String",
-                  "refId": "String"
-                },
-                "kind": "param",
-                "name": "url",
-                "id": "url"
-              },
-              {
-                "ref": {
-                  "name": "String",
-                  "refId": "String"
-                },
-                "kind": "param",
-                "name": "filename",
-                "id": "filename"
-              }
-            ],
-            "id": "_replaceFilename2()"
           },
           {
             "ref": {
@@ -6185,6 +6194,325 @@
         "id": "Sound"
       },
       {
+        "interfaces": [
+          {
+            "name": "Animatable",
+            "refId": "Animatable"
+          }
+        ],
+        "superclass": {
+          "name": "DisplayObject",
+          "refId": "DisplayObject"
+        },
+        "kind": "class",
+        "name": "FlumpMovie",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "FlumpMovie",
+            "children": [
+              {
+                "ref": {
+                  "name": "FlumpLibrary",
+                  "refId": "FlumpLibrary"
+                },
+                "kind": "param",
+                "name": "flumpLibrary",
+                "id": "flumpLibrary"
+              },
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "name",
+                "id": "name"
+              }
+            ],
+            "id": "FlumpMovie2()"
+          },
+          {
+            "returnType": {
+              "name": "bool",
+              "refId": "bool"
+            },
+            "kind": "method",
+            "name": "advanceTime",
+            "children": [
+              {
+                "ref": {
+                  "name": "num",
+                  "refId": "num"
+                },
+                "kind": "param",
+                "name": "time",
+                "id": "time"
+              }
+            ],
+            "id": "advanceTime1()"
+          },
+          {
+            "returnType": {
+              "name": "void",
+              "refId": "void"
+            },
+            "kind": "method",
+            "name": "render",
+            "children": [
+              {
+                "ref": {
+                  "name": "RenderState",
+                  "refId": "RenderState"
+                },
+                "kind": "param",
+                "name": "renderState",
+                "id": "renderState"
+              }
+            ],
+            "id": "render1()"
+          },
+          {
+            "ref": {
+              "name": "FlumpLibrary",
+              "refId": "FlumpLibrary"
+            },
+            "kind": "property",
+            "name": "_flumpLibrary",
+            "id": "_flumpLibrary"
+          },
+          {
+            "ref": {
+              "name": "_FlumpMovieData",
+              "refId": "_FlumpMovieData"
+            },
+            "kind": "property",
+            "name": "_flumpMovieData",
+            "id": "_flumpMovieData"
+          },
+          {
+            "ref": {
+              "name": "List",
+              "refId": "List",
+              "arguments": [
+                {
+                  "name": "_FlumpMovieLayer",
+                  "refId": "_FlumpMovieLayer"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "_flumpMovieLayers",
+            "id": "_flumpMovieLayers"
+          },
+          {
+            "ref": {
+              "name": "num",
+              "refId": "num"
+            },
+            "kind": "property",
+            "name": "_time",
+            "id": "_time"
+          },
+          {
+            "ref": {
+              "name": "num",
+              "refId": "num"
+            },
+            "kind": "property",
+            "name": "_duration",
+            "id": "_duration"
+          },
+          {
+            "ref": {
+              "name": "int",
+              "refId": "int"
+            },
+            "kind": "property",
+            "name": "_frame",
+            "id": "_frame"
+          },
+          {
+            "ref": {
+              "name": "int",
+              "refId": "int"
+            },
+            "kind": "property",
+            "name": "_frames",
+            "id": "_frames"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "FlumpMovie",
+            "children": [
+              {
+                "ref": {
+                  "name": "FlumpLibrary",
+                  "refId": "FlumpLibrary"
+                },
+                "kind": "param",
+                "name": "flumpLibrary",
+                "id": "flumpLibrary"
+              },
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "name",
+                "id": "name"
+              }
+            ],
+            "id": "FlumpMovie2()"
+          }
+        ],
+        "id": "FlumpMovie"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "name": "FlumpLibrary",
+        "children": [
+          {
+            "isStatic": true,
+            "returnType": {
+              "name": "Future",
+              "refId": "Future",
+              "arguments": [
+                {
+                  "name": "FlumpLibrary",
+                  "refId": "FlumpLibrary"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "load",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "url",
+                "id": "url"
+              }
+            ],
+            "id": "load1()"
+          },
+          {
+            "returnType": {
+              "name": "_FlumpMovieData",
+              "refId": "_FlumpMovieData"
+            },
+            "kind": "method",
+            "name": "_getFlumpMovieData",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "name",
+                "id": "name"
+              }
+            ],
+            "id": "_getFlumpMovieData1()"
+          },
+          {
+            "returnType": {
+              "name": "BitmapDrawable",
+              "refId": "BitmapDrawable"
+            },
+            "kind": "method",
+            "name": "_createSymbol",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "name",
+                "id": "name"
+              }
+            ],
+            "id": "_createSymbol1()"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "name": "_url",
+            "id": "_url"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "name": "_md5",
+            "id": "_md5"
+          },
+          {
+            "ref": {
+              "name": "int",
+              "refId": "int"
+            },
+            "kind": "property",
+            "name": "_frameRate",
+            "id": "_frameRate"
+          },
+          {
+            "ref": {
+              "name": "List",
+              "refId": "List",
+              "arguments": [
+                {
+                  "name": "_FlumpMovieData",
+                  "refId": "_FlumpMovieData"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "_movieDatas",
+            "id": "_movieDatas"
+          },
+          {
+            "ref": {
+              "name": "List",
+              "refId": "List",
+              "arguments": [
+                {
+                  "name": "_FlumpTextureGroup",
+                  "refId": "_FlumpTextureGroup"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "_textureGroups",
+            "id": "_textureGroups"
+          }
+        ],
+        "id": "FlumpLibrary"
+      },
+      {
         "superclass": {
           "name": "DisplayObjectContainer",
           "refId": "DisplayObjectContainer"
@@ -7794,750 +8122,6 @@
           }
         ],
         "id": "Gauge"
-      },
-      {
-        "superclass": {
-          "name": "InteractiveObjectEvents",
-          "refId": "InteractiveObjectEvents"
-        },
-        "kind": "class",
-        "name": "MovieClipEvents",
-        "children": [
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "method",
-            "name": "MovieClipEvents",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventDispatcher",
-                  "refId": "EventDispatcher"
-                },
-                "kind": "param",
-                "name": "target",
-                "id": "target"
-              }
-            ],
-            "id": "MovieClipEvents1()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "progress",
-            "id": "progress0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "complete",
-            "id": "complete0()"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "progress",
-            "id": "progress"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "complete",
-            "id": "complete"
-          },
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "constructor",
-            "name": "MovieClipEvents",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventDispatcher",
-                  "refId": "EventDispatcher"
-                },
-                "kind": "param",
-                "name": "target",
-                "id": "target"
-              }
-            ],
-            "id": "MovieClipEvents1()"
-          }
-        ],
-        "id": "MovieClipEvents"
-      },
-      {
-        "superclass": {
-          "name": "DisplayObjectEvents",
-          "refId": "DisplayObjectEvents"
-        },
-        "kind": "class",
-        "name": "InteractiveObjectEvents",
-        "children": [
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "method",
-            "name": "InteractiveObjectEvents",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventDispatcher",
-                  "refId": "EventDispatcher"
-                },
-                "kind": "param",
-                "name": "target",
-                "id": "target"
-              }
-            ],
-            "id": "InteractiveObjectEvents1()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseOut",
-            "id": "mouseOut0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseOver",
-            "id": "mouseOver0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseMove",
-            "id": "mouseMove0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseDown",
-            "id": "mouseDown0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseUp",
-            "id": "mouseUp0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseClick",
-            "id": "mouseClick0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseDoubleClick",
-            "id": "mouseDoubleClick0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseMiddleDown",
-            "id": "mouseMiddleDown0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseMiddleUp",
-            "id": "mouseMiddleUp0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseMiddleClick",
-            "id": "mouseMiddleClick0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseRightDown",
-            "id": "mouseRightDown0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseRightUp",
-            "id": "mouseRightUp0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseRightClick",
-            "id": "mouseRightClick0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "mouseWheel",
-            "id": "mouseWheel0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "touchOut",
-            "id": "touchOut0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "touchOver",
-            "id": "touchOver0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "touchMove",
-            "id": "touchMove0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "touchBegin",
-            "id": "touchBegin0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "touchEnd",
-            "id": "touchEnd0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "touchCancel",
-            "id": "touchCancel0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "keyUp",
-            "id": "keyUp0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "keyDown",
-            "id": "keyDown0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "textInput",
-            "id": "textInput0()"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseOut",
-            "id": "mouseOut"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseOver",
-            "id": "mouseOver"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseMove",
-            "id": "mouseMove"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseDown",
-            "id": "mouseDown"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseUp",
-            "id": "mouseUp"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseClick",
-            "id": "mouseClick"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseDoubleClick",
-            "id": "mouseDoubleClick"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseMiddleDown",
-            "id": "mouseMiddleDown"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseMiddleUp",
-            "id": "mouseMiddleUp"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseMiddleClick",
-            "id": "mouseMiddleClick"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseRightDown",
-            "id": "mouseRightDown"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseRightUp",
-            "id": "mouseRightUp"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseRightClick",
-            "id": "mouseRightClick"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "mouseWheel",
-            "id": "mouseWheel"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "touchOut",
-            "id": "touchOut"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "touchOver",
-            "id": "touchOver"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "touchMove",
-            "id": "touchMove"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "touchBegin",
-            "id": "touchBegin"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "touchEnd",
-            "id": "touchEnd"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "touchCancel",
-            "id": "touchCancel"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "keyUp",
-            "id": "keyUp"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "keyDown",
-            "id": "keyDown"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "textInput",
-            "id": "textInput"
-          },
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "constructor",
-            "name": "InteractiveObjectEvents",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventDispatcher",
-                  "refId": "EventDispatcher"
-                },
-                "kind": "param",
-                "name": "target",
-                "id": "target"
-              }
-            ],
-            "id": "InteractiveObjectEvents1()"
-          }
-        ],
-        "id": "InteractiveObjectEvents"
-      },
-      {
-        "superclass": {
-          "name": "InteractiveObjectEvents",
-          "refId": "InteractiveObjectEvents"
-        },
-        "kind": "class",
-        "name": "DisplayObjectContainerEvents",
-        "children": [
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "method",
-            "name": "DisplayObjectContainerEvents",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventDispatcher",
-                  "refId": "EventDispatcher"
-                },
-                "kind": "param",
-                "name": "target",
-                "id": "target"
-              }
-            ],
-            "id": "DisplayObjectContainerEvents1()"
-          },
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "constructor",
-            "name": "DisplayObjectContainerEvents",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventDispatcher",
-                  "refId": "EventDispatcher"
-                },
-                "kind": "param",
-                "name": "target",
-                "id": "target"
-              }
-            ],
-            "id": "DisplayObjectContainerEvents1()"
-          }
-        ],
-        "id": "DisplayObjectContainerEvents"
-      },
-      {
-        "superclass": {
-          "name": "Events",
-          "refId": "Events"
-        },
-        "kind": "class",
-        "name": "DisplayObjectEvents",
-        "children": [
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "method",
-            "name": "DisplayObjectEvents",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventDispatcher",
-                  "refId": "EventDispatcher"
-                },
-                "kind": "param",
-                "name": "target",
-                "id": "target"
-              }
-            ],
-            "id": "DisplayObjectEvents1()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "enterFrame",
-            "id": "enterFrame0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "added",
-            "id": "added0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "addedToStage",
-            "id": "addedToStage0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "removed",
-            "id": "removed0()"
-          },
-          {
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "removedFromStage",
-            "id": "removedFromStage0()"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "enterFrame",
-            "id": "enterFrame"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "added",
-            "id": "added"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "addedToStage",
-            "id": "addedToStage"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "removed",
-            "id": "removed"
-          },
-          {
-            "ref": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "property",
-            "name": "removedFromStage",
-            "id": "removedFromStage"
-          },
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "constructor",
-            "name": "DisplayObjectEvents",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventDispatcher",
-                  "refId": "EventDispatcher"
-                },
-                "kind": "param",
-                "name": "target",
-                "id": "target"
-              }
-            ],
-            "id": "DisplayObjectEvents1()"
-          }
-        ],
-        "id": "DisplayObjectEvents"
       },
       {
         "superclass": {
@@ -10872,6 +10456,36 @@
           },
           {
             "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onProgress",
+            "id": "onProgress0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onComplete",
+            "id": "onComplete0()"
+          },
+          {
+            "returnType": {
               "name": "int",
               "refId": "int"
             },
@@ -10926,15 +10540,6 @@
             "kind": "method",
             "name": "playing",
             "id": "playing0()"
-          },
-          {
-            "returnType": {
-              "name": "MovieClipEvents",
-              "refId": "MovieClipEvents"
-            },
-            "kind": "method",
-            "name": "on",
-            "id": "on0()"
           },
           {
             "returnType": {
@@ -11113,6 +10718,36 @@
           },
           {
             "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onProgress",
+            "id": "onProgress"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onComplete",
+            "id": "onComplete"
+          },
+          {
+            "ref": {
               "name": "int",
               "refId": "int"
             },
@@ -11146,15 +10781,6 @@
             "kind": "property",
             "name": "playing",
             "id": "playing"
-          },
-          {
-            "ref": {
-              "name": "MovieClipEvents",
-              "refId": "MovieClipEvents"
-            },
-            "kind": "property",
-            "name": "on",
-            "id": "on"
           },
           {
             "ref": {
@@ -11242,6 +10868,38 @@
             "kind": "property",
             "name": "clipRectangle",
             "id": "clipRectangle"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "progressEvent",
+            "id": "progressEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "completeEvent",
+            "id": "completeEvent"
           },
           {
             "returnType": {
@@ -12954,6 +12612,27 @@
             "id": "_onTouchEventHandler"
           },
           {
+            "ref": {
+              "name": "List",
+              "refId": "List",
+              "arguments": [
+                {
+                  "name": "StreamSubscription",
+                  "refId": "StreamSubscription",
+                  "arguments": [
+                    {
+                      "name": "TouchEvent",
+                      "refId": "TouchEvent"
+                    }
+                  ]
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "_touchEventSubscriptions",
+            "id": "_touchEventSubscriptions"
+          },
+          {
             "returnType": {
               "name": "dynamic",
               "refId": "dynamic"
@@ -13070,15 +12749,6 @@
               }
             ],
             "id": "tabChildren=1()"
-          },
-          {
-            "returnType": {
-              "name": "DisplayObjectContainerEvents",
-              "refId": "DisplayObjectContainerEvents"
-            },
-            "kind": "method",
-            "name": "on",
-            "id": "on0()"
           },
           {
             "returnType": {
@@ -13493,15 +13163,6 @@
           },
           {
             "ref": {
-              "name": "DisplayObjectContainerEvents",
-              "refId": "DisplayObjectContainerEvents"
-            },
-            "kind": "property",
-            "name": "on",
-            "id": "on"
-          },
-          {
-            "ref": {
               "name": "List",
               "refId": "List",
               "arguments": [
@@ -13555,21 +13216,693 @@
         "children": [
           {
             "returnType": {
-              "name": "InteractiveObjectEvents",
-              "refId": "InteractiveObjectEvents"
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
             },
             "kind": "method",
-            "name": "on",
-            "id": "on0()"
+            "name": "onMouseOut",
+            "id": "onMouseOut0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseOver",
+            "id": "onMouseOver0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseMove",
+            "id": "onMouseMove0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseDown",
+            "id": "onMouseDown0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseUp",
+            "id": "onMouseUp0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseClick",
+            "id": "onMouseClick0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseDoubleClick",
+            "id": "onMouseDoubleClick0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseMiddleDown",
+            "id": "onMouseMiddleDown0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseMiddleUp",
+            "id": "onMouseMiddleUp0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseMiddleClick",
+            "id": "onMouseMiddleClick0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseRightDown",
+            "id": "onMouseRightDown0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseRightUp",
+            "id": "onMouseRightUp0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseRightClick",
+            "id": "onMouseRightClick0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onMouseWheel",
+            "id": "onMouseWheel0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onTouchOut",
+            "id": "onTouchOut0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onTouchOver",
+            "id": "onTouchOver0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onTouchMove",
+            "id": "onTouchMove0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onTouchBegin",
+            "id": "onTouchBegin0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onTouchEnd",
+            "id": "onTouchEnd0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onTouchCancel",
+            "id": "onTouchCancel0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "KeyboardEvent",
+                  "refId": "KeyboardEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onKeyUp",
+            "id": "onKeyUp0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "KeyboardEvent",
+                  "refId": "KeyboardEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onKeyDown",
+            "id": "onKeyDown0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TextEvent",
+                  "refId": "TextEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onTextInput",
+            "id": "onTextInput0()"
           },
           {
             "ref": {
-              "name": "InteractiveObjectEvents",
-              "refId": "InteractiveObjectEvents"
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
             },
             "kind": "property",
-            "name": "on",
-            "id": "on"
+            "name": "onMouseOut",
+            "id": "onMouseOut"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseOver",
+            "id": "onMouseOver"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseMove",
+            "id": "onMouseMove"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseDown",
+            "id": "onMouseDown"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseUp",
+            "id": "onMouseUp"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseClick",
+            "id": "onMouseClick"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseDoubleClick",
+            "id": "onMouseDoubleClick"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseMiddleDown",
+            "id": "onMouseMiddleDown"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseMiddleUp",
+            "id": "onMouseMiddleUp"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseMiddleClick",
+            "id": "onMouseMiddleClick"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseRightDown",
+            "id": "onMouseRightDown"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseRightUp",
+            "id": "onMouseRightUp"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseRightClick",
+            "id": "onMouseRightClick"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onMouseWheel",
+            "id": "onMouseWheel"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onTouchOut",
+            "id": "onTouchOut"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onTouchOver",
+            "id": "onTouchOver"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onTouchMove",
+            "id": "onTouchMove"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onTouchBegin",
+            "id": "onTouchBegin"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onTouchEnd",
+            "id": "onTouchEnd"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onTouchCancel",
+            "id": "onTouchCancel"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "KeyboardEvent",
+                  "refId": "KeyboardEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onKeyUp",
+            "id": "onKeyUp"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "KeyboardEvent",
+                  "refId": "KeyboardEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onKeyDown",
+            "id": "onKeyDown"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "TextEvent",
+                  "refId": "TextEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onTextInput",
+            "id": "onTextInput"
           },
           {
             "ref": {
@@ -13606,6 +13939,374 @@
             "kind": "property",
             "name": "tabIndex",
             "id": "tabIndex"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseOutEvent",
+            "id": "mouseOutEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseOverEvent",
+            "id": "mouseOverEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseMoveEvent",
+            "id": "mouseMoveEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseDownEvent",
+            "id": "mouseDownEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseUpEvent",
+            "id": "mouseUpEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseClickEvent",
+            "id": "mouseClickEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseDoubleClickEvent",
+            "id": "mouseDoubleClickEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseMiddleDownEvent",
+            "id": "mouseMiddleDownEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseMiddleUpEvent",
+            "id": "mouseMiddleUpEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseMiddleClickEvent",
+            "id": "mouseMiddleClickEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseRightDownEvent",
+            "id": "mouseRightDownEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseRightUpEvent",
+            "id": "mouseRightUpEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseRightClickEvent",
+            "id": "mouseRightClickEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "MouseEvent",
+                  "refId": "MouseEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "mouseWheelEvent",
+            "id": "mouseWheelEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "touchOutEvent",
+            "id": "touchOutEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "touchOverEvent",
+            "id": "touchOverEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "touchMoveEvent",
+            "id": "touchMoveEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "touchBeginEvent",
+            "id": "touchBeginEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "touchEndEvent",
+            "id": "touchEndEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "TouchEvent",
+                  "refId": "TouchEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "touchCancelEvent",
+            "id": "touchCancelEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "KeyboardEvent",
+                  "refId": "KeyboardEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "keyUpEvent",
+            "id": "keyUpEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "KeyboardEvent",
+                  "refId": "KeyboardEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "keyDownEvent",
+            "id": "keyDownEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "TextEvent",
+                  "refId": "TextEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "textInputEvent",
+            "id": "textInputEvent"
           }
         ],
         "id": "InteractiveObject"
@@ -13632,6 +14333,81 @@
             "kind": "method",
             "name": "DisplayObject",
             "id": "DisplayObject0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onAdded",
+            "id": "onAdded0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onRemoved",
+            "id": "onRemoved0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onAddedToStage",
+            "id": "onAddedToStage0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onRemovedFromStage",
+            "id": "onRemovedFromStage0()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "EnterFrameEvent",
+                  "refId": "EnterFrameEvent"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "onEnterFrame",
+            "id": "onEnterFrame0()"
           },
           {
             "returnType": {
@@ -13716,6 +14492,15 @@
           },
           {
             "returnType": {
+              "name": "Mask",
+              "refId": "Mask"
+            },
+            "kind": "method",
+            "name": "mask",
+            "id": "mask0()"
+          },
+          {
+            "returnType": {
               "name": "String",
               "refId": "String"
             },
@@ -13731,15 +14516,6 @@
             "kind": "method",
             "name": "parent",
             "id": "parent0()"
-          },
-          {
-            "returnType": {
-              "name": "DisplayObjectEvents",
-              "refId": "DisplayObjectEvents"
-            },
-            "kind": "method",
-            "name": "on",
-            "id": "on0()"
           },
           {
             "returnType": {
@@ -13762,8 +14538,8 @@
           {
             "isSetter": true,
             "returnType": {
-              "name": "void",
-              "refId": "void"
+              "name": "dynamic",
+              "refId": "dynamic"
             },
             "kind": "method",
             "name": "x=",
@@ -13783,8 +14559,8 @@
           {
             "isSetter": true,
             "returnType": {
-              "name": "void",
-              "refId": "void"
+              "name": "dynamic",
+              "refId": "dynamic"
             },
             "kind": "method",
             "name": "y=",
@@ -13804,8 +14580,8 @@
           {
             "isSetter": true,
             "returnType": {
-              "name": "void",
-              "refId": "void"
+              "name": "dynamic",
+              "refId": "dynamic"
             },
             "kind": "method",
             "name": "pivotX=",
@@ -13825,8 +14601,8 @@
           {
             "isSetter": true,
             "returnType": {
-              "name": "void",
-              "refId": "void"
+              "name": "dynamic",
+              "refId": "dynamic"
             },
             "kind": "method",
             "name": "pivotY=",
@@ -13846,8 +14622,8 @@
           {
             "isSetter": true,
             "returnType": {
-              "name": "void",
-              "refId": "void"
+              "name": "dynamic",
+              "refId": "dynamic"
             },
             "kind": "method",
             "name": "scaleX=",
@@ -13867,8 +14643,8 @@
           {
             "isSetter": true,
             "returnType": {
-              "name": "void",
-              "refId": "void"
+              "name": "dynamic",
+              "refId": "dynamic"
             },
             "kind": "method",
             "name": "scaleY=",
@@ -13888,8 +14664,8 @@
           {
             "isSetter": true,
             "returnType": {
-              "name": "void",
-              "refId": "void"
+              "name": "dynamic",
+              "refId": "dynamic"
             },
             "kind": "method",
             "name": "rotation=",
@@ -13909,8 +14685,8 @@
           {
             "isSetter": true,
             "returnType": {
-              "name": "void",
-              "refId": "void"
+              "name": "dynamic",
+              "refId": "dynamic"
             },
             "kind": "method",
             "name": "alpha=",
@@ -13930,8 +14706,8 @@
           {
             "isSetter": true,
             "returnType": {
-              "name": "void",
-              "refId": "void"
+              "name": "dynamic",
+              "refId": "dynamic"
             },
             "kind": "method",
             "name": "visible=",
@@ -13951,8 +14727,29 @@
           {
             "isSetter": true,
             "returnType": {
-              "name": "void",
-              "refId": "void"
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "mask=",
+            "children": [
+              {
+                "ref": {
+                  "name": "Mask",
+                  "refId": "Mask"
+                },
+                "kind": "param",
+                "name": "value",
+                "id": "value"
+              }
+            ],
+            "id": "mask=1()"
+          },
+          {
+            "isSetter": true,
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
             },
             "kind": "method",
             "name": "name=",
@@ -14336,6 +15133,81 @@
           },
           {
             "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onAdded",
+            "id": "onAdded"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onRemoved",
+            "id": "onRemoved"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onAddedToStage",
+            "id": "onAddedToStage"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onRemovedFromStage",
+            "id": "onRemovedFromStage"
+          },
+          {
+            "ref": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "EnterFrameEvent",
+                  "refId": "EnterFrameEvent"
+                }
+              ]
+            },
+            "kind": "property",
+            "name": "onEnterFrame",
+            "id": "onEnterFrame"
+          },
+          {
+            "ref": {
               "name": "num",
               "refId": "num"
             },
@@ -14417,6 +15289,15 @@
           },
           {
             "ref": {
+              "name": "Mask",
+              "refId": "Mask"
+            },
+            "kind": "property",
+            "name": "mask",
+            "id": "mask"
+          },
+          {
+            "ref": {
               "name": "String",
               "refId": "String"
             },
@@ -14432,15 +15313,6 @@
             "kind": "property",
             "name": "parent",
             "id": "parent"
-          },
-          {
-            "ref": {
-              "name": "DisplayObjectEvents",
-              "refId": "DisplayObjectEvents"
-            },
-            "kind": "property",
-            "name": "on",
-            "id": "on"
           },
           {
             "ref": {
@@ -14597,6 +15469,15 @@
           },
           {
             "ref": {
+              "name": "Mask",
+              "refId": "Mask"
+            },
+            "kind": "property",
+            "name": "_mask",
+            "id": "_mask"
+          },
+          {
+            "ref": {
               "name": "String",
               "refId": "String"
             },
@@ -14615,15 +15496,6 @@
           },
           {
             "ref": {
-              "name": "Mask",
-              "refId": "Mask"
-            },
-            "kind": "property",
-            "name": "mask",
-            "id": "mask"
-          },
-          {
-            "ref": {
               "name": "Matrix",
               "refId": "Matrix"
             },
@@ -14639,6 +15511,86 @@
             "kind": "property",
             "name": "_tmpMatrixIdentity",
             "id": "_tmpMatrixIdentity"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "addedEvent",
+            "id": "addedEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "removedEvent",
+            "id": "removedEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "addedToStageEvent",
+            "id": "addedToStageEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "removedFromStageEvent",
+            "id": "removedFromStageEvent"
+          },
+          {
+            "ref": {
+              "name": "EventStreamProvider",
+              "refId": "EventStreamProvider",
+              "arguments": [
+                {
+                  "name": "EnterFrameEvent",
+                  "refId": "EnterFrameEvent"
+                }
+              ]
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "enterFrameEvent",
+            "id": "enterFrameEvent"
           },
           {
             "returnType": {
@@ -17559,7 +18511,7 @@
           "refId": "Object"
         },
         "kind": "class",
-        "name": "EventListenerList",
+        "name": "EventStreamProvider",
         "children": [
           {
             "returnType": {
@@ -17567,7 +18519,33 @@
               "refId": "dynamic"
             },
             "kind": "method",
-            "name": "EventListenerList",
+            "name": "EventStreamProvider",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "_eventType",
+                "id": "_eventType"
+              }
+            ],
+            "id": "EventStreamProvider1()"
+          },
+          {
+            "returnType": {
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "T",
+                  "refId": "T"
+                }
+              ]
+            },
+            "kind": "method",
+            "name": "forTarget",
             "children": [
               {
                 "ref": {
@@ -17575,29 +18553,21 @@
                   "refId": "EventDispatcher"
                 },
                 "kind": "param",
-                "name": "eventDispatcher",
-                "id": "eventDispatcher"
+                "name": "target",
+                "id": "target"
               },
               {
                 "ref": {
-                  "name": "String",
-                  "refId": "String"
+                  "name": "bool",
+                  "refId": "bool"
                 },
+                "isOptional": true,
                 "kind": "param",
-                "name": "eventType",
-                "id": "eventType"
+                "name": "useCapture",
+                "id": "useCapture"
               }
             ],
-            "id": "EventListenerList2()"
-          },
-          {
-            "returnType": {
-              "name": "EventDispatcher",
-              "refId": "EventDispatcher"
-            },
-            "kind": "method",
-            "name": "eventDispatcher",
-            "id": "eventDispatcher0()"
+            "id": "forTarget2()"
           },
           {
             "returnType": {
@@ -17607,137 +18577,6 @@
             "kind": "method",
             "name": "eventType",
             "id": "eventType0()"
-          },
-          {
-            "returnType": {
-              "name": "void",
-              "refId": "void"
-            },
-            "kind": "method",
-            "name": "add",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventListener",
-                  "refId": "EventListener"
-                },
-                "kind": "param",
-                "name": "eventListener",
-                "id": "eventListener"
-              },
-              {
-                "ref": {
-                  "name": "bool",
-                  "refId": "bool"
-                },
-                "isOptional": true,
-                "kind": "param",
-                "name": "useCapture",
-                "id": "useCapture"
-              }
-            ],
-            "id": "add2()"
-          },
-          {
-            "returnType": {
-              "name": "void",
-              "refId": "void"
-            },
-            "kind": "method",
-            "name": "remove",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventListener",
-                  "refId": "EventListener"
-                },
-                "kind": "param",
-                "name": "eventListener",
-                "id": "eventListener"
-              },
-              {
-                "ref": {
-                  "name": "bool",
-                  "refId": "bool"
-                },
-                "isOptional": true,
-                "kind": "param",
-                "name": "useCapture",
-                "id": "useCapture"
-              }
-            ],
-            "id": "remove2()"
-          },
-          {
-            "isOperator": true,
-            "returnType": {
-              "name": "void",
-              "refId": "void"
-            },
-            "kind": "method",
-            "name": "+",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventListener",
-                  "refId": "EventListener"
-                },
-                "kind": "param",
-                "name": "eventListener",
-                "id": "eventListener"
-              }
-            ],
-            "id": "+1()"
-          },
-          {
-            "isOperator": true,
-            "returnType": {
-              "name": "void",
-              "refId": "void"
-            },
-            "kind": "method",
-            "name": "-",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventListener",
-                  "refId": "EventListener"
-                },
-                "kind": "param",
-                "name": "eventListener",
-                "id": "eventListener"
-              }
-            ],
-            "id": "-1()"
-          },
-          {
-            "returnType": {
-              "name": "void",
-              "refId": "void"
-            },
-            "kind": "method",
-            "name": "dispatchEvent",
-            "children": [
-              {
-                "ref": {
-                  "name": "Event",
-                  "refId": "Event"
-                },
-                "kind": "param",
-                "name": "event",
-                "id": "event"
-              }
-            ],
-            "id": "dispatchEvent1()"
-          },
-          {
-            "ref": {
-              "name": "EventDispatcher",
-              "refId": "EventDispatcher"
-            },
-            "kind": "property",
-            "name": "eventDispatcher",
-            "id": "eventDispatcher"
           },
           {
             "ref": {
@@ -17750,15 +18589,6 @@
           },
           {
             "ref": {
-              "name": "EventDispatcher",
-              "refId": "EventDispatcher"
-            },
-            "kind": "property",
-            "name": "_eventDispatcher",
-            "id": "_eventDispatcher"
-          },
-          {
-            "ref": {
               "name": "String",
               "refId": "String"
             },
@@ -17767,56 +18597,27 @@
             "id": "_eventType"
           },
           {
-            "ref": {
-              "name": "List",
-              "refId": "List",
-              "arguments": [
-                {
-                  "name": "_EventListenerUseCapture",
-                  "refId": "_EventListenerUseCapture"
-                }
-              ]
-            },
-            "kind": "property",
-            "name": "_list",
-            "id": "_list"
-          },
-          {
             "returnType": {
               "name": "dynamic",
               "refId": "dynamic"
             },
             "kind": "constructor",
-            "name": "EventListenerList",
+            "name": "EventStreamProvider",
             "children": [
-              {
-                "ref": {
-                  "name": "EventDispatcher",
-                  "refId": "EventDispatcher"
-                },
-                "kind": "param",
-                "name": "eventDispatcher",
-                "id": "eventDispatcher"
-              },
               {
                 "ref": {
                   "name": "String",
                   "refId": "String"
                 },
                 "kind": "param",
-                "name": "eventType",
-                "id": "eventType"
+                "name": "_eventType",
+                "id": "_eventType"
               }
             ],
-            "id": "EventListenerList2()"
+            "id": "EventStreamProvider1()"
           }
         ],
-        "id": "EventListenerList"
-      },
-      {
-        "kind": "typedef",
-        "name": "EventListener",
-        "id": "EventListener"
+        "id": "EventStreamProvider"
       },
       {
         "superclass": {
@@ -17848,8 +18649,14 @@
           },
           {
             "returnType": {
-              "name": "void",
-              "refId": "void"
+              "name": "StreamSubscription",
+              "refId": "StreamSubscription",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
             },
             "kind": "method",
             "name": "addEventListener",
@@ -17860,13 +18667,13 @@
                   "refId": "String"
                 },
                 "kind": "param",
-                "name": "type",
-                "id": "type"
+                "name": "eventType",
+                "id": "eventType"
               },
               {
                 "ref": {
-                  "name": "EventListener",
-                  "refId": "EventListener"
+                  "name": "Function",
+                  "refId": "Function"
                 },
                 "kind": "param",
                 "name": "eventListener",
@@ -17891,7 +18698,7 @@
               "refId": "void"
             },
             "kind": "method",
-            "name": "removeEventListener",
+            "name": "removeEventListeners",
             "children": [
               {
                 "ref": {
@@ -17899,17 +18706,8 @@
                   "refId": "String"
                 },
                 "kind": "param",
-                "name": "type",
-                "id": "type"
-              },
-              {
-                "ref": {
-                  "name": "EventListener",
-                  "refId": "EventListener"
-                },
-                "kind": "param",
-                "name": "eventListener",
-                "id": "eventListener"
+                "name": "eventType",
+                "id": "eventType"
               },
               {
                 "ref": {
@@ -17922,7 +18720,7 @@
                 "id": "useCapture"
               }
             ],
-            "id": "removeEventListener3()"
+            "id": "removeEventListeners2()"
           },
           {
             "returnType": {
@@ -17946,12 +18744,39 @@
           },
           {
             "returnType": {
-              "name": "Events",
-              "refId": "Events"
+              "name": "Stream",
+              "refId": "Stream",
+              "arguments": [
+                {
+                  "name": "Event",
+                  "refId": "Event"
+                }
+              ]
             },
             "kind": "method",
             "name": "on",
-            "id": "on0()"
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "eventType",
+                "id": "eventType"
+              },
+              {
+                "ref": {
+                  "name": "bool",
+                  "refId": "bool"
+                },
+                "isOptional": true,
+                "kind": "param",
+                "name": "useCapture",
+                "id": "useCapture"
+              }
+            ],
+            "id": "on2()"
           },
           {
             "returnType": {
@@ -18002,11 +18827,11 @@
           },
           {
             "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
+              "name": "_EventStream",
+              "refId": "_EventStream"
             },
             "kind": "method",
-            "name": "_getEventListenerList",
+            "name": "_getEventStream",
             "children": [
               {
                 "ref": {
@@ -18014,20 +18839,20 @@
                   "refId": "String"
                 },
                 "kind": "param",
-                "name": "type",
-                "id": "type"
+                "name": "eventType",
+                "id": "eventType"
+              },
+              {
+                "ref": {
+                  "name": "bool",
+                  "refId": "bool"
+                },
+                "kind": "param",
+                "name": "useCapture",
+                "id": "useCapture"
               }
             ],
-            "id": "_getEventListenerList1()"
-          },
-          {
-            "ref": {
-              "name": "Events",
-              "refId": "Events"
-            },
-            "kind": "property",
-            "name": "on",
-            "id": "on"
+            "id": "_getEventStream2()"
           },
           {
             "ref": {
@@ -18039,14 +18864,14 @@
                   "refId": "String"
                 },
                 {
-                  "name": "EventListenerList",
-                  "refId": "EventListenerList"
+                  "name": "_EventStream",
+                  "refId": "_EventStream"
                 }
               ]
             },
             "kind": "property",
-            "name": "_eventListenerLists",
-            "id": "_eventListenerLists"
+            "name": "_eventStreams",
+            "id": "_eventStreams"
           }
         ],
         "id": "EventDispatcher"
@@ -18091,87 +18916,6 @@
           }
         ],
         "id": "EventPhase"
-      },
-      {
-        "superclass": {
-          "name": "Object",
-          "refId": "Object"
-        },
-        "kind": "class",
-        "name": "Events",
-        "children": [
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "method",
-            "name": "Events",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventDispatcher",
-                  "refId": "EventDispatcher"
-                },
-                "kind": "param",
-                "name": "eventDispatcher",
-                "id": "eventDispatcher"
-              }
-            ],
-            "id": "Events1()"
-          },
-          {
-            "isOperator": true,
-            "returnType": {
-              "name": "EventListenerList",
-              "refId": "EventListenerList"
-            },
-            "kind": "method",
-            "name": "[]",
-            "children": [
-              {
-                "ref": {
-                  "name": "String",
-                  "refId": "String"
-                },
-                "kind": "param",
-                "name": "eventType",
-                "id": "eventType"
-              }
-            ],
-            "id": "[]1()"
-          },
-          {
-            "ref": {
-              "name": "EventDispatcher",
-              "refId": "EventDispatcher"
-            },
-            "kind": "property",
-            "name": "_eventDispatcher",
-            "id": "_eventDispatcher"
-          },
-          {
-            "returnType": {
-              "name": "dynamic",
-              "refId": "dynamic"
-            },
-            "kind": "constructor",
-            "name": "Events",
-            "children": [
-              {
-                "ref": {
-                  "name": "EventDispatcher",
-                  "refId": "EventDispatcher"
-                },
-                "kind": "param",
-                "name": "eventDispatcher",
-                "id": "eventDispatcher"
-              }
-            ],
-            "id": "Events1()"
-          }
-        ],
-        "id": "Events"
       },
       {
         "superclass": {
@@ -18966,8 +19710,8 @@
           },
           {
             "ref": {
-              "name": "_EventListenerListIndex",
-              "refId": "_EventListenerListIndex"
+              "name": "_EventStreamIndex",
+              "refId": "_EventStreamIndex"
             },
             "kind": "property",
             "name": "_enterFrameIndex",
@@ -21493,7 +22237,7 @@
           "refId": "Animatable"
         },
         "kind": "class",
-        "comment": "\nThe [Transition] class animates a value by calling the [onUpdate] function continuously.\n\n    var transition = new Transition(0.0, 100.0, 1.0, TransitionFunction.linear);\n    transition.onUpdate = (value) => print('the value changed to $value');\n    renderLoop.juggler.add(transition);\n\n",
+        "comment": "\nThe [Transition] class animates a value by calling the [onUpdate] function continuously.\n\n    var transition = new Transition(0.0, 100.0, 1.0, TransitionFunction.linear);\n    transition.onUpdate = (value) => print('the value changed to $value');\n    renderLoop.juggler.add(transition);\n",
         "name": "Transition",
         "children": [
           {
@@ -21685,7 +22429,7 @@
               "refId": "void"
             },
             "kind": "method",
-            "comment": "\nThe function that is called when a [Transition] starts. This happens after the specified delay.\n\n",
+            "comment": "\nThe function that is called when a [Transition] starts. This happens after the specified delay.\n",
             "name": "onStart=",
             "children": [
               {
@@ -21707,7 +22451,7 @@
               "refId": "void"
             },
             "kind": "method",
-            "comment": "\nThe function that is called every time a [Transition] updates the value.\n\n",
+            "comment": "\nThe function that is called every time a [Transition] updates the value.\n",
             "name": "onUpdate=",
             "children": [
               {
@@ -21729,7 +22473,7 @@
               "refId": "void"
             },
             "kind": "method",
-            "comment": "\nThe function that is called when a [Transition] is completed.\n\n",
+            "comment": "\nThe function that is called when a [Transition] is completed.\n",
             "name": "onComplete=",
             "children": [
               {
@@ -21987,7 +22731,7 @@
           "refId": "Object"
         },
         "kind": "class",
-        "comment": "\nThe [Tween] class animates the properties of a [DisplayObject].\nUse one of the [TransitionFunction] functions or create your own.\nAdd the instance to the [Juggler] to start the animation.\n\n    var tween = new Tween(mySprite, 1.0, TransitionFunction.easeInCubic);\n    tween.delay = 0.5;\n    tween.animate(\"alpha\", 0.0);\n    tween.onComplete = () => print('completed');\n    renderLoop.juggler.add(tween);\n\n",
+        "comment": "\nThe [Tween] class animates the properties of a [DisplayObject].\nUse one of the [TransitionFunction] functions or create your own.\nAdd the instance to the [Juggler] to start the animation.\n\n    var tween = new Tween(mySprite, 1.0, TransitionFunction.easeInCubic);\n    tween.delay = 0.5;\n    tween.animate(\"alpha\", 0.0);\n    tween.onComplete = () => print('completed');\n    renderLoop.juggler.add(tween);\n",
         "name": "Tween",
         "children": [
           {
@@ -22259,7 +23003,7 @@
               "refId": "void"
             },
             "kind": "method",
-            "comment": "\nThe function that is called when a [Tween] starts. This happens after the specified delay.\n\n",
+            "comment": "\nThe function that is called when a [Tween] starts. This happens after the specified delay.\n",
             "name": "onStart=",
             "children": [
               {
@@ -22281,7 +23025,7 @@
               "refId": "void"
             },
             "kind": "method",
-            "comment": "\nThe function that is called every time a [Tween] updates the properties of the [DisplayObject].\n\n",
+            "comment": "\nThe function that is called every time a [Tween] updates the properties of the [DisplayObject].\n",
             "name": "onUpdate=",
             "children": [
               {
@@ -22303,7 +23047,7 @@
               "refId": "void"
             },
             "kind": "method",
-            "comment": "\nThe function that is called when a [Tween] is completed.\n\n",
+            "comment": "\nThe function that is called when a [Tween] is completed.\n",
             "name": "onComplete=",
             "children": [
               {
@@ -22525,7 +23269,7 @@
           "refId": "Object"
         },
         "kind": "class",
-        "comment": "\nThe [TransitionFunction] class provides common transition functions used for\n[Transition] and [Tween] animations.\n\nA transition function takes the [ratio] which is in the range from 0.0 to 1.0\nand calculates the progress of the transitions.\n\nThe most simple transition function is a linear transition:\n    var linear = (ratio) => ratio;\n\nOverview of all available transition types:\n<http://www.dartflash.com/docs/juggler/transitions.html>\n\n",
+        "comment": "\nThe [TransitionFunction] class provides common transition functions used for\n[Transition] and [Tween] animations.\n\nA transition function takes the [ratio] which is in the range from 0.0 to 1.0\nand calculates the progress of the transitions.\n\nThe most simple transition function is a linear transition:\n    var linear = (ratio) => ratio;\n\nOverview of all available transition types:\n<http://www.dartflash.com/docs/juggler/transitions.html>\n",
         "name": "TransitionFunction",
         "children": [
           {
@@ -23682,6 +24426,15 @@
           },
           {
             "ref": {
+              "name": "num",
+              "refId": "num"
+            },
+            "kind": "property",
+            "name": "_elapsedTime",
+            "id": "_elapsedTime"
+          },
+          {
+            "ref": {
               "name": "List",
               "refId": "List",
               "arguments": [
@@ -23703,15 +24456,6 @@
             "kind": "property",
             "name": "_animatablesCount",
             "id": "_animatablesCount"
-          },
-          {
-            "ref": {
-              "name": "num",
-              "refId": "num"
-            },
-            "kind": "property",
-            "name": "_elapsedTime",
-            "id": "_elapsedTime"
           },
           {
             "returnType": {
@@ -23964,5 +24708,233 @@
       }
     ],
     "id": "file:///D:/GitHub/bp74/dartflash/lib/dartflash.dart"
+  },
+  {
+    "kind": "library",
+    "name": "metadata",
+    "children": [
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "Metadata that specifies that that member is editable through generated\nfiles.",
+        "name": "DocsEditable",
+        "id": "DocsEditable"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nMetadata that specifies the DOM name associated with the element.\n\nThis is used for API generation.\n\n[name] should be formatted as `interface.member`.\n",
+        "name": "DomName",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "DomName",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "name",
+                "id": "name"
+              }
+            ],
+            "id": "DomName1()"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "name": "name",
+            "id": "name"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "DomName",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "name",
+                "id": "name"
+              }
+            ],
+            "id": "DomName1()"
+          }
+        ],
+        "id": "DomName"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nAn annotation used to mark an API as being experimental.\n\nAn API is considered to be experimental if it is still going through the\nprocess of stabilizing and is subject to change or removal.\n\nSee also:\n\n* [W3C recommendation](http://en.wikipedia.org/wiki/W3C_recommendation)\n",
+        "name": "Experimental",
+        "id": "Experimental"
+      },
+      {
+        "superclass": {
+          "name": "Object",
+          "refId": "Object"
+        },
+        "kind": "class",
+        "comment": "\nAn annotation used to mark a feature as only being supported by a subset\nof the browsers that Dart supports by default.\n\nIf an API is not annotated with [SupportedBrowser] then it is assumed to\nwork on all browsers Dart supports.\n",
+        "name": "SupportedBrowser",
+        "children": [
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "method",
+            "name": "SupportedBrowser",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "browserName",
+                "id": "browserName"
+              },
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "isOptional": true,
+                "kind": "param",
+                "name": "minimumVersion",
+                "id": "minimumVersion"
+              }
+            ],
+            "id": "SupportedBrowser2()"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "CHROME",
+            "id": "CHROME"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "FIREFOX",
+            "id": "FIREFOX"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "IE",
+            "id": "IE"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "OPERA",
+            "id": "OPERA"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "isStatic": true,
+            "kind": "property",
+            "name": "SAFARI",
+            "id": "SAFARI"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "name": "browserName",
+            "id": "browserName"
+          },
+          {
+            "ref": {
+              "name": "String",
+              "refId": "String"
+            },
+            "kind": "property",
+            "name": "minimumVersion",
+            "id": "minimumVersion"
+          },
+          {
+            "returnType": {
+              "name": "dynamic",
+              "refId": "dynamic"
+            },
+            "kind": "constructor",
+            "name": "SupportedBrowser",
+            "children": [
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "kind": "param",
+                "name": "browserName",
+                "id": "browserName"
+              },
+              {
+                "ref": {
+                  "name": "String",
+                  "refId": "String"
+                },
+                "isOptional": true,
+                "kind": "param",
+                "name": "minimumVersion",
+                "id": "minimumVersion"
+              }
+            ],
+            "id": "SupportedBrowser2()"
+          }
+        ],
+        "id": "SupportedBrowser"
+      }
+    ],
+    "id": "file:///C:/Program Files/DartEditor/dart-sdk/lib/html/html_common/metadata.dart"
   }
 ]

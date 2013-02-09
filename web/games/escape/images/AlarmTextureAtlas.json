@@ -2,7 +2,7 @@
 
 {
 	"filename": "Alarm0.png",
-	"frame": {"x":2,"y":2,"w":72,"h":130},
+	"frame": {"x":922,"y":2,"w":72,"h":130},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":69,"y":29,"w":72,"h":130},
@@ -10,7 +10,7 @@
 },
 {
 	"filename": "Alarm1.png",
-	"frame": {"x":76,"y":2,"w":194,"h":194},
+	"frame": {"x":394,"y":2,"w":194,"h":194},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":194,"h":194},
@@ -18,7 +18,7 @@
 },
 {
 	"filename": "Alarm2.png",
-	"frame": {"x":272,"y":2,"w":164,"h":164},
+	"frame": {"x":756,"y":2,"w":164,"h":164},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":15,"y":17,"w":164,"h":164},
@@ -26,7 +26,7 @@
 },
 {
 	"filename": "Alarm3.png",
-	"frame": {"x":438,"y":2,"w":194,"h":194},
+	"frame": {"x":198,"y":2,"w":194,"h":194},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":194,"h":194},
@@ -34,7 +34,7 @@
 },
 {
 	"filename": "Alarm4.png",
-	"frame": {"x":634,"y":2,"w":164,"h":164},
+	"frame": {"x":590,"y":2,"w":164,"h":164},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":15,"y":17,"w":164,"h":164},
@@ -42,7 +42,7 @@
 },
 {
 	"filename": "Alarm5.png",
-	"frame": {"x":800,"y":2,"w":194,"h":194},
+	"frame": {"x":2,"y":2,"w":194,"h":194},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":194,"h":194},
@@ -55,6 +55,6 @@
 	"format": "RGBA8888",
 	"size": {"w":996,"h":198},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:39ffb8129c614f502ca55726a813a4d1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c7e6c58e18327236d695dac94d79dc6f$"
 }
 }

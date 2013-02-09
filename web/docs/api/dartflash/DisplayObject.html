@@ -41,16 +41,14 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><div class="icon-class"></div><strong>DisplayObject</strong></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
-<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
-<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
-<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
-<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
-<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
@@ -59,7 +57,6 @@
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
-<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
@@ -72,7 +69,6 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
-<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
@@ -110,7 +106,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-</div>
+<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>DisplayObject</strong>
           abstract class
@@ -134,18 +130,15 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
  num _alpha = 1.0;
  bool _visible = true;
-
+ Mask _mask = null;
+ 
  String _name = "";
  DisplayObjectContainer _parent = null;
 
- Mask mask;
-
- //-------------------------------------------------------------------------------------------------
  // for internal use only to minimize memory allocations.
-
  Matrix _tmpMatrix;
  Matrix _tmpMatrixIdentity;
-
+ 
  //-------------------------------------------------------------------------------------------------
 
  DisplayObject()
@@ -157,6 +150,22 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
    _tmpMatrixIdentity = new Matrix.fromIdentity();
  }
 
+ //-------------------------------------------------------------------------------------------------
+
+ static const EventStreamProvider&lt;Event&gt; addedEvent = const EventStreamProvider&lt;Event&gt;(Event.ADDED);
+ static const EventStreamProvider&lt;Event&gt; removedEvent = const EventStreamProvider&lt;Event&gt;(Event.REMOVED);
+ static const EventStreamProvider&lt;Event&gt; addedToStageEvent = const EventStreamProvider&lt;Event&gt;(Event.ADDED_TO_STAGE);
+ static const EventStreamProvider&lt;Event&gt; removedFromStageEvent = const EventStreamProvider&lt;Event&gt;(Event.REMOVED_FROM_STAGE);
+  
+ Stream&lt;Event&gt; get onAdded =&gt; DisplayObject.addedEvent.forTarget(this);  
+ Stream&lt;Event&gt; get onRemoved =&gt; DisplayObject.removedEvent.forTarget(this);  
+ Stream&lt;Event&gt; get onAddedToStage =&gt; DisplayObject.addedToStageEvent.forTarget(this);  
+ Stream&lt;Event&gt; get onRemovedFromStage =&gt; DisplayObject.removedFromStageEvent.forTarget(this);  
+
+ static const EventStreamProvider&lt;EnterFrameEvent&gt; enterFrameEvent = const EventStreamProvider&lt;EnterFrameEvent&gt;(Event.ENTER_FRAME);
+ 
+ Stream&lt;EnterFrameEvent&gt; get onEnterFrame =&gt; DisplayObject.enterFrameEvent.forTarget(this);
+ 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
@@ -171,12 +180,10 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
  num get alpha =&gt; _alpha;
 
  bool get visible =&gt; _visible;
-
+ Mask get mask =&gt; _mask;
  String get name =&gt; _name;
 
  DisplayObjectContainer get parent =&gt; _parent;
-
- DisplayObjectEvents get on =&gt; new DisplayObjectEvents(this);
 
  //-------------------------------------------------------------------------------------------------
 
@@ -204,19 +211,20 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
  //-------------------------------------------------------------------------------------------------
 
- void set x(num value) { _x = value; _transformationMatrixRefresh = true; }
- void set y(num value) { _y = value; _transformationMatrixRefresh = true; }
- void set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
- void set pivotY(num value) { _pivotY = value; _transformationMatrixRefresh = true; }
+ set x(num value) { _x = value; _transformationMatrixRefresh = true; }
+ set y(num value) { _y = value; _transformationMatrixRefresh = true; }
+ set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
+ set pivotY(num value) { _pivotY = value; _transformationMatrixRefresh = true; }
+ 
+ set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
+ set scaleY(num value) { _scaleY = value; _transformationMatrixRefresh = true; }
+ set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true; }
+ set alpha(num value) { _alpha = value; _transformationMatrixRefresh = true; }
 
- void set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
- void set scaleY(num value) { _scaleY = value; _transformationMatrixRefresh = true; }
- void set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true; }
- void set alpha(num value) { _alpha = value; _transformationMatrixRefresh = true; }
+ set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
 
- void set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
-
- void set name(String value) { _name = value; _transformationMatrixRefresh = true; }
+ set mask(Mask value) { _mask = value; }
+ set name(String value) { _name = value; }
 
  //-------------------------------------------------------------------------------------------------
 
@@ -488,10 +496,73 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 <span class="type-box"><span class="icon-class"></span><a href="../dartflash/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>DisplayObject</strong></span></p>
 <h3>Subclasses</h3>
 <p>
-<span class="type-box"><span class="icon-class"></span><a href="../dartflash/Bitmap.html">Bitmap</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/Gauge.html">Gauge</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/InteractiveObject.html">InteractiveObject</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/ParticleSystem.html">ParticleSystem</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/Shape.html">Shape</a></span></p>
+<span class="type-box"><span class="icon-class"></span><a href="../dartflash/Bitmap.html">Bitmap</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/FlumpMovie.html">FlumpMovie</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/Gauge.html">Gauge</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/InteractiveObject.html">InteractiveObject</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/ParticleSystem.html">ParticleSystem</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../dartflash/Shape.html">Shape</a></span></p>
 <h3>Implements</h3>
 <p>
 <span class="type-box"><span class="icon-class"></span><a href="../dartflash/BitmapDrawable.html">BitmapDrawable</a></span></p>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="addedEvent">
+<button class="show-code">Code</button>
+const <a href="../dartflash/EventStreamProvider.html">EventStreamProvider</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>addedEvent</strong> <a class="anchor-link"
+            href="#addedEvent"
+            title="Permalink to DisplayObject.addedEvent">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+addedEvent = const EventStreamProvider&lt;Event&gt;(Event.ADDED)
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="addedToStageEvent">
+<button class="show-code">Code</button>
+const <a href="../dartflash/EventStreamProvider.html">EventStreamProvider</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>addedToStageEvent</strong> <a class="anchor-link"
+            href="#addedToStageEvent"
+            title="Permalink to DisplayObject.addedToStageEvent">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+addedToStageEvent = const EventStreamProvider&lt;Event&gt;(Event.ADDED_TO_STAGE)
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="enterFrameEvent">
+<button class="show-code">Code</button>
+const <a href="../dartflash/EventStreamProvider.html">EventStreamProvider</a>&lt;<a href="../dartflash/EnterFrameEvent.html">EnterFrameEvent</a>&gt;         <strong>enterFrameEvent</strong> <a class="anchor-link"
+            href="#enterFrameEvent"
+            title="Permalink to DisplayObject.enterFrameEvent">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+enterFrameEvent = const EventStreamProvider&lt;EnterFrameEvent&gt;(Event.ENTER_FRAME)
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="removedEvent">
+<button class="show-code">Code</button>
+const <a href="../dartflash/EventStreamProvider.html">EventStreamProvider</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>removedEvent</strong> <a class="anchor-link"
+            href="#removedEvent"
+            title="Permalink to DisplayObject.removedEvent">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+removedEvent = const EventStreamProvider&lt;Event&gt;(Event.REMOVED)
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="removedFromStageEvent">
+<button class="show-code">Code</button>
+const <a href="../dartflash/EventStreamProvider.html">EventStreamProvider</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>removedFromStageEvent</strong> <a class="anchor-link"
+            href="#removedFromStageEvent"
+            title="Permalink to DisplayObject.removedFromStageEvent">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+removedFromStageEvent = const EventStreamProvider&lt;Event&gt;(Event.REMOVED_FROM_STAGE)
+</pre>
+</div>
+</div>
+</div>
 <div>
 <h3>Constructors</h3>
 <div class="method"><h4 id="DisplayObject">
@@ -525,7 +596,7 @@ DisplayObject()
 num get alpha =&gt; _alpha;
 </pre>
 <pre class="source">
-void set alpha(num value) { _alpha = value; _transformationMatrixRefresh = true; }
+set alpha(num value) { _alpha = value; _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -557,7 +628,10 @@ void set height(num value)
         </h4>
         <div class="doc">
 <pre class="source">
-mask
+Mask get mask =&gt; _mask;
+</pre>
+<pre class="source">
+set mask(Mask value) { _mask = value; }
 </pre>
 </div>
 </div>
@@ -572,19 +646,67 @@ mask
 String get name =&gt; _name;
 </pre>
 <pre class="source">
-void set name(String value) { _name = value; _transformationMatrixRefresh = true; }
+set name(String value) { _name = value; }
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="on">
+<div class="field"><h4 id="onAdded">
 <button class="show-code">Code</button>
-final <a href="../dartflash/DisplayObjectEvents.html">DisplayObjectEvents</a>         <strong>on</strong> <a class="anchor-link"
-            href="#on"
-            title="Permalink to DisplayObject.on">#</a>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>onAdded</strong> <a class="anchor-link"
+            href="#onAdded"
+            title="Permalink to DisplayObject.onAdded">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-DisplayObjectEvents get on =&gt; new DisplayObjectEvents(this);
+Stream&lt;Event&gt; get onAdded =&gt; DisplayObject.addedEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onAddedToStage">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>onAddedToStage</strong> <a class="anchor-link"
+            href="#onAddedToStage"
+            title="Permalink to DisplayObject.onAddedToStage">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onAddedToStage =&gt; DisplayObject.addedToStageEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onEnterFrame">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/EnterFrameEvent.html">EnterFrameEvent</a>&gt;         <strong>onEnterFrame</strong> <a class="anchor-link"
+            href="#onEnterFrame"
+            title="Permalink to DisplayObject.onEnterFrame">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Stream&lt;EnterFrameEvent&gt; get onEnterFrame =&gt; DisplayObject.enterFrameEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onRemoved">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>onRemoved</strong> <a class="anchor-link"
+            href="#onRemoved"
+            title="Permalink to DisplayObject.onRemoved">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onRemoved =&gt; DisplayObject.removedEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onRemovedFromStage">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>onRemovedFromStage</strong> <a class="anchor-link"
+            href="#onRemovedFromStage"
+            title="Permalink to DisplayObject.onRemovedFromStage">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onRemovedFromStage =&gt; DisplayObject.removedFromStageEvent.forTarget(this);
 </pre>
 </div>
 </div>
@@ -611,7 +733,7 @@ DisplayObjectContainer get parent =&gt; _parent;
 num get pivotX =&gt; _pivotX;
 </pre>
 <pre class="source">
-void set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
+set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -626,7 +748,7 @@ void set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = tru
 num get pivotY =&gt; _pivotY;
 </pre>
 <pre class="source">
-void set pivotY(num value) { _pivotY = value; _transformationMatrixRefresh = true; }
+set pivotY(num value) { _pivotY = value; _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -661,7 +783,7 @@ DisplayObject get root
 num get rotation =&gt; _rotation;
 </pre>
 <pre class="source">
-void set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true; }
+set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -676,7 +798,7 @@ void set rotation(num value) { _rotation = value; _transformationMatrixRefresh =
 num get scaleX =&gt; _scaleX;
 </pre>
 <pre class="source">
-void set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
+set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -691,7 +813,7 @@ void set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = tru
 num get scaleY =&gt; _scaleY;
 </pre>
 <pre class="source">
-void set scaleY(num value) { _scaleY = value; _transformationMatrixRefresh = true; }
+set scaleY(num value) { _scaleY = value; _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -741,7 +863,7 @@ Matrix get transformationMatrix
 bool get visible =&gt; _visible;
 </pre>
 <pre class="source">
-void set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
+set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -776,7 +898,7 @@ void set width(num value)
 num get x =&gt; _x;
 </pre>
 <pre class="source">
-void set x(num value) { _x = value; _transformationMatrixRefresh = true; }
+set x(num value) { _x = value; _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -791,7 +913,7 @@ void set x(num value) { _x = value; _transformationMatrixRefresh = true; }
 num get y =&gt; _y;
 </pre>
 <pre class="source">
-void set y(num value) { _y = value; _transformationMatrixRefresh = true; }
+set y(num value) { _y = value; _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -800,13 +922,15 @@ void set y(num value) { _y = value; _transformationMatrixRefresh = true; }
 <h3>Methods</h3>
 <div class="method inherited"><h4 id="addEventListener">
 <button class="show-code">Code</button>
-void <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, <a href="../dartflash/EventListener.html">EventListener</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#addEventListener"
+<a href="http://api.dartlang.org/dart_async/StreamSubscription.html">StreamSubscription</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt; <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType, void eventListener(event), {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture: false}) <a class="anchor-link" href="#addEventListener"
               title="Permalink to DisplayObject.addEventListener">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
-void addEventListener(String type, EventListener eventListener, [bool useCapture = false])
+StreamSubscription&lt;Event&gt; addEventListener(String eventType, void eventListener(event), {bool useCapture: false})
 {
- _getEventListenerList(type).add(eventListener, useCapture);
+ var eventStream = _getEventStream(eventType, useCapture);
+ var eventStreamSubscription = eventStream.listen(eventListener);
+ return eventStreamSubscription;
 }
 </pre>
 </div>
@@ -922,7 +1046,10 @@ Point globalToLocal(Point globalPoint)
 <pre class="source">
 bool hasEventListener(String type)
 {
- return _eventListenerLists != null &amp;&amp; _eventListenerLists.containsKey(type);
+ if (_eventStreams != null )
+   return _eventStreams.containsKey(type) || _eventStreams.containsKey("${type}_CAPTURE");
+ else
+   return false;
 }
 </pre>
 </div>
@@ -1000,15 +1127,33 @@ Point localToGlobal(Point localPoint)
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="removeEventListener">
+<div class="method inherited"><h4 id="on">
 <button class="show-code">Code</button>
-void <strong>removeEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, <a href="../dartflash/EventListener.html">EventListener</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#removeEventListener"
-              title="Permalink to DisplayObject.removeEventListener">#</a></h4>
+<a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt; <strong>on</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture: false}) <a class="anchor-link" href="#on"
+              title="Permalink to DisplayObject.on">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
-void removeEventListener(String type, EventListener eventListener, [bool useCapture = false])
+Stream&lt;Event&gt; on(String eventType, {bool useCapture: false}) 
 {
- _getEventListenerList(type).remove(eventListener, useCapture);
+ var eventStream = _getEventStream(eventType, useCapture);
+ return eventStream;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeEventListeners">
+<button class="show-code">Code</button>
+void <strong>removeEventListeners</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture: false}) <a class="anchor-link" href="#removeEventListeners"
+              title="Permalink to DisplayObject.removeEventListeners">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+void removeEventListeners(String eventType, {bool useCapture: false})
+{
+ var eventStreamKey = useCapture ? "${eventType}_CAPTURE": eventType;
+ var eventStream = _eventStreams[eventStreamKey];
+ 
+ if (eventStream != null)
+   eventStream._cancelSubscriptions();
 }
 </pre>
 </div>
@@ -1094,9 +1239,8 @@ Matrix transformationMatrixTo(DisplayObject targetSpace)
         </div>
         <div class="clear"></div>
         </div>
-        
         <div class="footer">
-          <div>This page was generated at 2013-01-04 19:33:44.455</div>
+          <div>This page was generated at 2013-02-09 23:16:54.782</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

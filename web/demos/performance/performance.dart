@@ -57,14 +57,14 @@ void main()
     html.query('#plus10').onClick.listen((e) => addFlags(10));
 
     // add event listener for EnterFrame (fps meter)
-    stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+    stage.onEnterFrame.listen(enterFrameListener);
   });
 }
 
 //-----------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------
 
-void onEnterFrame(EnterFrameEvent e)
+void enterFrameListener(EnterFrameEvent e)
 {
   if (fpsAverage == null) {
     fpsAverage = 1.00 / e.passedTime;

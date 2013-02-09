@@ -161,31 +161,30 @@
                 <div class="tab-pane" id="tabEvents">
                     <div class="row">
                         <div class="span8">
-                            <p>Events work exactly like they do in Flash. All the major Event classes are
+                            <p>Events work the same way as they do in Flash. All the major Event classes are
                             available with the same names and properties. The event flow uses the familiar
                             three-phase approach: Capture Phase, Target Phase and Bubbling Phase.</p>
-                            <p>To add or remove event listeners to or from your objects, you can use the
-                            addEventListener or removeEventListener methods like you do in Flash.
-                            Since the Dart language uses a more modern API for events, the dartflash library
-                            also supports this other method of adding and removing event listeners.
-                            Ultimately it is your decision which API you prefer, both methods will result
-                            in the same behaviour.</p>
-                            <br />
-	                		<pre class="prettyprint lang-java">
-// Use one of both methods to add an event listener
-mySprite.addEventListener(MouseEvent.CLICK, mouseClickListener, false);
-mySprite.on.mouseClick.add(mouseClickListener, false);
+<pre class="prettyprint lang-java">
+mySprite.addEventListener(Event.ENTER_FRAME, enterFrameListener);
+mySprite.addEventListener(MouseEvent.CLICK, mouseClickListener, useCapture:true);
+</pre>
+                            <p>The Dart language uses a more modern stream based event API. We recommend to use
+                            this new pattern to utilize new possibilities and to be a good citizen in the Dart
+                            community. The API is a little bit different compared to Flash, but the functionality
+                            is pretty much the same.</p>
+<pre class="prettyprint lang-java">
+var subscription1 = mySprite.onEnterFrame.listen(enterFrameListener);
+var subscription2 = mySprite.onMouseClick.listen(mouseClickListener);
+var subscription3 = mySprite.on("customEvent").listen(customEventListener);
+//...
 
-// Use one of both methods to remove an event listener
-mySprite.removeEventListener(MouseEvent.CLICK, mouseClickListener, false);
-mySprite.on.mouseClick.remove(mouseClickListener, false);
-
-void mouseClickListener(MouseEvent me) {
-  print('x: ${me.localX}, y: ${me.localY}');
-}</pre>
+subscription1.cancel();    // equals removeEventListener(...)
+subscription2.pause();     // pause receiving events
+subscription2.resume();    // resume receiving events
+</pre>
                         </div>
                         <div class="span4">
-                            <ul class="classtree" style="height:440px">
+                            <ul class="classtree" style="height:400px">
                                 <li class="first">EventDispatcher</li>
                                 <li class="first">EventPhase</li>
                                 <li class="first">Event<ul>
@@ -195,6 +194,9 @@ void mouseClickListener(MouseEvent me) {
                                     <li>TextEvent</li>
                                     <li class="last">EnterFrameEvent</li>
                                 </ul></li>
+                                <br/>
+                                <li class="first">Stream&lt;Event&gt;</li>
+                                <li class="first">StreamSubscription&lt;Event&gt;</li>
                             </ul>
                         </div>
                     </div>

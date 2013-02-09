@@ -41,16 +41,14 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
-<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
-<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
-<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
-<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
-<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
@@ -59,7 +57,6 @@
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
-<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
@@ -72,7 +69,6 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
-<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
@@ -110,7 +106,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-</div>
+<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>BitmapData</strong>
           class
@@ -194,8 +190,8 @@ class BitmapData implements BitmapDrawable
    Completer&lt;BitmapData&gt; completer = new Completer&lt;BitmapData&gt;();
 
    var image = new ImageElement();
-   image.on.load.add((event) =&gt; completer.complete(new BitmapData.fromImageElement(image)));
-   image.on.error.add((event) =&gt; completer.completeException("Failed to load image."));
+   image.onLoad.listen((event) =&gt; completer.complete(new BitmapData.fromImageElement(image)));
+   image.onError.listen((event) =&gt; completer.completeError(new StateError("Error loading image.")));
    image.src = url;
 
    return completer.future;
@@ -297,7 +293,9 @@ class BitmapData implements BitmapDrawable
 
  int getPixel(int x, int y)
  {
-   Uint8ClampedArray data = _getContext().getImageData(x, y, 1, 1).data;
+   var context = _getContext();
+   var imageData = context.getImageData(x, y, 1, 1);
+   var data = imageData.data;
 
    if (_isLittleEndianSystem) {
      return (data[0] &lt;&lt; 16) + (data[1] &lt;&lt; 8) + (data[2] &lt;&lt; 0);
@@ -311,7 +309,9 @@ class BitmapData implements BitmapDrawable
 
  int getPixel32(int x, int y)
  {
-   Uint8ClampedArray data = _getContext().getImageData(x, y, 1, 1).data;
+   var context = _getContext();
+   var imageData = context.getImageData(x, y, 1, 1);
+   var data = imageData.data;
 
    if (_isLittleEndianSystem) {
      return (data[0] &lt;&lt; 16) + (data[1] &lt;&lt; 8) + (data[2] &lt;&lt; 0) + (data[3] &lt;&lt; 24);
@@ -504,7 +504,7 @@ class BitmapData implements BitmapDrawable
 <h3>Static Methods</h3>
 <div class="method"><h4 id="loadImage">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/Future.html">Future</a>&lt;<a href="../dartflash/BitmapData.html">BitmapData</a>&gt; <strong>loadImage</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> url) <a class="anchor-link" href="#loadImage"
+<a href="http://api.dartlang.org/dart_async/Future.html">Future</a>&lt;<a href="../dartflash/BitmapData.html">BitmapData</a>&gt; <strong>loadImage</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> url) <a class="anchor-link" href="#loadImage"
               title="Permalink to BitmapData.loadImage">#</a></h4>
 <div class="doc">
 <pre class="source">
@@ -513,8 +513,8 @@ static Future&lt;BitmapData&gt; loadImage(String url)
  Completer&lt;BitmapData&gt; completer = new Completer&lt;BitmapData&gt;();
 
  var image = new ImageElement();
- image.on.load.add((event) =&gt; completer.complete(new BitmapData.fromImageElement(image)));
- image.on.error.add((event) =&gt; completer.completeException("Failed to load image."));
+ image.onLoad.listen((event) =&gt; completer.complete(new BitmapData.fromImageElement(image)));
+ image.onError.listen((event) =&gt; completer.completeError(new StateError("Error loading image.")));
  image.src = url;
 
  return completer.future;
@@ -752,7 +752,9 @@ void fillRect(Rectangle rect, int color)
 <pre class="source">
 int getPixel(int x, int y)
 {
- Uint8ClampedArray data = _getContext().getImageData(x, y, 1, 1).data;
+ var context = _getContext();
+ var imageData = context.getImageData(x, y, 1, 1);
+ var data = imageData.data;
 
  if (_isLittleEndianSystem) {
    return (data[0] &lt;&lt; 16) + (data[1] &lt;&lt; 8) + (data[2] &lt;&lt; 0);
@@ -772,7 +774,9 @@ int getPixel(int x, int y)
 <pre class="source">
 int getPixel32(int x, int y)
 {
- Uint8ClampedArray data = _getContext().getImageData(x, y, 1, 1).data;
+ var context = _getContext();
+ var imageData = context.getImageData(x, y, 1, 1);
+ var data = imageData.data;
 
  if (_isLittleEndianSystem) {
    return (data[0] &lt;&lt; 16) + (data[1] &lt;&lt; 8) + (data[2] &lt;&lt; 0) + (data[3] &lt;&lt; 24);
@@ -948,9 +952,8 @@ void setPixel32(int x, int y, int color)
         </div>
         <div class="clear"></div>
         </div>
-        
         <div class="footer">
-          <div>This page was generated at 2013-01-04 19:33:44.374</div>
+          <div>This page was generated at 2013-02-09 23:16:54.684</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

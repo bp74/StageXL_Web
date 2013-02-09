@@ -783,7 +783,7 @@ var func = (String text) =&gt; print(text.toUpperCase());
 var sprite:Sprite = new Sprite();
 sprite.x = 100;
 sprite.y = 150;
-sprite.addEventListener(MouseEvent.CLICK, onMouseClick);
+sprite.addEventListener(MouseEvent.CLICK, clickListener);
 stage.addChild(sprite);</pre></div>
       <div class="span6"><pre class="prettyprint lang-java">
 // Dart offers so called method cascades, it is
@@ -792,7 +792,7 @@ stage.addChild(sprite);</pre></div>
 var sprite = new Sprite()
 ..x = 100
 ..y = 150
-..addEventListener(MouseEvent.CLICK, onMouseClick)
+..addEventListener(MouseEvent.CLICK, clickListener)
 ..addTo(stage);</pre></div>
     </div>
   </section>
@@ -890,7 +890,7 @@ var sprite:Sprite = new Sprite();
 sprite.addChild(b);
 sprite.scaleX = 0.25;
 sprite.scaleY = 0.50;
-sprite.addEventListener(MouseEvent.CLICK, onMouseClick);
+sprite.addEventListener(MouseEvent.CLICK, clickListener);
 
 // Flash audio playback
 var sound:Sound = new Embedded.CoolSound();
@@ -906,7 +906,7 @@ var sprite = new Sprite();
 sprite.addChild(b);
 sprite.scaleX = 0.25;
 sprite.scaleY = 0.50;
-sprite.addEventListener(MouseEvent.CLICK, onMouseClick);
+sprite.addEventListener(MouseEvent.CLICK, clickListener);
 
 // HTML5 audio playback
 var sound = resource.getSound(&quot;CoolSound&quot;);

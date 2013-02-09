@@ -41,16 +41,14 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
-<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
-<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
-<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
-<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
-<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
@@ -59,7 +57,6 @@
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
-<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><div class="icon-class"></div><strong>Juggler</strong></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
@@ -72,7 +69,6 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
-<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
@@ -110,7 +106,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-</div>
+<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>Juggler</strong>
           class
@@ -121,11 +117,12 @@
 <pre class="source">
 class Juggler implements Animatable
 {
+ num _elapsedTime;
+ 
  List&lt;Animatable&gt; _animatables;
  int _animatablesCount;
- num _elapsedTime;
 
- Juggler()
+ Juggler() 
  {
    _elapsedTime = 0.0;
 
@@ -145,7 +142,7 @@ class Juggler implements Animatable
    if (animatable == null)
      return;
 
-   if (_animatablesCount &gt;= _animatables.length)
+   if (_animatablesCount == _animatables.length)
      _animatables.add(animatable);
    else
      _animatables[_animatablesCount] = animatable;
@@ -160,9 +157,12 @@ class Juggler implements Animatable
    if (animatable == null)
      return;
 
-   for(int i = 0; i &lt; _animatablesCount; i++)
-     if (_animatables[i] == animatable)
+   for(int i = 0; i &lt; _animatablesCount; i++) {
+     if (_animatables[i] == animatable) {
        _animatables[i] = null;
+       break;
+     }
+   }
  }
 
  //-------------------------------------------------------------------------------------------------
@@ -228,16 +228,14 @@ class Juggler implements Animatable
    // 2) remove completed animatables or null values from the list.
 
    int animatablesCount = _animatablesCount;
-   int c = 0;
+   int tail = 0;
 
-   for(int i = 0; i &lt; animatablesCount; i++)
-   {
-     Animatable animatable = _animatables[i];
+   for(int head = 0; head &lt; animatablesCount; head++) {
+     Animatable animatable = _animatables[head];
 
-     if (animatable != null &amp;&amp; animatable.advanceTime(time))
-     {
-       if (c != i) _animatables[c] = animatable;
-       c++;
+     if (animatable != null &amp;&amp; animatable.advanceTime(time)) {
+       if (tail != head) _animatables[tail] = animatable;
+       tail++;
      }
    }
 
@@ -245,12 +243,12 @@ class Juggler implements Animatable
    // 3) move newly added animatables to the left and clear rest
 
    for(int i = animatablesCount; i &lt; _animatablesCount; i++)
-     _animatables[c++] = _animatables[i];
+     _animatables[tail++] = _animatables[i];
 
-   for(int i = c; i &lt; _animatablesCount; i++)
+   for(int i = tail; i &lt; _animatablesCount; i++)
      _animatables[i] = null;
 
-   _animatablesCount = c;
+   _animatablesCount = tail;
 
    return true;
  }
@@ -269,7 +267,7 @@ new <strong>Juggler</strong>() <a class="anchor-link" href="#Juggler"
               title="Permalink to Juggler.Juggler">#</a></h4>
 <div class="doc">
 <pre class="source">
-Juggler()
+Juggler() 
 {
  _elapsedTime = 0.0;
 
@@ -308,7 +306,7 @@ void add(Animatable animatable)
  if (animatable == null)
    return;
 
- if (_animatablesCount &gt;= _animatables.length)
+ if (_animatablesCount == _animatables.length)
    _animatables.add(animatable);
  else
    _animatables[_animatablesCount] = animatable;
@@ -337,16 +335,14 @@ bool advanceTime(num time)
  // 2) remove completed animatables or null values from the list.
 
  int animatablesCount = _animatablesCount;
- int c = 0;
+ int tail = 0;
 
- for(int i = 0; i &lt; animatablesCount; i++)
- {
-   Animatable animatable = _animatables[i];
+ for(int head = 0; head &lt; animatablesCount; head++) {
+   Animatable animatable = _animatables[head];
 
-   if (animatable != null &amp;&amp; animatable.advanceTime(time))
-   {
-     if (c != i) _animatables[c] = animatable;
-     c++;
+   if (animatable != null &amp;&amp; animatable.advanceTime(time)) {
+     if (tail != head) _animatables[tail] = animatable;
+     tail++;
    }
  }
 
@@ -354,12 +350,12 @@ bool advanceTime(num time)
  // 3) move newly added animatables to the left and clear rest
 
  for(int i = animatablesCount; i &lt; _animatablesCount; i++)
-   _animatables[c++] = _animatables[i];
+   _animatables[tail++] = _animatables[i];
 
- for(int i = c; i &lt; _animatablesCount; i++)
+ for(int i = tail; i &lt; _animatablesCount; i++)
    _animatables[i] = null;
 
- _animatablesCount = c;
+ _animatablesCount = tail;
 
  return true;
 }
@@ -409,9 +405,12 @@ void remove(Animatable animatable)
  if (animatable == null)
    return;
 
- for(int i = 0; i &lt; _animatablesCount; i++)
-   if (_animatables[i] == animatable)
+ for(int i = 0; i &lt; _animatablesCount; i++) {
+   if (_animatables[i] == animatable) {
      _animatables[i] = null;
+     break;
+   }
+ }
 }
 </pre>
 </div>
@@ -460,9 +459,8 @@ Transition startTransition(num startValue, num targetValue, num time, num transi
         </div>
         <div class="clear"></div>
         </div>
-        
         <div class="footer">
-          <div>This page was generated at 2013-01-04 19:33:44.645</div>
+          <div>This page was generated at 2013-02-09 23:16:54.941</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

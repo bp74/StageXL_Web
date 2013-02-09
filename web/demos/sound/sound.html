@@ -297,10 +297,10 @@ class PianoKey extends Sprite
     // add event handlers
 
     this.useHandCursor = true;
-    this.on.mouseDown.add(keyDown);
-    this.on.mouseOver.add(keyDown);
-    this.on.mouseUp.add(keyUp);
-    this.on.mouseOut.add(keyUp);
+    this.onMouseDown.listen(keyDown);
+    this.onMouseOver.listen(keyDown);
+    this.onMouseUp.listen(keyUp);
+    this.onMouseOut.listen(keyUp);
   }
 
   void keyDown(MouseEvent me)

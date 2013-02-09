@@ -41,16 +41,14 @@
 <li><a href="../dartflash/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
 <li><a href="../dartflash/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
 <li><a href="../dartflash/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
-<li><a href="../dartflash/DisplayObjectContainerEvents.html"><div class="icon-class"></div>DisplayObjectContainerEvents</a></li>
-<li><a href="../dartflash/DisplayObjectEvents.html"><div class="icon-class"></div>DisplayObjectEvents</a></li>
 <li><a href="../dartflash/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
 <li><a href="../dartflash/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
 <li><a href="../dartflash/Event.html"><div class="icon-class"></div>Event</a></li>
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
-<li><a href="../dartflash/EventListener.html"><div class="icon-interface"></div>EventListener</a></li>
-<li><a href="../dartflash/EventListenerList.html"><div class="icon-class"></div>EventListenerList</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
-<li><a href="../dartflash/Events.html"><div class="icon-class"></div>Events</a></li>
+<li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
 <li><a href="../dartflash/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
 <li><a href="../dartflash/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
@@ -59,7 +57,6 @@
 <li><a href="../dartflash/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
 <li><a href="../dartflash/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
 <li><a href="../dartflash/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
-<li><a href="../dartflash/InteractiveObjectEvents.html"><div class="icon-class"></div>InteractiveObjectEvents</a></li>
 <li><a href="../dartflash/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
 <li><a href="../dartflash/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
 <li><a href="../dartflash/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
@@ -72,7 +69,6 @@
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
 <li><a href="../dartflash/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
-<li><a href="../dartflash/MovieClipEvents.html"><div class="icon-class"></div>MovieClipEvents</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
@@ -110,7 +106,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-</div>
+<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>Stage</strong>
           class
@@ -173,12 +169,11 @@ class Stage extends DisplayObjectContainer
 
    _onMouseEventHandler = _onMouseEvent;
 
-   _canvas.on
-     ..mouseDown.add(_onMouseEventHandler)
-     ..mouseUp.add(_onMouseEventHandler)
-     ..mouseMove.add(_onMouseEventHandler)
-     ..mouseOut.add(_onMouseEventHandler)
-     ..mouseWheel.add(_onMouseEventHandler);
+   _canvas.onMouseDown.listen(_onMouseEventHandler);
+   _canvas.onMouseUp.listen(_onMouseEventHandler);
+   _canvas.onMouseMove.listen(_onMouseEventHandler);
+   _canvas.onMouseOut.listen(_onMouseEventHandler);
+   _canvas.onMouseWheel.listen(_onMouseEventHandler);
 
    //---------------------------
    // prepare touch events
@@ -196,9 +191,9 @@ class Stage extends DisplayObjectContainer
 
    _keyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true);
 
-   _canvas.on.keyDown.add(_onKeyEvent);
-   _canvas.on.keyUp.add(_onKeyEvent);
-   _canvas.on.keyPress.add(_onTextEvent);
+   _canvas.onKeyDown.listen(_onKeyEvent);
+   _canvas.onKeyUp.listen(_onKeyEvent);
+   _canvas.onKeyPress.listen(_onTextEvent);
  }
 
  //-------------------------------------------------------------------------------------------------
@@ -260,7 +255,7 @@ class Stage extends DisplayObjectContainer
    event.preventDefault();
 
    var clientRect = _canvas.getBoundingClientRect();
-   var time = new Date.now().millisecondsSinceEpoch;
+   var time = new DateTime.now().millisecondsSinceEpoch;
    var button = event.button;
 
    InteractiveObject target = null;
@@ -405,24 +400,21 @@ class Stage extends DisplayObjectContainer
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
+ List&lt;StreamSubscription&lt;TouchEvent&gt;&gt; _touchEventSubscriptions = [];
+ 
  void _onMultitouchInputModeChanged(Event event)
  {
-   _canvas.on
-     ..touchStart.remove(_onTouchEventHandler)
-     ..touchEnd.remove(_onTouchEventHandler)
-     ..touchMove.remove(_onTouchEventHandler)
-     ..touchEnter.remove(_onTouchEventHandler)
-     ..touchLeave.remove(_onTouchEventHandler)
-     ..touchCancel.remove(_onTouchEventHandler);
-
+   _touchEventSubscriptions.forEach((s) =&gt; s.cancel());
+       
    if (Multitouch.inputMode == MultitouchInputMode.TOUCH_POINT) {
-     _canvas.on
-       ..touchStart.add(_onTouchEventHandler)
-       ..touchEnd.add(_onTouchEventHandler)
-       ..touchMove.add(_onTouchEventHandler)
-       ..touchEnter.add(_onTouchEventHandler)
-       ..touchLeave.add(_onTouchEventHandler)
-       ..touchCancel.add(_onTouchEventHandler);
+     _touchEventSubscriptions = [
+       _canvas.onTouchStart.listen(_onTouchEventHandler),
+       _canvas.onTouchEnd.listen(_onTouchEventHandler),
+       _canvas.onTouchMove.listen(_onTouchEventHandler),
+       _canvas.onTouchEnter.listen(_onTouchEventHandler),
+       _canvas.onTouchLeave.listen(_onTouchEventHandler),
+       _canvas.onTouchCancel.listen(_onTouchEventHandler)
+     ];
    }
  }
 
@@ -594,12 +586,11 @@ Stage(String name, CanvasElement canvas)
 
  _onMouseEventHandler = _onMouseEvent;
 
- _canvas.on
-   ..mouseDown.add(_onMouseEventHandler)
-   ..mouseUp.add(_onMouseEventHandler)
-   ..mouseMove.add(_onMouseEventHandler)
-   ..mouseOut.add(_onMouseEventHandler)
-   ..mouseWheel.add(_onMouseEventHandler);
+ _canvas.onMouseDown.listen(_onMouseEventHandler);
+ _canvas.onMouseUp.listen(_onMouseEventHandler);
+ _canvas.onMouseMove.listen(_onMouseEventHandler);
+ _canvas.onMouseOut.listen(_onMouseEventHandler);
+ _canvas.onMouseWheel.listen(_onMouseEventHandler);
 
  //---------------------------
  // prepare touch events
@@ -617,9 +608,9 @@ Stage(String name, CanvasElement canvas)
 
  _keyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true);
 
- _canvas.on.keyDown.add(_onKeyEvent);
- _canvas.on.keyUp.add(_onKeyEvent);
- _canvas.on.keyPress.add(_onTextEvent);
+ _canvas.onKeyDown.listen(_onKeyEvent);
+ _canvas.onKeyUp.listen(_onKeyEvent);
+ _canvas.onKeyPress.listen(_onTextEvent);
 }
 </pre>
 </div>
@@ -702,7 +693,10 @@ void set height(num value) { _throwStageException(); }
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-mask
+Mask get mask =&gt; _mask;
+</pre>
+<pre class="source">
+set mask(Mask value) { _mask = value; }
 </pre>
 </div>
 </div>
@@ -744,7 +738,7 @@ mouseEnabled = true
 String get name =&gt; _name;
 </pre>
 <pre class="source">
-void set name(String value) { _name = value; _transformationMatrixRefresh = true; }
+set name(String value) { _name = value; }
 </pre>
 </div>
 </div>
@@ -760,15 +754,339 @@ int get numChildren =&gt; _children.length;
 </pre>
 </div>
 </div>
-<div class="field inherited"><h4 id="on">
+<div class="field inherited"><h4 id="onAdded">
 <button class="show-code">Code</button>
-final <a href="../dartflash/DisplayObjectContainerEvents.html">DisplayObjectContainerEvents</a>         <strong>on</strong> <a class="anchor-link"
-            href="#on"
-            title="Permalink to Stage.on">#</a>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>onAdded</strong> <a class="anchor-link"
+            href="#onAdded"
+            title="Permalink to Stage.onAdded">#</a>
         </h4>
-        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-DisplayObjectContainerEvents get on =&gt; new DisplayObjectContainerEvents(this);
+Stream&lt;Event&gt; get onAdded =&gt; DisplayObject.addedEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onAddedToStage">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>onAddedToStage</strong> <a class="anchor-link"
+            href="#onAddedToStage"
+            title="Permalink to Stage.onAddedToStage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onAddedToStage =&gt; DisplayObject.addedToStageEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onEnterFrame">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/EnterFrameEvent.html">EnterFrameEvent</a>&gt;         <strong>onEnterFrame</strong> <a class="anchor-link"
+            href="#onEnterFrame"
+            title="Permalink to Stage.onEnterFrame">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;EnterFrameEvent&gt; get onEnterFrame =&gt; DisplayObject.enterFrameEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onKeyDown">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/KeyboardEvent.html">KeyboardEvent</a>&gt;         <strong>onKeyDown</strong> <a class="anchor-link"
+            href="#onKeyDown"
+            title="Permalink to Stage.onKeyDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;KeyboardEvent&gt; get onKeyDown =&gt; InteractiveObject.keyDownEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onKeyUp">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/KeyboardEvent.html">KeyboardEvent</a>&gt;         <strong>onKeyUp</strong> <a class="anchor-link"
+            href="#onKeyUp"
+            title="Permalink to Stage.onKeyUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;KeyboardEvent&gt; get onKeyUp =&gt; InteractiveObject.keyUpEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseClick">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseClick</strong> <a class="anchor-link"
+            href="#onMouseClick"
+            title="Permalink to Stage.onMouseClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseClick =&gt; InteractiveObject.mouseClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseDoubleClick">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseDoubleClick</strong> <a class="anchor-link"
+            href="#onMouseDoubleClick"
+            title="Permalink to Stage.onMouseDoubleClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseDoubleClick =&gt; InteractiveObject.mouseDoubleClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseDown">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseDown</strong> <a class="anchor-link"
+            href="#onMouseDown"
+            title="Permalink to Stage.onMouseDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseDown =&gt; InteractiveObject.mouseDownEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMiddleClick">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseMiddleClick</strong> <a class="anchor-link"
+            href="#onMouseMiddleClick"
+            title="Permalink to Stage.onMouseMiddleClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseMiddleClick =&gt; InteractiveObject.mouseMiddleClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMiddleDown">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseMiddleDown</strong> <a class="anchor-link"
+            href="#onMouseMiddleDown"
+            title="Permalink to Stage.onMouseMiddleDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseMiddleDown =&gt; InteractiveObject.mouseMiddleDownEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMiddleUp">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseMiddleUp</strong> <a class="anchor-link"
+            href="#onMouseMiddleUp"
+            title="Permalink to Stage.onMouseMiddleUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseMiddleUp =&gt; InteractiveObject.mouseMiddleUpEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMove">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseMove</strong> <a class="anchor-link"
+            href="#onMouseMove"
+            title="Permalink to Stage.onMouseMove">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseMove =&gt; InteractiveObject.mouseMoveEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseOut">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseOut</strong> <a class="anchor-link"
+            href="#onMouseOut"
+            title="Permalink to Stage.onMouseOut">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseOut =&gt; InteractiveObject.mouseOutEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseOver">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseOver</strong> <a class="anchor-link"
+            href="#onMouseOver"
+            title="Permalink to Stage.onMouseOver">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseOver =&gt; InteractiveObject.mouseOverEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseRightClick">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseRightClick</strong> <a class="anchor-link"
+            href="#onMouseRightClick"
+            title="Permalink to Stage.onMouseRightClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseRightClick =&gt; InteractiveObject.mouseRightClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseRightDown">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseRightDown</strong> <a class="anchor-link"
+            href="#onMouseRightDown"
+            title="Permalink to Stage.onMouseRightDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseRightDown =&gt; InteractiveObject.mouseRightDownEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseRightUp">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseRightUp</strong> <a class="anchor-link"
+            href="#onMouseRightUp"
+            title="Permalink to Stage.onMouseRightUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseRightUp =&gt; InteractiveObject.mouseRightUpEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseUp">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseUp</strong> <a class="anchor-link"
+            href="#onMouseUp"
+            title="Permalink to Stage.onMouseUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseUp =&gt; InteractiveObject.mouseUpEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseWheel">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseWheel</strong> <a class="anchor-link"
+            href="#onMouseWheel"
+            title="Permalink to Stage.onMouseWheel">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseWheel =&gt; InteractiveObject.mouseWheelEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onRemoved">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>onRemoved</strong> <a class="anchor-link"
+            href="#onRemoved"
+            title="Permalink to Stage.onRemoved">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onRemoved =&gt; DisplayObject.removedEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onRemovedFromStage">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>onRemovedFromStage</strong> <a class="anchor-link"
+            href="#onRemovedFromStage"
+            title="Permalink to Stage.onRemovedFromStage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onRemovedFromStage =&gt; DisplayObject.removedFromStageEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTextInput">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/TextEvent.html">TextEvent</a>&gt;         <strong>onTextInput</strong> <a class="anchor-link"
+            href="#onTextInput"
+            title="Permalink to Stage.onTextInput">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TextEvent&gt; get onTextInput =&gt; InteractiveObject.textInputEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchBegin">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchBegin</strong> <a class="anchor-link"
+            href="#onTouchBegin"
+            title="Permalink to Stage.onTouchBegin">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchBegin =&gt; InteractiveObject.touchBeginEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchCancel">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchCancel</strong> <a class="anchor-link"
+            href="#onTouchCancel"
+            title="Permalink to Stage.onTouchCancel">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchCancel =&gt; InteractiveObject.touchCancelEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchEnd">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchEnd</strong> <a class="anchor-link"
+            href="#onTouchEnd"
+            title="Permalink to Stage.onTouchEnd">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchEnd =&gt; InteractiveObject.touchEndEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchMove">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchMove</strong> <a class="anchor-link"
+            href="#onTouchMove"
+            title="Permalink to Stage.onTouchMove">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchMove =&gt; InteractiveObject.touchMoveEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchOut">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchOut</strong> <a class="anchor-link"
+            href="#onTouchOut"
+            title="Permalink to Stage.onTouchOut">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchOut =&gt; InteractiveObject.touchOutEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchOver">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchOver</strong> <a class="anchor-link"
+            href="#onTouchOver"
+            title="Permalink to Stage.onTouchOver">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchOver =&gt; InteractiveObject.touchOverEvent.forTarget(this);
 </pre>
 </div>
 </div>
@@ -1004,7 +1322,7 @@ Matrix get transformationMatrix
 bool get visible =&gt; _visible;
 </pre>
 <pre class="source">
-void set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
+set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -1134,13 +1452,15 @@ void addChildAt(DisplayObject child, int index)
 </div>
 <div class="method inherited"><h4 id="addEventListener">
 <button class="show-code">Code</button>
-void <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, <a href="../dartflash/EventListener.html">EventListener</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#addEventListener"
+<a href="http://api.dartlang.org/dart_async/StreamSubscription.html">StreamSubscription</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt; <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType, void eventListener(event), {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture: false}) <a class="anchor-link" href="#addEventListener"
               title="Permalink to Stage.addEventListener">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
-void addEventListener(String type, EventListener eventListener, [bool useCapture = false])
+StreamSubscription&lt;Event&gt; addEventListener(String eventType, void eventListener(event), {bool useCapture: false})
 {
- _getEventListenerList(type).add(eventListener, useCapture);
+ var eventStream = _getEventStream(eventType, useCapture);
+ var eventStreamSubscription = eventStream.listen(eventListener);
+ return eventStreamSubscription;
 }
 </pre>
 </div>
@@ -1245,11 +1565,12 @@ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
 
  int childrenLength = _children.length;
 
- for (int i = 0; i &lt; childrenLength; i++)
+ for (int i = 0; i &lt; _children.length; i++)
  {
-   _tmpMatrix.copyFromAndConcat(_children[i]._transformationMatrix, matrix);
+   DisplayObject child = _children[i];
 
-   Rectangle rectangle = _children[i].getBoundsTransformed(_tmpMatrix, returnRectangle);
+   _tmpMatrix.copyFromAndConcat(child._transformationMatrix, matrix);
+   Rectangle rectangle = child.getBoundsTransformed(_tmpMatrix, returnRectangle);
 
    if (rectangle.left &lt; left) left = rectangle.left;
    if (rectangle.top &lt; top ) top = rectangle.top;
@@ -1343,7 +1664,10 @@ Point globalToLocal(Point globalPoint)
 <pre class="source">
 bool hasEventListener(String type)
 {
- return _eventListenerLists != null &amp;&amp; _eventListenerLists.containsKey(type);
+ if (_eventStreams != null )
+   return _eventStreams.containsKey(type) || _eventStreams.containsKey("${type}_CAPTURE");
+ else
+   return false;
 }
 </pre>
 </div>
@@ -1466,6 +1790,20 @@ void materialize()
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="on">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt; <strong>on</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture: false}) <a class="anchor-link" href="#on"
+              title="Permalink to Stage.on">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; on(String eventType, {bool useCapture: false}) 
+{
+ var eventStream = _getEventStream(eventType, useCapture);
+ return eventStream;
+}
+</pre>
+</div>
+</div>
 <div class="method inherited"><h4 id="removeChild">
 <button class="show-code">Code</button>
 void <strong>removeChild</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> child) <a class="anchor-link" href="#removeChild"
@@ -1508,15 +1846,19 @@ void removeChildAt(int index)
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="removeEventListener">
+<div class="method inherited"><h4 id="removeEventListeners">
 <button class="show-code">Code</button>
-void <strong>removeEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, <a href="../dartflash/EventListener.html">EventListener</a> eventListener, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture = false]) <a class="anchor-link" href="#removeEventListener"
-              title="Permalink to Stage.removeEventListener">#</a></h4>
+void <strong>removeEventListeners</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture: false}) <a class="anchor-link" href="#removeEventListeners"
+              title="Permalink to Stage.removeEventListeners">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
-void removeEventListener(String type, EventListener eventListener, [bool useCapture = false])
+void removeEventListeners(String eventType, {bool useCapture: false})
 {
- _getEventListenerList(type).remove(eventListener, useCapture);
+ var eventStreamKey = useCapture ? "${eventType}_CAPTURE": eventType;
+ var eventStream = _eventStreams[eventStreamKey];
+ 
+ if (eventStream != null)
+   eventStream._cancelSubscriptions();
 }
 </pre>
 </div>
@@ -1705,9 +2047,8 @@ Matrix transformationMatrixTo(DisplayObject targetSpace)
         </div>
         <div class="clear"></div>
         </div>
-        
         <div class="footer">
-          <div>This page was generated at 2013-01-04 19:33:44.419</div>
+          <div>This page was generated at 2013-02-09 23:16:54.731</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

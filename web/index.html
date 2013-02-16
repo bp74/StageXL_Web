@@ -217,7 +217,7 @@ subscription2.resume();    // resume receiving events
                             page and use the font in TextFormat like you do with any other font.</p>
                             <br/>
                             <pre class="prettyprint lang-java">
-TextField textField = new TextField();
+var textField = new TextField();
 textField.defaultTextFormat = new TextFormat(&apos;Spicy Rice&apos;, 30, Color.Black);
 textField.text = &apos;The quick brown fox jumps over the lazy dog.&apos;
 textField.x = 20;
@@ -260,14 +260,14 @@ addChild(textField);</pre>
                             this way your application will work in all major browsers.</p>
                             <br/>
                         <pre class="prettyprint lang-java">
-// The resource class substitutes embedded resources of Flash.
-Resource resource = new Resource();
-resource.addSound("plop", "sounds/plop.mp3");   // loads ogg-file in Firefox!
+// The ResourceManager substitutes embedded resources of Flash.
+var resourceManager = new ResourceManager();
+resourceManager.addSound("plop", "sounds/plop.mp3");   // loads ogg-file in Firefox!
 ...
 
-Sound sound = resource.getSound("plop");
-SoundTransform soundTransform = new SoundTransform(0.5);
-SoundChannel soundChannel = sound.play(false, soundTransform);</pre>
+var sound = resourceManager.getSound("plop");
+var soundTransform = new SoundTransform(0.5);
+var soundChannel = sound.play(false, soundTransform);</pre>
                         </div>
 						<div class="span4">
                             <ul class="classtree" style="height:380px">
@@ -300,11 +300,11 @@ SoundChannel soundChannel = sound.play(false, soundTransform);</pre>
                             However, applying the effects to BitmapDatas should be sufficient for most use cases.</p>
                             <br/>
                             <pre class="prettyprint lang-java">
-BitmapData sourceBitmapData = new BitmapData(80, 80, true, Color.Red);
-Rectangle sourceRectangle = new Rectangle(0, 0, 80, 80);
+var sourceBitmapData = new BitmapData(80, 80, true, Color.Red);
+var sourceRectangle = new Rectangle(0, 0, 80, 80);
 
-BitmapData destinationBitmapData = new BitmapData(100, 100, true, Color.Transparent);
-Point destinationPoint = new Point(0, 0);
+var destinationBitmapData = new BitmapData(100, 100, true, Color.Transparent);
+var destinationPoint = new Point(0, 0);
 
 destinationBitmapData.applyFilter(
     sourceBitmapData, sourceRectangle, destinationPoint,
@@ -339,7 +339,7 @@ destinationBitmapData.applyFilter(
                             the Wiki article about the Juggler animation framework.</p>
                             <br/>
                             <pre class="prettyprint lang-java">
-Tween tween = new Tween(sprite, 2.0, TransitionFunction.easeOutBounce);
+var tween = new Tween(sprite, 2.0, TransitionFunction.easeOutBounce);
 tween.animate(&apos;x&apos;, 700);
 tween.animate(&apos;y&apos;, 500);
 tween.delay = 1.0;
@@ -366,9 +366,9 @@ renderLoop.juggler.add(tween);</pre>
 					<div class="row">
 	                	<div class="span8">
 	                		<p>In Flash developers often embed resources in their SWF files.
-                            This is not possible on the web, but the Resource class provides an easy way
+                            This is not possible on the web, but the ResourceManager provides an easy way
                             to load images, sounds and other resources from the server. You only have to add
-                            the URLs and the Resource class will download all files. Once the files are
+                            the URLs and the ResourceManager will download all files. Once the files are
                             loaded you will be notified by a Future.</p>
                             <p>If your application uses a large number of small images, it is best practice to
                             merge those small images into one big image. This big image is called texture atlas
@@ -378,16 +378,16 @@ renderLoop.juggler.add(tween);</pre>
                             which is the most popular tool on the web.</p>
                             <br/>
                             <pre class="prettyprint lang-java">
-Resource resource = new Resource();
-resource.addImage(&apos;dog&apos;, &apos;images/dog.png&apos;);
-resource.addSound(&apos;plop&apos;, &apos;sounds/plop.mp3&apos;);
-resource.addTextureAtlas(&apos;fl&apos;, &apos;images/flowers.json&apos;, TextureAtlasFormat.JSONARRAY);
+var resourceManager = new ResourceManager()
+  ..addBitmapData(&apos;dog&apos;, &apos;images/dog.png&apos;)
+  ..addSound(&apos;plop&apos;, &apos;sounds/plop.mp3&apos;)
+  ..addTextureAtlas(&apos;fl&apos;, &apos;images/flowers.json&apos;, TextureAtlasFormat.JSONARRAY);
 
-resource.load().then((result) {
-  BitmapData dog = resource.getBitmapData(&apos;dog&apos;);
-  Sound plop = resource.getSound(&apos;plop&apos;);
-  TextureAtlas flowers = resource.getTextureAtlas(&apos;fl&apos;);
-  BitmapData daisy = flowers.getBitmapData('daisy');
+resourceManager.load().then((result) {
+  var dog = resourceManager.getBitmapData(&apos;dog&apos;);
+  var plop = resourceManager.getSound(&apos;plop&apos;);
+  var flowers = resourceManager.getTextureAtlas(&apos;fl&apos;);
+  var daisy = flowers.getBitmapData('daisy');
 });</pre>
 	                	</div>
 						<div class="span4">

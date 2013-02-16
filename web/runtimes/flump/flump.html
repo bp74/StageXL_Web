@@ -103,8 +103,8 @@
 import &apos;dart:html&apos; as html;
 import &apos;package:dartflash/dartflash.dart&apos;;
 
-void main()
-{
+void main() {
+
   // Initialize the Display List
 
   Stage stage = new Stage(&apos;myStage&apos;, html.document.query(&apos;#stage&apos;));
@@ -116,7 +116,7 @@ void main()
 
   FlumpLibrary.load("images/library.json").then((flumpLibrary) {
 
-    BitmapData.loadImage("images/atlas0.png").then((bitmapData) {
+    BitmapData.load("images/atlas0.png").then((bitmapData) {
       Bitmap bitmap = new Bitmap(bitmapData);
       bitmap.x = 40;
       bitmap.y = 40;

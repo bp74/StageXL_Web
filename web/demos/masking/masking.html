@@ -131,19 +131,19 @@ import &apos;dart:html&apos; as html;
 import &apos;package:dartflash/dartflash.dart&apos;;
 
 Stage stage;
-Resource resource;
+ResourceManager resourceManager;
 RenderLoop renderLoop;
 Random random = new Random();
 
-class FlowerField extends DisplayObjectContainer
-{
-  FlowerField()
-  {
-    for(int i = 0; i &lt; 150; i++)
-    {
+class FlowerField extends DisplayObjectContainer {
+
+  FlowerField() {
+  
+    for(int i = 0; i &lt; 150; i++) {
+    
       int f = 1 + random.nextInt(3);
 
-      BitmapData bitmapData = resource.getBitmapData(&apos;flower$f&apos;);
+      BitmapData bitmapData = resourceManager.getBitmapData(&apos;flower$f&apos;);
       Bitmap bitmap = new Bitmap(bitmapData);
       bitmap.pivotX = 64;
       bitmap.pivotY = 64;
@@ -161,8 +161,8 @@ class FlowerField extends DisplayObjectContainer
 //-----------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------
 
-void main()
-{
+void main() {
+
   // initialize the Display List
 
   stage = new Stage(&apos;myStage&apos;, html.document.query(&apos;#stage&apos;));
@@ -186,13 +186,13 @@ void main()
 
   // use the Resource class to load some Bitmaps
 
-  resource = new Resource();
-  resource.addImage(&apos;flower1&apos;, &apos;../common/images/Flower1.png&apos;);
-  resource.addImage(&apos;flower2&apos;, &apos;../common/images/Flower2.png&apos;);
-  resource.addImage(&apos;flower3&apos;, &apos;../common/images/Flower3.png&apos;);
+  resourceManager = new ResourceManager()
+    ..addBitmapData(&apos;flower1&apos;, &apos;../common/images/Flower1.png&apos;)
+    ..addBitmapData(&apos;flower2&apos;, &apos;../common/images/Flower2.png&apos;)
+    ..addBitmapData(&apos;flower3&apos;, &apos;../common/images/Flower3.png&apos;);
 
-  resource.load().then((result)
-  {
+  resourceManager.load().then((result) {
+  
     // draw a nice looking field of flowers
 
     FlowerField flowerField = new FlowerField();

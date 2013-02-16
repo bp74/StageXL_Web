@@ -2,8 +2,8 @@ import 'dart:math';
 import 'dart:html' as html;
 import 'package:dartflash/dartflash.dart';
 
-void main()
-{
+void main() {
+  
   // Initialize the Display List
 
   Stage stage = new Stage('myStage', html.document.query('#stage'));

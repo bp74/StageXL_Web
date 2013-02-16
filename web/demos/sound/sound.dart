@@ -4,7 +4,7 @@ import 'package:dartflash/dartflash.dart';
 
 Stage stage;
 RenderLoop renderLoop;
-Resource resource;
+ResourceManager resourceManager;
 
 var heyJudeNotes = [
   'C4', 'A3', 'A3', 'C4', 'D4', 'G3',
@@ -24,19 +24,19 @@ List pianoNotes = [
 
 //-----------------------------------------------------------------------------------
 
-class Piano extends DisplayObjectContainer
-{
+class Piano extends DisplayObjectContainer {
+  
   List songNotes;
   List songLyrics;
   int noteIndex;
   Bitmap noteFinger;
 
-  Piano(this.songNotes, this.songLyrics)
-  {
+  Piano(this.songNotes, this.songLyrics) {
+    
     // add all piano keys
 
     for(int n = 0, x = 0; n < pianoNotes.length; n++) {
-      var pianoKey = new PianoKey(this, pianoNotes[n], resource.getSound('Note${n+1}'));
+      var pianoKey = new PianoKey(this, pianoNotes[n], resourceManager.getSound('Note${n+1}'));
       pianoKey.x = x;
       pianoKey.y = 35;
 
@@ -52,26 +52,26 @@ class Piano extends DisplayObjectContainer
     // prepare karaoke
 
     this.noteIndex = 0;
-    this.noteFinger = new Bitmap(resource.getBitmapData('Finger'));
+    this.noteFinger = new Bitmap(resourceManager.getBitmapData('Finger'));
     this.noteFinger.pivotX = 20;
     addChild(this.noteFinger);
     this.update();
   }
 
-  void checkSongNote(String note)
-  {
+  void checkSongNote(String note) {
+    
     // is it the next note of the song?
 
     if (this.noteIndex < songNotes.length && songNotes[this.noteIndex] == note) {
       if (this.noteIndex == songNotes.length - 1)
-        resource.getSound('Cheer').play();
+        resourceManager.getSound('Cheer').play();
       this.noteIndex++;
       this.update();
     }
   }
 
-  void update()
-  {
+  void update() {
+    
     // update karaoke lyrics
 
     var lyricsDiv = html.query('#lyrics');
@@ -116,8 +116,7 @@ class Piano extends DisplayObjectContainer
     }
   }
 
-  void reset()
-  {
+  void reset() {
     this.noteIndex = 0;
     this.noteFinger.alpha = 1;
     this.update();
@@ -126,14 +125,14 @@ class Piano extends DisplayObjectContainer
 
 //-----------------------------------------------------------------------------------
 
-class PianoKey extends Sprite
-{
+class PianoKey extends Sprite {
+  
   Piano piano;
   String note;
   Sound sound;
 
-  PianoKey(this.piano, this.note, this.sound)
-  {
+  PianoKey(this.piano, this.note, this.sound) {
+    
     var key = null;
 
     if (note.endsWith('#')) {
@@ -150,7 +149,7 @@ class PianoKey extends Sprite
 
     // draw the key
 
-    var bitmapData = resource.getBitmapData(key);
+    var bitmapData = resourceManager.getBitmapData(key);
     var bitmap = new Bitmap(bitmapData);
     this.addChild(bitmap);
 
@@ -177,8 +176,8 @@ class PianoKey extends Sprite
     this.onMouseOut.listen(keyUp);
   }
 
-  void keyDown(MouseEvent me)
-  {
+  void keyDown(MouseEvent me) {
+    
     if (me.buttonDown) {
       this.sound.play();
       this.alpha = 0.7;
@@ -186,8 +185,7 @@ class PianoKey extends Sprite
     }
   }
 
-  void keyUp(MouseEvent me)
-  {
+  void keyUp(MouseEvent me) {
       this.alpha = 1.0;
   }
 }
@@ -195,8 +193,8 @@ class PianoKey extends Sprite
 //-----------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------
 
-void main()
-{
+void main() {
+  
   // Initialize the Display List
 
   stage = new Stage('stage', html.document.query('#stage'));
@@ -205,21 +203,21 @@ void main()
 
   // load the images and sounds for the piano
 
-  resource = new Resource();
-  resource.addImage('KeyBlack','../common/images/piano/KeyBlack.png');
-  resource.addImage('KeyWhite0','../common/images/piano/KeyWhite0.png');
-  resource.addImage('KeyWhite1','../common/images/piano/KeyWhite1.png');
-  resource.addImage('KeyWhite2','../common/images/piano/KeyWhite2.png');
-  resource.addImage('KeyWhite3','../common/images/piano/KeyWhite3.png');
-  resource.addImage('Finger','../common/images/piano/Finger.png');
-  resource.addImage('Background','../common/images/piano/Background.jpg');
-  resource.addSound('Cheer','../common/sounds/Cheer.mp3');
+  resourceManager = new ResourceManager()
+    ..addBitmapData('KeyBlack','../common/images/piano/KeyBlack.png')
+    ..addBitmapData('KeyWhite0','../common/images/piano/KeyWhite0.png')
+    ..addBitmapData('KeyWhite1','../common/images/piano/KeyWhite1.png')
+    ..addBitmapData('KeyWhite2','../common/images/piano/KeyWhite2.png')
+    ..addBitmapData('KeyWhite3','../common/images/piano/KeyWhite3.png')
+    ..addBitmapData('Finger','../common/images/piano/Finger.png')
+    ..addBitmapData('Background','../common/images/piano/Background.jpg')
+    ..addSound('Cheer','../common/sounds/Cheer.mp3');
 
   for(int i = 1; i <= 25; i++)
-    resource.addSound('Note$i','../common/sounds/piano/Note$i.mp3');
+    resourceManager.addSound('Note$i','../common/sounds/piano/Note$i.mp3');
 
-  resource.load().then((res) {
-    var background = new Bitmap(resource.getBitmapData('Background'));
+  resourceManager.load().then((res) {
+    var background = new Bitmap(resourceManager.getBitmapData('Background'));
     stage.addChild(background);
 
     var piano = new Piano(heyJudeNotes, heyJudeLyrics);

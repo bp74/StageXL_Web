@@ -4,10 +4,10 @@ import 'package:dartflash/dartflash.dart';
 
 Stage stage;
 RenderLoop renderLoop;
-Resource resource;
+ResourceManager resourceManager;
 
-void main()
-{
+void main() {
+  
   // Initialize the Display List
 
   stage = new Stage('myStage', html.document.query('#stage'));
@@ -17,19 +17,19 @@ void main()
 
   // Use the Resource class to load a TextureAtlas
 
-  resource = new Resource();
-  resource.addTextureAtlas('walkTextureAtlas', '../common/images/walk.json', TextureAtlasFormat.JSONARRAY);
-  resource.load().then((r) => startWalking());
+  resourceManager = new ResourceManager();
+  resourceManager.addTextureAtlas('walkTextureAtlas', '../common/images/walk.json', TextureAtlasFormat.JSONARRAY);
+  resourceManager.load().then((r) => startWalking());
 }
 
 //-----------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
 
-void startWalking()
-{
+void startWalking() {
+  
   // Get all the 'walk' bitmapDatas in the texture atlas.
 
-  TextureAtlas textureAtlas = resource.getTextureAtlas('walkTextureAtlas');
+  TextureAtlas textureAtlas = resourceManager.getTextureAtlas('walkTextureAtlas');
   List<BitmapData> bitmapDatas = textureAtlas.getBitmapDatas('walk');
 
   // Create a movie clip with the list of bitmapDatas.
@@ -50,8 +50,7 @@ void startWalking()
 
   Tween tween = new Tween(movieClip, 5.0 + (1.0 - rnd) * 5.0, TransitionFunction.linear);
   tween.animate('x', 940.0);
-  tween.onComplete = ()
-  {
+  tween.onComplete = () {
     renderLoop.juggler.remove(movieClip);
     stage.removeChild(movieClip);
   };

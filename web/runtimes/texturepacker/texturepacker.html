@@ -107,8 +107,8 @@ import &apos;package:dartflash/dartflash.dart&apos;;
 Stage stage;
 RenderLoop renderLoop;
 
-void main()
-{
+void main() {
+
   // Initialize the Display List
 
   stage = new Stage(&apos;myStage&apos;, html.document.query(&apos;#stage&apos;));
@@ -120,7 +120,7 @@ void main()
 
   TextureAtlas.load("images/LevelUpTextureAtlas.json", TextureAtlasFormat.JSONARRAY).then((textureAtlas) {
 
-    BitmapData.loadImage("images/LevelupTextureAtlas.png").then((bitmapData) {
+    BitmapData.load("images/LevelupTextureAtlas.png").then((bitmapData) {
       Bitmap bitmap = new Bitmap(bitmapData);
       bitmap.x = 70;
       bitmap.y = 40;
@@ -132,6 +132,7 @@ void main()
 }
 
 void showLevelupAnimation(textureAtlas) {
+
   num offset = 330;
 
   for(int i = 0; i &lt; 7; i++) {

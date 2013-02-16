@@ -5,19 +5,19 @@ import 'package:dartflash/dartflash.dart';
 Stage stage;
 RenderLoop renderLoop;
 
-void main()
-{
+void main() {
+  
   // Initialize the Display List
   stage = new Stage('stage', html.document.query('#stage'));
   renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
 
   // load the cartoon-king image
-  BitmapData.loadImage('../common/images/king.png').then(drawFilters);
+  BitmapData.load('../common/images/king.png').then(drawFilters);
 }
 
-void drawFilters(BitmapData kingBitmapData)
-{
+void drawFilters(BitmapData kingBitmapData) {
+  
   var kingRectangle = new Rectangle(0, 0, kingBitmapData.width, kingBitmapData.height);
 
   // all filters will be applied to this BitmapData
@@ -43,8 +43,8 @@ void drawFilters(BitmapData kingBitmapData)
 
   var backgroundBitmapData = new BitmapData(230, 245, true, 0xFFF0F0F0);
 
-  for(int i = 0; i < filters.length; i++)
-  {
+  for(int i = 0; i < filters.length; i++) {
+    
     var x = 235 * (i % 4);
     var y = 250 * (i ~/ 4);
     var filter = filters[i]["filter"];

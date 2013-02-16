@@ -2,8 +2,6 @@ import 'dart:math';
 import 'dart:html' as html;
 import 'package:dartflash/dartflash.dart';
 
-Resource resource;
-
 void main()
 {
   // Initialize the Display List

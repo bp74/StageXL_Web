@@ -3,18 +3,16 @@ import 'dart:math';
 import 'dart:html' as html;
 import 'package:dartflash/dartflash.dart';
 
-class Flag extends Bitmap implements Animatable
-{
+class Flag extends Bitmap implements Animatable {
+  
     num vx, vy;
 
-    Flag(BitmapData bitmapData, this.vx, this.vy):super(bitmapData)
-    {
+    Flag(BitmapData bitmapData, this.vx, this.vy):super(bitmapData) {
       this.pivotX = bitmapData.width / 2;
       this.pivotY = bitmapData.height / 2;
     }
 
-    bool advanceTime(num time)
-    {
+    bool advanceTime(num time) {
       var tx = x + vx * time;
       var ty = y + vy * time;
       if (tx > 910 || tx < 30) vx = -vx; else x = tx;
@@ -33,8 +31,8 @@ TextureAtlas textureAtlas;
 Random random = new Random();
 num fpsAverage;
 
-void main()
-{
+void main() {
+  
   // Initialize the Display List
   stage = new Stage('myStage', html.document.query('#stage'));
   renderLoop = new RenderLoop();
@@ -64,8 +62,8 @@ void main()
 //-----------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------
 
-void enterFrameListener(EnterFrameEvent e)
-{
+void enterFrameListener(EnterFrameEvent e) {
+  
   if (fpsAverage == null) {
     fpsAverage = 1.00 / e.passedTime;
   } else {
@@ -77,9 +75,10 @@ void enterFrameListener(EnterFrameEvent e)
 
 //-----------------------------------------------------------------------------------
 
-void addFlags(int amount)
-{
+void addFlags(int amount) {
+  
   while(--amount >= 0) {
+    
     var flagIndex = random.nextInt(textureAtlas.frameNames.length);
     var flagName = textureAtlas.frameNames[flagIndex];
     var flagBitmapData = textureAtlas.getBitmapData(flagName);
@@ -97,8 +96,8 @@ void addFlags(int amount)
 
 //-----------------------------------------------------------------------------------
 
-void removeFlags(int amount)
-{
+void removeFlags(int amount) {
+  
   while(--amount >= 0 && stage.numChildren > 0) {
     var displayObject = stage.getChildAt(0);
     displayObject.removeFromParent();

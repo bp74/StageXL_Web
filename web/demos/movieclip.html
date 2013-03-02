@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>dartflash library - MovieClip Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link href="../assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/dartflash.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="../assets/prettify/run_prettify.js?lang=dart" defer="defer"></script>
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-33055781-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="../index.html"><strong>dartflash</strong></a>
+                <ul class="nav">
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Showcase<b
+                        class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">Games</li>
+                            <li><a href="../games/escape/escape.html">&nbsp;Escape</a></li>
+                            <li><a href="../games/supersonic/supersonic.html">&nbsp;Supersonic</a></li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Demos</li>
+                            <li><a href="../demos/performance.html">&nbsp;Performance</a></li>
+                            <li><a href="../demos/masking.html">&nbsp;Masking</a></li>
+                            <li><a href="../demos/movieclip.html">&nbsp;MovieClip</a></li>
+                            <li><a href="../demos/text.html">&nbsp;Text</a></li>
+                            <li><a href="../demos/filter.html">&nbsp;Filter</a></li>
+                            <li><a href="../demos/sound.html">&nbsp;Sound</a></li>
+                            <li><a href="../demos/tweener.html">&nbsp;Tweener</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Runtimes<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../runtimes/texturepacker.html">Texture Packer</a></li>
+                            <li><a href="../runtimes/flump.html">Flump</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Documents<b
+                        class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../docs/api/dartflash.html" target="_blank">API Reference</a></li>
+                            <li><a href="../docs/actionscript-dart.html">ActionScript&nbsp;<i class="icon-hand-right"></i>&nbsp;Dart</a></li>
+                            <li><a href="../docs/transitions.html">Transition Functions</a></li>
+                            <li><a href="../docs/wiki-articles.html">Wiki Articles</a></li>
+                            <li><a href="../docs/faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="../info.html">Info</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h1>
+            MovieClip</h1>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+            deserunt mollit anim id est laborum.</p>
+        <br />
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#demoShow" data-toggle="tab">Demo</a></li>
+                <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
+                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="demoShow">
+                    <canvas id="stage" width="940" height="500">
+                    </canvas>
+                    <hr />
+                    <p>The walking man clip is licensed under the Creative Commons BY-SA 3.0 license.<br />
+                    Credits to TheZakMan: <a href="http://opengameart.org/content/plataform-walk-jump-animation-side-view" target="_blank">http://opengameart.org/content/plataform-walk-jump-animation-side-view</a></p>
+                </div>
+                <div class="tab-pane" id="sourceMain">
+                    <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+library dartflash_web;
+
+import &apos;dart:math&apos;;
+import &apos;dart:html&apos; as html;
+import &apos;package:dartflash/dartflash.dart&apos;;
+
+part &apos;src/demo.dart&apos;;
+
+Stage stage;
+RenderLoop renderLoop;
+Juggler juggler;
+ResourceManager resourceManager;
+
+void main() {
+     
+  // initialize Stage and RenderLoop
+  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
+  renderLoop = new RenderLoop();
+  renderLoop.addStage(stage);
+  juggler = renderLoop.juggler;
+  
+  // initialize ResourceManager
+  resourceManager = new ResourceManager()
+    ..addTextureAtlas(&apos;walkTextureAtlas&apos;, &apos;images/walk.json&apos;, TextureAtlasFormat.JSONARRAY)
+  
+  resourceManager.load()
+    .then((_) =&gt; stage.addChild(new MovieClipDemo()))
+    .catchError((e) =&gt; print(e));
+}
+</pre>
+                </div>
+                <div class="tab-pane" id="sourceDemo">
+                  <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+part of dartflash_web;
+
+class MovieClipDemo extends DisplayObjectContainer {
+  
+  Random _random = new Random();
+  TextureAtlas _textureAtlas;
+  List _bitmapDatas;
+  
+  MovieClipDemo() {
+
+    // Get all the &apos;walk&apos; bitmapDatas in the texture atlas.
+    _textureAtlas = resourceManager.getTextureAtlas(&apos;walkTextureAtlas&apos;);
+    _bitmapDatas = _textureAtlas.getBitmapDatas(&apos;walk&apos;);
+    
+    // start the first walking man.
+    _startWalkingMan();
+  }
+  
+  _startWalkingMan() {
+
+    // Create a movie clip with the list of bitmapDatas.
+    var scale = _random.nextDouble();
+
+    var movieClip = new MovieClip(_bitmapDatas, 30);
+    movieClip.x = -128;
+    movieClip.y = 20.0 + 180.0 * scale;
+    movieClip.scaleX = movieClip.scaleY = 0.5 + 0.5 * scale;
+    movieClip.play();
+
+    addChild(movieClip);
+    sortChildren((c1, c2) =&gt; (c1.y - c2.y).toInt());
+
+    // Add a tween to make the man walk from the left to the right.
+    var tween = new Tween(movieClip, 5.0 + (1.0 - scale) * 5.0, TransitionFunction.linear);
+    tween.animate(&apos;x&apos;, 940.0);
+    tween.onComplete = () {
+      juggler.remove(movieClip);
+      removeChild(movieClip);
+    };
+
+    juggler.add(movieClip);
+    juggler.add(tween);
+    juggler.delayCall(_startWalkingMan, 0.2);
+  }  
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+
+    <script type="application/dart" src="../dartflash_web.dart"></script>
+    <script type="text/javascript" src="../assets/js/dart.js"></script>
+</body>
+</html>

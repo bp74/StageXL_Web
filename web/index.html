@@ -8,10 +8,11 @@
     	migrate their projects as well as their skills to HTML5. Therefore the library provides the
     	familiar Flash API built on top of the Dart programming language.">
     <meta name="author" content="" />
-	<link href="./assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
-    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="./assets/css/prettify.css" type="text/css" rel="stylesheet" />
-    <link href="./assets/css/dartflash.css" rel="stylesheet" />
+	  <link href="assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/dartflash.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="../assets/prettify/run_prettify.js?lang=dart" defer="defer"></script>
 
     <script type="text/javascript">
         var _gaq = _gaq || [];
@@ -26,7 +27,7 @@
     </script>
 </head>
 
-<body  onload="prettyPrint()">
+<body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
@@ -38,17 +39,17 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li class="nav-header">Games</li>
-                            <li><a href="./games/escape/escape.html">&nbsp;Escape</a></li>
-                            <li><a href="./games/supersonic/supersonic.html">&nbsp;Supersonic</a></li>
+                            <li><a href="games/escape/escape.html">&nbsp;Escape</a></li>
+                            <li><a href="games/supersonic/supersonic.html">&nbsp;Supersonic</a></li>
                             <li class="divider"></li>
                             <li class="nav-header">Demos</li>
-                            <li><a href="./demos/performance/performance.html">&nbsp;Performance</a></li>
-                            <li><a href="./demos/masking/masking.html">&nbsp;Masking</a></li>
-                            <li><a href="./demos/movieclip/movieclip.html">&nbsp;MovieClip</a></li>
-                            <li><a href="./demos/text/text.html">&nbsp;Text</a></li>
-                            <li><a href="./demos/filter/filter.html">&nbsp;Filter</a></li>
-                            <li><a href="./demos/sound/sound.html">&nbsp;Sound</a></li>
-                            <li><a href="./demos/tweener/tweener.html">&nbsp;Tweener</a></li>
+                            <li><a href="demos/performance.html">&nbsp;Performance</a></li>
+                            <li><a href="demos/masking.html">&nbsp;Masking</a></li>
+                            <li><a href="demos/movieclip.html">&nbsp;MovieClip</a></li>
+                            <li><a href="demos/text.html">&nbsp;Text</a></li>
+                            <li><a href="demos/filter.html">&nbsp;Filter</a></li>
+                            <li><a href="demos/sound.html">&nbsp;Sound</a></li>
+                            <li><a href="demos/tweener.html">&nbsp;Tweener</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -56,8 +57,8 @@
                             Runtimes<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="./runtimes/texturepacker/texturepacker.html">Texture Packer</a></li>
-                            <li><a href="./runtimes/flump/flump.html">Flump</a></li>
+                            <li><a href="runtimes/texturepacker.html">Texture Packer</a></li>
+                            <li><a href="runtimes/flump.html">Flump</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -65,13 +66,14 @@
                             Documents<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="./docs/api/dartflash.html" target="_blank">API Reference</a></li>
-                            <li><a href="./docs/actionscript-dart.html">ActionScript&nbsp;<i class="icon-hand-right"></i>&nbsp;Dart</a></li>
-                            <li><a href="./docs/wiki-articles.html">Wiki Articles</a></li>
-                            <li><a href="./docs/faq.html">FAQ</a></li>
+                            <li><a href="docs/api/dartflash.html" target="_blank">API Reference</a></li>
+                            <li><a href="docs/actionscript-dart.html">ActionScript&nbsp;<i class="icon-hand-right"></i>&nbsp;Dart</a></li>
+                            <li><a href="docs/transitions.html">Transition Functions</a></li>
+                            <li><a href="docs/wiki-articles.html">Wiki Articles</a></li>
+                            <li><a href="docs/faq.html">FAQ</a></li>
                         </ul>
                     </li>
-                    <li><a href="./info.html">Info</a></li>
+                    <li><a href="info.html">Info</a></li>
                 </ul>
             </div>
         </div>
@@ -82,13 +84,13 @@
             <div class="row">
                 <div class="span6">
                     <h1>
-                    	<img src="./assets/img/dartflash064.png" alt="dartflash icon" height="64" width="64" style="margin-top:-15px;" />
+                    	<img src="assets/img/dartflash064.png" alt="dartflash icon" height="64" width="64" style="margin-top:-15px;" />
                     	dartflash
                    	</h1>
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-large" href="https://github.com/bp74/dartflash" target="_blank">
-                        <img class="img-github" src="./assets/img/github-logo.png" alt="GitHub Logo" />
+                        <img class="img-github" src="assets/img/github-logo.png" alt="GitHub Logo" />
                         view project<br />on github <i class='icon-hand-left'></i>
                     </a>
                 </div>
@@ -164,7 +166,8 @@
                             <p>Events work the same way as they do in Flash. All the major Event classes are
                             available with the same names and properties. The event flow uses the familiar
                             three-phase approach: Capture Phase, Target Phase and Bubbling Phase.</p>
-<pre class="prettyprint lang-java">
+<!--?prettify lang=dart?-->
+<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 mySprite.addEventListener(Event.ENTER_FRAME, enterFrameListener);
 mySprite.addEventListener(MouseEvent.CLICK, mouseClickListener, useCapture:true);
 </pre>
@@ -172,7 +175,8 @@ mySprite.addEventListener(MouseEvent.CLICK, mouseClickListener, useCapture:true)
                             this new pattern to utilize new possibilities and to be a good citizen in the Dart
                             community. The API is a little bit different compared to Flash, but the functionality
                             is pretty much the same.</p>
-<pre class="prettyprint lang-java">
+<!--?prettify lang=dart?-->
+<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var subscription1 = mySprite.onEnterFrame.listen(enterFrameListener);
 var subscription2 = mySprite.onMouseClick.listen(mouseClickListener);
 var subscription3 = mySprite.on("customEvent").listen(customEventListener);
@@ -216,7 +220,8 @@ subscription2.resume();    // resume receiving events
                             quality typography to your application. Just add the font's css-style to your
                             page and use the font in TextFormat like you do with any other font.</p>
                             <br/>
-                            <pre class="prettyprint lang-java">
+<!--?prettify lang=dart?-->
+<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var textField = new TextField();
 textField.defaultTextFormat = new TextFormat(&apos;Spicy Rice&apos;, 30, Color.Black);
 textField.text = &apos;The quick brown fox jumps over the lazy dog.&apos;
@@ -259,7 +264,8 @@ addChild(textField);</pre>
                             supported by the browser. You just have to provide the audio file in mp3 and ogg format,
                             this way your application will work in all major browsers.</p>
                             <br/>
-                        <pre class="prettyprint lang-java">
+<!--?prettify lang=dart?-->
+<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // The ResourceManager substitutes embedded resources of Flash.
 var resourceManager = new ResourceManager();
 resourceManager.addSound("plop", "sounds/plop.mp3");   // loads ogg-file in Firefox!
@@ -299,7 +305,8 @@ var soundChannel = sound.play(false, soundTransform);</pre>
                             BitmapFilters can only be applied to BitmapDatas but not to arbitrary Display Objects.
                             However, applying the effects to BitmapDatas should be sufficient for most use cases.</p>
                             <br/>
-                            <pre class="prettyprint lang-java">
+<!--?prettify lang=dart?-->
+<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var sourceBitmapData = new BitmapData(80, 80, true, Color.Red);
 var sourceRectangle = new Rectangle(0, 0, 80, 80);
 
@@ -338,7 +345,8 @@ destinationBitmapData.applyFilter(
                             provided by the render loop to drive your animations. For more information please read
                             the Wiki article about the Juggler animation framework.</p>
                             <br/>
-                            <pre class="prettyprint lang-java">
+<!--?prettify lang=dart?-->
+<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var tween = new Tween(sprite, 2.0, TransitionFunction.easeOutBounce);
 tween.animate(&apos;x&apos;, 700);
 tween.animate(&apos;y&apos;, 500);
@@ -377,7 +385,8 @@ renderLoop.juggler.add(tween);</pre>
                             <a href="http://www.codeandweb.com/texturepacker" target="_blank">Texture Packer</a>,
                             which is the most popular tool on the web.</p>
                             <br/>
-                            <pre class="prettyprint lang-java">
+<!--?prettify lang=dart?-->
+<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var resourceManager = new ResourceManager()
   ..addBitmapData(&apos;dog&apos;, &apos;images/dog.png&apos;)
   ..addSound(&apos;plop&apos;, &apos;sounds/plop.mp3&apos;)
@@ -402,9 +411,8 @@ resourceManager.load().then((result) {
 		</div>
     </div>
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script type="text/javascript" src="./assets/js/bootstrap.min.js" ></script>
-    <script type="text/javascript" src="./assets/js/prettify.js"></script>
+    <script type="text/javascript" src="assets/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 
 </body>
 </html>

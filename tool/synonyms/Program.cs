@@ -14,11 +14,11 @@ namespace SynonymeConverter
             HashSet<String> synonymIDs = new HashSet<string>();
 
             Dictionary<string, string> prettifies = new Dictionary<string, string>();
-            prettifies["javascript"] = "lang-js";
-            prettifies["dart"] = "lang-java";
-            prettifies["java"] = "lang-java";
-            prettifies["csharp"] = "lang-java";
-            prettifies["as3"] = "lang-js";
+            prettifies["javascript"] = "js";
+            prettifies["dart"] = "dart";
+            prettifies["java"] = "java";
+            prettifies["csharp"] = "java";
+            prettifies["as3"] = "js";
 
             Dictionary<string, string> languageNames = new Dictionary<string, string>();
             languageNames["javascript"] = "JavaScript";
@@ -75,8 +75,8 @@ namespace SynonymeConverter
                     synonymHtml.AppendFormat("      <div class=\"span12\"><h3 class=\"section\">{0}</h3></div>\n", EscapeHtml(synonymTitle));
                     synonymHtml.AppendFormat("    </div>\n");
                     synonymHtml.AppendFormat("    <div class=\"row\">\n");
-                    synonymHtml.AppendFormat("      <div class=\"span6\"><pre class=\"prettyprint {0}\">{1}</pre></div>\n", prettifies[language1], EscapeHtml(code1));
-                    synonymHtml.AppendFormat("      <div class=\"span6\"><pre class=\"prettyprint {0}\">{1}</pre></div>\n", prettifies[language2], EscapeHtml(code2));
+                    synonymHtml.AppendFormat("      <div class=\"span6\"><!--?prettify lang={0}?--><pre class=\"prettyprint\" style=\"border:1px solid #ccc; padding: 10px 10px 10px 10px;\">{1}</pre></div>\n", prettifies[language1], EscapeHtml(code1));
+                    synonymHtml.AppendFormat("      <div class=\"span6\"><!--?prettify lang={0}?--><pre class=\"prettyprint\" style=\"border:1px solid #ccc; padding: 10px 10px 10px 10px;\">{1}</pre></div>\n", prettifies[language2], EscapeHtml(code2));
                     synonymHtml.AppendFormat("    </div>\n");
                     synonymHtml.AppendFormat("  </section>\n");
                 }

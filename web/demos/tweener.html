@@ -2,11 +2,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>dartflash library - Frequently Asked Questions</title>
+    <title>dartflash library - Tweener demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-	<link href="../assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+	  <link href="../assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../assets/css/dartflash.css" rel="stylesheet" />
 
@@ -25,16 +25,13 @@
     </script>
 </head>
 <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
                 <a class="brand" href="../index.html"><strong>dartflash</strong></a>
                 <ul class="nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Showcase<b class="caret"></b>
-                        </a>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Showcase<b
+                        class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li class="nav-header">Games</li>
                             <li><a href="../games/escape/escape.html">&nbsp;Escape</a></li>
@@ -59,10 +56,8 @@
                             <li><a href="../runtimes/flump.html">Flump</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Documents<b class="caret"></b>
-                        </a>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Documents<b
+                        class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li><a href="../docs/api/dartflash.html" target="_blank">API Reference</a></li>
                             <li><a href="../docs/actionscript-dart.html">ActionScript&nbsp;<i class="icon-hand-right"></i>&nbsp;Dart</a></li>
@@ -76,20 +71,47 @@
             </div>
         </div>
     </div>
-
     <div class="container">
-        <h1>Frequently Asked Questions</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
-        mollit anim id est laborum.</p>
+        <h1>
+            Tweener</h1>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+            deserunt mollit anim id est laborum.</p>
+        <br />
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#demoShow" data-toggle="tab">Demo</a></li>
+                <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
+                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
+            </ul>
 
+            <div class="tab-content">
+                <div class="tab-pane active" id="demoShow">
+                    <canvas id="stage" width="940" height="500">
+                    </canvas>
+                </div>
+                <div class="tab-pane" id="sourceMain">
+                    <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+</pre>
+                </div>
+                <div class="tab-pane" id="sourceDemo">
+                     <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+</pre>
+                </div>
+            </div>
+        </div>
     </div>
-
+    
     <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
-
+    
+    <script type="application/dart" src="../dartflash_web.dart"></script>
+    <script type="text/javascript" src="../assets/js/dart.js"></script>
 </body>
 </html>

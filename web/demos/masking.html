@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>dartflash library - Masking Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+	  <link href="../assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/dartflash.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="../assets/prettify/run_prettify.js?lang=dart" defer="defer"></script>
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-33055781-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="../index.html"><strong>dartflash</strong></a>
+                <ul class="nav">
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Showcase<b
+                        class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">Games</li>
+                            <li><a href="../games/escape/escape.html">&nbsp;Escape</a></li>
+                            <li><a href="../games/supersonic/supersonic.html">&nbsp;Supersonic</a></li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Demos</li>
+                            <li><a href="../demos/performance.html">&nbsp;Performance</a></li>
+                            <li><a href="../demos/masking.html">&nbsp;Masking</a></li>
+                            <li><a href="../demos/movieclip.html">&nbsp;MovieClip</a></li>
+                            <li><a href="../demos/text.html">&nbsp;Text</a></li>
+                            <li><a href="../demos/filter.html">&nbsp;Filter</a></li>
+                            <li><a href="../demos/sound.html">&nbsp;Sound</a></li>
+                            <li><a href="../demos/tweener.html">&nbsp;Tweener</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Runtimes<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../runtimes/texturepacker.html">Texture Packer</a></li>
+                            <li><a href="../runtimes/flump.html">Flump</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Documents<b
+                        class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../docs/api/dartflash.html" target="_blank">API Reference</a></li>
+                            <li><a href="../docs/actionscript-dart.html">ActionScript&nbsp;<i class="icon-hand-right"></i>&nbsp;Dart</a></li>
+                            <li><a href="../docs/transitions.html">Transition Functions</a></li>
+                            <li><a href="../docs/wiki-articles.html">Wiki Articles</a></li>
+                            <li><a href="../docs/faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="../info.html">Info</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h1>
+            Masking</h1>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+            deserunt mollit anim id est laborum.</p>
+        <br />
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#demoShow" data-toggle="tab">Demo</a></li>
+                <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
+                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="demoShow">
+                    <div class="row">
+                        <div class="span2">
+                            <button id="mask-none" class="btn btn-large btn-block btn-primary">No Mask</button>
+                        </div>
+                        <div class="span2">
+                            <button id="mask-rectangle" class="btn btn-large btn-block btn-primary">Rectangle Mask</button>
+                        </div>
+                        <div class="span2">
+                            <button id="mask-circle" class="btn btn-large btn-block btn-primary">Circle Mask</button>
+                        </div>
+                        <div class="span2">
+                            <button id="mask-custom" class="btn btn-large btn-block btn-primary">Custom Mask</button>
+                        </div>
+                        <div class="offset2 span2">
+                            <button id="mask-spin" class="btn btn-large btn-block btn-warning">Spin</button>
+                        </div>
+                    </div>
+                    <br />
+                    <canvas id="stage" width="940" height="500">
+                    </canvas>
+                </div>
+                <div class="tab-pane" id="sourceMain">
+                  <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+library dartflash_web;
+
+import &apos;dart:math&apos;;
+import &apos;dart:html&apos; as html;
+import &apos;package:dartflash/dartflash.dart&apos;;
+
+part &apos;src/demo.dart&apos;;
+
+Stage stage;
+RenderLoop renderLoop;
+Juggler juggler;
+ResourceManager resourceManager;
+
+void main() {
+     
+  // initialize Stage and RenderLoop
+  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
+  renderLoop = new RenderLoop();
+  renderLoop.addStage(stage);
+  juggler = renderLoop.juggler;
+  
+  // initialize ResourceManager
+  resourceManager = new ResourceManager()
+    ..addBitmapData(&apos;flower1&apos;, &apos;images/Flower1.png&apos;)
+    ..addBitmapData(&apos;flower2&apos;, &apos;images/Flower2.png&apos;)
+    ..addBitmapData(&apos;flower3&apos;, &apos;images/Flower3.png&apos;)
+       
+  resourceManager.load()
+    .then((_) =&gt; stage.addChild(new MaskingDemo()))
+    .catchError((e) =&gt; print(e));
+}
+</pre>
+                </div>
+                <div class="tab-pane" id="sourceDemo">
+                  <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+part of dartflash_web;
+
+class MaskingDemo extends DisplayObjectContainer {
+  
+  final Random _random = new Random();
+  
+  MaskingDemo() {
+
+    var flowerField = new Sprite();
+    flowerField.pivotX = 470;
+    flowerField.pivotY = 250;
+    flowerField.x = 470;
+    flowerField.y = 250;
+    addChild(flowerField);
+    
+    for(int i = 0; i &lt; 150; i++) {
+      var f = 1 + _random.nextInt(3);
+      var bitmapData = resourceManager.getBitmapData(&apos;flower$f&apos;);
+      var bitmap = new Bitmap(bitmapData);
+      bitmap.pivotX = 64;
+      bitmap.pivotY = 64;
+      bitmap.x = 64 + _random.nextInt(940 - 128);
+      bitmap.y = 64 + _random.nextInt(500 - 128);
+      bitmap.addTo(flowerField);
+
+      var tween = new Tween(bitmap, 600, TransitionFunction.linear);
+      tween.animate(&apos;rotation&apos;, PI * 60.0);
+      juggler.add(tween);
+    }
+
+    //---------------------------------------------
+    // define three different masks
+    
+    var starPath = new List&lt;Point&gt;();
+
+    for(int i = 0; i &lt; 6; i++) {
+      num a1 = (i * 60) * PI / 180;
+      num a2 = (i * 60 + 30) * PI / 180;
+      starPath.add(new Point(470 + 200 * cos(a1), 250 + 200 * sin(a1)));
+      starPath.add(new Point(470 + 100 * cos(a2), 250 + 100 * sin(a2)));
+    }
+    
+    var rectangleMask = new Mask.rectangle(100, 100, 740, 300);
+    var circleMask = new Mask.circle(470, 250, 200);
+    var customMask = new Mask.custom(starPath);
+
+    //---------------------------------------------
+    // add html-button event listeners
+
+    html.query(&apos;#mask-none&apos;).onClick.listen((e) =&gt; flowerField.mask = null);
+    html.query(&apos;#mask-rectangle&apos;).onClick.listen((e) =&gt; flowerField.mask = rectangleMask);
+    html.query(&apos;#mask-circle&apos;).onClick.listen((e) =&gt; flowerField.mask = circleMask);
+    html.query(&apos;#mask-custom&apos;).onClick.listen((e) =&gt; flowerField.mask = customMask);
+    html.query(&apos;#mask-spin&apos;).onClick.listen((e) {
+      var rotate = new Tween(flowerField, 2.0, TransitionFunction.easeInOutBack);
+      rotate.animate(&apos;rotation&apos;, PI * 4.0);
+      rotate.onComplete = () =&gt; flowerField.rotation = 0.0;
+      juggler.add(rotate);
+    });    
+  }
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+
+    <script type="application/dart" src="../dartflash_web.dart"></script>
+    <script type="text/javascript" src="../assets/js/dart.js"></script>
+</body>
+</html>

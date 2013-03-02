@@ -1,0 +1,410 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>dartflash library - Sound demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+	  <link href="../assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/dartflash.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Sofadi+One' rel='stylesheet' type='text/css' />
+
+    <script type="text/javascript" src="../assets/prettify/run_prettify.js?lang=dart" defer="defer"></script>
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-33055781-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="../index.html"><strong>dartflash</strong></a>
+                <ul class="nav">
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Showcase<b
+                        class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">Games</li>
+                            <li><a href="../games/escape/escape.html">&nbsp;Escape</a></li>
+                            <li><a href="../games/supersonic/supersonic.html">&nbsp;Supersonic</a></li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Demos</li>
+                            <li><a href="../demos/performance.html">&nbsp;Performance</a></li>
+                            <li><a href="../demos/masking.html">&nbsp;Masking</a></li>
+                            <li><a href="../demos/movieclip.html">&nbsp;MovieClip</a></li>
+                            <li><a href="../demos/text.html">&nbsp;Text</a></li>
+                            <li><a href="../demos/filter.html">&nbsp;Filter</a></li>
+                            <li><a href="../demos/sound.html">&nbsp;Sound</a></li>
+                            <li><a href="../demos/tweener.html">&nbsp;Tweener</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Runtimes<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../runtimes/texturepacker.html">Texture Packer</a></li>
+                            <li><a href="../runtimes/flump.html">Flump</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Documents<b
+                        class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../docs/api/dartflash.html" target="_blank">API Reference</a></li>
+                            <li><a href="../docs/actionscript-dart.html">ActionScript&nbsp;<i class="icon-hand-right"></i>&nbsp;Dart</a></li>
+                            <li><a href="../docs/transitions.html">Transition Functions</a></li>
+                            <li><a href="../docs/wiki-articles.html">Wiki Articles</a></li>
+                            <li><a href="../docs/faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="../info.html">Info</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h1>
+            Sound</h1>
+        <p>
+            Playing audio in HTML5 can be difficult. All modern browsers use slightly different implementations
+            of the standard. Google Chrome supports the Web Audio API which is not a HTML5 standard yet, but offers
+            the best audio playback capabilities for games. Another problem is the support of all the audio
+            codecs (mp3/ogg/wav) used in different browsers. To hide all the problems and differences the dartflash
+            library wraps those APIs and provides the familiar Sound APIs of Flash. The library also selects the
+            codec which is supported by the browser. You just have to provide the audio file in mp3 and ogg format,
+            this way your application will work in all major browsers. Nevertheless Firefox and especially Internet
+            Explorer have latency problems, let's hope those browser vendors are working on this issue.</p>
+        <br />
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#demoShow" data-toggle="tab">Demo</a></li>
+                <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
+                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
+                <li><a href="#sourcePiano" data-toggle="tab">piano.dart</a></li>
+                <li><a href="#sourcePianoKey" data-toggle="tab">piano_key.dart</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="demoShow">
+                    <div class="row">
+                        <div class="span9">
+                            <div id="lyrics">
+                            </div>
+                        </div>
+                        <div class="offset1 span2">
+                            <br><br><br>
+                            <button id="startOver" class="btn btn-large btn-block btn-warning">Start over</button>
+                        </div>
+                    </div>
+
+                    <canvas id="stage" width="940" height="250">
+                    </canvas>
+                </div>
+                <div class="tab-pane" id="sourceMain">
+                    <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+library dartflash_web;
+
+import &apos;dart:math&apos;;
+import &apos;dart:html&apos; as html;
+import &apos;package:dartflash/dartflash.dart&apos;;
+
+part &apos;src/demo.dart&apos;;
+part &apos;src/piano.dart&apos;;
+part &apos;src/piano_key.dart&apos;;
+
+Stage stage;
+RenderLoop renderLoop;
+Juggler juggler;
+ResourceManager resourceManager;
+
+void main() {
+     
+  // initialize Stage and RenderLoop
+  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
+  renderLoop = new RenderLoop();
+  renderLoop.addStage(stage);
+  juggler = renderLoop.juggler;
+  
+  // initialize ResourceManager
+  resourceManager = new ResourceManager()
+    ..addBitmapData('KeyBlack','images/piano/KeyBlack.png')
+    ..addBitmapData('KeyWhite0','images/piano/KeyWhite0.png')
+    ..addBitmapData('KeyWhite1','images/piano/KeyWhite1.png')
+    ..addBitmapData('KeyWhite2','images/piano/KeyWhite2.png')
+    ..addBitmapData('KeyWhite3','images/piano/KeyWhite3.png')
+    ..addBitmapData('Finger','images/piano/Finger.png')
+    ..addBitmapData('Background','images/piano/Background.jpg')
+    ..addSound('Cheer','sounds/Cheer.mp3')
+    ..addSound('Note1','sounds/piano/Note1.mp3')
+    ..addSound('Note2','sounds/piano/Note2.mp3')
+    ..addSound('Note3','sounds/piano/Note3.mp3')
+    ..addSound('Note4','sounds/piano/Note4.mp3')
+    ..addSound('Note5','sounds/piano/Note5.mp3')
+    ..addSound('Note6','sounds/piano/Note6.mp3')
+    ..addSound('Note7','sounds/piano/Note7.mp3')
+    ..addSound('Note8','sounds/piano/Note8.mp3')
+    ..addSound('Note9','sounds/piano/Note9.mp3')
+    ..addSound('Note10','sounds/piano/Note10.mp3')
+    ..addSound('Note11','sounds/piano/Note11.mp3')
+    ..addSound('Note12','sounds/piano/Note12.mp3')
+    ..addSound('Note13','sounds/piano/Note13.mp3')
+    ..addSound('Note14','sounds/piano/Note14.mp3')
+    ..addSound('Note15','sounds/piano/Note15.mp3')
+    ..addSound('Note16','sounds/piano/Note16.mp3')
+    ..addSound('Note17','sounds/piano/Note17.mp3')
+    ..addSound('Note18','sounds/piano/Note18.mp3')
+    ..addSound('Note19','sounds/piano/Note19.mp3')
+    ..addSound('Note20','sounds/piano/Note20.mp3')
+    ..addSound('Note21','sounds/piano/Note21.mp3')
+    ..addSound('Note22','sounds/piano/Note22.mp3')
+    ..addSound('Note23','sounds/piano/Note23.mp3')
+    ..addSound('Note24','sounds/piano/Note24.mp3')
+    ..addSound('Note25','sounds/piano/Note25.mp3');        
+  
+  resourceManager.load()
+    .then((_) =&gt; stage.addChild(new SoundDemo()))
+    .catchError((e) =&gt; print(e));
+}
+</pre>
+                </div>
+                <div class="tab-pane" id="sourceDemo">
+                     <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+part of dartflash_web;
+
+class SoundDemo extends DisplayObjectContainer{
+  
+  final List _heyJudeNotes = [
+    &apos;C4&apos;, &apos;A3&apos;, &apos;A3&apos;, &apos;C4&apos;, &apos;D4&apos;, &apos;G3&apos;,
+    &apos;G3&apos;, &apos;A3&apos;, &apos;A3#&apos;, &apos;F4&apos;, &apos;F4&apos;, &apos;E4&apos;, &apos;C4&apos;, &apos;D4&apos;, &apos;C4&apos;, &apos;A3#&apos;, &apos;A3&apos;,
+    &apos;C4&apos;, &apos;D4&apos;, &apos;D4&apos;, &apos;D4&apos;, &apos;G4&apos;, &apos;F4&apos;, &apos;E4&apos;, &apos;F4&apos;, &apos;D4&apos;, &apos;C4&apos;,
+    &apos;F3&apos;, &apos;G3&apos;, &apos;A3&apos;, &apos;D4&apos;, &apos;C4&apos;, &apos;C4&apos;, &apos;A3#&apos;, &apos;A3&apos;, &apos;E3&apos;, &apos;F3&apos;];
+
+  final List _heyJudeLyrics = [
+    &apos;Hey &apos;, &apos;Jude, &apos;, "don&apos;t ", &apos;make &apos;, &apos;it &apos;, &apos;bad.&lt;br&gt;&apos;,
+    &apos;Take &apos;, &apos;a &apos;, &apos;sad &apos;, &apos;song &apos;, &apos;and &apos;, &apos;make &apos;, &apos;it &apos;, &apos;better.&lt;br&gt;&apos;,  &apos;&apos;,  &apos;&apos;,  &apos;&apos;,
+    &apos;Remember &apos;, &apos;&apos;, &apos;&apos;, &apos;to &apos;, &apos;let &apos;, &apos;her &apos;, &apos;into &apos;, &apos;&apos;, &apos;your &apos;, &apos;heart.&lt;br&gt;&apos;,
+    &apos;Than &apos;, &apos;you &apos;, &apos;can &apos;, &apos;start &apos;, &apos;&apos;, &apos;to &apos;, &apos;make &apos;, &apos;things &apos;, &apos;better.&apos;, &apos;&apos;, &apos; &apos;];
+
+  SoundDemo() {
+    
+    var background = new Bitmap(resourceManager.getBitmapData(&apos;Background&apos;));
+    addChild(background);
+  
+    var piano = new Piano(_heyJudeNotes, _heyJudeLyrics);
+    piano.x = 120;
+    piano.y = 30;
+    addChild(piano);
+  
+    html.query(&apos;#startOver&apos;).onClick.listen((e) =&gt; piano.resetSong());
+  }
+}
+</pre>
+                </div>
+                <div class="tab-pane" id="sourcePiano">
+                     <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+part of dartflash_web;
+
+class Piano extends DisplayObjectContainer {
+
+  final List _songNotes;
+  final List _songLyrics;
+  
+  final List _pianoNotes = [
+    &apos;C3&apos;, &apos;C3#&apos;, &apos;D3&apos;, &apos;D3#&apos;, &apos;E3&apos;, &apos;F3&apos;, &apos;F3#&apos;, &apos;G3&apos;, &apos;G3#&apos;, &apos;A3&apos;, &apos;A3#&apos;, &apos;B3&apos;,
+    &apos;C4&apos;, &apos;C4#&apos;, &apos;D4&apos;, &apos;D4#&apos;, &apos;E4&apos;, &apos;F4&apos;, &apos;F4#&apos;, &apos;G4&apos;, &apos;G4#&apos;, &apos;A4&apos;, &apos;A4#&apos;, &apos;B4&apos;, &apos;C5&apos;];
+  
+  int _noteIndex;
+  Bitmap _noteFinger;
+
+  Piano(this._songNotes, this._songLyrics) {
+    
+    // add all piano keys
+    for(int n = 0, x = 0; n &lt; _pianoNotes.length; n++) {
+      var sound = resourceManager.getSound(&apos;Note${n+1}&apos;);
+      var pianoKey = new PianoKey(this, _pianoNotes[n], sound);
+      
+      if (_pianoNotes[n].endsWith(&apos;#&apos;)) {
+        pianoKey.x = x - 16;
+        pianoKey.y = 35;
+        addChild(pianoKey);
+      } else {
+        pianoKey.x = x;
+        pianoKey.y = 35;
+        addChildAt(pianoKey, 0);
+        x = x + 47;
+      }
+    }
+
+    // prepare karaoke
+    _noteIndex = 0;
+    _noteFinger = new Bitmap(resourceManager.getBitmapData(&apos;Finger&apos;));
+    _noteFinger.pivotX = 20;
+    addChild(_noteFinger);
+    
+    _update();
+  }
+
+  //---------------------------------------------------------------------------------
+
+  checkSongNote(String note) {
+    
+    // is it the next note of the song?
+    if (_noteIndex &lt; _songNotes.length &amp;&amp; _songNotes[_noteIndex] == note) {
+      if (_noteIndex == _songNotes.length - 1)
+        resourceManager.getSound(&apos;Cheer&apos;).play();
+      
+      _noteIndex++;
+      _update();
+    }
+  }
+
+  //---------------------------------------------------------------------------------
+
+  resetSong() {
+    _noteIndex = 0;
+    _noteFinger.alpha = 1;
+    _update();
+  }
+  
+  //---------------------------------------------------------------------------------
+
+  _update() {
+    
+    // update karaoke lyrics
+    var lyricsDiv = html.query(&apos;#lyrics&apos;);
+    var wordIndex = -1;
+
+    lyricsDiv.innerHtml = &apos;&apos;;
+
+    for(int w = 0, last = 0; w &lt; _songLyrics.length; w++)  {
+      if (_songLyrics[w] != &apos;&apos;) last = w;
+      if (w == this._noteIndex) wordIndex = last;
+    }
+
+    for(int w = 0; w &lt; _songLyrics.length; w++) {
+      if (w == wordIndex) {
+        lyricsDiv.appendHtml(&apos;&lt;span id="word"&gt;${_songLyrics[w]}&lt;/span&gt;&apos;);
+      } else {
+        lyricsDiv.appendHtml(_songLyrics[w]);
+      }
+    }
+
+    // update finger position
+    if (_noteIndex &lt; _songNotes.length) {
+      for(int i = 0; i &lt; this.numChildren; i++) {
+        var displayObject = this.getChildAt(i);
+        if (displayObject is PianoKey) {
+          if (displayObject.note == _songNotes[_noteIndex]) {
+            _noteFinger.y = 0;
+            
+            var tweenX = new Tween(this._noteFinger, 0.4, TransitionFunction.easeInOutCubic);
+            tweenX.animate(&apos;x&apos;, displayObject.x + displayObject.width / 2);
+            var tweenY = new Tween(this._noteFinger, 0.4, TransitionFunction.sine);
+            tweenY.animate(&apos;y&apos;, -10);
+            
+            juggler.removeTweens(_noteFinger);
+            juggler.add(tweenX);
+            juggler.add(tweenY);
+          }
+        }
+      }
+    } else {
+      var tweenY = new Tween(_noteFinger, 0.4, TransitionFunction.linear);
+      tweenY.animate(&apos;alpha&apos;, 0);
+      juggler.add(tweenY);
+    }
+  }
+}
+</pre>
+                </div>
+                <div class="tab-pane" id="sourcePianoKey">
+                     <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+part of dartflash_web;
+
+class PianoKey extends Sprite {
+  
+  final Piano piano;
+  final String note;
+  final Sound sound;
+
+  PianoKey(this.piano, this.note, this.sound) {
+    
+    String key;
+
+    if (note.endsWith(&apos;#&apos;)) {
+      key = &apos;KeyBlack&apos;;
+    } else if (note.startsWith(&apos;C5&apos;)) {
+      key = &apos;KeyWhite0&apos;;
+    } else if (note.startsWith(&apos;C&apos;) || note.startsWith(&apos;F&apos;)) {
+      key = &apos;KeyWhite1&apos;;
+    } else if (note.startsWith(&apos;D&apos;) || note.startsWith(&apos;G&apos;) || note.startsWith(&apos;A&apos;)) {
+      key = &apos;KeyWhite2&apos;;
+    } else if (note.startsWith(&apos;E&apos;) || note.startsWith(&apos;B&apos;)) {
+      key = &apos;KeyWhite3&apos;;
+    }
+
+    // draw the key
+    var bitmapData = resourceManager.getBitmapData(key);
+    var bitmap = new Bitmap(bitmapData);
+    this.addChild(bitmap);
+
+    // print note on key
+    var textColor = note.endsWith(&apos;#&apos;) ? Color.White : Color.Black;
+    var textFormat = new TextFormat(&apos;Helvetica,Arial&apos;, 10, textColor, align:TextFormatAlign.CENTER);
+
+    var textField = new TextField();
+    textField.defaultTextFormat = textFormat;
+    textField.text = note;
+    textField.width = bitmapData.width;
+    textField.height = 20;
+    textField.mouseEnabled = false;
+    textField.y = bitmapData.height - 20;
+    addChild(textField);
+
+    // add event handlers
+    this.useHandCursor = true;
+    this.onMouseDown.listen(_keyDown);
+    this.onMouseOver.listen(_keyDown);
+    this.onMouseUp.listen(_keyUp);
+    this.onMouseOut.listen(_keyUp);
+  }
+
+  _keyDown(MouseEvent me) {
+    if (me.buttonDown) {
+      this.sound.play();
+      this.alpha = 0.7;
+      this.piano.checkSongNote(this.note);
+    }
+  }
+
+  _keyUp(MouseEvent me) {
+      this.alpha = 1.0;
+  }
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+
+    <script type="application/dart" src="../dartflash_web.dart"></script>
+    <script type="text/javascript" src="../assets/js/dart.js"></script>
+</body>
+</html>

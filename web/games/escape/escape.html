@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Help the safecracker to escape and form horizontal or vertical chains by connecting at least 3 chain links of the same colour!" />
     <meta name="author" content="" />
-	<link href="../../assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+	  <link href="../../assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../../assets/css/prettify.css" type="text/css" rel="stylesheet" />
     <link href="../../assets/css/dartflash.css" rel="stylesheet" />
 
     <script type="text/javascript">
@@ -24,7 +23,7 @@
     </script>
 </head>
 
-<body onload="prettyPrint()">
+<body>
 
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
@@ -41,13 +40,13 @@
                             <li><a href="../../games/supersonic/supersonic.html">&nbsp;Supersonic</a></li>
                             <li class="divider"></li>
                             <li class="nav-header">Demos</li>
-                            <li><a href="../../demos/performance/performance.html">&nbsp;Performance</a></li>
-                            <li><a href="../../demos/masking/masking.html">&nbsp;Masking</a></li>
-                            <li><a href="../../demos/movieclip/movieclip.html">&nbsp;MovieClip</a></li>
-                            <li><a href="../../demos/text/text.html">&nbsp;Text</a></li>
-                            <li><a href="../../demos/filter/filter.html">&nbsp;Filter</a></li>
-                            <li><a href="../../demos/sound/sound.html">&nbsp;Sound</a></li>
-                            <li><a href="../../demos/tweener/tweener.html">&nbsp;Tweener</a></li>
+                            <li><a href="../../demos/performance.html">&nbsp;Performance</a></li>
+                            <li><a href="../../demos/masking.html">&nbsp;Masking</a></li>
+                            <li><a href="../../demos/movieclip.html">&nbsp;MovieClip</a></li>
+                            <li><a href="../../demos/text.html">&nbsp;Text</a></li>
+                            <li><a href="../../demos/filter.html">&nbsp;Filter</a></li>
+                            <li><a href="../../demos/sound.html">&nbsp;Sound</a></li>
+                            <li><a href="../../demos/tweener.html">&nbsp;Tweener</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -55,8 +54,8 @@
                             Runtimes<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="../../runtimes/texturepacker/texturepacker.html">Texture Packer</a></li>
-                            <li><a href="../../runtimes/flump/flump.html">Flump</a></li>
+                            <li><a href="../../runtimes/texturepacker.html">Texture Packer</a></li>
+                            <li><a href="../../runtimes/flump.html">Flump</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -66,6 +65,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="../../docs/api/dartflash.html" target="_blank">API Reference</a></li>
                             <li><a href="../../docs/actionscript-dart.html">ActionScript&nbsp;<i class="icon-hand-right"></i>&nbsp;Dart</a></li>
+                            <li><a href="../../docs/transitions.html">Transition Functions</a></li>
                             <li><a href="../../docs/wiki-articles.html">Wiki Articles</a></li>
                             <li><a href="../../docs/faq.html">FAQ</a></li>
                         </ul>
@@ -91,8 +91,7 @@
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#demoShow" data-toggle="tab">Game</a></li>
-                <li><a href="#demoHTML" data-toggle="tab">HTML</a></li>
-                <li><a href="#demoDart" data-toggle="tab">Dart</a></li>
+                <li><a href="#demoDart" data-toggle="tab">Source</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="demoShow">
@@ -104,13 +103,6 @@
                     <br/>
                     <br/>
 				</div>
-                <div class="tab-pane" id="demoHTML">
-                    <pre class="prettyprint lang-html">
-&lt;div style=&quot;position: relative; height: 600px&quot;&gt;
-  &lt;canvas id=&quot;stageBackground&quot; width=&quot;800&quot; height=&quot;600&quot; style=&quot;position: absolute; left: 0; top: 0; z-index: 0;&quot;&gt;&lt;/canvas&gt;
-  &lt;canvas id=&quot;stageForeground&quot; width=&quot;800&quot; height=&quot;600&quot; style=&quot;position: absolute; left: 0; top: 0; z-index: 1;&quot;&gt;&lt;/canvas&gt;
-&lt;/div&gt;</pre>
-				</div>
                 <div class="tab-pane" id="demoDart">
 	                The source code for this game is available on github:<br />
 	                <a href="https://github.com/bp74/dartflash_escape" target="_blank">https://github.com/bp74/dartflash_escape</a>
@@ -121,9 +113,9 @@
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src="../../assets/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../assets/js/prettify.js"></script>
     
-    <script type="text/javascript" src="escape.dart.js"></script> 
+    <script type="application/dart" src="escape.dart"></script>
+    <script type="text/javascript" src="../../assets/js/dart.js"></script> 
 
 </body>
 </html>

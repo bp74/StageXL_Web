@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>dartflash library - Performance Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+	  <link href="../assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/dartflash.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="../assets/prettify/run_prettify.js?lang=dart" defer="defer"></script>
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-33055781-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="../index.html"><strong>dartflash</strong></a>
+                <ul class="nav">
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Showcase<b
+                        class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">Games</li>
+                            <li><a href="../games/escape/escape.html">&nbsp;Escape</a></li>
+                            <li><a href="../games/supersonic/supersonic.html">&nbsp;Supersonic</a></li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Demos</li>
+                            <li><a href="../demos/performance.html">&nbsp;Performance</a></li>
+                            <li><a href="../demos/masking.html">&nbsp;Masking</a></li>
+                            <li><a href="../demos/movieclip.html">&nbsp;MovieClip</a></li>
+                            <li><a href="../demos/text.html">&nbsp;Text</a></li>
+                            <li><a href="../demos/filter.html">&nbsp;Filter</a></li>
+                            <li><a href="../demos/sound.html">&nbsp;Sound</a></li>
+                            <li><a href="../demos/tweener.html">&nbsp;Tweener</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Runtimes<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../runtimes/texturepacker.html">Texture Packer</a></li>
+                            <li><a href="../runtimes/flump.html">Flump</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Documents<b
+                        class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../docs/api/dartflash.html" target="_blank">API Reference</a></li>
+                            <li><a href="../docs/actionscript-dart.html">ActionScript&nbsp;<i class="icon-hand-right"></i>&nbsp;Dart</a></li>
+                            <li><a href="../docs/transitions.html">Transition Functions</a></li>
+                            <li><a href="../docs/wiki-articles.html">Wiki Articles</a></li>
+                            <li><a href="../docs/faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="../info.html">Info</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h1>
+            Performance</h1>
+        <p>
+            This demo is a benchmark to measure how many frames per second the browser is able to draw.
+            Increase the number of objects to see the effect on the frame rate. A modern computer should
+            be able to draw approximate 2000 objects at a smooth frame rate of 60 fps. Right now Google
+            Chrome delivers the best performance compared to other browsers. Over the next weeks and months
+            we expect noticeable better results for this benchmark enabled by the continuous work on the
+            dart2js compiler. Some critical code paths still contain non-optimal JavaScript code that will
+            improve with the steady progress of the compiler.</p>
+        <br />
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#demoShow" data-toggle="tab">Demo</a></li>
+                <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
+                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
+                <li><a href="#sourceFlyingFlag" data-toggle="tab">flying_flag.dart</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="demoShow">
+                    <div class="row">
+                        <div class="span1">
+                            <button id="minus10" class="btn btn-large btn-block btn-primary"><i class="icon-minus icon-white"></i> 10</button>
+                        </div>
+                        <div class="span1">
+                            <button id="minus50" class="btn btn-large btn-block btn-primary"><i class="icon-minus icon-white"></i> 50</button>
+                        </div>
+                        <div class="span1">
+                            <button id="plus50" class="btn btn-large btn-block btn-primary">50 <i class="icon-plus icon-white"></i></button>
+                        </div>
+                        <div class="span1">
+                            <button id="plus10" class="btn btn-large btn-block btn-primary">10 <i class="icon-plus icon-white"></i></button>
+                        </div>
+                        <div class="offset4 span2">
+                            <div class="alert alert-info" id="flagCounter">Flags: 0</div>
+                        </div>
+                        <div class="span2">
+                            <div class="alert alert-success" id="fpsMeter">fps: 0.0</div>
+                        </div>
+                    </div>
+
+                    <canvas id="stage" width="940" height="500">
+                    </canvas>
+                    <hr />
+                    Credits for this beautiful flags to: <a href="http://www.icondrawer.com" target="_blank">www.IconDrawer.com</a>.
+                </div>
+                <div class="tab-pane" id="sourceMain">
+                  <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+library dartflash_web;
+
+import &apos;dart:math&apos;;
+import &apos;dart:html&apos; as html;
+import &apos;package:dartflash/dartflash.dart&apos;;
+
+part &apos;src/demo.dart&apos;;
+part &apos;src/flying_flag.dart&apos;;
+
+Stage stage;
+RenderLoop renderLoop;
+Juggler juggler;
+ResourceManager resourceManager;
+
+void main() {
+     
+  // initialize Stage and RenderLoop
+  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
+  renderLoop = new RenderLoop();
+  renderLoop.addStage(stage);
+  juggler = renderLoop.juggler;
+  
+  // initialize ResourceManager
+  resourceManager = new ResourceManager()
+    ..addTextureAtlas(&apos;flags&apos;, &apos;images/flags.json&apos;, TextureAtlasFormat.JSONARRAY)
+  
+  resourceManager.load()
+    .then((_) =&gt; stage.addChild(new PerformanceDemo()))
+    .catchError((e) =&gt; print(e));
+}
+</pre>
+                </div>
+                <div class="tab-pane" id="sourceDemo">
+                  <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+part of dartflash_web;
+
+class PerformanceDemo extends DisplayObjectContainer {
+
+  PerformanceDemo() {
+    
+    // let&apos;s start with 250 flags
+    _addFlags(250);
+
+    // add html-button event listeners
+    html.query(&apos;#minus10&apos;).onClick.listen((e) =&gt; _removeFlags(10));
+    html.query(&apos;#minus50&apos;).onClick.listen((e) =&gt; _removeFlags(50));
+    html.query(&apos;#plus50&apos;).onClick.listen((e) =&gt; _addFlags(50));
+    html.query(&apos;#plus10&apos;).onClick.listen((e) =&gt; _addFlags(10));
+
+    // add event listener for EnterFrame (fps meter)
+    this.onEnterFrame.listen(_onEnterFrame);            
+  }
+  
+  //---------------------------------------------------------------------------------
+
+  num _fpsAverage = null;
+  
+  _onEnterFrame(EnterFrameEvent e) {
+    
+    if (_fpsAverage == null) {
+      _fpsAverage = 1.00 / e.passedTime;
+    } else {
+      _fpsAverage = 0.05 / e.passedTime + 0.95 * _fpsAverage;
+    }
+  
+    html.query(&apos;#fpsMeter&apos;).innerHtml = &apos;fps: ${_fpsAverage.round()}&apos;;
+  }
+  
+  //---------------------------------------------------------------------------------
+  
+  _addFlags(int amount) {
+    
+    var random = new Random();
+    var textureAtlas = resourceManager.getTextureAtlas(&apos;flags&apos;);
+    var flagNames = textureAtlas.frameNames;
+    
+    while(--amount &gt;= 0) {
+      var flagName = flagNames[random.nextInt(flagNames.length)];
+      var flagBitmapData = textureAtlas.getBitmapData(flagName);
+      
+      var flyingFlag = new FlyingFlag(flagBitmapData, random.nextInt(200) - 100, random.nextInt(200) - 100);
+      flyingFlag.x = 30 + random.nextInt(940 - 60);
+      flyingFlag.y = 30 + random.nextInt(500 - 60);
+      addChild(flyingFlag);
+      
+      juggler.add(flyingFlag);
+    }
+  
+    html.query(&apos;#flagCounter&apos;).innerHtml = &apos;Flags: ${numChildren}&apos;;
+  }
+  
+  //---------------------------------------------------------------------------------
+  
+  _removeFlags(int amount) {
+    
+    while(--amount &gt;= 0 &amp;&amp; numChildren &gt; 0) {
+      var displayObject = getChildAt(0);
+      displayObject.removeFromParent();
+      juggler.remove(displayObject);
+    }
+  
+    html.query(&apos;#flagCounter&apos;).innerHtml = &apos;Flags: ${numChildren}&apos;;
+  }
+}
+</pre>
+                </div>
+                <div class="tab-pane" id="sourceFlyingFlag">
+                     <!--?prettify lang=dart?-->
+                  <pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+part of dartflash_web;
+
+class FlyingFlag extends Bitmap implements Animatable {
+  
+    num vx, vy;
+
+    FlyingFlag(BitmapData bitmapData, this.vx, this.vy):super(bitmapData) {
+      this.pivotX = bitmapData.width / 2;
+      this.pivotY = bitmapData.height / 2;
+    }
+
+    bool advanceTime(num time) {
+      var tx = x + vx * time;
+      var ty = y + vy * time;
+      if (tx &gt; 910 || tx &lt; 30) vx = -vx; else x = tx;
+      if (ty &gt; 470 || ty &lt; 30) vy = -vy; else y = ty;
+      return true;
+    }
+}
+</pre>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+    
+    <script type="application/dart" src="../dartflash_web.dart"></script>
+    <script type="text/javascript" src="../assets/js/dart.js"></script>
+</body>
+</html>

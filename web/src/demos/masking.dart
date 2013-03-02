@@ -21,7 +21,7 @@ class MaskingDemo extends DisplayObjectContainer {
       bitmap.pivotY = 64;
       bitmap.x = 64 + _random.nextInt(940 - 128);
       bitmap.y = 64 + _random.nextInt(500 - 128);
-      bitmap.addTo(flowerField);
+      flowerField.addChild(bitmap);
 
       var tween = new Tween(bitmap, 600, TransitionFunction.linear);
       tween.animate('rotation', PI * 60.0);

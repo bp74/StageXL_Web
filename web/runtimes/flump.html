@@ -121,7 +121,7 @@ void main() {
   
   // initialize ResourceManager
   resourceManager = new ResourceManager()
-    ..addFlumpLibrary(&apos;flump&apos;, &apos;images/flumpLibrary.json&apos;)
+    ..addFlumpLibrary(&apos;flump&apos;, &apos;images/flumpLibrary.json&apos;);
   
   resourceManager.load()
     .then((_) =&gt; stage.addChild(new FlumpDemo()))

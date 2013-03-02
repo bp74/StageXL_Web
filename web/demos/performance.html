@@ -146,7 +146,7 @@ void main() {
   
   // initialize ResourceManager
   resourceManager = new ResourceManager()
-    ..addTextureAtlas(&apos;flags&apos;, &apos;images/flags.json&apos;, TextureAtlasFormat.JSONARRAY)
+    ..addTextureAtlas(&apos;flags&apos;, &apos;images/flags.json&apos;, TextureAtlasFormat.JSONARRAY);
   
   resourceManager.load()
     .then((_) =&gt; stage.addChild(new PerformanceDemo()))

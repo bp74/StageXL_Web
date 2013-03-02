@@ -123,7 +123,7 @@ void main() {
   
   // initialize ResourceManager
   resourceManager = new ResourceManager()
-    ..addTextureAtlas(&apos;walkTextureAtlas&apos;, &apos;images/walk.json&apos;, TextureAtlasFormat.JSONARRAY)
+    ..addTextureAtlas(&apos;walkTextureAtlas&apos;, &apos;images/walk.json&apos;, TextureAtlasFormat.JSONARRAY);
   
   resourceManager.load()
     .then((_) =&gt; stage.addChild(new MovieClipDemo()))

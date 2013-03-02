@@ -140,7 +140,7 @@ void main() {
   resourceManager = new ResourceManager()
     ..addBitmapData(&apos;flower1&apos;, &apos;images/Flower1.png&apos;)
     ..addBitmapData(&apos;flower2&apos;, &apos;images/Flower2.png&apos;)
-    ..addBitmapData(&apos;flower3&apos;, &apos;images/Flower3.png&apos;)
+    ..addBitmapData(&apos;flower3&apos;, &apos;images/Flower3.png&apos;);
        
   resourceManager.load()
     .then((_) =&gt; stage.addChild(new MaskingDemo()))
@@ -174,7 +174,7 @@ class MaskingDemo extends DisplayObjectContainer {
       bitmap.pivotY = 64;
       bitmap.x = 64 + _random.nextInt(940 - 128);
       bitmap.y = 64 + _random.nextInt(500 - 128);
-      bitmap.addTo(flowerField);
+      flowerField.addChild(bitmap);
 
       var tween = new Tween(bitmap, 600, TransitionFunction.linear);
       tween.animate(&apos;rotation&apos;, PI * 60.0);

@@ -84,7 +84,7 @@
         <br />
         <div class="tabbable">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#demoShow" data-toggle="tab">Demo</a></li>
+                <li class="active"><a href="#demoShow" data-toggle="tab"><strong>Demo</strong></a></li>
                 <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
                 <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
             </ul>
@@ -154,9 +154,9 @@ class MovieClipDemo extends DisplayObjectContainer {
   
   _startWalkingMan() {
 
-    // Create a movie clip with the list of bitmapDatas.
     var scale = _random.nextDouble();
-
+    
+    // Create a movie clip with the list of bitmapDatas.
     var movieClip = new MovieClip(_bitmapDatas, 30);
     movieClip.x = -128;
     movieClip.y = 20.0 + 180.0 * scale;

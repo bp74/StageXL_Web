@@ -2,13 +2,13 @@ part of dartflash_web;
 
 class SoundDemo extends DisplayObjectContainer{
   
-  final List _heyJudeNotes = [
+  final List<String> _heyJudeNotes = [
     'C4', 'A3', 'A3', 'C4', 'D4', 'G3',
     'G3', 'A3', 'A3#', 'F4', 'F4', 'E4', 'C4', 'D4', 'C4', 'A3#', 'A3',
     'C4', 'D4', 'D4', 'D4', 'G4', 'F4', 'E4', 'F4', 'D4', 'C4',
     'F3', 'G3', 'A3', 'D4', 'C4', 'C4', 'A3#', 'A3', 'E3', 'F3'];
 
-  final List _heyJudeLyrics = [
+  final List<String> _heyJudeLyrics = [
     'Hey ', 'Jude, ', "don't ", 'make ', 'it ', 'bad.<br>',
     'Take ', 'a ', 'sad ', 'song ', 'and ', 'make ', 'it ', 'better.<br>',  '',  '',  '',
     'Remember ', '', '', 'to ', 'let ', 'her ', 'into ', '', 'your ', 'heart.<br>',
@@ -33,24 +33,26 @@ class SoundDemo extends DisplayObjectContainer{
 
 class Piano extends DisplayObjectContainer {
 
-  final List _songNotes;
-  final List _songLyrics;
+  final List<String> songNotes;
+  final List<String> songLyrics;
   
-  final List _pianoNotes = [
+  final List<String> _pianoNotes = [
     'C3', 'C3#', 'D3', 'D3#', 'E3', 'F3', 'F3#', 'G3', 'G3#', 'A3', 'A3#', 'B3',
     'C4', 'C4#', 'D4', 'D4#', 'E4', 'F4', 'F4#', 'G4', 'G4#', 'A4', 'A4#', 'B4', 'C5'];
   
-  int _noteIndex;
-  Bitmap _noteFinger;
-
-  Piano(this._songNotes, this._songLyrics) {
+  Map<String, PianoKey> _pianoKeys = new Map<String, PianoKey>();
+  Bitmap _karaokeFinger;
+  int _songNoteIndex = 0;
+  
+  Piano(this.songNotes, this.songLyrics) {
     
-    // add all piano keys
+    // add piano keys
     for(int n = 0, x = 0; n < _pianoNotes.length; n++) {
       var sound = resourceManager.getSound('Note${n+1}');
-      var pianoKey = new PianoKey(this, _pianoNotes[n], sound);
+      var pianoNote = _pianoNotes[n];
+      var pianoKey = _pianoKeys[pianoNote] = new PianoKey(this, pianoNote, sound);
       
-      if (_pianoNotes[n].endsWith('#')) {
+      if (pianoNote.endsWith('#')) {
         pianoKey.x = x - 16;
         pianoKey.y = 35;
         addChild(pianoKey);
@@ -62,13 +64,12 @@ class Piano extends DisplayObjectContainer {
       }
     }
 
-    // prepare karaoke
-    _noteIndex = 0;
-    _noteFinger = new Bitmap(resourceManager.getBitmapData('Finger'));
-    _noteFinger.pivotX = 20;
-    addChild(_noteFinger);
+    // prepare karaoke finger
+    _karaokeFinger = new Bitmap(resourceManager.getBitmapData('Finger'));
+    _karaokeFinger.pivotX = 20;
+    addChild(_karaokeFinger);
     
-    _update();
+    _updateKaraoke();
   }
 
   //---------------------------------------------------------------------------------
@@ -76,69 +77,64 @@ class Piano extends DisplayObjectContainer {
   checkSongNote(String note) {
     
     // is it the next note of the song?
-    if (_noteIndex < _songNotes.length && _songNotes[_noteIndex] == note) {
-      if (_noteIndex == _songNotes.length - 1)
+    if (_songNoteIndex < songNotes.length && songNotes[_songNoteIndex] == note) {
+      if (_songNoteIndex == songNotes.length - 1)
         resourceManager.getSound('Cheer').play();
       
-      _noteIndex++;
-      _update();
+      _songNoteIndex++;
+      _updateKaraoke();
     }
   }
 
   //---------------------------------------------------------------------------------
 
   resetSong() {
-    _noteIndex = 0;
-    _noteFinger.alpha = 1;
-    _update();
+    _songNoteIndex = 0;
+    _karaokeFinger.alpha = 1;
+    _updateKaraoke();
   }
   
   //---------------------------------------------------------------------------------
 
-  _update() {
+  _updateKaraoke() {
     
     // update karaoke lyrics
     var lyricsDiv = html.query('#lyrics');
     var wordIndex = -1;
-
     lyricsDiv.innerHtml = '';
 
-    for(int w = 0, last = 0; w < _songLyrics.length; w++)  {
-      if (_songLyrics[w] != '') last = w;
-      if (w == this._noteIndex) wordIndex = last;
+    for(int w = 0, last = 0; w < songLyrics.length; w++)  {
+      if (songLyrics[w] != '') last = w;
+      if (w == this._songNoteIndex) wordIndex = last;
     }
 
-    for(int w = 0; w < _songLyrics.length; w++) {
+    for(int w = 0; w < songLyrics.length; w++) {
       if (w == wordIndex) {
-        lyricsDiv.appendHtml('<span id="word">${_songLyrics[w]}</span>');
+        lyricsDiv.appendHtml('<span id="word">${songLyrics[w]}</span>');
       } else {
-        lyricsDiv.appendHtml(_songLyrics[w]);
+        lyricsDiv.appendHtml(songLyrics[w]);
       }
     }
 
     // update finger position
-    if (_noteIndex < _songNotes.length) {
-      for(int i = 0; i < this.numChildren; i++) {
-        var displayObject = this.getChildAt(i);
-        if (displayObject is PianoKey) {
-          if (displayObject.note == _songNotes[_noteIndex]) {
-            _noteFinger.y = 0;
+    if (_songNoteIndex < songNotes.length) {
+      var songNote = songNotes[_songNoteIndex];
+      if (_pianoKeys.containsKey(songNote)) {
+        var pianoKey = _pianoKeys[songNote];
+        juggler.removeTweens(_karaokeFinger);
+        _karaokeFinger.y = 0;
             
-            var tweenX = new Tween(this._noteFinger, 0.4, TransitionFunction.easeInOutCubic);
-            tweenX.animate('x', displayObject.x + displayObject.width / 2);
-            var tweenY = new Tween(this._noteFinger, 0.4, TransitionFunction.sine);
-            tweenY.animate('y', -10);
-            
-            juggler.removeTweens(_noteFinger);
-            juggler.add(tweenX);
-            juggler.add(tweenY);
-          }
-        }
+        var tweenX = new Tween(this._karaokeFinger, 0.4, TransitionFunction.easeInOutCubic);
+        var tweenY = new Tween(this._karaokeFinger, 0.4, TransitionFunction.sine);
+        tweenX.animate('x', pianoKey.x + pianoKey.width / 2);
+        tweenY.animate('y', -10);
+        juggler.add(tweenX);
+        juggler.add(tweenY);
       }
     } else {
-      var tweenY = new Tween(_noteFinger, 0.4, TransitionFunction.linear);
-      tweenY.animate('alpha', 0);
-      juggler.add(tweenY);
+      var tween = new Tween(_karaokeFinger, 0.4, TransitionFunction.linear);
+      tween.animate('alpha', 0);
+      juggler.add(tween);
     }
   }
 }

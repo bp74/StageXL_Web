@@ -20,10 +20,9 @@ class MovieClipDemo extends DisplayObjectContainer {
   
   _startWalkingMan() {
 
-    // Create a movie clip with the list of bitmapDatas.
-    
     var scale = _random.nextDouble();
 
+    // Create a movie clip with the list of bitmapDatas.
     var movieClip = new MovieClip(_bitmapDatas, 30);
     movieClip.x = -128;
     movieClip.y = 20.0 + 180.0 * scale;

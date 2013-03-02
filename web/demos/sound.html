@@ -87,7 +87,7 @@
         <br />
         <div class="tabbable">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#demoShow" data-toggle="tab">Demo</a></li>
+                <li class="active"><a href="#demoShow" data-toggle="tab"><strong>Demo</strong></a></li>
                 <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
                 <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
                 <li><a href="#sourcePiano" data-toggle="tab">piano.dart</a></li>
@@ -185,13 +185,13 @@ part of dartflash_web;
 
 class SoundDemo extends DisplayObjectContainer{
   
-  final List _heyJudeNotes = [
+  final List&lt;String&gt; _heyJudeNotes = [
     &apos;C4&apos;, &apos;A3&apos;, &apos;A3&apos;, &apos;C4&apos;, &apos;D4&apos;, &apos;G3&apos;,
     &apos;G3&apos;, &apos;A3&apos;, &apos;A3#&apos;, &apos;F4&apos;, &apos;F4&apos;, &apos;E4&apos;, &apos;C4&apos;, &apos;D4&apos;, &apos;C4&apos;, &apos;A3#&apos;, &apos;A3&apos;,
     &apos;C4&apos;, &apos;D4&apos;, &apos;D4&apos;, &apos;D4&apos;, &apos;G4&apos;, &apos;F4&apos;, &apos;E4&apos;, &apos;F4&apos;, &apos;D4&apos;, &apos;C4&apos;,
     &apos;F3&apos;, &apos;G3&apos;, &apos;A3&apos;, &apos;D4&apos;, &apos;C4&apos;, &apos;C4&apos;, &apos;A3#&apos;, &apos;A3&apos;, &apos;E3&apos;, &apos;F3&apos;];
 
-  final List _heyJudeLyrics = [
+  final List&lt;String&gt; _heyJudeLyrics = [
     &apos;Hey &apos;, &apos;Jude, &apos;, "don&apos;t ", &apos;make &apos;, &apos;it &apos;, &apos;bad.&lt;br&gt;&apos;,
     &apos;Take &apos;, &apos;a &apos;, &apos;sad &apos;, &apos;song &apos;, &apos;and &apos;, &apos;make &apos;, &apos;it &apos;, &apos;better.&lt;br&gt;&apos;,  &apos;&apos;,  &apos;&apos;,  &apos;&apos;,
     &apos;Remember &apos;, &apos;&apos;, &apos;&apos;, &apos;to &apos;, &apos;let &apos;, &apos;her &apos;, &apos;into &apos;, &apos;&apos;, &apos;your &apos;, &apos;heart.&lt;br&gt;&apos;,
@@ -219,24 +219,26 @@ part of dartflash_web;
 
 class Piano extends DisplayObjectContainer {
 
-  final List _songNotes;
-  final List _songLyrics;
+  final List&lt;String&gt; songNotes;
+  final List&lt;String&gt; songLyrics;
   
-  final List _pianoNotes = [
+  final List&lt;String&gt; _pianoNotes = [
     &apos;C3&apos;, &apos;C3#&apos;, &apos;D3&apos;, &apos;D3#&apos;, &apos;E3&apos;, &apos;F3&apos;, &apos;F3#&apos;, &apos;G3&apos;, &apos;G3#&apos;, &apos;A3&apos;, &apos;A3#&apos;, &apos;B3&apos;,
     &apos;C4&apos;, &apos;C4#&apos;, &apos;D4&apos;, &apos;D4#&apos;, &apos;E4&apos;, &apos;F4&apos;, &apos;F4#&apos;, &apos;G4&apos;, &apos;G4#&apos;, &apos;A4&apos;, &apos;A4#&apos;, &apos;B4&apos;, &apos;C5&apos;];
   
-  int _noteIndex;
-  Bitmap _noteFinger;
-
-  Piano(this._songNotes, this._songLyrics) {
+  Map&lt;String, PianoKey&gt; _pianoKeys = new Map&lt;String, PianoKey&gt;();
+  Bitmap _karaokeFinger;
+  int _songNoteIndex = 0;
+  
+  Piano(this.songNotes, this.songLyrics) {
     
-    // add all piano keys
+    // add piano keys
     for(int n = 0, x = 0; n &lt; _pianoNotes.length; n++) {
       var sound = resourceManager.getSound(&apos;Note${n+1}&apos;);
-      var pianoKey = new PianoKey(this, _pianoNotes[n], sound);
+      var pianoNote = _pianoNotes[n];
+      var pianoKey = _pianoKeys[pianoNote] = new PianoKey(this, pianoNote, sound);
       
-      if (_pianoNotes[n].endsWith(&apos;#&apos;)) {
+      if (pianoNote.endsWith(&apos;#&apos;)) {
         pianoKey.x = x - 16;
         pianoKey.y = 35;
         addChild(pianoKey);
@@ -248,13 +250,12 @@ class Piano extends DisplayObjectContainer {
       }
     }
 
-    // prepare karaoke
-    _noteIndex = 0;
-    _noteFinger = new Bitmap(resourceManager.getBitmapData(&apos;Finger&apos;));
-    _noteFinger.pivotX = 20;
-    addChild(_noteFinger);
+    // prepare karaoke finger
+    _karaokeFinger = new Bitmap(resourceManager.getBitmapData(&apos;Finger&apos;));
+    _karaokeFinger.pivotX = 20;
+    addChild(_karaokeFinger);
     
-    _update();
+    _updateKaraoke();
   }
 
   //---------------------------------------------------------------------------------
@@ -262,69 +263,64 @@ class Piano extends DisplayObjectContainer {
   checkSongNote(String note) {
     
     // is it the next note of the song?
-    if (_noteIndex &lt; _songNotes.length &amp;&amp; _songNotes[_noteIndex] == note) {
-      if (_noteIndex == _songNotes.length - 1)
+    if (_songNoteIndex &lt; songNotes.length &amp;&amp; songNotes[_songNoteIndex] == note) {
+      if (_songNoteIndex == songNotes.length - 1)
         resourceManager.getSound(&apos;Cheer&apos;).play();
       
-      _noteIndex++;
-      _update();
+      _songNoteIndex++;
+      _updateKaraoke();
     }
   }
 
   //---------------------------------------------------------------------------------
 
   resetSong() {
-    _noteIndex = 0;
-    _noteFinger.alpha = 1;
-    _update();
+    _songNoteIndex = 0;
+    _karaokeFinger.alpha = 1;
+    _updateKaraoke();
   }
   
   //---------------------------------------------------------------------------------
 
-  _update() {
+  _updateKaraoke() {
     
     // update karaoke lyrics
     var lyricsDiv = html.query(&apos;#lyrics&apos;);
     var wordIndex = -1;
-
     lyricsDiv.innerHtml = &apos;&apos;;
 
-    for(int w = 0, last = 0; w &lt; _songLyrics.length; w++)  {
-      if (_songLyrics[w] != &apos;&apos;) last = w;
-      if (w == this._noteIndex) wordIndex = last;
+    for(int w = 0, last = 0; w &lt; songLyrics.length; w++)  {
+      if (songLyrics[w] != &apos;&apos;) last = w;
+      if (w == this._songNoteIndex) wordIndex = last;
     }
 
-    for(int w = 0; w &lt; _songLyrics.length; w++) {
+    for(int w = 0; w &lt; songLyrics.length; w++) {
       if (w == wordIndex) {
-        lyricsDiv.appendHtml(&apos;&lt;span id="word"&gt;${_songLyrics[w]}&lt;/span&gt;&apos;);
+        lyricsDiv.appendHtml(&apos;&lt;span id="word"&gt;${songLyrics[w]}&lt;/span&gt;&apos;);
       } else {
-        lyricsDiv.appendHtml(_songLyrics[w]);
+        lyricsDiv.appendHtml(songLyrics[w]);
       }
     }
 
     // update finger position
-    if (_noteIndex &lt; _songNotes.length) {
-      for(int i = 0; i &lt; this.numChildren; i++) {
-        var displayObject = this.getChildAt(i);
-        if (displayObject is PianoKey) {
-          if (displayObject.note == _songNotes[_noteIndex]) {
-            _noteFinger.y = 0;
+    if (_songNoteIndex &lt; songNotes.length) {
+      var songNote = songNotes[_songNoteIndex];
+      if (_pianoKeys.containsKey(songNote)) {
+        var pianoKey = _pianoKeys[songNote];
+        juggler.removeTweens(_karaokeFinger);
+        _karaokeFinger.y = 0;
             
-            var tweenX = new Tween(this._noteFinger, 0.4, TransitionFunction.easeInOutCubic);
-            tweenX.animate(&apos;x&apos;, displayObject.x + displayObject.width / 2);
-            var tweenY = new Tween(this._noteFinger, 0.4, TransitionFunction.sine);
-            tweenY.animate(&apos;y&apos;, -10);
-            
-            juggler.removeTweens(_noteFinger);
-            juggler.add(tweenX);
-            juggler.add(tweenY);
-          }
-        }
+        var tweenX = new Tween(this._karaokeFinger, 0.4, TransitionFunction.easeInOutCubic);
+        var tweenY = new Tween(this._karaokeFinger, 0.4, TransitionFunction.sine);
+        tweenX.animate(&apos;x&apos;, pianoKey.x + pianoKey.width / 2);
+        tweenY.animate(&apos;y&apos;, -10);
+        juggler.add(tweenX);
+        juggler.add(tweenY);
       }
     } else {
-      var tweenY = new Tween(_noteFinger, 0.4, TransitionFunction.linear);
-      tweenY.animate(&apos;alpha&apos;, 0);
-      juggler.add(tweenY);
+      var tween = new Tween(_karaokeFinger, 0.4, TransitionFunction.linear);
+      tween.animate(&apos;alpha&apos;, 0);
+      juggler.add(tween);
     }
   }
 }

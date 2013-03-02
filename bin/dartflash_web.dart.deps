@@ -14,6 +14,7 @@ file:///C:/Program Files/DartEditor/dart-sdk/lib/_internal/compiler/implementati
 file:///C:/Program Files/DartEditor/dart-sdk/lib/_internal/compiler/implementation/lib/js_helper.dart
 file:///C:/Program Files/DartEditor/dart-sdk/lib/_internal/compiler/implementation/lib/js_number.dart
 file:///C:/Program Files/DartEditor/dart-sdk/lib/_internal/compiler/implementation/lib/js_string.dart
+file:///C:/Program Files/DartEditor/dart-sdk/lib/_internal/compiler/implementation/lib/json_patch.dart
 file:///C:/Program Files/DartEditor/dart-sdk/lib/_internal/compiler/implementation/lib/math_patch.dart
 file:///C:/Program Files/DartEditor/dart-sdk/lib/_internal/compiler/implementation/lib/native_helper.dart
 file:///C:/Program Files/DartEditor/dart-sdk/lib/_internal/compiler/implementation/lib/regexp_helper.dart
@@ -68,6 +69,7 @@ file:///C:/Program Files/DartEditor/dart-sdk/lib/core/pattern.dart
 file:///C:/Program Files/DartEditor/dart-sdk/lib/core/print.dart
 file:///C:/Program Files/DartEditor/dart-sdk/lib/core/regexp.dart
 file:///C:/Program Files/DartEditor/dart-sdk/lib/core/set.dart
+file:///C:/Program Files/DartEditor/dart-sdk/lib/core/stacktrace.dart
 file:///C:/Program Files/DartEditor/dart-sdk/lib/core/stopwatch.dart
 file:///C:/Program Files/DartEditor/dart-sdk/lib/core/string.dart
 file:///C:/Program Files/DartEditor/dart-sdk/lib/core/string_buffer.dart

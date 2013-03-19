@@ -5,7 +5,7 @@
         <title>Transition class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
@@ -47,6 +47,7 @@
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
 <li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
 <li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -78,6 +80,8 @@
 <li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../dartflash/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
 <li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
 <li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
@@ -106,7 +110,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>Transition</strong>
           class
@@ -115,18 +119,18 @@
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <p>The <a class="crossref" href="../dartflash/Transition.html#Transition">Transition</a> class animates a value by calling the <code>onUpdate</code> function continuously.</p>
-<pre><span class="k ">var</span> <span class="i ">transition</span> <span class="o ">=</span> <span class="k ">new</span> <span class="t ">Transition</span><span class="p ">(</span><span class="n ">0.0</span><span class="p ">,</span> <span class="n ">100.0</span><span class="p ">,</span> <span class="n ">1.0</span><span class="p ">,</span> <span class="t ">TransitionFunction</span><span class="p ">.</span><span class="i ">linear</span><span class="p ">)</span><span class="p ">;</span>
-<span class="i ">transition</span><span class="p ">.</span><span class="i ">onUpdate</span> <span class="o ">=</span> <span class="p ">(</span><span class="i ">value</span><span class="p ">)</span> <span class="a ">=&gt;</span> <span class="i ">print</span><span class="p ">(</span><span class="s si">'the value changed to </span>$<span class="i ">value</span><span class="s si">'</span><span class="p ">)</span><span class="p ">;</span>
-<span class="i ">renderLoop</span><span class="p ">.</span><span class="i ">juggler</span><span class="p ">.</span><span class="i ">add</span><span class="p ">(</span><span class="i ">transition</span><span class="p ">)</span><span class="p ">;</span></pre>
+<pre><code>var transition = new Transition(0.0, 100.0, 1.0, TransitionFunction.linear);
+transition.onUpdate = (value) =&gt; print('the value changed to $value');
+renderLoop.juggler.add(transition);
+</code></pre>
 <pre class="source">
-class Transition extends Animatable
-{
- num _startValue;
- num _targetValue;
+class Transition extends Animatable {
+ 
+ final num _startValue;
+ final num _targetValue;
+ final Function _transitionFunction;
+ 
  num _currentValue;
-
- Function _transitionFunction;
-
  Function _onStart;
  Function _onUpdate;
  Function _onComplete;
@@ -137,14 +141,13 @@ class Transition extends Animatable
  bool _roundToInt;
  bool _started;
 
- Transition(num startValue, num targetValue, num time, [num transitionFunction(num ratio)])
- {
-   _startValue = startValue;
-   _targetValue = targetValue;
-   _currentValue = startValue;
-
-   _transitionFunction = (transitionFunction != null) ? transitionFunction : TransitionFunction.linear;
-
+ Transition(num startValue, num targetValue, num time, [num transitionFunction(num ratio)]) :
+   
+   _startValue = startValue,
+   _targetValue = targetValue,
+   _transitionFunction = (transitionFunction != null) ? transitionFunction : TransitionFunction.linear {
+   
+   _currentValue = startValue;  
    _currentTime = 0.0;
    _totalTime = max(0.0001, time);
    _delay = 0.0;
@@ -155,38 +158,28 @@ class Transition extends Animatable
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- bool advanceTime(num time)
- {
-   if (_currentTime &lt; _totalTime || _started == false)
-   {
+ bool advanceTime(num time) {
+   
+   if (_currentTime &lt; _totalTime || _started == false) {
+     
      _currentTime = _currentTime + time;
 
-     if (_currentTime &gt; _totalTime)
-       _currentTime = _totalTime;
+     if (_currentTime &gt; _totalTime) _currentTime = _totalTime;
 
-     if (_currentTime &gt;= 0.0)
-     {
+     if (_currentTime &gt;= 0.0) {
+       
        if (_started == false) {
          _started = true;
-
-         if (_onStart != null)
-           _onStart();
+         if (_onStart != null) _onStart();
        }
-
-       //-------------
 
        num ratio = _currentTime / _totalTime;
        num transition = _transitionFunction(ratio);
 
        _currentValue = _startValue + transition * (_targetValue - _startValue);
 
-       if (_onUpdate != null)
-         _onUpdate(_roundToInt ? _currentValue.round() : _currentValue);
-
-       //-------------
-
-       if (_onComplete != null &amp;&amp; _currentTime == _totalTime)
-         _onComplete();
+       if (_onUpdate != null) _onUpdate(_roundToInt ? _currentValue.round() : _currentValue);
+       if (_onComplete != null &amp;&amp; _currentTime == _totalTime) _onComplete();
      }
    }
 
@@ -207,16 +200,16 @@ class Transition extends Animatable
  bool get roundToInt =&gt; _roundToInt;
  bool get isComplete =&gt; _currentTime &gt;= _totalTime;
 
- set delay(num value)
- {
+ set delay(num value) {
+   
    if (_started == false)
      _currentTime = _currentTime + _delay - value;
 
    _delay = value;
  }
 
- set roundToInt(bool value)
- {
+ set roundToInt(bool value) {
+   
    _roundToInt = value;
  }
 
@@ -250,14 +243,13 @@ new <strong>Transition</strong>(<a href="http://api.dartlang.org/dart_core/num.h
               title="Permalink to Transition.Transition">#</a></h4>
 <div class="doc">
 <pre class="source">
-Transition(num startValue, num targetValue, num time, [num transitionFunction(num ratio)])
-{
- _startValue = startValue;
- _targetValue = targetValue;
- _currentValue = startValue;
-
- _transitionFunction = (transitionFunction != null) ? transitionFunction : TransitionFunction.linear;
-
+Transition(num startValue, num targetValue, num time, [num transitionFunction(num ratio)]) :
+ 
+ _startValue = startValue,
+ _targetValue = targetValue,
+ _transitionFunction = (transitionFunction != null) ? transitionFunction : TransitionFunction.linear {
+ 
+ _currentValue = startValue;  
  _currentTime = 0.0;
  _totalTime = max(0.0001, time);
  _delay = 0.0;
@@ -305,8 +297,8 @@ num get currentValue =&gt; _roundToInt ? _currentValue.round() : _currentValue;
 num get delay =&gt; _delay;
 </pre>
 <pre class="source">
-set delay(num value)
-{
+set delay(num value) {
+ 
  if (_started == false)
    _currentTime = _currentTime + _delay - value;
 
@@ -371,8 +363,8 @@ void set onUpdate(void function(num value)) { _onUpdate = function; }
 bool get roundToInt =&gt; _roundToInt;
 </pre>
 <pre class="source">
-set roundToInt(bool value)
-{
+set roundToInt(bool value) {
+ 
  _roundToInt = value;
 }
 </pre>
@@ -423,38 +415,28 @@ num get totalTime =&gt; _totalTime;
               title="Permalink to Transition.advanceTime">#</a></h4>
 <div class="doc">
 <pre class="source">
-bool advanceTime(num time)
-{
- if (_currentTime &lt; _totalTime || _started == false)
- {
+bool advanceTime(num time) {
+ 
+ if (_currentTime &lt; _totalTime || _started == false) {
+   
    _currentTime = _currentTime + time;
 
-   if (_currentTime &gt; _totalTime)
-     _currentTime = _totalTime;
+   if (_currentTime &gt; _totalTime) _currentTime = _totalTime;
 
-   if (_currentTime &gt;= 0.0)
-   {
+   if (_currentTime &gt;= 0.0) {
+     
      if (_started == false) {
        _started = true;
-
-       if (_onStart != null)
-         _onStart();
+       if (_onStart != null) _onStart();
      }
-
-     //-------------
 
      num ratio = _currentTime / _totalTime;
      num transition = _transitionFunction(ratio);
 
      _currentValue = _startValue + transition * (_targetValue - _startValue);
 
-     if (_onUpdate != null)
-       _onUpdate(_roundToInt ? _currentValue.round() : _currentValue);
-
-     //-------------
-
-     if (_onComplete != null &amp;&amp; _currentTime == _totalTime)
-       _onComplete();
+     if (_onUpdate != null) _onUpdate(_roundToInt ? _currentValue.round() : _currentValue);
+     if (_onComplete != null &amp;&amp; _currentTime == _totalTime) _onComplete();
    }
  }
 
@@ -468,7 +450,7 @@ bool advanceTime(num time)
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-02-09 23:19:05.118</div>
+          <div>This page was generated at 2013-03-19 16:40:17.177</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

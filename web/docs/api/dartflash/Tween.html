@@ -5,7 +5,7 @@
         <title>Tween class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
@@ -47,6 +47,7 @@
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
 <li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
 <li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -78,6 +80,8 @@
 <li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../dartflash/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
 <li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
 <li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
@@ -106,7 +110,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>Tween</strong>
           class
@@ -117,18 +121,18 @@
 <p>The <a class="crossref" href="../dartflash/Tween.html#Tween">Tween</a> class animates the properties of a <a class="crossref" href="../dartflash/DisplayObject.html">DisplayObject</a>.
 Use one of the <a class="crossref" href="../dartflash/TransitionFunction.html">TransitionFunction</a> functions or create your own.
 Add the instance to the <a class="crossref" href="../dartflash/Juggler.html">Juggler</a> to start the animation.</p>
-<pre><span class="k ">var</span> <span class="i ">tween</span> <span class="o ">=</span> <span class="k ">new</span> <span class="t ">Tween</span><span class="p ">(</span><span class="i ">mySprite</span><span class="p ">,</span> <span class="n ">1.0</span><span class="p ">,</span> <span class="t ">TransitionFunction</span><span class="p ">.</span><span class="i ">easeInCubic</span><span class="p ">)</span><span class="p ">;</span>
-<span class="i ">tween</span><span class="p ">.</span><span class="i ">delay</span> <span class="o ">=</span> <span class="n ">0.5</span><span class="p ">;</span>
-<span class="i ">tween</span><span class="p ">.</span><span class="i ">animate</span><span class="p ">(</span><span class="s si">"alpha"</span><span class="p ">,</span> <span class="n ">0.0</span><span class="p ">)</span><span class="p ">;</span>
-<span class="i ">tween</span><span class="p ">.</span><span class="i ">onComplete</span> <span class="o ">=</span> <span class="p ">(</span><span class="p ">)</span> <span class="a ">=&gt;</span> <span class="i ">print</span><span class="p ">(</span><span class="s si">'completed'</span><span class="p ">)</span><span class="p ">;</span>
-<span class="i ">renderLoop</span><span class="p ">.</span><span class="i ">juggler</span><span class="p ">.</span><span class="i ">add</span><span class="p ">(</span><span class="i ">tween</span><span class="p ">)</span><span class="p ">;</span></pre>
+<pre><code>var tween = new Tween(mySprite, 1.0, TransitionFunction.easeInCubic);
+tween.delay = 0.5;
+tween.animate("alpha", 0.0);
+tween.onComplete = () =&gt; print('completed');
+renderLoop.juggler.add(tween);
+</code></pre>
 <pre class="source">
-class Tween implements Animatable
-{
- DisplayObject _displayObject;
- Function _transitionFunction;
-
- List&lt;_TweenProperty&gt; _tweenProperties;
+class Tween implements Animatable {
+ 
+ final DisplayObject _displayObject;
+ final Function _transitionFunction;
+ final List&lt;_TweenProperty&gt; _tweenProperties = new List&lt;_TweenProperty&gt;();
 
  Function _onStart;
  Function _onUpdate;
@@ -140,26 +144,24 @@ class Tween implements Animatable
  bool _roundToInt;
  bool _started;
 
- Tween(DisplayObject displayObject, num time, [num transitionFunction(num ratio)])
- {
-   _displayObject = displayObject;
-   _transitionFunction = (transitionFunction != null) ? transitionFunction : TransitionFunction.linear;
+ Tween(DisplayObject displayObject, num time, [num transitionFunction(num ratio)]) : 
+ 
+   _displayObject = displayObject,
+   _transitionFunction = (transitionFunction != null) ? transitionFunction : TransitionFunction.linear {
 
    _currentTime = 0.0;
    _totalTime = max(0.0001, time);
    _delay = 0.0;
    _roundToInt = false;
    _started = false;
-
-   _tweenProperties = new List&lt;_TweenProperty&gt;();
  }
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- void animate(String property, num targetValue)
- {
-   var properties = ['x', 'y', 'pivotX', 'pivotY', 'scaleX', 'scaleY', 'rotation', 'alpha'];
+ void animate(String property, num targetValue) {
+   
+   var properties = ['x', 'y', 'pivotX', 'pivotY', 'scaleX', 'scaleY', 'skewX', 'skewY', 'rotation', 'alpha'];
 
    if (properties.indexOf(property) == -1)
      throw new ArgumentError("Error #9003: The supplied property ('$property') is not supported at this time.");
@@ -170,31 +172,40 @@ class Tween implements Animatable
 
  //-------------------------------------------------------------------------------------------------
 
- void scaleTo(num factor)
- {
+ void scaleTo(num factor) {
    animate('scaleX', factor);
    animate('scaleY', factor);
  }
 
  //-------------------------------------------------------------------------------------------------
 
- void moveTo(num x, num y)
- {
+ void moveTo(num x, num y) {
    animate('x', x);
    animate('y', y);
  }
 
  //-------------------------------------------------------------------------------------------------
 
- void fadeTo(num alpha)
- {
+ void skewTo(num skewX, num skewY) {
+   animate('skewX', skewX);
+   animate('skewY', skewY);
+ }
+ 
+ //-------------------------------------------------------------------------------------------------
+
+ void rotateTo(num rotation) {
+   animate('rotation', rotation);
+ }  
+ 
+ //-------------------------------------------------------------------------------------------------
+
+ void fadeTo(num alpha) {
    animate('alpha', alpha);
  }
 
  //-------------------------------------------------------------------------------------------------
 
- void complete()
- {
+ void complete() {
    if (_totalTime &gt;= _currentTime)
      advanceTime(_totalTime - _currentTime);
  }
@@ -202,23 +213,20 @@ class Tween implements Animatable
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- bool advanceTime(num time)
- {
-   if (_currentTime &lt; _totalTime || _started == false)
-   {
+ bool advanceTime(num time) {
+   
+   if (_currentTime &lt; _totalTime || _started == false) {
+     
      _currentTime = _currentTime + time;
 
-     if (_currentTime &gt; _totalTime)
-       _currentTime = _totalTime;
+     if (_currentTime &gt; _totalTime) _currentTime = _totalTime;
 
-     if (_currentTime &gt;= 0.0)
-     {
-       if (_started == false)
-       {
+     if (_currentTime &gt;= 0.0) {
+      
+       if (_started == false) {
          _started = true;
 
-         for(int i = 0; i &lt; _tweenProperties.length; i++)
-         {
+         for(int i = 0; i &lt; _tweenProperties.length; i++) {
            var tp = _tweenProperties[i];
 
            switch(tp.name) {
@@ -228,13 +236,14 @@ class Tween implements Animatable
              case 'pivotY':   tp.startValue = _displayObject.pivotY; break;
              case 'scaleX':   tp.startValue = _displayObject.scaleX; break;
              case 'scaleY':   tp.startValue = _displayObject.scaleY; break;
+             case 'skewX':    tp.startValue = _displayObject.skewX; break;
+             case 'skewY':    tp.startValue = _displayObject.skewY; break;
              case 'rotation': tp.startValue = _displayObject.rotation; break;
              case 'alpha':    tp.startValue = _displayObject.alpha; break;
            }
          }
 
-         if (_onStart != null)
-           _onStart();
+         if (_onStart != null) _onStart();
        }
 
        //-------------
@@ -242,8 +251,8 @@ class Tween implements Animatable
        num ratio = _currentTime / _totalTime;
        num transition = _transitionFunction(ratio);
 
-       for(int i = 0; i &lt; _tweenProperties.length; i++)
-       {
+       for(int i = 0; i &lt; _tweenProperties.length; i++) {
+         
          var tp = _tweenProperties[i];
          var value = tp.startValue + transition * (tp.targetValue - tp.startValue);
          value = _roundToInt ? value.round() : value;
@@ -255,18 +264,15 @@ class Tween implements Animatable
            case 'pivotY':   _displayObject.pivotY = value; break;
            case 'scaleX':   _displayObject.scaleX = value; break;
            case 'scaleY':   _displayObject.scaleY = value; break;
+           case 'skewX':    _displayObject.skewX = value; break;
+           case 'skewY':    _displayObject.skewY = value; break;            
            case 'rotation': _displayObject.rotation = value; break;
            case 'alpha':    _displayObject.alpha = value; break;
          }
        }
 
-       if (_onUpdate != null)
-         _onUpdate();
-
-       //-------------
-
-       if (_onComplete != null &amp;&amp; _currentTime == _totalTime)
-         _onComplete();
+       if (_onUpdate != null) _onUpdate();
+       if (_onComplete != null &amp;&amp; _currentTime == _totalTime) _onComplete();
      }
    }
 
@@ -283,16 +289,15 @@ class Tween implements Animatable
  bool get roundToInt =&gt; _roundToInt;
  bool get isComplete =&gt; _currentTime &gt;= _totalTime;
 
- set delay(num value)
- {
+ set delay(num value) {
+   
    if (_started == false)
      _currentTime = _currentTime + _delay - value;
 
    _delay = value;
  }
 
- set roundToInt(bool value)
- {
+ set roundToInt(bool value) {
    _roundToInt = value;
  }
 
@@ -326,18 +331,16 @@ new <strong>Tween</strong>(<a href="../dartflash/DisplayObject.html">DisplayObje
               title="Permalink to Tween.Tween">#</a></h4>
 <div class="doc">
 <pre class="source">
-Tween(DisplayObject displayObject, num time, [num transitionFunction(num ratio)])
-{
- _displayObject = displayObject;
- _transitionFunction = (transitionFunction != null) ? transitionFunction : TransitionFunction.linear;
+Tween(DisplayObject displayObject, num time, [num transitionFunction(num ratio)]) : 
+
+ _displayObject = displayObject,
+ _transitionFunction = (transitionFunction != null) ? transitionFunction : TransitionFunction.linear {
 
  _currentTime = 0.0;
  _totalTime = max(0.0001, time);
  _delay = 0.0;
  _roundToInt = false;
  _started = false;
-
- _tweenProperties = new List&lt;_TweenProperty&gt;();
 }
 </pre>
 </div>
@@ -368,8 +371,8 @@ num get currentTime =&gt; _currentTime;
 num get delay =&gt; _delay;
 </pre>
 <pre class="source">
-set delay(num value)
-{
+set delay(num value) {
+ 
  if (_started == false)
    _currentTime = _currentTime + _delay - value;
 
@@ -446,8 +449,7 @@ void set onUpdate(void function()) { _onUpdate = function; }
 bool get roundToInt =&gt; _roundToInt;
 </pre>
 <pre class="source">
-set roundToInt(bool value)
-{
+set roundToInt(bool value) {
  _roundToInt = value;
 }
 </pre>
@@ -474,23 +476,20 @@ num get totalTime =&gt; _totalTime;
               title="Permalink to Tween.advanceTime">#</a></h4>
 <div class="doc">
 <pre class="source">
-bool advanceTime(num time)
-{
- if (_currentTime &lt; _totalTime || _started == false)
- {
+bool advanceTime(num time) {
+ 
+ if (_currentTime &lt; _totalTime || _started == false) {
+   
    _currentTime = _currentTime + time;
 
-   if (_currentTime &gt; _totalTime)
-     _currentTime = _totalTime;
+   if (_currentTime &gt; _totalTime) _currentTime = _totalTime;
 
-   if (_currentTime &gt;= 0.0)
-   {
-     if (_started == false)
-     {
+   if (_currentTime &gt;= 0.0) {
+    
+     if (_started == false) {
        _started = true;
 
-       for(int i = 0; i &lt; _tweenProperties.length; i++)
-       {
+       for(int i = 0; i &lt; _tweenProperties.length; i++) {
          var tp = _tweenProperties[i];
 
          switch(tp.name) {
@@ -500,13 +499,14 @@ bool advanceTime(num time)
            case 'pivotY':   tp.startValue = _displayObject.pivotY; break;
            case 'scaleX':   tp.startValue = _displayObject.scaleX; break;
            case 'scaleY':   tp.startValue = _displayObject.scaleY; break;
+           case 'skewX':    tp.startValue = _displayObject.skewX; break;
+           case 'skewY':    tp.startValue = _displayObject.skewY; break;
            case 'rotation': tp.startValue = _displayObject.rotation; break;
            case 'alpha':    tp.startValue = _displayObject.alpha; break;
          }
        }
 
-       if (_onStart != null)
-         _onStart();
+       if (_onStart != null) _onStart();
      }
 
      //-------------
@@ -514,8 +514,8 @@ bool advanceTime(num time)
      num ratio = _currentTime / _totalTime;
      num transition = _transitionFunction(ratio);
 
-     for(int i = 0; i &lt; _tweenProperties.length; i++)
-     {
+     for(int i = 0; i &lt; _tweenProperties.length; i++) {
+       
        var tp = _tweenProperties[i];
        var value = tp.startValue + transition * (tp.targetValue - tp.startValue);
        value = _roundToInt ? value.round() : value;
@@ -527,18 +527,15 @@ bool advanceTime(num time)
          case 'pivotY':   _displayObject.pivotY = value; break;
          case 'scaleX':   _displayObject.scaleX = value; break;
          case 'scaleY':   _displayObject.scaleY = value; break;
+         case 'skewX':    _displayObject.skewX = value; break;
+         case 'skewY':    _displayObject.skewY = value; break;            
          case 'rotation': _displayObject.rotation = value; break;
          case 'alpha':    _displayObject.alpha = value; break;
        }
      }
 
-     if (_onUpdate != null)
-       _onUpdate();
-
-     //-------------
-
-     if (_onComplete != null &amp;&amp; _currentTime == _totalTime)
-       _onComplete();
+     if (_onUpdate != null) _onUpdate();
+     if (_onComplete != null &amp;&amp; _currentTime == _totalTime) _onComplete();
    }
  }
 
@@ -553,9 +550,9 @@ void <strong>animate</strong>(<a href="http://api.dartlang.org/dart_core/String.
               title="Permalink to Tween.animate">#</a></h4>
 <div class="doc">
 <pre class="source">
-void animate(String property, num targetValue)
-{
- var properties = ['x', 'y', 'pivotX', 'pivotY', 'scaleX', 'scaleY', 'rotation', 'alpha'];
+void animate(String property, num targetValue) {
+ 
+ var properties = ['x', 'y', 'pivotX', 'pivotY', 'scaleX', 'scaleY', 'skewX', 'skewY', 'rotation', 'alpha'];
 
  if (properties.indexOf(property) == -1)
    throw new ArgumentError("Error #9003: The supplied property ('$property') is not supported at this time.");
@@ -572,8 +569,7 @@ void <strong>complete</strong>() <a class="anchor-link" href="#complete"
               title="Permalink to Tween.complete">#</a></h4>
 <div class="doc">
 <pre class="source">
-void complete()
-{
+void complete() {
  if (_totalTime &gt;= _currentTime)
    advanceTime(_totalTime - _currentTime);
 }
@@ -586,8 +582,7 @@ void <strong>fadeTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html
               title="Permalink to Tween.fadeTo">#</a></h4>
 <div class="doc">
 <pre class="source">
-void fadeTo(num alpha)
-{
+void fadeTo(num alpha) {
  animate('alpha', alpha);
 }
 </pre>
@@ -599,10 +594,21 @@ void <strong>moveTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html
               title="Permalink to Tween.moveTo">#</a></h4>
 <div class="doc">
 <pre class="source">
-void moveTo(num x, num y)
-{
+void moveTo(num x, num y) {
  animate('x', x);
  animate('y', y);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="rotateTo">
+<button class="show-code">Code</button>
+void <strong>rotateTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> rotation) <a class="anchor-link" href="#rotateTo"
+              title="Permalink to Tween.rotateTo">#</a></h4>
+<div class="doc">
+<pre class="source">
+void rotateTo(num rotation) {
+ animate('rotation', rotation);
 }
 </pre>
 </div>
@@ -613,10 +619,22 @@ void <strong>scaleTo</strong>(<a href="http://api.dartlang.org/dart_core/num.htm
               title="Permalink to Tween.scaleTo">#</a></h4>
 <div class="doc">
 <pre class="source">
-void scaleTo(num factor)
-{
+void scaleTo(num factor) {
  animate('scaleX', factor);
  animate('scaleY', factor);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="skewTo">
+<button class="show-code">Code</button>
+void <strong>skewTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> skewX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> skewY) <a class="anchor-link" href="#skewTo"
+              title="Permalink to Tween.skewTo">#</a></h4>
+<div class="doc">
+<pre class="source">
+void skewTo(num skewX, num skewY) {
+ animate('skewX', skewX);
+ animate('skewY', skewY);
 }
 </pre>
 </div>
@@ -626,7 +644,7 @@ void scaleTo(num factor)
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-02-09 23:19:05.126</div>
+          <div>This page was generated at 2013-03-19 16:40:17.188</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

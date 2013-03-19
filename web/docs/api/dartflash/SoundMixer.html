@@ -5,7 +5,7 @@
         <title>SoundMixer class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
@@ -47,6 +47,7 @@
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
 <li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
 <li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -78,6 +80,8 @@
 <li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../dartflash/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
 <li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
 <li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
@@ -106,7 +110,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>SoundMixer</strong>
           class
@@ -115,58 +119,75 @@
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class SoundMixer
-{
+class SoundMixer {
+ 
  static SoundTransform _soundTransform;
-
  static SoundTransform get soundTransform =&gt; _soundTransform;
 
- static void set soundTransform(SoundTransform value)
- {
+ static set soundTransform(SoundTransform value) {
    // ToDo
  }
 
  //-------------------------------------------------------------------------------------------------
+ 
+ static String engine = _getEngine();
+ 
+ static AudioContext _audioContext = _getAudioContext(); 
+ static List&lt;String&gt; _supportedTypes = _getSupportedTypes();
+ 
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+ 
+ static String _getEngine() {    
+     
+   var engine = (_audioContext != null) ? "WebAudioApi" : "AudioElement";
 
- static AudioContext _audioContextPrivate;
+   var ua = html.window.navigator.userAgent;
 
- static AudioContext get _audioContext
- {
-   if (_audioContextPrivate == null) {
-     try {
-       _audioContextPrivate = new AudioContext();
-     } catch(e) {
-       _audioContextPrivate = null;
-     }
-   }
+   if (ua.contains("IEMobile"))
+     if (ua.contains("9.0") || ua.contains("10.0"))
+       engine = "Mock";
 
-   return _audioContextPrivate;
+   if (ua.contains("iPhone") || ua.contains("iPad") || ua.contains("iPod"))
+     if (ua.contains("OS 3") || ua.contains("OS 4") || ua.contains("OS 5"))
+       engine = "Mock";
+   
+   if (_supportedTypes.length == 0)
+     engine = "Mock";
+
+   print("dartflash: supported audio engine is: $engine");
+   
+   return engine;
  }
 
  //-------------------------------------------------------------------------------------------------
-
- static String _engine;
-
- static String get engine
- {
-   if (_engine == null)
-   {
-     _engine = (_audioContext != null) ? "WebAudioApi" : "AudioElement";
-
-     var ua = html.window.navigator.userAgent;
-
-     if (ua.contains("IEMobile"))
-       if (ua.contains("9.0"))
-         _engine = "Mock";
-
-     if (ua.contains("iPhone") || ua.contains("iPad") || ua.contains("iPod"))
-       if (ua.contains("OS 3") || ua.contains("OS 4") || ua.contains("OS 5"))
-         _engine = "Mock";
+ 
+ static AudioContext _getAudioContext() {
+   
+   try {
+     return new AudioContext();
+   } catch(e) {
+     return null;
    }
-
-   return _engine;
  }
+ 
+ //-------------------------------------------------------------------------------------------------
 
+ static List&lt;String&gt; _getSupportedTypes() {
+   
+   var supportedTypes = new List&lt;String&gt;();
+   var audio = new AudioElement();
+   var valid = ["maybe", "probably"];
+
+   if (valid.indexOf(audio.canPlayType("audio/ogg", "")) != -1) supportedTypes.add("ogg");
+   if (valid.indexOf(audio.canPlayType("audio/mpeg", "")) != -1) supportedTypes.add("mp3");
+   if (valid.indexOf(audio.canPlayType("audio/wav", "")) != -1) supportedTypes.add("wav");
+         
+   print("dartflash: supported audio types are: ${supportedTypes}");
+   
+   return supportedTypes;
+ }
+ 
 }
 </pre>
 </div>
@@ -174,31 +195,13 @@ class SoundMixer
 <h3>Static Properties</h3>
 <div class="field"><h4 id="engine">
 <button class="show-code">Code</button>
-final <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>engine</strong> <a class="anchor-link"
+<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>engine</strong> <a class="anchor-link"
             href="#engine"
             title="Permalink to SoundMixer.engine">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-static String get engine
-{
- if (_engine == null)
- {
-   _engine = (_audioContext != null) ? "WebAudioApi" : "AudioElement";
-
-   var ua = html.window.navigator.userAgent;
-
-   if (ua.contains("IEMobile"))
-     if (ua.contains("9.0"))
-       _engine = "Mock";
-
-   if (ua.contains("iPhone") || ua.contains("iPad") || ua.contains("iPod"))
-     if (ua.contains("OS 3") || ua.contains("OS 4") || ua.contains("OS 5"))
-       _engine = "Mock";
- }
-
- return _engine;
-}
+engine = _getEngine()
 </pre>
 </div>
 </div>
@@ -213,8 +216,7 @@ static String get engine
 static SoundTransform get soundTransform =&gt; _soundTransform;
 </pre>
 <pre class="source">
-static void set soundTransform(SoundTransform value)
-{
+static set soundTransform(SoundTransform value) {
  // ToDo
 }
 </pre>
@@ -225,7 +227,7 @@ static void set soundTransform(SoundTransform value)
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-02-09 23:19:04.681</div>
+          <div>This page was generated at 2013-03-19 16:40:16.705</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

@@ -5,7 +5,7 @@
         <title>Stage class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
@@ -47,6 +47,7 @@
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
 <li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
 <li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -78,6 +80,8 @@
 <li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../dartflash/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
 <li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
 <li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
@@ -106,7 +110,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>Stage</strong>
           class
@@ -115,8 +119,8 @@
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class Stage extends DisplayObjectContainer
-{
+class Stage extends DisplayObjectContainer {
+ 
  CanvasElement _canvas;
  CanvasRenderingContext2D _context;
 
@@ -134,13 +138,10 @@ class Stage extends DisplayObjectContainer
  KeyboardEvent _keyboardEvent;
  TouchEvent _touchEvent;
 
- html.EventListener _onMouseEventHandler;
- html.EventListener _onTouchEventHandler;
-
  //-------------------------------------------------------------------------------------------------
 
- Stage(String name, CanvasElement canvas)
- {
+ Stage(String name, CanvasElement canvas) {
+   
    _name = name;
 
    _canvas = canvas;
@@ -155,7 +156,7 @@ class Stage extends DisplayObjectContainer
    //---------------------------
    // prepare mouse events
 
-   Mouse._eventDispatcher.addEventListener("mouseCursorChanged", _onMouseCursorChanged);
+   Mouse._onMouseCursorChanged.listen(_onMouseCursorChanged);
 
    _mouseButtons = [
      new _MouseButton(MouseEvent.MOUSE_DOWN, MouseEvent.MOUSE_UP, MouseEvent.CLICK, MouseEvent.DOUBLE_CLICK),
@@ -167,13 +168,11 @@ class Stage extends DisplayObjectContainer
    _mousePosition = new Point(0, 0);
    _mouseEvent = new MouseEvent(MouseEvent.CLICK, true);
 
-   _onMouseEventHandler = _onMouseEvent;
-
-   _canvas.onMouseDown.listen(_onMouseEventHandler);
-   _canvas.onMouseUp.listen(_onMouseEventHandler);
-   _canvas.onMouseMove.listen(_onMouseEventHandler);
-   _canvas.onMouseOut.listen(_onMouseEventHandler);
-   _canvas.onMouseWheel.listen(_onMouseEventHandler);
+   _canvas.onMouseDown.listen(_onMouseEvent);
+   _canvas.onMouseUp.listen(_onMouseEvent);
+   _canvas.onMouseMove.listen(_onMouseEvent);
+   _canvas.onMouseOut.listen(_onMouseEvent);
+   _canvas.onMouseWheel.listen(_onMouseWheelEvent);
 
    //---------------------------
    // prepare touch events
@@ -181,9 +180,7 @@ class Stage extends DisplayObjectContainer
    _touches = new Map&lt;int, _Touch&gt;();
    _touchEvent = new TouchEvent(TouchEvent.TOUCH_BEGIN, true);
 
-   _onTouchEventHandler = _onTouchEvent;
-
-   Multitouch._eventDispatcher.addEventListener("inputModeChanged", _onMultitouchInputModeChanged);
+   Multitouch._onInputModeChanged.listen(_onMultitouchInputModeChanged);
    _onMultitouchInputModeChanged(null);
 
    //---------------------------
@@ -210,7 +207,7 @@ class Stage extends DisplayObjectContainer
 
  //-------------------------------------------------------------------------------------------------
 
- void _throwStageException() {
+ _throwStageException() {
    throw new UnsupportedError("Error #2071: The Stage class does not implement this property or method.");
  }
 
@@ -228,10 +225,10 @@ class Stage extends DisplayObjectContainer
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- void materialize()
- {
-   if (_renderMode == StageRenderMode.AUTO || _renderMode == StageRenderMode.ONCE)
-   {
+ materialize() {
+   
+   if (_renderMode == StageRenderMode.AUTO || _renderMode == StageRenderMode.ONCE) {
+     
      _renderState.reset();
      render(_renderState);
 
@@ -243,15 +240,15 @@ class Stage extends DisplayObjectContainer
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- void _onMouseCursorChanged(Event event)
- {
+ _onMouseCursorChanged(String action) {
+
    _canvas.style.cursor = Mouse._getCssStyle(_mouseCursor);
  }
 
  //-------------------------------------------------------------------------------------------------
 
- void _onMouseEvent(html.MouseEvent event)
- {
+ _onMouseEvent(html.MouseEvent event) {
+   
    event.preventDefault();
 
    var clientRect = _canvas.getBoundingClientRect();
@@ -259,7 +256,7 @@ class Stage extends DisplayObjectContainer
    var button = event.button;
 
    InteractiveObject target = null;
-   Point stagePoint = new Point(event.clientX - clientRect.left, event.clientY - clientRect.top);
+   Point stagePoint = new Point(event.client.x - clientRect.left, event.client.y - clientRect.top);
    Point localPoint = null;
 
    if (button &lt; 0 || button &gt; 2) return;
@@ -378,22 +375,22 @@ class Stage extends DisplayObjectContainer
 
  //-------------------------------------------------------------------------------------------------
 
- void _onMouseWheel(html.WheelEvent event)
- {
-   InteractiveObject target = hitTestInput(event.offsetX, event.offsetY);
+ _onMouseWheelEvent(html.WheelEvent event) {
+   
+   var clientRect = _canvas.getBoundingClientRect();
+   var stagePoint = new Point(event.client.x - clientRect.left, event.client.y - clientRect.top);
+   var target = hitTestInput(stagePoint.x, stagePoint.y) as InteractiveObject;
 
-   if (target != null)
-   {
-     var clientRect = _canvas.getBoundingClientRect();
-     var stagePoint = new Point(event.clientX - clientRect.left, event.clientY - clientRect.top);
-     var localPoint = target.globalToLocal(stagePoint);
-
+   if (target != null) {
      target.dispatchEvent(_mouseEvent
        .._reset(MouseEvent.MOUSE_WHEEL, true)
-       .._localPoint = localPoint
+       .._localPoint = target.globalToLocal(stagePoint)
        .._stagePoint = stagePoint
        .._deltaX = event.deltaX
        .._deltaY = event.deltaY);
+     
+     if (_mouseEvent.stopsPropagation)
+       event.preventDefault();
    }
  }
 
@@ -402,40 +399,36 @@ class Stage extends DisplayObjectContainer
 
  List&lt;StreamSubscription&lt;TouchEvent&gt;&gt; _touchEventSubscriptions = [];
  
- void _onMultitouchInputModeChanged(Event event)
- {
+ _onMultitouchInputModeChanged(String inputMode) {
+   
    _touchEventSubscriptions.forEach((s) =&gt; s.cancel());
        
    if (Multitouch.inputMode == MultitouchInputMode.TOUCH_POINT) {
      _touchEventSubscriptions = [
-       _canvas.onTouchStart.listen(_onTouchEventHandler),
-       _canvas.onTouchEnd.listen(_onTouchEventHandler),
-       _canvas.onTouchMove.listen(_onTouchEventHandler),
-       _canvas.onTouchEnter.listen(_onTouchEventHandler),
-       _canvas.onTouchLeave.listen(_onTouchEventHandler),
-       _canvas.onTouchCancel.listen(_onTouchEventHandler)
+       _canvas.onTouchStart.listen(_onTouchEvent),
+       _canvas.onTouchEnd.listen(_onTouchEvent),
+       _canvas.onTouchMove.listen(_onTouchEvent),
+       _canvas.onTouchEnter.listen(_onTouchEvent),
+       _canvas.onTouchLeave.listen(_onTouchEvent),
+       _canvas.onTouchCancel.listen(_onTouchEvent)
      ];
    }
  }
 
  //-------------------------------------------------------------------------------------------------
 
- void _onTouchEvent(html.TouchEvent event)
- {
+ _onTouchEvent(html.TouchEvent event) {
+   
    event.preventDefault();
 
    var clientRect = _canvas.getBoundingClientRect();
 
    for(var changedTouch in event.changedTouches) {
 
-     int identifier = changedTouch.identifier;
-     InteractiveObject target = null;
-     Point stagePoint = new Point(changedTouch.clientX - clientRect.left, changedTouch.clientY - clientRect.top);
-     Point localPoint = null;
-
-     target = hitTestInput(stagePoint.x, stagePoint.y) as InteractiveObject;
-
-     _Touch touch = _touches.containsKey(identifier) ? _touches[identifier] : new _Touch(target, _touches.length == 0);
+     var identifier = changedTouch.identifier;
+     var stagePoint = new Point(changedTouch.client.x - clientRect.left, changedTouch.client.y - clientRect.top);
+     var target = hitTestInput(stagePoint.x, stagePoint.y) as InteractiveObject;
+     var touch = _touches.containsKey(identifier) ? _touches[identifier] : new _Touch(target, _touches.length == 0);
 
      //-----------------------------------------------------------------
 
@@ -501,8 +494,8 @@ class Stage extends DisplayObjectContainer
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- void _onKeyEvent(html.KeyboardEvent event)
- {
+ _onKeyEvent(html.KeyboardEvent event) {
+   
    event.preventDefault();
 
    String keyboardEventType = null;
@@ -531,8 +524,8 @@ class Stage extends DisplayObjectContainer
 
  //-------------------------------------------------------------------------------------------------
 
- void _onTextEvent(html.KeyboardEvent event)
- {
+ _onTextEvent(html.KeyboardEvent event) {
+   
    int charCode = (event.charCode != 0) ? event.charCode : event.keyCode;
 
    TextEvent textEvent = new TextEvent(TextEvent.TEXT_INPUT, true);
@@ -556,8 +549,8 @@ new <strong>Stage</strong>(<a href="http://api.dartlang.org/dart_core/String.htm
               title="Permalink to Stage.Stage">#</a></h4>
 <div class="doc">
 <pre class="source">
-Stage(String name, CanvasElement canvas)
-{
+Stage(String name, CanvasElement canvas) {
+ 
  _name = name;
 
  _canvas = canvas;
@@ -572,7 +565,7 @@ Stage(String name, CanvasElement canvas)
  //---------------------------
  // prepare mouse events
 
- Mouse._eventDispatcher.addEventListener("mouseCursorChanged", _onMouseCursorChanged);
+ Mouse._onMouseCursorChanged.listen(_onMouseCursorChanged);
 
  _mouseButtons = [
    new _MouseButton(MouseEvent.MOUSE_DOWN, MouseEvent.MOUSE_UP, MouseEvent.CLICK, MouseEvent.DOUBLE_CLICK),
@@ -584,13 +577,11 @@ Stage(String name, CanvasElement canvas)
  _mousePosition = new Point(0, 0);
  _mouseEvent = new MouseEvent(MouseEvent.CLICK, true);
 
- _onMouseEventHandler = _onMouseEvent;
-
- _canvas.onMouseDown.listen(_onMouseEventHandler);
- _canvas.onMouseUp.listen(_onMouseEventHandler);
- _canvas.onMouseMove.listen(_onMouseEventHandler);
- _canvas.onMouseOut.listen(_onMouseEventHandler);
- _canvas.onMouseWheel.listen(_onMouseEventHandler);
+ _canvas.onMouseDown.listen(_onMouseEvent);
+ _canvas.onMouseUp.listen(_onMouseEvent);
+ _canvas.onMouseMove.listen(_onMouseEvent);
+ _canvas.onMouseOut.listen(_onMouseEvent);
+ _canvas.onMouseWheel.listen(_onMouseWheelEvent);
 
  //---------------------------
  // prepare touch events
@@ -598,9 +589,7 @@ Stage(String name, CanvasElement canvas)
  _touches = new Map&lt;int, _Touch&gt;();
  _touchEvent = new TouchEvent(TouchEvent.TOUCH_BEGIN, true);
 
- _onTouchEventHandler = _onTouchEvent;
-
- Multitouch._eventDispatcher.addEventListener("inputModeChanged", _onMultitouchInputModeChanged);
+ Multitouch._onInputModeChanged.listen(_onMultitouchInputModeChanged);
  _onMultitouchInputModeChanged(null);
 
  //---------------------------
@@ -635,6 +624,18 @@ void <strong>set alpha</strong>(<a href="http://api.dartlang.org/dart_core/num.h
 <div class="doc">
 <pre class="source">
 void set alpha(num value) { _throwStageException(); }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="cached">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>cached</strong> <a class="anchor-link"
+            href="#cached"
+            title="Permalink to Stage.cached">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool get cached =&gt; _cache != null;
 </pre>
 </div>
 </div>
@@ -1165,8 +1166,8 @@ final <a href="../dartflash/DisplayObject.html">DisplayObject</a>         <stron
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-DisplayObject get root
-{
+DisplayObject get root {
+ 
  DisplayObject currentObject = this;
 
  while (currentObject._parent != null)
@@ -1237,6 +1238,36 @@ void set scaleY(num value) { _throwStageException(); }
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="skewX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>skewX</strong> <a class="anchor-link"
+            href="#skewX"
+            title="Permalink to Stage.skewX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get skewX =&gt; _skewX;
+</pre>
+<pre class="source">
+set skewX(num value) { _skewX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="skewY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>skewY</strong> <a class="anchor-link"
+            href="#skewY"
+            title="Permalink to Stage.skewY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get skewY =&gt; _skewY;
+</pre>
+<pre class="source">
+set skewY(num value) { _skewY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="stage">
 <button class="show-code">Code</button>
 final <a href="../dartflash/Stage.html">Stage</a>         <strong>stage</strong> <a class="anchor-link"
@@ -1245,8 +1276,8 @@ final <a href="../dartflash/Stage.html">Stage</a>         <strong>stage</strong>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Stage get stage
-{
+Stage get stage {
+ 
  DisplayObject root = this.root;
 
  if (root is Stage)
@@ -1304,8 +1335,7 @@ final <a href="../dartflash/Matrix.html">Matrix</a>         <strong>transformati
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Matrix get transformationMatrix
-{
+Matrix get transformationMatrix {
  return _transformationMatrix.clone();
 }
 </pre>
@@ -1395,16 +1425,13 @@ void <strong>addChild</strong>(<a href="../dartflash/DisplayObject.html">Display
               title="Permalink to Stage.addChild">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-void addChild(DisplayObject child)
-{
- if (child.parent == this)
- {
+void addChild(DisplayObject child) {
+ 
+ if (child.parent == this) {
    int index = _children.indexOf(child);
    _children.removeAt(index);
    _children.add(child);
- }
- else
- {
+ } else {
    addChildAt(child, _children.length);
  }
 }
@@ -1417,29 +1444,29 @@ void <strong>addChildAt</strong>(<a href="../dartflash/DisplayObject.html">Displ
               title="Permalink to Stage.addChildAt">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-void addChildAt(DisplayObject child, int index)
-{
- if (index &lt; 0 &amp;&amp; index &gt; _children.length)
+void addChildAt(DisplayObject child, int index) {
+ 
+ if (index &lt; 0 || index &gt; _children.length)
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
  if (child == this)
    throw new ArgumentError("Error #2024: An object cannot be added as a child of itself.");
 
- if (child.parent == this)
- {
+ if (child.parent == this) {
+   
    _children.removeAt(_children.indexOf(child));
 
    if (index &gt; _children.length)
      index --;
 
-   _children.insertRange(index, 1, child);
- }
- else
- {
+   _children.insert(index, child);
+ 
+ } else {
+   
    child.removeFromParent();
 
    child._setParent(this);
-   _children.insertRange(index, 1, child);
+   _children.insert(index, child);
 
    child.dispatchEvent(new Event(Event.ADDED, true));
 
@@ -1471,9 +1498,31 @@ void <strong>addTo</strong>(<a href="../dartflash/DisplayObjectContainer.html">D
               title="Permalink to Stage.addTo">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-void addTo(DisplayObjectContainer parent)
-{
+void addTo(DisplayObjectContainer parent) {
  parent.addChild(this);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="applyCache">
+<button class="show-code">Code</button>
+void <strong>applyCache</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> x, <a href="http://api.dartlang.org/dart_core/int.html">int</a> y, <a href="http://api.dartlang.org/dart_core/int.html">int</a> width, <a href="http://api.dartlang.org/dart_core/int.html">int</a> height, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> debugBorder: false}) <a class="anchor-link" href="#applyCache"
+              title="Permalink to Stage.applyCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
+ 
+ _cache = new BitmapData(width, height, true, 0x00000000);
+ _cache._frameOffsetX = x;
+ _cache._frameOffsetY = y;
+ _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+ 
+ if (debugBorder) {
+   _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+ }
 }
 </pre>
 </div>
@@ -1484,8 +1533,8 @@ void addTo(DisplayObjectContainer parent)
               title="Permalink to Stage.contains">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-bool contains(DisplayObject child)
-{
+bool contains(DisplayObject child) {
+ 
  for(; child != null; child = child._parent)
    if (child == this)
      return true;
@@ -1501,14 +1550,14 @@ void <strong>dispatchEvent</strong>(<a href="../dartflash/Event.html">Event</a> 
               title="Permalink to Stage.dispatchEvent">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-void dispatchEvent(Event event)
-{
+void dispatchEvent(Event event) {
+ 
  List&lt;DisplayObject&gt; ancestors = null;
 
  if (event.captures || event.bubbles)
    for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent)
      if (ancestor.hasEventListener(event.type)) {
-       if (ancestors == null) ancestors = new List&lt;DisplayObject&gt;();
+       if (ancestors == null) ancestors = _displayObjectListPool.pop() as List&lt;DisplayObject&gt;;
        ancestors.add(ancestor);
      }
 
@@ -1524,6 +1573,11 @@ void dispatchEvent(Event event)
    for(int i = 0; i &lt; ancestors.length; i++)
      if (event.stopsPropagation == false)
        ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
+ 
+ if (ancestors != null) {
+   ancestors.clear();
+   _displayObjectListPool.push(ancestors);
+ }
 }
 </pre>
 </div>
@@ -1534,8 +1588,8 @@ void dispatchEvent(Event event)
               title="Permalink to Stage.getBounds">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Rectangle getBounds(DisplayObject targetSpace)
-{
+Rectangle getBounds(DisplayObject targetSpace) {
+ 
  Rectangle returnRectangle = new Rectangle.zero();
  Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
 
@@ -1550,8 +1604,8 @@ Rectangle getBounds(DisplayObject targetSpace)
               title="Permalink to Stage.getBoundsTransformed">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
-{
+Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
+ 
  if (returnRectangle == null)
    returnRectangle = new Rectangle.zero();
 
@@ -1565,8 +1619,8 @@ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
 
  int childrenLength = _children.length;
 
- for (int i = 0; i &lt; _children.length; i++)
- {
+ for (int i = 0; i &lt; _children.length; i++) {
+   
    DisplayObject child = _children[i];
 
    _tmpMatrix.copyFromAndConcat(child._transformationMatrix, matrix);
@@ -1594,9 +1648,9 @@ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
               title="Permalink to Stage.getChildAt">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-dynamic getChildAt(int index)
-{
- if (index &lt; 0 &amp;&amp; index &gt;= _children.length)
+dynamic getChildAt(int index) {
+ 
+ if (index &lt; 0 || index &gt;= _children.length)
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
  return _children[index];
@@ -1610,11 +1664,9 @@ dynamic getChildAt(int index)
               title="Permalink to Stage.getChildByName">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-dynamic getChildByName(String name)
-{
- var childrenLength = _children.length;
+dynamic getChildByName(String name) {
 
- for(int i = 0; i &lt; childrenLength; i++)
+ for(int i = 0; i &lt; _children.length; i++)
    if (_children[i].name == name)
      return _children[i];
 
@@ -1629,8 +1681,7 @@ dynamic getChildByName(String name)
               title="Permalink to Stage.getChildIndex">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-int getChildIndex(DisplayObject child)
-{
+int getChildIndex(DisplayObject child) {
    return _children.indexOf(child);
 }
 </pre>
@@ -1642,8 +1693,8 @@ int getChildIndex(DisplayObject child)
               title="Permalink to Stage.globalToLocal">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Point globalToLocal(Point globalPoint)
-{
+Point globalToLocal(Point globalPoint) {
+ 
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1678,16 +1729,15 @@ bool hasEventListener(String type)
               title="Permalink to Stage.hitTestInput">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-DisplayObject hitTestInput(num localX, num localY)
-{
+DisplayObject hitTestInput(num localX, num localY) {
+ 
  DisplayObject hit = null;
 
- for (int i = _children.length - 1; i &gt;= 0; i--)
- {
+ for (int i = _children.length - 1; i &gt;= 0; i--) {
+   
    DisplayObject child = _children[i];
 
-   if (child.visible)
-   {
+   if (child.visible) {
      Matrix matrix = child._transformationMatrix;
 
      double deltaX = localX - matrix.tx;
@@ -1697,8 +1747,7 @@ DisplayObject hitTestInput(num localX, num localY)
 
      var displayObject = child.hitTestInput(childX, childY);
 
-     if (displayObject != null)
-     {
+     if (displayObject != null) {
        if (displayObject is InteractiveObject)
          if (displayObject.mouseEnabled)
            return _mouseChildren ? displayObject : this;
@@ -1719,10 +1768,8 @@ DisplayObject hitTestInput(num localX, num localY)
               title="Permalink to Stage.hitTestObject">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-bool hitTestObject(DisplayObject other)
-{
+bool hitTestObject(DisplayObject other) {
  //ToDo
-
  throw new UnimplementedError("Error #2014: Feature is not available at this time.");
 }
 </pre>
@@ -1734,8 +1781,8 @@ bool hitTestObject(DisplayObject other)
               title="Permalink to Stage.hitTestPoint">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-bool hitTestPoint(num x, num y, [bool shapeFlag = false])
-{
+bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
+ 
  Stage stage = this.stage;
 
  if (stage == null)
@@ -1758,8 +1805,8 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false])
               title="Permalink to Stage.localToGlobal">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Point localToGlobal(Point localPoint)
-{
+Point localToGlobal(Point localPoint) {
+ 
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1772,14 +1819,14 @@ Point localToGlobal(Point localPoint)
 </div>
 <div class="method"><h4 id="materialize">
 <button class="show-code">Code</button>
-void <strong>materialize</strong>() <a class="anchor-link" href="#materialize"
+<strong>materialize</strong>() <a class="anchor-link" href="#materialize"
               title="Permalink to Stage.materialize">#</a></h4>
 <div class="doc">
 <pre class="source">
-void materialize()
-{
- if (_renderMode == StageRenderMode.AUTO || _renderMode == StageRenderMode.ONCE)
- {
+materialize() {
+ 
+ if (_renderMode == StageRenderMode.AUTO || _renderMode == StageRenderMode.ONCE) {
+   
    _renderState.reset();
    render(_renderState);
 
@@ -1804,14 +1851,41 @@ Stream&lt;Event&gt; on(String eventType, {bool useCapture: false})
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="refreshCache">
+<button class="show-code">Code</button>
+void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
+              title="Permalink to Stage.refreshCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void refreshCache() {
+ if (_cache != null) {
+   _cache.clear();
+   _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - _cache._frameOffsetX, - _cache._frameOffsetY));
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeCache">
+<button class="show-code">Code</button>
+void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
+              title="Permalink to Stage.removeCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void removeCache() {
+ _cache = null;
+}
+</pre>
+</div>
+</div>
 <div class="method inherited"><h4 id="removeChild">
 <button class="show-code">Code</button>
 void <strong>removeChild</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> child) <a class="anchor-link" href="#removeChild"
               title="Permalink to Stage.removeChild">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-void removeChild(DisplayObject child)
-{
+void removeChild(DisplayObject child) {
+ 
  int childIndex = _children.indexOf(child);
 
  if (childIndex == -1)
@@ -1828,9 +1902,9 @@ void <strong>removeChildAt</strong>(<a href="http://api.dartlang.org/dart_core/i
               title="Permalink to Stage.removeChildAt">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-void removeChildAt(int index)
-{
- if (index &lt; 0 &amp;&amp; index &gt;= _children.length)
+void removeChildAt(int index) {
+ 
+ if (index &lt; 0 || index &gt;= _children.length)
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
  DisplayObject child = _children[index];
@@ -1842,6 +1916,31 @@ void removeChildAt(int index)
 
  child._setParent(null);
  _children.removeAt(index);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeChildren">
+<button class="show-code">Code</button>
+void <strong>removeChildren</strong>([<a href="http://api.dartlang.org/dart_core/int.html">int</a> beginIndex, <a href="http://api.dartlang.org/dart_core/int.html">int</a> endIndex]) <a class="anchor-link" href="#removeChildren"
+              title="Permalink to Stage.removeChildren">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+void removeChildren([int beginIndex, int endIndex]) {
+ 
+ if (?beginIndex == false) beginIndex = 0;
+ if (?endIndex == false) endIndex = _children.length - 1;
+   
+ if (beginIndex &lt; 0 || beginIndex &gt;= _children.length)
+   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+
+ if (endIndex &lt; 0 || endIndex &gt;= _children.length)
+   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ 
+ for(int i = beginIndex; i &lt;= endIndex; i++) {
+   if (beginIndex &gt;= _children.length) break;
+   removeChildAt(beginIndex);
+ }
 }
 </pre>
 </div>
@@ -1869,8 +1968,7 @@ void <strong>removeFromParent</strong>() <a class="anchor-link" href="#removeFro
               title="Permalink to Stage.removeFromParent">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-void removeFromParent()
-{
+void removeFromParent() {
  if (_parent != null)
    _parent.removeChild(this);
 }
@@ -1883,10 +1981,10 @@ void <strong>render</strong>(<a href="../dartflash/RenderState.html">RenderState
               title="Permalink to Stage.render">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-void render(RenderState renderState)
-{
- for(int i = 0; i &lt; _children.length; i++)
- {
+void render(RenderState renderState) {
+ 
+ for(int i = 0; i &lt; _children.length; i++) {
+   
    DisplayObject child = _children[i];
 
    if (child.visible)
@@ -1902,9 +2000,9 @@ void <strong>setChildIndex</strong>(<a href="../dartflash/DisplayObject.html">Di
               title="Permalink to Stage.setChildIndex">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-void setChildIndex(DisplayObject child, int index)
-{
- if (index &lt; 0 &amp;&amp; index &gt;= _children.length)
+void setChildIndex(DisplayObject child, int index) {
+ 
+ if (index &lt; 0 || index &gt;= _children.length)
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
  int oldIndex = getChildIndex(child);
@@ -1913,7 +2011,7 @@ void setChildIndex(DisplayObject child, int index)
    throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
 
  _children.removeAt(oldIndex);
- _children.insertRange(index, 1, child);
+ _children.insert(index, child);
 }
 </pre>
 </div>
@@ -1924,8 +2022,7 @@ void <strong>sortChildren</strong>(<a href="http://api.dartlang.org/dart_core/Fu
               title="Permalink to Stage.sortChildren">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-void sortChildren(Function compareFunction)
-{
+void sortChildren(Function compareFunction) {
  _children.sort(compareFunction);
 }
 </pre>
@@ -1957,8 +2054,8 @@ void <strong>swapChildren</strong>(<a href="../dartflash/DisplayObject.html">Dis
               title="Permalink to Stage.swapChildren">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-void swapChildren(DisplayObject child1, DisplayObject child2)
-{
+void swapChildren(DisplayObject child1, DisplayObject child2) {
+ 
    int index1 = getChildIndex(child1);
    int index2 = getChildIndex(child2);
 
@@ -1976,8 +2073,8 @@ void <strong>swapChildrenAt</strong>(<a href="http://api.dartlang.org/dart_core/
               title="Permalink to Stage.swapChildrenAt">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-void swapChildrenAt(int index1, int index2)
-{
+void swapChildrenAt(int index1, int index2) {
+ 
  DisplayObject child1 = getChildAt(index1);
  DisplayObject child2 = getChildAt(index2);
  _children[index1] = child2;
@@ -1992,8 +2089,8 @@ void swapChildrenAt(int index1, int index2)
               title="Permalink to Stage.transformationMatrixTo">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Matrix transformationMatrixTo(DisplayObject targetSpace)
-{
+Matrix transformationMatrixTo(DisplayObject targetSpace) {
+ 
  if (targetSpace == _parent)
    return _transformationMatrix.clone();
 
@@ -2048,7 +2145,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace)
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-02-09 23:19:04.929</div>
+          <div>This page was generated at 2013-03-19 16:40:16.987</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

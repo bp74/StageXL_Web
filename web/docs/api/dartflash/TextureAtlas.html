@@ -5,7 +5,7 @@
         <title>TextureAtlas class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
@@ -47,6 +47,7 @@
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
 <li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
 <li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -78,6 +80,8 @@
 <li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../dartflash/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
 <li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
 <li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
@@ -106,7 +110,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>TextureAtlas</strong>
           class
@@ -115,26 +119,20 @@
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class TextureAtlas
-{
- ImageElement _imageElement;
- List&lt;TextureAtlasFrame&gt; _frames;
-
- TextureAtlas()
- {
-   _imageElement = new ImageElement();
-   _frames = new List&lt;TextureAtlasFrame&gt;();
- }
+class TextureAtlas {
+ 
+ final ImageElement _imageElement = new ImageElement();
+ final List&lt;TextureAtlasFrame&gt; _frames = new List&lt;TextureAtlasFrame&gt;();
 
  //-------------------------------------------------------------------------------------------------
 
- static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat)
- {
+ static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat) {
+   
    Completer&lt;TextureAtlas&gt; completer = new Completer&lt;TextureAtlas&gt;();
    TextureAtlas textureAtlas = new TextureAtlas();
 
-   switch(textureAtlasFormat)
-   {
+   switch(textureAtlasFormat) {
+     
      case TextureAtlasFormat.JSON:
      case TextureAtlasFormat.JSONARRAY:
 
@@ -191,8 +189,8 @@ class TextureAtlas
 
  //-------------------------------------------------------------------------------------------------
 
- BitmapData getBitmapData(String name)
- {
+ BitmapData getBitmapData(String name) {
+   
    BitmapData bitmapData;
 
    for(int i = 0; i &lt; _frames.length &amp;&amp; bitmapData == null; i++)
@@ -207,9 +205,9 @@ class TextureAtlas
 
  //-------------------------------------------------------------------------------------------------
 
- List&lt;BitmapData&gt; getBitmapDatas(String namePrefix)
- {
-   List&lt;BitmapData&gt; bitmapDataList = new List&lt;BitmapData&gt;();
+ List&lt;BitmapData&gt; getBitmapDatas(String namePrefix) {
+   
+   var bitmapDataList = new List&lt;BitmapData&gt;();
 
    for(int i = 0; i &lt; _frames.length; i++)
      if (_frames[i].name.indexOf(namePrefix) == 0)
@@ -220,14 +218,8 @@ class TextureAtlas
 
  //-------------------------------------------------------------------------------------------------
 
- List&lt;String&gt; get frameNames
- {
-   List&lt;String&gt; names = new List&lt;String&gt;();
-
-   for(int i = 0; i &lt; _frames.length; i++)
-     names.add(_frames[i].name);
-
-   return names;
+ List&lt;String&gt; get frameNames {
+   return _frames.map((f) =&gt; f.name).toList();
  }
 
 }
@@ -241,13 +233,13 @@ class TextureAtlas
               title="Permalink to TextureAtlas.load">#</a></h4>
 <div class="doc">
 <pre class="source">
-static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat)
-{
+static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat) {
+ 
  Completer&lt;TextureAtlas&gt; completer = new Completer&lt;TextureAtlas&gt;();
  TextureAtlas textureAtlas = new TextureAtlas();
 
- switch(textureAtlasFormat)
- {
+ switch(textureAtlasFormat) {
+   
    case TextureAtlasFormat.JSON:
    case TextureAtlasFormat.JSONARRAY:
 
@@ -301,23 +293,6 @@ static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat)
 </div>
 </div>
 <div>
-<h3>Constructors</h3>
-<div class="method"><h4 id="TextureAtlas">
-<button class="show-code">Code</button>
-new <strong>TextureAtlas</strong>() <a class="anchor-link" href="#TextureAtlas"
-              title="Permalink to TextureAtlas.TextureAtlas">#</a></h4>
-<div class="doc">
-<pre class="source">
-TextureAtlas()
-{
- _imageElement = new ImageElement();
- _frames = new List&lt;TextureAtlasFrame&gt;();
-}
-</pre>
-</div>
-</div>
-</div>
-<div>
 <h3>Properties</h3>
 <div class="field"><h4 id="frameNames">
 <button class="show-code">Code</button>
@@ -327,14 +302,8 @@ final <a href="http://api.dartlang.org/dart_core/List.html">List</a>&lt;<a href=
         </h4>
         <div class="doc">
 <pre class="source">
-List&lt;String&gt; get frameNames
-{
- List&lt;String&gt; names = new List&lt;String&gt;();
-
- for(int i = 0; i &lt; _frames.length; i++)
-   names.add(_frames[i].name);
-
- return names;
+List&lt;String&gt; get frameNames {
+ return _frames.map((f) =&gt; f.name).toList();
 }
 </pre>
 </div>
@@ -360,8 +329,8 @@ ImageElement get imageElement =&gt; _imageElement;
               title="Permalink to TextureAtlas.getBitmapData">#</a></h4>
 <div class="doc">
 <pre class="source">
-BitmapData getBitmapData(String name)
-{
+BitmapData getBitmapData(String name) {
+ 
  BitmapData bitmapData;
 
  for(int i = 0; i &lt; _frames.length &amp;&amp; bitmapData == null; i++)
@@ -382,9 +351,9 @@ BitmapData getBitmapData(String name)
               title="Permalink to TextureAtlas.getBitmapDatas">#</a></h4>
 <div class="doc">
 <pre class="source">
-List&lt;BitmapData&gt; getBitmapDatas(String namePrefix)
-{
- List&lt;BitmapData&gt; bitmapDataList = new List&lt;BitmapData&gt;();
+List&lt;BitmapData&gt; getBitmapDatas(String namePrefix) {
+ 
+ var bitmapDataList = new List&lt;BitmapData&gt;();
 
  for(int i = 0; i &lt; _frames.length; i++)
    if (_frames[i].name.indexOf(namePrefix) == 0)
@@ -400,7 +369,7 @@ List&lt;BitmapData&gt; getBitmapDatas(String namePrefix)
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-02-09 23:19:04.425</div>
+          <div>This page was generated at 2013-03-19 16:40:16.421</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

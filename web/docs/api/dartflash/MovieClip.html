@@ -5,7 +5,7 @@
         <title>MovieClip class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
@@ -47,6 +47,7 @@
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
 <li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
 <li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
@@ -71,6 +72,7 @@
 <li><div class="icon-class"></div><strong>MovieClip</strong></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -78,6 +80,8 @@
 <li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../dartflash/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
 <li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
 <li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
@@ -106,7 +110,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>MovieClip</strong>
           class
@@ -115,223 +119,17 @@
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class MovieClip extends InteractiveObject implements Animatable
-{
- List&lt;BitmapData&gt; _bitmapDatas;
-
- int _frameRate;
- int _currentFrame;
- double _frameTime;
-
- bool _play;
- bool _loop;
- Event _progressEvent;
- Event _completeEvent;
-
- Rectangle clipRectangle;
-
- //-------------------------------------------------------------------------------------------------
+@deprecated
+class MovieClip extends FlipBook {
  
- MovieClip(List&lt;BitmapData&gt; bitmapDatas, [int frameRate = 30, bool loop = true])
- {
-   _bitmapDatas = bitmapDatas;
-   _frameRate = frameRate;
-   _currentFrame = 0;
-   _frameTime = null;
-   _play = false;
-   _loop = loop;
-   _progressEvent = new Event(Event.PROGRESS);
-   _completeEvent = new Event(Event.COMPLETE);
-
-   clipRectangle = null;
- }
-
- //-------------------------------------------------------------------------------------------------
- 
- static const EventStreamProvider&lt;Event&gt; progressEvent = const EventStreamProvider&lt;Event&gt;(Event.PROGRESS);
- static const EventStreamProvider&lt;Event&gt; completeEvent = const EventStreamProvider&lt;Event&gt;(Event.COMPLETE);
- 
- Stream&lt;Event&gt; get onProgress =&gt; MovieClip.progressEvent.forTarget(this);  
- Stream&lt;Event&gt; get onComplete =&gt; MovieClip.completeEvent.forTarget(this);  
- 
- //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
-
- int get currentFrame =&gt; _currentFrame;
- int get totalFrames =&gt; _bitmapDatas.length;
-
- bool get loop =&gt; _loop;
- void set loop(bool value) { _loop = value; }
-
- bool get playing =&gt; _play;
-
- //-------------------------------------------------------------------------------------------------
-
- void gotoAndPlay(int frame)
- {
-   _currentFrame = min(max(frame, 0), totalFrames - 1);
-   _play = true;
-   _frameTime = null;
- }
-
- void gotoAndStop(int frame)
- {
-   _currentFrame = min(max(frame, 0), totalFrames - 1);
-   _play = false;
-   _frameTime = null;
- }
-
- void play()
- {
-   _play = true;
-   _frameTime = null;
- }
-
- void stop()
- {
-   _play = false;
-   _frameTime = null;
- }
-
- //-------------------------------------------------------------------------------------------------
-
- void nextFrame()
- {
-   _currentFrame = _loop ? (_currentFrame + 1) % totalFrames : max(_currentFrame + 1, totalFrames - 1);
-   _play = false;
-   _frameTime = null;
- }
-
- void prevFrame()
- {
-   _currentFrame = _loop ? (_currentFrame - 1) % totalFrames : min(_currentFrame - 1, 0);
-   _play = false;
-   _frameTime = null;
- }
-
- //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
-
- bool advanceTime(num time)
- {
-   if (_play == false)
-     return true;
-
-   if (_frameTime == null)
-   {
-     _frameTime = 0.0;
-     _dispatchEventInternal(_progressEvent, this, this, EventPhase.AT_TARGET);
-   }
-   else
-   {
-     _frameTime += time;
-
-     num frameDuration = 1.0 / _frameRate;
-
-     while (_play &amp;&amp; _frameTime &gt;= frameDuration)
-     {
-       var lastFrame = _currentFrame;
-       var nextFrame = _loop ? (lastFrame + 1) % totalFrames : min(lastFrame + 1, totalFrames - 1);
-
-       _currentFrame = nextFrame;
-       _frameTime -= frameDuration;
-
-       // dispatch progress event on every new frame
-
-       if (lastFrame != nextFrame)
-       {
-         _dispatchEventInternal(_progressEvent, this, this, EventPhase.AT_TARGET);
-
-         if (_currentFrame != nextFrame)
-           return true;
-       }
-
-       // dispatch complete event only on last frame
-
-       if (lastFrame != nextFrame &amp;&amp; nextFrame == totalFrames - 1 &amp;&amp; _loop == false)
-       {
-         _dispatchEventInternal(_completeEvent, this, this, EventPhase.AT_TARGET);
-
-         if (_currentFrame != nextFrame)
-           return true;
-       }
-     }
-   }
-
-   return true;
- }
-
-
- //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
-
- Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
- {
-   BitmapData bitmapData = _bitmapDatas[_currentFrame];
-
-   return _getBoundsTransformedHelper(matrix, bitmapData.width, bitmapData.height, returnRectangle);
- }
-
- //-------------------------------------------------------------------------------------------------
-
- DisplayObject hitTestInput(num localX, num localY)
- {
-   BitmapData bitmapData = _bitmapDatas[_currentFrame];
-
-   if (localX &gt;= 0 &amp;&amp; localY &gt;= 0 &amp;&amp; localX &lt; bitmapData.width &amp;&amp; localY &lt; bitmapData.height)
-     return this;
-
-   return null;
- }
-
- //-------------------------------------------------------------------------------------------------
-
- void render(RenderState renderState)
- {
-   BitmapData bitmapData = _bitmapDatas[_currentFrame];
-
-   if (clipRectangle == null)
-     bitmapData.render(renderState);
-   else
-     bitmapData.renderClipped(renderState, clipRectangle);
- }
-
+ MovieClip(List&lt;BitmapData&gt; bitmapDatas, [int frameRate = 30, bool loop = true]):
+   super(bitmapDatas, frameRate, loop);
 }
 </pre>
 </div>
 <h3>Extends</h3>
 <p>
-<span class="type-box"><span class="icon-class"></span><a href="../dartflash/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dartflash/DisplayObject.html">DisplayObject</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dartflash/InteractiveObject.html">InteractiveObject</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>MovieClip</strong></span></p>
-<h3>Implements</h3>
-<p>
-<span class="type-box"><span class="icon-class"></span><a href="../dartflash/Animatable.html">Animatable</a></span></p>
-<div>
-<h3>Static Properties</h3>
-<div class="field"><h4 id="completeEvent">
-<button class="show-code">Code</button>
-const <a href="../dartflash/EventStreamProvider.html">EventStreamProvider</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>completeEvent</strong> <a class="anchor-link"
-            href="#completeEvent"
-            title="Permalink to MovieClip.completeEvent">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-completeEvent = const EventStreamProvider&lt;Event&gt;(Event.COMPLETE)
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="progressEvent">
-<button class="show-code">Code</button>
-const <a href="../dartflash/EventStreamProvider.html">EventStreamProvider</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>progressEvent</strong> <a class="anchor-link"
-            href="#progressEvent"
-            title="Permalink to MovieClip.progressEvent">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-progressEvent = const EventStreamProvider&lt;Event&gt;(Event.PROGRESS)
-</pre>
-</div>
-</div>
-</div>
+<span class="type-box"><span class="icon-class"></span><a href="../dartflash/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dartflash/DisplayObject.html">DisplayObject</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dartflash/InteractiveObject.html">InteractiveObject</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dartflash/FlipBook.html">FlipBook</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>MovieClip</strong></span></p>
 <div>
 <h3>Constructors</h3>
 <div class="method"><h4 id="MovieClip">
@@ -340,24 +138,13 @@ new <strong>MovieClip</strong>(<a href="http://api.dartlang.org/dart_core/List.h
               title="Permalink to MovieClip.MovieClip">#</a></h4>
 <div class="doc">
 <pre class="source">
-MovieClip(List&lt;BitmapData&gt; bitmapDatas, [int frameRate = 30, bool loop = true])
-{
- _bitmapDatas = bitmapDatas;
- _frameRate = frameRate;
- _currentFrame = 0;
- _frameTime = null;
- _play = false;
- _loop = loop;
- _progressEvent = new Event(Event.PROGRESS);
- _completeEvent = new Event(Event.COMPLETE);
-
- clipRectangle = null;
-}
+MovieClip(List&lt;BitmapData&gt; bitmapDatas, [int frameRate = 30, bool loop = true]):
+ super(bitmapDatas, frameRate, loop);
 </pre>
 </div>
 </div>
 </div>
-<div>
+<div class="inherited">
 <h3>Properties</h3>
 <div class="field inherited"><h4 id="alpha">
 <button class="show-code">Code</button>
@@ -370,29 +157,41 @@ MovieClip(List&lt;BitmapData&gt; bitmapDatas, [int frameRate = 30, bool loop = t
 num get alpha =&gt; _alpha;
 </pre>
 <pre class="source">
-set alpha(num value) { _alpha = value; _transformationMatrixRefresh = true; }
+set alpha(num value) { _alpha = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="clipRectangle">
+<div class="field inherited"><h4 id="cached">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>cached</strong> <a class="anchor-link"
+            href="#cached"
+            title="Permalink to MovieClip.cached">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool get cached =&gt; _cache != null;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="clipRectangle">
 <button class="show-code">Code</button>
 <a href="../dartflash/Rectangle.html">Rectangle</a>         <strong>clipRectangle</strong> <a class="anchor-link"
             href="#clipRectangle"
             title="Permalink to MovieClip.clipRectangle">#</a>
         </h4>
-        <div class="doc">
+        <div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 clipRectangle
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="currentFrame">
+<div class="field inherited"><h4 id="currentFrame">
 <button class="show-code">Code</button>
 final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>currentFrame</strong> <a class="anchor-link"
             href="#currentFrame"
             title="Permalink to MovieClip.currentFrame">#</a>
         </h4>
-        <div class="doc">
+        <div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 int get currentFrame =&gt; _currentFrame;
 </pre>
@@ -421,8 +220,7 @@ doubleClickEnabled = false
 num get height =&gt; getBoundsTransformed(_transformationMatrix).height;
 </pre>
 <pre class="source">
-void set height(num value)
-{
+void set height(num value) {
  this.scaleY = 1;
  num normalHeight = this.height;
  this.scaleY = (normalHeight != 0.0) ? value / normalHeight : 1.0;
@@ -430,13 +228,13 @@ void set height(num value)
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="loop">
+<div class="field inherited"><h4 id="loop">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>loop</strong> <a class="anchor-link"
             href="#loop"
             title="Permalink to MovieClip.loop">#</a>
         </h4>
-        <div class="doc">
+        <div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 bool get loop =&gt; _loop;
 </pre>
@@ -511,15 +309,15 @@ Stream&lt;Event&gt; get onAddedToStage =&gt; DisplayObject.addedToStageEvent.for
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="onComplete">
+<div class="field inherited"><h4 id="onComplete">
 <button class="show-code">Code</button>
 final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>onComplete</strong> <a class="anchor-link"
             href="#onComplete"
             title="Permalink to MovieClip.onComplete">#</a>
         </h4>
-        <div class="doc">
+        <div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
-Stream&lt;Event&gt; get onComplete =&gt; MovieClip.completeEvent.forTarget(this);
+Stream&lt;Event&gt; get onComplete =&gt; FlipBook.completeEvent.forTarget(this);
 </pre>
 </div>
 </div>
@@ -727,15 +525,15 @@ Stream&lt;MouseEvent&gt; get onMouseWheel =&gt; InteractiveObject.mouseWheelEven
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="onProgress">
+<div class="field inherited"><h4 id="onProgress">
 <button class="show-code">Code</button>
 final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../dartflash/Event.html">Event</a>&gt;         <strong>onProgress</strong> <a class="anchor-link"
             href="#onProgress"
             title="Permalink to MovieClip.onProgress">#</a>
         </h4>
-        <div class="doc">
+        <div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
-Stream&lt;Event&gt; get onProgress =&gt; MovieClip.progressEvent.forTarget(this);
+Stream&lt;Event&gt; get onProgress =&gt; FlipBook.progressEvent.forTarget(this);
 </pre>
 </div>
 </div>
@@ -870,7 +668,7 @@ DisplayObjectContainer get parent =&gt; _parent;
 num get pivotX =&gt; _pivotX;
 </pre>
 <pre class="source">
-set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
+set pivotX(num value) { _pivotX = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -885,17 +683,17 @@ set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
 num get pivotY =&gt; _pivotY;
 </pre>
 <pre class="source">
-set pivotY(num value) { _pivotY = value; _transformationMatrixRefresh = true; }
+set pivotY(num value) { _pivotY = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="playing">
+<div class="field inherited"><h4 id="playing">
 <button class="show-code">Code</button>
 final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>playing</strong> <a class="anchor-link"
             href="#playing"
             title="Permalink to MovieClip.playing">#</a>
         </h4>
-        <div class="doc">
+        <div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 bool get playing =&gt; _play;
 </pre>
@@ -909,8 +707,8 @@ final <a href="../dartflash/DisplayObject.html">DisplayObject</a>         <stron
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-DisplayObject get root
-{
+DisplayObject get root {
+ 
  DisplayObject currentObject = this;
 
  while (currentObject._parent != null)
@@ -932,7 +730,7 @@ DisplayObject get root
 num get rotation =&gt; _rotation;
 </pre>
 <pre class="source">
-set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true; }
+set rotation(num value) { _rotation = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -947,7 +745,7 @@ set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true
 num get scaleX =&gt; _scaleX;
 </pre>
 <pre class="source">
-set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
+set scaleX(num value) { _scaleX = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -962,7 +760,37 @@ set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
 num get scaleY =&gt; _scaleY;
 </pre>
 <pre class="source">
-set scaleY(num value) { _scaleY = value; _transformationMatrixRefresh = true; }
+set scaleY(num value) { _scaleY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="skewX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>skewX</strong> <a class="anchor-link"
+            href="#skewX"
+            title="Permalink to MovieClip.skewX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get skewX =&gt; _skewX;
+</pre>
+<pre class="source">
+set skewX(num value) { _skewX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="skewY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>skewY</strong> <a class="anchor-link"
+            href="#skewY"
+            title="Permalink to MovieClip.skewY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get skewY =&gt; _skewY;
+</pre>
+<pre class="source">
+set skewY(num value) { _skewY = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -974,8 +802,8 @@ final <a href="../dartflash/Stage.html">Stage</a>         <strong>stage</strong>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Stage get stage
-{
+Stage get stage {
+ 
  DisplayObject root = this.root;
 
  if (root is Stage)
@@ -1010,13 +838,13 @@ tabIndex = 0
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="totalFrames">
+<div class="field inherited"><h4 id="totalFrames">
 <button class="show-code">Code</button>
 final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>totalFrames</strong> <a class="anchor-link"
             href="#totalFrames"
             title="Permalink to MovieClip.totalFrames">#</a>
         </h4>
-        <div class="doc">
+        <div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 int get totalFrames =&gt; _bitmapDatas.length;
 </pre>
@@ -1030,8 +858,7 @@ final <a href="../dartflash/Matrix.html">Matrix</a>         <strong>transformati
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Matrix get transformationMatrix
-{
+Matrix get transformationMatrix {
  return _transformationMatrix.clone();
 }
 </pre>
@@ -1063,8 +890,7 @@ set visible(bool value) { _visible = value; _transformationMatrixRefresh = true;
 num get width =&gt; getBoundsTransformed(_transformationMatrix).width;
 </pre>
 <pre class="source">
-void set width(num value)
-{
+void set width(num value) {
  this.scaleX = 1;
  num normalWidth = this.width;
  this.scaleX = (normalWidth != 0.0) ? value / normalWidth : 1.0;
@@ -1083,7 +909,7 @@ void set width(num value)
 num get x =&gt; _x;
 </pre>
 <pre class="source">
-set x(num value) { _x = value; _transformationMatrixRefresh = true; }
+set x(num value) { _x = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -1098,12 +924,12 @@ set x(num value) { _x = value; _transformationMatrixRefresh = true; }
 num get y =&gt; _y;
 </pre>
 <pre class="source">
-set y(num value) { _y = value; _transformationMatrixRefresh = true; }
+set y(num value) { _y = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
 </div>
-<div>
+<div class="inherited">
 <h3>Methods</h3>
 <div class="method inherited"><h4 id="addEventListener">
 <button class="show-code">Code</button>
@@ -1126,18 +952,17 @@ void <strong>addTo</strong>(<a href="../dartflash/DisplayObjectContainer.html">D
               title="Permalink to MovieClip.addTo">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-void addTo(DisplayObjectContainer parent)
-{
+void addTo(DisplayObjectContainer parent) {
  parent.addChild(this);
 }
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="advanceTime">
+<div class="method inherited"><h4 id="advanceTime">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>advanceTime</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> time) <a class="anchor-link" href="#advanceTime"
               title="Permalink to MovieClip.advanceTime">#</a></h4>
-<div class="doc">
+<div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 bool advanceTime(num time)
 {
@@ -1190,20 +1015,43 @@ bool advanceTime(num time)
 </pre>
 </div>
 </div>
+<div class="method inherited"><h4 id="applyCache">
+<button class="show-code">Code</button>
+void <strong>applyCache</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> x, <a href="http://api.dartlang.org/dart_core/int.html">int</a> y, <a href="http://api.dartlang.org/dart_core/int.html">int</a> width, <a href="http://api.dartlang.org/dart_core/int.html">int</a> height, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> debugBorder: false}) <a class="anchor-link" href="#applyCache"
+              title="Permalink to MovieClip.applyCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
+ 
+ _cache = new BitmapData(width, height, true, 0x00000000);
+ _cache._frameOffsetX = x;
+ _cache._frameOffsetY = y;
+ _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+ 
+ if (debugBorder) {
+   _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+ }
+}
+</pre>
+</div>
+</div>
 <div class="method inherited"><h4 id="dispatchEvent">
 <button class="show-code">Code</button>
 void <strong>dispatchEvent</strong>(<a href="../dartflash/Event.html">Event</a> event) <a class="anchor-link" href="#dispatchEvent"
               title="Permalink to MovieClip.dispatchEvent">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-void dispatchEvent(Event event)
-{
+void dispatchEvent(Event event) {
+ 
  List&lt;DisplayObject&gt; ancestors = null;
 
  if (event.captures || event.bubbles)
    for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent)
      if (ancestor.hasEventListener(event.type)) {
-       if (ancestors == null) ancestors = new List&lt;DisplayObject&gt;();
+       if (ancestors == null) ancestors = _displayObjectListPool.pop() as List&lt;DisplayObject&gt;;
        ancestors.add(ancestor);
      }
 
@@ -1219,6 +1067,11 @@ void dispatchEvent(Event event)
    for(int i = 0; i &lt; ancestors.length; i++)
      if (event.stopsPropagation == false)
        ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
+ 
+ if (ancestors != null) {
+   ancestors.clear();
+   _displayObjectListPool.push(ancestors);
+ }
 }
 </pre>
 </div>
@@ -1229,8 +1082,8 @@ void dispatchEvent(Event event)
               title="Permalink to MovieClip.getBounds">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Rectangle getBounds(DisplayObject targetSpace)
-{
+Rectangle getBounds(DisplayObject targetSpace) {
+ 
  Rectangle returnRectangle = new Rectangle.zero();
  Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
 
@@ -1239,11 +1092,11 @@ Rectangle getBounds(DisplayObject targetSpace)
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="getBoundsTransformed">
+<div class="method inherited"><h4 id="getBoundsTransformed">
 <button class="show-code">Code</button>
 <a href="../dartflash/Rectangle.html">Rectangle</a> <strong>getBoundsTransformed</strong>(<a href="../dartflash/Matrix.html">Matrix</a> matrix, [<a href="../dartflash/Rectangle.html">Rectangle</a> returnRectangle]) <a class="anchor-link" href="#getBoundsTransformed"
               title="Permalink to MovieClip.getBoundsTransformed">#</a></h4>
-<div class="doc">
+<div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
 {
@@ -1260,8 +1113,8 @@ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
               title="Permalink to MovieClip.globalToLocal">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Point globalToLocal(Point globalPoint)
-{
+Point globalToLocal(Point globalPoint) {
+ 
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1274,11 +1127,11 @@ Point globalToLocal(Point globalPoint)
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="gotoAndPlay">
+<div class="method inherited"><h4 id="gotoAndPlay">
 <button class="show-code">Code</button>
 void <strong>gotoAndPlay</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> frame) <a class="anchor-link" href="#gotoAndPlay"
               title="Permalink to MovieClip.gotoAndPlay">#</a></h4>
-<div class="doc">
+<div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 void gotoAndPlay(int frame)
 {
@@ -1289,11 +1142,11 @@ void gotoAndPlay(int frame)
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="gotoAndStop">
+<div class="method inherited"><h4 id="gotoAndStop">
 <button class="show-code">Code</button>
 void <strong>gotoAndStop</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> frame) <a class="anchor-link" href="#gotoAndStop"
               title="Permalink to MovieClip.gotoAndStop">#</a></h4>
-<div class="doc">
+<div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 void gotoAndStop(int frame)
 {
@@ -1320,11 +1173,11 @@ bool hasEventListener(String type)
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="hitTestInput">
+<div class="method inherited"><h4 id="hitTestInput">
 <button class="show-code">Code</button>
 <a href="../dartflash/DisplayObject.html">DisplayObject</a> <strong>hitTestInput</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> localX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> localY) <a class="anchor-link" href="#hitTestInput"
               title="Permalink to MovieClip.hitTestInput">#</a></h4>
-<div class="doc">
+<div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 DisplayObject hitTestInput(num localX, num localY)
 {
@@ -1344,10 +1197,8 @@ DisplayObject hitTestInput(num localX, num localY)
               title="Permalink to MovieClip.hitTestObject">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-bool hitTestObject(DisplayObject other)
-{
+bool hitTestObject(DisplayObject other) {
  //ToDo
-
  throw new UnimplementedError("Error #2014: Feature is not available at this time.");
 }
 </pre>
@@ -1359,8 +1210,8 @@ bool hitTestObject(DisplayObject other)
               title="Permalink to MovieClip.hitTestPoint">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-bool hitTestPoint(num x, num y, [bool shapeFlag = false])
-{
+bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
+ 
  Stage stage = this.stage;
 
  if (stage == null)
@@ -1383,8 +1234,8 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false])
               title="Permalink to MovieClip.localToGlobal">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Point localToGlobal(Point localPoint)
-{
+Point localToGlobal(Point localPoint) {
+ 
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1395,11 +1246,11 @@ Point localToGlobal(Point localPoint)
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="nextFrame">
+<div class="method inherited"><h4 id="nextFrame">
 <button class="show-code">Code</button>
 void <strong>nextFrame</strong>() <a class="anchor-link" href="#nextFrame"
               title="Permalink to MovieClip.nextFrame">#</a></h4>
-<div class="doc">
+<div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 void nextFrame()
 {
@@ -1424,11 +1275,11 @@ Stream&lt;Event&gt; on(String eventType, {bool useCapture: false})
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="play">
+<div class="method inherited"><h4 id="play">
 <button class="show-code">Code</button>
 void <strong>play</strong>() <a class="anchor-link" href="#play"
               title="Permalink to MovieClip.play">#</a></h4>
-<div class="doc">
+<div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 void play()
 {
@@ -1438,17 +1289,44 @@ void play()
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="prevFrame">
+<div class="method inherited"><h4 id="prevFrame">
 <button class="show-code">Code</button>
 void <strong>prevFrame</strong>() <a class="anchor-link" href="#prevFrame"
               title="Permalink to MovieClip.prevFrame">#</a></h4>
-<div class="doc">
+<div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 void prevFrame()
 {
  _currentFrame = _loop ? (_currentFrame - 1) % totalFrames : min(_currentFrame - 1, 0);
  _play = false;
  _frameTime = null;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="refreshCache">
+<button class="show-code">Code</button>
+void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
+              title="Permalink to MovieClip.refreshCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void refreshCache() {
+ if (_cache != null) {
+   _cache.clear();
+   _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - _cache._frameOffsetX, - _cache._frameOffsetY));
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeCache">
+<button class="show-code">Code</button>
+void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
+              title="Permalink to MovieClip.removeCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void removeCache() {
+ _cache = null;
 }
 </pre>
 </div>
@@ -1476,19 +1354,18 @@ void <strong>removeFromParent</strong>() <a class="anchor-link" href="#removeFro
               title="Permalink to MovieClip.removeFromParent">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-void removeFromParent()
-{
+void removeFromParent() {
  if (_parent != null)
    _parent.removeChild(this);
 }
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="render">
+<div class="method inherited"><h4 id="render">
 <button class="show-code">Code</button>
 void <strong>render</strong>(<a href="../dartflash/RenderState.html">RenderState</a> renderState) <a class="anchor-link" href="#render"
               title="Permalink to MovieClip.render">#</a></h4>
-<div class="doc">
+<div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 void render(RenderState renderState)
 {
@@ -1502,11 +1379,11 @@ void render(RenderState renderState)
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="stop">
+<div class="method inherited"><h4 id="stop">
 <button class="show-code">Code</button>
 void <strong>stop</strong>() <a class="anchor-link" href="#stop"
               title="Permalink to MovieClip.stop">#</a></h4>
-<div class="doc">
+<div class="inherited-from">inherited from <a href="../dartflash/FlipBook.html">FlipBook</a> </div><div class="doc">
 <pre class="source">
 void stop()
 {
@@ -1522,8 +1399,8 @@ void stop()
               title="Permalink to MovieClip.transformationMatrixTo">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Matrix transformationMatrixTo(DisplayObject targetSpace)
-{
+Matrix transformationMatrixTo(DisplayObject targetSpace) {
+ 
  if (targetSpace == _parent)
    return _transformationMatrix.clone();
 
@@ -1578,7 +1455,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace)
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-02-09 23:19:04.864</div>
+          <div>This page was generated at 2013-03-19 16:40:16.922</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

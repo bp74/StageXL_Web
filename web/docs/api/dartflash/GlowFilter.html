@@ -5,7 +5,7 @@
         <title>GlowFilter class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
@@ -47,6 +47,7 @@
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
 <li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
 <li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -78,6 +80,8 @@
 <li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../dartflash/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
 <li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
 <li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
@@ -106,7 +110,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>GlowFilter</strong>
           class
@@ -155,6 +159,8 @@ class GlowFilter extends BitmapFilter
    int sourceHeight = sourceRect.height;
    int weightX = blurX * blurX;
    int weightY = blurY * blurY;
+   int weightXinv = (1 &lt;&lt; 22) ~/ weightX;
+   int weightYinv = (1 &lt;&lt; 22) ~/ weightY;
    int rx1 = blurX;
    int rx2 = blurX * 2;
    int ry1 = blurY;
@@ -168,8 +174,7 @@ class GlowFilter extends BitmapFilter
    var destinationContext = destinationBitmapData._getContext();
    var destinationImageData = destinationContext.createImageData(destinationWidth, destinationHeight);
    var destinationData = destinationImageData.data;
-
-   List&lt;int&gt; buffer = new List&lt;int&gt;.fixedLength(1024);
+   var buffer = new List&lt;int&gt;(1024);
 
    //--------------------------------------------------
    // blur vertical
@@ -180,7 +185,7 @@ class GlowFilter extends BitmapFilter
      int offsetDestination = (x + rx1) * 4 + alphaChannel;
 
      for (int y = 0; y &lt; destinationHeight; y++) {
-       destinationData[offsetDestination] = sum ~/ weightY;
+       destinationData[offsetDestination] =  (sum *weightYinv) &gt;&gt; 22;
        offsetDestination += destinationWidth4;
 
        if (y &gt;= ry2) {
@@ -205,7 +210,7 @@ class GlowFilter extends BitmapFilter
      int offsetDestination = y * destinationWidth4 + alphaChannel;
 
      for (int x = 0; x &lt; destinationWidth; x++) {
-       destinationData[offsetDestination] = sum ~/ weightX;
+       destinationData[offsetDestination] = (sum * weightXinv) &gt;&gt; 22;
        offsetDestination += 4;
 
        if (x &gt;= rx2) {
@@ -231,23 +236,17 @@ class GlowFilter extends BitmapFilter
 
    if (_isLittleEndianSystem) {
      for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
-       var alpha = destinationData[i + 3];
-       if (alpha &gt; 0) {
-         destinationData[i + 0] = rColor;
-         destinationData[i + 1] = gColor;
-         destinationData[i + 2] = bColor;
-         destinationData[i + 3] = (destinationData[i + 3] * aColor) ~/ 256;
-       }
+       destinationData[i + 0] = rColor;
+       destinationData[i + 1] = gColor;
+       destinationData[i + 2] = bColor;
+       destinationData[i + 3] = (destinationData[i + 3] * aColor) &gt;&gt; 8;
      }
    } else {
      for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
-       var alpha = destinationData[i + 3];
-       if (alpha &gt; 0) {
-         destinationData[i + 0] = (destinationData[i + 0] * aColor) ~/ 256;
-         destinationData[i + 1] = bColor;
-         destinationData[i + 2] = gColor;
-         destinationData[i + 3] = rColor;
-       }
+       destinationData[i + 0] = (destinationData[i + 0] * aColor) &gt;&gt; 8;
+       destinationData[i + 1] = bColor;
+       destinationData[i + 2] = gColor;
+       destinationData[i + 3] = rColor;
      }
    }
 
@@ -416,6 +415,8 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
  int sourceHeight = sourceRect.height;
  int weightX = blurX * blurX;
  int weightY = blurY * blurY;
+ int weightXinv = (1 &lt;&lt; 22) ~/ weightX;
+ int weightYinv = (1 &lt;&lt; 22) ~/ weightY;
  int rx1 = blurX;
  int rx2 = blurX * 2;
  int ry1 = blurY;
@@ -429,8 +430,7 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
  var destinationContext = destinationBitmapData._getContext();
  var destinationImageData = destinationContext.createImageData(destinationWidth, destinationHeight);
  var destinationData = destinationImageData.data;
-
- List&lt;int&gt; buffer = new List&lt;int&gt;.fixedLength(1024);
+ var buffer = new List&lt;int&gt;(1024);
 
  //--------------------------------------------------
  // blur vertical
@@ -441,7 +441,7 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
    int offsetDestination = (x + rx1) * 4 + alphaChannel;
 
    for (int y = 0; y &lt; destinationHeight; y++) {
-     destinationData[offsetDestination] = sum ~/ weightY;
+     destinationData[offsetDestination] =  (sum *weightYinv) &gt;&gt; 22;
      offsetDestination += destinationWidth4;
 
      if (y &gt;= ry2) {
@@ -466,7 +466,7 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
    int offsetDestination = y * destinationWidth4 + alphaChannel;
 
    for (int x = 0; x &lt; destinationWidth; x++) {
-     destinationData[offsetDestination] = sum ~/ weightX;
+     destinationData[offsetDestination] = (sum * weightXinv) &gt;&gt; 22;
      offsetDestination += 4;
 
      if (x &gt;= rx2) {
@@ -492,23 +492,17 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
 
  if (_isLittleEndianSystem) {
    for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
-     var alpha = destinationData[i + 3];
-     if (alpha &gt; 0) {
-       destinationData[i + 0] = rColor;
-       destinationData[i + 1] = gColor;
-       destinationData[i + 2] = bColor;
-       destinationData[i + 3] = (destinationData[i + 3] * aColor) ~/ 256;
-     }
+     destinationData[i + 0] = rColor;
+     destinationData[i + 1] = gColor;
+     destinationData[i + 2] = bColor;
+     destinationData[i + 3] = (destinationData[i + 3] * aColor) &gt;&gt; 8;
    }
  } else {
    for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
-     var alpha = destinationData[i + 3];
-     if (alpha &gt; 0) {
-       destinationData[i + 0] = (destinationData[i + 0] * aColor) ~/ 256;
-       destinationData[i + 1] = bColor;
-       destinationData[i + 2] = gColor;
-       destinationData[i + 3] = rColor;
-     }
+     destinationData[i + 0] = (destinationData[i + 0] * aColor) &gt;&gt; 8;
+     destinationData[i + 1] = bColor;
+     destinationData[i + 2] = gColor;
+     destinationData[i + 3] = rColor;
    }
  }
 
@@ -563,7 +557,7 @@ Rectangle getBounds()
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-02-09 23:19:04.989</div>
+          <div>This page was generated at 2013-03-19 16:40:17.042</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

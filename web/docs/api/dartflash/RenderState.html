@@ -5,7 +5,7 @@
         <title>RenderState class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
@@ -47,6 +47,7 @@
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
 <li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
 <li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -78,6 +80,8 @@
 <li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><div class="icon-class"></div><strong>RenderState</strong></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../dartflash/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
 <li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
 <li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
@@ -106,7 +110,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>RenderState</strong>
           class
@@ -117,26 +121,20 @@
 <pre class="source">
 class RenderState
 {
- CanvasRenderingContext2D _context;
+ final CanvasRenderingContext2D _context;
+ final List&lt;Matrix&gt; _matrices = new List&lt;Matrix&gt;(100);
+ final List&lt;double&gt; _alphas = new List&lt;double&gt;(100);
 
- List&lt;Matrix&gt; _matrices;
- List&lt;double&gt; _alphas;
+ int _depth = 0;
 
- int _depth;
-
- RenderState.fromCanvasRenderingContext2D(CanvasRenderingContext2D context, [Matrix matrix])
- {
-   _context = context;
-   _matrices = new List&lt;Matrix&gt;.fixedLength(100);
-   _alphas = new List&lt;double&gt;.fixedLength(100);
+ RenderState.fromCanvasRenderingContext2D(CanvasRenderingContext2D context, [Matrix matrix]) :
+   _context = context {
 
    for(int i = 0; i &lt; 100; i++) {
      _matrices[i] = new Matrix.fromIdentity();
      _alphas[i] = 1.0;
    }
-
-   _depth = 0;
-   
+  
    if (matrix != null)
      _matrices[0].copyFrom(matrix);
    
@@ -154,8 +152,8 @@ class RenderState
 
  //-------------------------------------------------------------------------------------------------
 
- void reset()
- {
+ void reset() {
+   
    _depth = 0;
    
    var m = _matrices[0];
@@ -168,8 +166,8 @@ class RenderState
 
  //-------------------------------------------------------------------------------------------------
 
- void renderDisplayObject(DisplayObject displayObject)
- {
+ void renderDisplayObject(DisplayObject displayObject) {
+   
    var d1 = _depth;
    var d2 = _depth + 1;
    var m1 = _matrices[d1];
@@ -183,13 +181,22 @@ class RenderState
    _context.globalAlpha = a2;
 
    _depth = d2;
-
-   if (displayObject.mask == null) {
-     displayObject.render(this);
-   } else {
+   
+   var mask = displayObject._mask;
+   var cache = displayObject._cache;
+   
+   if (mask != null) {
      _context.save();
-     displayObject.mask.render(this);
+     mask.render(this);
+   }
+   
+   if (cache != null) {
+     cache.render(this);
+   } else {
      displayObject.render(this);
+   }
+       
+   if (mask != null) {
      _context.restore();
    }
 
@@ -207,19 +214,14 @@ new <strong>RenderState.fromCanvasRenderingContext2D</strong>(<a href="http://ap
               title="Permalink to RenderState.RenderState.fromCanvasRenderingContext2D">#</a></h4>
 <div class="doc">
 <pre class="source">
-RenderState.fromCanvasRenderingContext2D(CanvasRenderingContext2D context, [Matrix matrix])
-{
- _context = context;
- _matrices = new List&lt;Matrix&gt;.fixedLength(100);
- _alphas = new List&lt;double&gt;.fixedLength(100);
+RenderState.fromCanvasRenderingContext2D(CanvasRenderingContext2D context, [Matrix matrix]) :
+ _context = context {
 
  for(int i = 0; i &lt; 100; i++) {
    _matrices[i] = new Matrix.fromIdentity();
    _alphas[i] = 1.0;
  }
 
- _depth = 0;
- 
  if (matrix != null)
    _matrices[0].copyFrom(matrix);
  
@@ -256,8 +258,8 @@ void <strong>renderDisplayObject</strong>(<a href="../dartflash/DisplayObject.ht
               title="Permalink to RenderState.renderDisplayObject">#</a></h4>
 <div class="doc">
 <pre class="source">
-void renderDisplayObject(DisplayObject displayObject)
-{
+void renderDisplayObject(DisplayObject displayObject) {
+ 
  var d1 = _depth;
  var d2 = _depth + 1;
  var m1 = _matrices[d1];
@@ -271,13 +273,22 @@ void renderDisplayObject(DisplayObject displayObject)
  _context.globalAlpha = a2;
 
  _depth = d2;
-
- if (displayObject.mask == null) {
-   displayObject.render(this);
- } else {
+ 
+ var mask = displayObject._mask;
+ var cache = displayObject._cache;
+ 
+ if (mask != null) {
    _context.save();
-   displayObject.mask.render(this);
+   mask.render(this);
+ }
+ 
+ if (cache != null) {
+   cache.render(this);
+ } else {
    displayObject.render(this);
+ }
+     
+ if (mask != null) {
    _context.restore();
  }
 
@@ -292,8 +303,8 @@ void <strong>reset</strong>() <a class="anchor-link" href="#reset"
               title="Permalink to RenderState.reset">#</a></h4>
 <div class="doc">
 <pre class="source">
-void reset()
-{
+void reset() {
+ 
  _depth = 0;
  
  var m = _matrices[0];
@@ -311,7 +322,7 @@ void reset()
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-02-09 23:19:05.072</div>
+          <div>This page was generated at 2013-03-19 16:40:17.132</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

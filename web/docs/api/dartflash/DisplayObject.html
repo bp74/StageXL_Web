@@ -5,7 +5,7 @@
         <title>DisplayObject abstract class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
@@ -47,6 +47,7 @@
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
 <li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
 <li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -78,6 +80,8 @@
 <li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../dartflash/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
 <li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
 <li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
@@ -106,7 +110,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>DisplayObject</strong>
           abstract class
@@ -115,40 +119,30 @@
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
-{
+abstract class DisplayObject extends EventDispatcher implements BitmapDrawable {
+ 
  num _x = 0.0;
  num _y = 0.0;
  num _pivotX = 0.0;
  num _pivotY = 0.0;
  num _scaleX = 1.0;
  num _scaleY = 1.0;
+ num _skewX = 0.0;
+ num _skewY = 0.0;
  num _rotation = 0.0;
-
- Matrix _transformationMatrixPrivate;
- bool _transformationMatrixRefresh;
 
  num _alpha = 1.0;
  bool _visible = true;
  Mask _mask = null;
+ BitmapData _cache = null;
  
  String _name = "";
  DisplayObjectContainer _parent = null;
 
- // for internal use only to minimize memory allocations.
- Matrix _tmpMatrix;
- Matrix _tmpMatrixIdentity;
- 
- //-------------------------------------------------------------------------------------------------
-
- DisplayObject()
- {
-   _transformationMatrixPrivate = new Matrix.fromIdentity();
-   _transformationMatrixRefresh = true;
-
-   _tmpMatrix = new Matrix.fromIdentity();
-   _tmpMatrixIdentity = new Matrix.fromIdentity();
- }
+ final Matrix _tmpMatrix = new Matrix.fromIdentity();
+ final Matrix _tmpMatrixIdentity = new Matrix.fromIdentity();
+ final Matrix _transformationMatrixPrivate = new Matrix.fromIdentity();
+ bool _transformationMatrixRefresh = true;
 
  //-------------------------------------------------------------------------------------------------
 
@@ -173,13 +167,15 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
  num get y =&gt; _y;
  num get pivotX =&gt; _pivotX;
  num get pivotY =&gt; _pivotY;
-
  num get scaleX =&gt; _scaleX;
  num get scaleY =&gt; _scaleY;
+ num get skewX =&gt; _skewX;
+ num get skewY =&gt; _skewY;  
  num get rotation =&gt; _rotation;
  num get alpha =&gt; _alpha;
 
  bool get visible =&gt; _visible;
+ bool get cached =&gt; _cache != null;
  Mask get mask =&gt; _mask;
  String get name =&gt; _name;
 
@@ -187,8 +183,8 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
  //-------------------------------------------------------------------------------------------------
 
- DisplayObject get root
- {
+ DisplayObject get root {
+   
    DisplayObject currentObject = this;
 
    while (currentObject._parent != null)
@@ -199,8 +195,8 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
  //-------------------------------------------------------------------------------------------------
 
- Stage get stage
- {
+ Stage get stage {
+   
    DisplayObject root = this.root;
 
    if (root is Stage)
@@ -211,15 +207,16 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
  //-------------------------------------------------------------------------------------------------
 
- set x(num value) { _x = value; _transformationMatrixRefresh = true; }
- set y(num value) { _y = value; _transformationMatrixRefresh = true; }
- set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
- set pivotY(num value) { _pivotY = value; _transformationMatrixRefresh = true; }
- 
- set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
- set scaleY(num value) { _scaleY = value; _transformationMatrixRefresh = true; }
- set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true; }
- set alpha(num value) { _alpha = value; _transformationMatrixRefresh = true; }
+ set x(num value) { _x = value.toDouble(); _transformationMatrixRefresh = true; }
+ set y(num value) { _y = value.toDouble(); _transformationMatrixRefresh = true; }
+ set pivotX(num value) { _pivotX = value.toDouble(); _transformationMatrixRefresh = true; }
+ set pivotY(num value) { _pivotY = value.toDouble(); _transformationMatrixRefresh = true; }
+ set scaleX(num value) { _scaleX = value.toDouble(); _transformationMatrixRefresh = true; }
+ set scaleY(num value) { _scaleY = value.toDouble(); _transformationMatrixRefresh = true; }
+ set skewX(num value) { _skewX = value.toDouble(); _transformationMatrixRefresh = true; }
+ set skewY(num value) { _skewY = value.toDouble(); _transformationMatrixRefresh = true; }
+ set rotation(num value) { _rotation = value.toDouble(); _transformationMatrixRefresh = true; }
+ set alpha(num value) { _alpha = value.toDouble(); _transformationMatrixRefresh = true; }
 
  set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
 
@@ -231,15 +228,13 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
  num get width =&gt; getBoundsTransformed(_transformationMatrix).width;
  num get height =&gt; getBoundsTransformed(_transformationMatrix).height;
 
- void set width(num value)
- {
+ void set width(num value) {
    this.scaleX = 1;
    num normalWidth = this.width;
    this.scaleX = (normalWidth != 0.0) ? value / normalWidth : 1.0;
  }
 
- void set height(num value)
- {
+ void set height(num value) {
    this.scaleY = 1;
    num normalHeight = this.height;
    this.scaleY = (normalHeight != 0.0) ? value / normalHeight : 1.0;
@@ -248,21 +243,18 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- void addTo(DisplayObjectContainer parent)
- {
+ void addTo(DisplayObjectContainer parent) {
    parent.addChild(this);
  }
 
- void removeFromParent()
- {
+ void removeFromParent() {
    if (_parent != null)
      _parent.removeChild(this);
  }
 
  //-------------------------------------------------------------------------------------------------
 
- Matrix get _transformationMatrix
- {
+ Matrix get _transformationMatrix {
    /*
    _transformationMatrixPrivate.identity();
    _transformationMatrixPrivate.translate(-_pivotX, -_pivotY);
@@ -271,26 +263,38 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
    _transformationMatrixPrivate.translate(_x, _y);
    */
 
-   if (_transformationMatrixRefresh)
-   {
+   if (_transformationMatrixRefresh) {
+     
      _transformationMatrixRefresh = false;
-
-     if (_rotation == 0.0)
-     {
+     
+     num skewXrotation =  _skewX + _rotation;
+     num skewYrotation =  _skewY + _rotation;
+     
+     if (skewXrotation == 0.0 &amp;&amp; skewYrotation == 0.0) {
+       
        _transformationMatrixPrivate.setTo(_scaleX, 0.0, 0.0, _scaleY, _x - _pivotX * _scaleX, _y - _pivotY * _scaleY);
-     }
-     else
-     {
-       double cosR = cos(_rotation);
-       double sinR = sin(_rotation);
+       
+     } else {
 
-       double a =   _scaleX * cosR;
-       double b =   _scaleX * sinR;
-       double c = - _scaleY * sinR;
-       double d =   _scaleY * cosR;
-       double tx =  _x - _pivotX * a - _pivotY * c;
-       double ty =  _y - _pivotX * b - _pivotY * d;
-
+       num a, b, c, d;
+       num cosX = cos(skewXrotation);
+       num sinX = sin(skewXrotation);
+       
+       if (skewXrotation == skewYrotation) {
+         a =   _scaleX * cosX;
+         b =   _scaleX * sinX;
+         c = - _scaleY * sinX;
+         d =   _scaleY * cosX;
+       } else {
+         a =   _scaleX * cos(skewYrotation);
+         b =   _scaleX * sin(skewYrotation);
+         c = - _scaleY * sinX;
+         d =   _scaleY * cosX;
+       }
+       
+       num tx =  _x - (_pivotX * a + _pivotY * c);
+       num ty =  _y - (_pivotX * b + _pivotY * d);
+  
        _transformationMatrixPrivate.setTo(a, b, c, d, tx, ty);
      }
    }
@@ -300,15 +304,14 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
  //-------------------------------------------------------------------------------------------------
 
- Matrix get transformationMatrix
- {
+ Matrix get transformationMatrix {
    return _transformationMatrix.clone();
  }
 
  //-------------------------------------------------------------------------------------------------
 
- Matrix transformationMatrixTo(DisplayObject targetSpace)
- {
+ Matrix transformationMatrixTo(DisplayObject targetSpace) {
+   
    if (targetSpace == _parent)
      return _transformationMatrix.clone();
 
@@ -358,8 +361,8 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
  //-------------------------------------------------------------------------------------------------
 
- Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
- {
+ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
+   
    if (returnRectangle == null)
      returnRectangle = new Rectangle.zero();
 
@@ -373,8 +376,8 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
  //-------------------------------------------------------------------------------------------------
 
- Rectangle getBounds(DisplayObject targetSpace)
- {
+ Rectangle getBounds(DisplayObject targetSpace) {
+   
    Rectangle returnRectangle = new Rectangle.zero();
    Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
 
@@ -383,17 +386,15 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
  //-------------------------------------------------------------------------------------------------
 
- bool hitTestObject(DisplayObject other)
- {
+ bool hitTestObject(DisplayObject other) {
    //ToDo
-
    throw new UnimplementedError("Error #2014: Feature is not available at this time.");
  }
 
  //-------------------------------------------------------------------------------------------------
 
- bool hitTestPoint(num x, num y, [bool shapeFlag = false])
- {
+ bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
+   
    Stage stage = this.stage;
 
    if (stage == null)
@@ -410,8 +411,8 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
  //-------------------------------------------------------------------------------------------------
 
- DisplayObject hitTestInput(num localX, num localY)
- {
+ DisplayObject hitTestInput(num localX, num localY) {
+   
    if (getBoundsTransformed(_tmpMatrixIdentity).contains(localX, localY))
      return this;
 
@@ -420,8 +421,8 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
  //-------------------------------------------------------------------------------------------------
 
- Point localToGlobal(Point localPoint)
- {
+ Point localToGlobal(Point localPoint) {
+   
    _tmpMatrix.identity();
 
    for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -432,8 +433,8 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
  //-------------------------------------------------------------------------------------------------
 
- Point globalToLocal(Point globalPoint)
- {
+ Point globalToLocal(Point globalPoint) {
+   
    _tmpMatrix.identity();
 
    for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -443,18 +444,46 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
 
    return _tmpMatrix.transformPoint(globalPoint);
  }
+ 
+ //-------------------------------------------------------------------------------------------------
+
+ void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
+   
+   _cache = new BitmapData(width, height, true, 0x00000000);
+   _cache._frameOffsetX = x;
+   _cache._frameOffsetY = y;
+   _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+   
+   if (debugBorder) {
+     _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
+     _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
+     _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
+     _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+   }
+ }
+ 
+ void refreshCache() {
+   if (_cache != null) {
+     _cache.clear();
+     _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - _cache._frameOffsetX, - _cache._frameOffsetY));
+   }
+ }
+ 
+ void removeCache() {
+   _cache = null;
+ }
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- void dispatchEvent(Event event)
- {
+ void dispatchEvent(Event event) {
+   
    List&lt;DisplayObject&gt; ancestors = null;
 
    if (event.captures || event.bubbles)
      for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent)
        if (ancestor.hasEventListener(event.type)) {
-         if (ancestors == null) ancestors = new List&lt;DisplayObject&gt;();
+         if (ancestors == null) ancestors = _displayObjectListPool.pop() as List&lt;DisplayObject&gt;;
          ancestors.add(ancestor);
        }
 
@@ -470,13 +499,18 @@ abstract class DisplayObject extends EventDispatcher implements BitmapDrawable
      for(int i = 0; i &lt; ancestors.length; i++)
        if (event.stopsPropagation == false)
          ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
+   
+   if (ancestors != null) {
+     ancestors.clear();
+     _displayObjectListPool.push(ancestors);
+   }
  }
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- void _setParent(DisplayObjectContainer value)
- {
+ void _setParent(DisplayObjectContainer value) {
+   
    for(var ancestor = value; ancestor != null; ancestor = ancestor._parent)
      if (ancestor == this)
        throw new ArgumentError("Error #2150: An object cannot be added as a child to one of it's children (or children's children, etc.).");
@@ -564,26 +598,6 @@ removedFromStageEvent = const EventStreamProvider&lt;Event&gt;(Event.REMOVED_FRO
 </div>
 </div>
 <div>
-<h3>Constructors</h3>
-<div class="method"><h4 id="DisplayObject">
-<button class="show-code">Code</button>
-new <strong>DisplayObject</strong>() <a class="anchor-link" href="#DisplayObject"
-              title="Permalink to DisplayObject.DisplayObject">#</a></h4>
-<div class="doc">
-<pre class="source">
-DisplayObject()
-{
- _transformationMatrixPrivate = new Matrix.fromIdentity();
- _transformationMatrixRefresh = true;
-
- _tmpMatrix = new Matrix.fromIdentity();
- _tmpMatrixIdentity = new Matrix.fromIdentity();
-}
-</pre>
-</div>
-</div>
-</div>
-<div>
 <h3>Properties</h3>
 <div class="field"><h4 id="alpha">
 <button class="show-code">Code</button>
@@ -596,7 +610,19 @@ DisplayObject()
 num get alpha =&gt; _alpha;
 </pre>
 <pre class="source">
-set alpha(num value) { _alpha = value; _transformationMatrixRefresh = true; }
+set alpha(num value) { _alpha = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="cached">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>cached</strong> <a class="anchor-link"
+            href="#cached"
+            title="Permalink to DisplayObject.cached">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get cached =&gt; _cache != null;
 </pre>
 </div>
 </div>
@@ -611,8 +637,7 @@ set alpha(num value) { _alpha = value; _transformationMatrixRefresh = true; }
 num get height =&gt; getBoundsTransformed(_transformationMatrix).height;
 </pre>
 <pre class="source">
-void set height(num value)
-{
+void set height(num value) {
  this.scaleY = 1;
  num normalHeight = this.height;
  this.scaleY = (normalHeight != 0.0) ? value / normalHeight : 1.0;
@@ -733,7 +758,7 @@ DisplayObjectContainer get parent =&gt; _parent;
 num get pivotX =&gt; _pivotX;
 </pre>
 <pre class="source">
-set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
+set pivotX(num value) { _pivotX = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -748,7 +773,7 @@ set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
 num get pivotY =&gt; _pivotY;
 </pre>
 <pre class="source">
-set pivotY(num value) { _pivotY = value; _transformationMatrixRefresh = true; }
+set pivotY(num value) { _pivotY = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -760,8 +785,8 @@ final <a href="../dartflash/DisplayObject.html">DisplayObject</a>         <stron
         </h4>
         <div class="doc">
 <pre class="source">
-DisplayObject get root
-{
+DisplayObject get root {
+ 
  DisplayObject currentObject = this;
 
  while (currentObject._parent != null)
@@ -783,7 +808,7 @@ DisplayObject get root
 num get rotation =&gt; _rotation;
 </pre>
 <pre class="source">
-set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true; }
+set rotation(num value) { _rotation = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -798,7 +823,7 @@ set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true
 num get scaleX =&gt; _scaleX;
 </pre>
 <pre class="source">
-set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
+set scaleX(num value) { _scaleX = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -813,7 +838,37 @@ set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
 num get scaleY =&gt; _scaleY;
 </pre>
 <pre class="source">
-set scaleY(num value) { _scaleY = value; _transformationMatrixRefresh = true; }
+set scaleY(num value) { _scaleY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="skewX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>skewX</strong> <a class="anchor-link"
+            href="#skewX"
+            title="Permalink to DisplayObject.skewX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get skewX =&gt; _skewX;
+</pre>
+<pre class="source">
+set skewX(num value) { _skewX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="skewY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>skewY</strong> <a class="anchor-link"
+            href="#skewY"
+            title="Permalink to DisplayObject.skewY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get skewY =&gt; _skewY;
+</pre>
+<pre class="source">
+set skewY(num value) { _skewY = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -825,8 +880,8 @@ final <a href="../dartflash/Stage.html">Stage</a>         <strong>stage</strong>
         </h4>
         <div class="doc">
 <pre class="source">
-Stage get stage
-{
+Stage get stage {
+ 
  DisplayObject root = this.root;
 
  if (root is Stage)
@@ -845,8 +900,7 @@ final <a href="../dartflash/Matrix.html">Matrix</a>         <strong>transformati
         </h4>
         <div class="doc">
 <pre class="source">
-Matrix get transformationMatrix
-{
+Matrix get transformationMatrix {
  return _transformationMatrix.clone();
 }
 </pre>
@@ -878,8 +932,7 @@ set visible(bool value) { _visible = value; _transformationMatrixRefresh = true;
 num get width =&gt; getBoundsTransformed(_transformationMatrix).width;
 </pre>
 <pre class="source">
-void set width(num value)
-{
+void set width(num value) {
  this.scaleX = 1;
  num normalWidth = this.width;
  this.scaleX = (normalWidth != 0.0) ? value / normalWidth : 1.0;
@@ -898,7 +951,7 @@ void set width(num value)
 num get x =&gt; _x;
 </pre>
 <pre class="source">
-set x(num value) { _x = value; _transformationMatrixRefresh = true; }
+set x(num value) { _x = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -913,7 +966,7 @@ set x(num value) { _x = value; _transformationMatrixRefresh = true; }
 num get y =&gt; _y;
 </pre>
 <pre class="source">
-set y(num value) { _y = value; _transformationMatrixRefresh = true; }
+set y(num value) { _y = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -941,9 +994,31 @@ void <strong>addTo</strong>(<a href="../dartflash/DisplayObjectContainer.html">D
               title="Permalink to DisplayObject.addTo">#</a></h4>
 <div class="doc">
 <pre class="source">
-void addTo(DisplayObjectContainer parent)
-{
+void addTo(DisplayObjectContainer parent) {
  parent.addChild(this);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="applyCache">
+<button class="show-code">Code</button>
+void <strong>applyCache</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> x, <a href="http://api.dartlang.org/dart_core/int.html">int</a> y, <a href="http://api.dartlang.org/dart_core/int.html">int</a> width, <a href="http://api.dartlang.org/dart_core/int.html">int</a> height, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> debugBorder: false}) <a class="anchor-link" href="#applyCache"
+              title="Permalink to DisplayObject.applyCache">#</a></h4>
+<div class="doc">
+<pre class="source">
+void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
+ 
+ _cache = new BitmapData(width, height, true, 0x00000000);
+ _cache._frameOffsetX = x;
+ _cache._frameOffsetY = y;
+ _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+ 
+ if (debugBorder) {
+   _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+ }
 }
 </pre>
 </div>
@@ -954,14 +1029,14 @@ void <strong>dispatchEvent</strong>(<a href="../dartflash/Event.html">Event</a> 
               title="Permalink to DisplayObject.dispatchEvent">#</a></h4>
 <div class="doc">
 <pre class="source">
-void dispatchEvent(Event event)
-{
+void dispatchEvent(Event event) {
+ 
  List&lt;DisplayObject&gt; ancestors = null;
 
  if (event.captures || event.bubbles)
    for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent)
      if (ancestor.hasEventListener(event.type)) {
-       if (ancestors == null) ancestors = new List&lt;DisplayObject&gt;();
+       if (ancestors == null) ancestors = _displayObjectListPool.pop() as List&lt;DisplayObject&gt;;
        ancestors.add(ancestor);
      }
 
@@ -977,6 +1052,11 @@ void dispatchEvent(Event event)
    for(int i = 0; i &lt; ancestors.length; i++)
      if (event.stopsPropagation == false)
        ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
+ 
+ if (ancestors != null) {
+   ancestors.clear();
+   _displayObjectListPool.push(ancestors);
+ }
 }
 </pre>
 </div>
@@ -987,8 +1067,8 @@ void dispatchEvent(Event event)
               title="Permalink to DisplayObject.getBounds">#</a></h4>
 <div class="doc">
 <pre class="source">
-Rectangle getBounds(DisplayObject targetSpace)
-{
+Rectangle getBounds(DisplayObject targetSpace) {
+ 
  Rectangle returnRectangle = new Rectangle.zero();
  Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
 
@@ -1003,8 +1083,8 @@ Rectangle getBounds(DisplayObject targetSpace)
               title="Permalink to DisplayObject.getBoundsTransformed">#</a></h4>
 <div class="doc">
 <pre class="source">
-Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
-{
+Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
+ 
  if (returnRectangle == null)
    returnRectangle = new Rectangle.zero();
 
@@ -1024,8 +1104,8 @@ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
               title="Permalink to DisplayObject.globalToLocal">#</a></h4>
 <div class="doc">
 <pre class="source">
-Point globalToLocal(Point globalPoint)
-{
+Point globalToLocal(Point globalPoint) {
+ 
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1060,8 +1140,8 @@ bool hasEventListener(String type)
               title="Permalink to DisplayObject.hitTestInput">#</a></h4>
 <div class="doc">
 <pre class="source">
-DisplayObject hitTestInput(num localX, num localY)
-{
+DisplayObject hitTestInput(num localX, num localY) {
+ 
  if (getBoundsTransformed(_tmpMatrixIdentity).contains(localX, localY))
    return this;
 
@@ -1076,10 +1156,8 @@ DisplayObject hitTestInput(num localX, num localY)
               title="Permalink to DisplayObject.hitTestObject">#</a></h4>
 <div class="doc">
 <pre class="source">
-bool hitTestObject(DisplayObject other)
-{
+bool hitTestObject(DisplayObject other) {
  //ToDo
-
  throw new UnimplementedError("Error #2014: Feature is not available at this time.");
 }
 </pre>
@@ -1091,8 +1169,8 @@ bool hitTestObject(DisplayObject other)
               title="Permalink to DisplayObject.hitTestPoint">#</a></h4>
 <div class="doc">
 <pre class="source">
-bool hitTestPoint(num x, num y, [bool shapeFlag = false])
-{
+bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
+ 
  Stage stage = this.stage;
 
  if (stage == null)
@@ -1115,8 +1193,8 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false])
               title="Permalink to DisplayObject.localToGlobal">#</a></h4>
 <div class="doc">
 <pre class="source">
-Point localToGlobal(Point localPoint)
-{
+Point localToGlobal(Point localPoint) {
+ 
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1137,6 +1215,33 @@ Stream&lt;Event&gt; on(String eventType, {bool useCapture: false})
 {
  var eventStream = _getEventStream(eventType, useCapture);
  return eventStream;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="refreshCache">
+<button class="show-code">Code</button>
+void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
+              title="Permalink to DisplayObject.refreshCache">#</a></h4>
+<div class="doc">
+<pre class="source">
+void refreshCache() {
+ if (_cache != null) {
+   _cache.clear();
+   _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - _cache._frameOffsetX, - _cache._frameOffsetY));
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="removeCache">
+<button class="show-code">Code</button>
+void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
+              title="Permalink to DisplayObject.removeCache">#</a></h4>
+<div class="doc">
+<pre class="source">
+void removeCache() {
+ _cache = null;
 }
 </pre>
 </div>
@@ -1164,8 +1269,7 @@ void <strong>removeFromParent</strong>() <a class="anchor-link" href="#removeFro
               title="Permalink to DisplayObject.removeFromParent">#</a></h4>
 <div class="doc">
 <pre class="source">
-void removeFromParent()
-{
+void removeFromParent() {
  if (_parent != null)
    _parent.removeChild(this);
 }
@@ -1184,8 +1288,8 @@ abstract void <strong>render</strong>(<a href="../dartflash/RenderState.html">Re
               title="Permalink to DisplayObject.transformationMatrixTo">#</a></h4>
 <div class="doc">
 <pre class="source">
-Matrix transformationMatrixTo(DisplayObject targetSpace)
-{
+Matrix transformationMatrixTo(DisplayObject targetSpace) {
+ 
  if (targetSpace == _parent)
    return _transformationMatrix.clone();
 
@@ -1240,7 +1344,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace)
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-02-09 23:19:04.980</div>
+          <div>This page was generated at 2013-03-19 16:40:17.034</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

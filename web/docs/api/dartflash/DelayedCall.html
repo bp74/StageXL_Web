@@ -5,7 +5,7 @@
         <title>DelayedCall class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
@@ -47,6 +47,7 @@
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
 <li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
 <li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -78,6 +80,8 @@
 <li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../dartflash/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
 <li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
 <li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
@@ -106,7 +110,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>DelayedCall</strong>
           class
@@ -115,28 +119,27 @@
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class DelayedCall implements Animatable
-{
+class DelayedCall implements Animatable {
+
+ final Function _action;
  num _currentTime = 0.0;
  num _totalTime = 0.0;
  int _repeatCount = 1;
- Function _action;
 
- DelayedCall(Function action, num delay)
- {
-   _action = action;
+ DelayedCall(Function action, num delay) : 
+   _action = action {
    _totalTime = max(delay, 0.0001);
  }
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- bool advanceTime(num time)
- {
+ bool advanceTime(num time) {
+   
    num newTime = _currentTime + time;
 
-   while (newTime &gt;= _totalTime &amp;&amp; _repeatCount &gt; 0)
-   {
+   while (newTime &gt;= _totalTime &amp;&amp; _repeatCount &gt; 0) {
+     
      _currentTime = _totalTime;
      _repeatCount--;
      _action();
@@ -144,11 +147,9 @@ class DelayedCall implements Animatable
      newTime -= _totalTime;
    }
 
-   if (_repeatCount == 0)
-     return false;
-
    _currentTime = newTime;
-   return true;
+   
+   return (_repeatCount &gt; 0);
  }
 
  //-------------------------------------------------------------------------------------------------
@@ -157,8 +158,10 @@ class DelayedCall implements Animatable
  num get currentTime =&gt; _currentTime;
  int get repeatCount =&gt; _repeatCount;
 
- void set repeatCount(int value) { _repeatCount = value; }
-
+ set repeatCount(int value) { 
+   _repeatCount = value; 
+ }
+ 
 }
 </pre>
 </div>
@@ -173,9 +176,8 @@ new <strong>DelayedCall</strong>(<a href="http://api.dartlang.org/dart_core/Func
               title="Permalink to DelayedCall.DelayedCall">#</a></h4>
 <div class="doc">
 <pre class="source">
-DelayedCall(Function action, num delay)
-{
- _action = action;
+DelayedCall(Function action, num delay) : 
+ _action = action {
  _totalTime = max(delay, 0.0001);
 }
 </pre>
@@ -207,7 +209,9 @@ num get currentTime =&gt; _currentTime;
 int get repeatCount =&gt; _repeatCount;
 </pre>
 <pre class="source">
-void set repeatCount(int value) { _repeatCount = value; }
+set repeatCount(int value) { 
+ _repeatCount = value; 
+}
 </pre>
 </div>
 </div>
@@ -232,12 +236,12 @@ num get totalTime =&gt; _totalTime;
               title="Permalink to DelayedCall.advanceTime">#</a></h4>
 <div class="doc">
 <pre class="source">
-bool advanceTime(num time)
-{
+bool advanceTime(num time) {
+ 
  num newTime = _currentTime + time;
 
- while (newTime &gt;= _totalTime &amp;&amp; _repeatCount &gt; 0)
- {
+ while (newTime &gt;= _totalTime &amp;&amp; _repeatCount &gt; 0) {
+   
    _currentTime = _totalTime;
    _repeatCount--;
    _action();
@@ -245,11 +249,9 @@ bool advanceTime(num time)
    newTime -= _totalTime;
  }
 
- if (_repeatCount == 0)
-   return false;
-
  _currentTime = newTime;
- return true;
+ 
+ return (_repeatCount &gt; 0);
 }
 </pre>
 </div>
@@ -259,7 +261,7 @@ bool advanceTime(num time)
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-02-09 23:19:05.152</div>
+          <div>This page was generated at 2013-03-19 16:40:17.213</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

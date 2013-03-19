@@ -2,19 +2,19 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>MockSound class / dartflash Library / Dart Documentation</title>
+        <title>ObjectPool&lt;T&gt; class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
-        <body data-library="dartflash" data-type="MockSound">
+        <body data-library="dartflash" data-type="ObjectPool&amp;lt;T&amp;gt;">
         <div class="page">
         <div class="header">
           <a href="../index.html"><div class="logo"></div></a>
           <a href="../index.html">Dart Documentation</a>
-         &rsaquo; <a href="../dartflash.html">dartflash</a> &rsaquo; <a href="../dartflash/MockSound.html">MockSound</a>        <div id="search-box">
+         &rsaquo; <a href="../dartflash.html">dartflash</a> &rsaquo; <a href="../dartflash/ObjectPool.html">ObjectPool&lt;T&gt;</a>        <div id="search-box">
           <input type="search" name="q" id="q" autocomplete="off"
               class="search-input" placeholder="Search API">
         </div>
@@ -64,7 +64,7 @@
 <li><a href="../dartflash/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
 <li><a href="../dartflash/Mask.html"><div class="icon-class"></div>Mask</a></li>
 <li><a href="../dartflash/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
-<li><div class="icon-class"></div><strong>MockSound</strong></li>
+<li><a href="../dartflash/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
 <li><a href="../dartflash/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
 <li><a href="../dartflash/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
 <li><a href="../dartflash/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
@@ -72,7 +72,7 @@
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
-<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><div class="icon-class"></div><strong>ObjectPool&lt;T&gt;</strong></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -112,112 +112,117 @@
 </ul>
 <h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
-        <h2><strong>MockSound</strong>
+        <h2><strong>ObjectPool&lt;T&gt;</strong>
           class
         </h2>
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class MockSound extends Sound {
+class ObjectPool&lt;T&gt; {
  
- MockSound() {
-   // nothing to do
- }
+ final List&lt;T&gt; _pool = new List&lt;T&gt;();
+ final Function _valueFactory;
+ 
+ int _poolCount = 0;
+ 
+ ObjectPool(T valueFactory()) : _valueFactory = valueFactory;
+ 
+ //---------------------------------------------------------------------------
 
- //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
-
- static Future&lt;Sound&gt; load(String url) {
-   return new Future&lt;Sound&gt;.of(() =&gt; new MockSound());
- }
-
- //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
-
- num get length {
-   // ToDo: We could load the WAV-file, parse the header and get the correct length!
-   return double.NAN;
- }
-
-
- SoundChannel play([bool loop = false, SoundTransform soundTransform]) {
+ T pop() {
    
-   if (soundTransform == null) {
-     soundTransform = new SoundTransform();
+   if (_poolCount == 0) {
+     return _valueFactory();
+   } else {
+     _poolCount--;
+     return _pool[_poolCount];
    }
+ }
+ 
+ //---------------------------------------------------------------------------
+ 
+ push(T value) {
    
-   return new MockSoundChannel(this, loop, soundTransform);
+   if (_poolCount == _pool.length) {
+     _pool.add(value);
+   } else {
+     _pool[_poolCount] = value;
+   }
+   _poolCount++;
+ }
+ 
+ //---------------------------------------------------------------------------
+ 
+ reset() {
+   
+   _pool.clear();
+   _poolCount = 0;
  }
 }
 </pre>
-</div>
-<h3>Extends</h3>
-<p>
-<span class="type-box"><span class="icon-class"></span><a href="../dartflash/Sound.html">Sound</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>MockSound</strong></span></p>
-<div>
-<h3>Static Methods</h3>
-<div class="method"><h4 id="load">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_async/Future.html">Future</a>&lt;<a href="../dartflash/Sound.html">Sound</a>&gt; <strong>load</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> url) <a class="anchor-link" href="#load"
-              title="Permalink to MockSound.load">#</a></h4>
-<div class="doc">
-<pre class="source">
-static Future&lt;Sound&gt; load(String url) {
- return new Future&lt;Sound&gt;.of(() =&gt; new MockSound());
-}
-</pre>
-</div>
-</div>
 </div>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="MockSound">
+<div class="method"><h4 id="ObjectPool">
 <button class="show-code">Code</button>
-new <strong>MockSound</strong>() <a class="anchor-link" href="#MockSound"
-              title="Permalink to MockSound.MockSound">#</a></h4>
+new <strong>ObjectPool</strong>(<a href="../dartflash/ObjectPool.html">T</a> valueFactory()) <a class="anchor-link" href="#ObjectPool"
+              title="Permalink to ObjectPool&lt;T&gt;.ObjectPool">#</a></h4>
 <div class="doc">
 <pre class="source">
-MockSound() {
- // nothing to do
-}
-</pre>
-</div>
-</div>
-</div>
-<div>
-<h3>Properties</h3>
-<div class="field"><h4 id="length">
-<button class="show-code">Code</button>
-final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>length</strong> <a class="anchor-link"
-            href="#length"
-            title="Permalink to MockSound.length">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num get length {
- // ToDo: We could load the WAV-file, parse the header and get the correct length!
- return double.NAN;
-}
+ObjectPool(T valueFactory()) : _valueFactory = valueFactory;
 </pre>
 </div>
 </div>
 </div>
 <div>
 <h3>Methods</h3>
-<div class="method"><h4 id="play">
+<div class="method"><h4 id="pop">
 <button class="show-code">Code</button>
-<a href="../dartflash/SoundChannel.html">SoundChannel</a> <strong>play</strong>([<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> loop = false, <a href="../dartflash/SoundTransform.html">SoundTransform</a> soundTransform]) <a class="anchor-link" href="#play"
-              title="Permalink to MockSound.play">#</a></h4>
+<a href="../dartflash/ObjectPool.html">T</a> <strong>pop</strong>() <a class="anchor-link" href="#pop"
+              title="Permalink to ObjectPool&lt;T&gt;.pop">#</a></h4>
 <div class="doc">
 <pre class="source">
-SoundChannel play([bool loop = false, SoundTransform soundTransform]) {
+T pop() {
  
- if (soundTransform == null) {
-   soundTransform = new SoundTransform();
+ if (_poolCount == 0) {
+   return _valueFactory();
+ } else {
+   _poolCount--;
+   return _pool[_poolCount];
  }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="push">
+<button class="show-code">Code</button>
+<strong>push</strong>(<a href="../dartflash/ObjectPool.html">T</a> value) <a class="anchor-link" href="#push"
+              title="Permalink to ObjectPool&lt;T&gt;.push">#</a></h4>
+<div class="doc">
+<pre class="source">
+push(T value) {
  
- return new MockSoundChannel(this, loop, soundTransform);
+ if (_poolCount == _pool.length) {
+   _pool.add(value);
+ } else {
+   _pool[_poolCount] = value;
+ }
+ _poolCount++;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="reset">
+<button class="show-code">Code</button>
+<strong>reset</strong>() <a class="anchor-link" href="#reset"
+              title="Permalink to ObjectPool&lt;T&gt;.reset">#</a></h4>
+<div class="doc">
+<pre class="source">
+reset() {
+ 
+ _pool.clear();
+ _poolCount = 0;
 }
 </pre>
 </div>
@@ -227,7 +232,7 @@ SoundChannel play([bool loop = false, SoundTransform soundTransform]) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-03-19 16:40:16.673</div>
+          <div>This page was generated at 2013-03-19 16:40:16.387</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

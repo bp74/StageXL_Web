@@ -5,7 +5,7 @@
         <title>SimpleButton class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
@@ -47,6 +47,7 @@
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
 <li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
 <li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -78,6 +80,8 @@
 <li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../dartflash/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
 <li><div class="icon-class"></div><strong>SimpleButton</strong></li>
 <li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
@@ -106,7 +110,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>SimpleButton</strong>
           class
@@ -232,7 +236,19 @@ SimpleButton([this.upState, this.overState, this.downState, this.hitTestState])
 num get alpha =&gt; _alpha;
 </pre>
 <pre class="source">
-set alpha(num value) { _alpha = value; _transformationMatrixRefresh = true; }
+set alpha(num value) { _alpha = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="cached">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>cached</strong> <a class="anchor-link"
+            href="#cached"
+            title="Permalink to SimpleButton.cached">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool get cached =&gt; _cache != null;
 </pre>
 </div>
 </div>
@@ -283,8 +299,7 @@ enabled = true
 num get height =&gt; getBoundsTransformed(_transformationMatrix).height;
 </pre>
 <pre class="source">
-void set height(num value)
-{
+void set height(num value) {
  this.scaleY = 1;
  num normalHeight = this.height;
  this.scaleY = (normalHeight != 0.0) ? value / normalHeight : 1.0;
@@ -717,7 +732,7 @@ DisplayObjectContainer get parent =&gt; _parent;
 num get pivotX =&gt; _pivotX;
 </pre>
 <pre class="source">
-set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
+set pivotX(num value) { _pivotX = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -732,7 +747,7 @@ set pivotX(num value) { _pivotX = value; _transformationMatrixRefresh = true; }
 num get pivotY =&gt; _pivotY;
 </pre>
 <pre class="source">
-set pivotY(num value) { _pivotY = value; _transformationMatrixRefresh = true; }
+set pivotY(num value) { _pivotY = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -744,8 +759,8 @@ final <a href="../dartflash/DisplayObject.html">DisplayObject</a>         <stron
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-DisplayObject get root
-{
+DisplayObject get root {
+ 
  DisplayObject currentObject = this;
 
  while (currentObject._parent != null)
@@ -767,7 +782,7 @@ DisplayObject get root
 num get rotation =&gt; _rotation;
 </pre>
 <pre class="source">
-set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true; }
+set rotation(num value) { _rotation = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -782,7 +797,7 @@ set rotation(num value) { _rotation = value; _transformationMatrixRefresh = true
 num get scaleX =&gt; _scaleX;
 </pre>
 <pre class="source">
-set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
+set scaleX(num value) { _scaleX = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -797,7 +812,37 @@ set scaleX(num value) { _scaleX = value; _transformationMatrixRefresh = true; }
 num get scaleY =&gt; _scaleY;
 </pre>
 <pre class="source">
-set scaleY(num value) { _scaleY = value; _transformationMatrixRefresh = true; }
+set scaleY(num value) { _scaleY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="skewX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>skewX</strong> <a class="anchor-link"
+            href="#skewX"
+            title="Permalink to SimpleButton.skewX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get skewX =&gt; _skewX;
+</pre>
+<pre class="source">
+set skewX(num value) { _skewX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="skewY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>skewY</strong> <a class="anchor-link"
+            href="#skewY"
+            title="Permalink to SimpleButton.skewY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get skewY =&gt; _skewY;
+</pre>
+<pre class="source">
+set skewY(num value) { _skewY = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -809,8 +854,8 @@ final <a href="../dartflash/Stage.html">Stage</a>         <strong>stage</strong>
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Stage get stage
-{
+Stage get stage {
+ 
  DisplayObject root = this.root;
 
  if (root is Stage)
@@ -853,8 +898,7 @@ final <a href="../dartflash/Matrix.html">Matrix</a>         <strong>transformati
         </h4>
         <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Matrix get transformationMatrix
-{
+Matrix get transformationMatrix {
  return _transformationMatrix.clone();
 }
 </pre>
@@ -910,8 +954,7 @@ set visible(bool value) { _visible = value; _transformationMatrixRefresh = true;
 num get width =&gt; getBoundsTransformed(_transformationMatrix).width;
 </pre>
 <pre class="source">
-void set width(num value)
-{
+void set width(num value) {
  this.scaleX = 1;
  num normalWidth = this.width;
  this.scaleX = (normalWidth != 0.0) ? value / normalWidth : 1.0;
@@ -930,7 +973,7 @@ void set width(num value)
 num get x =&gt; _x;
 </pre>
 <pre class="source">
-set x(num value) { _x = value; _transformationMatrixRefresh = true; }
+set x(num value) { _x = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -945,7 +988,7 @@ set x(num value) { _x = value; _transformationMatrixRefresh = true; }
 num get y =&gt; _y;
 </pre>
 <pre class="source">
-set y(num value) { _y = value; _transformationMatrixRefresh = true; }
+set y(num value) { _y = value.toDouble(); _transformationMatrixRefresh = true; }
 </pre>
 </div>
 </div>
@@ -973,9 +1016,31 @@ void <strong>addTo</strong>(<a href="../dartflash/DisplayObjectContainer.html">D
               title="Permalink to SimpleButton.addTo">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-void addTo(DisplayObjectContainer parent)
-{
+void addTo(DisplayObjectContainer parent) {
  parent.addChild(this);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="applyCache">
+<button class="show-code">Code</button>
+void <strong>applyCache</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> x, <a href="http://api.dartlang.org/dart_core/int.html">int</a> y, <a href="http://api.dartlang.org/dart_core/int.html">int</a> width, <a href="http://api.dartlang.org/dart_core/int.html">int</a> height, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> debugBorder: false}) <a class="anchor-link" href="#applyCache"
+              title="Permalink to SimpleButton.applyCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
+ 
+ _cache = new BitmapData(width, height, true, 0x00000000);
+ _cache._frameOffsetX = x;
+ _cache._frameOffsetY = y;
+ _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+ 
+ if (debugBorder) {
+   _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+ }
 }
 </pre>
 </div>
@@ -986,14 +1051,14 @@ void <strong>dispatchEvent</strong>(<a href="../dartflash/Event.html">Event</a> 
               title="Permalink to SimpleButton.dispatchEvent">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-void dispatchEvent(Event event)
-{
+void dispatchEvent(Event event) {
+ 
  List&lt;DisplayObject&gt; ancestors = null;
 
  if (event.captures || event.bubbles)
    for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent)
      if (ancestor.hasEventListener(event.type)) {
-       if (ancestors == null) ancestors = new List&lt;DisplayObject&gt;();
+       if (ancestors == null) ancestors = _displayObjectListPool.pop() as List&lt;DisplayObject&gt;;
        ancestors.add(ancestor);
      }
 
@@ -1009,6 +1074,11 @@ void dispatchEvent(Event event)
    for(int i = 0; i &lt; ancestors.length; i++)
      if (event.stopsPropagation == false)
        ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
+ 
+ if (ancestors != null) {
+   ancestors.clear();
+   _displayObjectListPool.push(ancestors);
+ }
 }
 </pre>
 </div>
@@ -1019,8 +1089,8 @@ void dispatchEvent(Event event)
               title="Permalink to SimpleButton.getBounds">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Rectangle getBounds(DisplayObject targetSpace)
-{
+Rectangle getBounds(DisplayObject targetSpace) {
+ 
  Rectangle returnRectangle = new Rectangle.zero();
  Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
 
@@ -1055,8 +1125,8 @@ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
               title="Permalink to SimpleButton.globalToLocal">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Point globalToLocal(Point globalPoint)
-{
+Point globalToLocal(Point globalPoint) {
+ 
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1117,10 +1187,8 @@ DisplayObject hitTestInput(num localX, num localY)
               title="Permalink to SimpleButton.hitTestObject">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-bool hitTestObject(DisplayObject other)
-{
+bool hitTestObject(DisplayObject other) {
  //ToDo
-
  throw new UnimplementedError("Error #2014: Feature is not available at this time.");
 }
 </pre>
@@ -1132,8 +1200,8 @@ bool hitTestObject(DisplayObject other)
               title="Permalink to SimpleButton.hitTestPoint">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-bool hitTestPoint(num x, num y, [bool shapeFlag = false])
-{
+bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
+ 
  Stage stage = this.stage;
 
  if (stage == null)
@@ -1156,8 +1224,8 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false])
               title="Permalink to SimpleButton.localToGlobal">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Point localToGlobal(Point localPoint)
-{
+Point localToGlobal(Point localPoint) {
+ 
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1178,6 +1246,33 @@ Stream&lt;Event&gt; on(String eventType, {bool useCapture: false})
 {
  var eventStream = _getEventStream(eventType, useCapture);
  return eventStream;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="refreshCache">
+<button class="show-code">Code</button>
+void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
+              title="Permalink to SimpleButton.refreshCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void refreshCache() {
+ if (_cache != null) {
+   _cache.clear();
+   _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - _cache._frameOffsetX, - _cache._frameOffsetY));
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeCache">
+<button class="show-code">Code</button>
+void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
+              title="Permalink to SimpleButton.removeCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void removeCache() {
+ _cache = null;
 }
 </pre>
 </div>
@@ -1205,8 +1300,7 @@ void <strong>removeFromParent</strong>() <a class="anchor-link" href="#removeFro
               title="Permalink to SimpleButton.removeFromParent">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-void removeFromParent()
-{
+void removeFromParent() {
  if (_parent != null)
    _parent.removeChild(this);
 }
@@ -1233,8 +1327,8 @@ void render(RenderState renderState)
               title="Permalink to SimpleButton.transformationMatrixTo">#</a></h4>
 <div class="inherited-from">inherited from <a href="../dartflash/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-Matrix transformationMatrixTo(DisplayObject targetSpace)
-{
+Matrix transformationMatrixTo(DisplayObject targetSpace) {
+ 
  if (targetSpace == _parent)
    return _transformationMatrix.clone();
 
@@ -1289,7 +1383,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace)
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-02-09 23:19:04.833</div>
+          <div>This page was generated at 2013-03-19 16:40:16.892</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

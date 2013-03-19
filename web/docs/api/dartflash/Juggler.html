@@ -5,7 +5,7 @@
         <title>Juggler class / dartflash Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
@@ -47,6 +47,7 @@
 <li><a href="../dartflash/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
 <li><a href="../dartflash/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
 <li><a href="../dartflash/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../dartflash/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
 <li><a href="../dartflash/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
 <li><a href="../dartflash/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
 <li><a href="../dartflash/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
@@ -71,6 +72,7 @@
 <li><a href="../dartflash/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
 <li><a href="../dartflash/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../dartflash/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../dartflash/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
 <li><a href="../dartflash/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
 <li><a href="../dartflash/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../dartflash/Point.html"><div class="icon-class"></div>Point</a></li>
@@ -78,6 +80,8 @@
 <li><a href="../dartflash/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
 <li><a href="../dartflash/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
 <li><a href="../dartflash/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../dartflash/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../dartflash/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../dartflash/Shape.html"><div class="icon-class"></div>Shape</a></li>
 <li><a href="../dartflash/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
 <li><a href="../dartflash/Sound.html"><div class="icon-class"></div>Sound</a></li>
@@ -106,7 +110,7 @@
 <li><a href="../dartflash/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
 <li><a href="../dartflash/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
 </ul>
-<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2></div>
 <div class="content">
         <h2><strong>Juggler</strong>
           class
@@ -115,20 +119,11 @@
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class Juggler implements Animatable
-{
- num _elapsedTime;
+class Juggler implements Animatable {
  
- List&lt;Animatable&gt; _animatables;
- int _animatablesCount;
-
- Juggler() 
- {
-   _elapsedTime = 0.0;
-
-   _animatables = new List&lt;Animatable&gt;();
-   _animatablesCount = 0;
- }
+ final List&lt;Animatable&gt; _animatables = new List&lt;Animatable&gt;();
+ int _animatablesCount = 0;
+ num _elapsedTime = 0.0;
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
@@ -137,23 +132,27 @@ class Juggler implements Animatable
 
  //-------------------------------------------------------------------------------------------------
 
- void add(Animatable animatable)
- {
+ void add(Animatable animatable) {
+   
    if (animatable == null)
      return;
+   
+   if (this.contains(animatable))
+     return;
 
-   if (_animatablesCount == _animatables.length)
+   if (_animatablesCount == _animatables.length) {
      _animatables.add(animatable);
-   else
+   } else {
      _animatables[_animatablesCount] = animatable;
-
+   }
+   
    _animatablesCount++;
  }
 
  //-------------------------------------------------------------------------------------------------
 
- void remove(Animatable animatable)
- {
+ void remove(Animatable animatable) {
+   
    if (animatable == null)
      return;
 
@@ -167,35 +166,71 @@ class Juggler implements Animatable
 
  //-------------------------------------------------------------------------------------------------
 
- void removeTweens(DisplayObject displayObject)
- {
+ bool contains(Animatable animatable) {
+ 
+   if (animatable == null)
+     return false;
+   
+   for(int i = 0; i &lt; _animatablesCount; i++) {
+     if (_animatables[i] == animatable) {
+       return true;
+     }
+   }
+   
+   return false;
+ }
+ 
+ //-------------------------------------------------------------------------------------------------
+
+ void removeTweens(DisplayObject displayObject) {
+   
    if (displayObject == null)
      return;
 
-   for(int i = 0; i &lt; _animatablesCount; i++)
-   {
+   for(int i = 0; i &lt; _animatablesCount; i++) {
      var animatable = _animatables[i];
-
-     if (animatable != null &amp;&amp; animatable is Tween)
-       if (animatable.displayObject == displayObject)
+     if (animatable != null &amp;&amp; animatable is Tween){
+       if (animatable.displayObject == displayObject) {
          _animatables[i] = null;
+       }
+     }
    }
+ }
+ 
+ //-------------------------------------------------------------------------------------------------
+
+ bool containsTweens(DisplayObject displayObject) {
+   
+   if (displayObject == null)
+     return false;
+
+   for(int i = 0; i &lt; _animatablesCount; i++) {
+     var animatable = _animatables[i];
+     if (animatable != null &amp;&amp; animatable is Tween){
+       if (animatable.displayObject == displayObject) {
+         return true;
+       }
+     }
+   }
+   
+   return false;
  }
 
  //-------------------------------------------------------------------------------------------------
 
- void purge()
- {
-   for(int i = 0; i &lt; _animatablesCount; i++)
+ void purge() {
+   
+   for(int i = 0; i &lt; _animatablesCount; i++) {
      _animatables[i] = null;
-
+   }
+   
    _animatablesCount = 0;
  }
 
  //-------------------------------------------------------------------------------------------------
 
- DelayedCall delayCall(Function action, num delay)
- {
+ DelayedCall delayCall(Function action, num delay) {
+   
    DelayedCall delayedCall = new DelayedCall(action, delay);
    add(delayedCall);
 
@@ -204,8 +239,8 @@ class Juggler implements Animatable
 
  //-------------------------------------------------------------------------------------------------
 
- Transition startTransition(num startValue, num targetValue, num time, num transitionFunction(num ratio), void onUpdate(num value))
- {
+ Transition startTransition(num startValue, num targetValue, num time, num transitionFunction(num ratio), void onUpdate(num value)) {
+   
    Transition transition = new Transition(startValue, targetValue, time, transitionFunction);
    transition.onUpdate = onUpdate;
    add(transition);
@@ -215,40 +250,44 @@ class Juggler implements Animatable
 
  //-------------------------------------------------------------------------------------------------
 
- bool advanceTime(num time)
- {
+ bool advanceTime(num time) {
+   
    _elapsedTime += time;
 
-   // There is a high probability that the "advanceTime" function adds new animatables to
-   // the Juggler, but we don't want to process those animatables in the current frame.
-   // The new animatables should be processed in the next frame!
-
-   //-----------------------------------------------------------------------
-   // 1) process all animatables from start to current "_animatablesCount".
-   // 2) remove completed animatables or null values from the list.
-
+   // Call advanceTime of current animatables.
+   // Do not call advanceTime of newly added animatables.
+   // Adjust _animatables List.
+   
    int animatablesCount = _animatablesCount;
    int tail = 0;
-
+   
    for(int head = 0; head &lt; animatablesCount; head++) {
-     Animatable animatable = _animatables[head];
-
-     if (animatable != null &amp;&amp; animatable.advanceTime(time)) {
-       if (tail != head) _animatables[tail] = animatable;
-       tail++;
+     
+     var animatable = _animatables[head];
+     if (animatable == null) continue;
+     
+     if (animatable.advanceTime(time) == false) {
+       _animatables[head] = null;
+       continue;
      }
+
+     if (tail != head) {
+       _animatables[tail] = animatable;
+       _animatables[head] = null;
+     }
+       
+     tail++;
    }
 
-   //-----------------------------------------------------------------------
-   // 3) move newly added animatables to the left and clear rest
-
-   for(int i = animatablesCount; i &lt; _animatablesCount; i++)
-     _animatables[tail++] = _animatables[i];
-
-   for(int i = tail; i &lt; _animatablesCount; i++)
-     _animatables[i] = null;
-
-   _animatablesCount = tail;
+   if (tail != animatablesCount) {
+     
+     for(int head = animatablesCount; head &lt; _animatablesCount; head++) {
+       _animatables[tail++] = _animatables[head];
+       _animatables[head] = null;
+     }
+     
+     _animatablesCount = tail;
+   }
 
    return true;
  }
@@ -259,25 +298,6 @@ class Juggler implements Animatable
 <h3>Implements</h3>
 <p>
 <span class="type-box"><span class="icon-class"></span><a href="../dartflash/Animatable.html">Animatable</a></span></p>
-<div>
-<h3>Constructors</h3>
-<div class="method"><h4 id="Juggler">
-<button class="show-code">Code</button>
-new <strong>Juggler</strong>() <a class="anchor-link" href="#Juggler"
-              title="Permalink to Juggler.Juggler">#</a></h4>
-<div class="doc">
-<pre class="source">
-Juggler() 
-{
- _elapsedTime = 0.0;
-
- _animatables = new List&lt;Animatable&gt;();
- _animatablesCount = 0;
-}
-</pre>
-</div>
-</div>
-</div>
 <div>
 <h3>Properties</h3>
 <div class="field"><h4 id="elapsedTime">
@@ -301,16 +321,20 @@ void <strong>add</strong>(<a href="../dartflash/Animatable.html">Animatable</a> 
               title="Permalink to Juggler.add">#</a></h4>
 <div class="doc">
 <pre class="source">
-void add(Animatable animatable)
-{
+void add(Animatable animatable) {
+ 
  if (animatable == null)
    return;
+ 
+ if (this.contains(animatable))
+   return;
 
- if (_animatablesCount == _animatables.length)
+ if (_animatablesCount == _animatables.length) {
    _animatables.add(animatable);
- else
+ } else {
    _animatables[_animatablesCount] = animatable;
-
+ }
+ 
  _animatablesCount++;
 }
 </pre>
@@ -322,42 +346,93 @@ void add(Animatable animatable)
               title="Permalink to Juggler.advanceTime">#</a></h4>
 <div class="doc">
 <pre class="source">
-bool advanceTime(num time)
-{
+bool advanceTime(num time) {
+ 
  _elapsedTime += time;
 
- // There is a high probability that the "advanceTime" function adds new animatables to
- // the Juggler, but we don't want to process those animatables in the current frame.
- // The new animatables should be processed in the next frame!
-
- //-----------------------------------------------------------------------
- // 1) process all animatables from start to current "_animatablesCount".
- // 2) remove completed animatables or null values from the list.
-
+ // Call advanceTime of current animatables.
+ // Do not call advanceTime of newly added animatables.
+ // Adjust _animatables List.
+ 
  int animatablesCount = _animatablesCount;
  int tail = 0;
-
+ 
  for(int head = 0; head &lt; animatablesCount; head++) {
-   Animatable animatable = _animatables[head];
-
-   if (animatable != null &amp;&amp; animatable.advanceTime(time)) {
-     if (tail != head) _animatables[tail] = animatable;
-     tail++;
+   
+   var animatable = _animatables[head];
+   if (animatable == null) continue;
+   
+   if (animatable.advanceTime(time) == false) {
+     _animatables[head] = null;
+     continue;
    }
+
+   if (tail != head) {
+     _animatables[tail] = animatable;
+     _animatables[head] = null;
+   }
+     
+   tail++;
  }
 
- //-----------------------------------------------------------------------
- // 3) move newly added animatables to the left and clear rest
-
- for(int i = animatablesCount; i &lt; _animatablesCount; i++)
-   _animatables[tail++] = _animatables[i];
-
- for(int i = tail; i &lt; _animatablesCount; i++)
-   _animatables[i] = null;
-
- _animatablesCount = tail;
+ if (tail != animatablesCount) {
+   
+   for(int head = animatablesCount; head &lt; _animatablesCount; head++) {
+     _animatables[tail++] = _animatables[head];
+     _animatables[head] = null;
+   }
+   
+   _animatablesCount = tail;
+ }
 
  return true;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="contains">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>contains</strong>(<a href="../dartflash/Animatable.html">Animatable</a> animatable) <a class="anchor-link" href="#contains"
+              title="Permalink to Juggler.contains">#</a></h4>
+<div class="doc">
+<pre class="source">
+bool contains(Animatable animatable) {
+
+ if (animatable == null)
+   return false;
+ 
+ for(int i = 0; i &lt; _animatablesCount; i++) {
+   if (_animatables[i] == animatable) {
+     return true;
+   }
+ }
+ 
+ return false;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="containsTweens">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>containsTweens</strong>(<a href="../dartflash/DisplayObject.html">DisplayObject</a> displayObject) <a class="anchor-link" href="#containsTweens"
+              title="Permalink to Juggler.containsTweens">#</a></h4>
+<div class="doc">
+<pre class="source">
+bool containsTweens(DisplayObject displayObject) {
+ 
+ if (displayObject == null)
+   return false;
+
+ for(int i = 0; i &lt; _animatablesCount; i++) {
+   var animatable = _animatables[i];
+   if (animatable != null &amp;&amp; animatable is Tween){
+     if (animatable.displayObject == displayObject) {
+       return true;
+     }
+   }
+ }
+ 
+ return false;
 }
 </pre>
 </div>
@@ -368,8 +443,8 @@ bool advanceTime(num time)
               title="Permalink to Juggler.delayCall">#</a></h4>
 <div class="doc">
 <pre class="source">
-DelayedCall delayCall(Function action, num delay)
-{
+DelayedCall delayCall(Function action, num delay) {
+ 
  DelayedCall delayedCall = new DelayedCall(action, delay);
  add(delayedCall);
 
@@ -384,11 +459,12 @@ void <strong>purge</strong>() <a class="anchor-link" href="#purge"
               title="Permalink to Juggler.purge">#</a></h4>
 <div class="doc">
 <pre class="source">
-void purge()
-{
- for(int i = 0; i &lt; _animatablesCount; i++)
+void purge() {
+ 
+ for(int i = 0; i &lt; _animatablesCount; i++) {
    _animatables[i] = null;
-
+ }
+ 
  _animatablesCount = 0;
 }
 </pre>
@@ -400,8 +476,8 @@ void <strong>remove</strong>(<a href="../dartflash/Animatable.html">Animatable</
               title="Permalink to Juggler.remove">#</a></h4>
 <div class="doc">
 <pre class="source">
-void remove(Animatable animatable)
-{
+void remove(Animatable animatable) {
+ 
  if (animatable == null)
    return;
 
@@ -421,18 +497,18 @@ void <strong>removeTweens</strong>(<a href="../dartflash/DisplayObject.html">Dis
               title="Permalink to Juggler.removeTweens">#</a></h4>
 <div class="doc">
 <pre class="source">
-void removeTweens(DisplayObject displayObject)
-{
+void removeTweens(DisplayObject displayObject) {
+ 
  if (displayObject == null)
    return;
 
- for(int i = 0; i &lt; _animatablesCount; i++)
- {
+ for(int i = 0; i &lt; _animatablesCount; i++) {
    var animatable = _animatables[i];
-
-   if (animatable != null &amp;&amp; animatable is Tween)
-     if (animatable.displayObject == displayObject)
+   if (animatable != null &amp;&amp; animatable is Tween){
+     if (animatable.displayObject == displayObject) {
        _animatables[i] = null;
+     }
+   }
  }
 }
 </pre>
@@ -444,8 +520,8 @@ void removeTweens(DisplayObject displayObject)
               title="Permalink to Juggler.startTransition">#</a></h4>
 <div class="doc">
 <pre class="source">
-Transition startTransition(num startValue, num targetValue, num time, num transitionFunction(num ratio), void onUpdate(num value))
-{
+Transition startTransition(num startValue, num targetValue, num time, num transitionFunction(num ratio), void onUpdate(num value)) {
+ 
  Transition transition = new Transition(startValue, targetValue, time, transitionFunction);
  transition.onUpdate = onUpdate;
  add(transition);
@@ -460,7 +536,7 @@ Transition startTransition(num startValue, num targetValue, num time, num transi
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-02-09 23:19:05.143</div>
+          <div>This page was generated at 2013-03-19 16:40:17.203</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

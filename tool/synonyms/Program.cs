@@ -75,8 +75,8 @@ namespace SynonymeConverter
                     synonymHtml.AppendFormat("      <div class=\"span12\"><h3 class=\"section\">{0}</h3></div>\n", EscapeHtml(synonymTitle));
                     synonymHtml.AppendFormat("    </div>\n");
                     synonymHtml.AppendFormat("    <div class=\"row\">\n");
-                    synonymHtml.AppendFormat("      <div class=\"span6\"><!--?prettify lang={0}?--><pre class=\"prettyprint\" style=\"border:1px solid #ccc; padding: 10px 10px 10px 10px;\">{1}</pre></div>\n", prettifies[language1], EscapeHtml(code1));
-                    synonymHtml.AppendFormat("      <div class=\"span6\"><!--?prettify lang={0}?--><pre class=\"prettyprint\" style=\"border:1px solid #ccc; padding: 10px 10px 10px 10px;\">{1}</pre></div>\n", prettifies[language2], EscapeHtml(code2));
+                    synonymHtml.AppendFormat("      <div class=\"span6\"><pre class=\"prettyprint lang-{0}\" style=\"border:1px solid #ccc; padding: 10px 10px 10px 10px;\">{1}</pre></div>\n", prettifies[language1], EscapeHtml(code1));
+                    synonymHtml.AppendFormat("      <div class=\"span6\"><pre class=\"prettyprint lang-{0}\" style=\"border:1px solid #ccc; padding: 10px 10px 10px 10px;\">{1}</pre></div>\n", prettifies[language2], EscapeHtml(code2));
                     synonymHtml.AppendFormat("    </div>\n");
                     synonymHtml.AppendFormat("  </section>\n");
                 }

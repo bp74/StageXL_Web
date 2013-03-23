@@ -12,7 +12,7 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="assets/css/dartflash.css" rel="stylesheet" />
 
-    <script type="text/javascript" src="../assets/prettify/run_prettify.js?lang=dart" defer="defer"></script>
+    <script type="text/javascript" src="assets/prettify/run_prettify.js?lang=dart" defer="defer"></script>
 
     <script type="text/javascript">
         var _gaq = _gaq || [];
@@ -66,10 +66,11 @@
                             Documents<b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
+                            <li><a href="docs/getting-started.html">Getting Started</a></li>
+                            <li><a href="docs/wiki-articles.html">Wiki Articles</a></li>
                             <li><a href="docs/api/dartflash.html" target="_blank">API Reference</a></li>
                             <li><a href="docs/actionscript-dart.html">ActionScript&nbsp;<i class="icon-hand-right"></i>&nbsp;Dart</a></li>
                             <li><a href="docs/transitions.html">Transition Functions</a></li>
-                            <li><a href="docs/wiki-articles.html">Wiki Articles</a></li>
                             <li><a href="docs/faq.html">FAQ</a></li>
                         </ul>
                     </li>
@@ -82,7 +83,7 @@
     <div class="container" >
         <div class="hero-unit">
             <div class="row">
-                <div class="span6">
+                <div class="span8">
                     <h1>
                     	<img src="assets/img/dartflash064.png" alt="dartflash icon" height="64" width="64" style="margin-top:-15px;" />
                     	dartflash
@@ -166,8 +167,7 @@
                             <p>Events work the same way as they do in Flash. All the major Event classes are
                             available with the same names and properties. The event flow uses the familiar
                             three-phase approach: Capture Phase, Target Phase and Bubbling Phase.</p>
-<!--?prettify lang=dart?-->
-<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+<pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 mySprite.addEventListener(Event.ENTER_FRAME, enterFrameListener);
 mySprite.addEventListener(MouseEvent.CLICK, mouseClickListener, useCapture:true);
 </pre>
@@ -175,8 +175,7 @@ mySprite.addEventListener(MouseEvent.CLICK, mouseClickListener, useCapture:true)
                             this new pattern to utilize new possibilities and to be a good citizen in the Dart
                             community. The API is a little bit different compared to Flash, but the functionality
                             is pretty much the same.</p>
-<!--?prettify lang=dart?-->
-<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+<pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var subscription1 = mySprite.onEnterFrame.listen(enterFrameListener);
 var subscription2 = mySprite.onMouseClick.listen(mouseClickListener);
 var subscription3 = mySprite.on("customEvent").listen(customEventListener);
@@ -220,8 +219,7 @@ subscription2.resume();    // resume receiving events
                             quality typography to your application. Just add the font's css-style to your
                             page and use the font in TextFormat like you do with any other font.</p>
                             <br/>
-<!--?prettify lang=dart?-->
-<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+<pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var textField = new TextField();
 textField.defaultTextFormat = new TextFormat(&apos;Spicy Rice&apos;, 30, Color.Black);
 textField.text = &apos;The quick brown fox jumps over the lazy dog.&apos;
@@ -264,8 +262,7 @@ addChild(textField);</pre>
                             supported by the browser. You just have to provide the audio file in mp3 and ogg format,
                             this way your application will work in all major browsers.</p>
                             <br/>
-<!--?prettify lang=dart?-->
-<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+<pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // The ResourceManager substitutes embedded resources of Flash.
 var resourceManager = new ResourceManager();
 resourceManager.addSound("plop", "sounds/plop.mp3");   // loads ogg-file in Firefox!
@@ -305,8 +302,7 @@ var soundChannel = sound.play(false, soundTransform);</pre>
                             BitmapFilters can only be applied to BitmapDatas but not to arbitrary Display Objects.
                             However, applying the effects to BitmapDatas should be sufficient for most use cases.</p>
                             <br/>
-<!--?prettify lang=dart?-->
-<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+<pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var sourceBitmapData = new BitmapData(80, 80, true, Color.Red);
 var sourceRectangle = new Rectangle(0, 0, 80, 80);
 
@@ -345,8 +341,7 @@ destinationBitmapData.applyFilter(
                             provided by the render loop to drive your animations. For more information please read
                             the Wiki article about the Juggler animation framework.</p>
                             <br/>
-<!--?prettify lang=dart?-->
-<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+<pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var tween = new Tween(sprite, 2.0, TransitionFunction.easeOutBounce);
 tween.animate(&apos;x&apos;, 700);
 tween.animate(&apos;y&apos;, 500);
@@ -385,8 +380,7 @@ renderLoop.juggler.add(tween);</pre>
                             <a href="http://www.codeandweb.com/texturepacker" target="_blank">Texture Packer</a>,
                             which is the most popular tool on the web.</p>
                             <br/>
-<!--?prettify lang=dart?-->
-<pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+<pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var resourceManager = new ResourceManager()
   ..addBitmapData(&apos;dog&apos;, &apos;images/dog.png&apos;)
   ..addSound(&apos;plop&apos;, &apos;sounds/plop.mp3&apos;)

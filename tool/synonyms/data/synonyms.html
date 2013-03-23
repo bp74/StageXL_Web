@@ -5,11 +5,11 @@
       <div class="span12"><h3 class="section">Classes</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 public class Rectangle extends Shape {
     // fields, constructors, functions
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 class Rectangle extends Shape {
     // fields, constructors, methods
 }</pre></div>
@@ -20,7 +20,7 @@ class Rectangle extends Shape {
       <div class="span12"><h3 class="section">Variables</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var i:int = 1;
 var s:String = &apos;hello world&apos;;
 var n:Number = 3.14;
@@ -29,7 +29,7 @@ var b:Boolean = true;
 // Warning: variable &apos;x&apos; has no type declaration
 var x; 
 var p = new Point(1, 2);</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 int i = 1;
 String s = &apos;hello world&apos;;
 num n = 3.14;
@@ -45,7 +45,7 @@ var p = new Point(1, 2);</pre></div>
       <div class="span12"><h3 class="section">Access modifiers</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 public var name:String; 
 private var _text:String;
 internal var _code:String;
@@ -53,7 +53,7 @@ internal var _code:String;
 // there is no match for the &apos;protected&apos; modifier.
  
  </pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 String name;     // public
 String _text;    // private  (see comment below)
 String _code;    // internal (see comment below)
@@ -68,14 +68,14 @@ String _code;    // internal (see comment below)
       <div class="span12"><h3 class="section">Functions</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 public function echo(text:String):String {
   return text;
 }
 
 private function foo(i:int, s:String):void {
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 String echo(String text) {
   return text;
 }
@@ -89,7 +89,7 @@ void _foo(int i, String s) {
       <div class="span12"><h3 class="section">Constructors</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 public class Sample {
   public function Sample(i:int, s:String) {
     // constructor code
@@ -103,7 +103,7 @@ public class Point {
     this.y = y;
   }
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 class Sample {
   Sample(int i, String s) {
     // constructor code
@@ -124,7 +124,7 @@ class Point {
       <div class="span12"><h3 class="section">Getters and Setters</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 private var _name:String; 
     
 public function get name():String {
@@ -134,7 +134,7 @@ public function get name():String {
 public function set name(value:String): void {
   _name = value;
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 String _name;
   
 String get name {
@@ -151,7 +151,7 @@ set name(String value) {
       <div class="span12"><h3 class="section">Interfaces</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 public interface ISelectable {
   function select(var filter:String):void;
 }
@@ -163,7 +163,7 @@ public class Table implements ISelectable {
     // ...
   }
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 abstract class Selectable {
   void select(String filter);
 }
@@ -182,7 +182,7 @@ class Table implements Selectable {
       <div class="span12"><h3 class="section">Type Check and Cast</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var o:Object = &quot;hello&quot;;
 
 if (o is String) { 
@@ -190,7 +190,7 @@ if (o is String) {
   trace(u);
 }
 </pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var o = &quot;hello&quot;;
 
 if (o is String) {
@@ -207,14 +207,14 @@ if (o is String) {
       <div class="span12"><h3 class="section">Arrays and Vectors</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var a:Array = new Array();
 var b:Array = [1, 2, 3];
 
 var v:Vector.&lt;String&gt; = new Vector.&lt;String&gt;();
 v.push(&apos;hello&apos;);
 v.push(&apos;world&apos;);</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var a = new List();
 var b = [1, 2, 3];
 
@@ -228,14 +228,14 @@ v.add(&apos;world&apos;);</pre></div>
       <div class="span12"><h3 class="section">Queues and Stacks</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var q:Array = new Array();  
 q.push(&apos;hello&apos;);
 q.push(&apos;world&apos;);
 
 var f:String = q.shift();
 var l:String = q.pop();</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var q = new Queue();  // or use: new Queue&lt;String&gt;();
 q.add(&apos;hello&apos;);
 q.add(&apos;world&apos;);
@@ -249,7 +249,7 @@ var l = q.removeLast();</pre></div>
       <div class="span12"><h3 class="section">Associative Arrays, Maps and Dictionaries</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var m1:Object = new Object();
 m1.name1 = &apos;Susan&apos;;
 m1.name2 = &apos;Michael&apos;;
@@ -261,7 +261,7 @@ var m3:Dictionary = new Dictionary();
 m3[0] = new Point(0, 0);
 m3[1] = new Point(1, 1);
 delete m3[1];</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var m1 = new Map();   // or use: new Map&lt;String, String&gt;();
 m1[&apos;name1&apos;] = &apos;Susan&apos;;
 m1[&apos;name2&apos;] = &apos;Michael&apos;;
@@ -280,12 +280,12 @@ m3.remove(1);</pre></div>
       <div class="span12"><h3 class="section">Sets</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // A set is a collection without duplicates.
 // ActionScript has no built-in support for sets.
 //
 //</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var s = new Set();  // or use: new Set&lt;String&gt;();
 s.add(&apos;hello&apos;);
 s.add(&apos;world&apos;);
@@ -300,11 +300,11 @@ s.add(&apos;hello&apos;);     // will not be added to avoid duplicates.</pre></d
       <div class="span12"><h3 class="section">for</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 for(var i:int = 1; i &lt; 10; i++) {
   trace(i);
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 for(int i = 1; i &lt; 10; i++) {
   print(i);
 }</pre></div>
@@ -315,12 +315,12 @@ for(int i = 1; i &lt; 10; i++) {
       <div class="span12"><h3 class="section">for each</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var words:Array = [&apos;this&apos;, &apos;is&apos;, &apos;sparta!&apos;];  
 for each(var word:String in words) {
   trace(word);
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var words = [&apos;this&apos;, &apos;is&apos;, &apos;sparta!&apos;];
 for(var word in words) {
   print(word);
@@ -332,13 +332,13 @@ for(var word in words) {
       <div class="span12"><h3 class="section">while and do-while</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var i:int = 0;
 while(i &lt; 10) { i++; }
 
 var j:int = 0;
 do { j++; } while(j &lt; 10);</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 int i = 0;
 while(i &lt; 10) { i++; }
 
@@ -351,12 +351,12 @@ do { j++; } while(j &lt; 10);</pre></div>
       <div class="span12"><h3 class="section">iterate objects/maps</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var data:Object = {name1 : &apos;Susan&apos;, name2 : &apos;Michael&apos;};
 for(var key:String in data) {
   var value:String = data[key];
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var data = {&apos;name1&apos; : &apos;Susan&apos;, &apos;name2&apos; : &apos;Michael&apos;};
 for (var key in data.keys) {
   var value = data[key];
@@ -371,12 +371,12 @@ for (var key in data.keys) {
       <div class="span12"><h3 class="section">Library</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // All mathematical operations are static member fields
 // and functions of the &apos;Math&apos; class.
 //
 //</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // All mathematical operations are static top level constants
 // and functions of the &apos;dart:math&apos; library.
 
@@ -388,11 +388,11 @@ import &apos;dart:math&apos;;</pre></div>
       <div class="span12"><h3 class="section">Constants</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var p:Number = Math.PI;
 var e:Number = Math.E;
 var s:Number = Math.SQRT2;</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var p = PI;
 var e = E;
 var s = SQRT2;</pre></div>
@@ -403,11 +403,11 @@ var s = SQRT2;</pre></div>
       <div class="span12"><h3 class="section">Trigonometric functions</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var s:Number = Math.sin(Math.PI / 2);
 var c:Number = Math.cos(Math.PI / 3);
 var t:Number = Math.tan(Math.PI / 4);</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var s = sin(PI / 2);
 var c = cos(PI / 3);
 var t = tan(PI / 4);</pre></div>
@@ -418,11 +418,11 @@ var t = tan(PI / 4);</pre></div>
       <div class="span12"><h3 class="section">Random</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var r:Number = Math.random();
  
 </pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var random = new Random();
 var r = random.nextDouble();</pre></div>
     </div>
@@ -432,12 +432,12 @@ var r = random.nextDouble();</pre></div>
       <div class="span12"><h3 class="section">Abs, Ceil, Floor and Round</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var a:Number = Math.abs(-3.14);
 var c:Number = Math.ceil(15.54);
 var f:Number = Math.floor(27.17);
 var r:Number = Math.round(35.22);</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var a = (-3.14).abs();
 var c = (15.54).ceil();
 var f = (27.17).floor();
@@ -449,10 +449,10 @@ var r = (35.22).round();</pre></div>
       <div class="span12"><h3 class="section">String to Number conversion</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var i:int = parseInt(&apos;12&apos;);
 var n:Number = parseFloat(&apos;27.55&apos;);</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var i = int.parse(&apos;12&apos;);
 var n = double.parse(&apos;27.55&apos;);</pre></div>
     </div>
@@ -465,7 +465,7 @@ var n = double.parse(&apos;27.55&apos;);</pre></div>
       <div class="span12"><h3 class="section">Hoisting</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // ActionScript uses function scoping.
 
 public function foo():void {
@@ -480,7 +480,7 @@ public function foo():void {
     trace(5 * i);  
 }
 </pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // Dart uses block scoping.
 
 void foo() {
@@ -502,7 +502,7 @@ void foo() {
       <div class="span12"><h3 class="section">Closures</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // The following code prints:  5, 5, 5, 5, 5
 
 var callbacks:Array = new Array();
@@ -514,7 +514,7 @@ for(var i:int = 0; i &lt; 5; i++) {
 for each(var callback:Function in callbacks) {
   callback();      
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // The following code prints:  0, 1, 2, 3, 4
 
 var callbacks = new List();
@@ -533,7 +533,7 @@ for (var callback in callbacks) {
       <div class="span12"><h3 class="section">Scope of &apos;this&apos;</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // ActionScript uses a dynamic binding for &apos;this&apos;.
 // The function &apos;Bar.test&apos; will print &apos;Michael&apos;.
 
@@ -554,7 +554,7 @@ public class Bar {
     this.func();  // prints &apos;Michael&apos; which is problematic!
   }  
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // Dart uses a lexical binding for &apos;this&apos;.
 // The function &apos;Bar.test&apos; will print &apos;Susan&apos;.
 
@@ -585,7 +585,7 @@ class Bar {
       <div class="span12"><h3 class="section">Exception handling</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 public function foo(text:String):void {
   try {
     if (text == null)
@@ -598,7 +598,7 @@ public function foo(text:String):void {
     // always run this code.
   }
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 void foo(String text) {
   try {
     if (text == null)
@@ -618,7 +618,7 @@ void foo(String text) {
       <div class="span12"><h3 class="section">Optional parameters</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // Positional optional parameters
 public function foo(s:String = null, b:Boolean = false):void {
   // Parameter &apos;b&apos;: ActionScript does not support optional 
@@ -630,7 +630,7 @@ public function foo(s:String = null, b:Boolean = false):void {
 // ActionScript does not support named optional parameters.
  
 </pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // Positional optional parameters    
 void foo([String s = null, bool b]) {
   if (?b == false) {
@@ -649,7 +649,7 @@ void bar({String s:null, bool b:false}):void {
       <div class="span12"><h3 class="section">Single expression functions</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 public function get name():String {
   return _name;
 }
@@ -661,7 +661,7 @@ public function calc(value:int):int {
 var func:Function = function(text:String):void { 
   trace(text.toUpperCase()); 
 };</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 String get name() =&gt; _name;
 
 
@@ -681,7 +681,7 @@ var func = (String text) =&gt; print(text.toUpperCase());
       <div class="span12"><h3 class="section">Method cascades</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // this feature is not available in ActionScript, 
 // therefore you write something like this:
 
@@ -690,7 +690,7 @@ sprite.x = 100;
 sprite.y = 150;
 sprite.addEventListener(MouseEvent.CLICK, onMouseClick);
 stage.addChild(sprite);</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // Dart offers so called method cascades, it is
 // a shorter way to write code like this:
 
@@ -706,9 +706,9 @@ var sprite = new Sprite()
       <div class="span12"><h3 class="section">Printing to the console</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 trace(&apos;hello world&apos;);</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 print(&apos;hello world&apos;);</pre></div>
     </div>
   </section>
@@ -717,11 +717,11 @@ print(&apos;hello world&apos;);</pre></div>
       <div class="span12"><h3 class="section">String Concatenation and Interpolation</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 public function hello(first:String, last:String):String {
   return &apos;Hello &apos; + first + &apos; &apos; + last;
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 String hello(String first, String last) {
   return &apos;Hello $first $last&apos;;
 }</pre></div>
@@ -732,10 +732,10 @@ String hello(String first, String last) {
       <div class="span12"><h3 class="section">Escaped and Raw String</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var esc:String = &quot;Hi!\\n\\nNice to meet you!\\n&quot;;
 // ActionScript does not support raw Strings.</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var esc = &quot;Hi!\\n\\nNice to meet you!\\n&quot;;
 var raw = r&quot;Hi!\n\nNice to meet you!\n&quot;;</pre></div>
     </div>
@@ -745,14 +745,14 @@ var raw = r&quot;Hi!\n\nNice to meet you!\n&quot;;</pre></div>
       <div class="span12"><h3 class="section">Regular Expressions</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // ActionScript supports the RexExp class and literal.
 
 var pattern1:RegExp = new RegExp(&quot;^\\d+$&quot;, &quot;&quot;);
 var pattern2:RegExp = /^\d+$/;
 var match:Array = pattern1.exec(&quot;42&quot;);
 trace(match[0]); // 42</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // Dart only supports the RexExp class. 
 
 var pattern1 = new RegExp(r&quot;^\d+$&quot;);
@@ -766,11 +766,11 @@ print(match.group(0)); // 42</pre></div>
       <div class="span12"><h3 class="section">External Interface</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 if (ExternalInterface.available) {
   ExternalInterface.call(&quot;updateHtml&quot;, 1, 2, 3);
 }</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 updateHtml(1, 2, 3);
  
  
@@ -785,7 +785,7 @@ updateHtml(1, 2, 3);
       <div class="span12"><h3 class="section">dartflash (https://github.com/bp74/dartflash)</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // Flash Display List objects
 var bd:BitmapData = new BitmapData(20, 20, false, 0xFF00FF);
 var b:Bitmap = new Bitmap(bd);
@@ -801,7 +801,7 @@ sprite.addEventListener(MouseEvent.CLICK, onMouseClick);
 var sound:Sound = new Embedded.CoolSound();
 var soundChannel:SoundChannel = s.play();
 </pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 // HTML5 Display List objects
 var bd = new BitmapData(20, 20, false, 0xFF00FF);
 var b = new Bitmap(bd); 
@@ -824,7 +824,7 @@ var soundChannel = s.play();
       <div class="span12"><h3 class="section">dart-xml (https://github.com/prujohn/dart-xml)</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var xml:XML = 
   &lt;persons&gt;
     &lt;person name=&apos;Susan&apos;/&gt;
@@ -832,7 +832,7 @@ var xml:XML =
   &lt;/persons&gt;;    
       
 var xmlList:XMLList = xml.elements(&apos;person&apos;);</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var xml = XML.parse(&apos;&apos;&apos;
 &lt;persons&gt;
   &lt;person name=&apos;Susan&apos;/&gt;
@@ -847,12 +847,12 @@ var xmlList = xml.queryAll(&apos;person&apos;);</pre></div>
       <div class="span12"><h3 class="section">dartbox2D (http://code.google.com/p/dartbox2d)</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var body:b2Body;
 var bodyDef:b2BodyDef;
 var boxShape:b2PolygonShape;
 var circleShape:b2CircleShape;</pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 Body body;
 BodyDef bodyDef;
 PolygonShape boxShape;
@@ -865,12 +865,12 @@ CircleShape circleShape;
       <div class="span12"><h3 class="section">Using a library</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 import flash.display.*;
 import com.hurlant.crypto.hash.SHA1;
   
 </pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 import &apos;package:dartflash/dartflash.dart&apos;;
 import &apos;dart:crypto&apos; show SHA1; // only SHA1 class is visible
 import &apos;dart:html&apos; as html; // Alias, use &apos;html.window...&apos;</pre></div>
@@ -884,9 +884,9 @@ import &apos;dart:html&apos; as html; // Alias, use &apos;html.window...&apos;</
       <div class="span12"><h3 class="section">New synonym</h3></div>
     </div>
     <div class="row">
-      <div class="span6"><!--?prettify lang=js?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-js" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 </pre></div>
-      <div class="span6"><!--?prettify lang=dart?--><pre class="prettyprint" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+      <div class="span6"><pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 </pre></div>
     </div>
   </section>

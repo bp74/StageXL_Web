@@ -2,7 +2,7 @@
 
 In the past and even today, most games on the Web are developed with Adobe Flash and ActionScript 3. With the rise of HTML5 and the lack of support for Flash on mobile devices, developers need and easy migration path. The Dart language is very similar to ActionScript 3 and the dartflash library itself provides the easy to use API of Flash to build games and other graphically rich content. Although dartflash is targeted to existing Flash developers, the API should be appealing to all other game developers too.
 
-This article explains the basic building blocks of the dartflash library and should get you started. You can also visit the [dartflash homepage](http://www.dartflash.com) to look at some games, demos and code snippets.
+This article explains the basic building blocks of the dartflash library and should get you started.
 
 ## Display List ##
 

@@ -15925,7 +15925,7 @@ $.SoundMixer__getEngine = function() {
       engine = "Mock";
   if ($.$eq($.get$length$asx($.get$SoundMixer__supportedTypes()), 0) === true)
     engine = "Mock";
-  $.Primitives_printString("dartflash: supported audio engine is: " + engine);
+  $.Primitives_printString("StageXL: supported audio engine is: " + engine);
   return engine;
 };
 
@@ -15948,7 +15948,7 @@ $.SoundMixer__getSupportedTypes = function() {
     supportedTypes.push("mp3");
   if ($.$eq($.JSArray_methods.indexOf$1(valid, t1.canPlayType$2(audio, "audio/wav", "")), -1) !== true)
     supportedTypes.push("wav");
-  $.Primitives_printString("dartflash: supported audio types are: " + $.S(supportedTypes));
+  $.Primitives_printString("StageXL: supported audio types are: " + $.S(supportedTypes));
   return supportedTypes;
 };
 
@@ -17169,9 +17169,6 @@ Isolate.$lazy($, "thisScript", "IsolateNatives_thisScript", "get$IsolateNatives_
 Isolate.$lazy($, "_runCallbacks", "Timer__runCallbacks", "get$Timer__runCallbacks", function() {
   return [];
 });
-Isolate.$lazy($, "_isLittleEndianSystem", "_isLittleEndianSystem", "get$_isLittleEndianSystem", function() {
-  return $._checkLittleEndianSystem();
-});
 Isolate.$lazy($, "_displayObjectListPool", "_displayObjectListPool", "get$_displayObjectListPool", function() {
   return $.ObjectPool$(new $.anon(), [$.List, $.DisplayObject]);
 });
@@ -17198,6 +17195,9 @@ Isolate.$lazy($, "_inputModeChangedEvent", "Multitouch__inputModeChangedEvent", 
 });
 Isolate.$lazy($, "_onInputModeChanged", "Multitouch__onInputModeChanged", "get$Multitouch__onInputModeChanged", function() {
   return $.get$stream$x($.get$Multitouch__inputModeChangedEvent()).asBroadcastStream$0();
+});
+Isolate.$lazy($, "_isLittleEndianSystem", "_isLittleEndianSystem", "get$_isLittleEndianSystem", function() {
+  return $._checkLittleEndianSystem();
 });
 var $ = null;
 Isolate = Isolate.$finishIsolateConstructor(Isolate);

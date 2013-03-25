@@ -1,8 +1,6 @@
-name: dartflash_web
+name: stagexl_web
 description: The website for the dartflash library.
 dependencies:
-  dartflash:
-    git:
-      ref: latest
-      url: https://github.com/bp74/dartflash.git
   browser: any
+  stagexl:
+    git: https://github.com/bp74/StageXL.git

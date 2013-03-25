@@ -2,7 +2,7 @@ library stagexl_web;
 
 import 'dart:math';
 import 'dart:html' as html;
-import 'package:dartflash/dartflash.dart';
+import 'package:stagexl/stagexl.dart';
 
 part 'src/demos/filter.dart';
 part 'src/demos/masking.dart';

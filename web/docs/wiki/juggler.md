@@ -1,6 +1,6 @@
 # The Juggler #
 
-A basic building block in game development is a framework to move things around on the screen. The Juggler is a framework built right into dartflash and it provides animation capabilities and much more. If you are not familiar with the basics of the dartflash library, please read the [Introducing dartflash](wiki-articles.html?article=introduction) article first. 
+A basic building block in game development is a framework to move things around on the screen. The Juggler is a framework built right into StageXL and it provides animation capabilities and much more. If you are not familiar with the basics of the StageXL library, please read the [Introducing StageXL](wiki-articles.html?article=introduction) article first. 
 
 Let's get started with a simple example. In the previous article you have learned about the Stage and the RenderLoop. The RenderLoop manages the continuous update of the screen and he also keeps track of the time that passes while the game is running. This time is important for the Juggler because all animations are functions over time. Therefore the RenderLoop also provides an instance of the Juggler. 
 
@@ -42,11 +42,11 @@ Of course you can create multiple tweens with different parameters for the same 
 
 A transition function defines the progress of the animation over time. The simplest transition is linear, where the progress of the animation is linear in relationship to time. Often animations look more natural when the transition accelerates or decelerates. Those transition functions are often called easing functions. 
 
-The example for the Tween class already showed how to use a transition function. You can choose between many different functions which are provided by the dartflash library. There is an overview for all transition functions on the dartflash homepage, the image below just shows some of the common functions.
+The example for the Tween class already showed how to use a transition function. You can choose between many different functions which are provided by the StageXL library. There is an overview for all transition functions on the StageXL homepage, the image below just shows some of the common functions.
 
-[http://www.dartflash.com/docs/transitions.html](http://www.dartflash.com/docs/transitions.html)
+[http://www.stagexl.org/docs/transitions.html](http://www.stagexl.com/docs/transitions.html)
 
-![Transition Functions](http://www.dartflash.com/assets/screenshot/transitionFunctions.jpg)
+![Transition Functions](http://www.stagexl.org/assets/screenshot/transitionFunctions.jpg)
 
 If none of the provided transition functions fulfills your needs you can simply build one of your own. The example below shows a custom transition function called "sawtooth". 
 
@@ -68,9 +68,9 @@ The Animatable class is very simple. It only has one method called 'advanceTime'
       bool advanceTime(num time);
     }
 
-A simple example is the performance demo on the dartflash homepage. Here we are using a class called FlyingFlag which extends the Bitmap class and implements the Animatable class. The Juggler manages the motion of all flags by calling the 'advanceTime' method of all FlyingFlags.
+A simple example is the performance demo on the StageXL homepage. Here we are using a class called FlyingFlag which extends the Bitmap class and implements the Animatable class. The Juggler manages the motion of all flags by calling the 'advanceTime' method of all FlyingFlags.
 
-[http://www.dartflash.com/demos/performance.html](http://www.dartflash.com/demos/performance.html)
+[http://www.stagexl.org/demos/performance.html](http://www.stagexl.org.com/demos/performance.html)
 
     class FlyingFlag extends Bitmap implements Animatable {
             
@@ -93,7 +93,7 @@ A simple example is the performance demo on the dartflash homepage. Here we are 
 
 ### Delayed Call ###
 
-One of the Animatables provided by the dartflash library out of the box besides the Tween class is the DelayedCall class. This class is not directly related to animations, but is very useful to control the flow of your game. The purpose of this class is obviously to delay the call to a function.
+One of the Animatables provided by the StageXL library out of the box besides the Tween class is the DelayedCall class. This class is not directly related to animations, but is very useful to control the flow of your game. The purpose of this class is obviously to delay the call to a function.
 
     var action = () => print("Action!");
         

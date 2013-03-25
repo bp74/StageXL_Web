@@ -2610,23 +2610,14 @@ gT2:function(a){return $.e9(this.t1,"pathname")},
 bu:function(a){return this.t1.toString()},
 $isu8:function(){return true},
 $asu8:function(){return null}}
-$$.W9={"":"a;m6,Wm,KJ,Uo",
+$$.W9={"":"a;KJ,Wm,ff,Uo",
 G:function(){var z,y
-z=this.KJ
-if(typeof z!=="number")return this.Q2(1,z)
-y=z+1
-z=this.Wm
-if(y<z){this.Uo=$.UQ(this.m6,y)
-this.KJ=y
+z=this.ff+1
+y=this.Wm
+if(z<y){this.Uo=$.UQ(this.KJ,z)
+this.ff=z
 return!0}this.Uo=null
-this.KJ=z
-return!1},
-Q2:function(a,b){var z=$.DE(b,1)
-b=this.Wm
-if($.u6(z,b)===!0){this.Uo=$.UQ(this.m6,z)
-this.KJ=z
-return!0}this.Uo=null
-this.KJ=b
+this.ff=y
 return!1},
 gl:function(){return this.Uo}}
 $$.tY={"":"v3;a",
@@ -3911,6 +3902,7 @@ z=$.Ah(this.Nd)
 y=$.RE(z)
 x=$.Je(y.gR(z))
 w=$.Je(y.gfg(z))
+if($.xC(x,0)===!0||$.xC(w,0)===!0)return
 v=this.pz
 u=this.au
 switch(this.Vr){case"exactFit":break
@@ -7995,7 +7987,7 @@ x=$.U6(y)
 if(x.tg(y,"IEMobile"))if(x.tg(y,"9.0")||x.tg(y,"10.0"))z="Mock"
 if(x.tg(y,"iPhone")||x.tg(y,"iPad")||x.tg(y,"iPod"))if(x.tg(y,"OS 3")||x.tg(y,"OS 4")||x.tg(y,"OS 5"))z="Mock"
 if($.xC($.q8($.Yr()),0)===!0)z="Mock"
-$.ib("dartflash: supported audio engine is: "+z)
+$.ib("StageXL: supported audio engine is: "+z)
 return z}
 $.AN=function(){if(!!(window.AudioContext || window.webkitAudioContext))return new (window.AudioContext || window.webkitAudioContext)()
 return}
@@ -8008,7 +8000,7 @@ w=$.RE(y)
 if($.xC($.Pd.OY(x,w.JR(y,"audio/ogg","")),-1)!==!0)z.push("ogg")
 if($.xC($.Pd.OY(x,w.JR(y,"audio/mpeg","")),-1)!==!0)z.push("mp3")
 if($.xC($.Pd.OY(x,w.JR(y,"audio/wav","")),-1)!==!0)z.push("wav")
-$.ib("dartflash: supported audio types are: "+$.d(z))
+$.ib("StageXL: supported audio types are: "+$.d(z))
 return z}
 $.ON=function(a,b){return new $.e5(a,b,1,0,1,0)}
 $.RG=function(){var z=new $.za(null,null,null)
@@ -8662,7 +8654,6 @@ I.$lazy($,"globalWorker","u9","rm",function(){return $.jk().Worker})
 I.$lazy($,"globalPostMessageDefined","Wd","Iz",function(){return $.jk().postMessage !== (void 0)})
 I.$lazy($,"thisScript","Xr","Jz",function(){return $.Td()})
 I.$lazy($,"_runCallbacks","U8","Sa",function(){return[]})
-I.$lazy($,"_isLittleEndianSystem","hb","ZU",function(){return $.ef()})
 I.$lazy($,"_displayObjectListPool","qK","Iw",function(){return $.fr(new $.ac(),[$.zM, $.fE])})
 I.$lazy($,"enterFrame","iT","x9",function(){return $.pC()})
 I.$lazy($,"engine","yS","HW",function(){return $.ra()})
@@ -8672,6 +8663,7 @@ I.$lazy($,"_mouseCursorChangedEvent","pE","hP",function(){return $.vr(null,null,
 I.$lazy($,"_onMouseCursorChanged","FX","YF",function(){return $.wh($.hP()).y0()})
 I.$lazy($,"_inputModeChangedEvent","PH","eU",function(){return $.vr(null,null,$.qU)})
 I.$lazy($,"_onInputModeChanged","YZ","Ql",function(){return $.wh($.eU()).y0()})
+I.$lazy($,"_isLittleEndianSystem","hb","ZU",function(){return $.ef()})
 var $=null
 I = I.$finishIsolateConstructor(I)
 var $=new I()

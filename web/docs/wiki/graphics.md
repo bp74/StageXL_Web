@@ -1,8 +1,8 @@
 # Drawing Vector Shapes #
 
-Often it is useful to draw graphics as vector shapes. Those graphics can be scaled without loosing precision and the download size is much smaller compared to a raster images. Below you can see a cloud made out of vectors following a path which is filled and outlined. 
+Sometimes it is useful to draw graphics as vector shapes. Those graphics can be scaled without loosing precision and the download size is much smaller compared to a raster images. Below you can see a cloud made out of vectors following a path which is filled and outlined.
 
-![Cloud Shape](http://www.dartflash.com/assets/screenshot/cloudShape.jpg)
+![Cloud Shape](http://www.stagexl.org/assets/screenshot/cloudShape.jpg)
 
     // Create a new Shape Display Object.
     Shape shape = new Shape();

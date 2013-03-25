@@ -1,12 +1,12 @@
-# Introducing dartflash  #
+# Introducing StageXL  #
 
-In the past and even today, most games on the Web are developed with Adobe Flash and ActionScript 3. With the rise of HTML5 and the lack of support for Flash on mobile devices, developers need and easy migration path. The Dart language is very similar to ActionScript 3 and the dartflash library itself provides the easy to use API of Flash to build games and other graphically rich content. Although dartflash is targeted to existing Flash developers, the API should be appealing to all other game developers too.
+In the past and even today, most games on the Web are developed with Adobe Flash and ActionScript 3. With the rise of HTML5 and the lack of support for Flash on mobile devices, developers need and easy migration path. The Dart language is very similar to ActionScript 3 and the StageXL library itself provides the easy to use API of Flash to build games and other graphically rich content. Although StageXL is targeted to existing Flash developers, the API should be appealing to all other game developers too.
 
-This article explains the basic building blocks of the dartflash library and should get you started.
+This article explains the basic building blocks of the StageXL library and should get you started.
 
 ## Display List ##
 
-The rendering model of dartflash relies on the Display List concept. The display list is a hierarchy that contains all objects that should be visible on the screen. To build this hierarchy, three basic types of objects are available.
+The rendering model of StageXL relies on the Display List concept. The display list is a hierarchy that contains all objects that should be visible on the screen. To build this hierarchy, three basic types of objects are available.
 
 ### The stage ###
 
@@ -24,11 +24,11 @@ The hierarchy of the display list is also responsible for the depth management o
 
 ## The Display List in action ##
 
-The easiest way to understand the Display List is to look at some code. You can find this example and more advanced examples on the [dartflash github page](https://github.com/bp74/dartflash/tree/master/example). The first example shows the construction of a custom display object container called 'Painting'. 
+The easiest way to understand the Display List is to look at some code. You can find this example and more advanced examples on the [StageXL github page](https://github.com/bp74/stagexl/tree/master/example). The first example shows the construction of a custom display object container called 'Painting'. 
 
 The painting consists of a rectangluar background and four colorful boxes. The example introduces the BitmapData and Bitmap types. The BitmapData type contains pixels - either by creating a new BitmapData object filled with a flat color (as in our example), or by loading an image from the server. To make those pixels visible, you have to create a Bitmap display object and add it to the display object container (Painting). Please pay attention to the order of the boxes - the boxes added first are in the background, the boxes added later are in the foreground. The example also shows how to set the position of the Bitmap relative to its parent. 
 
-![Modern Art Painting](http://www.dartflash.com/assets/screenshot/example01.png)
+![Modern Art Painting](http://www.stagexl.org/assets/screenshot/example01.png)
 
     class Painting extends DisplayObjectContainer {
       final List<int> colors = [Color.Red, Color.Green, Color.Blue, Color.Brown];
@@ -51,7 +51,7 @@ The painting consists of a rectangluar background and four colorful boxes. The e
 Now that we have created the Painting, we need to add the Painting itself to the display list to make it visible. As explained earlier, the root of the display list is the Stage. Therefore we create the Stage from a canvas element which is part of the HTML document. At the same time we have to take a look at the RenderLoop class. The render loop (also known as game loop) provides a constant stream of events that updates your game logic and draws the display list to the screen. Our painting example looks pretty static, but in fact it is updated 60 times per second - if the positions of the boxes would change over time, you would see a smooth animation.
 
     import 'dart:html' as html;
-    import 'package:dartflash/dartflash.dart'; 
+    import 'package:stagexl/stagexl.dart'; 
     
     void main() {
       var canvas = html.query('#stage');
@@ -69,7 +69,7 @@ Now that we have created the Painting, we need to add the Painting itself to the
 
 All display objects are so called event dispatchers. This means that you can dispatch events or listen to events on each single display object. This is particularly useful for mouse or touch events, this way the objects in your game can individually react to user input. Another common and useful event is dispatched by the render loop whenever a new frame is entered. The following example shows a clock where the time is updated "onEnterFrame" and the color of the time is changed "onMouseClick". The example introduces another display object called TextField, which is used to display text on the screen.
 
-![Running Clock](http://www.dartflash.com/assets/screenshot/clock.png)
+![Running Clock](http://www.stagexl.org/assets/screenshot/clock.png)
 
     class Clock extends DisplayObjectContainer {
       List _colors = [Color.Black, Color.Blue, Color.Red, Color.Green];
@@ -100,7 +100,7 @@ All display objects are so called event dispatchers. This means that you can dis
       }
     }
 
-The enterFrame event could be used to animate display objects over time (as example you could change the "x" and "y" property of a display object). Please note that the dartflash library provides a dedicated framework with easing functions for this use case, therefore we do not recommend using the enterFrame for animations. Please visit the dartflash homepage for more details.
+The enterFrame event could be used to animate display objects over time (as example you could change the "x" and "y" property of a display object). Please note that the StageXL library provides a dedicated framework with easing functions for this use case, therefore we do not recommend using the enterFrame for animations. Please visit the StageXL homepage for more details.
 
 ## Resource manager ##
 
@@ -108,11 +108,11 @@ A game consists of many different resources (or assets) like images and sounds. 
 
 The example below adds three images to the resource manager. Each image is tagged with a unique name and the URL to the image is provided too. When the resource manager has finished loading all images, the load-future completes and you can access the BitmapDatas by the given unique name.
 
-![World](http://www.dartflash.com/assets/screenshot/world.png)
+![World](http://www.stagexl.com/assets/screenshot/world.png)
 
     import 'dart:async';
     import 'dart:html' as html;
-    import 'package:dartflash/dartflash.dart';
+    import 'package:stagexl/stagexl.dart';
     
     void main() {
       var canvas = html.query('#stage');
@@ -140,11 +140,11 @@ The example below adds three images to the resource manager. Each image is tagge
 
 ## Advanced features ##
 
-This introduction to dartfash should only cover the basic concepts of the display list and get you started. You can find more advanced samples and demos on the dartflash homepage and in the github repository. Hopefully we can talk about one of the advanced features in a future article.
+This introduction to StageXL should only cover the basic concepts of the display list and get you started. You can find more advanced samples and demos on the StageXL homepage and in the github repository. Hopefully we can talk about one of the advanced features in a future article.
 
 ### Sound ###
 
-The dartflash library does not only cover the display list, but also the Sound APIs of Flash. The easy to use Sound API hides the implementation details and provides cross browser compatibility. 
+The StageXL library does not only cover the display list, but also the Sound APIs of Flash. The easy to use Sound API hides the implementation details and provides cross browser compatibility. 
 
 ### Juggler animation framework ###
 
@@ -156,7 +156,7 @@ Masks are used to limit the available display area of display objects. Masks can
 
 ### Runtimes ###
 
-The darflash library also contains runtimes for popular third party tools. This is a list of current and future runtimes supported by dartflash out of the box.
+The darflash library also contains runtimes for popular third party tools. This is a list of current and future runtimes supported by StageXL out of the box.
 
 * [Texture Packer](http://www.codeandweb.com/texturepacker) - Sprite sheet generator.
 * [Flump](http://threerings.github.com/flump) - Adobe Flash timeline animations.

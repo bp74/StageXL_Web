@@ -2,24 +2,24 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>dartflash library - Home</title>
+    <title>StageXL for Dart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="The dartflash library is intended for Flash developers who want to
+    <meta name="description" content="The StageXL library is intended for Flash developers who want to
     	migrate their projects as well as their skills to HTML5. Therefore the library provides the
     	familiar Flash API built on top of the Dart programming language.">
     <meta name="author" content="" />
 	  <link href="assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="assets/css/dartflash.css" rel="stylesheet" />
+    <link href="assets/css/stagexl.css" rel="stylesheet" />
 
     <script type="text/javascript" src="assets/prettify/run_prettify.js?lang=dart" defer="defer"></script>
 
     <script type="text/javascript">
         var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-33055781-1']);
+        _gaq.push(['_setAccount', 'UA-39591161-1']);
         _gaq.push(['_trackPageview']);
 
-        (function () {
+        (function() {
             var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
@@ -31,7 +31,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
-                <a class="brand" href="./index.html"><strong>dartflash</strong></a>
+                <a class="brand" href="./index.html"><strong>StageXL</strong></a>
                 <ul class="nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -68,7 +68,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="docs/getting-started.html">Getting Started</a></li>
                             <li><a href="docs/wiki-articles.html">Wiki Articles</a></li>
-                            <li><a href="docs/api/dartflash.html" target="_blank">API Reference</a></li>
+                            <li><a href="docs/api/stagexl.html" target="_blank">API Reference</a></li>
                             <li><a href="docs/actionscript-dart.html">ActionScript&nbsp;<i class="icon-hand-right"></i>&nbsp;Dart</a></li>
                             <li><a href="docs/transitions.html">Transition Functions</a></li>
                             <li><a href="docs/faq.html">FAQ</a></li>
@@ -85,19 +85,19 @@
             <div class="row">
                 <div class="span8">
                     <h1>
-                    	<img src="assets/img/dartflash064.png" alt="dartflash icon" height="64" width="64" style="margin-top:-15px;" />
-                    	dartflash
+                    	<img src="assets/img/stagexl064.png" alt="StageXL" height="64" width="64" style="margin-top:-15px;" />
+                    	StageXL for Dart
                    	</h1>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-large" href="https://github.com/bp74/dartflash" target="_blank">
+                    <a class="btn btn-large" href="https://github.com/bp74/stagexl" target="_blank">
                         <img class="img-github" src="assets/img/github-logo.png" alt="GitHub Logo" />
                         view project<br />on github <i class='icon-hand-left'></i>
                     </a>
                 </div>
             </div>
             <hr />
-            <p>The dartflash library is intended for Flash developers who want to migrate their projects
+            <p>The StageXL library is intended for Flash developers who want to migrate their projects
             as well as their skills to HTML5. Therefore the library provides the familiar Flash API built
             on top of the Dart programming language. Dart is very similar to ActionScript 3 and avoids
             all the hassle of JavaScript.</p>
@@ -121,7 +121,7 @@
 
                 <div class="row">
                 	<div class="span8">
-                		<p>To simplify the migration from Flash to HTML5, the dartflash library uses
+                		<p>To simplify the migration from Flash to HTML5, the StageXL library uses
                 		the same class hierarchy as Flash does. You can extend your UI-objects from DisplayObject(Container) or
                 		just work with the Sprite class. The methods and properties of the classes are the ones
                 		you already know from the Flash API.</p>
@@ -257,7 +257,7 @@ addChild(textField);</pre>
                             a HTML5 standard yet, but offers the best audio playback capabilities for games. Another
                             problem is the support of all the audio codecs (mp3/ogg/wav) used in different
                             browsers.<p>
-                            <p>To hide all the problems and differences the dartflash library wraps those APIs and
+                            <p>To hide all the problems and differences the StageXL library wraps those APIs and
                             provides the familiar Sound APIs of Flash. The library also selects the codec which is
                             supported by the browser. You just have to provide the audio file in mp3 and ogg format,
                             this way your application will work in all major browsers.</p>
@@ -296,7 +296,7 @@ var soundChannel = sound.play(false, soundTransform);</pre>
 					<div class="row">
 	                	<div class="span8">
 	                		<p>Filters are used for visual effects like drop shadow, glow, blur and others. The
-                            dartflash library supports five different filters out of the box, but you can add
+                            StageXL library supports five different filters out of the box, but you can add
                             your own filters by extending the BitmapFilter base class.</p>
                             <p>Calculating visual effects is an expensive computational operation. Therefore
                             BitmapFilters can only be applied to BitmapDatas but not to arbitrary Display Objects.
@@ -331,7 +331,7 @@ destinationBitmapData.applyFilter(
                 <div class="tab-pane" id="tabJuggler">
 					<div class="row">
 	                	<div class="span8">
-	                		<p>The dartflash library provides an easy to use animation framework. You can animate your
+	                		<p>The StageXL library provides an easy to use animation framework. You can animate your
                             objects by implementing the Animatable interface or simply use the Tween class to animate
                             your Display Objects properties like x, y, scaleX, scaleY, rotation and alpha. In addition
                             you can control the flow of your application by using the DelayedCall class.</p>
@@ -376,7 +376,7 @@ renderLoop.juggler.add(tween);</pre>
                             <p>If your application uses a large number of small images, it is best practice to
                             merge those small images into one big image. This big image is called texture atlas
                             (or sprite sheet) and accelerates the download and improves the render performance. The
-                            dartflash library supports the file format of
+                            StageXL library supports the file format of
                             <a href="http://www.codeandweb.com/texturepacker" target="_blank">Texture Packer</a>,
                             which is the most popular tool on the web.</p>
                             <br/>

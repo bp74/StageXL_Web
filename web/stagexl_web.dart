@@ -1,4 +1,4 @@
-library dartflash_web;
+library stagexl_web;
 
 import 'dart:math';
 import 'dart:html' as html;

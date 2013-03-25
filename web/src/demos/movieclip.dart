@@ -1,4 +1,4 @@
-part of dartflash_web;
+part of stagexl_web;
 
 class MovieClipDemo extends DisplayObjectContainer {
   

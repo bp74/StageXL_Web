@@ -1,0 +1,326 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>TextureAtlasFrame class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="TextureAtlasFrame">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/TextureAtlasFrame.html">TextureAtlasFrame</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../stagexl/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../stagexl/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../stagexl/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../stagexl/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../stagexl/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
+<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../stagexl/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../stagexl/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><div class="icon-class"></div><strong>TextureAtlasFrame</strong></li>
+<li><a href="../stagexl/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../stagexl/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>TextureAtlasFrame</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class TextureAtlasFrame
+{
+ String _name;
+ TextureAtlas _textureAtlas;
+
+ int _frameX;
+ int _frameY;
+ int _frameWidth;
+ int _frameHeight;
+
+ int _offsetX;
+ int _offsetY;
+ int _originalWidth;
+ int _originalHeight;
+
+ bool _rotated;
+
+ TextureAtlasFrame(String name, TextureAtlas textureAtlas)
+ {
+   _name = name;
+   _textureAtlas = textureAtlas;
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ TextureAtlas get textureAtlas =&gt; _textureAtlas;
+ String get name =&gt; _name;
+
+ int get frameX =&gt; _frameX;
+ int get frameY =&gt; _frameY;
+ int get frameWidth =&gt; _frameWidth;
+ int get frameHeight =&gt; _frameHeight;
+
+ int get offsetX =&gt; _offsetX;
+ int get offsetY =&gt; _offsetY;
+ int get originalWidth =&gt; _originalWidth;
+ int get originalHeight =&gt; _originalHeight;
+
+ bool get rotated =&gt; _rotated;
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="TextureAtlasFrame">
+<button class="show-code">Code</button>
+new <strong>TextureAtlasFrame</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="../stagexl/TextureAtlas.html">TextureAtlas</a> textureAtlas) <a class="anchor-link" href="#TextureAtlasFrame"
+              title="Permalink to TextureAtlasFrame.TextureAtlasFrame">#</a></h4>
+<div class="doc">
+<pre class="source">
+TextureAtlasFrame(String name, TextureAtlas textureAtlas)
+{
+ _name = name;
+ _textureAtlas = textureAtlas;
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="frameHeight">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>frameHeight</strong> <a class="anchor-link"
+            href="#frameHeight"
+            title="Permalink to TextureAtlasFrame.frameHeight">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get frameHeight =&gt; _frameHeight;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="frameWidth">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>frameWidth</strong> <a class="anchor-link"
+            href="#frameWidth"
+            title="Permalink to TextureAtlasFrame.frameWidth">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get frameWidth =&gt; _frameWidth;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="frameX">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>frameX</strong> <a class="anchor-link"
+            href="#frameX"
+            title="Permalink to TextureAtlasFrame.frameX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get frameX =&gt; _frameX;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="frameY">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>frameY</strong> <a class="anchor-link"
+            href="#frameY"
+            title="Permalink to TextureAtlasFrame.frameY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get frameY =&gt; _frameY;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="name">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>name</strong> <a class="anchor-link"
+            href="#name"
+            title="Permalink to TextureAtlasFrame.name">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String get name =&gt; _name;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="offsetX">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>offsetX</strong> <a class="anchor-link"
+            href="#offsetX"
+            title="Permalink to TextureAtlasFrame.offsetX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get offsetX =&gt; _offsetX;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="offsetY">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>offsetY</strong> <a class="anchor-link"
+            href="#offsetY"
+            title="Permalink to TextureAtlasFrame.offsetY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get offsetY =&gt; _offsetY;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="originalHeight">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>originalHeight</strong> <a class="anchor-link"
+            href="#originalHeight"
+            title="Permalink to TextureAtlasFrame.originalHeight">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get originalHeight =&gt; _originalHeight;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="originalWidth">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>originalWidth</strong> <a class="anchor-link"
+            href="#originalWidth"
+            title="Permalink to TextureAtlasFrame.originalWidth">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get originalWidth =&gt; _originalWidth;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="rotated">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>rotated</strong> <a class="anchor-link"
+            href="#rotated"
+            title="Permalink to TextureAtlasFrame.rotated">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get rotated =&gt; _rotated;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="textureAtlas">
+<button class="show-code">Code</button>
+final <a href="../stagexl/TextureAtlas.html">TextureAtlas</a>         <strong>textureAtlas</strong> <a class="anchor-link"
+            href="#textureAtlas"
+            title="Permalink to TextureAtlasFrame.textureAtlas">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TextureAtlas get textureAtlas =&gt; _textureAtlas;
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-03-26 16:22:14.278</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

@@ -1,0 +1,1709 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>TextField class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="TextField">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/TextField.html">TextField</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../stagexl/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../stagexl/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../stagexl/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../stagexl/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../stagexl/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
+<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><div class="icon-class"></div><strong>TextField</strong></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../stagexl/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../stagexl/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../stagexl/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../stagexl/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>TextField</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class TextField extends InteractiveObject {
+ 
+ String _text = "";
+ int _textColor = 0x000000;
+ TextFormat _defaultTextFormat = null;
+
+ String _autoSize = TextFieldAutoSize.NONE;
+ String _gridFitType = GridFitType.PIXEL;
+ String _type = TextFieldType.DYNAMIC;
+
+ bool _wordWrap = false;
+
+ bool _background = false;
+ int _backgroundColor = 0x000000;
+ bool _border = false;
+ int _borderColor = 0x000000;
+
+ num _textWidth = 0;
+ num _textHeight = 0;
+ List&lt;String&gt; _linesText;
+ List&lt;TextLineMetrics&gt; _linesMetrics;
+
+ bool _canvasRefreshPending = true;
+ num _canvasWidth = 100;
+ num _canvasHeight = 100;
+ CanvasElement _canvas = null;
+ CanvasRenderingContext2D _context = null;
+
+ //-------------------------------------------------------------------------------------------------
+
+ TextField() {
+   
+   _defaultTextFormat = new TextFormat("Arial", 12, 0x000000);
+
+   _linesText = new List&lt;String&gt;();
+   _linesMetrics = new List&lt;TextLineMetrics&gt;();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ String get text =&gt; _text;
+ int get textColor =&gt; _textColor;
+ TextFormat get defaultTextFormat =&gt; _defaultTextFormat;
+
+ String get autoSize =&gt; _autoSize;
+ String get gridFitType =&gt; _gridFitType;
+ String get type =&gt; _type;
+ bool get wordWrap =&gt; _wordWrap;
+
+ bool get background =&gt; _background;
+ int get backgroundColor =&gt; _backgroundColor;
+ bool get border =&gt; _border;
+ int get borderColor =&gt; _borderColor;
+ num get width =&gt; _canvasWidth;
+ num get height =&gt; _canvasHeight;
+
+ //-------------------------------------------------------------------------------------------------
+
+ void set text(String value) { _text = value; _canvasRefreshPending = true; }
+ void set textColor(int value) { _textColor = value; _canvasRefreshPending = true; }
+ void set defaultTextFormat(TextFormat value) { _defaultTextFormat = value; _textColor = _defaultTextFormat.color; _canvasRefreshPending = true; }
+
+ void set autoSize(String value) { _autoSize = value; _canvasRefreshPending = true; }
+ void set gridFitType(String value) { _gridFitType = value; _canvasRefreshPending = true; }
+ void set type(String value) { _type = value; _canvasRefreshPending = true; }
+ void set wordWrap(bool value) { _wordWrap = value; _canvasRefreshPending = true; }
+
+ void set background(bool value) { _background = value; _canvasRefreshPending = true; }
+ void set backgroundColor(int value) { _backgroundColor = value; _canvasRefreshPending = true; }
+ void set border(bool value) { _border = value; _canvasRefreshPending = true; }
+ void set borderColor(int value) { _borderColor = value; _canvasRefreshPending = true; }
+ void set width(num value) { _canvasWidth = value; _canvasRefreshPending = true; }
+ void set height(num value) { _canvasHeight = value; _canvasRefreshPending = true; }
+
+ //-------------------------------------------------------------------------------------------------
+
+ num get textWidth { _canvasRefresh(); return _textWidth; }
+ num get textHeight { _canvasRefresh(); return _textHeight; }
+ int get numLines { _canvasRefresh(); return _linesText.length; }
+
+ int getLineLength(int lineIndex) { _canvasRefresh(); return _linesText[lineIndex].length; }
+ TextLineMetrics getLineMetrics(int lineIndex) { _canvasRefresh(); return _linesMetrics[lineIndex]; }
+ String getLineText(int lineIndex) { _canvasRefresh(); return _linesText[lineIndex]; }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
+   return _getBoundsTransformedHelper(matrix, _canvasWidth, _canvasHeight, returnRectangle);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ DisplayObject hitTestInput(num localX, num localY) {
+   
+   if (localX &gt;= 0 &amp;&amp; localY &gt;= 0 &amp;&amp; localX &lt; _canvasWidth &amp;&amp; localY &lt; _canvasHeight)
+     return this;
+
+   return null;
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void render(RenderState renderState) {
+   
+   _canvasRefresh();
+
+   renderState._context.drawImage(_canvas, 0.0, 0.0);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void _processTextLines() {
+   
+   _linesText.clear();
+   _linesMetrics.clear();
+
+   //---------------------------
+
+   if (_wordWrap == false) {
+     
+     _linesText.add(_text);
+     
+   } else {
+     
+     // Split text into paragraphs
+     
+     for(String paragraph in _text.replaceAll('\r', '').split('\n')) {
+       
+       var lineBuffer = new StringBuffer();
+       var previousLength = 0;
+       var line = "";
+
+       // Split paragraphs into lines
+       
+       for(String word in paragraph.split(' ')) {
+         
+         previousLength = lineBuffer.length;
+         lineBuffer.write((previousLength &gt; 0) ? " $word": word);
+         line = lineBuffer.toString();
+ 
+         if (_context.measureText(line).width &gt; _canvasWidth) {
+           
+           if (previousLength &gt; 0) { 
+             line = line.substring(0, previousLength);
+           } else { 
+             word = "";
+           }
+           
+           _linesText.add(line);
+
+           lineBuffer = new StringBuffer();
+           lineBuffer.write(word);
+         }
+       }
+ 
+       if (lineBuffer.isEmpty == false) {
+         _linesText.add(lineBuffer.toString());
+       }
+     }
+   }
+
+   //---------------------------
+
+   _textWidth = 0;
+   _textHeight = 0;
+
+   for(String line in _linesText) {
+     
+     var metrics = _context.measureText(line);
+     var offsetX = 0;
+
+     if (_defaultTextFormat.align == TextFormatAlign.CENTER || _defaultTextFormat.align == TextFormatAlign.JUSTIFY)
+       offsetX = (_canvasWidth - metrics.width) / 2;
+
+     if (_defaultTextFormat.align == TextFormatAlign.RIGHT || _defaultTextFormat.align == TextFormatAlign.END)
+       offsetX = _canvasWidth - metrics.width;
+
+     TextLineMetrics textLineMetrics = new TextLineMetrics(offsetX, metrics.width, _defaultTextFormat.size, 0, 0, 0);
+
+     _linesMetrics.add(textLineMetrics);
+     _textWidth = max(_textWidth, textLineMetrics.width);
+     _textHeight = _textHeight + textLineMetrics.height;
+   }
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void _canvasRefresh() {
+   
+   if (_canvasRefreshPending) {
+     
+     _canvasRefreshPending = false;
+
+     int canvasWidthInt = _canvasWidth.ceil().toInt();
+     int canvasHeightInt =  _canvasHeight.ceil().toInt();
+
+     if (_canvas == null) {
+       _canvas = new CanvasElement(width: canvasWidthInt, height: canvasHeightInt);
+       _context = _canvas.context2d;
+     }
+
+     if (_canvas.width != canvasWidthInt) _canvas.width = canvasWidthInt;
+     if (_canvas.height != canvasHeightInt) _canvas.height = canvasHeightInt;
+
+     //-----------------------------
+     // set canvas context
+
+     StringBuffer fontStyle = new StringBuffer();
+
+     fontStyle.write(_defaultTextFormat.italic ? "italic " : "normal ");
+     fontStyle.write("normal ");
+     fontStyle.write(_defaultTextFormat.bold ? "bold " : "normal ");
+     fontStyle.write("${_defaultTextFormat.size}px ");
+     fontStyle.write("${_defaultTextFormat.font},sans-serif");
+
+     _context.font = fontStyle.toString();
+     _context.textAlign = "start";
+     _context.textBaseline = "top";
+     _context.fillStyle = _color2rgb(_textColor);
+
+     //-----------------------------
+     // split text into lines
+
+     _processTextLines();
+
+     //-----------------------------
+     // draw background
+
+     if (_background) {
+       _context.fillStyle = _color2rgb(_backgroundColor);
+       _context.fillRect(0, 0, _canvasWidth, _canvasHeight);
+     } else {
+       _context.clearRect(0, 0, _canvasWidth, _canvasHeight);
+     }
+
+     //-----------------------------
+     // draw text
+
+     int offsetY = 0;
+
+     for(int i = 0; i &lt; _linesText.length; i++) {
+       var metrics = _linesMetrics[i];
+       _context.fillStyle = _color2rgb(_textColor);
+       _context.fillText(_linesText[i], metrics.x, offsetY);
+
+       offsetY += metrics.height;
+     }
+
+     //-----------------------------
+     // draw border
+
+     if (_border) {
+       _context.strokeStyle = _color2rgb(_borderColor);
+       _context.lineWidth = 1;
+       _context.strokeRect(0, 0, _canvasWidth, _canvasHeight);
+     }
+   }
+ }
+
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/DisplayObject.html">DisplayObject</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/InteractiveObject.html">InteractiveObject</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>TextField</strong></span></p>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="TextField">
+<button class="show-code">Code</button>
+new <strong>TextField</strong>() <a class="anchor-link" href="#TextField"
+              title="Permalink to TextField.TextField">#</a></h4>
+<div class="doc">
+<pre class="source">
+TextField() {
+ 
+ _defaultTextFormat = new TextFormat("Arial", 12, 0x000000);
+
+ _linesText = new List&lt;String&gt;();
+ _linesMetrics = new List&lt;TextLineMetrics&gt;();
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field inherited"><h4 id="alpha">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>alpha</strong> <a class="anchor-link"
+            href="#alpha"
+            title="Permalink to TextField.alpha">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get alpha =&gt; _alpha;
+</pre>
+<pre class="source">
+set alpha(num value) { _alpha = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="autoSize">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>autoSize</strong> <a class="anchor-link"
+            href="#autoSize"
+            title="Permalink to TextField.autoSize">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String get autoSize =&gt; _autoSize;
+</pre>
+<pre class="source">
+void set autoSize(String value) { _autoSize = value; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="background">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>background</strong> <a class="anchor-link"
+            href="#background"
+            title="Permalink to TextField.background">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get background =&gt; _background;
+</pre>
+<pre class="source">
+void set background(bool value) { _background = value; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="backgroundColor">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>backgroundColor</strong> <a class="anchor-link"
+            href="#backgroundColor"
+            title="Permalink to TextField.backgroundColor">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get backgroundColor =&gt; _backgroundColor;
+</pre>
+<pre class="source">
+void set backgroundColor(int value) { _backgroundColor = value; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="border">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>border</strong> <a class="anchor-link"
+            href="#border"
+            title="Permalink to TextField.border">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get border =&gt; _border;
+</pre>
+<pre class="source">
+void set border(bool value) { _border = value; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="borderColor">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>borderColor</strong> <a class="anchor-link"
+            href="#borderColor"
+            title="Permalink to TextField.borderColor">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get borderColor =&gt; _borderColor;
+</pre>
+<pre class="source">
+void set borderColor(int value) { _borderColor = value; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="cached">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>cached</strong> <a class="anchor-link"
+            href="#cached"
+            title="Permalink to TextField.cached">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool get cached =&gt; _cache != null;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="defaultTextFormat">
+<button class="show-code">Code</button>
+<a href="../stagexl/TextFormat.html">TextFormat</a>         <strong>defaultTextFormat</strong> <a class="anchor-link"
+            href="#defaultTextFormat"
+            title="Permalink to TextField.defaultTextFormat">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TextFormat get defaultTextFormat =&gt; _defaultTextFormat;
+</pre>
+<pre class="source">
+void set defaultTextFormat(TextFormat value) { _defaultTextFormat = value; _textColor = _defaultTextFormat.color; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="doubleClickEnabled">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>doubleClickEnabled</strong> <a class="anchor-link"
+            href="#doubleClickEnabled"
+            title="Permalink to TextField.doubleClickEnabled">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+doubleClickEnabled = false
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="gridFitType">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>gridFitType</strong> <a class="anchor-link"
+            href="#gridFitType"
+            title="Permalink to TextField.gridFitType">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String get gridFitType =&gt; _gridFitType;
+</pre>
+<pre class="source">
+void set gridFitType(String value) { _gridFitType = value; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="height">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>height</strong> <a class="anchor-link"
+            href="#height"
+            title="Permalink to TextField.height">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get height =&gt; _canvasHeight;
+</pre>
+<pre class="source">
+void set height(num value) { _canvasHeight = value; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="mask">
+<button class="show-code">Code</button>
+<a href="../stagexl/Mask.html">Mask</a>         <strong>mask</strong> <a class="anchor-link"
+            href="#mask"
+            title="Permalink to TextField.mask">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Mask get mask =&gt; _mask;
+</pre>
+<pre class="source">
+set mask(Mask value) { _mask = value; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="mouseEnabled">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>mouseEnabled</strong> <a class="anchor-link"
+            href="#mouseEnabled"
+            title="Permalink to TextField.mouseEnabled">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+mouseEnabled = true
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="name">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>name</strong> <a class="anchor-link"
+            href="#name"
+            title="Permalink to TextField.name">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+String get name =&gt; _name;
+</pre>
+<pre class="source">
+set name(String value) { _name = value; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="numLines">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>numLines</strong> <a class="anchor-link"
+            href="#numLines"
+            title="Permalink to TextField.numLines">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get numLines { _canvasRefresh(); return _linesText.length; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onAdded">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onAdded</strong> <a class="anchor-link"
+            href="#onAdded"
+            title="Permalink to TextField.onAdded">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onAdded =&gt; DisplayObject.addedEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onAddedToStage">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onAddedToStage</strong> <a class="anchor-link"
+            href="#onAddedToStage"
+            title="Permalink to TextField.onAddedToStage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onAddedToStage =&gt; DisplayObject.addedToStageEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onEnterFrame">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/EnterFrameEvent.html">EnterFrameEvent</a>&gt;         <strong>onEnterFrame</strong> <a class="anchor-link"
+            href="#onEnterFrame"
+            title="Permalink to TextField.onEnterFrame">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;EnterFrameEvent&gt; get onEnterFrame =&gt; DisplayObject.enterFrameEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onKeyDown">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/KeyboardEvent.html">KeyboardEvent</a>&gt;         <strong>onKeyDown</strong> <a class="anchor-link"
+            href="#onKeyDown"
+            title="Permalink to TextField.onKeyDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;KeyboardEvent&gt; get onKeyDown =&gt; InteractiveObject.keyDownEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onKeyUp">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/KeyboardEvent.html">KeyboardEvent</a>&gt;         <strong>onKeyUp</strong> <a class="anchor-link"
+            href="#onKeyUp"
+            title="Permalink to TextField.onKeyUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;KeyboardEvent&gt; get onKeyUp =&gt; InteractiveObject.keyUpEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseClick">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseClick</strong> <a class="anchor-link"
+            href="#onMouseClick"
+            title="Permalink to TextField.onMouseClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseClick =&gt; InteractiveObject.mouseClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseDoubleClick">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseDoubleClick</strong> <a class="anchor-link"
+            href="#onMouseDoubleClick"
+            title="Permalink to TextField.onMouseDoubleClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseDoubleClick =&gt; InteractiveObject.mouseDoubleClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseDown">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseDown</strong> <a class="anchor-link"
+            href="#onMouseDown"
+            title="Permalink to TextField.onMouseDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseDown =&gt; InteractiveObject.mouseDownEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMiddleClick">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseMiddleClick</strong> <a class="anchor-link"
+            href="#onMouseMiddleClick"
+            title="Permalink to TextField.onMouseMiddleClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseMiddleClick =&gt; InteractiveObject.mouseMiddleClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMiddleDown">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseMiddleDown</strong> <a class="anchor-link"
+            href="#onMouseMiddleDown"
+            title="Permalink to TextField.onMouseMiddleDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseMiddleDown =&gt; InteractiveObject.mouseMiddleDownEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMiddleUp">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseMiddleUp</strong> <a class="anchor-link"
+            href="#onMouseMiddleUp"
+            title="Permalink to TextField.onMouseMiddleUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseMiddleUp =&gt; InteractiveObject.mouseMiddleUpEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMove">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseMove</strong> <a class="anchor-link"
+            href="#onMouseMove"
+            title="Permalink to TextField.onMouseMove">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseMove =&gt; InteractiveObject.mouseMoveEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseOut">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseOut</strong> <a class="anchor-link"
+            href="#onMouseOut"
+            title="Permalink to TextField.onMouseOut">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseOut =&gt; InteractiveObject.mouseOutEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseOver">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseOver</strong> <a class="anchor-link"
+            href="#onMouseOver"
+            title="Permalink to TextField.onMouseOver">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseOver =&gt; InteractiveObject.mouseOverEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseRightClick">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseRightClick</strong> <a class="anchor-link"
+            href="#onMouseRightClick"
+            title="Permalink to TextField.onMouseRightClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseRightClick =&gt; InteractiveObject.mouseRightClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseRightDown">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseRightDown</strong> <a class="anchor-link"
+            href="#onMouseRightDown"
+            title="Permalink to TextField.onMouseRightDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseRightDown =&gt; InteractiveObject.mouseRightDownEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseRightUp">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseRightUp</strong> <a class="anchor-link"
+            href="#onMouseRightUp"
+            title="Permalink to TextField.onMouseRightUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseRightUp =&gt; InteractiveObject.mouseRightUpEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseUp">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseUp</strong> <a class="anchor-link"
+            href="#onMouseUp"
+            title="Permalink to TextField.onMouseUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseUp =&gt; InteractiveObject.mouseUpEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseWheel">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseWheel</strong> <a class="anchor-link"
+            href="#onMouseWheel"
+            title="Permalink to TextField.onMouseWheel">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseWheel =&gt; InteractiveObject.mouseWheelEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onRemoved">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onRemoved</strong> <a class="anchor-link"
+            href="#onRemoved"
+            title="Permalink to TextField.onRemoved">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onRemoved =&gt; DisplayObject.removedEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onRemovedFromStage">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onRemovedFromStage</strong> <a class="anchor-link"
+            href="#onRemovedFromStage"
+            title="Permalink to TextField.onRemovedFromStage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onRemovedFromStage =&gt; DisplayObject.removedFromStageEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTextInput">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/TextEvent.html">TextEvent</a>&gt;         <strong>onTextInput</strong> <a class="anchor-link"
+            href="#onTextInput"
+            title="Permalink to TextField.onTextInput">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TextEvent&gt; get onTextInput =&gt; InteractiveObject.textInputEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchBegin">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchBegin</strong> <a class="anchor-link"
+            href="#onTouchBegin"
+            title="Permalink to TextField.onTouchBegin">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchBegin =&gt; InteractiveObject.touchBeginEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchCancel">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchCancel</strong> <a class="anchor-link"
+            href="#onTouchCancel"
+            title="Permalink to TextField.onTouchCancel">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchCancel =&gt; InteractiveObject.touchCancelEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchEnd">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchEnd</strong> <a class="anchor-link"
+            href="#onTouchEnd"
+            title="Permalink to TextField.onTouchEnd">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchEnd =&gt; InteractiveObject.touchEndEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchMove">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchMove</strong> <a class="anchor-link"
+            href="#onTouchMove"
+            title="Permalink to TextField.onTouchMove">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchMove =&gt; InteractiveObject.touchMoveEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchOut">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchOut</strong> <a class="anchor-link"
+            href="#onTouchOut"
+            title="Permalink to TextField.onTouchOut">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchOut =&gt; InteractiveObject.touchOutEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchOver">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchOver</strong> <a class="anchor-link"
+            href="#onTouchOver"
+            title="Permalink to TextField.onTouchOver">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchOver =&gt; InteractiveObject.touchOverEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="parent">
+<button class="show-code">Code</button>
+final <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a>         <strong>parent</strong> <a class="anchor-link"
+            href="#parent"
+            title="Permalink to TextField.parent">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+DisplayObjectContainer get parent =&gt; _parent;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="pivotX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>pivotX</strong> <a class="anchor-link"
+            href="#pivotX"
+            title="Permalink to TextField.pivotX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get pivotX =&gt; _pivotX;
+</pre>
+<pre class="source">
+set pivotX(num value) { _pivotX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="pivotY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>pivotY</strong> <a class="anchor-link"
+            href="#pivotY"
+            title="Permalink to TextField.pivotY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get pivotY =&gt; _pivotY;
+</pre>
+<pre class="source">
+set pivotY(num value) { _pivotY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="root">
+<button class="show-code">Code</button>
+final <a href="../stagexl/DisplayObject.html">DisplayObject</a>         <strong>root</strong> <a class="anchor-link"
+            href="#root"
+            title="Permalink to TextField.root">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+DisplayObject get root {
+ 
+ DisplayObject currentObject = this;
+
+ while (currentObject._parent != null)
+   currentObject = currentObject._parent;
+
+ return currentObject;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="rotation">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>rotation</strong> <a class="anchor-link"
+            href="#rotation"
+            title="Permalink to TextField.rotation">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get rotation =&gt; _rotation;
+</pre>
+<pre class="source">
+set rotation(num value) { _rotation = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="scaleX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>scaleX</strong> <a class="anchor-link"
+            href="#scaleX"
+            title="Permalink to TextField.scaleX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get scaleX =&gt; _scaleX;
+</pre>
+<pre class="source">
+set scaleX(num value) { _scaleX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="scaleY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>scaleY</strong> <a class="anchor-link"
+            href="#scaleY"
+            title="Permalink to TextField.scaleY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get scaleY =&gt; _scaleY;
+</pre>
+<pre class="source">
+set scaleY(num value) { _scaleY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="skewX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>skewX</strong> <a class="anchor-link"
+            href="#skewX"
+            title="Permalink to TextField.skewX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get skewX =&gt; _skewX;
+</pre>
+<pre class="source">
+set skewX(num value) { _skewX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="skewY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>skewY</strong> <a class="anchor-link"
+            href="#skewY"
+            title="Permalink to TextField.skewY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get skewY =&gt; _skewY;
+</pre>
+<pre class="source">
+set skewY(num value) { _skewY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="stage">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Stage.html">Stage</a>         <strong>stage</strong> <a class="anchor-link"
+            href="#stage"
+            title="Permalink to TextField.stage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stage get stage {
+ 
+ DisplayObject root = this.root;
+
+ if (root is Stage)
+   return root;
+
+ return null;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="tabEnabled">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>tabEnabled</strong> <a class="anchor-link"
+            href="#tabEnabled"
+            title="Permalink to TextField.tabEnabled">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+tabEnabled = true
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="tabIndex">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>tabIndex</strong> <a class="anchor-link"
+            href="#tabIndex"
+            title="Permalink to TextField.tabIndex">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+tabIndex = 0
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="text">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>text</strong> <a class="anchor-link"
+            href="#text"
+            title="Permalink to TextField.text">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String get text =&gt; _text;
+</pre>
+<pre class="source">
+void set text(String value) { _text = value; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="textColor">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>textColor</strong> <a class="anchor-link"
+            href="#textColor"
+            title="Permalink to TextField.textColor">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get textColor =&gt; _textColor;
+</pre>
+<pre class="source">
+void set textColor(int value) { _textColor = value; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="textHeight">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>textHeight</strong> <a class="anchor-link"
+            href="#textHeight"
+            title="Permalink to TextField.textHeight">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get textHeight { _canvasRefresh(); return _textHeight; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="textWidth">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>textWidth</strong> <a class="anchor-link"
+            href="#textWidth"
+            title="Permalink to TextField.textWidth">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get textWidth { _canvasRefresh(); return _textWidth; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="transformationMatrix">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Matrix.html">Matrix</a>         <strong>transformationMatrix</strong> <a class="anchor-link"
+            href="#transformationMatrix"
+            title="Permalink to TextField.transformationMatrix">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Matrix get transformationMatrix {
+ return _transformationMatrix.clone();
+}
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="type">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>type</strong> <a class="anchor-link"
+            href="#type"
+            title="Permalink to TextField.type">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String get type =&gt; _type;
+</pre>
+<pre class="source">
+void set type(String value) { _type = value; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="visible">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>visible</strong> <a class="anchor-link"
+            href="#visible"
+            title="Permalink to TextField.visible">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool get visible =&gt; _visible;
+</pre>
+<pre class="source">
+set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="width">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>width</strong> <a class="anchor-link"
+            href="#width"
+            title="Permalink to TextField.width">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get width =&gt; _canvasWidth;
+</pre>
+<pre class="source">
+void set width(num value) { _canvasWidth = value; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="wordWrap">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>wordWrap</strong> <a class="anchor-link"
+            href="#wordWrap"
+            title="Permalink to TextField.wordWrap">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get wordWrap =&gt; _wordWrap;
+</pre>
+<pre class="source">
+void set wordWrap(bool value) { _wordWrap = value; _canvasRefreshPending = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="x">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>x</strong> <a class="anchor-link"
+            href="#x"
+            title="Permalink to TextField.x">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get x =&gt; _x;
+</pre>
+<pre class="source">
+set x(num value) { _x = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="y">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>y</strong> <a class="anchor-link"
+            href="#y"
+            title="Permalink to TextField.y">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get y =&gt; _y;
+</pre>
+<pre class="source">
+set y(num value) { _y = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method inherited"><h4 id="addEventListener">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_async/StreamSubscription.html">StreamSubscription</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt; <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType, void eventListener(event), {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture: false}) <a class="anchor-link" href="#addEventListener"
+              title="Permalink to TextField.addEventListener">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+StreamSubscription&lt;Event&gt; addEventListener(String eventType, void eventListener(event), {bool useCapture: false})
+{
+ var eventStream = _getEventStream(eventType, useCapture);
+ var eventStreamSubscription = eventStream.listen(eventListener);
+ return eventStreamSubscription;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="addTo">
+<button class="show-code">Code</button>
+void <strong>addTo</strong>(<a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> parent) <a class="anchor-link" href="#addTo"
+              title="Permalink to TextField.addTo">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void addTo(DisplayObjectContainer parent) {
+ parent.addChild(this);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="applyCache">
+<button class="show-code">Code</button>
+void <strong>applyCache</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> x, <a href="http://api.dartlang.org/dart_core/int.html">int</a> y, <a href="http://api.dartlang.org/dart_core/int.html">int</a> width, <a href="http://api.dartlang.org/dart_core/int.html">int</a> height, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> debugBorder: false}) <a class="anchor-link" href="#applyCache"
+              title="Permalink to TextField.applyCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
+ 
+ _cache = new BitmapData(width, height, true, 0x00000000);
+ _cache._frameOffsetX = x;
+ _cache._frameOffsetY = y;
+ _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+ 
+ if (debugBorder) {
+   _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="dispatchEvent">
+<button class="show-code">Code</button>
+void <strong>dispatchEvent</strong>(<a href="../stagexl/Event.html">Event</a> event) <a class="anchor-link" href="#dispatchEvent"
+              title="Permalink to TextField.dispatchEvent">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void dispatchEvent(Event event) {
+ 
+ List&lt;DisplayObject&gt; ancestors = null;
+
+ if (event.captures || event.bubbles)
+   for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent)
+     if (ancestor.hasEventListener(event.type)) {
+       if (ancestors == null) ancestors = _displayObjectListPool.pop() as List&lt;DisplayObject&gt;;
+       ancestors.add(ancestor);
+     }
+
+ if (event.captures &amp;&amp; ancestors != null)
+   for(int i = ancestors.length - 1 ; i &gt;= 0; i--)
+     if (event.stopsPropagation == false)
+       ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
+
+ if (event.stopsPropagation == false)
+   _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
+
+ if (event.bubbles &amp;&amp; ancestors != null)
+   for(int i = 0; i &lt; ancestors.length; i++)
+     if (event.stopsPropagation == false)
+       ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
+ 
+ if (ancestors != null) {
+   ancestors.clear();
+   _displayObjectListPool.push(ancestors);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getBounds">
+<button class="show-code">Code</button>
+<a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBounds</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> targetSpace) <a class="anchor-link" href="#getBounds"
+              title="Permalink to TextField.getBounds">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Rectangle getBounds(DisplayObject targetSpace) {
+ 
+ Rectangle returnRectangle = new Rectangle.zero();
+ Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
+
+ return getBoundsTransformed(matrix, returnRectangle);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="getBoundsTransformed">
+<button class="show-code">Code</button>
+<a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBoundsTransformed</strong>(<a href="../stagexl/Matrix.html">Matrix</a> matrix, [<a href="../stagexl/Rectangle.html">Rectangle</a> returnRectangle]) <a class="anchor-link" href="#getBoundsTransformed"
+              title="Permalink to TextField.getBoundsTransformed">#</a></h4>
+<div class="doc">
+<pre class="source">
+Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
+ return _getBoundsTransformedHelper(matrix, _canvasWidth, _canvasHeight, returnRectangle);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="getLineLength">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a> <strong>getLineLength</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> lineIndex) <a class="anchor-link" href="#getLineLength"
+              title="Permalink to TextField.getLineLength">#</a></h4>
+<div class="doc">
+<pre class="source">
+int getLineLength(int lineIndex) { _canvasRefresh(); return _linesText[lineIndex].length; }
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="getLineMetrics">
+<button class="show-code">Code</button>
+<a href="../stagexl/TextLineMetrics.html">TextLineMetrics</a> <strong>getLineMetrics</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> lineIndex) <a class="anchor-link" href="#getLineMetrics"
+              title="Permalink to TextField.getLineMetrics">#</a></h4>
+<div class="doc">
+<pre class="source">
+TextLineMetrics getLineMetrics(int lineIndex) { _canvasRefresh(); return _linesMetrics[lineIndex]; }
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="getLineText">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>getLineText</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> lineIndex) <a class="anchor-link" href="#getLineText"
+              title="Permalink to TextField.getLineText">#</a></h4>
+<div class="doc">
+<pre class="source">
+String getLineText(int lineIndex) { _canvasRefresh(); return _linesText[lineIndex]; }
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="globalToLocal">
+<button class="show-code">Code</button>
+<a href="../stagexl/Point.html">Point</a> <strong>globalToLocal</strong>(<a href="../stagexl/Point.html">Point</a> globalPoint) <a class="anchor-link" href="#globalToLocal"
+              title="Permalink to TextField.globalToLocal">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Point globalToLocal(Point globalPoint) {
+ 
+ _tmpMatrix.identity();
+
+ for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
+   _tmpMatrix.concat(displayObject._transformationMatrix);
+
+ _tmpMatrix.invert();
+
+ return _tmpMatrix.transformPoint(globalPoint);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hasEventListener">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>hasEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type) <a class="anchor-link" href="#hasEventListener"
+              title="Permalink to TextField.hasEventListener">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+bool hasEventListener(String type)
+{
+ if (_eventStreams != null )
+   return _eventStreams.containsKey(type) || _eventStreams.containsKey("${type}_CAPTURE");
+ else
+   return false;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="hitTestInput">
+<button class="show-code">Code</button>
+<a href="../stagexl/DisplayObject.html">DisplayObject</a> <strong>hitTestInput</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> localX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> localY) <a class="anchor-link" href="#hitTestInput"
+              title="Permalink to TextField.hitTestInput">#</a></h4>
+<div class="doc">
+<pre class="source">
+DisplayObject hitTestInput(num localX, num localY) {
+ 
+ if (localX &gt;= 0 &amp;&amp; localY &gt;= 0 &amp;&amp; localX &lt; _canvasWidth &amp;&amp; localY &lt; _canvasHeight)
+   return this;
+
+ return null;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hitTestObject">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>hitTestObject</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> other) <a class="anchor-link" href="#hitTestObject"
+              title="Permalink to TextField.hitTestObject">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool hitTestObject(DisplayObject other) {
+ //ToDo
+ throw new UnimplementedError("Error #2014: Feature is not available at this time.");
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hitTestPoint">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>hitTestPoint</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> shapeFlag = false]) <a class="anchor-link" href="#hitTestPoint"
+              title="Permalink to TextField.hitTestPoint">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
+ 
+ Stage stage = this.stage;
+
+ if (stage == null)
+   return false;
+
+ Matrix matrix = this.transformationMatrixTo(stage);
+ matrix.invert();
+
+ Point point = new Point(x, y);
+ point.transform(matrix);
+
+ return getBoundsTransformed(_tmpMatrixIdentity).contains(point.x, point.y);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="localToGlobal">
+<button class="show-code">Code</button>
+<a href="../stagexl/Point.html">Point</a> <strong>localToGlobal</strong>(<a href="../stagexl/Point.html">Point</a> localPoint) <a class="anchor-link" href="#localToGlobal"
+              title="Permalink to TextField.localToGlobal">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Point localToGlobal(Point localPoint) {
+ 
+ _tmpMatrix.identity();
+
+ for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
+   _tmpMatrix.concat(displayObject._transformationMatrix);
+
+ return _tmpMatrix.transformPoint(localPoint);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="on">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt; <strong>on</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture: false}) <a class="anchor-link" href="#on"
+              title="Permalink to TextField.on">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; on(String eventType, {bool useCapture: false}) 
+{
+ var eventStream = _getEventStream(eventType, useCapture);
+ return eventStream;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="refreshCache">
+<button class="show-code">Code</button>
+void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
+              title="Permalink to TextField.refreshCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void refreshCache() {
+ if (_cache != null) {
+   _cache.clear();
+   _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - _cache._frameOffsetX, - _cache._frameOffsetY));
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeCache">
+<button class="show-code">Code</button>
+void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
+              title="Permalink to TextField.removeCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void removeCache() {
+ _cache = null;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeEventListeners">
+<button class="show-code">Code</button>
+void <strong>removeEventListeners</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture: false}) <a class="anchor-link" href="#removeEventListeners"
+              title="Permalink to TextField.removeEventListeners">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+void removeEventListeners(String eventType, {bool useCapture: false})
+{
+ var eventStreamKey = useCapture ? "${eventType}_CAPTURE": eventType;
+ var eventStream = _eventStreams[eventStreamKey];
+ 
+ if (eventStream != null)
+   eventStream._cancelSubscriptions();
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeFromParent">
+<button class="show-code">Code</button>
+void <strong>removeFromParent</strong>() <a class="anchor-link" href="#removeFromParent"
+              title="Permalink to TextField.removeFromParent">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void removeFromParent() {
+ if (_parent != null)
+   _parent.removeChild(this);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="render">
+<button class="show-code">Code</button>
+void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</a> renderState) <a class="anchor-link" href="#render"
+              title="Permalink to TextField.render">#</a></h4>
+<div class="doc">
+<pre class="source">
+void render(RenderState renderState) {
+ 
+ _canvasRefresh();
+
+ renderState._context.drawImage(_canvas, 0.0, 0.0);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="transformationMatrixTo">
+<button class="show-code">Code</button>
+<a href="../stagexl/Matrix.html">Matrix</a> <strong>transformationMatrixTo</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> targetSpace) <a class="anchor-link" href="#transformationMatrixTo"
+              title="Permalink to TextField.transformationMatrixTo">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Matrix transformationMatrixTo(DisplayObject targetSpace) {
+ 
+ if (targetSpace == _parent)
+   return _transformationMatrix.clone();
+
+ if (targetSpace._parent == this)
+   return _transformationMatrix.cloneInvert();
+
+ //------------------------------------------------
+
+ Matrix resultMatrix = new Matrix.fromIdentity();
+ DisplayObject resultObject = this;
+
+ while(resultObject != targetSpace &amp;&amp; resultObject._parent != null) {
+   resultMatrix.concat(resultObject._transformationMatrix);
+   resultObject = resultObject._parent;
+ }
+
+ if (targetSpace == null &amp;&amp; resultObject != null) {
+   resultMatrix.concat(resultObject._transformationMatrix);
+   resultObject = null;
+ }
+
+ if (resultObject == targetSpace)
+   return resultMatrix;
+
+ //------------------------------------------------
+
+ Matrix targetMatrix = new Matrix.fromIdentity();
+ DisplayObject targetObject = targetSpace;
+
+ while(targetObject != this &amp;&amp; targetObject._parent != null) {
+   targetMatrix.concat(targetObject._transformationMatrix);
+   targetObject = targetObject._parent;
+ }
+
+ targetMatrix.invert();
+
+ if (targetObject == this)
+   return targetMatrix;
+
+ if (targetObject != resultObject)
+   throw new ArgumentError("Error #9001: The supplied DisplayObject has no relationship to the caller.");
+
+ resultMatrix.concat(targetMatrix);
+
+ return resultMatrix;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-03-26 16:22:14.659</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

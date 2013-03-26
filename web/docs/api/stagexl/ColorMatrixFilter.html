@@ -1,0 +1,382 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>ColorMatrixFilter class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="ColorMatrixFilter">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/ColorMatrixFilter.html">ColorMatrixFilter</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../stagexl/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><div class="icon-class"></div><strong>ColorMatrixFilter</strong></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../stagexl/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../stagexl/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../stagexl/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
+<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../stagexl/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../stagexl/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../stagexl/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../stagexl/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../stagexl/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>ColorMatrixFilter</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class ColorMatrixFilter extends BitmapFilter {
+ final List&lt;num&gt; _matrix;
+
+ ColorMatrixFilter(List&lt;num&gt; matrix) :
+   _matrix = new List&lt;num&gt;(20) {
+
+   if (matrix.length != 20)
+     throw new ArgumentError("The supplied matrix needs to be a 4 x 5 matrix.");
+   
+   for(int i = 0; i &lt; matrix.length; i++)
+     _matrix[i] = matrix[i];
+ }
+
+ ColorMatrixFilter.grayscale() : 
+   _matrix = [0.212671, 0.715160, 0.072169, 0, 0,
+              0.212671, 0.715160, 0.072169, 0, 0,
+              0.212671, 0.715160, 0.072169, 0, 0,
+              0, 0, 0, 1, 0];
+
+ ColorMatrixFilter.invert() :
+   _matrix = [-1,  0,  0, 0, 255,
+               0, -1,  0, 0, 255,
+               0,  0, -1, 0, 255,
+               0,  0,  0, 1, 0];
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ BitmapFilter clone() {
+   return new ColorMatrixFilter(_matrix);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint) {
+
+   //redResult   = (a[0]  * srcR) + (a[1]  * srcG) + (a[2]  * srcB) + (a[3]  * srcA) + a[4]
+   //greenResult = (a[5]  * srcR) + (a[6]  * srcG) + (a[7]  * srcB) + (a[8]  * srcA) + a[9]
+   //blueResult  = (a[10] * srcR) + (a[11] * srcG) + (a[12] * srcB) + (a[13] * srcA) + a[14]
+   //alphaResult = (a[15] * srcR) + (a[16] * srcG) + (a[17] * srcB) + (a[18] * srcA) + a[19]
+
+   var imageData = sourceBitmapData._getContext().getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+   var data = imageData.data;
+
+   int a00 = (_matrix[00] * 65536).toInt();
+   int a01 = (_matrix[01] * 65536).toInt();
+   int a02 = (_matrix[02] * 65536).toInt();
+   int a03 = (_matrix[03] * 65536).toInt();
+   int a04 = (_matrix[04] * 65536).toInt();
+   int a05 = (_matrix[05] * 65536).toInt();
+   int a06 = (_matrix[06] * 65536).toInt();
+   int a07 = (_matrix[07] * 65536).toInt();
+   int a08 = (_matrix[08] * 65536).toInt();
+   int a09 = (_matrix[09] * 65536).toInt();
+   int a10 = (_matrix[10] * 65536).toInt();
+   int a11 = (_matrix[11] * 65536).toInt();
+   int a12 = (_matrix[12] * 65536).toInt();
+   int a13 = (_matrix[13] * 65536).toInt();
+   int a14 = (_matrix[14] * 65536).toInt();
+   int a15 = (_matrix[15] * 65536).toInt();
+   int a16 = (_matrix[16] * 65536).toInt();
+   int a17 = (_matrix[17] * 65536).toInt();
+   int a18 = (_matrix[18] * 65536).toInt();
+   int a19 = (_matrix[19] * 65536).toInt();
+
+   if (_isLittleEndianSystem) {
+     for(int index = 0 ; index &lt;= data.length - 4; index += 4) {
+       int srcR = data[index + 0];
+       int srcG = data[index + 1];
+       int srcB = data[index + 2];
+       int srcA = data[index + 3];
+
+       data[index + 0] = ((a00 * srcR) + (a01 * srcG) + (a02 * srcB) + (a03 * srcA) + a04) &gt;&gt; 16;
+       data[index + 1] = ((a05 * srcR) + (a06 * srcG) + (a07 * srcB) + (a08 * srcA) + a09) &gt;&gt; 16;
+       data[index + 2] = ((a10 * srcR) + (a11 * srcG) + (a12 * srcB) + (a13 * srcA) + a14) &gt;&gt; 16;
+       data[index + 3] = ((a15 * srcR) + (a16 * srcG) + (a17 * srcB) + (a18 * srcA) + a19) &gt;&gt; 16;
+     }
+   } else {
+     for(int index = 0 ; index &lt;= data.length - 4; index += 4) {
+       int srcA = data[index + 0];
+       int srcB = data[index + 1];
+       int srcG = data[index + 2];
+       int srcR = data[index + 3];
+
+       data[index + 0] = ((a15 * srcR) + (a16 * srcG) + (a17 * srcB) + (a18 * srcA) + a19) &gt;&gt; 16;
+       data[index + 1] = ((a10 * srcR) + (a11 * srcG) + (a12 * srcB) + (a13 * srcA) + a14) &gt;&gt; 16;
+       data[index + 2] = ((a05 * srcR) + (a06 * srcG) + (a07 * srcB) + (a08 * srcA) + a09) &gt;&gt; 16;
+       data[index + 3] = ((a00 * srcR) + (a01 * srcG) + (a02 * srcB) + (a03 * srcA) + a04) &gt;&gt; 16;
+     }
+   }
+
+   destinationBitmapData._getContext().putImageData(imageData, destinationPoint.x, destinationPoint.y);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ Rectangle getBounds() {
+   return new Rectangle(0, 0, 0, 0);
+ }
+
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/BitmapFilter.html">BitmapFilter</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>ColorMatrixFilter</strong></span></p>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="ColorMatrixFilter">
+<button class="show-code">Code</button>
+new <strong>ColorMatrixFilter</strong>(<a href="http://api.dartlang.org/dart_core/List.html">List</a>&lt;<a href="http://api.dartlang.org/dart_core/num.html">num</a>&gt; matrix) <a class="anchor-link" href="#ColorMatrixFilter"
+              title="Permalink to ColorMatrixFilter.ColorMatrixFilter">#</a></h4>
+<div class="doc">
+<pre class="source">
+ColorMatrixFilter(List&lt;num&gt; matrix) :
+ _matrix = new List&lt;num&gt;(20) {
+
+ if (matrix.length != 20)
+   throw new ArgumentError("The supplied matrix needs to be a 4 x 5 matrix.");
+ 
+ for(int i = 0; i &lt; matrix.length; i++)
+   _matrix[i] = matrix[i];
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="ColorMatrixFilter.grayscale">
+<button class="show-code">Code</button>
+new <strong>ColorMatrixFilter.grayscale</strong>() <a class="anchor-link" href="#ColorMatrixFilter.grayscale"
+              title="Permalink to ColorMatrixFilter.ColorMatrixFilter.grayscale">#</a></h4>
+<div class="doc">
+<pre class="source">
+ColorMatrixFilter.grayscale() : 
+ _matrix = [0.212671, 0.715160, 0.072169, 0, 0,
+            0.212671, 0.715160, 0.072169, 0, 0,
+            0.212671, 0.715160, 0.072169, 0, 0,
+            0, 0, 0, 1, 0];
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="ColorMatrixFilter.invert">
+<button class="show-code">Code</button>
+new <strong>ColorMatrixFilter.invert</strong>() <a class="anchor-link" href="#ColorMatrixFilter.invert"
+              title="Permalink to ColorMatrixFilter.ColorMatrixFilter.invert">#</a></h4>
+<div class="doc">
+<pre class="source">
+ColorMatrixFilter.invert() :
+ _matrix = [-1,  0,  0, 0, 255,
+             0, -1,  0, 0, 255,
+             0,  0, -1, 0, 255,
+             0,  0,  0, 1, 0];
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="apply">
+<button class="show-code">Code</button>
+void <strong>apply</strong>(<a href="../stagexl/BitmapData.html">BitmapData</a> sourceBitmapData, <a href="../stagexl/Rectangle.html">Rectangle</a> sourceRect, <a href="../stagexl/BitmapData.html">BitmapData</a> destinationBitmapData, <a href="../stagexl/Point.html">Point</a> destinationPoint) <a class="anchor-link" href="#apply"
+              title="Permalink to ColorMatrixFilter.apply">#</a></h4>
+<div class="doc">
+<pre class="source">
+void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint) {
+
+ //redResult   = (a[0]  * srcR) + (a[1]  * srcG) + (a[2]  * srcB) + (a[3]  * srcA) + a[4]
+ //greenResult = (a[5]  * srcR) + (a[6]  * srcG) + (a[7]  * srcB) + (a[8]  * srcA) + a[9]
+ //blueResult  = (a[10] * srcR) + (a[11] * srcG) + (a[12] * srcB) + (a[13] * srcA) + a[14]
+ //alphaResult = (a[15] * srcR) + (a[16] * srcG) + (a[17] * srcB) + (a[18] * srcA) + a[19]
+
+ var imageData = sourceBitmapData._getContext().getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+ var data = imageData.data;
+
+ int a00 = (_matrix[00] * 65536).toInt();
+ int a01 = (_matrix[01] * 65536).toInt();
+ int a02 = (_matrix[02] * 65536).toInt();
+ int a03 = (_matrix[03] * 65536).toInt();
+ int a04 = (_matrix[04] * 65536).toInt();
+ int a05 = (_matrix[05] * 65536).toInt();
+ int a06 = (_matrix[06] * 65536).toInt();
+ int a07 = (_matrix[07] * 65536).toInt();
+ int a08 = (_matrix[08] * 65536).toInt();
+ int a09 = (_matrix[09] * 65536).toInt();
+ int a10 = (_matrix[10] * 65536).toInt();
+ int a11 = (_matrix[11] * 65536).toInt();
+ int a12 = (_matrix[12] * 65536).toInt();
+ int a13 = (_matrix[13] * 65536).toInt();
+ int a14 = (_matrix[14] * 65536).toInt();
+ int a15 = (_matrix[15] * 65536).toInt();
+ int a16 = (_matrix[16] * 65536).toInt();
+ int a17 = (_matrix[17] * 65536).toInt();
+ int a18 = (_matrix[18] * 65536).toInt();
+ int a19 = (_matrix[19] * 65536).toInt();
+
+ if (_isLittleEndianSystem) {
+   for(int index = 0 ; index &lt;= data.length - 4; index += 4) {
+     int srcR = data[index + 0];
+     int srcG = data[index + 1];
+     int srcB = data[index + 2];
+     int srcA = data[index + 3];
+
+     data[index + 0] = ((a00 * srcR) + (a01 * srcG) + (a02 * srcB) + (a03 * srcA) + a04) &gt;&gt; 16;
+     data[index + 1] = ((a05 * srcR) + (a06 * srcG) + (a07 * srcB) + (a08 * srcA) + a09) &gt;&gt; 16;
+     data[index + 2] = ((a10 * srcR) + (a11 * srcG) + (a12 * srcB) + (a13 * srcA) + a14) &gt;&gt; 16;
+     data[index + 3] = ((a15 * srcR) + (a16 * srcG) + (a17 * srcB) + (a18 * srcA) + a19) &gt;&gt; 16;
+   }
+ } else {
+   for(int index = 0 ; index &lt;= data.length - 4; index += 4) {
+     int srcA = data[index + 0];
+     int srcB = data[index + 1];
+     int srcG = data[index + 2];
+     int srcR = data[index + 3];
+
+     data[index + 0] = ((a15 * srcR) + (a16 * srcG) + (a17 * srcB) + (a18 * srcA) + a19) &gt;&gt; 16;
+     data[index + 1] = ((a10 * srcR) + (a11 * srcG) + (a12 * srcB) + (a13 * srcA) + a14) &gt;&gt; 16;
+     data[index + 2] = ((a05 * srcR) + (a06 * srcG) + (a07 * srcB) + (a08 * srcA) + a09) &gt;&gt; 16;
+     data[index + 3] = ((a00 * srcR) + (a01 * srcG) + (a02 * srcB) + (a03 * srcA) + a04) &gt;&gt; 16;
+   }
+ }
+
+ destinationBitmapData._getContext().putImageData(imageData, destinationPoint.x, destinationPoint.y);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="clone">
+<button class="show-code">Code</button>
+<a href="../stagexl/BitmapFilter.html">BitmapFilter</a> <strong>clone</strong>() <a class="anchor-link" href="#clone"
+              title="Permalink to ColorMatrixFilter.clone">#</a></h4>
+<div class="doc">
+<pre class="source">
+BitmapFilter clone() {
+ return new ColorMatrixFilter(_matrix);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="getBounds">
+<button class="show-code">Code</button>
+<a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBounds</strong>() <a class="anchor-link" href="#getBounds"
+              title="Permalink to ColorMatrixFilter.getBounds">#</a></h4>
+<div class="doc">
+<pre class="source">
+Rectangle getBounds() {
+ return new Rectangle(0, 0, 0, 0);
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-03-26 16:22:15.459</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

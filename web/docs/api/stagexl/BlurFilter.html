@@ -1,0 +1,723 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>BlurFilter class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="BlurFilter">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/BlurFilter.html">BlurFilter</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><div class="icon-class"></div><strong>BlurFilter</strong></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../stagexl/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../stagexl/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../stagexl/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../stagexl/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
+<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../stagexl/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../stagexl/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../stagexl/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../stagexl/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../stagexl/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>BlurFilter</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class BlurFilter extends BitmapFilter
+{
+ int blurX;
+ int blurY;
+
+ //-------------------------------------------------------------------------------------------------
+ // Credits to Alois Zingl, Vienna, Austria.
+ // Extended Binomial Filter for Fast Gaussian Blur
+ // http://free.pages.at/easyfilter/gauss.html
+ // http://free.pages.at/easyfilter/gauss.pdf
+ //-------------------------------------------------------------------------------------------------
+
+ BlurFilter([this.blurX = 4, this.blurY = 4])
+ {
+   if (blurX &lt; 1 || blurY &lt; 1)
+     throw new ArgumentError("Error #9004: The minimum blur size is 1.");
+
+   if (blurX &gt; 128 || blurY &gt; 128)
+     throw new ArgumentError("Error #9004: The maximum blur size is 128.");
+ }
+
+ BitmapFilter clone()
+ {
+   return new BlurFilter(blurX, blurY);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint)
+ {
+   var sourceContext = sourceBitmapData._getContext();
+   var sourceImageData = sourceContext.getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+   var sourceData = sourceImageData.data;
+
+   int sourceWidth = sourceImageData.width;
+   int sourceHeight = sourceImageData.height;
+   int weightX = blurX * blurX;
+   int weightY = blurY * blurY;
+   int weightXinv = (1 &lt;&lt; 22) ~/ weightX;
+   int weightYinv = (1 &lt;&lt; 22) ~/ weightY;  
+   int rx1 = blurX;
+   int rx2 = blurX * 2;
+   int ry1 = blurY;
+   int ry2 = blurY * 2;
+   int destinationWidth = sourceWidth + rx2;
+   int destinationHeight = sourceHeight + ry2;
+   int sourceWidth4 = sourceWidth * 4;
+   int destinationWidth4 = destinationWidth * 4;
+
+   var destinationContext = destinationBitmapData._getContext();
+   var destinationImageData = destinationContext.createImageData(destinationWidth, destinationHeight);
+   var destinationData = destinationImageData.data;
+   var buffer = new List&lt;int&gt;(1024);
+   
+   _premultiplyAlpha(sourceData);
+
+   //--------------------------------------------------
+   // blur vertical
+
+   for (int z = 0; z &lt; 4; z++) {
+     for (int x = 0; x &lt; sourceWidth; x++) {
+       int dif = 0, sum = weightY &gt;&gt; 1;
+       int offsetSource = x * 4 + z;
+       int offsetDestination = (x + rx1) * 4 + z;
+
+       for (int y = 0; y &lt; destinationHeight; y++) {
+         destinationData[offsetDestination] = (sum * weightYinv) &gt;&gt; 22;
+         offsetDestination += destinationWidth4;
+
+         if (y &gt;= ry2) {
+           dif -= 2 * buffer[y &amp; 1023] - buffer[(y - ry1) &amp; 1023];
+         } else if (y &gt;= ry1) {
+           dif -= 2 * buffer[y &amp; 1023];
+         }
+
+         int color = (y &lt; sourceHeight) ? sourceData[offsetSource] : 0;
+         buffer[(y + ry1) &amp; 1023] = color;
+         sum += dif += color;
+         offsetSource += sourceWidth4;
+       }
+     }
+   }
+
+   //--------------------------------------------------
+   // blur horizontal
+
+   for (int z = 0; z &lt; 4; z++) {
+     for (int y = 0; y &lt; destinationHeight; y++) {
+       int dif = 0, sum = weightX &gt;&gt; 1;
+       int offsetSource = y * destinationWidth4 + rx1 * 4 + z;
+       int offsetDestination = y * destinationWidth4 + z;
+
+       for (int x = 0; x &lt; destinationWidth; x++) {
+         destinationData[offsetDestination] = (sum * weightXinv) &gt;&gt; 22;
+         offsetDestination += 4;
+
+         if (x &gt;= rx2) {
+           dif -= 2 * buffer[x &amp; 1023] - buffer[(x - rx1) &amp; 1023];
+         } else if (x &gt;= rx1) {
+           dif -= 2 * buffer[x &amp; 1023];
+         }
+
+         int color = (x &lt; sourceWidth) ? destinationData[offsetSource] : 0;
+         buffer[(x + rx1) &amp; 1023] = color;
+         sum += dif += color;
+         offsetSource += 4;
+       }
+     }
+   }
+
+   //--------------------------------------------------
+
+   _unpremultiplyAlpha(destinationData);
+
+   destinationContext.putImageData(destinationImageData, destinationPoint.x - rx1, destinationPoint.y - ry1);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ Rectangle getBounds()
+ {
+   return new Rectangle(-blurX, -blurY, 2 * blurX, 2 * blurY);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ /*
+ void _applyLow(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint)
+ {
+   var sourceContext = sourceBitmapData._getContext();
+   var sourceImageData = sourceContext.getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+   var sourceData = sourceImageData.data;
+
+   var destinationContext = destinationBitmapData._getContext();
+   var destinationImageData = destinationContext.createImageData(sourceImageData.width, sourceImageData.height);
+   var destinationData = destinationImageData.data;
+
+   int width = sourceImageData.width;
+   int height = sourceImageData.height;
+
+   int radiusX = sqrt(5 * blurX * blurX + 1).toInt();
+   int radiusY = sqrt(5 * blurY * blurY + 1).toInt();
+   int weightX = radiusX * radiusX;
+   int weightY = radiusY * radiusY;
+
+   int width4 = width * 4;
+   int rx1 = radiusX;
+   int rx2 = radiusX * 2;
+   int ry1 = radiusY;
+   int ry2 = radiusY * 2;
+
+   List&lt;int&gt; buffer = new List&lt;int&gt;(1024);
+
+   for (int z = 0; z &lt; 4; z++) {
+
+     // blur vertical
+     for (int x = 0; x &lt; width; x++) {
+       int dif = 0, sum = weightY &gt;&gt; 1;
+       int offsetBase = x * 4 + z;
+       int offsetLoop = offsetBase;
+
+       for (int y = 0 - ry2; y &lt; height; y++) {
+         if (y &gt;= 0) {
+           destinationData[offsetLoop] = sum ~/ weightY;
+           offsetLoop += width4;
+           dif -= 2 * buffer[y &amp; 1023] - buffer[(y - ry1) &amp; 1023];
+         } else if (y + ry1 &gt;= 0) {
+           dif -= 2 * buffer[y &amp; 1023];
+         }
+
+         int ty = y + ry1;
+
+         if (ty &lt; 0) {
+           ty = 0;
+         } else if (ty &gt;= height) {
+           ty = height - 1;
+         }
+
+         sum += dif += (buffer[(y + ry1) &amp; 1023] = sourceData[offsetBase + ty * width4]);
+       }
+     }
+
+     // blur horizontal
+     for (int y = 0; y &lt; height; y++) {
+       int dif = 0, sum = weightX &gt;&gt; 1;
+       int offsetBase = y * width4 + z;
+       int offsetLoop = offsetBase;
+
+       for (int x = 0 - rx2; x &lt; width; x++) {
+         if (x &gt;= 0) {
+           destinationData[offsetLoop] = sum ~/ weightX;
+           offsetLoop += 4;
+           dif -= 2 * buffer[x &amp; 1023] - buffer[(x - rx1) &amp; 1023];
+         } else if (x + rx1 &gt;= 0) {
+           dif -= 2 * buffer[x &amp; 1023];
+         }
+
+         int tx = x + rx1;
+
+         if (tx &lt; 0) {
+           tx = 0;
+         } else if (tx &gt;= width) {
+           tx = width - 1;
+         }
+
+         sum += dif += (buffer[(x + rx1) &amp; 1023] = destinationData[offsetBase + (tx &lt;&lt; 2)]);
+       }
+     }
+   }
+
+   destinationContext.putImageData(destinationImageData, destinationPoint.x, destinationPoint.y);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void _applyMedium(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint)
+ {
+   var sourceContext = sourceBitmapData._getContext();
+   var sourceImageData = sourceContext.getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+   var sourceData = sourceImageData.data;
+
+   var destinationContext = destinationBitmapData._getContext();
+   var destinationImageData = destinationContext.createImageData(sourceImageData.width, sourceImageData.height);
+   var destinationData = destinationImageData.data;
+
+   int width = sourceImageData.width;
+   int height = sourceImageData.height;
+
+   int radiusX = sqrt(4 * blurX * blurX + 1).toInt();
+   int radiusY = sqrt(4 * blurY * blurY + 1).toInt();
+   int weightX = radiusX * radiusX * radiusX;
+   int weightY = radiusY * radiusY * radiusY;
+
+   int width4 = width * 4;
+   int rx1 = radiusX;
+   int rx2 = radiusX * 2;
+   int rx3 = radiusX * 3;
+   int ry1 = radiusY;
+   int ry2 = radiusY * 2;
+   int ry3 = radiusY * 3;
+   int rx3h = (rx3 / 2).round().toInt();
+   int ry3h = (ry3 / 2).round().toInt();
+
+   List&lt;int&gt; buffer = new List&lt;int&gt;(1024);
+
+   for (int z = 0; z &lt; 4; z++) {
+
+     // blur vertical
+     for (int x = 0; x &lt; width; x++) {
+       int dif = 0, der = 0, sum = 0;
+       int offsetBase = x * 4 + z;
+       int offsetLoop = offsetBase;
+
+       for (int y = 0 - ry3; y &lt; height; y++) {
+         if (y &gt;= 0) {
+           destinationData[offsetLoop] = sum ~/ weightY;
+           offsetLoop += width4;
+           dif -= 3 * buffer[(y + ry1) &amp; 1023] - 3 * buffer[y &amp; 1023] + buffer[(y - ry1) &amp; 1023];
+         } else if (y + ry1 &gt;= 0) {
+           dif -= 3 * buffer[(y + ry1) &amp; 1023] - 3 * buffer[y &amp; 1023];
+         } else if (y + ry2 &gt;= 0) {
+           dif -= 3 * buffer[(y + ry1) &amp; 1023];
+         }
+
+         int ty = y + ry3h;
+
+         if (ty &lt; 0) {
+           ty = 0;
+         } else if (ty &gt;= height) {
+           ty = height - 1;
+         }
+
+         sum += der += dif += (buffer[(y + ry2) &amp; 1023] = sourceData[offsetBase + ty * width4]);
+       }
+     }
+
+     // blur horizontal
+     for (int y = 0; y &lt; height; y++) {
+       int dif = 0, der = 0, sum = 0;
+       int offsetBase = y * width4 + z;
+       int offsetLoop = offsetBase;
+
+       for (int x = 0 - rx3; x &lt; width; x++) {
+         if (x &gt;= 0) {
+           destinationData[offsetLoop] = sum ~/ weightX;
+           offsetLoop += 4;
+           dif -= 3 * buffer[(x + rx1) &amp; 1023] - 3 * buffer[x &amp; 1023] + buffer[(x - rx1) &amp; 1023];
+         } else if (x + rx1 &gt;= 0) {
+           dif -= 3 * buffer[(x + rx1) &amp; 1023] - 3 * buffer[x &amp; 1023];
+         } else if (x + rx2 &gt;= 0) {
+           dif -= 3 * buffer[(x + rx1) &amp; 1023];
+         }
+
+         int tx = x + rx3h;
+
+         if (tx &lt; 0) {
+           tx = 0;
+         } else if (tx &gt;= width) {
+           tx = width - 1;
+         }
+
+         sum += der += dif += (buffer[(x + rx2) &amp; 1023] = destinationData[offsetBase + (tx &lt;&lt; 2)]);
+       }
+     }
+   }
+
+   destinationContext.putImageData(destinationImageData, destinationPoint.x, destinationPoint.y);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void _applyHigh(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint)
+ {
+   var sourceContext = sourceBitmapData._getContext();
+   var sourceImageData = sourceContext.getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+   var sourceData = sourceImageData.data;
+
+   var destinationContext = destinationBitmapData._getContext();
+   var destinationImageData = destinationContext.createImageData(sourceImageData.width, sourceImageData.height);
+   var destinationData = destinationImageData.data;
+
+   int width = sourceImageData.width;
+   int height = sourceImageData.height;
+
+   int radiusX = sqrt(3 * blurX * blurX + 1).toInt();
+   int radiusY = sqrt(3 * blurY * blurY + 1).toInt();
+   int weightX = radiusX * radiusX * radiusX * radiusX;
+   int weightY = radiusY * radiusY * radiusY * radiusY;
+
+   int width4 = width * 4;
+   int rx1 = radiusX;
+   int rx2 = radiusX * 2;
+   int rx3 = radiusX * 3;
+   int rx4 = radiusX * 4;
+   int ry1 = radiusY;
+   int ry2 = radiusY * 2;
+   int ry3 = radiusY * 3;
+   int ry4 = radiusY * 4;
+
+   List&lt;int&gt; buffer = new List&lt;int&gt;(1024);
+
+   for (int z = 0; z &lt; 4; z++) {
+
+     // blur vertical
+     for (int x = 0; x &lt; width; x++) {
+       int dif = 0, der1 = 0, der2 = 0, sum = 0;
+       int offsetBase = x * 4 + z;
+       int offsetLoop = offsetBase;
+
+       for (int y = 0 - ry4; y &lt; height; y++) {
+         if (y &gt;= 0) {
+           destinationData[offsetLoop] = sum ~/ weightY;
+           offsetLoop += width4;
+           dif -= 4 * buffer[(y + ry1) &amp; 1023] - 6 * buffer[y &amp; 1023] + 4 * buffer[(y - ry1) &amp; 1023] - buffer[(y - ry2) &amp; 1023];
+         } else if (y + ry1 &gt;= 0) {
+           dif -= 4 * buffer[(y + ry1) &amp; 1023] - 6 * buffer[y &amp; 1023] + 4 * buffer[(y - ry1) &amp; 1023];
+         } else if (y + ry2 &gt;= 0) {
+           dif -= 4 * buffer[(y + ry1) &amp; 1023] - 6 * buffer[y &amp; 1023];
+         } else if (y + ry3 &gt;= 0) {
+           dif -= 4 * buffer[(y + ry1) &amp; 1023];
+         }
+
+         int ty = y + ry2 - 1;
+
+         if (ty &lt; 0) {
+           ty = 0;
+         } else if (ty &gt;= height) {
+           ty = height - 1;
+         }
+
+         sum += der1 += der2 += dif += (buffer[(y + ry2) &amp; 1023] = sourceData[offsetBase + ty * width4]);
+       }
+     }
+
+     // blur horizontal
+     for (int y = 0; y &lt; height; y++) {
+       int dif = 0, der1 = 0, der2 = 0, sum = 0;
+       int offsetBase = y * width4 + z;
+       int offsetLoop = offsetBase;
+
+       for (int x = 0 - rx4; x &lt; width; x++) {
+         if (x &gt;= 0) {
+           destinationData[offsetLoop] = sum ~/ weightX;
+           offsetLoop += 4;
+           dif -= 4 * buffer[(x + rx1) &amp; 1023] - 6 * buffer[x &amp; 1023] + 4 * buffer[(x - rx1) &amp; 1023] - buffer[(x - rx2) &amp; 1023];
+         } else if (x + rx1 &gt;= 0) {
+           dif -= 4 * buffer[(x + rx1) &amp; 1023] - 6 * buffer[x &amp; 1023] + 4 * buffer[(x - rx1) &amp; 1023];
+         } else if (x + rx2 &gt;= 0) {
+           dif -= 4 * buffer[(x + rx1) &amp; 1023] - 6 * buffer[x &amp; 1023];
+         } else if (x + rx3 &gt;= 0) {
+           dif -= 4 * buffer[(x + rx1) &amp; 1023];
+         }
+
+         int tx = x + rx2 - 1;
+
+         if (tx &lt; 0) {
+           tx = 0;
+         } else if (tx &gt;= width) {
+           tx = width - 1;
+         }
+
+         sum += der1 += der2 += dif += (buffer[(x + rx2) &amp; 1023] = destinationData[offsetBase + (tx &lt;&lt; 2)]);
+       }
+     }
+   }
+
+   destinationContext.putImageData(destinationImageData, destinationPoint.x, destinationPoint.y);
+ }
+ */
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/BitmapFilter.html">BitmapFilter</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>BlurFilter</strong></span></p>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="BlurFilter">
+<button class="show-code">Code</button>
+new <strong>BlurFilter</strong>([<a href="http://api.dartlang.org/dart_core/int.html">int</a> blurX = 4, <a href="http://api.dartlang.org/dart_core/int.html">int</a> blurY = 4]) <a class="anchor-link" href="#BlurFilter"
+              title="Permalink to BlurFilter.BlurFilter">#</a></h4>
+<div class="doc">
+<pre class="source">
+BlurFilter([this.blurX = 4, this.blurY = 4])
+{
+ if (blurX &lt; 1 || blurY &lt; 1)
+   throw new ArgumentError("Error #9004: The minimum blur size is 1.");
+
+ if (blurX &gt; 128 || blurY &gt; 128)
+   throw new ArgumentError("Error #9004: The maximum blur size is 128.");
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="blurX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>blurX</strong> <a class="anchor-link"
+            href="#blurX"
+            title="Permalink to BlurFilter.blurX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+blurX
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="blurY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>blurY</strong> <a class="anchor-link"
+            href="#blurY"
+            title="Permalink to BlurFilter.blurY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+blurY
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="apply">
+<button class="show-code">Code</button>
+void <strong>apply</strong>(<a href="../stagexl/BitmapData.html">BitmapData</a> sourceBitmapData, <a href="../stagexl/Rectangle.html">Rectangle</a> sourceRect, <a href="../stagexl/BitmapData.html">BitmapData</a> destinationBitmapData, <a href="../stagexl/Point.html">Point</a> destinationPoint) <a class="anchor-link" href="#apply"
+              title="Permalink to BlurFilter.apply">#</a></h4>
+<div class="doc">
+<pre class="source">
+void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint)
+{
+ var sourceContext = sourceBitmapData._getContext();
+ var sourceImageData = sourceContext.getImageData(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height);
+ var sourceData = sourceImageData.data;
+
+ int sourceWidth = sourceImageData.width;
+ int sourceHeight = sourceImageData.height;
+ int weightX = blurX * blurX;
+ int weightY = blurY * blurY;
+ int weightXinv = (1 &lt;&lt; 22) ~/ weightX;
+ int weightYinv = (1 &lt;&lt; 22) ~/ weightY;  
+ int rx1 = blurX;
+ int rx2 = blurX * 2;
+ int ry1 = blurY;
+ int ry2 = blurY * 2;
+ int destinationWidth = sourceWidth + rx2;
+ int destinationHeight = sourceHeight + ry2;
+ int sourceWidth4 = sourceWidth * 4;
+ int destinationWidth4 = destinationWidth * 4;
+
+ var destinationContext = destinationBitmapData._getContext();
+ var destinationImageData = destinationContext.createImageData(destinationWidth, destinationHeight);
+ var destinationData = destinationImageData.data;
+ var buffer = new List&lt;int&gt;(1024);
+ 
+ _premultiplyAlpha(sourceData);
+
+ //--------------------------------------------------
+ // blur vertical
+
+ for (int z = 0; z &lt; 4; z++) {
+   for (int x = 0; x &lt; sourceWidth; x++) {
+     int dif = 0, sum = weightY &gt;&gt; 1;
+     int offsetSource = x * 4 + z;
+     int offsetDestination = (x + rx1) * 4 + z;
+
+     for (int y = 0; y &lt; destinationHeight; y++) {
+       destinationData[offsetDestination] = (sum * weightYinv) &gt;&gt; 22;
+       offsetDestination += destinationWidth4;
+
+       if (y &gt;= ry2) {
+         dif -= 2 * buffer[y &amp; 1023] - buffer[(y - ry1) &amp; 1023];
+       } else if (y &gt;= ry1) {
+         dif -= 2 * buffer[y &amp; 1023];
+       }
+
+       int color = (y &lt; sourceHeight) ? sourceData[offsetSource] : 0;
+       buffer[(y + ry1) &amp; 1023] = color;
+       sum += dif += color;
+       offsetSource += sourceWidth4;
+     }
+   }
+ }
+
+ //--------------------------------------------------
+ // blur horizontal
+
+ for (int z = 0; z &lt; 4; z++) {
+   for (int y = 0; y &lt; destinationHeight; y++) {
+     int dif = 0, sum = weightX &gt;&gt; 1;
+     int offsetSource = y * destinationWidth4 + rx1 * 4 + z;
+     int offsetDestination = y * destinationWidth4 + z;
+
+     for (int x = 0; x &lt; destinationWidth; x++) {
+       destinationData[offsetDestination] = (sum * weightXinv) &gt;&gt; 22;
+       offsetDestination += 4;
+
+       if (x &gt;= rx2) {
+         dif -= 2 * buffer[x &amp; 1023] - buffer[(x - rx1) &amp; 1023];
+       } else if (x &gt;= rx1) {
+         dif -= 2 * buffer[x &amp; 1023];
+       }
+
+       int color = (x &lt; sourceWidth) ? destinationData[offsetSource] : 0;
+       buffer[(x + rx1) &amp; 1023] = color;
+       sum += dif += color;
+       offsetSource += 4;
+     }
+   }
+ }
+
+ //--------------------------------------------------
+
+ _unpremultiplyAlpha(destinationData);
+
+ destinationContext.putImageData(destinationImageData, destinationPoint.x - rx1, destinationPoint.y - ry1);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="clone">
+<button class="show-code">Code</button>
+<a href="../stagexl/BitmapFilter.html">BitmapFilter</a> <strong>clone</strong>() <a class="anchor-link" href="#clone"
+              title="Permalink to BlurFilter.clone">#</a></h4>
+<div class="doc">
+<pre class="source">
+BitmapFilter clone()
+{
+ return new BlurFilter(blurX, blurY);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="getBounds">
+<button class="show-code">Code</button>
+<a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBounds</strong>() <a class="anchor-link" href="#getBounds"
+              title="Permalink to BlurFilter.getBounds">#</a></h4>
+<div class="doc">
+<pre class="source">
+Rectangle getBounds()
+{
+ return new Rectangle(-blurX, -blurY, 2 * blurX, 2 * blurY);
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-03-26 16:22:15.466</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

@@ -44,7 +44,7 @@ HTML/CSS (without enclosing head and body tags):
       #stage { position: absolute; width: 100%; height: 100%; overflow: hidden }
     </style>
     
-    <canvas id="stage">\</canvas>
+    <canvas id="stage"></canvas>
 
 Dart:
 

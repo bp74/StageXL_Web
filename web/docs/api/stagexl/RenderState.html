@@ -1,0 +1,337 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>RenderState class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="RenderState">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/RenderState.html">RenderState</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../stagexl/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../stagexl/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../stagexl/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../stagexl/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../stagexl/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
+<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><div class="icon-class"></div><strong>RenderState</strong></li>
+<li><a href="../stagexl/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../stagexl/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../stagexl/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../stagexl/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../stagexl/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../stagexl/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>RenderState</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class RenderState
+{
+ final CanvasRenderingContext2D _context;
+ final List&lt;Matrix&gt; _matrices = new List&lt;Matrix&gt;(100);
+ final List&lt;double&gt; _alphas = new List&lt;double&gt;(100);
+
+ int _depth = 0;
+
+ RenderState.fromCanvasRenderingContext2D(CanvasRenderingContext2D context, [Matrix matrix]) :
+   _context = context {
+
+   for(int i = 0; i &lt; 100; i++) {
+     _matrices[i] = new Matrix.fromIdentity();
+     _alphas[i] = 1.0;
+   }
+  
+   if (matrix != null)
+     _matrices[0].copyFrom(matrix);
+   
+   var m = _matrices[0];
+   var a = _alphas[0];
+   
+   _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+   _context.globalAlpha = a;
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ CanvasRenderingContext2D get context =&gt; _context;
+
+ //-------------------------------------------------------------------------------------------------
+
+ void reset([Matrix matrix]) {
+   
+   if (matrix != null)
+     _matrices[0].copyFrom(matrix);
+   
+   _depth = 0;
+   
+   var m = _matrices[0];
+   var a = _alphas[0];
+   
+   _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+   _context.globalAlpha = a;
+   _context.clearRect(0, 0, _context.canvas.width, _context.canvas.height);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void renderDisplayObject(DisplayObject displayObject) {
+   
+   var d1 = _depth;
+   var d2 = _depth + 1;
+   var m1 = _matrices[d1];
+   var m2 = _matrices[d2];
+   var a1 = _alphas[d1];
+   var a2 = _alphas[d2] = displayObject._alpha * a1;
+
+   m2.copyFromAndConcat(displayObject._transformationMatrix, m1);
+
+   _context.setTransform(m2.a, m2.b, m2.c, m2.d, m2.tx, m2.ty);
+   _context.globalAlpha = a2;
+
+   _depth = d2;
+   
+   var mask = displayObject._mask;
+   var cache = displayObject._cache;
+   
+   if (mask != null) {
+     _context.save();
+     mask.render(this);
+   }
+   
+   if (cache != null) {
+     cache.render(this);
+   } else {
+     displayObject.render(this);
+   }
+       
+   if (mask != null) {
+     _context.restore();
+   }
+
+   _depth = d1;
+ }
+
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="RenderState.fromCanvasRenderingContext2D">
+<button class="show-code">Code</button>
+new <strong>RenderState.fromCanvasRenderingContext2D</strong>(<a href="http://api.dartlang.org/dart_html/CanvasRenderingContext2D.html">CanvasRenderingContext2D</a> context, [<a href="../stagexl/Matrix.html">Matrix</a> matrix]) <a class="anchor-link" href="#RenderState.fromCanvasRenderingContext2D"
+              title="Permalink to RenderState.RenderState.fromCanvasRenderingContext2D">#</a></h4>
+<div class="doc">
+<pre class="source">
+RenderState.fromCanvasRenderingContext2D(CanvasRenderingContext2D context, [Matrix matrix]) :
+ _context = context {
+
+ for(int i = 0; i &lt; 100; i++) {
+   _matrices[i] = new Matrix.fromIdentity();
+   _alphas[i] = 1.0;
+ }
+
+ if (matrix != null)
+   _matrices[0].copyFrom(matrix);
+ 
+ var m = _matrices[0];
+ var a = _alphas[0];
+ 
+ _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+ _context.globalAlpha = a;
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="context">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_html/CanvasRenderingContext2D.html">CanvasRenderingContext2D</a>         <strong>context</strong> <a class="anchor-link"
+            href="#context"
+            title="Permalink to RenderState.context">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+CanvasRenderingContext2D get context =&gt; _context;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="renderDisplayObject">
+<button class="show-code">Code</button>
+void <strong>renderDisplayObject</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> displayObject) <a class="anchor-link" href="#renderDisplayObject"
+              title="Permalink to RenderState.renderDisplayObject">#</a></h4>
+<div class="doc">
+<pre class="source">
+void renderDisplayObject(DisplayObject displayObject) {
+ 
+ var d1 = _depth;
+ var d2 = _depth + 1;
+ var m1 = _matrices[d1];
+ var m2 = _matrices[d2];
+ var a1 = _alphas[d1];
+ var a2 = _alphas[d2] = displayObject._alpha * a1;
+
+ m2.copyFromAndConcat(displayObject._transformationMatrix, m1);
+
+ _context.setTransform(m2.a, m2.b, m2.c, m2.d, m2.tx, m2.ty);
+ _context.globalAlpha = a2;
+
+ _depth = d2;
+ 
+ var mask = displayObject._mask;
+ var cache = displayObject._cache;
+ 
+ if (mask != null) {
+   _context.save();
+   mask.render(this);
+ }
+ 
+ if (cache != null) {
+   cache.render(this);
+ } else {
+   displayObject.render(this);
+ }
+     
+ if (mask != null) {
+   _context.restore();
+ }
+
+ _depth = d1;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="reset">
+<button class="show-code">Code</button>
+void <strong>reset</strong>([<a href="../stagexl/Matrix.html">Matrix</a> matrix]) <a class="anchor-link" href="#reset"
+              title="Permalink to RenderState.reset">#</a></h4>
+<div class="doc">
+<pre class="source">
+void reset([Matrix matrix]) {
+ 
+ if (matrix != null)
+   _matrices[0].copyFrom(matrix);
+ 
+ _depth = 0;
+ 
+ var m = _matrices[0];
+ var a = _alphas[0];
+ 
+ _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+ _context.globalAlpha = a;
+ _context.clearRect(0, 0, _context.canvas.width, _context.canvas.height);
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-03-26 16:22:15.531</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

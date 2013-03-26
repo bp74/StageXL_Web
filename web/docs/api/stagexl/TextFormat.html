@@ -1,0 +1,371 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>TextFormat class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="TextFormat">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/TextFormat.html">TextFormat</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../stagexl/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../stagexl/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../stagexl/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../stagexl/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../stagexl/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
+<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../stagexl/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><div class="icon-class"></div><strong>TextFormat</strong></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../stagexl/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../stagexl/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../stagexl/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>TextFormat</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class TextFormat
+{
+ String font;
+ int size;
+ int color;
+ bool bold;
+ bool italic;
+ bool underline;
+
+ String align;
+ int leftMargin;
+ int rightMargin;
+ int indent;
+ int leading;
+
+ int letterSpacing = 0;
+ int blockIndent = 0;
+ bool bullet = false;
+ bool kerning = false;
+
+ //-------------------------------------------------------------------------------------------------
+
+ TextFormat( this.font, this.size, this.color, {
+   this.bold         : false,
+   this.italic       : false,
+   this.underline    : false,
+   this.align        : "left",
+   this.leftMargin   : 0,
+   this.rightMargin  : 0,
+   this.indent       : 0,
+   this.leading      : 0  });
+
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="TextFormat">
+<button class="show-code">Code</button>
+new <strong>TextFormat</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> font, <a href="http://api.dartlang.org/dart_core/int.html">int</a> size, <a href="http://api.dartlang.org/dart_core/int.html">int</a> color, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> bold: false, <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> italic: false, <a href="http://api.dartlang.org/dart_core/bool.html">bool</a> underline: false, <a href="http://api.dartlang.org/dart_core/String.html">String</a> align: "left", <a href="http://api.dartlang.org/dart_core/int.html">int</a> leftMargin: 0, <a href="http://api.dartlang.org/dart_core/int.html">int</a> rightMargin: 0, <a href="http://api.dartlang.org/dart_core/int.html">int</a> indent: 0, <a href="http://api.dartlang.org/dart_core/int.html">int</a> leading: 0}) <a class="anchor-link" href="#TextFormat"
+              title="Permalink to TextFormat.TextFormat">#</a></h4>
+<div class="doc">
+<pre class="source">
+TextFormat( this.font, this.size, this.color, {
+ this.bold         : false,
+ this.italic       : false,
+ this.underline    : false,
+ this.align        : "left",
+ this.leftMargin   : 0,
+ this.rightMargin  : 0,
+ this.indent       : 0,
+ this.leading      : 0  });
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="align">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>align</strong> <a class="anchor-link"
+            href="#align"
+            title="Permalink to TextFormat.align">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+align
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="blockIndent">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>blockIndent</strong> <a class="anchor-link"
+            href="#blockIndent"
+            title="Permalink to TextFormat.blockIndent">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+blockIndent = 0
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="bold">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>bold</strong> <a class="anchor-link"
+            href="#bold"
+            title="Permalink to TextFormat.bold">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bold
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="bullet">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>bullet</strong> <a class="anchor-link"
+            href="#bullet"
+            title="Permalink to TextFormat.bullet">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bullet = false
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="color">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>color</strong> <a class="anchor-link"
+            href="#color"
+            title="Permalink to TextFormat.color">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+color
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="font">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>font</strong> <a class="anchor-link"
+            href="#font"
+            title="Permalink to TextFormat.font">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+font
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="indent">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>indent</strong> <a class="anchor-link"
+            href="#indent"
+            title="Permalink to TextFormat.indent">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+indent
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="italic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>italic</strong> <a class="anchor-link"
+            href="#italic"
+            title="Permalink to TextFormat.italic">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+italic
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="kerning">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>kerning</strong> <a class="anchor-link"
+            href="#kerning"
+            title="Permalink to TextFormat.kerning">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+kerning = false
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="leading">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>leading</strong> <a class="anchor-link"
+            href="#leading"
+            title="Permalink to TextFormat.leading">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+leading
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="leftMargin">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>leftMargin</strong> <a class="anchor-link"
+            href="#leftMargin"
+            title="Permalink to TextFormat.leftMargin">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+leftMargin
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="letterSpacing">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>letterSpacing</strong> <a class="anchor-link"
+            href="#letterSpacing"
+            title="Permalink to TextFormat.letterSpacing">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+letterSpacing = 0
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="rightMargin">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>rightMargin</strong> <a class="anchor-link"
+            href="#rightMargin"
+            title="Permalink to TextFormat.rightMargin">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+rightMargin
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="size">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>size</strong> <a class="anchor-link"
+            href="#size"
+            title="Permalink to TextFormat.size">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+size
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="underline">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>underline</strong> <a class="anchor-link"
+            href="#underline"
+            title="Permalink to TextFormat.underline">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+underline
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-03-26 16:22:14.616</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

@@ -1,0 +1,1289 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>TimeGauge class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="TimeGauge">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/TimeGauge.html">TimeGauge</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../stagexl/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../stagexl/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../stagexl/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../stagexl/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../stagexl/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
+<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../stagexl/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../stagexl/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../stagexl/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><div class="icon-class"></div><strong>TimeGauge</strong></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../stagexl/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>TimeGauge</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class TimeGauge extends Gauge implements Animatable
+{
+ static const String TIME_OUT = 'TIME_OUT';
+ static const String TIME_SHORT = 'TIME_SHORT';
+
+ bool _isStarted = false;
+ num _currentTime = 0.0;
+ num _totalTime = 0.0;
+
+ Map&lt;String, num&gt; _alarms;
+ bool _alarmsEnabled = true;
+
+ TimeGauge(num time, BitmapData bitmapData, [String direction = Gauge.DIRECTION_LEFT]) : super(bitmapData, direction)
+ {
+   if (time &lt;= 0)
+     throw new ArgumentError('Time must be greater than zero');
+
+   _totalTime = time;
+
+   clearAlarms();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ bool advanceTime(num time)
+ {
+   if (_isStarted &amp;&amp; ratio &gt; 0.0)
+   {
+     ratio = ratio - time / totalTime;
+
+     if (ratio == 0.0)
+       pause();
+   }
+
+   return true;
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void start()
+ {
+   _isStarted = true;
+ }
+
+ void pause()
+ {
+   _isStarted = false;
+ }
+
+ void reset([num time = 0.0])
+ {
+   pause();
+
+   time = max(time, 0.0);
+
+   if (time != 0.0) {
+     _totalTime = time;
+     clearAlarms();
+   }
+
+   ratio = 1.0;
+ }
+
+ void addAlarm(String name, num restTime)
+ {
+   _alarms[name] = restTime / totalTime;
+ }
+
+ void removeAlarm(String name)
+ {
+   _alarms.remove(name);
+ }
+
+ void clearAlarms()
+ {
+   _alarms = new Map&lt;String, num&gt;();
+   addAlarm(TimeGauge.TIME_OUT, 0);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ num get totalTime =&gt; _totalTime;
+ bool get isStarted =&gt; _isStarted;
+
+ bool get alarmsEnabled =&gt; _alarmsEnabled;
+ void set alarmsEnabled(bool value) { _alarmsEnabled = value; }
+
+ num get restTime =&gt; ratio * totalTime;
+ void set restTime(num value) { ratio = value / totalTime; }
+
+ num get elapsedTime =&gt; totalTime - restTime;
+ void set elapsedTime(num value) { restTime = totalTime - value; }
+
+ num get elapsedRatio =&gt; 1.0 - ratio;
+ void set elapsedRatio(num value) { ratio = 1.0 - value; }
+
+ void set ratio(num value)
+ {
+   num oldRatio = ratio;
+   super.ratio = value;
+
+   if (_alarmsEnabled)
+   {
+     _alarms.forEach((alarmName, alarmRatio) {
+       if (alarmRatio &lt; oldRatio &amp;&amp; alarmRatio &gt;= ratio)
+         dispatchEvent(new Event(alarmName));
+     });
+   }
+ }
+
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/DisplayObject.html">DisplayObject</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/Gauge.html">Gauge</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>TimeGauge</strong></span></p>
+<h3>Implements</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/Animatable.html">Animatable</a></span></p>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="TIME_OUT">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>TIME_OUT</strong> <a class="anchor-link"
+            href="#TIME_OUT"
+            title="Permalink to TimeGauge.TIME_OUT">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TIME_OUT = 'TIME_OUT'
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="TIME_SHORT">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>TIME_SHORT</strong> <a class="anchor-link"
+            href="#TIME_SHORT"
+            title="Permalink to TimeGauge.TIME_SHORT">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TIME_SHORT = 'TIME_SHORT'
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="TimeGauge">
+<button class="show-code">Code</button>
+new <strong>TimeGauge</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> time, <a href="../stagexl/BitmapData.html">BitmapData</a> bitmapData, [<a href="http://api.dartlang.org/dart_core/String.html">String</a> direction = Gauge.DIRECTION_LEFT]) <a class="anchor-link" href="#TimeGauge"
+              title="Permalink to TimeGauge.TimeGauge">#</a></h4>
+<div class="doc">
+<pre class="source">
+TimeGauge(num time, BitmapData bitmapData, [String direction = Gauge.DIRECTION_LEFT]) : super(bitmapData, direction)
+{
+ if (time &lt;= 0)
+   throw new ArgumentError('Time must be greater than zero');
+
+ _totalTime = time;
+
+ clearAlarms();
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="alarmsEnabled">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>alarmsEnabled</strong> <a class="anchor-link"
+            href="#alarmsEnabled"
+            title="Permalink to TimeGauge.alarmsEnabled">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get alarmsEnabled =&gt; _alarmsEnabled;
+</pre>
+<pre class="source">
+void set alarmsEnabled(bool value) { _alarmsEnabled = value; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="alpha">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>alpha</strong> <a class="anchor-link"
+            href="#alpha"
+            title="Permalink to TimeGauge.alpha">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get alpha =&gt; _alpha;
+</pre>
+<pre class="source">
+set alpha(num value) { _alpha = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="bitmapData">
+<button class="show-code">Code</button>
+<a href="../stagexl/BitmapData.html">BitmapData</a>         <strong>bitmapData</strong> <a class="anchor-link"
+            href="#bitmapData"
+            title="Permalink to TimeGauge.bitmapData">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/Gauge.html">Gauge</a> </div><div class="doc">
+<pre class="source">
+BitmapData get bitmapData =&gt; _bitmapData;
+</pre>
+<pre class="source">
+set bitmapData(BitmapData value)
+{
+ _bitmapData = value;
+ _updateMask();
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="cached">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>cached</strong> <a class="anchor-link"
+            href="#cached"
+            title="Permalink to TimeGauge.cached">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool get cached =&gt; _cache != null;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="elapsedRatio">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>elapsedRatio</strong> <a class="anchor-link"
+            href="#elapsedRatio"
+            title="Permalink to TimeGauge.elapsedRatio">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get elapsedRatio =&gt; 1.0 - ratio;
+</pre>
+<pre class="source">
+void set elapsedRatio(num value) { ratio = 1.0 - value; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="elapsedTime">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>elapsedTime</strong> <a class="anchor-link"
+            href="#elapsedTime"
+            title="Permalink to TimeGauge.elapsedTime">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get elapsedTime =&gt; totalTime - restTime;
+</pre>
+<pre class="source">
+void set elapsedTime(num value) { restTime = totalTime - value; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="height">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>height</strong> <a class="anchor-link"
+            href="#height"
+            title="Permalink to TimeGauge.height">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get height =&gt; getBoundsTransformed(_transformationMatrix).height;
+</pre>
+<pre class="source">
+void set height(num value) {
+ this.scaleY = 1;
+ num normalHeight = this.height;
+ this.scaleY = (normalHeight != 0.0) ? value / normalHeight : 1.0;
+}
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="isStarted">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>isStarted</strong> <a class="anchor-link"
+            href="#isStarted"
+            title="Permalink to TimeGauge.isStarted">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get isStarted =&gt; _isStarted;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="mask">
+<button class="show-code">Code</button>
+<a href="../stagexl/Mask.html">Mask</a>         <strong>mask</strong> <a class="anchor-link"
+            href="#mask"
+            title="Permalink to TimeGauge.mask">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Mask get mask =&gt; _mask;
+</pre>
+<pre class="source">
+set mask(Mask value) { _mask = value; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="name">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>name</strong> <a class="anchor-link"
+            href="#name"
+            title="Permalink to TimeGauge.name">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+String get name =&gt; _name;
+</pre>
+<pre class="source">
+set name(String value) { _name = value; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onAdded">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onAdded</strong> <a class="anchor-link"
+            href="#onAdded"
+            title="Permalink to TimeGauge.onAdded">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onAdded =&gt; DisplayObject.addedEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onAddedToStage">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onAddedToStage</strong> <a class="anchor-link"
+            href="#onAddedToStage"
+            title="Permalink to TimeGauge.onAddedToStage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onAddedToStage =&gt; DisplayObject.addedToStageEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onEnterFrame">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/EnterFrameEvent.html">EnterFrameEvent</a>&gt;         <strong>onEnterFrame</strong> <a class="anchor-link"
+            href="#onEnterFrame"
+            title="Permalink to TimeGauge.onEnterFrame">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;EnterFrameEvent&gt; get onEnterFrame =&gt; DisplayObject.enterFrameEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onRemoved">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onRemoved</strong> <a class="anchor-link"
+            href="#onRemoved"
+            title="Permalink to TimeGauge.onRemoved">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onRemoved =&gt; DisplayObject.removedEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onRemovedFromStage">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onRemovedFromStage</strong> <a class="anchor-link"
+            href="#onRemovedFromStage"
+            title="Permalink to TimeGauge.onRemovedFromStage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onRemovedFromStage =&gt; DisplayObject.removedFromStageEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="parent">
+<button class="show-code">Code</button>
+final <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a>         <strong>parent</strong> <a class="anchor-link"
+            href="#parent"
+            title="Permalink to TimeGauge.parent">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+DisplayObjectContainer get parent =&gt; _parent;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="pivotX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>pivotX</strong> <a class="anchor-link"
+            href="#pivotX"
+            title="Permalink to TimeGauge.pivotX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get pivotX =&gt; _pivotX;
+</pre>
+<pre class="source">
+set pivotX(num value) { _pivotX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="pivotY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>pivotY</strong> <a class="anchor-link"
+            href="#pivotY"
+            title="Permalink to TimeGauge.pivotY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get pivotY =&gt; _pivotY;
+</pre>
+<pre class="source">
+set pivotY(num value) { _pivotY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="ratio">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>get ratio</strong> <a class="anchor-link" href="#ratio"
+              title="Permalink to TimeGauge.get ratio">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/Gauge.html">Gauge</a> </div><div class="doc">
+<pre class="source">
+num get ratio =&gt; _ratio;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="ratio=">
+<button class="show-code">Code</button>
+void <strong>set ratio</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> value) <a class="anchor-link" href="#ratio="
+              title="Permalink to TimeGauge.set ratio">#</a></h4>
+<div class="doc">
+<pre class="source">
+void set ratio(num value)
+{
+ num oldRatio = ratio;
+ super.ratio = value;
+
+ if (_alarmsEnabled)
+ {
+   _alarms.forEach((alarmName, alarmRatio) {
+     if (alarmRatio &lt; oldRatio &amp;&amp; alarmRatio &gt;= ratio)
+       dispatchEvent(new Event(alarmName));
+   });
+ }
+}
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="restTime">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>restTime</strong> <a class="anchor-link"
+            href="#restTime"
+            title="Permalink to TimeGauge.restTime">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get restTime =&gt; ratio * totalTime;
+</pre>
+<pre class="source">
+void set restTime(num value) { ratio = value / totalTime; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="root">
+<button class="show-code">Code</button>
+final <a href="../stagexl/DisplayObject.html">DisplayObject</a>         <strong>root</strong> <a class="anchor-link"
+            href="#root"
+            title="Permalink to TimeGauge.root">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+DisplayObject get root {
+ 
+ DisplayObject currentObject = this;
+
+ while (currentObject._parent != null)
+   currentObject = currentObject._parent;
+
+ return currentObject;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="rotation">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>rotation</strong> <a class="anchor-link"
+            href="#rotation"
+            title="Permalink to TimeGauge.rotation">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get rotation =&gt; _rotation;
+</pre>
+<pre class="source">
+set rotation(num value) { _rotation = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="scaleX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>scaleX</strong> <a class="anchor-link"
+            href="#scaleX"
+            title="Permalink to TimeGauge.scaleX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get scaleX =&gt; _scaleX;
+</pre>
+<pre class="source">
+set scaleX(num value) { _scaleX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="scaleY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>scaleY</strong> <a class="anchor-link"
+            href="#scaleY"
+            title="Permalink to TimeGauge.scaleY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get scaleY =&gt; _scaleY;
+</pre>
+<pre class="source">
+set scaleY(num value) { _scaleY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="skewX">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>skewX</strong> <a class="anchor-link"
+            href="#skewX"
+            title="Permalink to TimeGauge.skewX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get skewX =&gt; _skewX;
+</pre>
+<pre class="source">
+set skewX(num value) { _skewX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="skewY">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>skewY</strong> <a class="anchor-link"
+            href="#skewY"
+            title="Permalink to TimeGauge.skewY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get skewY =&gt; _skewY;
+</pre>
+<pre class="source">
+set skewY(num value) { _skewY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="stage">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Stage.html">Stage</a>         <strong>stage</strong> <a class="anchor-link"
+            href="#stage"
+            title="Permalink to TimeGauge.stage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stage get stage {
+ 
+ DisplayObject root = this.root;
+
+ if (root is Stage)
+   return root;
+
+ return null;
+}
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="totalTime">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>totalTime</strong> <a class="anchor-link"
+            href="#totalTime"
+            title="Permalink to TimeGauge.totalTime">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get totalTime =&gt; _totalTime;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="transformationMatrix">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Matrix.html">Matrix</a>         <strong>transformationMatrix</strong> <a class="anchor-link"
+            href="#transformationMatrix"
+            title="Permalink to TimeGauge.transformationMatrix">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Matrix get transformationMatrix {
+ return _transformationMatrix.clone();
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="visible">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>visible</strong> <a class="anchor-link"
+            href="#visible"
+            title="Permalink to TimeGauge.visible">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool get visible =&gt; _visible;
+</pre>
+<pre class="source">
+set visible(bool value) { _visible = value; _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="width">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>width</strong> <a class="anchor-link"
+            href="#width"
+            title="Permalink to TimeGauge.width">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get width =&gt; getBoundsTransformed(_transformationMatrix).width;
+</pre>
+<pre class="source">
+void set width(num value) {
+ this.scaleX = 1;
+ num normalWidth = this.width;
+ this.scaleX = (normalWidth != 0.0) ? value / normalWidth : 1.0;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="x">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>x</strong> <a class="anchor-link"
+            href="#x"
+            title="Permalink to TimeGauge.x">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get x =&gt; _x;
+</pre>
+<pre class="source">
+set x(num value) { _x = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="y">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>y</strong> <a class="anchor-link"
+            href="#y"
+            title="Permalink to TimeGauge.y">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get y =&gt; _y;
+</pre>
+<pre class="source">
+set y(num value) { _y = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="addAlarm">
+<button class="show-code">Code</button>
+void <strong>addAlarm</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name, <a href="http://api.dartlang.org/dart_core/num.html">num</a> restTime) <a class="anchor-link" href="#addAlarm"
+              title="Permalink to TimeGauge.addAlarm">#</a></h4>
+<div class="doc">
+<pre class="source">
+void addAlarm(String name, num restTime)
+{
+ _alarms[name] = restTime / totalTime;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="addEventListener">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_async/StreamSubscription.html">StreamSubscription</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt; <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType, void eventListener(event), {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture: false}) <a class="anchor-link" href="#addEventListener"
+              title="Permalink to TimeGauge.addEventListener">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+StreamSubscription&lt;Event&gt; addEventListener(String eventType, void eventListener(event), {bool useCapture: false})
+{
+ var eventStream = _getEventStream(eventType, useCapture);
+ var eventStreamSubscription = eventStream.listen(eventListener);
+ return eventStreamSubscription;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="addTo">
+<button class="show-code">Code</button>
+void <strong>addTo</strong>(<a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> parent) <a class="anchor-link" href="#addTo"
+              title="Permalink to TimeGauge.addTo">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void addTo(DisplayObjectContainer parent) {
+ parent.addChild(this);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="advanceTime">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>advanceTime</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> time) <a class="anchor-link" href="#advanceTime"
+              title="Permalink to TimeGauge.advanceTime">#</a></h4>
+<div class="doc">
+<pre class="source">
+bool advanceTime(num time)
+{
+ if (_isStarted &amp;&amp; ratio &gt; 0.0)
+ {
+   ratio = ratio - time / totalTime;
+
+   if (ratio == 0.0)
+     pause();
+ }
+
+ return true;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="applyCache">
+<button class="show-code">Code</button>
+void <strong>applyCache</strong>(<a href="http://api.dartlang.org/dart_core/int.html">int</a> x, <a href="http://api.dartlang.org/dart_core/int.html">int</a> y, <a href="http://api.dartlang.org/dart_core/int.html">int</a> width, <a href="http://api.dartlang.org/dart_core/int.html">int</a> height, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> debugBorder: false}) <a class="anchor-link" href="#applyCache"
+              title="Permalink to TimeGauge.applyCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
+ 
+ _cache = new BitmapData(width, height, true, 0x00000000);
+ _cache._frameOffsetX = x;
+ _cache._frameOffsetY = y;
+ _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+ 
+ if (debugBorder) {
+   _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="clearAlarms">
+<button class="show-code">Code</button>
+void <strong>clearAlarms</strong>() <a class="anchor-link" href="#clearAlarms"
+              title="Permalink to TimeGauge.clearAlarms">#</a></h4>
+<div class="doc">
+<pre class="source">
+void clearAlarms()
+{
+ _alarms = new Map&lt;String, num&gt;();
+ addAlarm(TimeGauge.TIME_OUT, 0);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="dispatchEvent">
+<button class="show-code">Code</button>
+void <strong>dispatchEvent</strong>(<a href="../stagexl/Event.html">Event</a> event) <a class="anchor-link" href="#dispatchEvent"
+              title="Permalink to TimeGauge.dispatchEvent">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void dispatchEvent(Event event) {
+ 
+ List&lt;DisplayObject&gt; ancestors = null;
+
+ if (event.captures || event.bubbles)
+   for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent)
+     if (ancestor.hasEventListener(event.type)) {
+       if (ancestors == null) ancestors = _displayObjectListPool.pop() as List&lt;DisplayObject&gt;;
+       ancestors.add(ancestor);
+     }
+
+ if (event.captures &amp;&amp; ancestors != null)
+   for(int i = ancestors.length - 1 ; i &gt;= 0; i--)
+     if (event.stopsPropagation == false)
+       ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
+
+ if (event.stopsPropagation == false)
+   _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
+
+ if (event.bubbles &amp;&amp; ancestors != null)
+   for(int i = 0; i &lt; ancestors.length; i++)
+     if (event.stopsPropagation == false)
+       ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
+ 
+ if (ancestors != null) {
+   ancestors.clear();
+   _displayObjectListPool.push(ancestors);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getBounds">
+<button class="show-code">Code</button>
+<a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBounds</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> targetSpace) <a class="anchor-link" href="#getBounds"
+              title="Permalink to TimeGauge.getBounds">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Rectangle getBounds(DisplayObject targetSpace) {
+ 
+ Rectangle returnRectangle = new Rectangle.zero();
+ Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
+
+ return getBoundsTransformed(matrix, returnRectangle);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getBoundsTransformed">
+<button class="show-code">Code</button>
+<a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBoundsTransformed</strong>(<a href="../stagexl/Matrix.html">Matrix</a> matrix, [<a href="../stagexl/Rectangle.html">Rectangle</a> returnRectangle]) <a class="anchor-link" href="#getBoundsTransformed"
+              title="Permalink to TimeGauge.getBoundsTransformed">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/Gauge.html">Gauge</a> </div><div class="doc">
+<pre class="source">
+Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle])
+{
+ int width = (_bitmapData != null) ? _bitmapData.width : 0;
+ int height = (_bitmapData != null) ? _bitmapData.height : 0;
+
+ return _getBoundsTransformedHelper(matrix, width, height, returnRectangle);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="globalToLocal">
+<button class="show-code">Code</button>
+<a href="../stagexl/Point.html">Point</a> <strong>globalToLocal</strong>(<a href="../stagexl/Point.html">Point</a> globalPoint) <a class="anchor-link" href="#globalToLocal"
+              title="Permalink to TimeGauge.globalToLocal">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Point globalToLocal(Point globalPoint) {
+ 
+ _tmpMatrix.identity();
+
+ for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
+   _tmpMatrix.concat(displayObject._transformationMatrix);
+
+ _tmpMatrix.invert();
+
+ return _tmpMatrix.transformPoint(globalPoint);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hasEventListener">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>hasEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type) <a class="anchor-link" href="#hasEventListener"
+              title="Permalink to TimeGauge.hasEventListener">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+bool hasEventListener(String type)
+{
+ if (_eventStreams != null )
+   return _eventStreams.containsKey(type) || _eventStreams.containsKey("${type}_CAPTURE");
+ else
+   return false;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hitTestInput">
+<button class="show-code">Code</button>
+<a href="../stagexl/DisplayObject.html">DisplayObject</a> <strong>hitTestInput</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> localX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> localY) <a class="anchor-link" href="#hitTestInput"
+              title="Permalink to TimeGauge.hitTestInput">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/Gauge.html">Gauge</a> </div><div class="doc">
+<pre class="source">
+DisplayObject hitTestInput(num localX, num localY)
+{
+ if (_bitmapData != null &amp;&amp; localX &gt;= 0.0 &amp;&amp; localY &gt;= 0.0 &amp;&amp; localX &lt; _bitmapData.width &amp;&amp; localY &lt; _bitmapData.height)
+   return this;
+
+ return null;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hitTestObject">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>hitTestObject</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> other) <a class="anchor-link" href="#hitTestObject"
+              title="Permalink to TimeGauge.hitTestObject">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool hitTestObject(DisplayObject other) {
+ //ToDo
+ throw new UnimplementedError("Error #2014: Feature is not available at this time.");
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hitTestPoint">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>hitTestPoint</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html">num</a> y, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> shapeFlag = false]) <a class="anchor-link" href="#hitTestPoint"
+              title="Permalink to TimeGauge.hitTestPoint">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
+ 
+ Stage stage = this.stage;
+
+ if (stage == null)
+   return false;
+
+ Matrix matrix = this.transformationMatrixTo(stage);
+ matrix.invert();
+
+ Point point = new Point(x, y);
+ point.transform(matrix);
+
+ return getBoundsTransformed(_tmpMatrixIdentity).contains(point.x, point.y);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="localToGlobal">
+<button class="show-code">Code</button>
+<a href="../stagexl/Point.html">Point</a> <strong>localToGlobal</strong>(<a href="../stagexl/Point.html">Point</a> localPoint) <a class="anchor-link" href="#localToGlobal"
+              title="Permalink to TimeGauge.localToGlobal">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Point localToGlobal(Point localPoint) {
+ 
+ _tmpMatrix.identity();
+
+ for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
+   _tmpMatrix.concat(displayObject._transformationMatrix);
+
+ return _tmpMatrix.transformPoint(localPoint);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="on">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_async/Stream.html">Stream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt; <strong>on</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture: false}) <a class="anchor-link" href="#on"
+              title="Permalink to TimeGauge.on">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; on(String eventType, {bool useCapture: false}) 
+{
+ var eventStream = _getEventStream(eventType, useCapture);
+ return eventStream;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="pause">
+<button class="show-code">Code</button>
+void <strong>pause</strong>() <a class="anchor-link" href="#pause"
+              title="Permalink to TimeGauge.pause">#</a></h4>
+<div class="doc">
+<pre class="source">
+void pause()
+{
+ _isStarted = false;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="refreshCache">
+<button class="show-code">Code</button>
+void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
+              title="Permalink to TimeGauge.refreshCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void refreshCache() {
+ if (_cache != null) {
+   _cache.clear();
+   _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - _cache._frameOffsetX, - _cache._frameOffsetY));
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="removeAlarm">
+<button class="show-code">Code</button>
+void <strong>removeAlarm</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> name) <a class="anchor-link" href="#removeAlarm"
+              title="Permalink to TimeGauge.removeAlarm">#</a></h4>
+<div class="doc">
+<pre class="source">
+void removeAlarm(String name)
+{
+ _alarms.remove(name);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeCache">
+<button class="show-code">Code</button>
+void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
+              title="Permalink to TimeGauge.removeCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void removeCache() {
+ _cache = null;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeEventListeners">
+<button class="show-code">Code</button>
+void <strong>removeEventListeners</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> eventType, {<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> useCapture: false}) <a class="anchor-link" href="#removeEventListeners"
+              title="Permalink to TimeGauge.removeEventListeners">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+void removeEventListeners(String eventType, {bool useCapture: false})
+{
+ var eventStreamKey = useCapture ? "${eventType}_CAPTURE": eventType;
+ var eventStream = _eventStreams[eventStreamKey];
+ 
+ if (eventStream != null)
+   eventStream._cancelSubscriptions();
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeFromParent">
+<button class="show-code">Code</button>
+void <strong>removeFromParent</strong>() <a class="anchor-link" href="#removeFromParent"
+              title="Permalink to TimeGauge.removeFromParent">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void removeFromParent() {
+ if (_parent != null)
+   _parent.removeChild(this);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="render">
+<button class="show-code">Code</button>
+void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</a> renderState) <a class="anchor-link" href="#render"
+              title="Permalink to TimeGauge.render">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/Gauge.html">Gauge</a> </div><div class="doc">
+<pre class="source">
+void render(RenderState renderState)
+{
+ if (_bitmapData != null)
+     _bitmapData.renderClipped(renderState, _clipRectangle);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="reset">
+<button class="show-code">Code</button>
+void <strong>reset</strong>([<a href="http://api.dartlang.org/dart_core/num.html">num</a> time = 0.0]) <a class="anchor-link" href="#reset"
+              title="Permalink to TimeGauge.reset">#</a></h4>
+<div class="doc">
+<pre class="source">
+void reset([num time = 0.0])
+{
+ pause();
+
+ time = max(time, 0.0);
+
+ if (time != 0.0) {
+   _totalTime = time;
+   clearAlarms();
+ }
+
+ ratio = 1.0;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="start">
+<button class="show-code">Code</button>
+void <strong>start</strong>() <a class="anchor-link" href="#start"
+              title="Permalink to TimeGauge.start">#</a></h4>
+<div class="doc">
+<pre class="source">
+void start()
+{
+ _isStarted = true;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="transformationMatrixTo">
+<button class="show-code">Code</button>
+<a href="../stagexl/Matrix.html">Matrix</a> <strong>transformationMatrixTo</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> targetSpace) <a class="anchor-link" href="#transformationMatrixTo"
+              title="Permalink to TimeGauge.transformationMatrixTo">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Matrix transformationMatrixTo(DisplayObject targetSpace) {
+ 
+ if (targetSpace == _parent)
+   return _transformationMatrix.clone();
+
+ if (targetSpace._parent == this)
+   return _transformationMatrix.cloneInvert();
+
+ //------------------------------------------------
+
+ Matrix resultMatrix = new Matrix.fromIdentity();
+ DisplayObject resultObject = this;
+
+ while(resultObject != targetSpace &amp;&amp; resultObject._parent != null) {
+   resultMatrix.concat(resultObject._transformationMatrix);
+   resultObject = resultObject._parent;
+ }
+
+ if (targetSpace == null &amp;&amp; resultObject != null) {
+   resultMatrix.concat(resultObject._transformationMatrix);
+   resultObject = null;
+ }
+
+ if (resultObject == targetSpace)
+   return resultMatrix;
+
+ //------------------------------------------------
+
+ Matrix targetMatrix = new Matrix.fromIdentity();
+ DisplayObject targetObject = targetSpace;
+
+ while(targetObject != this &amp;&amp; targetObject._parent != null) {
+   targetMatrix.concat(targetObject._transformationMatrix);
+   targetObject = targetObject._parent;
+ }
+
+ targetMatrix.invert();
+
+ if (targetObject == this)
+   return targetMatrix;
+
+ if (targetObject != resultObject)
+   throw new ArgumentError("Error #9001: The supplied DisplayObject has no relationship to the caller.");
+
+ resultMatrix.concat(targetMatrix);
+
+ return resultMatrix;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-03-26 16:22:15.165</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

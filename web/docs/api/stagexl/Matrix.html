@@ -1,0 +1,902 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>Matrix class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="Matrix">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/Matrix.html">Matrix</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../stagexl/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../stagexl/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../stagexl/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../stagexl/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><div class="icon-class"></div><strong>Matrix</strong></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
+<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../stagexl/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../stagexl/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../stagexl/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../stagexl/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../stagexl/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>Matrix</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class Matrix {
+ 
+ double _a, _b, _c, _d, _tx, _ty;
+ double _det;
+
+ Matrix(num a, num b, num c, num d, num tx, num ty) :
+   _a = a.toDouble(), 
+   _b = b.toDouble(), 
+   _c = c.toDouble(), 
+   _d = d.toDouble(), 
+   _tx = tx.toDouble(), 
+   _ty = ty.toDouble(), 
+   _det = (a * d - b * c).toDouble();
+
+ Matrix.fromIdentity() :
+   _a = 1.0, 
+   _b = 0.0, 
+   _c = 0.0, 
+   _d = 1.0, 
+   _tx = 0.0, 
+   _ty = 0.0, 
+   _det = 1.0;
+
+ //-------------------------------------------------------------------------------------------------
+
+ Matrix clone() {
+   return new Matrix(_a, _b, _c, _d, _tx, _ty);
+ }
+
+ Matrix cloneInvert() {
+   
+   num a =    (_d / _det);
+   num b =  - (_b / _det);
+   num c =  - (_c / _det);
+   num d =    (_a / _det);
+   num tx = - (a * _tx + c * _ty);
+   num ty = - (b * _tx + d * _ty);
+
+   return new Matrix(a, b, c, d, tx, ty);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ num get a =&gt; _a;
+ num get b =&gt; _b;
+ num get c =&gt; _c;
+ num get d =&gt; _d;
+ num get tx =&gt; _tx;
+ num get ty =&gt; _ty;
+ num get det =&gt; _det;
+
+ //-------------------------------------------------------------------------------------------------
+
+ Point transformPoint(Point p) {
+   var x = p.x.toDouble();
+   var y = p.y.toDouble();
+   return new Point(x * _a + y * _c + _tx, x * _b + y * _d + _ty);
+ }
+
+ Point deltaTransformPoint(Point p) {
+   var x = p.x.toDouble();
+   var y = p.y.toDouble();
+   return new Point(x * _a + y * _c, x * _b + y * _d);
+ }
+ 
+ Point _transformHtmlPoint(html.Point p) {
+   var x = p.x.toDouble();
+   var y = p.y.toDouble();
+   return new Point(x * _a + y * _c + _tx, x * _b + y * _d + _ty);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void concat(Matrix matrix) {
+   num a1 =   _a;
+   num b1 =   _b;
+   num c1 =   _c;
+   num d1 =   _d;
+   num tx1 =  _tx;
+   num ty1 =  _ty;
+   num det1 = _det;
+
+   num a2 =   matrix.a;
+   num b2 =   matrix.b;
+   num c2 =   matrix.c;
+   num d2 =   matrix.d;
+   num tx2 =  matrix.tx;
+   num ty2 =  matrix.ty;
+   num det2 = matrix.det;
+
+   _a =   (a1 * a2 + b1 * c2).toDouble();
+   _b =   (a1 * b2 + b1 * d2).toDouble();
+   _c =   (c1 * a2 + d1 * c2).toDouble();
+   _d =   (c1 * b2 + d1 * d2).toDouble();
+   _tx =  (tx1 * a2 + ty1 * c2 + tx2).toDouble();
+   _ty =  (tx1 * b2 + ty1 * d2 + ty2).toDouble();
+   _det = (det1 * det2).toDouble();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ Matrix createBox(num scaleX, num scaleY, [num rotation = 0.0, num translationX = 0.0, num translationY = 0.0]) {
+   
+   Matrix matrix = new Matrix.fromIdentity();
+   matrix.scale(scaleX, scaleY);
+   matrix.rotate(rotation);
+   matrix.translate(translationX, translationY);
+
+   return matrix;
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void identity() {
+   
+   _a =   1.0;
+   _b =   0.0;
+   _c =   0.0;
+   _d =   1.0;
+   _tx =  0.0;
+   _ty =  0.0;
+   _det = 1.0;
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void invert() {
+   
+   num a =   _a;
+   num b =   _b;
+   num c =   _c;
+   num d =   _d;
+   num tx =  _tx;
+   num ty =  _ty;
+   num det = _det;
+
+   _a =    (d / det).toDouble();
+   _b =  - (b / det).toDouble();
+   _c =  - (c / det).toDouble();
+   _d =    (a / det).toDouble();
+   _tx = - (_a * tx + _c * ty).toDouble();
+   _ty = - (_b * tx + _d * ty).toDouble();
+   _det =  (1.0 / det).toDouble();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void rotate(num rotation) {
+   
+   num cosR = cos(rotation);
+   num sinR = sin(rotation);
+
+   num a =  _a;
+   num b =  _b;
+   num c =  _c;
+   num d =  _d;
+   num tx = _tx;
+   num ty = _ty;
+
+   _a =  (a * cosR - b * sinR).toDouble();
+   _b =  (a * sinR + b * cosR).toDouble();
+   _c =  (c * cosR - d * sinR).toDouble();
+   _d =  (c * sinR + d * cosR).toDouble();
+   _tx = (tx * cosR - ty * sinR).toDouble();
+   _ty = (tx * sinR + ty * cosR).toDouble();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void skew(num skewX, num skewY) {
+   
+   num sinX = sin(skewX);
+   num cosX = cos(skewX);
+   num sinY = sin(skewY);
+   num cosY = cos(skewY);
+   
+   num a =  _a;
+   num b =  _b;
+   num c =  _c;
+   num d =  _d;
+   num tx = _tx;
+   num ty = _ty;
+   
+   _a =   (a * cosY - b * sinX).toDouble();
+   _b =   (a * sinY + b * cosX).toDouble();
+   _c =   (c * cosY - d * sinX).toDouble();
+   _d =   (c * sinY + d * cosX).toDouble();
+   _tx =  (tx * cosY - ty * sinX).toDouble();
+   _ty =  (tx * sinY + ty * cosX).toDouble();
+   _det = (_a * _d - _b * _c).toDouble();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void scale(num scaleX, num scaleY) {
+   
+   _a   = (  _a * scaleX).toDouble();
+   _b   = (  _b * scaleY).toDouble();
+   _c   = (  _c * scaleX).toDouble();
+   _d   = (  _d * scaleY).toDouble();
+   _tx  = ( _tx * scaleX).toDouble();;
+   _ty  = ( _ty * scaleY).toDouble();;
+   _det = (_det * scaleX * scaleY).toDouble();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void translate(num translationX, num translationY) {
+   
+   _tx = (_tx + translationX).toDouble();;
+   _ty = (_ty + translationY).toDouble();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void setTo(num a, num b, num c, num d, num tx, num ty) {
+   
+   _a =   a.toDouble();
+   _b =   b.toDouble();
+   _c =   c.toDouble();
+   _d =   d.toDouble();
+   _tx =  tx.toDouble();
+   _ty =  ty.toDouble();
+   _det = (_a * _d - _b * _c).toDouble();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void copyFrom(Matrix matrix) {
+   
+   _a =   matrix.a.toDouble();
+   _b =   matrix.b.toDouble();
+   _c =   matrix.c.toDouble();
+   _d =   matrix.d.toDouble();
+   _tx =  matrix.tx.toDouble();
+   _ty =  matrix.ty.toDouble();
+   _det = matrix.det.toDouble();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void copyFromAndConcat(Matrix copyMatrix, Matrix concatMatrix) {
+   
+   num a1 =   copyMatrix.a;
+   num b1 =   copyMatrix.b;
+   num c1 =   copyMatrix.c;
+   num d1 =   copyMatrix.d;
+   num tx1 =  copyMatrix.tx;
+   num ty1 =  copyMatrix.ty;
+   num det1 = copyMatrix.det;
+
+   num a2 =   concatMatrix.a;
+   num b2 =   concatMatrix.b;
+   num c2 =   concatMatrix.c;
+   num d2 =   concatMatrix.d;
+   num tx2 =  concatMatrix.tx;
+   num ty2 =  concatMatrix.ty;
+   num det2 = concatMatrix.det;
+
+   _a =   (a1 * a2 + b1 * c2).toDouble();
+   _b =   (a1 * b2 + b1 * d2).toDouble();
+   _c =   (c1 * a2 + d1 * c2).toDouble();
+   _d =   (c1 * b2 + d1 * d2).toDouble();
+   _tx =  (tx1 * a2 + ty1 * c2 + tx2).toDouble();
+   _ty =  (tx1 * b2 + ty1 * d2 + ty2).toDouble();
+   _det = (det1 * det2).toDouble();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ void copyFromAndInvert(Matrix matrix) {
+   
+   num a =   matrix.a;
+   num b =   matrix.b;
+   num c =   matrix.c;
+   num d =   matrix.d;
+   num tx =  matrix.tx;
+   num ty =  matrix.ty;
+   num det = matrix.det;
+
+   _a =    (d / det).toDouble();
+   _b =  - (b / det).toDouble();
+   _c =  - (c / det).toDouble();
+   _d =    (a / det).toDouble();
+   _tx = - (_a * tx + _c * ty).toDouble();
+   _ty = - (_b * tx + _d * ty).toDouble();
+   _det =  (1.0 / det).toDouble();
+ }
+
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="Matrix">
+<button class="show-code">Code</button>
+new <strong>Matrix</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> a, <a href="http://api.dartlang.org/dart_core/num.html">num</a> b, <a href="http://api.dartlang.org/dart_core/num.html">num</a> c, <a href="http://api.dartlang.org/dart_core/num.html">num</a> d, <a href="http://api.dartlang.org/dart_core/num.html">num</a> tx, <a href="http://api.dartlang.org/dart_core/num.html">num</a> ty) <a class="anchor-link" href="#Matrix"
+              title="Permalink to Matrix.Matrix">#</a></h4>
+<div class="doc">
+<pre class="source">
+Matrix(num a, num b, num c, num d, num tx, num ty) :
+ _a = a.toDouble(), 
+ _b = b.toDouble(), 
+ _c = c.toDouble(), 
+ _d = d.toDouble(), 
+ _tx = tx.toDouble(), 
+ _ty = ty.toDouble(), 
+ _det = (a * d - b * c).toDouble();
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="Matrix.fromIdentity">
+<button class="show-code">Code</button>
+new <strong>Matrix.fromIdentity</strong>() <a class="anchor-link" href="#Matrix.fromIdentity"
+              title="Permalink to Matrix.Matrix.fromIdentity">#</a></h4>
+<div class="doc">
+<pre class="source">
+Matrix.fromIdentity() :
+ _a = 1.0, 
+ _b = 0.0, 
+ _c = 0.0, 
+ _d = 1.0, 
+ _tx = 0.0, 
+ _ty = 0.0, 
+ _det = 1.0;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="a">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>a</strong> <a class="anchor-link"
+            href="#a"
+            title="Permalink to Matrix.a">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get a =&gt; _a;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="b">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>b</strong> <a class="anchor-link"
+            href="#b"
+            title="Permalink to Matrix.b">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get b =&gt; _b;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="c">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>c</strong> <a class="anchor-link"
+            href="#c"
+            title="Permalink to Matrix.c">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get c =&gt; _c;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="d">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>d</strong> <a class="anchor-link"
+            href="#d"
+            title="Permalink to Matrix.d">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get d =&gt; _d;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="det">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>det</strong> <a class="anchor-link"
+            href="#det"
+            title="Permalink to Matrix.det">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get det =&gt; _det;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="tx">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>tx</strong> <a class="anchor-link"
+            href="#tx"
+            title="Permalink to Matrix.tx">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get tx =&gt; _tx;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="ty">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/num.html">num</a>         <strong>ty</strong> <a class="anchor-link"
+            href="#ty"
+            title="Permalink to Matrix.ty">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get ty =&gt; _ty;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="clone">
+<button class="show-code">Code</button>
+<a href="../stagexl/Matrix.html">Matrix</a> <strong>clone</strong>() <a class="anchor-link" href="#clone"
+              title="Permalink to Matrix.clone">#</a></h4>
+<div class="doc">
+<pre class="source">
+Matrix clone() {
+ return new Matrix(_a, _b, _c, _d, _tx, _ty);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="cloneInvert">
+<button class="show-code">Code</button>
+<a href="../stagexl/Matrix.html">Matrix</a> <strong>cloneInvert</strong>() <a class="anchor-link" href="#cloneInvert"
+              title="Permalink to Matrix.cloneInvert">#</a></h4>
+<div class="doc">
+<pre class="source">
+Matrix cloneInvert() {
+ 
+ num a =    (_d / _det);
+ num b =  - (_b / _det);
+ num c =  - (_c / _det);
+ num d =    (_a / _det);
+ num tx = - (a * _tx + c * _ty);
+ num ty = - (b * _tx + d * _ty);
+
+ return new Matrix(a, b, c, d, tx, ty);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="concat">
+<button class="show-code">Code</button>
+void <strong>concat</strong>(<a href="../stagexl/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#concat"
+              title="Permalink to Matrix.concat">#</a></h4>
+<div class="doc">
+<pre class="source">
+void concat(Matrix matrix) {
+ num a1 =   _a;
+ num b1 =   _b;
+ num c1 =   _c;
+ num d1 =   _d;
+ num tx1 =  _tx;
+ num ty1 =  _ty;
+ num det1 = _det;
+
+ num a2 =   matrix.a;
+ num b2 =   matrix.b;
+ num c2 =   matrix.c;
+ num d2 =   matrix.d;
+ num tx2 =  matrix.tx;
+ num ty2 =  matrix.ty;
+ num det2 = matrix.det;
+
+ _a =   (a1 * a2 + b1 * c2).toDouble();
+ _b =   (a1 * b2 + b1 * d2).toDouble();
+ _c =   (c1 * a2 + d1 * c2).toDouble();
+ _d =   (c1 * b2 + d1 * d2).toDouble();
+ _tx =  (tx1 * a2 + ty1 * c2 + tx2).toDouble();
+ _ty =  (tx1 * b2 + ty1 * d2 + ty2).toDouble();
+ _det = (det1 * det2).toDouble();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="copyFrom">
+<button class="show-code">Code</button>
+void <strong>copyFrom</strong>(<a href="../stagexl/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#copyFrom"
+              title="Permalink to Matrix.copyFrom">#</a></h4>
+<div class="doc">
+<pre class="source">
+void copyFrom(Matrix matrix) {
+ 
+ _a =   matrix.a.toDouble();
+ _b =   matrix.b.toDouble();
+ _c =   matrix.c.toDouble();
+ _d =   matrix.d.toDouble();
+ _tx =  matrix.tx.toDouble();
+ _ty =  matrix.ty.toDouble();
+ _det = matrix.det.toDouble();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="copyFromAndConcat">
+<button class="show-code">Code</button>
+void <strong>copyFromAndConcat</strong>(<a href="../stagexl/Matrix.html">Matrix</a> copyMatrix, <a href="../stagexl/Matrix.html">Matrix</a> concatMatrix) <a class="anchor-link" href="#copyFromAndConcat"
+              title="Permalink to Matrix.copyFromAndConcat">#</a></h4>
+<div class="doc">
+<pre class="source">
+void copyFromAndConcat(Matrix copyMatrix, Matrix concatMatrix) {
+ 
+ num a1 =   copyMatrix.a;
+ num b1 =   copyMatrix.b;
+ num c1 =   copyMatrix.c;
+ num d1 =   copyMatrix.d;
+ num tx1 =  copyMatrix.tx;
+ num ty1 =  copyMatrix.ty;
+ num det1 = copyMatrix.det;
+
+ num a2 =   concatMatrix.a;
+ num b2 =   concatMatrix.b;
+ num c2 =   concatMatrix.c;
+ num d2 =   concatMatrix.d;
+ num tx2 =  concatMatrix.tx;
+ num ty2 =  concatMatrix.ty;
+ num det2 = concatMatrix.det;
+
+ _a =   (a1 * a2 + b1 * c2).toDouble();
+ _b =   (a1 * b2 + b1 * d2).toDouble();
+ _c =   (c1 * a2 + d1 * c2).toDouble();
+ _d =   (c1 * b2 + d1 * d2).toDouble();
+ _tx =  (tx1 * a2 + ty1 * c2 + tx2).toDouble();
+ _ty =  (tx1 * b2 + ty1 * d2 + ty2).toDouble();
+ _det = (det1 * det2).toDouble();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="copyFromAndInvert">
+<button class="show-code">Code</button>
+void <strong>copyFromAndInvert</strong>(<a href="../stagexl/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#copyFromAndInvert"
+              title="Permalink to Matrix.copyFromAndInvert">#</a></h4>
+<div class="doc">
+<pre class="source">
+void copyFromAndInvert(Matrix matrix) {
+ 
+ num a =   matrix.a;
+ num b =   matrix.b;
+ num c =   matrix.c;
+ num d =   matrix.d;
+ num tx =  matrix.tx;
+ num ty =  matrix.ty;
+ num det = matrix.det;
+
+ _a =    (d / det).toDouble();
+ _b =  - (b / det).toDouble();
+ _c =  - (c / det).toDouble();
+ _d =    (a / det).toDouble();
+ _tx = - (_a * tx + _c * ty).toDouble();
+ _ty = - (_b * tx + _d * ty).toDouble();
+ _det =  (1.0 / det).toDouble();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createBox">
+<button class="show-code">Code</button>
+<a href="../stagexl/Matrix.html">Matrix</a> <strong>createBox</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> scaleX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> scaleY, [<a href="http://api.dartlang.org/dart_core/num.html">num</a> rotation = 0.0, <a href="http://api.dartlang.org/dart_core/num.html">num</a> translationX = 0.0, <a href="http://api.dartlang.org/dart_core/num.html">num</a> translationY = 0.0]) <a class="anchor-link" href="#createBox"
+              title="Permalink to Matrix.createBox">#</a></h4>
+<div class="doc">
+<pre class="source">
+Matrix createBox(num scaleX, num scaleY, [num rotation = 0.0, num translationX = 0.0, num translationY = 0.0]) {
+ 
+ Matrix matrix = new Matrix.fromIdentity();
+ matrix.scale(scaleX, scaleY);
+ matrix.rotate(rotation);
+ matrix.translate(translationX, translationY);
+
+ return matrix;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="deltaTransformPoint">
+<button class="show-code">Code</button>
+<a href="../stagexl/Point.html">Point</a> <strong>deltaTransformPoint</strong>(<a href="../stagexl/Point.html">Point</a> p) <a class="anchor-link" href="#deltaTransformPoint"
+              title="Permalink to Matrix.deltaTransformPoint">#</a></h4>
+<div class="doc">
+<pre class="source">
+Point deltaTransformPoint(Point p) {
+ var x = p.x.toDouble();
+ var y = p.y.toDouble();
+ return new Point(x * _a + y * _c, x * _b + y * _d);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="identity">
+<button class="show-code">Code</button>
+void <strong>identity</strong>() <a class="anchor-link" href="#identity"
+              title="Permalink to Matrix.identity">#</a></h4>
+<div class="doc">
+<pre class="source">
+void identity() {
+ 
+ _a =   1.0;
+ _b =   0.0;
+ _c =   0.0;
+ _d =   1.0;
+ _tx =  0.0;
+ _ty =  0.0;
+ _det = 1.0;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="invert">
+<button class="show-code">Code</button>
+void <strong>invert</strong>() <a class="anchor-link" href="#invert"
+              title="Permalink to Matrix.invert">#</a></h4>
+<div class="doc">
+<pre class="source">
+void invert() {
+ 
+ num a =   _a;
+ num b =   _b;
+ num c =   _c;
+ num d =   _d;
+ num tx =  _tx;
+ num ty =  _ty;
+ num det = _det;
+
+ _a =    (d / det).toDouble();
+ _b =  - (b / det).toDouble();
+ _c =  - (c / det).toDouble();
+ _d =    (a / det).toDouble();
+ _tx = - (_a * tx + _c * ty).toDouble();
+ _ty = - (_b * tx + _d * ty).toDouble();
+ _det =  (1.0 / det).toDouble();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="rotate">
+<button class="show-code">Code</button>
+void <strong>rotate</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> rotation) <a class="anchor-link" href="#rotate"
+              title="Permalink to Matrix.rotate">#</a></h4>
+<div class="doc">
+<pre class="source">
+void rotate(num rotation) {
+ 
+ num cosR = cos(rotation);
+ num sinR = sin(rotation);
+
+ num a =  _a;
+ num b =  _b;
+ num c =  _c;
+ num d =  _d;
+ num tx = _tx;
+ num ty = _ty;
+
+ _a =  (a * cosR - b * sinR).toDouble();
+ _b =  (a * sinR + b * cosR).toDouble();
+ _c =  (c * cosR - d * sinR).toDouble();
+ _d =  (c * sinR + d * cosR).toDouble();
+ _tx = (tx * cosR - ty * sinR).toDouble();
+ _ty = (tx * sinR + ty * cosR).toDouble();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="scale">
+<button class="show-code">Code</button>
+void <strong>scale</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> scaleX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> scaleY) <a class="anchor-link" href="#scale"
+              title="Permalink to Matrix.scale">#</a></h4>
+<div class="doc">
+<pre class="source">
+void scale(num scaleX, num scaleY) {
+ 
+ _a   = (  _a * scaleX).toDouble();
+ _b   = (  _b * scaleY).toDouble();
+ _c   = (  _c * scaleX).toDouble();
+ _d   = (  _d * scaleY).toDouble();
+ _tx  = ( _tx * scaleX).toDouble();;
+ _ty  = ( _ty * scaleY).toDouble();;
+ _det = (_det * scaleX * scaleY).toDouble();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="setTo">
+<button class="show-code">Code</button>
+void <strong>setTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> a, <a href="http://api.dartlang.org/dart_core/num.html">num</a> b, <a href="http://api.dartlang.org/dart_core/num.html">num</a> c, <a href="http://api.dartlang.org/dart_core/num.html">num</a> d, <a href="http://api.dartlang.org/dart_core/num.html">num</a> tx, <a href="http://api.dartlang.org/dart_core/num.html">num</a> ty) <a class="anchor-link" href="#setTo"
+              title="Permalink to Matrix.setTo">#</a></h4>
+<div class="doc">
+<pre class="source">
+void setTo(num a, num b, num c, num d, num tx, num ty) {
+ 
+ _a =   a.toDouble();
+ _b =   b.toDouble();
+ _c =   c.toDouble();
+ _d =   d.toDouble();
+ _tx =  tx.toDouble();
+ _ty =  ty.toDouble();
+ _det = (_a * _d - _b * _c).toDouble();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="skew">
+<button class="show-code">Code</button>
+void <strong>skew</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> skewX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> skewY) <a class="anchor-link" href="#skew"
+              title="Permalink to Matrix.skew">#</a></h4>
+<div class="doc">
+<pre class="source">
+void skew(num skewX, num skewY) {
+ 
+ num sinX = sin(skewX);
+ num cosX = cos(skewX);
+ num sinY = sin(skewY);
+ num cosY = cos(skewY);
+ 
+ num a =  _a;
+ num b =  _b;
+ num c =  _c;
+ num d =  _d;
+ num tx = _tx;
+ num ty = _ty;
+ 
+ _a =   (a * cosY - b * sinX).toDouble();
+ _b =   (a * sinY + b * cosX).toDouble();
+ _c =   (c * cosY - d * sinX).toDouble();
+ _d =   (c * sinY + d * cosX).toDouble();
+ _tx =  (tx * cosY - ty * sinX).toDouble();
+ _ty =  (tx * sinY + ty * cosX).toDouble();
+ _det = (_a * _d - _b * _c).toDouble();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="transformPoint">
+<button class="show-code">Code</button>
+<a href="../stagexl/Point.html">Point</a> <strong>transformPoint</strong>(<a href="../stagexl/Point.html">Point</a> p) <a class="anchor-link" href="#transformPoint"
+              title="Permalink to Matrix.transformPoint">#</a></h4>
+<div class="doc">
+<pre class="source">
+Point transformPoint(Point p) {
+ var x = p.x.toDouble();
+ var y = p.y.toDouble();
+ return new Point(x * _a + y * _c + _tx, x * _b + y * _d + _ty);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="translate">
+<button class="show-code">Code</button>
+void <strong>translate</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> translationX, <a href="http://api.dartlang.org/dart_core/num.html">num</a> translationY) <a class="anchor-link" href="#translate"
+              title="Permalink to Matrix.translate">#</a></h4>
+<div class="doc">
+<pre class="source">
+void translate(num translationX, num translationY) {
+ 
+ _tx = (_tx + translationX).toDouble();;
+ _ty = (_ty + translationY).toDouble();
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-03-26 16:22:15.550</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

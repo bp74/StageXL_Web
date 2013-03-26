@@ -1,0 +1,554 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>Event class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="Event">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/Event.html">Event</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../stagexl/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../stagexl/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><div class="icon-class"></div><strong>Event</strong></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../stagexl/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../stagexl/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
+<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../stagexl/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../stagexl/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../stagexl/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../stagexl/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../stagexl/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>Event</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class Event
+{
+ // DiplayObject events
+ static const String ADDED = "added";
+ static const String ADDED_TO_STAGE = "addedToStage";
+ static const String ENTER_FRAME = "enterFrame";
+ static const String REMOVED = "removed";
+ static const String REMOVED_FROM_STAGE = "removedFromStage";
+ static const String RESIZE = "resize";
+ 
+ // Common events
+ static const String OKAY = "okay";
+ static const String CANCEL = "cancel";
+ static const String CHANGE = "change";
+ static const String CONFIRM = "confirm";
+ static const String SCROLL = "scroll";
+ static const String OPEN = "open";
+ static const String CLOSE = "close";
+ static const String SELECT= "select";
+ static const String COMPLETE = "complete";
+ static const String PROGRESS = "progress";
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ String _type;
+ bool _bubbles;
+ int _eventPhase;
+ EventDispatcher _target;
+ EventDispatcher _currentTarget;
+ bool _stopsPropagation;
+ bool _stopsImmediatePropagation;
+
+ Event(String type, [bool bubbles = false])
+ {
+   _reset(type, bubbles);
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void _reset(String type, [bool bubbles = false])
+ {
+   _type = type;
+   _bubbles = bubbles;
+   _eventPhase = EventPhase.AT_TARGET;
+   _target = null;
+   _currentTarget = null;
+   _stopsPropagation = false;
+   _stopsImmediatePropagation = false;
+ }
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void stopPropagation()
+ {
+   _stopsPropagation = true;
+ }
+
+ void stopImmediatePropagation()
+ {
+   _stopsPropagation = true;
+   _stopsImmediatePropagation = true;
+ }
+
+ bool get stopsPropagation =&gt; _stopsPropagation;
+ bool get stopsImmediatePropagation =&gt; _stopsImmediatePropagation;
+
+ String get type =&gt; _type;
+ int get eventPhase =&gt; _eventPhase;
+ bool get bubbles =&gt; _bubbles;
+ bool get captures =&gt; true;
+
+ EventDispatcher get target =&gt; _target;
+ EventDispatcher get currentTarget =&gt; _currentTarget;
+}
+</pre>
+</div>
+<h3>Subclasses</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/EnterFrameEvent.html">EnterFrameEvent</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/KeyboardEvent.html">KeyboardEvent</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/MouseEvent.html">MouseEvent</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/TextEvent.html">TextEvent</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/TouchEvent.html">TouchEvent</a></span></p>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="ADDED">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>ADDED</strong> <a class="anchor-link"
+            href="#ADDED"
+            title="Permalink to Event.ADDED">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+ADDED = "added"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="ADDED_TO_STAGE">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>ADDED_TO_STAGE</strong> <a class="anchor-link"
+            href="#ADDED_TO_STAGE"
+            title="Permalink to Event.ADDED_TO_STAGE">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+ADDED_TO_STAGE = "addedToStage"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="CANCEL">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>CANCEL</strong> <a class="anchor-link"
+            href="#CANCEL"
+            title="Permalink to Event.CANCEL">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+CANCEL = "cancel"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="CHANGE">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>CHANGE</strong> <a class="anchor-link"
+            href="#CHANGE"
+            title="Permalink to Event.CHANGE">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+CHANGE = "change"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="CLOSE">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>CLOSE</strong> <a class="anchor-link"
+            href="#CLOSE"
+            title="Permalink to Event.CLOSE">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+CLOSE = "close"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="COMPLETE">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>COMPLETE</strong> <a class="anchor-link"
+            href="#COMPLETE"
+            title="Permalink to Event.COMPLETE">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+COMPLETE = "complete"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="CONFIRM">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>CONFIRM</strong> <a class="anchor-link"
+            href="#CONFIRM"
+            title="Permalink to Event.CONFIRM">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+CONFIRM = "confirm"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="ENTER_FRAME">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>ENTER_FRAME</strong> <a class="anchor-link"
+            href="#ENTER_FRAME"
+            title="Permalink to Event.ENTER_FRAME">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+ENTER_FRAME = "enterFrame"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="OKAY">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>OKAY</strong> <a class="anchor-link"
+            href="#OKAY"
+            title="Permalink to Event.OKAY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+OKAY = "okay"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="OPEN">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>OPEN</strong> <a class="anchor-link"
+            href="#OPEN"
+            title="Permalink to Event.OPEN">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+OPEN = "open"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PROGRESS">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>PROGRESS</strong> <a class="anchor-link"
+            href="#PROGRESS"
+            title="Permalink to Event.PROGRESS">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+PROGRESS = "progress"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="REMOVED">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>REMOVED</strong> <a class="anchor-link"
+            href="#REMOVED"
+            title="Permalink to Event.REMOVED">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+REMOVED = "removed"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="REMOVED_FROM_STAGE">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>REMOVED_FROM_STAGE</strong> <a class="anchor-link"
+            href="#REMOVED_FROM_STAGE"
+            title="Permalink to Event.REMOVED_FROM_STAGE">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+REMOVED_FROM_STAGE = "removedFromStage"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="RESIZE">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>RESIZE</strong> <a class="anchor-link"
+            href="#RESIZE"
+            title="Permalink to Event.RESIZE">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+RESIZE = "resize"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SCROLL">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>SCROLL</strong> <a class="anchor-link"
+            href="#SCROLL"
+            title="Permalink to Event.SCROLL">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+SCROLL = "scroll"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SELECT">
+<button class="show-code">Code</button>
+const <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>SELECT</strong> <a class="anchor-link"
+            href="#SELECT"
+            title="Permalink to Event.SELECT">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+SELECT= "select"
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="Event">
+<button class="show-code">Code</button>
+new <strong>Event</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> type, [<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> bubbles = false]) <a class="anchor-link" href="#Event"
+              title="Permalink to Event.Event">#</a></h4>
+<div class="doc">
+<pre class="source">
+Event(String type, [bool bubbles = false])
+{
+ _reset(type, bubbles);
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="bubbles">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>bubbles</strong> <a class="anchor-link"
+            href="#bubbles"
+            title="Permalink to Event.bubbles">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get bubbles =&gt; _bubbles;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="captures">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>captures</strong> <a class="anchor-link"
+            href="#captures"
+            title="Permalink to Event.captures">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get captures =&gt; true;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="currentTarget">
+<button class="show-code">Code</button>
+final <a href="../stagexl/EventDispatcher.html">EventDispatcher</a>         <strong>currentTarget</strong> <a class="anchor-link"
+            href="#currentTarget"
+            title="Permalink to Event.currentTarget">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+EventDispatcher get currentTarget =&gt; _currentTarget;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="eventPhase">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html">int</a>         <strong>eventPhase</strong> <a class="anchor-link"
+            href="#eventPhase"
+            title="Permalink to Event.eventPhase">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get eventPhase =&gt; _eventPhase;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="stopsImmediatePropagation">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>stopsImmediatePropagation</strong> <a class="anchor-link"
+            href="#stopsImmediatePropagation"
+            title="Permalink to Event.stopsImmediatePropagation">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get stopsImmediatePropagation =&gt; _stopsImmediatePropagation;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="stopsPropagation">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html">bool</a>         <strong>stopsPropagation</strong> <a class="anchor-link"
+            href="#stopsPropagation"
+            title="Permalink to Event.stopsPropagation">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get stopsPropagation =&gt; _stopsPropagation;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="target">
+<button class="show-code">Code</button>
+final <a href="../stagexl/EventDispatcher.html">EventDispatcher</a>         <strong>target</strong> <a class="anchor-link"
+            href="#target"
+            title="Permalink to Event.target">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+EventDispatcher get target =&gt; _target;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="type">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/String.html">String</a>         <strong>type</strong> <a class="anchor-link"
+            href="#type"
+            title="Permalink to Event.type">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String get type =&gt; _type;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="stopImmediatePropagation">
+<button class="show-code">Code</button>
+void <strong>stopImmediatePropagation</strong>() <a class="anchor-link" href="#stopImmediatePropagation"
+              title="Permalink to Event.stopImmediatePropagation">#</a></h4>
+<div class="doc">
+<pre class="source">
+void stopImmediatePropagation()
+{
+ _stopsPropagation = true;
+ _stopsImmediatePropagation = true;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="stopPropagation">
+<button class="show-code">Code</button>
+void <strong>stopPropagation</strong>() <a class="anchor-link" href="#stopPropagation"
+              title="Permalink to Event.stopPropagation">#</a></h4>
+<div class="doc">
+<pre class="source">
+void stopPropagation()
+{
+ _stopsPropagation = true;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-03-26 16:22:15.525</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

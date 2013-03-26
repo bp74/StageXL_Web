@@ -1,0 +1,973 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>TransitionFunction class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="TransitionFunction">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/TransitionFunction.html">TransitionFunction</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../meta.html">meta</a></h2><h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../stagexl/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../stagexl/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../stagexl/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/FlumpLibrary.html"><div class="icon-class"></div>FlumpLibrary</a></li>
+<li><a href="../stagexl/FlumpMovie.html"><div class="icon-class"></div>FlumpMovie</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/GridFitType.html"><div class="icon-class"></div>GridFitType</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../stagexl/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/ParticleSystem.html"><div class="icon-class"></div>ParticleSystem</a></li>
+<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/Resource.html"><div class="icon-class"></div>Resource</a></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../stagexl/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../stagexl/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../stagexl/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../stagexl/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><div class="icon-class"></div><strong>TransitionFunction</strong></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>TransitionFunction</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<p>The <a class="crossref" href="../stagexl/TransitionFunction.html">TransitionFunction</a> class provides common transition functions used for
+<a class="crossref" href="../stagexl/Transition.html">Transition</a> and <a class="crossref" href="../stagexl/Tween.html">Tween</a> animations.</p>
+<p>A transition function takes the <code>ratio</code> which is in the range from 0.0 to 1.0
+and calculates the progress of the transitions.</p>
+<p>The most simple transition function is a linear transition:</p>
+<pre><code>var linear = (ratio) =&gt; ratio;
+</code></pre>
+<p>Overview of all available transition types:
+<a href="http://www.stagexl.org/docs/juggler/transitions.html">http://www.stagexl.org/docs/juggler/transitions.html</a></p>
+<pre class="source">
+class TransitionFunction {
+ 
+ // Standard
+
+ static Random _random;
+
+ static num linear(num ratio) {
+   return ratio;
+ }
+
+ static num sine(num ratio) {
+   return 0.5 - 0.5 * cos(ratio * 2.0 * PI) ;
+ }
+
+ static num cosine(num ratio) {
+   return 0.5 + 0.5 * cos(ratio * 2.0 * PI);
+ }
+
+ static num random(num ratio) {
+   if (_random == null)
+     _random = new Random();
+
+   if (ratio == 0.0 || ratio == 1.0) return ratio;
+   return _random.nextDouble();
+ }
+
+ // Quadratic
+
+ static num easeInQuadratic(num ratio) {
+   return ratio * ratio;
+ }
+
+ static num easeOutQuadratic(num ratio) {
+   ratio = 1.0 - ratio;
+   return 1.0 - ratio * ratio;
+ }
+
+ static num easeInOutQuadratic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInQuadratic(ratio) : 0.5 * easeOutQuadratic(ratio - 1.0) + 0.5;
+ }
+
+ static num easeOutInQuadratic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutQuadratic(ratio) : 0.5 * easeInQuadratic(ratio - 1.0) + 0.5;
+ }
+
+ // Cubic
+
+ static num easeInCubic(num ratio) {
+   return ratio * ratio * ratio;
+ }
+
+ static num easeOutCubic(num ratio) {
+   ratio = 1.0 - ratio;
+   return 1.0 - ratio * ratio * ratio;
+ }
+
+ static num easeInOutCubic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInCubic(ratio) : 0.5 * easeOutCubic(ratio - 1.0) + 0.5;
+ }
+
+ static num easeOutInCubic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutCubic(ratio) : 0.5 * easeInCubic(ratio - 1.0) + 0.5;
+ }
+
+ // Quartic
+
+ static num easeInQuartic(num ratio) {
+   return ratio * ratio * ratio * ratio;
+ }
+
+ static num easeOutQuartic(num ratio) {
+   ratio = 1.0 - ratio;
+   return 1.0 - ratio * ratio * ratio * ratio;
+ }
+
+ static num easeInOutQuartic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInQuartic(ratio) : 0.5 * easeOutQuartic(ratio - 1.0) + 0.5;
+ }
+
+ static num easeOutInQuartic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutQuartic(ratio) : 0.5 * easeInQuartic(ratio - 1.0) + 0.5;
+ }
+
+ // Quintic
+
+ static num easeInQuintic(num ratio) {
+   return ratio * ratio * ratio * ratio * ratio;
+ }
+
+ static num easeOutQuintic(num ratio) {
+   ratio = 1.0 - ratio;
+   return 1.0 - ratio * ratio * ratio * ratio * ratio;
+ }
+
+ static num easeInOutQuintic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInQuintic(ratio) : 0.5 * easeOutQuintic(ratio - 1.0) + 0.5;
+ }
+
+ static num easeOutInQuintic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutQuintic(ratio) : 0.5 * easeInQuintic(ratio - 1.0) + 0.5;
+ }
+
+ // Circular
+
+ static num easeInCircular(num ratio) {
+   return 1.0 - sqrt(1.0 - ratio * ratio);
+ }
+
+ static num easeOutCircular(num ratio) {
+   ratio = 1.0 - ratio;
+   return sqrt(1.0 - ratio * ratio);
+ }
+
+ static num easeInOutCircular(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInCircular(ratio) : 0.5 * easeOutCircular(ratio - 1.0) + 0.5;
+ }
+
+ static num easeOutInCircular(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutCircular(ratio) : 0.5 * easeInCircular(ratio - 1.0) + 0.5;
+ }
+
+ // Sine
+
+ static num easeInSine(num ratio) {
+   return 1.0 - cos(ratio * (PI / 2.0));
+ }
+
+ static num easeOutSine(num ratio) {
+   return sin(ratio * (PI / 2.0));
+ }
+
+ static num easeInOutSine(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInSine(ratio) : 0.5 * easeOutSine(ratio - 1.0) + 0.5;
+ }
+
+ static num easeOutInSine(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutSine(ratio) : 0.5 * easeInSine(ratio - 1.0) + 0.5;
+ }
+
+ // Exponential
+
+ static num easeInExponential(num ratio) {
+   if (ratio == 0.0) return 0.0;
+   return pow(2.0, 10.0 * (ratio - 1.0));
+ }
+
+ static num easeOutExponential(num ratio) {
+   if (ratio == 1.0) return 1.0;
+   return 1.0 - pow(2.0, - 10.0 * ratio);
+ }
+
+ static num easeInOutExponential(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInExponential(ratio) : 0.5 * easeOutExponential(ratio - 1.0) + 0.5;
+ }
+
+ static num easeOutInExponential(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutExponential(ratio) : 0.5 * easeInExponential(ratio - 1.0) + 0.5;
+ }
+
+ // Back
+
+ static num easeInBack(num ratio) {
+   num s = 1.70158;
+   return ratio * ratio * ((s + 1.0) * ratio - s);
+ }
+
+ static num easeOutBack(num ratio) {
+   num s = 1.70158;
+   ratio = ratio - 1.0;
+   return ratio * ratio * ((s + 1.0) * ratio + s) + 1.0;
+ }
+
+ static num easeInOutBack(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInBack(ratio) : 0.5 * easeOutBack(ratio - 1.0) + 0.5;
+ }
+
+ static num easeOutInBack(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutBack(ratio) : 0.5 * easeInBack(ratio - 1.0) + 0.5;
+ }
+
+ // Elastic
+
+ static num easeInElastic(num ratio) {
+   if (ratio == 0.0 || ratio == 1.0) return ratio;
+   ratio = ratio - 1.0;
+   return - pow(2.0, 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) ;
+ }
+
+ static num easeOutElastic(num ratio) {
+   if (ratio == 0.0 || ratio == 1.0) return ratio;
+   return pow(2.0, - 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) + 1;
+ }
+
+ static num easeInOutElastic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInElastic(ratio) : 0.5 * easeOutElastic(ratio - 1.0) + 0.5;
+ }
+
+ static num easeOutInElastic(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutElastic(ratio) : 0.5 * easeInElastic(ratio - 1.0) + 0.5;
+ }
+
+ // Bounce
+
+ static num easeInBounce(num ratio) {
+   return 1.0 - easeOutBounce(1.0 - ratio);
+ }
+
+ static num easeOutBounce(num ratio) {
+   if (ratio &lt; 1 / 2.75) {
+     return 7.5625 * ratio * ratio;
+   } else if (ratio &lt; 2 / 2.75) {
+     ratio = ratio - 1.5 / 2.75;
+     return 7.5625 * ratio * ratio + 0.75;
+   } else if (ratio &lt; 2.5 / 2.75) {
+     ratio = ratio - 2.25 / 2.75;
+     return 7.5625 * ratio * ratio + 0.9375;
+   } else {
+     ratio = ratio - 2.625 / 2.75;
+     return 7.5625 * ratio * ratio + 0.984375;
+   }
+ }
+
+ static num easeInOutBounce(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeInBounce(ratio) : 0.5 * easeOutBounce(ratio - 1.0) + 0.5;
+ }
+
+ static num easeOutInBounce(num ratio) {
+   ratio = ratio * 2.0;
+   return (ratio &lt; 1.0) ? 0.5 * easeOutBounce(ratio) : 0.5 * easeInBounce(ratio - 1.0) + 0.5;
+ }
+
+}
+</pre>
+</div>
+<div>
+<h3>Static Methods</h3>
+<div class="method"><h4 id="linear">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>linear</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#linear"
+              title="Permalink to TransitionFunction.linear">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num linear(num ratio) {
+ return ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="sine">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>sine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#sine"
+              title="Permalink to TransitionFunction.sine">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num sine(num ratio) {
+ return 0.5 - 0.5 * cos(ratio * 2.0 * PI) ;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="cosine">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>cosine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#cosine"
+              title="Permalink to TransitionFunction.cosine">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num cosine(num ratio) {
+ return 0.5 + 0.5 * cos(ratio * 2.0 * PI);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="random">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>random</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#random"
+              title="Permalink to TransitionFunction.random">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num random(num ratio) {
+ if (_random == null)
+   _random = new Random();
+
+ if (ratio == 0.0 || ratio == 1.0) return ratio;
+ return _random.nextDouble();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInQuadratic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInQuadratic"
+              title="Permalink to TransitionFunction.easeInQuadratic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInQuadratic(num ratio) {
+ return ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutQuadratic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutQuadratic"
+              title="Permalink to TransitionFunction.easeOutQuadratic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutQuadratic(num ratio) {
+ ratio = 1.0 - ratio;
+ return 1.0 - ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutQuadratic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutQuadratic"
+              title="Permalink to TransitionFunction.easeInOutQuadratic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutQuadratic(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInQuadratic(ratio) : 0.5 * easeOutQuadratic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInQuadratic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInQuadratic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInQuadratic"
+              title="Permalink to TransitionFunction.easeOutInQuadratic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInQuadratic(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutQuadratic(ratio) : 0.5 * easeInQuadratic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInCubic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInCubic"
+              title="Permalink to TransitionFunction.easeInCubic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInCubic(num ratio) {
+ return ratio * ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutCubic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutCubic"
+              title="Permalink to TransitionFunction.easeOutCubic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutCubic(num ratio) {
+ ratio = 1.0 - ratio;
+ return 1.0 - ratio * ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutCubic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutCubic"
+              title="Permalink to TransitionFunction.easeInOutCubic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutCubic(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInCubic(ratio) : 0.5 * easeOutCubic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInCubic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInCubic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInCubic"
+              title="Permalink to TransitionFunction.easeOutInCubic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInCubic(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutCubic(ratio) : 0.5 * easeInCubic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInQuartic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInQuartic"
+              title="Permalink to TransitionFunction.easeInQuartic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInQuartic(num ratio) {
+ return ratio * ratio * ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutQuartic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutQuartic"
+              title="Permalink to TransitionFunction.easeOutQuartic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutQuartic(num ratio) {
+ ratio = 1.0 - ratio;
+ return 1.0 - ratio * ratio * ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutQuartic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutQuartic"
+              title="Permalink to TransitionFunction.easeInOutQuartic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutQuartic(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInQuartic(ratio) : 0.5 * easeOutQuartic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInQuartic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInQuartic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInQuartic"
+              title="Permalink to TransitionFunction.easeOutInQuartic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInQuartic(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutQuartic(ratio) : 0.5 * easeInQuartic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInQuintic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInQuintic"
+              title="Permalink to TransitionFunction.easeInQuintic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInQuintic(num ratio) {
+ return ratio * ratio * ratio * ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutQuintic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutQuintic"
+              title="Permalink to TransitionFunction.easeOutQuintic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutQuintic(num ratio) {
+ ratio = 1.0 - ratio;
+ return 1.0 - ratio * ratio * ratio * ratio * ratio;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutQuintic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutQuintic"
+              title="Permalink to TransitionFunction.easeInOutQuintic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutQuintic(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInQuintic(ratio) : 0.5 * easeOutQuintic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInQuintic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInQuintic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInQuintic"
+              title="Permalink to TransitionFunction.easeOutInQuintic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInQuintic(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutQuintic(ratio) : 0.5 * easeInQuintic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInCircular">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInCircular"
+              title="Permalink to TransitionFunction.easeInCircular">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInCircular(num ratio) {
+ return 1.0 - sqrt(1.0 - ratio * ratio);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutCircular">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutCircular"
+              title="Permalink to TransitionFunction.easeOutCircular">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutCircular(num ratio) {
+ ratio = 1.0 - ratio;
+ return sqrt(1.0 - ratio * ratio);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutCircular">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutCircular"
+              title="Permalink to TransitionFunction.easeInOutCircular">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutCircular(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInCircular(ratio) : 0.5 * easeOutCircular(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInCircular">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInCircular</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInCircular"
+              title="Permalink to TransitionFunction.easeOutInCircular">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInCircular(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutCircular(ratio) : 0.5 * easeInCircular(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInSine">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInSine"
+              title="Permalink to TransitionFunction.easeInSine">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInSine(num ratio) {
+ return 1.0 - cos(ratio * (PI / 2.0));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutSine">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutSine"
+              title="Permalink to TransitionFunction.easeOutSine">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutSine(num ratio) {
+ return sin(ratio * (PI / 2.0));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutSine">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutSine"
+              title="Permalink to TransitionFunction.easeInOutSine">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutSine(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInSine(ratio) : 0.5 * easeOutSine(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInSine">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInSine</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInSine"
+              title="Permalink to TransitionFunction.easeOutInSine">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInSine(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutSine(ratio) : 0.5 * easeInSine(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInExponential">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInExponential"
+              title="Permalink to TransitionFunction.easeInExponential">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInExponential(num ratio) {
+ if (ratio == 0.0) return 0.0;
+ return pow(2.0, 10.0 * (ratio - 1.0));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutExponential">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutExponential"
+              title="Permalink to TransitionFunction.easeOutExponential">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutExponential(num ratio) {
+ if (ratio == 1.0) return 1.0;
+ return 1.0 - pow(2.0, - 10.0 * ratio);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutExponential">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutExponential"
+              title="Permalink to TransitionFunction.easeInOutExponential">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutExponential(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInExponential(ratio) : 0.5 * easeOutExponential(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInExponential">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInExponential</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInExponential"
+              title="Permalink to TransitionFunction.easeOutInExponential">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInExponential(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutExponential(ratio) : 0.5 * easeInExponential(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInBack">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInBack"
+              title="Permalink to TransitionFunction.easeInBack">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInBack(num ratio) {
+ num s = 1.70158;
+ return ratio * ratio * ((s + 1.0) * ratio - s);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutBack">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutBack"
+              title="Permalink to TransitionFunction.easeOutBack">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutBack(num ratio) {
+ num s = 1.70158;
+ ratio = ratio - 1.0;
+ return ratio * ratio * ((s + 1.0) * ratio + s) + 1.0;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutBack">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutBack"
+              title="Permalink to TransitionFunction.easeInOutBack">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutBack(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInBack(ratio) : 0.5 * easeOutBack(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInBack">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInBack</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInBack"
+              title="Permalink to TransitionFunction.easeOutInBack">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInBack(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutBack(ratio) : 0.5 * easeInBack(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInElastic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInElastic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInElastic"
+              title="Permalink to TransitionFunction.easeInElastic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInElastic(num ratio) {
+ if (ratio == 0.0 || ratio == 1.0) return ratio;
+ ratio = ratio - 1.0;
+ return - pow(2.0, 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) ;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutElastic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutElastic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutElastic"
+              title="Permalink to TransitionFunction.easeOutElastic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutElastic(num ratio) {
+ if (ratio == 0.0 || ratio == 1.0) return ratio;
+ return pow(2.0, - 10.0 * ratio) * sin((ratio - 0.3 / 4.0) * (2.0 * PI) / 0.3) + 1;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutElastic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutElastic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutElastic"
+              title="Permalink to TransitionFunction.easeInOutElastic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutElastic(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInElastic(ratio) : 0.5 * easeOutElastic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInElastic">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInElastic</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInElastic"
+              title="Permalink to TransitionFunction.easeOutInElastic">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInElastic(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutElastic(ratio) : 0.5 * easeInElastic(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInBounce">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInBounce</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInBounce"
+              title="Permalink to TransitionFunction.easeInBounce">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInBounce(num ratio) {
+ return 1.0 - easeOutBounce(1.0 - ratio);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutBounce">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutBounce</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutBounce"
+              title="Permalink to TransitionFunction.easeOutBounce">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutBounce(num ratio) {
+ if (ratio &lt; 1 / 2.75) {
+   return 7.5625 * ratio * ratio;
+ } else if (ratio &lt; 2 / 2.75) {
+   ratio = ratio - 1.5 / 2.75;
+   return 7.5625 * ratio * ratio + 0.75;
+ } else if (ratio &lt; 2.5 / 2.75) {
+   ratio = ratio - 2.25 / 2.75;
+   return 7.5625 * ratio * ratio + 0.9375;
+ } else {
+   ratio = ratio - 2.625 / 2.75;
+   return 7.5625 * ratio * ratio + 0.984375;
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeInOutBounce">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeInOutBounce</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeInOutBounce"
+              title="Permalink to TransitionFunction.easeInOutBounce">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeInOutBounce(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeInBounce(ratio) : 0.5 * easeOutBounce(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="easeOutInBounce">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/num.html">num</a> <strong>easeOutInBounce</strong>(<a href="http://api.dartlang.org/dart_core/num.html">num</a> ratio) <a class="anchor-link" href="#easeOutInBounce"
+              title="Permalink to TransitionFunction.easeOutInBounce">#</a></h4>
+<div class="doc">
+<pre class="source">
+static num easeOutInBounce(num ratio) {
+ ratio = ratio * 2.0;
+ return (ratio &lt; 1.0) ? 0.5 * easeOutBounce(ratio) : 0.5 * easeInBounce(ratio - 1.0) + 0.5;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-03-26 16:22:15.605</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

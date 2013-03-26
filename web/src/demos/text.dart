@@ -2,18 +2,14 @@ part of stagexl_web;
 
 class TextDemo extends DisplayObjectContainer {
 
-  final String sampleText = '''
-Filet mignon leberkas pig pork chop biltong, short loin strip steak turkey brisket 
-venison. Pastrami venison pancetta, leberkas pork chop chicken prosciutto beef ribs 
-bresaola kielbasa swine biltong capicola. Hamburger beef ribs ball tip drumstick salami 
-pig. Capicola pork loin shank, salami chicken hamburger tail. Sirloin spare ribs
-ground round cow strip steak prosciutto swine bacon corned beef.''';
+  final String text = 
+'Filet mignon leberkas pig pork chop biltong, short loin strip steak turkey brisket ' 
+'venison. Pastrami venison pancetta, leberkas pork chop chicken prosciutto beef ribs '
+'bresaola kielbasa swine biltong capicola. Hamburger beef ribs ball tip drumstick salami '  
+'pig. Capicola pork loin shank, salami chicken hamburger tail. Sirloin spare ribs '
+'ground round cow strip steak prosciutto swine bacon corned beef.';
 
   TextDemo() {
-    
-    var text = sampleText.replaceAll('\r', '').replaceAll('\n', '');
-    
-    //------------------------------------------------------------------
 
     var textField1 = new TextField();
     textField1.defaultTextFormat = new TextFormat('Helvetica,Arial', 14, Color.Green, bold:true, italic:true);

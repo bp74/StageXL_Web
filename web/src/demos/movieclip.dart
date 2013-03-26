@@ -6,8 +6,8 @@ class FlipBookDemo extends DisplayObjectContainer {
   TextureAtlas _textureAtlas;
   List _bitmapDatas;
   
-  MovieClipDemo() {
-
+  FlipBookDemo() {
+    
     // Get all the 'walk' bitmapDatas in the texture atlas.
 
     _textureAtlas = resourceManager.getTextureAtlas('walkTextureAtlas');

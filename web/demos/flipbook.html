@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>StageXL - MovieClip Demo</title>
+    <title>StageXL - FlipBook Demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -40,7 +40,7 @@
                             <li class="nav-header">Demos</li>
                             <li><a href="../demos/performance.html">&nbsp;Performance</a></li>
                             <li><a href="../demos/masking.html">&nbsp;Masking</a></li>
-                            <li><a href="../demos/movieclip.html">&nbsp;MovieClip</a></li>
+                            <li><a href="../demos/flipbook.html">&nbsp;FlipBook</a></li>
                             <li><a href="../demos/text.html">&nbsp;Text</a></li>
                             <li><a href="../demos/filter.html">&nbsp;Filter</a></li>
                             <li><a href="../demos/sound.html">&nbsp;Sound</a></li>
@@ -74,7 +74,7 @@
     </div>
     <div class="container">
         <h1>
-            MovieClip</h1>
+            FlipBook</h1>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -126,7 +126,7 @@ void main() {
     ..addTextureAtlas(&apos;walkTextureAtlas&apos;, &apos;images/walk.json&apos;, TextureAtlasFormat.JSONARRAY);
   
   resourceManager.load()
-    .then((_) =&gt; stage.addChild(new MovieClipDemo()))
+    .then((_) =&gt; stage.addChild(new FlipBookDemo()))
     .catchError((e) =&gt; print(e));
 }
 </pre>
@@ -135,13 +135,13 @@ void main() {
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 part of stagexl_web;
 
-class MovieClipDemo extends DisplayObjectContainer {
+class FlipBookDemo extends DisplayObjectContainer {
   
   Random _random = new Random();
   TextureAtlas _textureAtlas;
   List _bitmapDatas;
   
-  MovieClipDemo() {
+  FlipBookDemo() {
 
     // Get all the &apos;walk&apos; bitmapDatas in the texture atlas.
     _textureAtlas = resourceManager.getTextureAtlas(&apos;walkTextureAtlas&apos;);
@@ -156,24 +156,24 @@ class MovieClipDemo extends DisplayObjectContainer {
     var scale = _random.nextDouble();
     
     // Create a movie clip with the list of bitmapDatas.
-    var movieClip = new MovieClip(_bitmapDatas, 30);
-    movieClip.x = -128;
-    movieClip.y = 20.0 + 180.0 * scale;
-    movieClip.scaleX = movieClip.scaleY = 0.5 + 0.5 * scale;
-    movieClip.play();
+    var flipBook = new FlipBook(_bitmapDatas, 30);
+    flipBook.x = -128;
+    flipBook.y = 20.0 + 180.0 * scale;
+    flipBook.scaleX = flipBook.scaleY = 0.5 + 0.5 * scale;
+    flipBook.play();
 
-    addChild(movieClip);
+    addChild(flipBook);
     sortChildren((c1, c2) =&gt; (c1.y - c2.y).toInt());
 
     // Add a tween to make the man walk from the left to the right.
-    var tween = new Tween(movieClip, 5.0 + (1.0 - scale) * 5.0, TransitionFunction.linear);
+    var tween = new Tween(flipBook, 5.0 + (1.0 - scale) * 5.0, TransitionFunction.linear);
     tween.animate(&apos;x&apos;, 940.0);
     tween.onComplete = () {
-      juggler.remove(movieClip);
-      removeChild(movieClip);
+      juggler.remove(flipBook);
+      removeChild(flipBook);
     };
 
-    juggler.add(movieClip);
+    juggler.add(flipBook);
     juggler.add(tween);
     juggler.delayCall(_startWalkingMan, 0.2);
   }  

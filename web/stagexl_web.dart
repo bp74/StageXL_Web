@@ -62,10 +62,10 @@ void main() {
           ..load().then((_) => stage.addChild(new MaskingDemo())); 
         break;
       
-      case "movieclip": 
+      case "flipbook": 
         resourceManager
           ..addTextureAtlas('walkTextureAtlas', 'images/walk.json', TextureAtlasFormat.JSONARRAY)
-          ..load().then((_) => stage.addChild(new MovieClipDemo()));
+          ..load().then((_) => stage.addChild(new FlipBookDemo()));
         break;
         
       case "performance":

@@ -3,4 +3,4 @@ description: The website for the dartflash library.
 dependencies:
   browser: any
   stagexl:
-    git: https://github.com/bp74/StageXL.git
+    path: D:\GitHub\bp74\StageXL

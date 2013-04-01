@@ -84,6 +84,9 @@
                         </ul>
                     </li>
                 </ul>
+                <div style="float: right; margin-top: 8px;">
+                    <div class="g-plusone" data-annotation="none" data-href="http://www.stagexl.org"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -415,6 +418,12 @@ resourceManager.load().then((result) {
 
     <script type="text/javascript" src="assets/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-
+    <script type="text/javascript">
+        (function() {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+    </script>
 </body>
 </html>

@@ -354,8 +354,8 @@ destinationBitmapData.applyFilter(
                             <br/>
 <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
 var tween = new Tween(sprite, 2.0, TransitionFunction.easeOutBounce);
-tween.animate(&apos;x&apos;, 700);
-tween.animate(&apos;y&apos;, 500);
+tween.animate.x.to(700);
+tween.animate.y.to(500);
 tween.delay = 1.0;
 tween.onComplete = () => sprite.removeFromParent();
 

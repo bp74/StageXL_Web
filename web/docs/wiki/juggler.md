@@ -21,8 +21,8 @@ Now that we have an instance of the Juggler we can start to animate things. The 
     addChild(spaceShip);
 
     var tween = new Tween(spaceship, 2.0, TransitionFunction.linear);
-    tween.animate("x", 500);
-    tween.animate("y", 500);
+    tween.animate.x.to(500);
+    tween.animate.y.to(500);
     juggler.add(tween);
 
 This example greates a spaceship and sets the current position. A Tween is created for the spaceship, the animation should last for 2.0 seconds and the transition should be linear over time. Most importantly the tween should animate the "x" and "y" properties of the spaceship to the desired values. Last but not least the tween if added to the juggler who will take care that the spaceship moves from its current position to the target position. When the tween is finished it is automatically removed from the juggler.
@@ -30,8 +30,8 @@ This example greates a spaceship and sets the current position. A Tween is creat
 The Tween class does not only animate the position of display objects, it also animates all other properties like alpha, scale or rotation. To keep track of the progress of the animation you can set callbacks for start, update and complete. The delay property enables the deferred start of the animation.
 
     var tween = new Tween(spaceship, 2.0, TransitionFunction.linear);
-    tween.animate("x", 500);
-    tween.animate("y", 500);
+    tween.animate.x.to(500);
+    tween.animate.y.to(500);
     tween.onStart = () => print('tween start'); 
     tween.onComplete = () => print('tween complete'); 
     tween.delay = 1.0; 

@@ -89,17 +89,102 @@
 
     <div class="container">
         <h1>Getting Started</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
-        mollit anim id est laborum.</p>
+        <p>This tutorial will show you how to get started with the Dart programming language and the StageXL library.</p>
+        
+        <h2>Dart Editor</h2>
+        <p>The easiest way to write Dart applications is to use the Dart Editor provided by the Dart team.
+        It is a lightweight editor based on Eclipse and you get full debugger support as well as nifty features
+        like autocomplete suggestions, code navigation and refactoring.</p>
+        <p>Get the Dart Editor here: 
+        <a href="http://www.dartlang.org/docs/editor/getting-started/" target="_blank">Getting Started With Dart Editor</a>
+        </p>
+        <p>Please download and install the editor, then continue with the next step.</p>
+        
+        <h2>Create a web application</h2>
+        <p>Launch the Dart Editor and open the <em>File / New Application</em> menu. Enter the name of your application 
+        as well as the location in the file system where the application should be created. Be sure to 
+        select <em>Web Application</em> as the sample content of the application. Finish the wizard and you will 
+        get your first Dart web application.</p>
+        
+        Please look at the three files named in accordance to your application name. Those three files contain the 
+        Cascading Style Sheets (.css), the Dart source code (.dart) and the HTML document (.html) of your application. 
+        Right click on the HTML document and select <em>Run in Dartium</em>. A new browser window with your application
+        will open and you have successfully finished this second step.
+        
+        <h2>Add a reference to StageXL</h2>
+        <p>An essential part of the Dart platform is the package manager called Pub. This package manager is built 
+        right into the Dart Editor and helps you to find and manage packages (also known as libraries). You can 
+        learn more about Pub here: <a href="http://pub.dartlang.org/doc/" target="_blank">Getting Started With Pub</a>.</p>
+        
+        <p>You don't have to know all the details about Pub, to continue just double click the <em>pubspec.yaml</em> file
+        in your web application. Here you can enter the general information about your application, but let's focus
+        on the <em>Dependencies</em> section below. Those dependencies are the packages (libraries) your application
+        depends on. The first package (browser) is already configured and contains some bootstrap code to launch your 
+        application in different browsers. Now press the <em>Add</em> button and you will get asked about the name
+        of the package you want to add. Please enter "stagexl" in lowercase and press the <em>OK</em> button.<p>
+        
+        <p>All you have to do now is save the <em>pubspec.yaml</em> file by pressing CTRL-S. The Dart Editor will notice
+        the change in your Pub configuration and automatically download and install the StageXL package. After a few
+        seconds you should see a new <em>stagexl</em> folder under the <em>packages</em> folder.</p>
+
+        <h2>Prepare the HTML document</h2>
+        <p>You probably have a basic understanding of HTML, so the next step should be very easy. Double click the HTML
+        file in your application to open it. You will see some easy markup for the sample application, you can remove
+        stuff but please be cautious to not delete the two script references at the bottom of the file.</p>
+        
+        <p>The StageXL library depends on a so called Canvas element in HTML. The Canvas element is the area where
+        the content of your StageXL application will be drawn. Add the following markup to the HTML body to create
+        an area with the size of 800x600 pixel:</p>
+        
+        <pre class="prettyprint lang-html" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+&lt;canvas id="stage" width="800" height="600"&gt;&lt;/canvas&gt;
+</pre>
+
+        <h2>Write your first Dart code</h2>
+        
+        <p>You are only one step away from being productive with Dart and StageXL. The easiest way to continue is
+        to replace the dart code of the sample application with the code below. Now start the application and you 
+        should see a red circle on the screen.</p>
+        
+        <p>
+        To learn more about the StageXL library, please read the wiki article:
+        <a href="wiki-articles.html?article=introduction">Introducing the core concepts of StageXL.</a><br/>
+        
+        To learn more about the Dart language, please read this:
+        <a href="http://www.dartlang.org/articles/idiomatic-dart/" target="_blank">Idiomatic Dart</a><br/>
+        
+        You can also learn from these StageXL examples: 
+        <a href="https://github.com/bp74/StageXL/tree/master/example/" target="_blank">Examples on GitHub</a><br/>
+        </p>
+        
+         <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+import &apos;dart:html&apos; as html;
+import &apos;package:stagexl/stagexl.dart&apos;;
+
+void main() {
+  // setup the Stage and RenderLoop 
+  var canvas = html.query(&apos;#stage&apos;);
+  var stage = new Stage(&apos;myStage&apos;, canvas);
+  var renderLoop = new RenderLoop();
+  renderLoop.addStage(stage);
+
+  // draw a red circle
+  var shape = new Shape();
+  shape.graphics.circle(100, 100, 60);
+  shape.graphics.fillColor(Color.Red);
+  stage.addChild(shape);
+}
+</pre>
+<br/>
+<br/>
+
 
     </div>
 
     <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+   
+
     
 </body>
 </html>

@@ -129,7 +129,7 @@ class TransititionTypeDemo {
     graphics.strokeColor(0xFF0000FF, 2);
 
     stage.addChild(shape);
-    stage.materialize();
+    stage.materialize(0,0);
 
     return div;
   }

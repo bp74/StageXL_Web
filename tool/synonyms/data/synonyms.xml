@@ -6,12 +6,12 @@
     <synonym id="syn-class-definitions">
       <title>Classes</title>
       <code language="as3"><![CDATA[
-public class Rectangle extends Shape {
+public class Spaceship extends Sprite {
     // fields, constructors, functions
 }]]>
       </code>
       <code language="dart"><![CDATA[
-class Rectangle extends Shape {
+class Spaceship extends Sprite {
     // fields, constructors, methods
 }]]>
       </code>
@@ -762,8 +762,8 @@ updateHtml(1, 2, 3);
   <theme id="theme-libraries">
     <title>Libraries</title>
 
-    <synonym id="syn-library-dartflash">
-      <title>dartflash (https://github.com/bp74/dartflash)</title>
+    <synonym id="syn-library-stagexl">
+      <title>StageXL (https://github.com/bp74/stagexl)</title>
       <code language="as3"><![CDATA[
 // Flash Display List objects
 var bd:BitmapData = new BitmapData(20, 20, false, 0xFF00FF);
@@ -849,7 +849,7 @@ import com.hurlant.crypto.hash.SHA1;
 ]]>
       </code>
       <code language="dart"><![CDATA[
-import 'package:dartflash/dartflash.dart';
+import 'package:stagexl/stagexl.dart';
 import 'dart:crypto' show SHA1; // only SHA1 class is visible
 import 'dart:html' as html; // Alias, use 'html.window...']]>
       </code>

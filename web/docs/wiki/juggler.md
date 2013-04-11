@@ -149,12 +149,16 @@ Another possible usecase is a time lapse juggler. You can implement a TimeLapseJ
 
 For some of the simple use cases the Juggler class provides convenience methods.
 
+    // create a tween and animate the x and y property of the spaceship
+    juggler.tween(spaceship, 2.0, TransitionFunction.linear)
+      ..animate.x.to(100)
+      ..animate.y.to(200);
+
+    // create a transition for a value from 0.0 to 100.0 within 5.0 seconds.
+    juggler.transition(0.0, 100.0, 5.0, TransitionFunction.linear, (num value) => print(value));
+
     // delay the call the 'action' by 5.0 seconds.
     juggler.delayCall(action, 5.0);
-
-    // a linear transition for a value from 0.0 to 100.0 within 5.0 seconds.
-    juggler.startTransition(0.0, 100.0, 5.0, 
-      TransitionFunction.linear, (num value) => print(value));
    
     // remove all tweens on the 'spaceship' display object.
     juggler.removeTweens(spaceship);

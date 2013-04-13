@@ -126,14 +126,14 @@ class Piano extends DisplayObjectContainer {
             
         var tweenX = new Tween(this._karaokeFinger, 0.4, TransitionFunction.easeInOutCubic);
         var tweenY = new Tween(this._karaokeFinger, 0.4, TransitionFunction.sine);
-        tweenX.animate('x', pianoKey.x + pianoKey.width / 2);
-        tweenY.animate('y', -10);
+        tweenX.animate.x.to(pianoKey.x + pianoKey.width / 2);
+        tweenY.animate.y.to(-10);
         juggler.add(tweenX);
         juggler.add(tweenY);
       }
     } else {
       var tween = new Tween(_karaokeFinger, 0.4, TransitionFunction.linear);
-      tween.animate('alpha', 0);
+      tween.animate.alpha.to(0);
       juggler.add(tween);
     }
   }

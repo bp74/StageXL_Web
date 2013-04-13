@@ -27,6 +27,8 @@ ResourceManager resourceManager;
 
 void main() {
   
+  BitmapData.defaultLoadOptions = new BitmapDataLoadOptions(png:true, jpg:true, webp:true);
+    
   var pathname  = html.window.location.pathname;
   var regexp = new RegExp(r"([A-Za-z0-9-]+)\.html", multiLine:false, caseSensitive:false);
   var match = regexp.firstMatch(pathname);

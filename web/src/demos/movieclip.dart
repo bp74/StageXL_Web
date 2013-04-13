@@ -35,7 +35,7 @@ class FlipBookDemo extends DisplayObjectContainer {
     // Add a tween to make the man walk from the left to the right.
 
     var tween = new Tween(flipBook, 5.0 + (1.0 - scale) * 5.0, TransitionFunction.linear);
-    tween.animate('x', 940.0);
+    tween.animate.x.to(940.0);
     tween.onComplete = () {
       juggler.remove(flipBook);
       removeChild(flipBook);

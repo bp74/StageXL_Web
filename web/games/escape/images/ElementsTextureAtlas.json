@@ -509,8 +509,8 @@
 	"version": "1.0",
 	"image": "ElementsTextureAtlas.png",
 	"format": "RGBA8888",
-	"size": {"w":255,"h":496},
+	"size": {"w":254,"h":496},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:cd802cf54cc3c1f9848fefed88afc5aa$"
+	"smartupdate": "$TexturePacker:SmartUpdate:20e5eaf75258e412a9341c26f980c7f5$"
 }
 }

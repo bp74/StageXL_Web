@@ -24,7 +24,7 @@ class MaskingDemo extends DisplayObjectContainer {
       flowerField.addChild(bitmap);
 
       var tween = new Tween(bitmap, 600, TransitionFunction.linear);
-      tween.animate('rotation', PI * 60.0);
+      tween.animate.rotation.to(PI * 60.0);
       juggler.add(tween);
     }
 
@@ -53,7 +53,7 @@ class MaskingDemo extends DisplayObjectContainer {
     html.query('#mask-custom').onClick.listen((e) => flowerField.mask = customMask);
     html.query('#mask-spin').onClick.listen((e) {
       var rotate = new Tween(flowerField, 2.0, TransitionFunction.easeInOutBack);
-      rotate.animate('rotation', PI * 4.0);
+      rotate.animate.rotation.to(PI * 4.0);
       rotate.onComplete = () => flowerField.rotation = 0.0;
       juggler.add(rotate);
     });    

@@ -24,7 +24,6 @@ file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementat
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/_internal/compiler/implementation/lib/string_helper.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/async/async.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/async/async_error.dart
-file:///C:/Program Files/Dart Editor/dart-sdk/lib/async/collection_sink.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/async/deferred_load.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/async/event_loop.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/async/future.dart
@@ -46,7 +45,6 @@ file:///C:/Program Files/Dart Editor/dart-sdk/lib/collection/maps.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/collection/queue.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/collection/splay_tree.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/bool.dart
-file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/collection.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/comparable.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/core.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/date_time.dart
@@ -74,6 +72,7 @@ file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/stopwatch.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/string.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/string_buffer.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/string_sink.dart
+file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/symbol.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/core/type.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/html/dart2js/html_dart2js.dart
 file:///C:/Program Files/Dart Editor/dart-sdk/lib/html/html_common/conversions.dart
@@ -101,7 +100,9 @@ file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/animation/Transition
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/animation/Tween.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/Bitmap.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/BitmapData.dart
+file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/BitmapDataLoadOptions.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/BitmapDrawable.dart
+file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/ButtonHelper.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/CapsStyle.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/DisplayObject.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/DisplayObjectContainer.dart
@@ -114,6 +115,7 @@ file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/JointStyle.d
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/Mask.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/MovieClip.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/PixelSnapping.dart
+file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/Shadow.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/Shape.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/SimpleButton.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/display/Sprite.dart
@@ -152,6 +154,7 @@ file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/geom/Rectangle.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/geom/Vector.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/media/Sound.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/media/SoundChannel.dart
+file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/media/SoundLoadOptions.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/media/SoundMixer.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/media/SoundTransform.dart
 file:///D:/GitHub/bp74/StageXL_Web/web/packages/stagexl/src/media/implementation/AudioElementSound.dart

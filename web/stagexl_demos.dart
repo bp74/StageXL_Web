@@ -1,4 +1,4 @@
-library stagexl_web;
+library stagexl_demos;
 
 import 'dart:math';
 import 'dart:html' as html;
@@ -11,11 +11,6 @@ part 'src/demos/performance.dart';
 part 'src/demos/sound.dart';
 part 'src/demos/text.dart';
 part 'src/demos/tweener.dart';
-
-part 'src/runtimes/flump.dart';
-part 'src/runtimes/texturepacker.dart';
-
-part 'src/docs/transitions.dart';
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
@@ -120,24 +115,6 @@ void main() {
         
       case "tweener":
         stage.addChild(new TweenerDemo());
-        break;
-        
-      case "flump":
-        resourceManager
-          ..addFlumpLibrary('flump', 'images/flumpLibrary.json')
-          ..load().then((_) => stage.addChild(new FlumpDemo()));
-        break;
-        
-      case "texturepacker":
-        resourceManager
-          ..addTextureAtlas('levelUp', 'images/LevelupTextureAtlas.json', TextureAtlasFormat.JSONARRAY)
-          ..load().then((_) => stage.addChild(new TexturePackerDemo()));
-        break;
-        
-      case "transitions":
-        var transititionTypeDemo = new TransititionTypeDemo();
-        var transitionDiv = transititionTypeDemo.getTransitionDiv();
-        html.query("#transitions").children.add(transitionDiv);
         break;
     }
   }

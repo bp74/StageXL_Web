@@ -1,4 +1,4 @@
-part of stagexl_web;
+part of stagexl_demos;
 
 class FlipBookDemo extends DisplayObjectContainer {
   

@@ -9,35 +9,42 @@ class FilterDemo extends DisplayObjectContainer {
     {'name': 'ColorMatrixFilter (invert)', 'filter': new ColorMatrixFilter.invert() },
     {'name': 'BlurFilter (radius 1)', 'filter': new BlurFilter(1, 1) },
     {'name': 'BlurFilter (radius 5)', 'filter': new BlurFilter(5, 5) },
-    {'name': 'BlurFilter (radius 10)', 'filter': new BlurFilter(10, 10) },
-    {'name': 'BlurFilter (radius 20)', 'filter': new BlurFilter(20, 20) }
+    {'name': 'BlurFilter (radius 20)', 'filter': new BlurFilter(20, 20) },
+    {'name': 'AlphaMaskFilter', 'filter': new AlphaMaskFilter(resourceManager.getBitmapData("sun"))}
   ];
     
   FilterDemo() {
-
-    var targetBitmapData = new BitmapData(940, 500, true, 0x000000);
-    var sourceBitmapData = resourceManager.getBitmapData('king');
+    
+    var kingBitmapData = resourceManager.getBitmapData('king');
     var backgroundBitmapData = new BitmapData(230, 245, true, 0xFFF0F0F0);
-
-    var targetBitmap = new Bitmap(targetBitmapData);
-    addChild(targetBitmap);
-
+    var kingBitmaps = new List<Bitmap>();
+    
+    //--------------------------------------------------------------------------------
+    // Add kings with 8 different filters
+    
     for(int i = 0; i < _filters.length; i++) {
       
-      var x = 235 * (i % 4);
-      var y = 250 * (i ~/ 4);
       var filter = _filters[i]['filter'] as BitmapFilter;
       var name = _filters[i]['name'] as String;
-      var sourceRectangle = new Rectangle(0, 0, sourceBitmapData.width, sourceBitmapData.height);
-      var targetPoint = new Point(x + 40, y + 45);
+      var x = 235 * (i % 4);
+      var y = 250 * (i ~/ 4);
       
-      targetBitmapData.applyFilter(sourceBitmapData, sourceRectangle, targetPoint, filter);
-
+      var filterBounds = filter.getBounds();
+      filterBounds.inflate(kingBitmapData.width, kingBitmapData.height);
+      
       var backgroundBitmap = new Bitmap(backgroundBitmapData);
       backgroundBitmap.x = x;
       backgroundBitmap.y = y;
-      addChildAt(backgroundBitmap, 0);
-
+      addChild(backgroundBitmap);
+      
+      var kingBitmap = new Bitmap(kingBitmapData);
+      kingBitmap.x = x + 40;
+      kingBitmap.y =  y + 45;
+      kingBitmap.filters = [filter];
+      kingBitmap.applyCache(filterBounds.left, filterBounds.top, filterBounds.width, filterBounds.height);
+      addChild(kingBitmap);
+      kingBitmaps.add(kingBitmap);
+      
       var textField = new TextField();
       textField.defaultTextFormat = new TextFormat('Helvetica Neue, Helvetica, Arial', 14, Color.Black);
       textField.x = x + 5;
@@ -46,5 +53,18 @@ class FilterDemo extends DisplayObjectContainer {
       textField.text = name;
       addChild(textField);
     }
+    
+    //--------------------------------------------------------------------------------
+    // animate the AlphaMaskFilter
+    
+    juggler.transition(0.0, PI * 2 * 100, 600.0, TransitionFunction.linear, (value) {
+      var matrix = _filters[7]["filter"].matrix;
+      matrix.identity();
+      matrix.translate(-64, -64);
+      matrix.scale(1.0, 1.5);
+      matrix.rotate(value);
+      matrix.translate(kingBitmapData.width / 2 - 10, kingBitmapData.height / 2);
+      kingBitmaps[7].refreshCache();
+    });    
   }
 }

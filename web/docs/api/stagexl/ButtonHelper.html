@@ -1,0 +1,202 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>ButtonHelper class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="ButtonHelper">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/ButtonHelper.html">ButtonHelper</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>ButtonHelper</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class ButtonHelper {
+ 
+ MovieClip target;
+ var upLabel;
+ var overLabel;
+ var downLabel;
+ 
+ bool useHandCursor = true;
+ bool enabled = true;
+ 
+ ButtonHelper(this.target, this.upLabel, this.overLabel, this.downLabel, [DisplayObject hitArea])
+   : super() {
+   
+   target.useHandCursor = true;
+   target.stop();
+   target.addEventListener(MouseEvent.MOUSE_OVER, _onMouseEvent);
+   target.addEventListener(MouseEvent.MOUSE_OUT, _onMouseEvent);
+   target.addEventListener(MouseEvent.MOUSE_DOWN, _onMouseEvent);
+   target.addEventListener(MouseEvent.MOUSE_UP, _onMouseEvent);
+   
+   if (hitArea != null) {
+     if (hitArea is MovieClip) {
+       var mc = hitArea as MovieClip;
+       mc.actionsEnabled = false;
+       mc.stop();
+       mc.advance(0); // process frame out of stage
+     }
+     
+     if (hitArea._parent == null)
+       hitArea._parent = target; // consider the hitArea as a child
+     target.hitArea = hitArea;
+   }
+ }
+ 
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void _onMouseEvent(MouseEvent mouseEvent) {
+   
+   if (mouseEvent.type == MouseEvent.MOUSE_OUT) {
+     target.gotoAndStop(upLabel);
+   } else {
+     target.gotoAndStop(mouseEvent.buttonDown ? downLabel : overLabel);
+   }
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="ButtonHelper">
+<button class="show-code">Code</button>
+new <strong>ButtonHelper</strong>(<a href="../stagexl/MovieClip.html">MovieClip</a> target, upLabel, overLabel, downLabel, [<a href="../stagexl/DisplayObject.html">DisplayObject</a> hitArea]) <a class="anchor-link" href="#ButtonHelper"
+              title="Permalink to ButtonHelper.ButtonHelper">#</a></h4>
+<div class="doc">
+<pre class="source">
+ButtonHelper(this.target, this.upLabel, this.overLabel, this.downLabel, [DisplayObject hitArea])
+ : super() {
+ 
+ target.useHandCursor = true;
+ target.stop();
+ target.addEventListener(MouseEvent.MOUSE_OVER, _onMouseEvent);
+ target.addEventListener(MouseEvent.MOUSE_OUT, _onMouseEvent);
+ target.addEventListener(MouseEvent.MOUSE_DOWN, _onMouseEvent);
+ target.addEventListener(MouseEvent.MOUSE_UP, _onMouseEvent);
+ 
+ if (hitArea != null) {
+   if (hitArea is MovieClip) {
+     var mc = hitArea as MovieClip;
+     mc.actionsEnabled = false;
+     mc.stop();
+     mc.advance(0); // process frame out of stage
+   }
+   
+   if (hitArea._parent == null)
+     hitArea._parent = target; // consider the hitArea as a child
+   target.hitArea = hitArea;
+ }
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="downLabel">
+<button class="show-code">Code</button>
+var         <strong>downLabel</strong> <a class="anchor-link"
+            href="#downLabel"
+            title="Permalink to ButtonHelper.downLabel">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+var downLabel
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="enabled">
+<button class="show-code">Code</button>
+bool         <strong>enabled</strong> <a class="anchor-link"
+            href="#enabled"
+            title="Permalink to ButtonHelper.enabled">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool enabled = true
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="overLabel">
+<button class="show-code">Code</button>
+var         <strong>overLabel</strong> <a class="anchor-link"
+            href="#overLabel"
+            title="Permalink to ButtonHelper.overLabel">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+var overLabel
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="target">
+<button class="show-code">Code</button>
+<a href="../stagexl/MovieClip.html">MovieClip</a>         <strong>target</strong> <a class="anchor-link"
+            href="#target"
+            title="Permalink to ButtonHelper.target">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+MovieClip target
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="upLabel">
+<button class="show-code">Code</button>
+var         <strong>upLabel</strong> <a class="anchor-link"
+            href="#upLabel"
+            title="Permalink to ButtonHelper.upLabel">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+var upLabel
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="useHandCursor">
+<button class="show-code">Code</button>
+bool         <strong>useHandCursor</strong> <a class="anchor-link"
+            href="#useHandCursor"
+            title="Permalink to ButtonHelper.useHandCursor">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool useHandCursor = true
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-04-19 21:10:18.854</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

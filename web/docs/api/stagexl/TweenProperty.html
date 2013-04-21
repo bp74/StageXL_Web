@@ -1,0 +1,170 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>TweenProperty class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="TweenProperty">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/TweenProperty.html">TweenProperty</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>TweenProperty</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class TweenProperty {
+ 
+ final String property;
+ num startValue = double.NAN;
+ num targetValue = double.NAN;
+ 
+ TweenProperty(this.property);
+ 
+ void to(num targetValue) {
+   this.targetValue = targetValue.toDouble();
+ }
+
+ bool get isDefined =&gt; !startValue.isNaN &amp;&amp; !targetValue.isNaN;
+
+ num _getPropertyValue(DisplayObject displayObject) {
+   switch(property) {
+     case 'x':        return displayObject.x; 
+     case 'y':        return displayObject.y;
+     case 'pivotX':   return displayObject.pivotX;
+     case 'pivotY':   return displayObject.pivotY;
+     case 'scaleX':   return displayObject.scaleX;
+     case 'scaleY':   return displayObject.scaleY;
+     case 'skewX':    return displayObject.skewX; 
+     case 'skewY':    return displayObject.skewY; 
+     case 'rotation': return displayObject.rotation; 
+     case 'alpha':    return displayObject.alpha; 
+     default:         return 0.0;
+   }
+ }
+ 
+ void _setPropertyValue(DisplayObject displayObject, num value) {
+   switch(property) {
+     case 'x':        displayObject.x = value; break;
+     case 'y':        displayObject.y = value; break;
+     case 'pivotX':   displayObject.pivotX = value; break;
+     case 'pivotY':   displayObject.pivotY = value; break;
+     case 'scaleX':   displayObject.scaleX = value; break;
+     case 'scaleY':   displayObject.scaleY = value; break;
+     case 'skewX':    displayObject.skewX = value; break;
+     case 'skewY':    displayObject.skewY = value; break;            
+     case 'rotation': displayObject.rotation = value; break;
+     case 'alpha':    displayObject.alpha = value; break;
+   }
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="TweenProperty">
+<button class="show-code">Code</button>
+new <strong>TweenProperty</strong>(String property) <a class="anchor-link" href="#TweenProperty"
+              title="Permalink to TweenProperty.TweenProperty">#</a></h4>
+<div class="doc">
+<pre class="source">
+TweenProperty(this.property);
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="isDefined">
+<button class="show-code">Code</button>
+final bool         <strong>isDefined</strong> <a class="anchor-link"
+            href="#isDefined"
+            title="Permalink to TweenProperty.isDefined">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get isDefined =&gt; !startValue.isNaN &amp;&amp; !targetValue.isNaN;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="property">
+<button class="show-code">Code</button>
+final String         <strong>property</strong> <a class="anchor-link"
+            href="#property"
+            title="Permalink to TweenProperty.property">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+final String property
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="startValue">
+<button class="show-code">Code</button>
+num         <strong>startValue</strong> <a class="anchor-link"
+            href="#startValue"
+            title="Permalink to TweenProperty.startValue">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num startValue = double.NAN
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="targetValue">
+<button class="show-code">Code</button>
+num         <strong>targetValue</strong> <a class="anchor-link"
+            href="#targetValue"
+            title="Permalink to TweenProperty.targetValue">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num targetValue = double.NAN
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="to">
+<button class="show-code">Code</button>
+void <strong>to</strong>(num targetValue) <a class="anchor-link" href="#to"
+              title="Permalink to TweenProperty.to">#</a></h4>
+<div class="doc">
+<pre class="source">
+void to(num targetValue) {
+ this.targetValue = targetValue.toDouble();
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-04-19 21:10:19.163</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

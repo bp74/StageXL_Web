@@ -1,0 +1,133 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>BitmapDataLoadOptions class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="BitmapDataLoadOptions">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/BitmapDataLoadOptions.html">BitmapDataLoadOptions</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>BitmapDataLoadOptions</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class BitmapDataLoadOptions {
+ 
+ /**
+  *  The application provides *png* files for lossless images.
+  */
+ bool png;
+
+ /**
+  * The application provides *jpg* files for lossy images.
+  */
+ bool jpg;
+
+ /**
+  * The application provides *webp* files for lossless and lossy images.
+  * 
+  * If *webp* is supported, the loader will automatically switch from *png*
+  * and *jpg* files to this more efficient file format.
+  */
+ bool webp;
+
+ BitmapDataLoadOptions({
+   this.png: true, 
+   this.jpg: true, 
+   this.webp: false
+ });
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="BitmapDataLoadOptions">
+<button class="show-code">Code</button>
+new <strong>BitmapDataLoadOptions</strong>({bool png: true, bool jpg: true, bool webp: false}) <a class="anchor-link" href="#BitmapDataLoadOptions"
+              title="Permalink to BitmapDataLoadOptions.BitmapDataLoadOptions">#</a></h4>
+<div class="doc">
+<pre class="source">
+BitmapDataLoadOptions({
+ this.png: true, 
+ this.jpg: true, 
+ this.webp: false
+});
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="jpg">
+<button class="show-code">Code</button>
+bool         <strong>jpg</strong> <a class="anchor-link"
+            href="#jpg"
+            title="Permalink to BitmapDataLoadOptions.jpg">#</a>
+        </h4>
+        <div class="doc">
+<p>The application provides <em>jpg</em> files for lossy images.</p>
+<pre class="source">
+bool jpg
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="png">
+<button class="show-code">Code</button>
+bool         <strong>png</strong> <a class="anchor-link"
+            href="#png"
+            title="Permalink to BitmapDataLoadOptions.png">#</a>
+        </h4>
+        <div class="doc">
+<p> The application provides <em>png</em> files for lossless images.</p>
+<pre class="source">
+bool png
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="webp">
+<button class="show-code">Code</button>
+bool         <strong>webp</strong> <a class="anchor-link"
+            href="#webp"
+            title="Permalink to BitmapDataLoadOptions.webp">#</a>
+        </h4>
+        <div class="doc">
+<p>The application provides <em>webp</em> files for lossless and lossy images.</p>
+<p>If <em>webp</em> is supported, the loader will automatically switch from <em>png</em>
+and <em>jpg</em> files to this more efficient file format.</p>
+<pre class="source">
+bool webp
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-04-19 21:10:18.951</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

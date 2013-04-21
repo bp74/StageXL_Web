@@ -1,0 +1,237 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>TweenPropertyFactory class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="TweenPropertyFactory">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/TweenPropertyFactory.html">TweenPropertyFactory</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>TweenPropertyFactory</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class TweenPropertyFactory {
+
+ final Tween tween;
+ TweenPropertyFactory(this.tween);
+
+ @deprecated
+ call(String property, num targetValue) {
+   _addTweenProperty(property).to(targetValue);
+ }
+ 
+ TweenProperty get x =&gt; _addTweenProperty("x");
+ TweenProperty get y =&gt; _addTweenProperty("y");
+ TweenProperty get scaleX =&gt; _addTweenProperty("scaleX");
+ TweenProperty get scaleY =&gt; _addTweenProperty("scaleY");
+ TweenProperty get skewX =&gt; _addTweenProperty("skewX");
+ TweenProperty get skewY =&gt; _addTweenProperty("skewY");
+ TweenProperty get pivotX =&gt; _addTweenProperty("pivotX");
+ TweenProperty get pivotY =&gt; _addTweenProperty("pivotY");
+ TweenProperty get rotation =&gt; _addTweenProperty("rotation");
+ TweenProperty get alpha =&gt; _addTweenProperty("alpha");
+ 
+ TweenProperty _addTweenProperty(String property) {
+   var tweenProperty = new TweenProperty(property);
+   this.tween._addTweenProperty(tweenProperty);
+   return tweenProperty;
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="TweenPropertyFactory">
+<button class="show-code">Code</button>
+new <strong>TweenPropertyFactory</strong>(<a href="../stagexl/Tween.html">Tween</a> tween) <a class="anchor-link" href="#TweenPropertyFactory"
+              title="Permalink to TweenPropertyFactory.TweenPropertyFactory">#</a></h4>
+<div class="doc">
+<pre class="source">
+TweenPropertyFactory(this.tween);
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="alpha">
+<button class="show-code">Code</button>
+final <a href="../stagexl/TweenProperty.html">TweenProperty</a>         <strong>alpha</strong> <a class="anchor-link"
+            href="#alpha"
+            title="Permalink to TweenPropertyFactory.alpha">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenProperty get alpha =&gt; _addTweenProperty("alpha");
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="pivotX">
+<button class="show-code">Code</button>
+final <a href="../stagexl/TweenProperty.html">TweenProperty</a>         <strong>pivotX</strong> <a class="anchor-link"
+            href="#pivotX"
+            title="Permalink to TweenPropertyFactory.pivotX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenProperty get pivotX =&gt; _addTweenProperty("pivotX");
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="pivotY">
+<button class="show-code">Code</button>
+final <a href="../stagexl/TweenProperty.html">TweenProperty</a>         <strong>pivotY</strong> <a class="anchor-link"
+            href="#pivotY"
+            title="Permalink to TweenPropertyFactory.pivotY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenProperty get pivotY =&gt; _addTweenProperty("pivotY");
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="rotation">
+<button class="show-code">Code</button>
+final <a href="../stagexl/TweenProperty.html">TweenProperty</a>         <strong>rotation</strong> <a class="anchor-link"
+            href="#rotation"
+            title="Permalink to TweenPropertyFactory.rotation">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenProperty get rotation =&gt; _addTweenProperty("rotation");
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="scaleX">
+<button class="show-code">Code</button>
+final <a href="../stagexl/TweenProperty.html">TweenProperty</a>         <strong>scaleX</strong> <a class="anchor-link"
+            href="#scaleX"
+            title="Permalink to TweenPropertyFactory.scaleX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenProperty get scaleX =&gt; _addTweenProperty("scaleX");
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="scaleY">
+<button class="show-code">Code</button>
+final <a href="../stagexl/TweenProperty.html">TweenProperty</a>         <strong>scaleY</strong> <a class="anchor-link"
+            href="#scaleY"
+            title="Permalink to TweenPropertyFactory.scaleY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenProperty get scaleY =&gt; _addTweenProperty("scaleY");
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="skewX">
+<button class="show-code">Code</button>
+final <a href="../stagexl/TweenProperty.html">TweenProperty</a>         <strong>skewX</strong> <a class="anchor-link"
+            href="#skewX"
+            title="Permalink to TweenPropertyFactory.skewX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenProperty get skewX =&gt; _addTweenProperty("skewX");
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="skewY">
+<button class="show-code">Code</button>
+final <a href="../stagexl/TweenProperty.html">TweenProperty</a>         <strong>skewY</strong> <a class="anchor-link"
+            href="#skewY"
+            title="Permalink to TweenPropertyFactory.skewY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenProperty get skewY =&gt; _addTweenProperty("skewY");
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="tween">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Tween.html">Tween</a>         <strong>tween</strong> <a class="anchor-link"
+            href="#tween"
+            title="Permalink to TweenPropertyFactory.tween">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+final Tween tween
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="x">
+<button class="show-code">Code</button>
+final <a href="../stagexl/TweenProperty.html">TweenProperty</a>         <strong>x</strong> <a class="anchor-link"
+            href="#x"
+            title="Permalink to TweenPropertyFactory.x">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenProperty get x =&gt; _addTweenProperty("x");
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="y">
+<button class="show-code">Code</button>
+final <a href="../stagexl/TweenProperty.html">TweenProperty</a>         <strong>y</strong> <a class="anchor-link"
+            href="#y"
+            title="Permalink to TweenPropertyFactory.y">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TweenProperty get y =&gt; _addTweenProperty("y");
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="call">
+<button class="show-code">Code</button>
+dynamic <strong>call</strong>(String property, num targetValue) <a class="anchor-link" href="#call"
+              title="Permalink to TweenPropertyFactory.call">#</a></h4>
+<div class="doc">
+<pre class="source">
+@deprecated
+call(String property, num targetValue) {
+ _addTweenProperty(property).to(targetValue);
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-04-19 21:10:19.167</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

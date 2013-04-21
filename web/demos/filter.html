@@ -134,7 +134,8 @@ void main() {
   
   // initialize ResourceManager
   resourceManager = new ResourceManager()
-    ..addBitmapData(&apos;king&apos;, &apos;images/king.png&apos;);
+    ..addBitmapData(&apos;king&apos;, &apos;images/king.png&apos;)
+    ..addBitmapData(&apos;sun&apos;, &apos;images/Sun.png&apos;);
   
   resourceManager.load()
     .then((_) =&gt; stage.addChild(new FilterDemo()))
@@ -144,7 +145,7 @@ void main() {
                 </div>
                 <div class="tab-pane" id="sourceDemo">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_web;
+part of stagexl_demos;
 
 class FilterDemo extends DisplayObjectContainer {
   
@@ -155,35 +156,42 @@ class FilterDemo extends DisplayObjectContainer {
     {&apos;name&apos;: &apos;ColorMatrixFilter (invert)&apos;, &apos;filter&apos;: new ColorMatrixFilter.invert() },
     {&apos;name&apos;: &apos;BlurFilter (radius 1)&apos;, &apos;filter&apos;: new BlurFilter(1, 1) },
     {&apos;name&apos;: &apos;BlurFilter (radius 5)&apos;, &apos;filter&apos;: new BlurFilter(5, 5) },
-    {&apos;name&apos;: &apos;BlurFilter (radius 10)&apos;, &apos;filter&apos;: new BlurFilter(10, 10) },
-    {&apos;name&apos;: &apos;BlurFilter (radius 20)&apos;, &apos;filter&apos;: new BlurFilter(20, 20) }
+    {&apos;name&apos;: &apos;BlurFilter (radius 20)&apos;, &apos;filter&apos;: new BlurFilter(20, 20) },
+    {&apos;name&apos;: &apos;AlphaMaskFilter&apos;, &apos;filter&apos;: new AlphaMaskFilter(resourceManager.getBitmapData(&quot;sun&quot;))}
   ];
     
   FilterDemo() {
-
-    var targetBitmapData = new BitmapData(940, 500, true, 0x000000);
-    var sourceBitmapData = resourceManager.getBitmapData(&apos;king&apos;);
+    
+    var kingBitmapData = resourceManager.getBitmapData(&apos;king&apos;);
     var backgroundBitmapData = new BitmapData(230, 245, true, 0xFFF0F0F0);
-
-    var targetBitmap = new Bitmap(targetBitmapData);
-    addChild(targetBitmap);
-
+    var kingBitmaps = new List&lt;Bitmap&gt;();
+    
+    //--------------------------------------------------------------------------------
+    // Add kings with 8 different filters
+    
     for(int i = 0; i &lt; _filters.length; i++) {
       
-      var x = 235 * (i % 4);
-      var y = 250 * (i ~/ 4);
       var filter = _filters[i][&apos;filter&apos;] as BitmapFilter;
       var name = _filters[i][&apos;name&apos;] as String;
-      var sourceRectangle = new Rectangle(0, 0, sourceBitmapData.width, sourceBitmapData.height);
-      var targetPoint = new Point(x + 40, y + 45);
+      var x = 235 * (i % 4);
+      var y = 250 * (i ~/ 4);
       
-      targetBitmapData.applyFilter(sourceBitmapData, sourceRectangle, targetPoint, filter);
-
+      var filterBounds = filter.getBounds();
+      filterBounds.inflate(kingBitmapData.width, kingBitmapData.height);
+      
       var backgroundBitmap = new Bitmap(backgroundBitmapData);
       backgroundBitmap.x = x;
       backgroundBitmap.y = y;
-      addChildAt(backgroundBitmap, 0);
-
+      addChild(backgroundBitmap);
+      
+      var kingBitmap = new Bitmap(kingBitmapData);
+      kingBitmap.x = x + 40;
+      kingBitmap.y =  y + 45;
+      kingBitmap.filters = [filter];
+      kingBitmap.applyCache(filterBounds.left, filterBounds.top, filterBounds.width, filterBounds.height);
+      addChild(kingBitmap);
+      kingBitmaps.add(kingBitmap);
+      
       var textField = new TextField();
       textField.defaultTextFormat = new TextFormat(&apos;Helvetica Neue, Helvetica, Arial&apos;, 14, Color.Black);
       textField.x = x + 5;
@@ -192,6 +200,19 @@ class FilterDemo extends DisplayObjectContainer {
       textField.text = name;
       addChild(textField);
     }
+    
+    //--------------------------------------------------------------------------------
+    // animate the AlphaMaskFilter
+    
+    juggler.transition(0.0, PI * 2 * 100, 600.0, TransitionFunction.linear, (value) {
+      var matrix = _filters[7][&apos;filter&apos;].matrix;
+      matrix.identity();
+      matrix.translate(-64, -64);
+      matrix.scale(1.0, 1.5);
+      matrix.rotate(value);
+      matrix.translate(kingBitmapData.width / 2 - 10, kingBitmapData.height / 2);
+      kingBitmaps[7].refreshCache();
+    });    
   }
 }
 </pre>

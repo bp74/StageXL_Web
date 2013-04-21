@@ -1,0 +1,791 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>Vector class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="Vector">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/Vector.html">Vector</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>Vector</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class Vector {
+ 
+ static const num Epsilon = 0.0000001;
+ static const num EpsilonSqr = Epsilon * Epsilon;
+ 
+ final num _x;
+ final num _y;
+ 
+ Vector(num x, num y) : _x = x.toDouble(), _y = y.toDouble();
+ Vector.zero() : _x = 0.0, _y = 0.0;
+ Vector.polar(num len, num angle) : _x = (len * cos(angle)).toDouble(), _y = (len * sin(angle)).toDouble();
+ 
+ Vector clone() =&gt; new Vector(_x, _y);
+ 
+ num get x =&gt; _x;
+ num get y =&gt; _y;
+ 
+ String toString() =&gt; "Vector [x=${_x}, y=${_y}]";
+
+ //-----------------------------------------------------------------------------------------------
+ // Operators
+ 
+ Vector operator +(Vector other) =&gt; new Vector(_x + other._x, _y + other._y);
+ Vector operator -(Vector other) =&gt; new Vector(_x - other._x, _y - other._y);
+ Vector operator *(Vector other) =&gt; new Vector(_x * other._x, _y * other._y);
+ Vector operator /(Vector other) =&gt; new Vector(_x / other._x, _y / other._y);
+
+ Vector operator -() =&gt; new Vector(-_x, -_y);
+ bool operator ==(Vector other) =&gt; _x == other._x &amp;&amp; _y == other._y;
+
+ bool equalsXY(num x, num y) =&gt; _x == x &amp;&amp; _y == y;
+ 
+ //-----------------------------------------------------------------------------------------------
+ // Queries
+ 
+ bool get isNormalized =&gt; ((_x * _x + _y * _y) - 1).abs() &lt; EpsilonSqr;
+ bool get isZero =&gt; (_x == 0 &amp;&amp; _y == 0);
+ bool get isValid =&gt; (_x.isNaN || _y.isNaN || _x.isInfinite || _y.isInfinite) == false;
+ 
+ bool isNear(Vector other) =&gt; distanceSqr(other) &lt; EpsilonSqr;
+ bool isNearXY(num x, num y) =&gt; distanceXYSqr(x, y) &lt; EpsilonSqr; 
+ bool isWithin(Vector other, num epsilon) =&gt; distanceSqr(other) &lt; epsilon * epsilon; 
+ bool isWithinXY(num x, num y, num epsilon) =&gt; distanceXYSqr(x, y) &lt; epsilon * epsilon;
+ 
+ num get degrees =&gt; atan2(_y, _x) * 180 / PI;
+ num get rads =&gt; atan2(_y, _x);
+
+ //-----------------------------------------------------------------------------------------------
+ // Scale
+ 
+ Vector scale(num scale) {
+   return new Vector(_x * scale, _y * scale);
+ }
+ 
+ Vector scaleLength(num value) {
+   var scale = value / length;
+   return new Vector(_x * scale, _y * scale);
+ }
+ 
+ Vector normalize() {
+   num nf = 1 / length;
+   return new Vector(_x * nf, _y * nf);
+ }
+ 
+ //-----------------------------------------------------------------------------------------------
+ // Distance
+ 
+ num get length =&gt; sqrt(_x * _x + _y * _y); 
+ num get lengthSqr =&gt; _x * _x + _y * _y; 
+ 
+ num distance(Vector vec) {
+   num xd = _x - vec._x;
+   num yd = _y - vec._y;
+   return sqrt(xd * xd + yd * yd);
+ }
+ 
+ num distanceXY(num x, num y) {
+   num xd = _x - x;
+   num yd = _y - y;
+   return sqrt(xd * xd + yd * yd);
+ }
+ 
+ num distanceSqr(Vector vec) {
+   num xd = _x - vec._x;
+   num yd = _y - vec._y;
+   return xd * xd + yd * yd;
+ }
+ 
+ num distanceXYSqr(num x, num y) {
+   num xd = _x - x;
+   num yd = _y - y;
+   return xd * xd + yd * yd;
+ }
+ 
+ //-----------------------------------------------------------------------------------------------
+ // Dot product
+ 
+ num dot(Vector vec) =&gt; _x * vec._x + _y * vec._y;
+ num dotXY(num x, num y) =&gt; _x * x + _y * y;
+ 
+ //-----------------------------------------------------------------------------------------------
+ // Cross determinant
+ 
+ num crossDet(Vector vec) =&gt; _x * vec._y - _y * vec._x;
+ num crossDetXY(num x, num y) =&gt; _x * y - _y * x;
+ 
+ //-----------------------------------------------------------------------------------------------
+ // Rotate
+ 
+ Vector rotate(num rads) {
+   num s = sin(rads);
+   num c = cos(rads);
+   return new Vector(_x * c - _y * s, _x * s + _y * c);
+ }
+ 
+ Vector normalRight() {
+   return new Vector(-_y, _x); 
+ }
+ 
+ Vector normalLeft() { 
+   return new Vector(_y, -_x); 
+ }
+ 
+ Vector negate() { 
+   return new Vector(-_x, -_y); 
+ }
+ 
+ //-----------------------------------------------------------------------------------------------
+ // Spinor rotation
+ 
+ Vector rotateSpinor(Vector vec) {
+   return new Vector(_x * vec._x - _y * vec._y, _x * vec._y + _y * vec._x);
+ }
+ 
+ Vector spinorBetween(Vector vec) {
+   num d = this.lengthSqr;
+   num r = (vec._x * _x + vec._y * _y) / d;
+   num i = (vec._y * _x - vec._x * _y) / d;
+   return new Vector(r, i);
+ }
+ 
+ //-----------------------------------------------------------------------------------------------
+ // Lerp / slerp
+ 
+ Vector lerp(Vector to, num t) { 
+   return new Vector(_x + t * (to._x - _x), _y + t * (to._y - _y)); 
+ }
+ 
+ Vector slerp(Vector vec, num t) {
+   num cosTheta = this.dot(vec);
+   num theta = acos(cosTheta);
+   num sinTheta = sin(theta);
+   
+   if (sinTheta &lt;= Epsilon)
+     return vec.clone();
+   
+   num w1 = sin((1 - t) * theta) / sinTheta;
+   num w2 = sin(t * theta) / sinTheta;
+   return this.scale(w1) + vec.scale(w2);
+ }
+ 
+ //-----------------------------------------------------------------------------------------------
+ // Reflect
+ 
+ Vector reflect(Vector normal) {
+   num d = 2 * (_x * normal._x + _y * normal._y);
+   return new Vector(_x - d * normal._x, _y - d * normal._y);
+ }
+ 
+}
+</pre>
+</div>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="Epsilon">
+<button class="show-code">Code</button>
+const num         <strong>Epsilon</strong> <a class="anchor-link"
+            href="#Epsilon"
+            title="Permalink to Vector.Epsilon">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+static const num Epsilon = 0.0000001
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="EpsilonSqr">
+<button class="show-code">Code</button>
+const num         <strong>EpsilonSqr</strong> <a class="anchor-link"
+            href="#EpsilonSqr"
+            title="Permalink to Vector.EpsilonSqr">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+static const num EpsilonSqr = Epsilon * Epsilon
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="Vector">
+<button class="show-code">Code</button>
+new <strong>Vector</strong>(num x, num y) <a class="anchor-link" href="#Vector"
+              title="Permalink to Vector.Vector">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector(num x, num y) : _x = x.toDouble(), _y = y.toDouble();
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="Vector.polar">
+<button class="show-code">Code</button>
+new <strong>Vector.polar</strong>(num len, num angle) <a class="anchor-link" href="#Vector.polar"
+              title="Permalink to Vector.Vector.polar">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector.polar(num len, num angle) : _x = (len * cos(angle)).toDouble(), _y = (len * sin(angle)).toDouble();
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="Vector.zero">
+<button class="show-code">Code</button>
+new <strong>Vector.zero</strong>() <a class="anchor-link" href="#Vector.zero"
+              title="Permalink to Vector.Vector.zero">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector.zero() : _x = 0.0, _y = 0.0;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="degrees">
+<button class="show-code">Code</button>
+final num         <strong>degrees</strong> <a class="anchor-link"
+            href="#degrees"
+            title="Permalink to Vector.degrees">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get degrees =&gt; atan2(_y, _x) * 180 / PI;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="isNormalized">
+<button class="show-code">Code</button>
+final bool         <strong>isNormalized</strong> <a class="anchor-link"
+            href="#isNormalized"
+            title="Permalink to Vector.isNormalized">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get isNormalized =&gt; ((_x * _x + _y * _y) - 1).abs() &lt; EpsilonSqr;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="isValid">
+<button class="show-code">Code</button>
+final bool         <strong>isValid</strong> <a class="anchor-link"
+            href="#isValid"
+            title="Permalink to Vector.isValid">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get isValid =&gt; (_x.isNaN || _y.isNaN || _x.isInfinite || _y.isInfinite) == false;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="isZero">
+<button class="show-code">Code</button>
+final bool         <strong>isZero</strong> <a class="anchor-link"
+            href="#isZero"
+            title="Permalink to Vector.isZero">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get isZero =&gt; (_x == 0 &amp;&amp; _y == 0);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="length">
+<button class="show-code">Code</button>
+final num         <strong>length</strong> <a class="anchor-link"
+            href="#length"
+            title="Permalink to Vector.length">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get length =&gt; sqrt(_x * _x + _y * _y);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="lengthSqr">
+<button class="show-code">Code</button>
+final num         <strong>lengthSqr</strong> <a class="anchor-link"
+            href="#lengthSqr"
+            title="Permalink to Vector.lengthSqr">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get lengthSqr =&gt; _x * _x + _y * _y;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="rads">
+<button class="show-code">Code</button>
+final num         <strong>rads</strong> <a class="anchor-link"
+            href="#rads"
+            title="Permalink to Vector.rads">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get rads =&gt; atan2(_y, _x);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="x">
+<button class="show-code">Code</button>
+final num         <strong>x</strong> <a class="anchor-link"
+            href="#x"
+            title="Permalink to Vector.x">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get x =&gt; _x;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="y">
+<button class="show-code">Code</button>
+final num         <strong>y</strong> <a class="anchor-link"
+            href="#y"
+            title="Permalink to Vector.y">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get y =&gt; _y;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Operators</h3>
+<div class="method"><h4 id="+">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>operator +</strong>(<a href="../stagexl/Vector.html">Vector</a> other) <a class="anchor-link" href="#+"
+              title="Permalink to Vector.operator +">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector operator +(Vector other) =&gt; new Vector(_x + other._x, _y + other._y);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="unary-">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>operator -</strong>() <a class="anchor-link" href="#unary-"
+              title="Permalink to Vector.operator -">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector operator -() =&gt; new Vector(-_x, -_y);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="-">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>operator -</strong>(<a href="../stagexl/Vector.html">Vector</a> other) <a class="anchor-link" href="#-"
+              title="Permalink to Vector.operator -">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector operator -(Vector other) =&gt; new Vector(_x - other._x, _y - other._y);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="*">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>operator *</strong>(<a href="../stagexl/Vector.html">Vector</a> other) <a class="anchor-link" href="#*"
+              title="Permalink to Vector.operator *">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector operator *(Vector other) =&gt; new Vector(_x * other._x, _y * other._y);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="/">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>operator /</strong>(<a href="../stagexl/Vector.html">Vector</a> other) <a class="anchor-link" href="#/"
+              title="Permalink to Vector.operator /">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector operator /(Vector other) =&gt; new Vector(_x / other._x, _y / other._y);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="==">
+<button class="show-code">Code</button>
+bool <strong>operator ==</strong>(<a href="../stagexl/Vector.html">Vector</a> other) <a class="anchor-link" href="#=="
+              title="Permalink to Vector.operator ==">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>The equality operator.</p>
+<p>The default behavior for all <code>Object</code>s is to return true if and
+only if <code>this</code> and 
+<span class="param">other</span> are the same object.</p>
+<p>If a subclass overrides the equality operator it should override
+the <code>hashCode</code> method as well to maintain consistency.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
+<pre class="source">
+bool operator ==(Vector other) =&gt; _x == other._x &amp;&amp; _y == other._y;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="clone">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>clone</strong>() <a class="anchor-link" href="#clone"
+              title="Permalink to Vector.clone">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector clone() =&gt; new Vector(_x, _y);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="crossDet">
+<button class="show-code">Code</button>
+num <strong>crossDet</strong>(<a href="../stagexl/Vector.html">Vector</a> vec) <a class="anchor-link" href="#crossDet"
+              title="Permalink to Vector.crossDet">#</a></h4>
+<div class="doc">
+<pre class="source">
+num crossDet(Vector vec) =&gt; _x * vec._y - _y * vec._x;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="crossDetXY">
+<button class="show-code">Code</button>
+num <strong>crossDetXY</strong>(num x, num y) <a class="anchor-link" href="#crossDetXY"
+              title="Permalink to Vector.crossDetXY">#</a></h4>
+<div class="doc">
+<pre class="source">
+num crossDetXY(num x, num y) =&gt; _x * y - _y * x;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="distance">
+<button class="show-code">Code</button>
+num <strong>distance</strong>(<a href="../stagexl/Vector.html">Vector</a> vec) <a class="anchor-link" href="#distance"
+              title="Permalink to Vector.distance">#</a></h4>
+<div class="doc">
+<pre class="source">
+num distance(Vector vec) {
+ num xd = _x - vec._x;
+ num yd = _y - vec._y;
+ return sqrt(xd * xd + yd * yd);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="distanceSqr">
+<button class="show-code">Code</button>
+num <strong>distanceSqr</strong>(<a href="../stagexl/Vector.html">Vector</a> vec) <a class="anchor-link" href="#distanceSqr"
+              title="Permalink to Vector.distanceSqr">#</a></h4>
+<div class="doc">
+<pre class="source">
+num distanceSqr(Vector vec) {
+ num xd = _x - vec._x;
+ num yd = _y - vec._y;
+ return xd * xd + yd * yd;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="distanceXY">
+<button class="show-code">Code</button>
+num <strong>distanceXY</strong>(num x, num y) <a class="anchor-link" href="#distanceXY"
+              title="Permalink to Vector.distanceXY">#</a></h4>
+<div class="doc">
+<pre class="source">
+num distanceXY(num x, num y) {
+ num xd = _x - x;
+ num yd = _y - y;
+ return sqrt(xd * xd + yd * yd);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="distanceXYSqr">
+<button class="show-code">Code</button>
+num <strong>distanceXYSqr</strong>(num x, num y) <a class="anchor-link" href="#distanceXYSqr"
+              title="Permalink to Vector.distanceXYSqr">#</a></h4>
+<div class="doc">
+<pre class="source">
+num distanceXYSqr(num x, num y) {
+ num xd = _x - x;
+ num yd = _y - y;
+ return xd * xd + yd * yd;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="dot">
+<button class="show-code">Code</button>
+num <strong>dot</strong>(<a href="../stagexl/Vector.html">Vector</a> vec) <a class="anchor-link" href="#dot"
+              title="Permalink to Vector.dot">#</a></h4>
+<div class="doc">
+<pre class="source">
+num dot(Vector vec) =&gt; _x * vec._x + _y * vec._y;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="dotXY">
+<button class="show-code">Code</button>
+num <strong>dotXY</strong>(num x, num y) <a class="anchor-link" href="#dotXY"
+              title="Permalink to Vector.dotXY">#</a></h4>
+<div class="doc">
+<pre class="source">
+num dotXY(num x, num y) =&gt; _x * x + _y * y;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="equalsXY">
+<button class="show-code">Code</button>
+bool <strong>equalsXY</strong>(num x, num y) <a class="anchor-link" href="#equalsXY"
+              title="Permalink to Vector.equalsXY">#</a></h4>
+<div class="doc">
+<pre class="source">
+bool equalsXY(num x, num y) =&gt; _x == x &amp;&amp; _y == y;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="isNear">
+<button class="show-code">Code</button>
+bool <strong>isNear</strong>(<a href="../stagexl/Vector.html">Vector</a> other) <a class="anchor-link" href="#isNear"
+              title="Permalink to Vector.isNear">#</a></h4>
+<div class="doc">
+<pre class="source">
+bool isNear(Vector other) =&gt; distanceSqr(other) &lt; EpsilonSqr;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="isNearXY">
+<button class="show-code">Code</button>
+bool <strong>isNearXY</strong>(num x, num y) <a class="anchor-link" href="#isNearXY"
+              title="Permalink to Vector.isNearXY">#</a></h4>
+<div class="doc">
+<pre class="source">
+bool isNearXY(num x, num y) =&gt; distanceXYSqr(x, y) &lt; EpsilonSqr;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="isWithin">
+<button class="show-code">Code</button>
+bool <strong>isWithin</strong>(<a href="../stagexl/Vector.html">Vector</a> other, num epsilon) <a class="anchor-link" href="#isWithin"
+              title="Permalink to Vector.isWithin">#</a></h4>
+<div class="doc">
+<pre class="source">
+bool isWithin(Vector other, num epsilon) =&gt; distanceSqr(other) &lt; epsilon * epsilon;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="isWithinXY">
+<button class="show-code">Code</button>
+bool <strong>isWithinXY</strong>(num x, num y, num epsilon) <a class="anchor-link" href="#isWithinXY"
+              title="Permalink to Vector.isWithinXY">#</a></h4>
+<div class="doc">
+<pre class="source">
+bool isWithinXY(num x, num y, num epsilon) =&gt; distanceXYSqr(x, y) &lt; epsilon * epsilon;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="lerp">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>lerp</strong>(<a href="../stagexl/Vector.html">Vector</a> to, num t) <a class="anchor-link" href="#lerp"
+              title="Permalink to Vector.lerp">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector lerp(Vector to, num t) { 
+ return new Vector(_x + t * (to._x - _x), _y + t * (to._y - _y)); 
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="negate">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>negate</strong>() <a class="anchor-link" href="#negate"
+              title="Permalink to Vector.negate">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector negate() { 
+ return new Vector(-_x, -_y); 
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="normalize">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>normalize</strong>() <a class="anchor-link" href="#normalize"
+              title="Permalink to Vector.normalize">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector normalize() {
+ num nf = 1 / length;
+ return new Vector(_x * nf, _y * nf);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="normalLeft">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>normalLeft</strong>() <a class="anchor-link" href="#normalLeft"
+              title="Permalink to Vector.normalLeft">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector normalLeft() { 
+ return new Vector(_y, -_x); 
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="normalRight">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>normalRight</strong>() <a class="anchor-link" href="#normalRight"
+              title="Permalink to Vector.normalRight">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector normalRight() {
+ return new Vector(-_y, _x); 
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="reflect">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>reflect</strong>(<a href="../stagexl/Vector.html">Vector</a> normal) <a class="anchor-link" href="#reflect"
+              title="Permalink to Vector.reflect">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector reflect(Vector normal) {
+ num d = 2 * (_x * normal._x + _y * normal._y);
+ return new Vector(_x - d * normal._x, _y - d * normal._y);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="rotate">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>rotate</strong>(num rads) <a class="anchor-link" href="#rotate"
+              title="Permalink to Vector.rotate">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector rotate(num rads) {
+ num s = sin(rads);
+ num c = cos(rads);
+ return new Vector(_x * c - _y * s, _x * s + _y * c);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="rotateSpinor">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>rotateSpinor</strong>(<a href="../stagexl/Vector.html">Vector</a> vec) <a class="anchor-link" href="#rotateSpinor"
+              title="Permalink to Vector.rotateSpinor">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector rotateSpinor(Vector vec) {
+ return new Vector(_x * vec._x - _y * vec._y, _x * vec._y + _y * vec._x);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="scale">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>scale</strong>(num scale) <a class="anchor-link" href="#scale"
+              title="Permalink to Vector.scale">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector scale(num scale) {
+ return new Vector(_x * scale, _y * scale);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="scaleLength">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>scaleLength</strong>(num value) <a class="anchor-link" href="#scaleLength"
+              title="Permalink to Vector.scaleLength">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector scaleLength(num value) {
+ var scale = value / length;
+ return new Vector(_x * scale, _y * scale);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="slerp">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>slerp</strong>(<a href="../stagexl/Vector.html">Vector</a> vec, num t) <a class="anchor-link" href="#slerp"
+              title="Permalink to Vector.slerp">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector slerp(Vector vec, num t) {
+ num cosTheta = this.dot(vec);
+ num theta = acos(cosTheta);
+ num sinTheta = sin(theta);
+ 
+ if (sinTheta &lt;= Epsilon)
+   return vec.clone();
+ 
+ num w1 = sin((1 - t) * theta) / sinTheta;
+ num w2 = sin(t * theta) / sinTheta;
+ return this.scale(w1) + vec.scale(w2);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="spinorBetween">
+<button class="show-code">Code</button>
+<a href="../stagexl/Vector.html">Vector</a> <strong>spinorBetween</strong>(<a href="../stagexl/Vector.html">Vector</a> vec) <a class="anchor-link" href="#spinorBetween"
+              title="Permalink to Vector.spinorBetween">#</a></h4>
+<div class="doc">
+<pre class="source">
+Vector spinorBetween(Vector vec) {
+ num d = this.lengthSqr;
+ num r = (vec._x * _x + vec._y * _y) / d;
+ num i = (vec._y * _x - vec._x * _y) / d;
+ return new Vector(r, i);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="toString">
+<button class="show-code">Code</button>
+String <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to Vector.toString">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Returns a string representation of this object.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
+<pre class="source">
+String toString() =&gt; "Vector [x=${_x}, y=${_y}]";
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-04-19 21:10:19.127</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

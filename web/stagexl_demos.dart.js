@@ -1751,6 +1751,9 @@ $$.JSNumber = {"": "Interceptor;",
   get$hashCode: function(receiver) {
     return receiver & 0x1FFFFFFF;
   },
+  $negate: function(receiver) {
+    return -receiver;
+  },
   $add: function(receiver, other) {
     if (typeof other !== "number")
       throw $.wrapException($.ArgumentError$(other));
@@ -1863,6 +1866,9 @@ $$.JSString = {"": "Interceptor;",
     if (typeof other !== "string")
       throw $.wrapException($.ArgumentError$(other));
     return receiver + other;
+  },
+  concat$1: function(receiver, other) {
+    return this.$add(receiver, other);
   },
   endsWith$1: function(receiver, other) {
     var otherLength, t1;
@@ -4543,13 +4549,7 @@ $$.ListQueue = {"": "IterableBase;_table,_head,_tail,_modificationCount",
     return t1[t2];
   },
   _checkModification$1: function(expectedModificationCount) {
-    if (typeof expectedModificationCount !== "number")
-      return this._checkModification$1$bailout(1, expectedModificationCount);
     if (expectedModificationCount !== this._modificationCount)
-      throw $.wrapException($.ConcurrentModificationError$(this));
-  },
-  _checkModification$1$bailout: function(state0, expectedModificationCount) {
-    if ($.$eq(expectedModificationCount, this._modificationCount) !== true)
       throw $.wrapException($.ConcurrentModificationError$(this));
   },
   _add$1: function(element) {
@@ -5418,8 +5418,19 @@ $$._ChildNodeListLazy = {"": "ListBase;_this",
     this._this.textContent = "";
   },
   $indexSet: function(_, index, value) {
-    var t1 = this._this;
-    t1.replaceChild(value, $.$index$asx(t1.childNodes, index));
+    var t1, t2;
+    t1 = this._this;
+    t2 = t1.childNodes;
+    if (typeof t2 !== "string" && (typeof t2 !== "object" || t2 === null || t2.constructor !== Array && !$.getInterceptor(t2).$isJavaScriptIndexingBehavior))
+      return this.$$indexSet$bailout(1, t1, value, t2, index);
+    if (index !== (index | 0))
+      throw $.iae(index);
+    if (index < 0 || index >= t2.length)
+      throw $.ioore(index);
+    t1.replaceChild(value, t2[index]);
+  },
+  $$indexSet$bailout: function(state0, t1, value, t2, index) {
+    t1.replaceChild(value, $.$index$asx(t2, index));
   },
   get$iterator: function(_) {
     return $.get$iterator$ax(this._this.childNodes);
@@ -5457,7 +5468,17 @@ $$._ChildNodeListLazy = {"": "ListBase;_this",
     throw $.wrapException($.UnsupportedError$("Cannot set length on immutable List."));
   },
   $index: function(_, index) {
-    return $.$index$asx(this._this.childNodes, index);
+    var t1 = this._this.childNodes;
+    if (typeof t1 !== "string" && (typeof t1 !== "object" || t1 === null || t1.constructor !== Array && !$.getInterceptor(t1).$isJavaScriptIndexingBehavior))
+      return this.$$index$bailout(1, index, t1);
+    if (index !== (index | 0))
+      throw $.iae(index);
+    if (index < 0 || index >= t1.length)
+      throw $.ioore(index);
+    return t1[index];
+  },
+  $$index$bailout: function(state0, index, t1) {
+    return $.$index$asx(t1, index);
   },
   $is_ChildNodeListLazy: true,
   $asList: function () { return [$.Node]; },
@@ -5669,25 +5690,10 @@ $$._LocationWrapper = {"": "Object;_ptr",
 
 $$.FixedSizeListIterator = {"": "Object;_array,_length,_position,_current",
   moveNext$0: function() {
-    var t1, nextPosition;
-    t1 = this._position;
-    if (typeof t1 !== "number")
-      return this.moveNext$0$bailout(1, t1);
-    nextPosition = t1 + 1;
+    var nextPosition, t1;
+    nextPosition = this._position + 1;
     t1 = this._length;
     if (nextPosition < t1) {
-      this._current = $.$index$asx(this._array, nextPosition);
-      this._position = nextPosition;
-      return true;
-    }
-    this._current = null;
-    this._position = t1;
-    return false;
-  },
-  moveNext$0$bailout: function(state0, t1) {
-    var nextPosition = $.$add$ns(t1, 1);
-    t1 = this._length;
-    if ($.$lt$n(nextPosition, t1)) {
       this._current = $.$index$asx(this._array, nextPosition);
       this._position = nextPosition;
       return true;
@@ -5991,25 +5997,33 @@ $$.FilteredElementList_removeRange_anon = {"": "Closure;",
   }
 };
 
-$$.FilterDemo = {"": "DisplayObjectContainer;_filters,_children,_mouseChildren,_tabChildren,doubleClickEnabled,mouseEnabled,tabEnabled,tabIndex,_liblib3$_id,_x,_y,_pivotX,_pivotY,_scaleX,_scaleY,_skewX,_skewY,_rotation,_alpha,_visible,_off,_mask,_cache,_cacheRectangle,_cacheDebugBorder,_liblib3$_filters,_shadow,_compositeOperation,_name,_parent,_tmpMatrix,_transformationMatrixPrivate,_transformationMatrixRefresh,_eventStreams,_captureEventStreams",
+$$.FilterDemo = {"": "DisplayObjectContainer;_filters<,_children,_mouseChildren,_tabChildren,doubleClickEnabled,mouseEnabled,tabEnabled,tabIndex,_liblib3$_id,_x,_y,_pivotX,_pivotY,_scaleX,_scaleY,_skewX,_skewY,_rotation,_alpha,_visible,_off,_mask,_cache,_cacheRectangle,_cacheDebugBorder,_liblib3$_filters,_shadow,_compositeOperation,_name,_parent,_tmpMatrix,_transformationMatrixPrivate,_transformationMatrixRefresh,_eventStreams,_captureEventStreams",
   FilterDemo$0: function() {
-    var targetBitmapData, sourceBitmapData, backgroundBitmapData, t1, t2, i, x, y, filter, $name, backgroundBitmap, textField;
-    targetBitmapData = $.BitmapData$(940, 500, true, 0);
-    sourceBitmapData = $.resourceManager.getBitmapData$1("king");
+    var kingBitmapData, backgroundBitmapData, kingBitmaps, t1, t2, i, filter, $name, x, y, filterBounds, backgroundBitmap, kingBitmap, textField;
+    kingBitmapData = $.resourceManager.getBitmapData$1("king");
     backgroundBitmapData = $.BitmapData$(230, 245, true, 4293980400);
-    this.addChild$1($.Bitmap$(targetBitmapData, "auto"));
-    for (t1 = this._filters, t2 = $.getInterceptor$x(sourceBitmapData), i = 0; i < t1.length; ++i) {
-      x = 235 * $.JSNumber_methods.$mod(i, 4);
-      y = 250 * $.JSNumber_methods.$tdiv(i, 4);
+    kingBitmaps = $.List_List($, $.Bitmap);
+    $.setRuntimeTypeInfo(kingBitmaps, [$.Bitmap]);
+    for (t1 = this._filters, t2 = $.getInterceptor$x(kingBitmapData), i = 0; i < t1.length; ++i) {
       filter = $.propertyTypeCast($.$index$asx(t1[i], "filter"), "$isBitmapFilter");
       if (i >= t1.length)
         throw $.ioore(i);
       $name = $.stringTypeCast($.$index$asx(t1[i], "name"));
-      targetBitmapData.applyFilter$4(sourceBitmapData, $.Rectangle$(0, 0, t2.get$width(sourceBitmapData), t2.get$height(sourceBitmapData)), $.Point$(x + 40, y + 45), filter);
+      x = 235 * $.JSNumber_methods.$mod(i, 4);
+      y = 250 * $.JSNumber_methods.$tdiv(i, 4);
+      filterBounds = filter.getBounds$0();
+      filterBounds.inflate$2(t2.get$width(kingBitmapData), t2.get$height(kingBitmapData));
       backgroundBitmap = $.Bitmap$(backgroundBitmapData, "auto");
       backgroundBitmap.set$x(backgroundBitmap, x);
       backgroundBitmap.set$y(backgroundBitmap, y);
-      this.addChildAt$2(backgroundBitmap, 0);
+      this.addChild$1(backgroundBitmap);
+      kingBitmap = $.Bitmap$(kingBitmapData, "auto");
+      kingBitmap.set$x(kingBitmap, x + 40);
+      kingBitmap.set$y(kingBitmap, y + 45);
+      kingBitmap.set$filters([filter]);
+      kingBitmap.applyCache$4(filterBounds.get$left(filterBounds), filterBounds.get$top(filterBounds), filterBounds.get$width(filterBounds), filterBounds.get$height(filterBounds));
+      this.addChild$1(kingBitmap);
+      kingBitmaps.push(kingBitmap);
       textField = $.TextField$(null, null);
       textField.set$defaultTextFormat($.TextFormat$("Helvetica Neue, Helvetica, Arial", 14, 4278190080, "left", false, 0, false, 0, 0, 0, false));
       textField.set$x(textField, x + 5);
@@ -6018,6 +6032,28 @@ $$.FilterDemo = {"": "DisplayObjectContainer;_filters,_children,_mouseChildren,_
       textField.set$text(textField, $name);
       this.addChild$1(textField);
     }
+    $.transition$5$x($.juggler, 0, 628.3185307179587, 600, $.TransitionFunction_linear, new $.anon10(this, kingBitmapData, kingBitmaps));
+  }
+};
+
+$$.anon10 = {"": "Closure;this_0,kingBitmapData_1,kingBitmaps_2",
+  call$1: function(value) {
+    var t1, matrix, t2;
+    t1 = this.this_0.get$_filters();
+    if (7 >= t1.length)
+      throw $.ioore(7);
+    matrix = $.$index$asx(t1[7], "filter").get$matrix();
+    matrix.identity$0();
+    t1 = $.getInterceptor$x(matrix);
+    t1.translate$2(matrix, -64, -64);
+    t1.scale$2(matrix, 1, 1.5);
+    t1.rotate$1(matrix, value);
+    t2 = this.kingBitmapData_1;
+    t1.translate$2(matrix, $.$div$n($.get$width$x(t2), 2) - 10, $.$div$n($.get$height$x(t2), 2));
+    t2 = this.kingBitmaps_2;
+    if (7 >= t2.length)
+      throw $.ioore(7);
+    t2[7].refreshCache$0();
   }
 };
 
@@ -6545,6 +6581,8 @@ $$.main_anon3 = {"": "Closure;",
   }
 };
 
+$$.Animatable = {"": "Object;"};
+
 $$.DelayedCall = {"": "Object;_liblib3$_action,_currentTime,_totalTime,_repeatCount",
   _liblib3$_action$0: function() {
     return this._liblib3$_action.call$0();
@@ -6666,6 +6704,12 @@ $$.Juggler = {"": "Object;_animatables,_animatablesCount,_elapsedTime",
       }
     }
   },
+  transition$5: function(_, startValue, targetValue, time, transitionFunction, onUpdate) {
+    var transition = $.Transition$(startValue, targetValue, time, transitionFunction);
+    transition.set$onUpdate(onUpdate);
+    this.add$1(this, transition);
+    return transition;
+  },
   delayCall$2: function(action, delay) {
     var delayedCall = $.DelayedCall$(action, delay);
     this.add$1(this, delayedCall);
@@ -6675,8 +6719,8 @@ $$.Juggler = {"": "Object;_animatables,_animatablesCount,_elapsedTime",
     var animatablesCount, t1, tail, head, animatable, t2, tail0, t3;
     this._elapsedTime = this._elapsedTime + time;
     animatablesCount = this._animatablesCount;
-    if (animatablesCount !== (animatablesCount | 0))
-      return this.advanceTime$1$bailout(1, time, animatablesCount);
+    if (typeof animatablesCount !== "number" || Math.floor(animatablesCount) !== animatablesCount)
+      throw $.wrapException("dart2js_hint");
     for (t1 = this._animatables, tail = 0, head = 0; head < animatablesCount; ++head) {
       if (head >= t1.length)
         throw $.ioore(head);
@@ -6714,48 +6758,66 @@ $$.Juggler = {"": "Object;_animatables,_animatablesCount,_elapsedTime",
       this._animatablesCount = tail;
     }
     return true;
+  }
+};
+
+$$.Transition = {"": "Animatable;_startValue,_targetValue,_transitionFunction,_currentValue,_onStart,_onUpdate,_onComplete,_totalTime,_currentTime,_delay,_roundToInt,_started",
+  _transitionFunction$1: function(arg0) {
+    return this._transitionFunction.call$1(arg0);
   },
-  advanceTime$1$bailout: function(state0, time, animatablesCount) {
-    var t1, tail, head, animatable, t2, tail0, t3;
-    for (t1 = this._animatables, tail = 0, head = 0; head < animatablesCount; ++head) {
-      if (head >= t1.length)
-        throw $.ioore(head);
-      animatable = t1[head];
-      if (animatable == null)
-        continue;
-      if (!animatable.advanceTime$1(time)) {
-        if (head >= t1.length)
-          throw $.ioore(head);
-        t1[head] = null;
-        continue;
+  _onStart$0: function() {
+    return this._onStart.call$0();
+  },
+  _onUpdate$1: function(arg0) {
+    return this._onUpdate.call$1(arg0);
+  },
+  _onComplete$0: function() {
+    return this._onComplete.call$0();
+  },
+  advanceTime$1: function(time) {
+    var t1, t2;
+    if ($.$lt$n(this._currentTime, this._totalTime) || !this._started) {
+      this._currentTime = $.$add$ns(this._currentTime, time);
+      if ($.$gt$n(this._currentTime, this._totalTime))
+        this._currentTime = this._totalTime;
+      if ($.$ge$n(this._currentTime, 0)) {
+        if (!this._started) {
+          this._started = true;
+          if (this._onStart != null)
+            this._onStart$0();
+        }
+        t1 = this._startValue;
+        t2 = $.$mul$n(this._transitionFunction$1($.$div$n(this._currentTime, this._totalTime)), this._targetValue - t1);
+        if (typeof t2 !== "number")
+          throw $.iae(t2);
+        this._currentValue = t1 + t2;
+        if (this._onUpdate != null) {
+          t1 = this._roundToInt;
+          t2 = this._currentValue;
+          this._onUpdate$1(t1 ? $.JSNumber_methods.round$0(t2) : t2);
+        }
+        if (this._onComplete != null && $.$eq(this._currentTime, this._totalTime) === true)
+          this._onComplete$0();
       }
-      if (tail !== head) {
-        t2 = t1.length;
-        if (tail >= t2)
-          throw $.ioore(tail);
-        t1[tail] = animatable;
-        if (head >= t2)
-          throw $.ioore(head);
-        t1[head] = null;
-      }
-      ++tail;
     }
-    if (tail !== animatablesCount) {
-      for (t2 = t1.length, head = animatablesCount; head < this._animatablesCount; ++head, tail = tail0) {
-        tail0 = tail + 1;
-        if (head !== (head | 0))
-          throw $.iae(head);
-        if (head < 0 || head >= t2)
-          throw $.ioore(head);
-        t3 = t1[head];
-        if (tail >= t2)
-          throw $.ioore(tail);
-        t1[tail] = t3;
-        t1[head] = null;
-      }
-      this._animatablesCount = tail;
-    }
-    return true;
+    return $.$lt$n(this._currentTime, this._totalTime);
+  },
+  get$startValue: function() {
+    return this._startValue;
+  },
+  get$targetValue: function() {
+    return this._targetValue;
+  },
+  set$onUpdate: function($function) {
+    this._onUpdate = $function;
+  },
+  Transition$4: function(startValue, targetValue, time, transitionFunction) {
+    this._currentValue = startValue;
+    this._currentTime = 0;
+    this._totalTime = $.max(0.0001, time);
+    this._delay = 0;
+    this._roundToInt = false;
+    this._started = false;
   }
 };
 
@@ -6992,15 +7054,33 @@ $$.BitmapData = {"": "Object;_width,_height,_transparent,_renderMode,_destinatio
   get$height: function(_) {
     return this._height;
   },
-  applyFilter$4: function(sourceBitmapData, sourceRect, destPoint, filter) {
-    filter.apply$4(sourceBitmapData, sourceRect, this, destPoint);
-  },
-  copyPixels$6: function(sourceBitmapData, sourceRect, destPoint, alphaBitmapData, alphaPoint, mergeAlpha) {
-    var imageData = $.getImageData$4$x(sourceBitmapData._getContext$0(), sourceRect.get$x(sourceRect), sourceRect.get$y(sourceRect), sourceRect.get$width(sourceRect), sourceRect.get$height(sourceRect));
-    $.putImageData$3$x(this._getContext$0(), imageData, destPoint.get$x(destPoint), destPoint.get$y(destPoint));
+  clone$0: function(_) {
+    var bitmapData = $.BitmapData$(this._width, this._height, true, 0);
+    bitmapData.draw$1(this);
+    return bitmapData;
   },
   copyPixels$3: function(sourceBitmapData, sourceRect, destPoint) {
-    return this.copyPixels$6(sourceBitmapData, sourceRect, destPoint, null, null, false);
+    var sourceImageData = $.getImageData$4$x(sourceBitmapData._getContext$0(), sourceRect.get$x(sourceRect), sourceRect.get$y(sourceRect), sourceRect.get$width(sourceRect), sourceRect.get$height(sourceRect));
+    $.putImageData$3$x(this._getContext$0(), sourceImageData, destPoint.get$x(destPoint), destPoint.get$y(destPoint));
+  },
+  draw$2: function(source, matrix) {
+    var context = this._getContext$0();
+    source.render$1($.RenderState$fromCanvasRenderingContext2D(context, matrix));
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.globalAlpha = 1;
+    context.globalCompositeOperation = "source-over";
+  },
+  draw$1: function(source) {
+    return this.draw$2(source, null);
+  },
+  fillRect$2: function(_, rect, color) {
+    var context = this._getContext$0();
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.fillStyle = $._color2rgba(color);
+    context.fillRect(rect.get$x(rect), rect.get$y(rect), rect.get$width(rect), rect.get$height(rect));
+  },
+  clear$0: function(_) {
+    this._getContext$0().clearRect(0, 0, this._width, this._height);
   },
   render$1: function(renderState) {
     var renderStateContext = renderState.get$context(renderState);
@@ -7014,6 +7094,9 @@ $$.BitmapData = {"": "Object;_width,_height,_transparent,_renderMode,_destinatio
       case 2:
         renderStateContext.transform(0, -1, 1, 0, this._destinationX, $.$add$ns(this._destinationY, this._destinationHeight));
         renderStateContext.drawImage(this._liblib3$_source, this._sourceX, this._sourceY, this._sourceHeight, this._sourceWidth, 0, 0, this._destinationHeight, this._destinationWidth);
+        break;
+      case 3:
+        renderStateContext.drawImage(this._liblib3$_source, this._destinationX, this._destinationY, this._destinationWidth, this._destinationHeight);
         break;
     }
   },
@@ -7107,6 +7190,23 @@ $$.BitmapData = {"": "Object;_width,_height,_transparent,_renderMode,_destinatio
     }
     return this._context;
   },
+  BitmapData$fromTextureAtlasFrame$1: function(textureAtlasFrame) {
+    var t1;
+    this._width = $.toInt$0$nx(textureAtlasFrame.get$originalWidth());
+    this._height = $.toInt$0$nx(textureAtlasFrame.get$originalHeight());
+    this._transparent = true;
+    this._renderMode = textureAtlasFrame.get$rotated() === true ? 2 : 1;
+    t1 = $.getInterceptor$x(textureAtlasFrame);
+    this._destinationX = t1.get$offsetX(textureAtlasFrame);
+    this._destinationY = t1.get$offsetY(textureAtlasFrame);
+    this._destinationWidth = textureAtlasFrame.get$frameWidth();
+    this._destinationHeight = textureAtlasFrame.get$frameHeight();
+    this._sourceX = textureAtlasFrame.get$frameX();
+    this._sourceY = textureAtlasFrame.get$frameY();
+    this._sourceWidth = textureAtlasFrame.get$frameWidth();
+    this._sourceHeight = textureAtlasFrame.get$frameHeight();
+    this._liblib3$_source = textureAtlasFrame.get$textureAtlas()._bitmapData.get$_liblib3$_source();
+  },
   BitmapData$4: function(width, height, transparent, fillColor) {
     var t1, canvas;
     this._width = $.toInt$0$nx(width);
@@ -7130,23 +7230,6 @@ $$.BitmapData = {"": "Object;_width,_height,_transparent,_renderMode,_destinatio
     t1.fillStyle = this._transparent ? $._color2rgba(fillColor) : $._color2rgb(fillColor);
     this._context.fillRect(0, 0, this._width, this._height);
     this._liblib3$_source = canvas;
-  },
-  BitmapData$fromTextureAtlasFrame$1: function(textureAtlasFrame) {
-    var t1;
-    this._width = $.toInt$0$nx(textureAtlasFrame.get$originalWidth());
-    this._height = $.toInt$0$nx(textureAtlasFrame.get$originalHeight());
-    this._transparent = true;
-    this._renderMode = textureAtlasFrame.get$rotated() === true ? 2 : 1;
-    t1 = $.getInterceptor$x(textureAtlasFrame);
-    this._destinationX = t1.get$offsetX(textureAtlasFrame);
-    this._destinationY = t1.get$offsetY(textureAtlasFrame);
-    this._destinationWidth = textureAtlasFrame.get$frameWidth();
-    this._destinationHeight = textureAtlasFrame.get$frameHeight();
-    this._sourceX = textureAtlasFrame.get$frameX();
-    this._sourceY = textureAtlasFrame.get$frameY();
-    this._sourceWidth = textureAtlasFrame.get$frameWidth();
-    this._sourceHeight = textureAtlasFrame.get$frameHeight();
-    this._liblib3$_source = textureAtlasFrame.get$textureAtlas()._bitmapData.get$_liblib3$_source();
   },
   BitmapData$fromImageElement$1: function(imageElement) {
     var t1 = $.getInterceptor(imageElement);
@@ -7251,6 +7334,9 @@ $$.DisplayObject = {"": "EventDispatcher;_alpha<,_off<,_mask<,_cache<,_shadow<,_
   get$alpha: function(_) {
     return this._alpha;
   },
+  get$mask: function(_) {
+    return this._mask;
+  },
   get$name: function(_) {
     return this._name;
   },
@@ -7326,6 +7412,12 @@ $$.DisplayObject = {"": "EventDispatcher;_alpha<,_off<,_mask<,_cache<,_shadow<,_
   set$mask: function(_, value) {
     this._mask = value;
   },
+  set$filters: function(value) {
+    this._liblib3$_filters = value;
+  },
+  set$compositeOperation: function(value) {
+    this._compositeOperation = value;
+  },
   get$width: function(_) {
     return $.get$width$x(this.getBoundsTransformed$1(this.get$_transformationMatrix()));
   },
@@ -7386,12 +7478,13 @@ $$.DisplayObject = {"": "EventDispatcher;_alpha<,_off<,_mask<,_cache<,_shadow<,_
     }
     return this._transformationMatrixPrivate;
   },
+  get$transformationMatrix: function() {
+    return $.clone$0$x(this.get$_transformationMatrix());
+  },
   transformationMatrixTo$1: function(targetSpace) {
-    var t1, resultMatrix, resultObject, targetMatrix, targetObject;
-    if ($.$eq(targetSpace, this._parent) === true) {
-      t1 = this.get$_transformationMatrix();
-      return t1.clone$0(t1);
-    }
+    var resultMatrix, resultObject, targetMatrix, targetObject, t1;
+    if ($.$eq(targetSpace, this._parent) === true)
+      return $.clone$0$x(this.get$_transformationMatrix());
     if (targetSpace.get$_parent() === this)
       return targetSpace.get$_transformationMatrix().cloneInvert$0();
     resultMatrix = $.Matrix$fromIdentity();
@@ -7452,6 +7545,147 @@ $$.DisplayObject = {"": "EventDispatcher;_alpha<,_off<,_mask<,_cache<,_shadow<,_
       t1.concat$1(t1, displayObject.get$_transformationMatrix());
     t1.invert$0();
     return t1.transformPoint$1(globalPoint);
+  },
+  applyCache$5$debugBorder: function(x, y, width, height, debugBorder) {
+    var t1;
+    if (typeof width !== "number")
+      return this.applyCache$5$debugBorder$bailout(1, x, y, width, height, debugBorder);
+    if (typeof height !== "number")
+      return this.applyCache$5$debugBorder$bailout(1, x, y, width, height, debugBorder);
+    t1 = $.Stage__canvasRatio;
+    if (typeof t1 !== "number")
+      return this.applyCache$5$debugBorder$bailout(2, x, y, width, height, debugBorder, t1);
+    if (t1 !== 1) {
+      this._cache = $.BitmapData$($.JSNumber_methods.ceil$0(width * t1), $.JSNumber_methods.ceil$0(height * t1), true, 0);
+      this._cache._destinationWidth = width;
+      this._cache._destinationHeight = height;
+      this._cache._renderMode = 3;
+    } else
+      this._cache = $.BitmapData$(width, height, true, 0);
+    this._cache._destinationX = x;
+    this._cache._destinationY = y;
+    this._cacheRectangle = $.Rectangle$(x, y, width, height);
+    this._cacheDebugBorder = debugBorder;
+    this.refreshCache$0();
+  },
+  applyCache$5$debugBorder$bailout: function(state0, x, y, width, height, debugBorder, t1, ratio) {
+    switch (state0) {
+      case 0:
+      case 1:
+        state0 = 0;
+        t1 = $.Stage__canvasRatio;
+      case 2:
+        state0 = 0;
+      case 3:
+        if (state0 === 3 || state0 === 0 && $.$eq(t1, 1) !== true)
+          switch (state0) {
+            case 0:
+              ratio = $.Stage__canvasRatio;
+            case 3:
+              state0 = 0;
+              this._cache = $.BitmapData$($.ceil$0$nx($.$mul$n(width, ratio)), $.ceil$0$nx($.$mul$n(height, ratio)), true, 0);
+              this._cache._destinationWidth = width;
+              this._cache._destinationHeight = height;
+              this._cache._renderMode = 3;
+          }
+        else
+          this._cache = $.BitmapData$(width, height, true, 0);
+        this._cache._destinationX = x;
+        this._cache._destinationY = y;
+        this._cacheRectangle = $.Rectangle$(x, y, width, height);
+        this._cacheDebugBorder = debugBorder;
+        this.refreshCache$0();
+    }
+  },
+  applyCache$4: function(x, y, width, height) {
+    return this.applyCache$5$debugBorder(x, y, width, height, false);
+  },
+  refreshCache$0: function() {
+    var t1, x, y, width, height, ratio, t2, i;
+    if (this._cache == null)
+      return;
+    t1 = this._cacheRectangle;
+    x = t1.get$x(t1);
+    t1 = this._cacheRectangle;
+    y = t1.get$y(t1);
+    t1 = this._cacheRectangle;
+    width = t1.get$width(t1);
+    if (typeof width !== "number")
+      return this.refreshCache$0$bailout(1, y, width, x);
+    t1 = this._cacheRectangle;
+    height = t1.get$height(t1);
+    if (typeof height !== "number")
+      return this.refreshCache$0$bailout(2, y, width, x, height);
+    ratio = $.Stage__canvasRatio;
+    t1 = this._cache;
+    t1.clear$0(t1);
+    t1 = this._cache;
+    t2 = $.Matrix$(1, 0, 0, 1, $.$negate$n(x), $.$negate$n(y));
+    t2.scale$2(t2, ratio, ratio);
+    t1.draw$2(this, t2);
+    i = 0;
+    while (true) {
+      t1 = this._liblib3$_filters;
+      if (!(t1 != null && i < $.get$length$asx(t1)))
+        break;
+      $.$index$asx(this._liblib3$_filters, i).apply$4(this._cache, $.Rectangle$(0, 0, width, height), this._cache, $.Point$zero());
+      ++i;
+    }
+    if (this._cacheDebugBorder) {
+      t1 = this._cache;
+      t1.fillRect$2(t1, $.Rectangle$(0, 0, width, 1), 4294902015);
+      t1 = this._cache;
+      t1.fillRect$2(t1, $.Rectangle$(width - 1, 0, 1, height), 4294902015);
+      t1 = this._cache;
+      t1.fillRect$2(t1, $.Rectangle$(0, height - 1, width, 1), 4294902015);
+      t1 = this._cache;
+      t1.fillRect$2(t1, $.Rectangle$(0, 0, 1, height), 4294902015);
+    }
+  },
+  refreshCache$0$bailout: function(state0, y, width, x, height) {
+    switch (state0) {
+      case 0:
+        if (this._cache == null)
+          return;
+        t1 = this._cacheRectangle;
+        x = t1.get$x(t1);
+        t1 = this._cacheRectangle;
+        y = t1.get$y(t1);
+        t1 = this._cacheRectangle;
+        width = t1.get$width(t1);
+      case 1:
+        state0 = 0;
+        t1 = this._cacheRectangle;
+        height = t1.get$height(t1);
+      case 2:
+        var t1, ratio, t2, i;
+        state0 = 0;
+        ratio = $.Stage__canvasRatio;
+        t1 = this._cache;
+        t1.clear$0(t1);
+        t1 = this._cache;
+        t2 = $.Matrix$(1, 0, 0, 1, $.$negate$n(x), $.$negate$n(y));
+        t2.scale$2(t2, ratio, ratio);
+        t1.draw$2(this, t2);
+        i = 0;
+        while (true) {
+          t1 = this._liblib3$_filters;
+          if (!(t1 != null && i < $.get$length$asx(t1)))
+            break;
+          $.$index$asx(this._liblib3$_filters, i).apply$4(this._cache, $.Rectangle$(0, 0, width, height), this._cache, $.Point$zero());
+          ++i;
+        }
+        if (this._cacheDebugBorder) {
+          t1 = this._cache;
+          t1.fillRect$2(t1, $.Rectangle$(0, 0, width, 1), 4294902015);
+          t1 = this._cache;
+          t1.fillRect$2(t1, $.Rectangle$($.$sub$n(width, 1), 0, 1, height), 4294902015);
+          t1 = this._cache;
+          t1.fillRect$2(t1, $.Rectangle$(0, $.$sub$n(height, 1), width, 1), 4294902015);
+          t1 = this._cache;
+          t1.fillRect$2(t1, $.Rectangle$(0, 0, 1, height), 4294902015);
+        }
+    }
   },
   dispatchEvent$1: function(_, $event) {
     var ancestor, ancestors, t1, i;
@@ -7642,10 +7876,8 @@ $$.DisplayObjectContainer = {"": "InteractiveObject;_children>",
   },
   hitTestInput$2: function(localX, localY) {
     var t1, i, hit, child, matrix, deltaX, deltaY, displayObject;
-    if (typeof localX !== "number")
-      return this.hitTestInput$2$bailout1(1, localX, localY);
-    if (typeof localY !== "number")
-      return this.hitTestInput$2$bailout1(1, localX, localY);
+    localX = $.toDouble$0$n(localX);
+    localY = $.toDouble$0$n(localY);
     for (t1 = this._children, i = t1.length - 1, hit = null; i >= 0; --i) {
       if (i >= t1.length)
         throw $.ioore(i);
@@ -7655,33 +7887,6 @@ $$.DisplayObjectContainer = {"": "InteractiveObject;_children>",
         deltaX = localX - matrix.get$tx();
         deltaY = localY - matrix.get$ty();
         displayObject = child.hitTestInput$2((matrix.get$d() * deltaX - matrix.get$c() * deltaY) / matrix.get$det(), (matrix.get$a() * deltaY - matrix.get$b() * deltaX) / matrix.get$det());
-        if (displayObject != null) {
-          if (typeof displayObject === "object" && displayObject !== null && !!$.getInterceptor(displayObject).$isInteractiveObject)
-            if (displayObject.mouseEnabled)
-              return this._mouseChildren ? displayObject : this;
-          hit = this;
-        }
-      }
-    }
-    return hit;
-  },
-  hitTestInput$2$bailout1: function(state0, localX, localY) {
-    var t1, i, t2, t3, hit, child, matrix, deltaX, deltaY, t4, t5, displayObject;
-    for (t1 = this._children, i = t1.length - 1, t2 = $.getInterceptor$n(localX), t3 = $.getInterceptor$n(localY), hit = null; i >= 0; --i) {
-      if (i >= t1.length)
-        throw $.ioore(i);
-      child = t1[i];
-      if (child.get$visible() === true) {
-        matrix = child.get$_transformationMatrix();
-        deltaX = t2.$sub(localX, matrix.get$tx());
-        deltaY = t3.$sub(localY, matrix.get$ty());
-        t4 = matrix.get$d();
-        if (typeof deltaX !== "number")
-          throw $.iae(deltaX);
-        t5 = matrix.get$c();
-        if (typeof deltaY !== "number")
-          throw $.iae(deltaY);
-        displayObject = child.hitTestInput$2((t4 * deltaX - t5 * deltaY) / matrix.get$det(), (matrix.get$a() * deltaY - matrix.get$b() * deltaX) / matrix.get$det());
         if (displayObject != null) {
           if (typeof displayObject === "object" && displayObject !== null && !!$.getInterceptor(displayObject).$isInteractiveObject)
             if (displayObject.mouseEnabled)
@@ -7932,7 +8137,7 @@ $$.Stage = {"": "DisplayObjectContainer;_canvas,_context,_defaultWidth,_defaultH
     }
   },
   _updateCanvasSize$0: function() {
-    var client, t1, clientLeft, clientTop, clientWidth, clientHeight, canvasWidth, canvasHeight, canvasPivotX, canvasPivotY;
+    var client, t1, clientLeft, clientTop, clientWidth, clientHeight, canvasWidth, canvasHeight, canvasPivotX, canvasPivotY, t2;
     client = this._canvas.getBoundingClientRect();
     t1 = $.getInterceptor$x(client);
     clientLeft = $.$add$ns(this._canvas.clientLeft, t1.get$left(client));
@@ -8012,13 +8217,12 @@ $$.Stage = {"": "DisplayObjectContainer;_canvas,_context,_defaultWidth,_defaultH
       throw $.iae(canvasPivotY);
     t1.setTo$6(1, 0, 0, 1, 0 - canvasPivotX, 0 - canvasPivotY);
     this._clientTransformation.setTo$6($.$div$n(canvasWidth, clientWidth), 0, 0, $.$div$n(canvasHeight, clientHeight), canvasPivotX - clientLeft, canvasPivotY - clientTop);
-    if ($.$eq(this._canvasWidth, canvasWidth) !== true || $.$eq(this._canvasHeight, canvasHeight) !== true) {
-      t1 = this._canvas;
-      this._canvasWidth = canvasWidth;
-      $.set$width$x(t1, canvasWidth);
-      t1 = this._canvas;
-      this._canvasHeight = canvasHeight;
-      $.set$height$x(t1, canvasHeight);
+    if ($.$eq(this._canvasWidth, canvasWidth) !== true || $.$eq(this._canvasHeight, canvasHeight) !== true)
+      this._setCanvasSize$2(canvasWidth, canvasHeight);
+    if ($.$eq($.Stage__canvasRatio, 1) !== true) {
+      t1 = this._stageTransformation;
+      t2 = $.Stage__canvasRatio;
+      t1.scale$2(t1, t2, t2);
     }
     t1 = this._clientWidth;
     if (t1 == null ? clientWidth == null : t1 === clientWidth) {
@@ -8030,6 +8234,24 @@ $$.Stage = {"": "DisplayObjectContainer;_canvas,_context,_defaultWidth,_defaultH
       this._clientWidth = clientWidth;
       this._clientHeight = clientHeight;
       this.dispatchEvent$1(this, $.Event$("resize", false));
+    }
+  },
+  _setCanvasSize$2: function(canvasWidth, canvasHeight) {
+    var t1;
+    if ($.$eq($.Stage__canvasRatio, 1) === true) {
+      t1 = this._canvas;
+      this._canvasWidth = canvasWidth;
+      $.set$width$x(t1, canvasWidth);
+      t1 = this._canvas;
+      this._canvasHeight = canvasHeight;
+      $.set$height$x(t1, canvasHeight);
+    } else {
+      this._canvasWidth = canvasWidth;
+      this._canvasHeight = canvasHeight;
+      $.set$width$x(this._canvas, $.round$0$nx($.$mul$n(this._canvasWidth, $.Stage__canvasRatio)));
+      $.set$height$x(this._canvas, $.round$0$nx($.$mul$n(this._canvasHeight, $.Stage__canvasRatio)));
+      $.set$width$x(this._canvas.style, $.S(this._canvasWidth) + "px");
+      $.set$height$x(this._canvas.style, $.S(this._canvasHeight) + "px");
     }
   },
   _onMouseCursorChanged$1: function(action) {
@@ -8050,12 +8272,7 @@ $$.Stage = {"": "DisplayObjectContainer;_canvas,_context,_defaultWidth,_defaultH
       return;
     if ($.$eq(t1.get$type($event), "mousemove") === true && this._mousePosition.equals$1(stagePoint))
       return;
-    t2 = this._mouseButtons;
-    if (button !== (button | 0))
-      throw $.iae(button);
-    if (button < 0 || button >= t2.length)
-      throw $.ioore(button);
-    mouseButton = t2[button];
+    mouseButton = $.$index$asx(this._mouseButtons, button);
     this._mousePosition = stagePoint;
     t2 = $.Mouse__dragSprite;
     if (t2 != null)
@@ -8298,18 +8515,22 @@ $$.Stage = {"": "DisplayObjectContainer;_canvas,_context,_defaultWidth,_defaultH
     return new $.BoundClosure$1(this, "_onTextEvent$1");
   },
   Stage$2: function($name, canvas) {
-    var t1, t2;
+    var t1, devicePixelRatio, backingStorePixelRatio;
     this._name = $name;
     this._canvas = canvas;
     this._canvas.focus();
     t1 = $.getInterceptor$x(canvas);
     this._context = t1.get$context2D(canvas);
-    t2 = t1.get$width(canvas);
-    this._defaultWidth = t2;
-    this._canvasWidth = t2;
-    t1 = t1.get$height(canvas);
-    this._defaultHeight = t1;
-    this._canvasHeight = t1;
+    if ($.Stage_autoHiDpi === true) {
+      devicePixelRatio = $.get$devicePixelRatio$x($.window());
+      backingStorePixelRatio = this._context.webkitBackingStorePixelRatio;
+      if (devicePixelRatio == null)
+        devicePixelRatio = 1;
+      $.Stage__canvasRatio = $.$div$n(devicePixelRatio, backingStorePixelRatio == null ? 1 : backingStorePixelRatio);
+    }
+    this._defaultWidth = t1.get$width(canvas);
+    this._defaultHeight = t1.get$height(canvas);
+    this._setCanvasSize$2(this._defaultWidth, this._defaultHeight);
     this._clientWidth = canvas.clientWidth;
     this._clientHeight = canvas.clientHeight;
     this._clientTransformation = $.Matrix$fromIdentity();
@@ -8464,26 +8685,34 @@ $$.FlipBook = {"": "InteractiveObject;_liblib3$_bitmapDatas,_frameRate,_currentF
   }
 };
 
-$$.RenderLoop = {"": "Object;_juggler,_stages,_renderTime,_enterFrameIndex,_enterFrameEvent",
+$$.Warp = {"": "DisplayObjectContainer;_matrix,_children,_mouseChildren,_tabChildren,doubleClickEnabled,mouseEnabled,tabEnabled,tabIndex,_liblib3$_id,_x,_y,_pivotX,_pivotY,_scaleX,_scaleY,_skewX,_skewY,_rotation,_alpha,_visible,_off,_mask,_cache,_cacheRectangle,_cacheDebugBorder,_liblib3$_filters,_shadow,_compositeOperation,_name,_parent,_tmpMatrix,_transformationMatrixPrivate,_transformationMatrixRefresh,_eventStreams,_captureEventStreams",
+  get$_transformationMatrix: function() {
+    return this._matrix;
+  },
+  get$matrix: function() {
+    return this._matrix;
+  },
+  set$matrix: function(value) {
+    this._matrix = value;
+  }
+};
+
+$$.RenderLoop = {"": "Object;_juggler,_stages,_renderTime,_requestAnimationFrameCallback,_enterFrameIndex,_enterFrameEvent",
   get$juggler: function() {
     return this._juggler;
   },
+  _requestAnimationFrame$0: function(_) {
+    $.requestAnimationFrame$1$x(window, this._requestAnimationFrameCallback);
+  },
   _onAnimationFrame$1: function(currentTime) {
-    var t1, deltaTime, deltaTimeSec, currentTimeSec, i, stage;
-    if (typeof currentTime !== "number")
-      return this._onAnimationFrame$1$bailout(1, currentTime);
-    $.requestAnimationFrame$1$x(window, this.get$_onAnimationFrame());
-    if ($.get$isNaN$n(this._renderTime))
+    var deltaTime, deltaTimeSec, currentTimeSec, i, t1, stage;
+    $.requestAnimationFrame$1$x(window, this._requestAnimationFrameCallback);
+    currentTime = $.toDouble$0$n(currentTime);
+    if (this._renderTime === -1)
       this._renderTime = currentTime;
-    t1 = this._renderTime;
-    if (typeof t1 !== "number")
-      return this._onAnimationFrame$1$bailout(2, currentTime, t1);
-    if (t1 > currentTime)
+    if (this._renderTime > currentTime)
       this._renderTime = currentTime;
-    t1 = this._renderTime;
-    if (typeof t1 !== "number")
-      return this._onAnimationFrame$1$bailout(3, currentTime, t1);
-    deltaTime = currentTime - t1;
+    deltaTime = currentTime - this._renderTime;
     deltaTimeSec = deltaTime / 1000;
     currentTimeSec = currentTime / 1000;
     if (deltaTime >= 1) {
@@ -8496,41 +8725,6 @@ $$.RenderLoop = {"": "Object;_juggler,_stages,_renderTime,_enterFrameIndex,_ente
         stage.get$juggler().advanceTime$1(deltaTimeSec);
         stage.materialize$2(currentTimeSec, deltaTimeSec);
       }
-    }
-  },
-  _onAnimationFrame$1$bailout: function(state0, currentTime, t1) {
-    switch (state0) {
-      case 0:
-      case 1:
-        state0 = 0;
-        $.requestAnimationFrame$1$x(window, this.get$_onAnimationFrame());
-        if ($.get$isNaN$n(this._renderTime))
-          this._renderTime = currentTime;
-        t1 = this._renderTime;
-      case 2:
-        state0 = 0;
-        if ($.$gt$n(t1, currentTime))
-          this._renderTime = currentTime;
-        t1 = this._renderTime;
-      case 3:
-        var t2, deltaTime, deltaTimeSec, currentTimeSec, i, stage;
-        state0 = 0;
-        t2 = $.getInterceptor$n(currentTime);
-        deltaTime = t2.$sub(currentTime, t1);
-        t1 = $.getInterceptor$n(deltaTime);
-        deltaTimeSec = t1.$div(deltaTime, 1000);
-        currentTimeSec = t2.$div(currentTime, 1000);
-        if (t1.$ge(deltaTime, 1)) {
-          this._renderTime = currentTime;
-          this._enterFrameEvent._passedTime = deltaTimeSec;
-          this._enterFrameIndex._dispatchEvent$1(this._enterFrameEvent);
-          this._juggler.advanceTime$1(deltaTimeSec);
-          for (i = 0; t1 = this._stages, i < t1.length; ++i) {
-            stage = t1[i];
-            stage.get$juggler().advanceTime$1(deltaTimeSec);
-            stage.materialize$2(currentTimeSec, deltaTimeSec);
-          }
-        }
     }
   },
   get$_onAnimationFrame: function() {
@@ -8553,16 +8747,24 @@ $$.RenderLoop = {"": "Object;_juggler,_stages,_renderTime,_enterFrameIndex,_ente
     var t1 = $.List_List($, $.Stage);
     $.setRuntimeTypeInfo(t1, [$.Stage]);
     this._stages = t1;
-    this._renderTime = 0 / 0;
+    this._renderTime = -1;
     this._enterFrameIndex = $.get$_EventStreamIndex_enterFrame();
     this._enterFrameEvent = $.EnterFrameEvent$(0);
-    $.requestAnimationFrame$1$x($.window(), this.get$_onAnimationFrame());
+    this._requestAnimationFrameCallback = this.get$_onAnimationFrame();
+    this._requestAnimationFrame$0(this);
   }
 };
 
-$$._ContextState = {"": "Object;matrix<,next<,alpha*,compositeOperation", $is_ContextState: true};
+$$._ContextState = {"": "Object;matrix<,alpha*,compositeOperation,_nextContextState",
+  get$nextContextState: function() {
+    if (this._nextContextState == null)
+      this._nextContextState = $._ContextState$();
+    return this._nextContextState;
+  },
+  $is_ContextState: true
+};
 
-$$.RenderState = {"": "Object;_context,_currentTime,_deltaTime,_currentContextState,_firstContextState",
+$$.RenderState = {"": "Object;_context,_currentTime,_deltaTime,_firstContextState,_currentContextState",
   get$context: function(_) {
     return this._context;
   },
@@ -8578,8 +8780,8 @@ $$.RenderState = {"": "Object;_context,_currentTime,_deltaTime,_currentContextSt
     this._deltaTime = !t2 ? deltaTime : 0;
     this._currentContextState = this._firstContextState;
     if (matrix != null)
-      this._currentContextState.matrix.copyFrom$1(matrix);
-    m = this._currentContextState.matrix;
+      this._firstContextState.matrix.copyFrom$1(matrix);
+    m = this._firstContextState.matrix;
     t1 = this._context;
     t1.setTransform(m.get$a(), m.get$b(), m.get$c(), m.get$d(), m.get$tx(), m.get$ty());
     t1.globalAlpha = 1;
@@ -8596,7 +8798,7 @@ $$.RenderState = {"": "Object;_context,_currentTime,_deltaTime,_currentContextSt
     composite = displayObject.get$_compositeOperation();
     cache = displayObject.get$_cache();
     cs1 = this._currentContextState;
-    cs2 = cs1.next;
+    cs2 = cs1.get$nextContextState();
     this._currentContextState = cs2;
     nextMatrix = cs2.matrix;
     nextAlpha = $.$mul$n(cs1.alpha, alpha);
@@ -8619,11 +8821,11 @@ $$.RenderState = {"": "Object;_context,_currentTime,_deltaTime,_currentContextSt
           if (t2 == null ? t3 == null : t2 === t3)
             matrix = matrix0;
           else {
-            matrix = t2.transformationMatrixTo$1(displayObject);
+            matrix = mask.targetSpace.transformationMatrixTo$1(displayObject);
             if (matrix == null)
               matrix = $.get$_identityMatrix();
             else
-              matrix.concat$1(matrix, nextMatrix);
+              $.concat$1$s(matrix, nextMatrix);
           }
         }
         mask.render$2(this, matrix);
@@ -8643,7 +8845,7 @@ $$.RenderState = {"": "Object;_context,_currentTime,_deltaTime,_currentContextSt
             if (matrix == null)
               matrix = $.get$_identityMatrix();
             else
-              matrix.concat$1(matrix, nextMatrix);
+              $.concat$1$s(matrix, nextMatrix);
           }
         }
         shadow.render$2(this, matrix);
@@ -8662,14 +8864,12 @@ $$.RenderState = {"": "Object;_context,_currentTime,_deltaTime,_currentContextSt
     this._currentContextState = cs1;
   },
   RenderState$fromCanvasRenderingContext2D$2: function(context, matrix) {
-    var i, t1, m;
-    this._firstContextState = null;
-    for (i = 0; t1 = this._firstContextState, i < 100; ++i)
-      this._firstContextState = $._ContextState$(t1);
-    this._currentContextState = t1;
+    var m, t1;
+    this._firstContextState = $._ContextState$();
+    this._currentContextState = this._firstContextState;
     if (matrix != null)
-      this._currentContextState.matrix.copyFrom$1(matrix);
-    m = this._currentContextState.matrix;
+      this._firstContextState.matrix.copyFrom$1(matrix);
+    m = this._firstContextState.matrix;
     t1 = this._context;
     t1.setTransform(m.get$a(), m.get$b(), m.get$c(), m.get$d(), m.get$tx(), m.get$ty());
     t1.globalAlpha = 1;
@@ -8829,8 +9029,8 @@ $$._EventStream0 = {"": "Stream;_target<,_liblib3$_eventType,_liblib3$_useCaptur
   _dispatchEvent$1: function($event) {
     var subscriptionsCount, t1, tail, head, subscription, t2, tail0, t3;
     subscriptionsCount = this._subscriptionsCount;
-    if (subscriptionsCount !== (subscriptionsCount | 0))
-      return this._dispatchEvent$1$bailout(1, $event, subscriptionsCount);
+    if (typeof subscriptionsCount !== "number" || Math.floor(subscriptionsCount) !== subscriptionsCount)
+      throw $.wrapException("dart2js_hint");
     for (t1 = this._subscriptions, tail = 0, head = 0; head < subscriptionsCount; ++head) {
       if (head >= t1.length)
         throw $.ioore(head);
@@ -8852,42 +9052,6 @@ $$._EventStream0 = {"": "Stream;_target<,_liblib3$_eventType,_liblib3$_useCaptur
     if (tail !== subscriptionsCount) {
       for (t2 = t1.length, head = subscriptionsCount; head < this._subscriptionsCount; ++head, tail = tail0) {
         tail0 = tail + 1;
-        if (head < 0 || head >= t2)
-          throw $.ioore(head);
-        t3 = t1[head];
-        if (tail >= t2)
-          throw $.ioore(tail);
-        t1[tail] = t3;
-        t1[head] = null;
-      }
-      this._subscriptionsCount = tail;
-    }
-  },
-  _dispatchEvent$1$bailout: function(state0, $event, subscriptionsCount) {
-    var t1, tail, head, subscription, t2, tail0, t3;
-    for (t1 = this._subscriptions, tail = 0, head = 0; head < subscriptionsCount; ++head) {
-      if (head >= t1.length)
-        throw $.ioore(head);
-      subscription = t1[head];
-      if (subscription == null)
-        continue;
-      subscription._liblib3$_onData$1($event);
-      if (tail !== head) {
-        t2 = t1.length;
-        if (tail >= t2)
-          throw $.ioore(tail);
-        t1[tail] = subscription;
-        if (head >= t2)
-          throw $.ioore(head);
-        t1[head] = null;
-      }
-      ++tail;
-    }
-    if (tail !== subscriptionsCount) {
-      for (t2 = t1.length, head = subscriptionsCount; head < this._subscriptionsCount; ++head, tail = tail0) {
-        tail0 = tail + 1;
-        if (head !== (head | 0))
-          throw $.iae(head);
         if (head < 0 || head >= t2)
           throw $.ioore(head);
         t3 = t1[head];
@@ -8928,8 +9092,8 @@ $$._EventStreamIndex = {"": "Object;_eventStreams,_eventStreamsCount",
     $event._stopsPropagation = false;
     $event._stopsImmediatePropagation = false;
     eventStreamsCount = this._eventStreamsCount;
-    if (eventStreamsCount !== (eventStreamsCount | 0))
-      return this._dispatchEvent$1$bailout(1, $event, eventStreamsCount);
+    if (typeof eventStreamsCount !== "number" || Math.floor(eventStreamsCount) !== eventStreamsCount)
+      throw $.wrapException("dart2js_hint");
     for (t1 = this._eventStreams, tail = 0, head = 0; head < eventStreamsCount; ++head) {
       if (head >= t1.length)
         throw $.ioore(head);
@@ -8957,48 +9121,6 @@ $$._EventStreamIndex = {"": "Object;_eventStreams,_eventStreamsCount",
     if (tail !== eventStreamsCount) {
       for (t2 = t1.length, head = eventStreamsCount; head < this._eventStreamsCount; ++head, tail = tail0) {
         tail0 = tail + 1;
-        if (head < 0 || head >= t2)
-          throw $.ioore(head);
-        t3 = t1[head];
-        if (tail >= t2)
-          throw $.ioore(tail);
-        t1[tail] = t3;
-        t1[head] = null;
-      }
-      this._eventStreamsCount = tail;
-    }
-  },
-  _dispatchEvent$1$bailout: function(state0, $event, eventStreamsCount) {
-    var t1, tail, head, eventStream, t2, tail0, t3;
-    for (t1 = this._eventStreams, tail = 0, head = 0; head < eventStreamsCount; ++head) {
-      if (head >= t1.length)
-        throw $.ioore(head);
-      eventStream = t1[head];
-      if (eventStream == null)
-        continue;
-      if (eventStream.get$_subscriptionsCount() === 0) {
-        t1[head] = null;
-        continue;
-      }
-      $event._target = eventStream.get$_target();
-      $event._currentTarget = eventStream.get$_target();
-      eventStream._dispatchEvent$1($event);
-      if (tail !== head) {
-        t2 = t1.length;
-        if (tail >= t2)
-          throw $.ioore(tail);
-        t1[tail] = eventStream;
-        if (head >= t2)
-          throw $.ioore(head);
-        t1[head] = null;
-      }
-      ++tail;
-    }
-    if (tail !== eventStreamsCount) {
-      for (t2 = t1.length, head = eventStreamsCount; head < this._eventStreamsCount; ++head, tail = tail0) {
-        tail0 = tail + 1;
-        if (head !== (head | 0))
-          throw $.iae(head);
         if (head < 0 || head >= t2)
           throw $.ioore(head);
         t3 = t1[head];
@@ -9191,9 +9313,45 @@ $$.TouchEvent = {"": "Event;_touchPointID,_isPrimaryTouchPoint,_localX,_localY,_
   }
 };
 
+$$.AlphaMaskFilter = {"": "BitmapFilter;_alphaBitmapData,_matrix",
+  get$matrix: function() {
+    return this._matrix;
+  },
+  clone$0: function(_) {
+    return $.AlphaMaskFilter$(this._alphaBitmapData, $.clone$0$x(this._matrix));
+  },
+  apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
+    var destinationRect, destinationBounds, alphaRoot, alphaWarp, alphaBitmap;
+    destinationRect = $.Rectangle$(destinationPoint.get$x(destinationPoint), destinationPoint.get$y(destinationPoint), sourceRect.get$width(sourceRect), sourceRect.get$height(sourceRect));
+    destinationBounds = $.Rectangle$(0, 0, destinationBitmapData.get$width(destinationBitmapData), destinationBitmapData.get$height(destinationBitmapData));
+    alphaRoot = $.Sprite$();
+    alphaWarp = $.Warp$();
+    alphaBitmap = $.Bitmap$(this._alphaBitmapData, "auto");
+    alphaRoot.set$x(alphaRoot, destinationPoint.get$x(destinationPoint));
+    alphaRoot.set$y(alphaRoot, destinationPoint.get$y(destinationPoint));
+    alphaRoot.addChild$1(alphaWarp);
+    alphaWarp.set$matrix(this._matrix);
+    alphaWarp.set$compositeOperation("destination-in");
+    alphaWarp.addChild$1(alphaBitmap);
+    if (!destinationRect.containsRect$1(destinationRect, destinationBounds)) {
+      alphaWarp.set$mask(alphaWarp, $._RectangleMask$(0, 0, sourceRect.get$width(sourceRect), sourceRect.get$height(sourceRect)));
+      alphaWarp.get$mask(alphaWarp).targetSpace = alphaRoot;
+    }
+    if ((sourceBitmapData == null ? destinationBitmapData != null : sourceBitmapData !== destinationBitmapData) || !sourceRect.get$topLeft(sourceRect).equals$1(destinationPoint))
+      destinationBitmapData.copyPixels$3(sourceBitmapData, sourceRect, destinationPoint);
+    destinationBitmapData.draw$2(alphaRoot, alphaRoot.get$transformationMatrix());
+  },
+  getBounds$0: function() {
+    return $.Rectangle$zero();
+  }
+};
+
 $$.BitmapFilter = {"": "Object;", $isBitmapFilter: true};
 
 $$.BlurFilter = {"": "BitmapFilter;blurX,blurY",
+  clone$0: function(_) {
+    return $.BlurFilter$(this.blurX, this.blurY);
+  },
   apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
     var sourceImageData, t1, sourceData, sourceWidth, sourceHeight, weightX, t2, weightY, weightXinv, weightYinv, rx2, ry2, destinationWidth, destinationHeight, sourceWidth4, destinationWidth4, destinationContext, t3, destinationImageData, destinationData, buffer, t4, t5, sum, t6, t7, z, x, offsetSource, offsetDestination, sum0, dif, y, t8, t9, color;
     sourceImageData = $.getImageData$4$x(sourceBitmapData._getContext$0(), sourceRect.get$x(sourceRect), sourceRect.get$y(sourceRect), sourceRect.get$width(sourceRect), sourceRect.get$height(sourceRect));
@@ -9582,6 +9740,18 @@ $$.BlurFilter = {"": "BitmapFilter;blurX,blurY",
         t4.putImageData$3(destinationContext, destinationImageData, $.$sub$n(destinationPoint.get$x(destinationPoint), rx1), $.$sub$n(destinationPoint.get$y(destinationPoint), t3));
     }
   },
+  getBounds$0: function() {
+    var t1, t2, t3, t4;
+    t1 = this.blurX;
+    t2 = $.$negate$n(t1);
+    t3 = this.blurY;
+    t4 = $.$negate$n(t3);
+    if (typeof t1 !== "number")
+      throw $.iae(t1);
+    if (typeof t3 !== "number")
+      throw $.iae(t3);
+    return $.Rectangle$(t2, t4, 2 * t1, 2 * t3);
+  },
   BlurFilter$2: function(blurX, blurY) {
     var t1, t2;
     t1 = this.blurX;
@@ -9594,6 +9764,9 @@ $$.BlurFilter = {"": "BitmapFilter;blurX,blurY",
 };
 
 $$.ColorMatrixFilter = {"": "BitmapFilter;_matrix",
+  clone$0: function(_) {
+    return $.ColorMatrixFilter$(this._matrix);
+  },
   apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
     var imageData, data, t1, a00, a01, a02, a03, a04, a05, a06, a07, a08, a09, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, index, t2, srcR, t3, srcG, t4, srcB, t5, srcA;
     imageData = $.getImageData$4$x(sourceBitmapData._getContext$0(), sourceRect.get$x(sourceRect), sourceRect.get$y(sourceRect), sourceRect.get$width(sourceRect), sourceRect.get$height(sourceRect));
@@ -9890,13 +10063,31 @@ $$.ColorMatrixFilter = {"": "BitmapFilter;_matrix",
           }
         $.putImageData$3$x(destinationBitmapData._getContext$0(), imageData, destinationPoint.get$x(destinationPoint), destinationPoint.get$y(destinationPoint));
     }
+  },
+  getBounds$0: function() {
+    return $.Rectangle$(0, 0, 0, 0);
+  },
+  ColorMatrixFilter$1: function(matrix) {
+    var t1, t2, t3, i, t4;
+    t1 = matrix.length;
+    if (t1 !== 20)
+      throw $.wrapException($.ArgumentError$("The supplied matrix needs to be a 4 x 5 matrix."));
+    for (t2 = this._matrix, t3 = t2.length, i = 0; i < t1; ++i) {
+      t4 = matrix[i];
+      if (i >= t3)
+        throw $.ioore(i);
+      t2[i] = t4;
+    }
   }
 };
 
 $$.DropShadowFilter = {"": "BitmapFilter;distance,angle,color,alpha*,blurX,blurY,strength,inner,knockout,hideObject",
+  clone$0: function(_) {
+    return $.DropShadowFilter$(this.distance, this.angle, this.color, this.alpha, this.blurX, this.blurY, this.strength, this.inner, this.knockout, this.hideObject);
+  },
   apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
     var newSourceBitmapData, sourceContext, sourceData, sourceWidth, sourceHeight, t1, weightX, t2, weightY, weightXinv, weightYinv, rx2, ry2, destinationWidth, destinationHeight, sourceWidth4, destinationWidth4, alphaChannel, destinationContext, t3, destinationImageData, destinationData, buffer, t4, t5, sum, t6, t7, x, offsetSource, offsetDestination, sum0, dif, y, t8, t9, alpha, aColor, rColor, gColor, bColor, i, sx, sy, dx, dy, sRect, uRect;
-    if ($.$eq(sourceBitmapData, destinationBitmapData) === true && this.hideObject !== true) {
+    if ((sourceBitmapData == null ? destinationBitmapData == null : sourceBitmapData === destinationBitmapData) && this.hideObject !== true) {
       newSourceBitmapData = $.BitmapData$(sourceRect.get$width(sourceRect), sourceRect.get$height(sourceRect), true, 4294967295);
       newSourceBitmapData.copyPixels$3(sourceBitmapData, sourceRect, $.Point$zero());
       sourceRect = $.Rectangle$(0, 0, newSourceBitmapData.get$width(newSourceBitmapData), newSourceBitmapData.get$height(newSourceBitmapData));
@@ -9934,7 +10125,7 @@ $$.DropShadowFilter = {"": "BitmapFilter;distance,angle,color,alpha*,blurX,blurY
     destinationImageData = t3.createImageData$2(destinationContext, destinationWidth, destinationHeight);
     destinationData = $.get$data$x(destinationImageData);
     if (typeof destinationData !== "object" || destinationData === null || (destinationData.constructor !== Array || !!destinationData.immutable$list) && !$.getInterceptor(destinationData).$isJavaScriptIndexingBehavior)
-      return this.apply$4$bailout1(6, 0, destinationPoint, 0, sourceContext, sourceData, sourceWidth, sourceHeight, t1, t3, weightX, t2, weightY, alphaChannel, weightXinv, destinationImageData, weightYinv, destinationContext, rx2, destinationHeight, destinationWidth4, ry2, destinationWidth, destinationData, sourceWidth4);
+      return this.apply$4$bailout1(6, 0, destinationPoint, 0, sourceContext, sourceData, sourceWidth, sourceHeight, t1, t3, weightX, t2, weightY, alphaChannel, destinationContext, weightXinv, destinationImageData, weightYinv, rx2, destinationHeight, destinationWidth4, ry2, destinationWidth, destinationData, sourceWidth4);
     buffer = $.List_List(1024, $.$int);
     $.setRuntimeTypeInfo(buffer, [$.$int]);
     for (t4 = buffer.length, t5 = $.getInterceptor$asx(sourceData), sum = $.JSNumber_methods.$shr(weightY, 1), t6 = sourceData.length, t7 = destinationData.length, x = 0; x < sourceWidth; ++x) {
@@ -9978,7 +10169,7 @@ $$.DropShadowFilter = {"": "BitmapFilter;distance,angle,color,alpha*,blurX,blurY
             throw $.ioore(offsetSource);
           t8 = sourceData[offsetSource];
           if (typeof t8 !== "number")
-            return this.apply$4$bailout1(7, 0, destinationPoint, 0, sourceContext, sourceData, sourceWidth, sourceHeight, t8, t3, weightX, t2, 0, alphaChannel, weightXinv, destinationImageData, weightYinv, destinationContext, rx2, destinationHeight, destinationWidth4, ry2, destinationWidth, destinationData, sourceWidth4, t5, sum0, offsetSource, y, t1, $.JSArray_methods, x, offsetDestination, sum, t4, buffer, dif);
+            return this.apply$4$bailout1(7, 0, destinationPoint, 0, sourceContext, sourceData, sourceWidth, sourceHeight, t8, t3, weightX, t2, 0, alphaChannel, destinationContext, weightXinv, destinationImageData, weightYinv, rx2, destinationHeight, destinationWidth4, ry2, destinationWidth, destinationData, sourceWidth4, t5, offsetSource, sum0, y, t1, $.JSArray_methods, x, offsetDestination, sum, t4, buffer, dif);
           alpha = t8;
         } else
           alpha = 0;
@@ -10033,7 +10224,7 @@ $$.DropShadowFilter = {"": "BitmapFilter;distance,angle,color,alpha*,blurX,blurY
             throw $.ioore(offsetSource);
           t6 = destinationData[offsetSource];
           if (typeof t6 !== "number")
-            return this.apply$4$bailout1(8, 0, destinationPoint, 0, sourceContext, 0, sourceWidth, sourceHeight, $.JSNumber_methods, t3, 0, t2, 0, alphaChannel, weightXinv, destinationImageData, 0, destinationContext, rx2, destinationHeight, destinationWidth4, 0, destinationWidth, destinationData, 0, t6, sum0, offsetSource, y, t1, $.JSArray_methods, x, offsetDestination, sum, t4, buffer, dif);
+            return this.apply$4$bailout1(8, 0, destinationPoint, 0, sourceContext, 0, sourceWidth, sourceHeight, $.JSNumber_methods, t3, 0, t2, 0, alphaChannel, destinationContext, weightXinv, destinationImageData, 0, rx2, destinationHeight, destinationWidth4, 0, destinationWidth, destinationData, 0, t6, offsetSource, sum0, y, t1, $.JSArray_methods, x, offsetDestination, sum, t4, buffer, dif);
           alpha = t6;
         } else
           alpha = 0;
@@ -10048,7 +10239,7 @@ $$.DropShadowFilter = {"": "BitmapFilter;distance,angle,color,alpha*,blurX,blurY
     }
     aColor = $.toInt$0$nx($.$mul$n(this.alpha, 256));
     if (typeof aColor !== "number")
-      return this.apply$4$bailout1(9, 0, destinationPoint, 0, sourceContext, 0, sourceWidth, sourceHeight, 0, t3, 0, t2, 0, 0, 0, destinationImageData, 0, destinationContext, 0, destinationHeight, 0, 0, destinationWidth, destinationData, 0, 0, 0, 0, 0, t1, 0, 0, 0, 0, 0, 0, 0, aColor);
+      return this.apply$4$bailout1(9, 0, destinationPoint, 0, sourceContext, 0, sourceWidth, sourceHeight, 0, t3, 0, t2, 0, 0, destinationContext, 0, destinationImageData, 0, 0, destinationHeight, 0, 0, destinationWidth, destinationData, 0, 0, 0, 0, 0, t1, 0, 0, 0, 0, 0, 0, 0, aColor);
     t4 = this.color;
     t5 = $.getInterceptor$n(t4);
     rColor = t5.$shr(t4, 16) & 255;
@@ -10108,10 +10299,10 @@ $$.DropShadowFilter = {"": "BitmapFilter;distance,angle,color,alpha*,blurX,blurY
     if ($.$eq(this.hideObject, false) === true)
       destinationContext.drawImage(sourceContext.canvas, sx, sy);
   },
-  apply$4$bailout1: function(state0, destinationBitmapData, destinationPoint, sourceRect, sourceContext, sourceData, sourceWidth, sourceHeight, t1, t2, weightX, t3, weightY, alphaChannel, weightXinv, destinationImageData, weightYinv, destinationContext, rx2, destinationHeight, destinationWidth4, ry2, destinationWidth, destinationData, sourceWidth4, t5, sum0, offsetSource, y, rx1, t6, x, offsetDestination, sum, t4, buffer, dif, aColor) {
+  apply$4$bailout1: function(state0, destinationBitmapData, destinationPoint, sourceRect, sourceContext, sourceData, sourceWidth, sourceHeight, t1, t2, weightX, t3, weightY, alphaChannel, destinationContext, weightXinv, destinationImageData, weightYinv, rx2, destinationHeight, destinationWidth4, ry2, destinationWidth, destinationData, sourceWidth4, t5, offsetSource, sum0, y, rx1, t6, x, offsetDestination, sum, t4, buffer, dif, aColor) {
     switch (state0) {
       case 0:
-        if ($.$eq(sourceBitmapData, destinationBitmapData) === true && this.hideObject !== true) {
+        if ((sourceBitmapData == null ? destinationBitmapData == null : sourceBitmapData === destinationBitmapData) && this.hideObject !== true) {
           newSourceBitmapData = $.BitmapData$(sourceRect.get$width(sourceRect), sourceRect.get$height(sourceRect), true, 4294967295);
           newSourceBitmapData.copyPixels$3(sourceBitmapData, sourceRect, $.Point$zero());
           sourceRect = $.Rectangle$(0, 0, newSourceBitmapData.get$width(newSourceBitmapData), newSourceBitmapData.get$height(newSourceBitmapData));
@@ -10372,6 +10563,30 @@ $$.DropShadowFilter = {"": "BitmapFilter;distance,angle,color,alpha*,blurX,blurY
           destinationContext.drawImage(sourceContext.canvas, sx, sy);
     }
   },
+  getBounds$0: function() {
+    var t1, t2, t3, t4, dx, dy, t5;
+    t1 = this.distance;
+    t2 = this.angle;
+    t3 = typeof t2 !== "number";
+    if (t3)
+      $.throwExpression($.ArgumentError$(t2));
+    t4 = $.getInterceptor$n(t1);
+    dx = $.round$0$nx(t4.$mul(t1, Math.cos(t2)));
+    if (t3)
+      $.throwExpression($.ArgumentError$(t2));
+    dy = $.round$0$nx(t4.$mul(t1, Math.sin(t2)));
+    t1 = this.blurX;
+    t2 = $.getInterceptor$n(dx);
+    t3 = t2.$sub(dx, t1);
+    t4 = this.blurY;
+    t5 = t2.$sub(dx, t4);
+    if (typeof t1 !== "number")
+      throw $.iae(t1);
+    t1 = t2.$add(dx, 2 * t1);
+    if (typeof t4 !== "number")
+      throw $.iae(t4);
+    return $.Rectangle$(t3, t5, t1, $.$add$ns(dy, 2 * t4));
+  },
   DropShadowFilter$10: function(distance, angle, color, alpha, blurX, blurY, strength, inner, knockout, hideObject) {
     var t1, t2;
     t1 = this.blurX;
@@ -10384,9 +10599,12 @@ $$.DropShadowFilter = {"": "BitmapFilter;distance,angle,color,alpha*,blurX,blurY
 };
 
 $$.GlowFilter = {"": "BitmapFilter;color,alpha*,blurX,blurY,strength,inner,knockout,hideObject",
+  clone$0: function(_) {
+    return $.GlowFilter$(this.color, this.alpha, this.blurX, this.blurY, this.strength, this.inner, this.knockout, this.hideObject);
+  },
   apply$4: function(sourceBitmapData, sourceRect, destinationBitmapData, destinationPoint) {
     var newSourceBitmapData, sourceContext, sourceData, sourceWidth, sourceHeight, t1, weightX, t2, weightY, weightXinv, weightYinv, rx2, ry2, destinationWidth, destinationHeight, sourceWidth4, destinationWidth4, alphaChannel, destinationContext, t3, destinationImageData, destinationData, buffer, t4, t5, sum, t6, t7, x, offsetSource, offsetDestination, sum0, dif, y, t8, t9, alpha, aColor, rColor, gColor, bColor, i, sx, sy, dx, dy, sRect, uRect;
-    if ($.$eq(sourceBitmapData, destinationBitmapData) === true && this.hideObject !== true) {
+    if ((sourceBitmapData == null ? destinationBitmapData == null : sourceBitmapData === destinationBitmapData) && this.hideObject !== true) {
       newSourceBitmapData = $.BitmapData$(sourceRect.get$width(sourceRect), sourceRect.get$height(sourceRect), true, 4294967295);
       newSourceBitmapData.copyPixels$3(sourceBitmapData, sourceRect, $.Point$zero());
       sourceRect = $.Rectangle$(0, 0, newSourceBitmapData.get$width(newSourceBitmapData), newSourceBitmapData.get$height(newSourceBitmapData));
@@ -10408,7 +10626,7 @@ $$.GlowFilter = {"": "BitmapFilter;color,alpha*,blurX,blurY,strength,inner,knock
     weightX = t1 * t1;
     t2 = this.blurY;
     if (typeof t2 !== "number")
-      return this.apply$4$bailout1(5, destinationBitmapData, destinationPoint, 0, sourceContext, sourceData, sourceWidth, sourceHeight, t1, $.JSNumber_methods, weightX, t2);
+      return this.apply$4$bailout1(5, destinationBitmapData, destinationPoint, 0, sourceContext, sourceData, sourceWidth, sourceHeight, t1, t2, weightX, $.JSNumber_methods);
     weightY = t2 * t2;
     weightXinv = $.JSInt_methods.$tdiv(4194304, weightX);
     weightYinv = $.JSInt_methods.$tdiv(4194304, weightY);
@@ -10424,7 +10642,7 @@ $$.GlowFilter = {"": "BitmapFilter;color,alpha*,blurX,blurY,strength,inner,knock
     destinationImageData = t3.createImageData$2(destinationContext, destinationWidth, destinationHeight);
     destinationData = $.get$data$x(destinationImageData);
     if (typeof destinationData !== "object" || destinationData === null || (destinationData.constructor !== Array || !!destinationData.immutable$list) && !$.getInterceptor(destinationData).$isJavaScriptIndexingBehavior)
-      return this.apply$4$bailout1(6, 0, destinationPoint, 0, sourceContext, sourceData, sourceWidth, sourceHeight, t1, t3, weightX, t2, weightY, destinationHeight, destinationWidth4, destinationData, alphaChannel, weightXinv, destinationContext, weightYinv, destinationImageData, rx2, ry2, destinationWidth, sourceWidth4);
+      return this.apply$4$bailout1(6, 0, destinationPoint, 0, sourceContext, sourceData, sourceWidth, sourceHeight, t1, t2, weightX, t3, weightY, destinationHeight, destinationWidth4, destinationData, alphaChannel, weightXinv, destinationContext, weightYinv, destinationImageData, rx2, ry2, destinationWidth, sourceWidth4);
     buffer = $.List_List(1024, $.$int);
     $.setRuntimeTypeInfo(buffer, [$.$int]);
     for (t4 = buffer.length, t5 = $.getInterceptor$asx(sourceData), sum = $.JSNumber_methods.$shr(weightY, 1), t6 = sourceData.length, t7 = destinationData.length, x = 0; x < sourceWidth; ++x) {
@@ -10468,7 +10686,7 @@ $$.GlowFilter = {"": "BitmapFilter;color,alpha*,blurX,blurY,strength,inner,knock
             throw $.ioore(offsetSource);
           t8 = sourceData[offsetSource];
           if (typeof t8 !== "number")
-            return this.apply$4$bailout1(7, 0, destinationPoint, 0, sourceContext, sourceData, sourceWidth, sourceHeight, t8, t3, weightX, t2, 0, destinationHeight, destinationWidth4, destinationData, alphaChannel, weightXinv, destinationContext, weightYinv, destinationImageData, rx2, ry2, destinationWidth, sourceWidth4, t5, sum0, offsetSource, y, t1, $.JSArray_methods, x, sum, offsetDestination, t4, buffer, dif);
+            return this.apply$4$bailout1(7, 0, destinationPoint, 0, sourceContext, sourceData, sourceWidth, sourceHeight, t8, t2, weightX, t3, 0, destinationHeight, destinationWidth4, destinationData, alphaChannel, weightXinv, destinationContext, weightYinv, destinationImageData, rx2, ry2, destinationWidth, sourceWidth4, sum0, offsetSource, y, t5, t1, $.JSArray_methods, x, sum, offsetDestination, t4, buffer, dif);
           alpha = t8;
         } else
           alpha = 0;
@@ -10523,7 +10741,7 @@ $$.GlowFilter = {"": "BitmapFilter;color,alpha*,blurX,blurY,strength,inner,knock
             throw $.ioore(offsetSource);
           t6 = destinationData[offsetSource];
           if (typeof t6 !== "number")
-            return this.apply$4$bailout1(8, 0, destinationPoint, 0, sourceContext, 0, sourceWidth, sourceHeight, $.JSNumber_methods, t3, 0, t2, 0, destinationHeight, destinationWidth4, destinationData, alphaChannel, weightXinv, destinationContext, 0, destinationImageData, rx2, 0, destinationWidth, 0, t6, sum0, offsetSource, y, t1, $.JSArray_methods, x, sum, offsetDestination, t4, buffer, dif);
+            return this.apply$4$bailout1(8, 0, destinationPoint, 0, sourceContext, 0, sourceWidth, sourceHeight, $.JSNumber_methods, t2, 0, t3, 0, destinationHeight, destinationWidth4, destinationData, alphaChannel, weightXinv, destinationContext, 0, destinationImageData, rx2, 0, destinationWidth, 0, sum0, offsetSource, y, t6, t1, $.JSArray_methods, x, sum, offsetDestination, t4, buffer, dif);
           alpha = t6;
         } else
           alpha = 0;
@@ -10538,7 +10756,7 @@ $$.GlowFilter = {"": "BitmapFilter;color,alpha*,blurX,blurY,strength,inner,knock
     }
     aColor = $.toInt$0$nx($.$mul$n(this.alpha, 256));
     if (typeof aColor !== "number")
-      return this.apply$4$bailout1(9, 0, destinationPoint, 0, sourceContext, 0, sourceWidth, sourceHeight, 0, t3, 0, t2, 0, destinationHeight, 0, destinationData, 0, 0, destinationContext, 0, destinationImageData, 0, 0, destinationWidth, 0, 0, 0, 0, 0, t1, 0, 0, 0, 0, 0, 0, 0, aColor);
+      return this.apply$4$bailout1(9, 0, destinationPoint, 0, sourceContext, 0, sourceWidth, sourceHeight, 0, t2, 0, t3, 0, destinationHeight, 0, destinationData, 0, 0, destinationContext, 0, destinationImageData, 0, 0, destinationWidth, 0, 0, 0, 0, 0, t1, 0, 0, 0, 0, 0, 0, 0, aColor);
     t4 = this.color;
     t5 = $.getInterceptor$n(t4);
     rColor = t5.$shr(t4, 16) & 255;
@@ -10588,10 +10806,10 @@ $$.GlowFilter = {"": "BitmapFilter;color,alpha*,blurX,blurY,strength,inner,knock
     if ($.$eq(this.hideObject, false) === true)
       destinationContext.drawImage(sourceContext.canvas, sx, sy);
   },
-  apply$4$bailout1: function(state0, destinationBitmapData, destinationPoint, sourceRect, sourceContext, sourceData, sourceWidth, sourceHeight, t1, t2, weightX, t3, weightY, destinationHeight, destinationWidth4, destinationData, alphaChannel, weightXinv, destinationContext, weightYinv, destinationImageData, rx2, ry2, destinationWidth, sourceWidth4, t5, sum0, offsetSource, y, rx1, t6, x, sum, offsetDestination, t4, buffer, dif, aColor) {
+  apply$4$bailout1: function(state0, destinationBitmapData, destinationPoint, sourceRect, sourceContext, sourceData, sourceWidth, sourceHeight, t1, t3, weightX, t2, weightY, destinationHeight, destinationWidth4, destinationData, alphaChannel, weightXinv, destinationContext, weightYinv, destinationImageData, rx2, ry2, destinationWidth, sourceWidth4, sum0, offsetSource, y, t5, rx1, t6, x, sum, offsetDestination, t4, buffer, dif, aColor) {
     switch (state0) {
       case 0:
-        if ($.$eq(sourceBitmapData, destinationBitmapData) === true && this.hideObject !== true) {
+        if ((sourceBitmapData == null ? destinationBitmapData == null : sourceBitmapData === destinationBitmapData) && this.hideObject !== true) {
           newSourceBitmapData = $.BitmapData$(sourceRect.get$width(sourceRect), sourceRect.get$height(sourceRect), true, 4294967295);
           newSourceBitmapData.copyPixels$3(sourceBitmapData, sourceRect, $.Point$zero());
           sourceRect = $.Rectangle$(0, 0, newSourceBitmapData.get$width(newSourceBitmapData), newSourceBitmapData.get$height(newSourceBitmapData));
@@ -10842,6 +11060,18 @@ $$.GlowFilter = {"": "BitmapFilter;color,alpha*,blurX,blurY,strength,inner,knock
           destinationContext.drawImage(sourceContext.canvas, sx, sy);
     }
   },
+  getBounds$0: function() {
+    var t1, t2, t3, t4;
+    t1 = this.blurX;
+    t2 = $.$negate$n(t1);
+    t3 = this.blurY;
+    t4 = $.$negate$n(t3);
+    if (typeof t1 !== "number")
+      throw $.iae(t1);
+    if (typeof t3 !== "number")
+      throw $.iae(t3);
+    return $.Rectangle$(t2, t4, 2 * t1, 2 * t3);
+  },
   GlowFilter$8: function(color, alpha, blurX, blurY, strength, inner, knockout, hideObject) {
     var t1, t2;
     t1 = this.blurX;
@@ -10955,6 +11185,47 @@ $$.Matrix = {"": "Object;_a,_b,_c,_d,_tx,_ty,_det",
     this._ty = -$.JSNumber_methods.toDouble$0(this._b * tx + this._d * ty);
     this._det = $.JSDouble_methods.toDouble$0(1 / det);
   },
+  rotate$1: function(_, rotation) {
+    var t1, cosR, sinR, a, b, c, d, tx, ty;
+    t1 = typeof rotation !== "number";
+    if (t1)
+      $.throwExpression($.ArgumentError$(rotation));
+    cosR = Math.cos(rotation);
+    if (t1)
+      $.throwExpression($.ArgumentError$(rotation));
+    sinR = Math.sin(rotation);
+    a = this._a;
+    b = this._b;
+    c = this._c;
+    d = this._d;
+    tx = this._tx;
+    ty = this._ty;
+    this._a = $.JSNumber_methods.toDouble$0(a * cosR - b * sinR);
+    this._b = $.JSNumber_methods.toDouble$0(a * sinR + b * cosR);
+    this._c = $.JSNumber_methods.toDouble$0(c * cosR - d * sinR);
+    this._d = $.JSNumber_methods.toDouble$0(c * sinR + d * cosR);
+    this._tx = $.JSNumber_methods.toDouble$0(tx * cosR - ty * sinR);
+    this._ty = $.JSNumber_methods.toDouble$0(tx * sinR + ty * cosR);
+  },
+  scale$2: function(_, scaleX, scaleY) {
+    var t1 = this._a;
+    if (typeof scaleX !== "number")
+      throw $.iae(scaleX);
+    this._a = $.JSNumber_methods.toDouble$0(t1 * scaleX);
+    t1 = this._b;
+    if (typeof scaleY !== "number")
+      throw $.iae(scaleY);
+    this._b = $.JSNumber_methods.toDouble$0(t1 * scaleY);
+    this._c = $.JSNumber_methods.toDouble$0(this._c * scaleX);
+    this._d = $.JSNumber_methods.toDouble$0(this._d * scaleY);
+    this._tx = $.JSNumber_methods.toDouble$0(this._tx * scaleX);
+    this._ty = $.JSNumber_methods.toDouble$0(this._ty * scaleY);
+    this._det = $.JSNumber_methods.toDouble$0(this._det * scaleX * scaleY);
+  },
+  translate$2: function(_, translationX, translationY) {
+    this._tx = $.JSNumber_methods.toDouble$0(this._tx + translationX);
+    this._ty = $.JSNumber_methods.toDouble$0(this._ty + translationY);
+  },
   setTo$6: function(a, b, c, d, tx, ty) {
     this._a = $.JSNumber_methods.toDouble$0(a);
     this._b = $.JSNumber_methods.toDouble$0(b);
@@ -11000,6 +11271,9 @@ $$.Matrix = {"": "Object;_a,_b,_c,_d,_tx,_ty,_det",
 };
 
 $$.Point = {"": "Object;_x,_y",
+  clone$0: function(_) {
+    return $.Point$(this._x, this._y);
+  },
   toString$0: function(_) {
     return "Point [x=" + $.S(this._x) + ", y=" + $.S(this._y) + "]";
   },
@@ -11035,6 +11309,9 @@ $$.Point = {"": "Object;_x,_y",
 };
 
 $$.Rectangle = {"": "Object;_x,_y,_width,_height",
+  clone$0: function(_) {
+    return $.Rectangle$(this._x, this._y, this._width, this._height);
+  },
   toString$0: function(_) {
     return "Rectangle [x=" + $.S(this._x) + ", y=" + $.S(this._y) + ", width=" + $.S(this._width) + ", height=" + $.S(this._height) + "]";
   },
@@ -11062,6 +11339,9 @@ $$.Rectangle = {"": "Object;_x,_y,_width,_height",
   get$bottom: function(_) {
     return $.$add$ns(this._y, this._height);
   },
+  get$topLeft: function(_) {
+    return $.Point$(this._x, this._y);
+  },
   set$x: function(_, value) {
     this._x = value;
   },
@@ -11077,8 +11357,41 @@ $$.Rectangle = {"": "Object;_x,_y,_width,_height",
   contains$2: function(_, px, py) {
     return $.$le$n(this._x, px) && $.$le$n(this._y, py) && $.$ge$n($.$add$ns(this._x, this._width), px) && $.$ge$n($.$add$ns(this._y, this._height), py);
   },
+  containsRect$1: function(_, r) {
+    return $.$le$n(this._x, r.get$x(r)) && $.$le$n(this._y, r.get$y(r)) && $.$ge$n($.$add$ns(this._x, this._width), r.get$right(r)) && $.$ge$n($.$add$ns(this._y, this._height), r.get$bottom(r));
+  },
   get$isEmpty: function(_) {
     return $.$eq(this._width, 0) === true && $.$eq(this._height, 0) === true;
+  },
+  inflate$2: function(dx, dy) {
+    var t1;
+    if (typeof dx !== "number")
+      return this.inflate$2$bailout(1, dx, dy);
+    if (typeof dy !== "number")
+      return this.inflate$2$bailout(1, dx, dy);
+    t1 = this._width;
+    if (typeof t1 !== "number")
+      return this.inflate$2$bailout(2, dx, dy, t1);
+    this._width = t1 + dx;
+    t1 = this._height;
+    if (typeof t1 !== "number")
+      return this.inflate$2$bailout(3, 0, dy, t1);
+    this._height = t1 + dy;
+  },
+  inflate$2$bailout: function(state0, dx, dy, t1) {
+    switch (state0) {
+      case 0:
+      case 1:
+        state0 = 0;
+        t1 = this._width;
+      case 2:
+        state0 = 0;
+        this._width = $.$add$ns(t1, dx);
+        t1 = this._height;
+      case 3:
+        state0 = 0;
+        this._height = $.$add$ns(t1, dy);
+    }
   },
   union$1: function(_, rect) {
     var t1, rLeft, rTop;
@@ -11450,7 +11763,15 @@ $$.TextField = {"": "InteractiveObject;_text,_textColor,_defaultTextFormat,_auto
     return;
   },
   render$1: function(renderState) {
+    var t1, ratio;
     this._canvasRefresh$0();
+    if ($.$eq($.Stage__canvasRatio, 1) !== true) {
+      t1 = $.Stage__canvasRatio;
+      if (typeof t1 !== "number")
+        throw $.iae(t1);
+      ratio = 1 / t1;
+      renderState._context.scale(ratio, ratio);
+    }
     renderState._context.drawImage(this._canvas, 0, 0);
   },
   _processTextLines$1: function(fontStyle) {
@@ -11508,14 +11829,16 @@ $$.TextField = {"": "InteractiveObject;_text,_textColor,_defaultTextFormat,_auto
     }
   },
   _canvasRefresh$0: function() {
-    var canvasWidthInt, canvasHeightInt, fontStyleBuffer, fontStyle, t1, offsetY, i, metrics;
+    var ratio, canvasWidthInt, canvasHeightInt, fontStyleBuffer, fontStyle, t1, offsetY, i, metrics;
     if (this._canvasRefreshPending) {
       this._canvasRefreshPending = false;
-      canvasWidthInt = $.toInt$0$nx($.ceil$0$nx(this._canvasWidth));
-      canvasHeightInt = $.toInt$0$nx($.ceil$0$nx(this._canvasHeight));
+      ratio = $.Stage__canvasRatio;
+      canvasWidthInt = $.toInt$0$nx($.ceil$0$nx($.$mul$n(this._canvasWidth, ratio)));
+      canvasHeightInt = $.toInt$0$nx($.ceil$0$nx($.$mul$n(this._canvasHeight, ratio)));
       if (this._canvas == null) {
         this._canvas = $.CanvasElement_CanvasElement(canvasHeightInt, canvasWidthInt);
         this._context = $.get$context2D$x(this._canvas);
+        this._context.scale(ratio, ratio);
       }
       if ($.$eq($.get$width$x(this._canvas), canvasWidthInt) !== true)
         $.set$width$x(this._canvas, canvasWidthInt);
@@ -11583,59 +11906,32 @@ $$.ObjectPool = {"": "Object;_pool,_valueFactory,_poolCount",
     return this._valueFactory.call$0();
   },
   pop$0: function() {
-    var t1, t2;
-    t1 = this._poolCount;
-    if (t1 === 0)
+    var poolCount, t1, t2;
+    poolCount = this._poolCount;
+    if (poolCount === 0)
       return this._valueFactory$0();
     else {
-      this._poolCount = t1 - 1;
+      this._poolCount = poolCount - 1;
       t1 = this._pool;
       t2 = this._poolCount;
-      if (t2 !== (t2 | 0))
-        return this.pop$0$bailout(1, t1, t2);
       if (t2 < 0 || t2 >= t1.length)
         throw $.ioore(t2);
       return t1[t2];
     }
   },
-  pop$0$bailout: function(state0, t1, t2) {
-    switch (state0) {
-      case 0:
-        t1 = this._poolCount;
-      case 1:
-        if (state0 === 0 && t1 === 0)
-          return this._valueFactory$0();
-        else
-          switch (state0) {
-            case 0:
-              this._poolCount = t1 - 1;
-              t1 = this._pool;
-              t2 = this._poolCount;
-            case 1:
-              state0 = 0;
-              if (t2 !== (t2 | 0))
-                throw $.iae(t2);
-              if (t2 < 0 || t2 >= t1.length)
-                throw $.ioore(t2);
-              return t1[t2];
-          }
-    }
-  },
   push$1: function(value) {
-    var t1, t2, t3;
-    t1 = this._poolCount;
-    t2 = this._pool;
-    t3 = t2.length;
-    if (t1 === t3)
-      t2.push(value);
+    var poolCount, t1, t2;
+    poolCount = this._poolCount;
+    t1 = this._pool;
+    t2 = t1.length;
+    if (poolCount === t2)
+      t1.push(value);
     else {
-      if (t1 !== (t1 | 0))
-        throw $.iae(t1);
-      if (t1 < 0 || t1 >= t3)
-        throw $.ioore(t1);
-      t2[t1] = value;
+      if (poolCount < 0 || poolCount >= t2)
+        throw $.ioore(poolCount);
+      t1[poolCount] = value;
     }
-    this._poolCount = this._poolCount + 1;
+    this._poolCount = poolCount + 1;
   }
 };
 
@@ -12050,6 +12346,15 @@ $$.CanvasRenderingContext2D = {"": "CanvasRenderingContext;",
   putImageData$3: function($receiver, imagedata, dx, dy) {
     return this.putImageData$7($receiver, imagedata, dx, dy, $, $, $, $);
   },
+  rotate$1: function(receiver, angle) {
+    return receiver.rotate(angle);
+  },
+  scale$2: function(receiver, sx, sy) {
+    return receiver.scale(sx, sy);
+  },
+  translate$2: function(receiver, tx, ty) {
+    return receiver.translate(tx, ty);
+  },
   arc$6: function(receiver, x, y, radius, startAngle, endAngle, anticlockwise) {
     receiver.arc(x, y, radius, startAngle, endAngle, anticlockwise);
   }
@@ -12112,6 +12417,12 @@ $$.CssStyleDeclaration = {"": "Interceptor;length=",
   },
   get$top: function(receiver) {
     return this.getPropertyValue$1(receiver, "top");
+  },
+  get$transition: function(receiver) {
+    return this.getPropertyValue$1(receiver, $.S($.Device_cssPrefix()) + "transition");
+  },
+  transition$5: function($receiver, arg0, arg1, arg2, arg3, arg4) {
+    return this.get$transition($receiver).call$5(arg0, arg1, arg2, arg3, arg4);
   },
   set$verticalAlign: function(receiver, value) {
     this.setProperty$3(receiver, "vertical-align", value, "");
@@ -12245,6 +12556,9 @@ $$.Element = {"": "Node;$$dom_children:children=,id=,innerHtml:innerHTML},offset
       default:
         throw $.wrapException($.ArgumentError$("Invalid position " + where));
     }
+  },
+  translate$2: function($receiver, arg0, arg1) {
+    return this.translate.call$2(arg0, arg1);
   },
   getBoundingClientRect$0: function(receiver) {
     return receiver.getBoundingClientRect();
@@ -13819,7 +14133,7 @@ $$.WheelEvent = {"": "MouseEvent0;",
   }
 };
 
-$$.Window = {"": "EventTarget;name=,navigator=",
+$$.Window = {"": "EventTarget;devicePixelRatio=,name=,navigator=",
   get$location: function(receiver) {
     var result = this.get$_location(receiver);
     if ($.Window__isDartLocation(result) === true)
@@ -13833,9 +14147,9 @@ $$.Window = {"": "EventTarget;name=,navigator=",
   },
   requestAnimationFrame$1: function(receiver, callback) {
     this._ensureRequestAnimationFrame$0(receiver);
-    return this._requestAnimationFrame$1(receiver, callback);
+    return this._liblib1$_requestAnimationFrame$1(receiver, callback);
   },
-  _requestAnimationFrame$1: function(receiver, callback) {
+  _liblib1$_requestAnimationFrame$1: function(receiver, callback) {
     return receiver.requestAnimationFrame($.convertDartClosureToJS(callback, 1));
   },
   _ensureRequestAnimationFrame$0: function(receiver) {
@@ -13875,6 +14189,9 @@ $$.Window = {"": "EventTarget;name=,navigator=",
   },
   stop$0: function(receiver) {
     return receiver.stop();
+  },
+  toString$0: function(receiver) {
+    return receiver.toString();
   },
   get$onError: function(receiver) {
     return $.EventStreamProvider_error.forTarget$1(receiver);
@@ -14028,8 +14345,6 @@ $$._NamedNodeMap = {"": "Interceptor;",
   $asJavaScriptIndexingBehavior: null
 };
 
-$$._WebKitTransitionEvent = {"": "Event0;"};
-
 $$.VersionChangeEvent = {"": "Event0;"};
 
 $$.AElement = {"": "StyledElement;target="};
@@ -14080,7 +14395,11 @@ $$.FEConvolveMatrixElement = {"": "StyledElement;height=,width=,x=,y="};
 
 $$.FEDiffuseLightingElement = {"": "StyledElement;height=,width=,x=,y="};
 
-$$.FEDisplacementMapElement = {"": "StyledElement;height=,width=,x=,y="};
+$$.FEDisplacementMapElement = {"": "StyledElement;height=,width=,x=,y=",
+  scale$2: function($receiver, arg0, arg1) {
+    return this.scale.call$2(arg0, arg1);
+  }
+};
 
 $$.FEDistantLightElement = {"": "SvgElement;"};
 
@@ -14205,7 +14524,11 @@ $$.TextElement = {"": "TextPositioningElement;"};
 
 $$.TextPathElement = {"": "TextContentElement;"};
 
-$$.TextPositioningElement = {"": "TextContentElement;x=,y="};
+$$.TextPositioningElement = {"": "TextContentElement;x=,y=",
+  rotate$1: function($receiver, arg0) {
+    return this.rotate.call$1(arg0);
+  }
+};
 
 $$.TitleElement0 = {"": "StyledElement;"};
 
@@ -15980,6 +16303,8 @@ $.typeNameInWebKitCommon = function(tag) {
     return "AnalyserNode";
   if ($name === "IDBVersionChangeRequest")
     return "IDBOpenDBRequest";
+  if ($name === "WebKitTransitionEvent")
+    return "TransitionEvent";
   return $name;
 };
 
@@ -16880,10 +17205,35 @@ $.Device_isOpera = function() {
   return $.Device__isOpera;
 };
 
+$.Device_isIE = function() {
+  if ($.Device__isIE == null)
+    $.Device__isIE = $.Device_isOpera() !== true && $.contains$2$asx($.Device_userAgent(), "MSIE", 0) === true;
+  return $.Device__isIE;
+};
+
+$.Device_isFirefox = function() {
+  if ($.Device__isFirefox == null)
+    $.Device__isFirefox = $.contains$2$asx($.Device_userAgent(), "Firefox", 0);
+  return $.Device__isFirefox;
+};
+
 $.Device_isWebKit = function() {
   if ($.Device__isWebKit == null)
     $.Device__isWebKit = $.Device_isOpera() !== true && $.contains$2$asx($.Device_userAgent(), "WebKit", 0) === true;
   return $.Device__isWebKit;
+};
+
+$.Device_cssPrefix = function() {
+  if ($.Device__cachedCssPrefix == null)
+    if ($.Device_isFirefox() === true)
+      $.Device__cachedCssPrefix = "-moz-";
+    else if ($.Device_isIE() === true)
+      $.Device__cachedCssPrefix = "-ms-";
+    else if ($.Device_isOpera() === true)
+      $.Device__cachedCssPrefix = "-o-";
+    else
+      $.Device__cachedCssPrefix = "-webkit-";
+  return $.Device__cachedCssPrefix;
 };
 
 $.FilteredElementList$ = function(node) {
@@ -17034,8 +17384,8 @@ $.FilterDemo$ = function() {
   t4 = $.makeLiteralMap(["name", "ColorMatrixFilter (invert)", "filter", $.ColorMatrixFilter$invert()]);
   t5 = $.makeLiteralMap(["name", "BlurFilter (radius 1)", "filter", $.BlurFilter$(1, 1)]);
   t6 = $.makeLiteralMap(["name", "BlurFilter (radius 5)", "filter", $.BlurFilter$(5, 5)]);
-  t7 = $.makeLiteralMap(["name", "BlurFilter (radius 10)", "filter", $.BlurFilter$(10, 10)]);
-  t8 = $.makeLiteralMap(["name", "BlurFilter (radius 20)", "filter", $.BlurFilter$(20, 20)]);
+  t7 = $.makeLiteralMap(["name", "BlurFilter (radius 20)", "filter", $.BlurFilter$(20, 20)]);
+  t8 = $.makeLiteralMap(["name", "AlphaMaskFilter", "filter", $.AlphaMaskFilter$($.resourceManager.getBitmapData$1("sun"), null)]);
   t9 = $.List_List($, $.DisplayObject);
   $.setRuntimeTypeInfo(t9, [$.DisplayObject]);
   t10 = $.DisplayObject__nextID;
@@ -17184,6 +17534,7 @@ $.main = function() {
       case "filter":
         t1 = $.resourceManager;
         t1.addBitmapData$2("king", "images/king.png");
+        t1.addBitmapData$2("sun", "images/Sun.png");
         $.load$0$x(t1).then$1(new $.main_anon());
         break;
       case "masking":
@@ -17260,6 +17611,13 @@ $.Juggler$ = function() {
   var t1 = $.List_List($, $.Animatable);
   $.setRuntimeTypeInfo(t1, [$.Animatable]);
   return new $.Juggler(t1, 0, 0);
+};
+
+$.Transition$ = function(startValue, targetValue, time, transitionFunction) {
+  var t1 = transitionFunction;
+  t1 = new $.Transition(startValue, targetValue, t1, null, null, null, null, null, null, null, null, null);
+  t1.Transition$4(startValue, targetValue, time, transitionFunction);
+  return t1;
 };
 
 $.TransitionFunction_linear = function(ratio) {
@@ -17474,14 +17832,24 @@ $.FlipBook$ = function(bitmapDatas, frameRate, loop) {
   return t1;
 };
 
+$.Warp$ = function() {
+  var t1, t2, t3;
+  t1 = $.Matrix$fromIdentity();
+  t2 = $.List_List($, $.DisplayObject);
+  $.setRuntimeTypeInfo(t2, [$.DisplayObject]);
+  t3 = $.DisplayObject__nextID;
+  $.DisplayObject__nextID = $.$add$ns(t3, 1);
+  return new $.Warp(t1, t2, true, true, false, true, true, 0, t3, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, true, false, null, null, null, false, null, null, null, "", null, $.Matrix$fromIdentity(), $.Matrix$fromIdentity(), true, null, null);
+};
+
 $.RenderLoop$ = function() {
-  var t1 = new $.RenderLoop(null, null, null, null, null);
+  var t1 = new $.RenderLoop(null, null, null, null, null, null);
   t1.RenderLoop$0();
   return t1;
 };
 
-$._ContextState$ = function(next) {
-  return new $._ContextState($.Matrix$fromIdentity(), next, 1, "source-over");
+$._ContextState$ = function() {
+  return new $._ContextState($.Matrix$fromIdentity(), 1, "source-over", null);
 };
 
 $.RenderState$fromCanvasRenderingContext2D = function(context, matrix) {
@@ -17548,9 +17916,22 @@ $.TouchEvent$ = function(type, bubbles) {
   return t1;
 };
 
+$.AlphaMaskFilter$ = function(alphaBitmapData, matrix) {
+  var t1 = matrix != null ? matrix : $.Matrix$fromIdentity();
+  return new $.AlphaMaskFilter(alphaBitmapData, t1);
+};
+
 $.BlurFilter$ = function(blurX, blurY) {
   var t1 = new $.BlurFilter(blurX, blurY);
   t1.BlurFilter$2(blurX, blurY);
+  return t1;
+};
+
+$.ColorMatrixFilter$ = function(matrix) {
+  var t1 = $.List_List(20, $.num);
+  $.setRuntimeTypeInfo(t1, [$.num]);
+  t1 = new $.ColorMatrixFilter(t1);
+  t1.ColorMatrixFilter$1(matrix);
   return t1;
 };
 
@@ -18181,18 +18562,18 @@ $.TransitionFunction_easeInOutCubic.call$1 = $.TransitionFunction_easeInOutCubic
 $.TransitionFunction_easeInOutCubic.$name = "TransitionFunction_easeInOutCubic";
 $.TransitionFunction_easeInOutBack.call$1 = $.TransitionFunction_easeInOutBack;
 $.TransitionFunction_easeInOutBack.$name = "TransitionFunction_easeInOutBack";
-$.Match = {builtin$cls: "Match"};
 $.String = {builtin$cls: "String"};
 $.ReceivePort = {builtin$cls: "ReceivePort"};
 $.bool = {builtin$cls: "bool"};
 $.$double = {builtin$cls: "double"};
 $.$int = {builtin$cls: "int"};
-$.List = {builtin$cls: "List"};
 $._ManagerStub = {builtin$cls: "_ManagerStub"};
+$.List = {builtin$cls: "List"};
 $.num = {builtin$cls: "num"};
-$.Animatable = {builtin$cls: "Animatable"};
+$.Match = {builtin$cls: "Match"};
 $.DisplayObject.$isDisplayObject = true;
 $.Stage.$isDisplayObject = true;
+$.Bitmap.$isDisplayObject = true;
 $.PianoKey.$isDisplayObject = true;
 Isolate.makeConstantList = function(list) {
   list.immutable$list = true;
@@ -18203,36 +18584,36 @@ $.List_empty = Isolate.makeConstantList([]);
 $.EventStreamProvider_touchenter = new $.EventStreamProvider("touchenter");
 $.EventStreamProvider_mouseOut = new $.EventStreamProvider0("mouseOut");
 $.EventStreamProvider_keydown = new $.EventStreamProvider("keydown");
-$.JSNull_methods = $.JSNull.prototype;
 $.EventStreamProvider_ended = new $.EventStreamProvider("ended");
+$.JSNull_methods = $.JSNull.prototype;
 $.JSNumber_methods = $.JSNumber.prototype;
 $.JSString_methods = $.JSString.prototype;
 $.EventStreamProvider_error = new $.EventStreamProvider("error");
-$.JSArray_methods = $.JSArray.prototype;
-$.EventStreamProvider_touchmove = new $.EventStreamProvider("touchmove");
-$.EventStreamProvider_progress = new $.EventStreamProvider("progress");
 $.EventStreamProvider_touchleave = new $.EventStreamProvider("touchleave");
+$.EventStreamProvider_progress = new $.EventStreamProvider("progress");
+$.EventStreamProvider_touchmove = new $.EventStreamProvider("touchmove");
 $.EventStreamProvider_touchend = new $.EventStreamProvider("touchend");
+$.EventStreamProvider_mouseDown = new $.EventStreamProvider0("mouseDown");
 $.EventStreamProvider_keyup = new $.EventStreamProvider("keyup");
 $.EventStreamProvider_click = new $.EventStreamProvider("click");
-$.EventStreamProvider_mouseDown = new $.EventStreamProvider0("mouseDown");
 $.Duration_0 = new $.Duration(0);
-$.EventStreamProvider_touchcancel = new $.EventStreamProvider("touchcancel");
 $.EventStreamProvider_mousedown = new $.EventStreamProvider("mousedown");
+$.EventStreamProvider_touchcancel = new $.EventStreamProvider("touchcancel");
 $.C_NullThrownError = new $.NullThrownError();
+$.JSArray_methods = $.JSArray.prototype;
 $.JSDouble_methods = $.JSDouble.prototype;
 $.EventStreamProvider_touchstart = new $.EventStreamProvider("touchstart");
 $.C__Random = new $._Random();
 $.EventStreamProvider_keypress = new $.EventStreamProvider("keypress");
 $.EventStreamProvider_canplaythrough = new $.EventStreamProvider("canplaythrough");
+$._CustomEventStreamProvider__determineMouseWheelEventType = new $._CustomEventStreamProvider($.Element__determineMouseWheelEventType);
 $.EventStreamProvider_load = new $.EventStreamProvider("load");
 $.EventStreamProvider_mouseup = new $.EventStreamProvider("mouseup");
 $.C_CloseToken = new $.CloseToken();
 $.C__DelayedDone = new $._DelayedDone();
-$.EventStreamProvider_mouseout = new $.EventStreamProvider("mouseout");
 $.EventStreamProvider_mouseOver = new $.EventStreamProvider0("mouseOver");
+$.EventStreamProvider_mouseout = new $.EventStreamProvider("mouseout");
 $.JSInt_methods = $.JSInt.prototype;
-$._CustomEventStreamProvider__determineMouseWheelEventType = new $._CustomEventStreamProvider($.Element__determineMouseWheelEventType);
 $.EventStreamProvider_mouseUp = new $.EventStreamProvider0("mouseUp");
 $.EventStreamProvider_enterFrame = new $.EventStreamProvider0("enterFrame");
 $.EventStreamProvider_mousemove = new $.EventStreamProvider("mousemove");
@@ -18246,13 +18627,18 @@ $.interceptorsByTag = null;
 $.leafTags = null;
 $._callbacksAreEnqueued = false;
 $.Device__isOpera = null;
+$.Device__isIE = null;
+$.Device__isFirefox = null;
 $.Device__isWebKit = null;
+$.Device__cachedCssPrefix = null;
 $.stage = null;
 $.renderLoop = null;
 $.juggler = null;
 $.resourceManager = null;
 $.DisplayObject__nextID = 0;
 $._Touch__globalTouchPointID = 0;
+$.Stage_autoHiDpi = true;
+$.Stage__canvasRatio = 1;
 $.Mouse__customCursor = "auto";
 $.Mouse__isCursorHidden = false;
 $.Mouse__dragSprite = null;
@@ -18329,6 +18715,11 @@ $.$mul$n = function(receiver, a0) {
     return receiver * a0;
   return $.getInterceptor$n(receiver).$mul(receiver, a0);
 };
+$.$negate$n = function(receiver) {
+  if (typeof receiver == "number")
+    return -receiver;
+  return $.getInterceptor$n(receiver).$negate(receiver);
+};
 $.$or$n = function(receiver, a0) {
   if (typeof receiver == "number" && typeof a0 == "number")
     return (receiver | a0) >>> 0;
@@ -18380,8 +18771,14 @@ $.ceil$0$nx = function(receiver) {
 $.clear$0$ax = function(receiver) {
   return $.getInterceptor$ax(receiver).clear$0(receiver);
 };
+$.clone$0$x = function(receiver) {
+  return $.getInterceptor$x(receiver).clone$0(receiver);
+};
 $.compareTo$1$ns = function(receiver, a0) {
   return $.getInterceptor$ns(receiver).compareTo$1(receiver, a0);
+};
+$.concat$1$s = function(receiver, a0) {
+  return $.getInterceptor$s(receiver).concat$1(receiver, a0);
 };
 $.contains$1$asx = function(receiver, a0) {
   return $.getInterceptor$asx(receiver).contains$1(receiver, a0);
@@ -18427,6 +18824,9 @@ $.get$context2D$x = function(receiver) {
 };
 $.get$data$x = function(receiver) {
   return $.getInterceptor$x(receiver).get$data(receiver);
+};
+$.get$devicePixelRatio$x = function(receiver) {
+  return $.getInterceptor$x(receiver).get$devicePixelRatio(receiver);
 };
 $.get$duration$x = function(receiver) {
   return $.getInterceptor$x(receiver).get$duration(receiver);
@@ -18694,6 +19094,9 @@ $.toList$1$growable$ax = function(receiver, a0) {
 };
 $.toString$0 = function(receiver) {
   return $.getInterceptor(receiver).toString$0(receiver);
+};
+$.transition$5$x = function(receiver, a0, a1, a2, a3, a4) {
+  return $.getInterceptor$x(receiver).transition$5(receiver, a0, a1, a2, a3, a4);
 };
 $.union$1$x = function(receiver, a0) {
   return $.getInterceptor$x(receiver).union$1(receiver, a0);
@@ -19226,8 +19629,6 @@ $.defineNativeMethods("XPathException", $.XPathException);
 $.defineNativeMethods("ClientRect", $._ClientRect);
 
 $.defineNativeMethods("NamedNodeMap", $._NamedNodeMap);
-
-$.defineNativeMethods("WebKitTransitionEvent", $._WebKitTransitionEvent);
 
 $.defineNativeMethods("IDBVersionChangeEvent", $.VersionChangeEvent);
 

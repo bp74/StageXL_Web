@@ -307,22 +307,22 @@ var soundChannel = sound.play(false, soundTransform);</pre>
 					<div class="row">
 	                	<div class="span8">
 	                		<p>Filters are used for visual effects like drop shadow, glow, blur and others. The
-                            StageXL library supports five different filters out of the box, but you can add
+                            StageXL library supports five different filters out of the box. You can also create
                             your own filters by extending the BitmapFilter base class.</p>
-                            <p>Calculating visual effects is an expensive computational operation. Therefore
-                            BitmapFilters can only be applied to BitmapDatas but not to arbitrary Display Objects.
-                            However, applying the effects to BitmapDatas should be sufficient for most use cases.</p>
+                            <p>Calculating visual effects is an expensive computational operation. To optimize
+                            the performance at runtime you can apply filters to static BitmapDatas or add them
+                            to an arbitrary DisplayObject and subsequently call the applyCache method to achieve
+                            good render performance.</p>
                             <br/>
 <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-var sourceBitmapData = new BitmapData(80, 80, true, Color.Red);
-var sourceRectangle = new Rectangle(0, 0, 80, 80);
-
-var destinationBitmapData = new BitmapData(100, 100, true, Color.Transparent);
-var destinationPoint = new Point(0, 0);
-
-destinationBitmapData.applyFilter(
-    sourceBitmapData, sourceRectangle, destinationPoint,
-    new DropShadowFilter(10, PI / 4, Color.Black, 0.8, 8, 8));</pre>
+var spaceShip = new SpaceShip();
+spaceShip.x = 100;
+spaceShip.y = 50;
+spaceShip.filters = [
+    new ColorMatrixFilter.grayscale(),
+    new GlowFilter(Color.Yellow, 1.0, 20, 20)];
+spaceShip.applyCache(0, 0, 200, 80);
+spaceShip.addTo(stage);</pre>
 	                	</div>
 						<div class="span4">
                             <ul class="classtree" style="height:360px">
@@ -331,6 +331,7 @@ destinationBitmapData.applyFilter(
                                     <li>BlurFilter</li>
                                     <li>DropShadowFilter</li>
                                     <li>GlowFilter</li>
+                                    <li>AlphaMaskFilter</li>
                                     <li class="last">BevelFilter<sup>(todo)</sup></li>
                                 </ul></li>
                             </ul>

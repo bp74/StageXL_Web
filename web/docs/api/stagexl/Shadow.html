@@ -1,0 +1,161 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>Shadow class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="Shadow">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/Shadow.html">Shadow</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>Shadow</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class Shadow {
+
+ int color;  
+ num offsetX;
+ num offsetY;
+ num blur;
+ DisplayObject targetSpace;
+ 
+ Shadow(this.color, this.offsetX , this.offsetY, this.blur);
+ 
+ void render(RenderState renderState, Matrix matrix) {
+
+   var context = renderState.context;
+   context.shadowColor = _color2rgba(color);
+   context.shadowBlur = sqrt(matrix.det) * blur;;
+   context.shadowOffsetX = offsetX * matrix.a + offsetY * matrix.c;
+   context.shadowOffsetY = offsetX * matrix.b + offsetY * matrix.d;
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="Shadow">
+<button class="show-code">Code</button>
+new <strong>Shadow</strong>(int color, num offsetX, num offsetY, num blur) <a class="anchor-link" href="#Shadow"
+              title="Permalink to Shadow.Shadow">#</a></h4>
+<div class="doc">
+<pre class="source">
+Shadow(this.color, this.offsetX , this.offsetY, this.blur);
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="blur">
+<button class="show-code">Code</button>
+num         <strong>blur</strong> <a class="anchor-link"
+            href="#blur"
+            title="Permalink to Shadow.blur">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num blur
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="color">
+<button class="show-code">Code</button>
+int         <strong>color</strong> <a class="anchor-link"
+            href="#color"
+            title="Permalink to Shadow.color">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int color
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="offsetX">
+<button class="show-code">Code</button>
+num         <strong>offsetX</strong> <a class="anchor-link"
+            href="#offsetX"
+            title="Permalink to Shadow.offsetX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num offsetX
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="offsetY">
+<button class="show-code">Code</button>
+num         <strong>offsetY</strong> <a class="anchor-link"
+            href="#offsetY"
+            title="Permalink to Shadow.offsetY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num offsetY
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="targetSpace">
+<button class="show-code">Code</button>
+<a href="../stagexl/DisplayObject.html">DisplayObject</a>         <strong>targetSpace</strong> <a class="anchor-link"
+            href="#targetSpace"
+            title="Permalink to Shadow.targetSpace">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+DisplayObject targetSpace
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="render">
+<button class="show-code">Code</button>
+void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</a> renderState, <a href="../stagexl/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#render"
+              title="Permalink to Shadow.render">#</a></h4>
+<div class="doc">
+<pre class="source">
+void render(RenderState renderState, Matrix matrix) {
+
+ var context = renderState.context;
+ context.shadowColor = _color2rgba(color);
+ context.shadowBlur = sqrt(matrix.det) * blur;;
+ context.shadowOffsetX = offsetX * matrix.a + offsetY * matrix.c;
+ context.shadowOffsetY = offsetX * matrix.b + offsetY * matrix.d;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-04-19 21:10:18.806</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

@@ -48,6 +48,7 @@ void main() {
       case "filter":
         resourceManager
           ..addBitmapData('king', 'images/king.png')
+          ..addBitmapData('sun', 'images/Sun.png')
           ..load().then((_) => stage.addChild(new FilterDemo())); 
         break;
         

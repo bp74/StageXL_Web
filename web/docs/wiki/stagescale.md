@@ -1,29 +1,51 @@
 # Scaling the Stage #
 
-To scale the Stage you have to setup your HTML and also define some properties of your Stage object. There are two properties which define the scaling and the alignment of the content of the Stage.
+To scale the Stage you have to setup your HTML and also define some properties of your Stage object. Let's start with some basic properties of the Canvas element and the Stage object.
 
-### Html Canvas ###
+## Html Canvas ##
 
-The Html canvas element takes the attributes width and height. Note that this two attributes define the logical size of the canvas and they are different from the style.width and style.height attributes. Only if you don't set the style attributes the width and height attributes will also define the display size of the canvas element in pixels.
+The Html Canvas element takes the width and height properties to define the horizontal and vertical pixels within the Canvas. For a simple Canvas whose size doesn't change, the markup will look like the example below. 
 
-    <canvas id="stage" width="800" height="600"></canvas>
+    <canvas id="myStage" width="800" height="600"></canvas>
 
-The example above defines a logical width and height of 800x600 pixels. This is also the size of the Stage! If you apply different CSS values, the display size will vary from this logical width and height.
+To control the size of the Canvas, you have to set the width and height **stylesheet** properties of the Canvas. If you changed those stylesheet properties you will see that the size of the Canvas changes accordingly, but Html does not change the width and height properties of the Canvas automatically. As a result the content of the Canvas would be distorted. To avoid this distortion the Stage object adjusts the width and height properties to match the size of the Canvas on the screen.
 
-### StageScaleMode ###
+    <canvas id="myStage" style="width:600px; height: 300px;" width="600" height="300"></canvas>
 
-The StageScaleMode defines how the Stage is scaled on the screen. The default is "SHOW\_ALL" but you can change the scale mode by setting the Stage.scaleMode property.
+*After the width and height stylesheet properties have changed, the Stage will automatically change the width and height properties of the Canvas.*
 
-* **SHOW\_ALL**: The Stage is scaled to fit into the available display area. The aspect ratio of the content is not changed. If the aspect ratio of the display area differs to the original aspect ratio you will get additional Stage area on the left/right or top/bottom edge of the original Stage.
-* **NO\_SCALE**: The Stage is not scaled and therefore every pixel of the Stage corresponds with a pixel of the display area. If you use this scale mode your application should be capable of using the additional Stage area if the display size changes.
-* **NO\_BORDER**: The Stage is scaled to fit into the available display area. The aspect ratio of the content is not changed. If the aspect ratio of the display area differs to the original aspect ratio the left/right or top/bottom edge of the original Stage will be cut off.
-* **EXACT_FIT**: The Stage is scaled to fit exactly into the available display area. The aspect ratio of the content will change. If the aspect ratio of the display area differs to the original aspect ratio the content will be distorted.
+## Stage ##
 
-### StageAlign ###
+The Stage adapts the Canvas element to the Display List. If the Canvas size is changing, the Stage will automatically scale the Display List to match with the new Canvas size. You can control how the Display List is scaled with the *stageScaleMode* and *align* property. The exmample below shows the default configuration of the Stage.
 
-According to the StageScaleMode setting, the aspect ratio of the Stage and the display size it is possible that the original Stage is extended or truncated to a new Stage to fit into the available display area. To align the new Stage to the display area you can set the Stage.align property to one of the following values. The default value is NONE.
+    var canvas = html.query('#myStage');
+    var stage = new Stage('myStage', canvas);  
+    stage.scaleMode = StageScaleMode.SHOW\_ALL;
+    stage.align = StageAlign.NONE;
 
-* **NONE**: Don't align the Stage, therefore it will be in the center.
+It is also important to be aware of the coordinate system of the Stage and Display List. The Stage constructor takes two optional parameters to define the default coordinate system, if those parameters are not supplied the current width and height properties of the Canvas element  are used. 
+
+    var canvas = html.query('#myStage');
+    var stage = new Stage('myStage', canvas, 800, 600);  
+
+This way the Stage is using a coordinate system of 800x600 pixels, regardless of the size of the Stage. Even if the Canvas is much smaller or bigger, your Display Objects are still placed within a 800x600 grid. Please note that the size of this grid can change dependent on the scaleMode property. To get the current size of the Stage, you can query the *contentRectangle* property.
+
+    var rectangle = stage.contentRectangle;
+
+## StageScaleMode ##
+
+The StageScaleMode defines how the Stage is scaled inside of the Canvas.
+
+* **SHOW\_ALL**: (Default) The Stage is scaled to fit inside the available Canvas area and the aspect ratio of the Display List is constant. To avoid distortions the Stage is extended to the left, right, top or bottom side.
+* **NO\_SCALE**: The Stage is not scaled and every pixel of the Stage corresponds with a pixel on the Canvas. If you use this scale mode your application should be capable of using the additional Stage area.
+* **NO\_BORDER**: The Stage is scaled to fit inside the available Canvas area and the aspect ratio of the Display List is constant. To avoid distortions the Stage is truncated on the left, right, top or bottom side.
+* **EXACT_FIT**: The Stage is scaled to fit inside the available Canvas area and the aspect ratio of the Display List is adjusted. If the aspect ratio of the canvas is different to the Stage, the Display List will be distorted.
+
+## StageAlign ##
+
+According to the StageScaleMode setting and the aspect ratio of the Stage and Canvas it is necessary to extended or truncated the available Stage area to fit inside the available Canvas area. To align the new Stage area you can set the Stage.align property to one of the following values.
+
+* **NONE**: (Default) Don't align the Stage, therefore it will be in the center.
 * **LEFT**: Align the Stage to the left edge.
 * **RIGHT**: Align the Stage to the right edge.
 * **BOTTOM**: Align the Stage to the bottom edge.
@@ -40,8 +62,8 @@ A common use case is a Stage that fills the whole browser window. The content sh
 HTML/CSS (without enclosing head and body tags):
 
     <style type="text/css">
-      body { margin: 0; padding: 0 }
-      #stage { position: absolute; width: 100%; height: 100%; overflow: hidden }
+      body { margin: 0; padding: 0; overflow: hidden; }
+      #stage { position: absolute; width: 100%; height: 100%; }
     </style>
     
     <canvas id="stage"></canvas>
@@ -54,3 +76,69 @@ Dart:
     stage.align = StageAlign.TOP_LEFT;
 
 This way you will get a Stage that fits exactly to the display area of the window. We didn't define the width and height attribute of the canvas element, because those attributes will change automatically to match the available display size. 
+
+### Upscaling the Stage ###
+
+Here are two other frequently used configurations:
+
+Scale the Stage to fit within the available Canvas area. Show borders on the left/right or top/bottom side if the aspect ratio does not match. Never truncate any content from the Stage.
+
+    var stage = new Stage('myStage', canvas);
+    stage.scaleMode = StageScaleMode.SHOW_ALL;
+    stage.align = StageAlign.NONE;
+
+Scale the Stage to fill the whole Canvas area. If the aspect ratio does not match, truncate parts from the Stage, but never show any borders.
+
+    var stage = new Stage('myStage', canvas);
+    stage.scaleMode = StageScaleMode.NO_BORDER;
+    stage.align = StageAlign.NONE;
+
+## Getting Started Example ##
+
+To understand the different StageScaleMode and StageAlign settings, it's best to try a little demo and play with the different settings. This exmaple shows a blue background Bitmap and a red circle Shape in the center. Resize the browser window to see the effect.
+
+#### HTML Code ####
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Stage Scale Test</title>
+        <style type="text/css">
+          body { margin: 0; padding: 0; overflow: hidden; }
+          #stage { position: absolute; width: 100%; height: 100%; }
+          </style>
+      </head>
+      <body>
+        <canvas id="stage"></canvas>
+        <script type="application/dart" src="test.dart"></script>
+        <script src="packages/browser/dart.js"></script>
+      </body>
+    </html>
+
+#### Dart Code ####
+
+	import 'dart:html' as html;
+	import 'package:stagexl/stagexl.dart';
+	
+	void main() {
+	  var canvas = html.query('#stage');
+	  var stage = new Stage('stage', canvas, 800, 600);
+	  stage.scaleMode = StageScaleMode.EXACT_FIT;
+	  stage.align = StageAlign.NONE;
+	
+	  var renderLoop = new RenderLoop();
+	  renderLoop.addStage(stage);
+	
+	  var bitmapData = new BitmapData(800, 600, true, Color.Blue);
+	  var bitmap = new Bitmap(bitmapData);
+	  stage.addChild(bitmap);
+	
+	  var shape = new Shape();
+	  shape.graphics.ellipse(400, 300, 150, 150);
+	  shape.graphics.fillColor(Color.Red);
+	  stage.addChild(shape);
+	
+	  stage.onResize.listen((e) => print(stage.contentRectangle));
+	}
+
+

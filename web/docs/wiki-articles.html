@@ -116,11 +116,9 @@
 
         <a href="wiki-articles.html"><i class="icon-backward"></i> Back to overview</a>
         <br />
-        <br/>
-        <div class="markdown">
-            <div id="mymarkdown">
-            </div>
-        </div>
+        <br />
+        <iframe frameborder=0 border=0 src="" name="markdownFrame" id="markdownFrame" style="width:800px; height: 1500px;">
+        </iframe>
         <br />
         <a href="wiki-articles.html"><i class="icon-backward"></i> Back to overview</a>
         <br /><br />
@@ -131,31 +129,30 @@
     <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../assets/js/purl.js"></script>
     <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../assets/js/markdown.js"></script>
 
     <script>
         var article = $.url().param("article");
 
         if (article === undefined) {
-            $('#wikiIndex').show();
-            $('#wikiContent').hide();
+          $('#wikiIndex').show();
+          $('#wikiContent').hide();
         } else {
           $('#wikiIndex').hide();
           $('#wikiContent').show();
+          $('#markdownFrame').attr('src', 'wiki/' + article + '.html').load(function(){
 
-          var markdownDiv = $("#mymarkdown");
-            markdownDiv.load("wiki/" + article + ".md", function() {
-              
-              var converter = new Markdown.Converter();
-              converter.hooks.chain("postConversion", function (text) {
-                  return text.replace(new RegExp("<code>","gm"), "<code class='prettyprint lang-dart'>");
-              });
-              
-              var md = converter.makeHtml(markdownDiv.html());
-              markdownDiv.html(md);
+            $(this).contents().find('pre').addClass('prettyprint');
+
+            var myIframe = document.getElementById("markdownFrame");
+            var script = myIframe.contentWindow.document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "../../assets/prettify/run_prettify.js?lang=dart";
+
+            myIframe.contentWindow.document.body.appendChild(script);
+            myIframe.style.height = (myIframe.contentWindow.document.body.scrollHeight + 100)+ "px";
           });
         }
     </script>
-    
+
 </body>
 </html>

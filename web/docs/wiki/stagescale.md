@@ -20,7 +20,7 @@ The Stage adapts the Canvas element to the Display List. If the Canvas size is c
 
     var canvas = html.query('#myStage');
     var stage = new Stage('myStage', canvas);  
-    stage.scaleMode = StageScaleMode.SHOW\_ALL;
+    stage.scaleMode = StageScaleMode.SHOW_ALL;
     stage.align = StageAlign.NONE;
 
 It is also important to be aware of the coordinate system of the Stage and Display List. The Stage constructor takes two optional parameters to define the default coordinate system, if those parameters are not supplied the current width and height properties of the Canvas element  are used. 

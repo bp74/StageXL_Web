@@ -70,7 +70,7 @@ The Animatable class is very simple. It only has one method called 'advanceTime'
 
 A simple example is the performance demo on the StageXL homepage. Here we are using a class called FlyingFlag which extends the Bitmap class and implements the Animatable class. The Juggler manages the motion of all flags by calling the 'advanceTime' method of all FlyingFlags.
 
-[http://www.stagexl.org/demos/performance.html](http://www.stagexl.org.com/demos/performance.html)
+[http://www.stagexl.org/demos/performance.html](http://www.stagexl.org/demos/performance.html)
 
     class FlyingFlag extends Bitmap implements Animatable {
             

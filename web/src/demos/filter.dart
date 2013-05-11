@@ -1,7 +1,7 @@
 part of stagexl_demos;
 
 class FilterDemo extends DisplayObjectContainer {
-  
+
   final List _filters = [
     {'name': 'DropShadowFilter (black)', 'filter': new DropShadowFilter(10, PI / 4, Color.Black, 0.8, 8, 8) },
     {'name': 'GlowFilter (red)', 'filter': new GlowFilter(Color.Red, 1.0, 20, 20) },
@@ -12,31 +12,31 @@ class FilterDemo extends DisplayObjectContainer {
     {'name': 'BlurFilter (radius 20)', 'filter': new BlurFilter(20, 20) },
     {'name': 'AlphaMaskFilter', 'filter': new AlphaMaskFilter(resourceManager.getBitmapData("sun"))}
   ];
-    
+
   FilterDemo() {
-    
+
     var kingBitmapData = resourceManager.getBitmapData('king');
     var backgroundBitmapData = new BitmapData(230, 245, true, 0xFFF0F0F0);
     var kingBitmaps = new List<Bitmap>();
-    
+
     //--------------------------------------------------------------------------------
     // Add kings with 8 different filters
-    
+
     for(int i = 0; i < _filters.length; i++) {
-      
+
       var filter = _filters[i]['filter'] as BitmapFilter;
       var name = _filters[i]['name'] as String;
       var x = 235 * (i % 4);
       var y = 250 * (i ~/ 4);
-      
+
       var filterBounds = filter.getBounds();
       filterBounds.inflate(kingBitmapData.width, kingBitmapData.height);
-      
+
       var backgroundBitmap = new Bitmap(backgroundBitmapData);
       backgroundBitmap.x = x;
       backgroundBitmap.y = y;
       addChild(backgroundBitmap);
-      
+
       var kingBitmap = new Bitmap(kingBitmapData);
       kingBitmap.x = x + 40;
       kingBitmap.y =  y + 45;
@@ -44,7 +44,7 @@ class FilterDemo extends DisplayObjectContainer {
       kingBitmap.applyCache(filterBounds.left, filterBounds.top, filterBounds.width, filterBounds.height);
       addChild(kingBitmap);
       kingBitmaps.add(kingBitmap);
-      
+
       var textField = new TextField();
       textField.defaultTextFormat = new TextFormat('Helvetica Neue, Helvetica, Arial', 14, Color.Black);
       textField.x = x + 5;
@@ -53,18 +53,21 @@ class FilterDemo extends DisplayObjectContainer {
       textField.text = name;
       addChild(textField);
     }
-    
+
     //--------------------------------------------------------------------------------
     // animate the AlphaMaskFilter
-    
+
+    var bitmapFilter = _filters[7]["filter"];
+    var bitmap = kingBitmaps[7];
+    var matrix = bitmapFilter.matrix;
+
     juggler.transition(0.0, PI * 2 * 100, 600.0, TransitionFunction.linear, (value) {
-      var matrix = _filters[7]["filter"].matrix;
       matrix.identity();
       matrix.translate(-64, -64);
       matrix.scale(1.0, 1.5);
       matrix.rotate(value);
-      matrix.translate(kingBitmapData.width / 2 - 10, kingBitmapData.height / 2);
-      kingBitmaps[7].refreshCache();
-    });    
+      matrix.translate(kingBitmapData.width / 2 - 15, kingBitmapData.height / 2 - 20);
+      bitmap.refreshCache();
+    });
   }
 }

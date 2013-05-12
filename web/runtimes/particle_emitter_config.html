@@ -80,12 +80,12 @@
             var self = this;
 
             // particle configuration
-            self.maxParticles = new Slider("Max Particles", 100, 1, 200, 1);
-            self.lifespan = new Slider("Lifespan", 1.2, 0, 5.0, 0.1);
-            self.lifespanVariance = new Slider("Lifespan Variance", 0.5, 0, 5.0, 0.1);
-            self.startSize = new Slider("Start Size", 50, 0, 70, 1);
-            self.startSizeVariance = new Slider("Start Size Variance", 0, 0, 70, 1);
-            self.finishSize = new Slider("Finish Size", 32, 0, 70, 1);
+            self.maxParticles = new Slider("Max Particles", 200, 1, 400, 1);
+            self.lifespan = new Slider("Lifespan", 0.9, 0, 5.0, 0.1);
+            self.lifespanVariance = new Slider("Lifespan Variance", 0.4, 0, 5.0, 0.1);
+            self.startSize = new Slider("Start Size", 10, 0, 70, 1);
+            self.startSizeVariance = new Slider("Start Size Variance", 20, 0, 70, 1);
+            self.finishSize = new Slider("Finish Size", 70, 0, 70, 1);
             self.finishSizeVariance = new Slider("Finish Size Variance", 0, 0, 70, 1);
             self.shape = ko.observable("circle");
 
@@ -95,12 +95,12 @@
             // gravity configuration
             self.locationXVariance = new Slider("Location X Variance", 0, 0, 100, 1);
             self.locationYVariance = new Slider("Location Y Variance", 0, 0, 100, 1);
-            self.speed = new Slider("Speed", 40, 0, 500, 1);
+            self.speed = new Slider("Speed", 100, 0, 500, 1);
             self.speedVariance = new Slider("Speed Variance", 10, 0, 500, 1);
             self.angle = new Slider("Angle", 0, 0, 360, 1);
             self.angleVariance = new Slider("Angle Variance", 360, 0, 360, 1);
             self.gravityX = new Slider("Gravity X", 0, -500, 500, 1);
-            self.gravityY = new Slider("Gravity Y", 0, -500, 500, 1);
+            self.gravityY = new Slider("Gravity Y", 100, -500, 500, 1);
             self.radialAcceleration = new Slider("Radial Acc.", 20, -500, 500, 1);
             self.radialAccelerationVariance = new Slider("Radial Acc. Variance", 0, 0, 500, 1);
             self.tangentialAcceleration = new Slider("Tangential Acc.", 10, -500, 500, 1);
@@ -114,7 +114,7 @@
             self.rotatePerSecondVariance = new Slider("Rotation/sec Variance", 0, 0, 360, 1);
 
             // colors
-            self.compositeOperation = ko.observable("lighter");
+            self.compositeOperation = ko.observable("source-over");
             self.startColorR = new Slider("Start Color Red", 1.0, 0, 1, 0.01);
             self.startColorG = new Slider("Start Color Green", 0.5, 0, 1, 0.01);
             self.startColorB = new Slider("Start Color Blue", 0.0, 0, 1, 0.01);
@@ -158,6 +158,7 @@
                 //new keyValue("xor", "Xor")
             ];
 
+            self.jsonConfigPrettyPrint = ko.observable(false);
             self.jsonConfig = ko.computed(function () {
                 var json = {
                     "maxParticles": self.maxParticles.value(),
@@ -190,8 +191,11 @@
                     "finishColor": { "red": self.finishColorR.value(), "green": self.finishColorG.value(), "blue": self.finishColorB.value(), "alpha": self.finishColorA.value() }
                 };
 
-                return JSON.stringify(json, null, 2);
-                //return JSON.stringify(json);
+                var replacer = new RegExp(',','g');
+                var jsonShort = JSON.stringify(json).replace(replacer, ", ");
+                var jsonPretty = JSON.stringify(json, null, 2);
+
+                return self.jsonConfigPrettyPrint() ? jsonPretty : jsonShort;
             });
 
             //---------------------------------------
@@ -316,7 +320,10 @@
             </div>
             <div class="tab-pane" id="json">
                 <textarea id="particleEmitterJson" class="span7" data-bind="text: jsonConfig"
-                    style="height: 530px; resize: none; font-family: 'Courier New', 'Courier'"></textarea>
+                    style="height: 500px; resize: none; font-family: 'Courier New', 'Courier'"></textarea>
+                <label class="checkbox">
+                    <input type="checkbox" data-bind="checked: jsonConfigPrettyPrint"> pretty print JSON
+                </label>
             </div>
         </div>
     </div>

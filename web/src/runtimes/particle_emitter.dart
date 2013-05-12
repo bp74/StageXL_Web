@@ -8,7 +8,7 @@ class ParticleEmitterDemo extends DisplayObjectContainer {
   GlassPlate glassPlate;
 
   int backgroundColor = 0;
-  String particleJson = '{"location" : { "x" : 160.00, "y" : 230.00 }, "locationVariance": { "x" : 7.00, "y" : 7.00 }, "speed" : 260.00, "speedVariance" : 10.00, "lifeSpan" : 1.00, "lifespanVariance" : 0.70, "angle" : 0.00, "angleVariance" : 360.00, "gravity" : { "x" : 0.00, "y" : 0.00 }, "radialAcceleration" : -600.00, "tangentialAcceleration" : -100.00, "radialAccelerationVariance" : 0.00, "tangentialAccelerationVariance" : 0.00, "startColor" : { "red" : 1.00, "green" : 0.0 , "blue" : 0.0 , "alpha" : 1.0 }, "finishColor" : { "red" : 1.00 , "green" : 1.00 , "blue" : 0.00 , "alpha" : 1.00 }, "maxParticles" : 200, "startSize" : 30.00, "startSizeVariance" : 20.00, "finishSize" : 5.00, "finishSizeVariance" : 5.00, "duration" : -1.00, "emitterType" : 0, "maxRadius" : 40.00, "maxRadiusVariance" : 0.00, "minRadius" : 0.00, "rotatePerSecond" : 0.00, "rotatePerSecondVariance" : 0.00 }';
+  String particleJson = '{"maxParticles":200, "duration":0, "lifeSpan":0.9, "lifespanVariance":0.4, "startSize":10, "startSizeVariance":20, "finishSize":70, "finishSizeVariance":0, "shape":"circle", "emitterType":0, "location":{"x":0, "y":0}, "locationVariance":{"x":0, "y":0}, "speed":100, "speedVariance":10, "angle":0, "angleVariance":360, "gravity":{"x":0, "y":100}, "radialAcceleration":20, "radialAccelerationVariance":0, "tangentialAcceleration":10, "tangentialAccelerationVariance":0, "minRadius":0, "maxRadius":100, "maxRadiusVariance":0, "rotatePerSecond":0, "rotatePerSecondVariance":0, "compositeOperation":"source-over", "startColor":{"red":1, "green":0.75, "blue":0, "alpha":1}, "finishColor":{"red":1, "green":0, "blue":0, "alpha":0}}';
 
   ParticleEmitterDemo() {
 
@@ -40,6 +40,10 @@ class ParticleEmitterDemo extends DisplayObjectContainer {
       if (color != backgroundColor) {
         backgroundColor = color;
         backgroundBitmapData.fillRect(new Rectangle(0,0,380, 600), backgroundColor);
+      }
+
+      if (particleEmitter.particleCount == 0) {
+        particleEmitter.start();
       }
     });
 

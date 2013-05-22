@@ -34,102 +34,117 @@
 <div class="doc">
 <pre class="source">
 class TextLineMetrics {
- 
- num ascent;
- num descent;
- num height;
- num leading;
- num width;
- num x;
 
- TextLineMetrics(this.x, this.width, this.height, this.ascent, this.descent, this.leading);
+ String _text;
+ int _textIndex;
+
+ num _x = 0.0;
+ num _y = 0.0;   // relative to baseline
+ num _width = 0.0;
+ num _height = 0.0;
+ num _ascent = 0.0;
+ num _descent = 0.0;
+ num _leading = 0.0;
+
+ TextLineMetrics._internal(this._text, this._textIndex);
+
+ //-----------------------------------------------------------------------------------------------
+
+ num get x =&gt; _x;
+ num get y =&gt; _y;
+
+ num get width =&gt; _width;
+ num get height =&gt; _height;
+
+ num get ascent =&gt; _ascent;
+ num get descent =&gt; _descent;
+ num get leading =&gt; _leading;
 }
 </pre>
-</div>
-<div>
-<h3>Constructors</h3>
-<div class="method"><h4 id="TextLineMetrics">
-<button class="show-code">Code</button>
-new <strong>TextLineMetrics</strong>(num x, num width, num height, num ascent, num descent, num leading) <a class="anchor-link" href="#TextLineMetrics"
-              title="Permalink to TextLineMetrics.TextLineMetrics">#</a></h4>
-<div class="doc">
-<pre class="source">
-TextLineMetrics(this.x, this.width, this.height, this.ascent, this.descent, this.leading);
-</pre>
-</div>
-</div>
 </div>
 <div>
 <h3>Properties</h3>
 <div class="field"><h4 id="ascent">
 <button class="show-code">Code</button>
-num         <strong>ascent</strong> <a class="anchor-link"
+final num         <strong>ascent</strong> <a class="anchor-link"
             href="#ascent"
             title="Permalink to TextLineMetrics.ascent">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-num ascent
+num get ascent =&gt; _ascent;
 </pre>
 </div>
 </div>
 <div class="field"><h4 id="descent">
 <button class="show-code">Code</button>
-num         <strong>descent</strong> <a class="anchor-link"
+final num         <strong>descent</strong> <a class="anchor-link"
             href="#descent"
             title="Permalink to TextLineMetrics.descent">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-num descent
+num get descent =&gt; _descent;
 </pre>
 </div>
 </div>
 <div class="field"><h4 id="height">
 <button class="show-code">Code</button>
-num         <strong>height</strong> <a class="anchor-link"
+final num         <strong>height</strong> <a class="anchor-link"
             href="#height"
             title="Permalink to TextLineMetrics.height">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-num height
+num get height =&gt; _height;
 </pre>
 </div>
 </div>
 <div class="field"><h4 id="leading">
 <button class="show-code">Code</button>
-num         <strong>leading</strong> <a class="anchor-link"
+final num         <strong>leading</strong> <a class="anchor-link"
             href="#leading"
             title="Permalink to TextLineMetrics.leading">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-num leading
+num get leading =&gt; _leading;
 </pre>
 </div>
 </div>
 <div class="field"><h4 id="width">
 <button class="show-code">Code</button>
-num         <strong>width</strong> <a class="anchor-link"
+final num         <strong>width</strong> <a class="anchor-link"
             href="#width"
             title="Permalink to TextLineMetrics.width">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-num width
+num get width =&gt; _width;
 </pre>
 </div>
 </div>
 <div class="field"><h4 id="x">
 <button class="show-code">Code</button>
-num         <strong>x</strong> <a class="anchor-link"
+final num         <strong>x</strong> <a class="anchor-link"
             href="#x"
             title="Permalink to TextLineMetrics.x">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-num x
+num get x =&gt; _x;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="y">
+<button class="show-code">Code</button>
+final num         <strong>y</strong> <a class="anchor-link"
+            href="#y"
+            title="Permalink to TextLineMetrics.y">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num get y =&gt; _y;
 </pre>
 </div>
 </div>
@@ -138,7 +153,7 @@ num x
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-04-19 21:10:18.546</div>
+          <div>This page was generated at 2013-05-22 20:23:24.907</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

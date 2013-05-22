@@ -34,31 +34,28 @@
 <div class="doc">
 <pre class="source">
 class Stage extends DisplayObjectContainer {
- 
- // handle non-automatic hi-dpi canvas scaling (ie. Chrome VS Safari)
+
  static bool autoHiDpi = true;
- static num _canvasRatio = 1.0;
- static get canvasRatio =&gt; _canvasRatio;
- 
- //-------------------------------------------------------------------------------------------------
- 
+ static num get devicePixelRatio =&gt; _devicePixelRatio;
+
  CanvasElement _canvas;
  CanvasRenderingContext2D _context;
- int _defaultWidth, _defaultHeight;
+ int _contentWidth, _contentHeight;
+ int _contentFrameRate;
  int _canvasWidth, _canvasHeight;
- int _clientWidth, _clientHeight;
+ Rectangle _contentRectangle;
+
  Matrix _clientTransformation;
  Matrix _stageTransformation;
  RenderLoop _renderLoop;
  Juggler _juggler;
- int frameRate = 30;
- 
+
  InteractiveObject _focus;
  RenderState _renderState;
  String _stageRenderMode;
- String _stageScaleMode;  
+ String _stageScaleMode;
  String _stageAlign;
- 
+
  String _mouseCursor;
  Point _mousePosition;
  InteractiveObject _mouseTarget;
@@ -66,44 +63,41 @@ class Stage extends DisplayObjectContainer {
  Map&lt;int, _Touch&gt; _touches;
 
  MouseEvent _mouseEvent;
- KeyboardEvent _keyboardEvent;
  TouchEvent _touchEvent;
 
  //-------------------------------------------------------------------------------------------------
 
- Stage(String name, CanvasElement canvas) {
+ static const EventStreamProvider&lt;Event&gt; resizeEvent = const EventStreamProvider&lt;Event&gt;(Event.RESIZE);
+ Stream&lt;Event&gt; get onResize =&gt; Stage.resizeEvent.forTarget(this);
+
+ //-------------------------------------------------------------------------------------------------
+
+ Stage(String name, CanvasElement canvas, [int contentWidth, int contentHeight, int contentFrameRate]) {
 
    _name = name;
    _canvas = canvas;
    _canvas.focus();
-
    _context = canvas.context2D;
 
-   // do we need explicit hi-dpi scaling?
-   if (Stage.autoHiDpi) {
-     var devicePixelRatio = html.window.devicePixelRatio;
-     var backingStorePixelRatio = _context.backingStorePixelRatio;
-     if (devicePixelRatio == null) devicePixelRatio = 1.0;
-     if (backingStorePixelRatio == null) backingStorePixelRatio = 1.0;
-     _canvasRatio =  devicePixelRatio / backingStorePixelRatio;
-   }
-   
-   _defaultWidth = canvas.width;
-   _defaultHeight = canvas.height;
-   _setCanvasSize(_defaultWidth, _defaultHeight);
-   
-   _clientWidth = canvas.clientWidth;
-   _clientHeight = canvas.clientHeight;
+   _contentWidth = (contentWidth != null) ? contentWidth : canvas.width;
+   _contentHeight = (contentHeight != null) ? contentHeight : canvas.height;
+   _contentFrameRate = (contentFrameRate != null) ? contentFrameRate : 30;
+   _canvasWidth = -1;
+   _canvasHeight = -1;
+   _contentRectangle = new Rectangle.zero();
+
    _clientTransformation = new Matrix.fromIdentity();
    _stageTransformation = new Matrix.fromIdentity();
+   _updateCanvasSize();
+
    _renderLoop = null;
    _juggler = new Juggler();
-   
+
    _renderState = new RenderState.fromCanvasRenderingContext2D(_context);
    _stageRenderMode = StageRenderMode.AUTO;
    _stageScaleMode = StageScaleMode.SHOW_ALL;
    _stageAlign = StageAlign.NONE;
-   
+
    //---------------------------
    // prepare mouse events
 
@@ -138,42 +132,71 @@ class Stage extends DisplayObjectContainer {
    //---------------------------
    // prepare keyboard events
 
-   _keyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true);
-
    _canvas.onKeyDown.listen(_onKeyEvent);
    _canvas.onKeyUp.listen(_onKeyEvent);
-   _canvas.onKeyPress.listen(_onTextEvent);
+   _canvas.onKeyPress.listen(_onKeyEvent);
  }
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- int get stageWidth =&gt; _clientWidth;
- int get stageHeight =&gt; _clientHeight;
- 
+ /**
+  * Gets the current width of the Stage in pixels on the screen.
+  */
+ int get stageWidth =&gt; _canvasWidth;
+
+ /**
+  * Gets the current height of the Stage in pixels on the screen.
+  */
+ int get stageHeight =&gt; _canvasHeight;
+
+ /**
+  * Gets the available content area on the stage. The value of this rectangle
+  * changes with the scaleMode and the alignment of the stage, as well as the size
+  * of the underlying Canvas element.
+  */
+ Rectangle get contentRectangle =&gt; _contentRectangle.clone();
+
+ /**
+  * Gets and sets the default frame rate for MovieClips. This value has no
+  * impact on the frame rate of the Stage itself.
+  */
+ int get frameRate =&gt; _contentFrameRate;
+ set frameRate(int value) {
+   _contentFrameRate = value;
+ }
+
  RenderLoop get renderLoop =&gt; _renderLoop;
  Juggler get juggler =&gt; _juggler;
- 
+
  Point get mousePosition =&gt; _mousePosition;
- 
+
  InteractiveObject get focus =&gt; _focus;
- set focus(InteractiveObject value) { 
-   _focus = value; 
+ set focus(InteractiveObject value) {
+   _focus = value;
  }
 
  String get renderMode =&gt; _stageRenderMode;
- set renderMode(String value) { 
-   _stageRenderMode = value; 
+ set renderMode(String value) {
+   _stageRenderMode = value;
  }
 
  String get scaleMode =&gt; _stageScaleMode;
  set scaleMode(String value) {
    _stageScaleMode = value;
+   _updateCanvasSize();
  }
- 
+
  String get align =&gt; _stageAlign;
  set align(String value) {
    _stageAlign = value;
+   _updateCanvasSize();
+ }
+
+ invalidate() {
+   if (_renderLoop != null) {
+     _renderLoop.invalidate();
+   }
  }
 
  //-------------------------------------------------------------------------------------------------
@@ -199,11 +222,11 @@ class Stage extends DisplayObjectContainer {
  //-------------------------------------------------------------------------------------------------
 
  materialize(num currentTime, num deltaTime) {
-   
+
    if (_stageRenderMode == StageRenderMode.AUTO || _stageRenderMode == StageRenderMode.ONCE) {
-     
+
      _updateCanvasSize();
-     
+
      _renderState.reset(_stageTransformation, currentTime, deltaTime);
      render(_renderState);
 
@@ -216,138 +239,107 @@ class Stage extends DisplayObjectContainer {
  //-------------------------------------------------------------------------------------------------
 
  _updateCanvasSize() {
-   
+
    var client = _canvas.getBoundingClientRect();
    var clientLeft = _canvas.clientLeft + client.left;
    var clientTop = _canvas.clientTop + client.top;
    var clientWidth = _canvas.clientWidth;
    var clientHeight = _canvas.clientHeight;
-   
-   if (clientWidth == 0 || clientHeight == 0)
-     return;
-  
-   var canvasWidth = _defaultWidth;
-   var canvasHeight = _defaultHeight;
-   var canvasPivotX = 0;
-   var canvasPivotY = 0;
-   
+   var contentWidth = _contentWidth;
+   var contentHeight = _contentHeight;
+
+   if (clientWidth is! num) throw "dart2js_hint";
+   if (clientHeight is! num) throw "dart2js_hint";
+   if (contentWidth is! num) throw "dart2js_hint";
+   if (contentHeight is! num) throw "dart2js_hint";
+
+   if (clientWidth == 0 || clientHeight == 0) return;
+
    //----------------------------
-   
+
+   var scaleX = 1.0;
+   var scaleY = 1.0;
+   var pivotX = 0.0;
+   var pivotY = 0.0;
+   var ratioWidth = clientWidth / contentWidth;
+   var ratioHeight = clientHeight / contentHeight;
+
    switch(_stageScaleMode) {
-     
      case StageScaleMode.EXACT_FIT:
-       canvasWidth = _defaultWidth;
-       canvasHeight = _defaultHeight;
+       scaleX = ratioWidth;
+       scaleY = ratioHeight;
        break;
-       
      case StageScaleMode.NO_BORDER:
-       if (clientWidth * _defaultHeight &gt; clientHeight * _defaultWidth) {
-         canvasHeight = (_defaultWidth * clientHeight) ~/ clientWidth;
-       } else {
-         canvasWidth = (_defaultHeight * clientWidth) ~/ clientHeight;
-       }
+       scaleX = scaleY = (ratioWidth &gt; ratioHeight) ? ratioWidth : ratioHeight;
        break;
-       
-     case StageScaleMode.NO_SCALE: 
-       canvasWidth = clientWidth;
-       canvasHeight = clientHeight;
+     case StageScaleMode.NO_SCALE:
+       scaleX = scaleY = 1.0;
        break;
-       
-     case StageScaleMode.SHOW_ALL: 
-       if (clientWidth * _defaultHeight &gt; clientHeight * _defaultWidth) {
-         canvasWidth = (_defaultHeight * clientWidth) ~/ clientHeight;
-       } else {
-         canvasHeight = (_defaultWidth * clientHeight) ~/ clientWidth;
-       }
+     case StageScaleMode.SHOW_ALL:
+       scaleX = scaleY = (ratioWidth &lt; ratioHeight) ? ratioWidth : ratioHeight;
        break;
    }
-   
-   //----------------------------
-   
+
    switch(_stageAlign) {
-     case StageAlign.BOTTOM:
-       canvasPivotX = (_defaultWidth - canvasWidth + 1) ~/ 2;
-       canvasPivotY = (_defaultHeight - canvasHeight);
-       break;
-     case StageAlign.BOTTOM_LEFT:
-       canvasPivotX = 0;
-       canvasPivotY = (_defaultHeight - canvasHeight);
-       break;
-     case StageAlign.BOTTOM_RIGHT:
-       canvasPivotX = (_defaultWidth - canvasWidth);
-       canvasPivotY = (_defaultHeight - canvasHeight);
-       break;
-     case StageAlign.LEFT:
-       canvasPivotX = 0;
-       canvasPivotY = (_defaultHeight - canvasHeight + 1) ~/ 2;
-       break;
+     case StageAlign.TOP_RIGHT:
      case StageAlign.RIGHT:
-       canvasPivotX = (_defaultWidth - canvasWidth);
-       canvasPivotY = (_defaultHeight - canvasHeight + 1) ~/ 2;
+     case StageAlign.BOTTOM_RIGHT:
+       pivotX = (clientWidth - contentWidth * scaleX);
        break;
      case StageAlign.TOP:
-       canvasPivotX = (_defaultWidth - canvasWidth + 1) ~/ 2;
-       canvasPivotY = 0;
-       break;
-     case StageAlign.TOP_LEFT:
-       canvasPivotX = 0;
-       canvasPivotY = 0;
-       break;
-     case StageAlign.TOP_RIGHT:
-       canvasPivotX = (_defaultWidth - canvasWidth + 1);
-       canvasPivotY = 0;
-       break;
      case StageAlign.NONE:
-       canvasPivotX = (_defaultWidth - canvasWidth + 1) ~/ 2;
-       canvasPivotY = (_defaultHeight - canvasHeight + 1) ~/ 2;
+     case StageAlign.BOTTOM:
+       pivotX = (clientWidth - contentWidth * scaleX) / 2;
        break;
    }
-   
+
+   switch(_stageAlign) {
+     case StageAlign.BOTTOM_LEFT:
+     case StageAlign.BOTTOM:
+     case StageAlign.BOTTOM_RIGHT:
+       pivotY = (clientHeight - contentHeight * scaleY);
+       break;
+     case StageAlign.LEFT:
+     case StageAlign.NONE:
+     case StageAlign.RIGHT:
+       pivotY = (clientHeight - contentHeight * scaleY) / 2;
+       break;
+   }
+
    //----------------------------
 
-   // stage to canvas coordinate transformation    
-   _stageTransformation.setTo(1.0, 0.0, 0.0, 1.0, 0 - canvasPivotX, 0 - canvasPivotY);
-   
-   // client to stage coordinate transformation
-   _clientTransformation.setTo(
-       canvasWidth / clientWidth, 0.0, 0.0, canvasHeight / clientHeight,
-       canvasPivotX - clientLeft , canvasPivotY - clientTop);
+   var contentRectangle = _contentRectangle;
+   contentRectangle.x = - pivotX / scaleX;
+   contentRectangle.y = - pivotY / scaleY;
+   contentRectangle.width = clientWidth / scaleX;
+   contentRectangle.height = clientHeight / scaleY;
 
-   if (_canvasWidth != canvasWidth || _canvasHeight != canvasHeight) {
-     _setCanvasSize(canvasWidth, canvasHeight);
-   }
-   
-   // explicit hi-dpi scaling
-   if (canvasRatio != 1.0) {
-     _stageTransformation.scale(canvasRatio, canvasRatio);
-   }
-   
-   if (_clientWidth != clientWidth || _clientHeight != clientHeight) {
-     _clientWidth = clientWidth;
-     _clientHeight = clientHeight;
+   var pixelRatio = (Stage.autoHiDpi ? _devicePixelRatio : 1.0) / _backingStorePixelRatio;
+
+   // stage to canvas coordinate transformation
+   _stageTransformation.setTo(scaleX, 0.0, 0.0, scaleY, pivotX, pivotY);
+   _stageTransformation.scale(pixelRatio, pixelRatio);
+
+   // client to stage coordinate transformation
+   _clientTransformation.setTo(1.0, 0.0, 0.0, 1.0, - clientLeft - pivotX, - clientTop - pivotY);
+   _clientTransformation.scale(1.0 / scaleX, 1.0 / scaleY);
+
+   if (_canvasWidth != clientWidth || _canvasHeight != clientHeight) {
+     _canvasWidth = clientWidth;
+     _canvasHeight = clientHeight;
+     _canvas.width = (_canvasWidth * pixelRatio).round();
+     _canvas.height = (_canvasHeight * pixelRatio).round();
+
+     // update hi-dpi canvas style size if client size has changed
+     if (_canvas.clientWidth != clientWidth || _canvas.clientHeight != clientHeight) {
+       _canvas.style.width = "${clientWidth}px";
+       _canvas.style.height = "${clientHeight}px";
+     }
+
      dispatchEvent(new Event(Event.RESIZE));
    }
  }
- 
- //-------------------------------------------------------------------------------------------------
- 
- _setCanvasSize(int canvasWidth, int canvasHeight) {
-   
-   if (canvasRatio == 1.0) {
-     _canvas.width = _canvasWidth = canvasWidth;
-     _canvas.height = _canvasHeight = canvasHeight;
-   }
-   else {
-     // explicit hi-dpi scaling
-     _canvasWidth = canvasWidth;
-     _canvasHeight = canvasHeight;
-     _canvas.width = (_canvasWidth * canvasRatio).round();
-     _canvas.height = (_canvasHeight * canvasRatio).round();
-     _canvas.style.width = "${_canvasWidth}px";
-     _canvas.style.height = "${_canvasHeight}px";
-   }
- }
- 
+
  //-------------------------------------------------------------------------------------------------
 
  _onMouseCursorChanged(String action) {
@@ -358,7 +350,7 @@ class Stage extends DisplayObjectContainer {
  //-------------------------------------------------------------------------------------------------
 
  _onMouseEvent(html.MouseEvent event) {
-   
+
    event.preventDefault();
 
    var time = new DateTime.now().millisecondsSinceEpoch;
@@ -376,7 +368,7 @@ class Stage extends DisplayObjectContainer {
 
    if (Mouse._dragSprite != null)
      Mouse._dragSprite._updateDrag();
-   
+
    if (event.type != "mouseout")
      target = hitTestInput(stagePoint.x, stagePoint.y) as InteractiveObject;
 
@@ -391,7 +383,11 @@ class Stage extends DisplayObjectContainer {
    if (target is SimpleButton &amp;&amp; (target as SimpleButton).useHandCursor) {
      mouseCursor = MouseCursor.BUTTON;
    }
-   
+
+   if (target is TextField &amp;&amp; (target as TextField).type == TextFieldType.INPUT) {
+     mouseCursor = MouseCursor.IBEAM;
+   }
+
    if (_mouseCursor != mouseCursor) {
      _mouseCursor = mouseCursor;
      _canvas.style.cursor = Mouse._getCssStyle(mouseCursor);
@@ -428,6 +424,7 @@ class Stage extends DisplayObjectContainer {
    bool isDoubleClick = false;
 
    if (event.type == "mousedown") {
+     _canvas.focus();
      mouseEventType = mouseButton.mouseDownEventType;
 
      if (target != mouseButton.target || time &gt; mouseButton.clickTime + 500)
@@ -488,7 +485,7 @@ class Stage extends DisplayObjectContainer {
  //-------------------------------------------------------------------------------------------------
 
  _onMouseWheelEvent(html.WheelEvent event) {
-   
+
    var stagePoint = _clientTransformation._transformHtmlPoint(event.client);
    var target = hitTestInput(stagePoint.x, stagePoint.y) as InteractiveObject;
 
@@ -499,7 +496,7 @@ class Stage extends DisplayObjectContainer {
        .._stagePoint = stagePoint
        .._deltaX = event.deltaX
        .._deltaY = event.deltaY);
-     
+
      if (_mouseEvent.stopsPropagation)
        event.preventDefault();
    }
@@ -509,11 +506,11 @@ class Stage extends DisplayObjectContainer {
  //-------------------------------------------------------------------------------------------------
 
  List&lt;StreamSubscription&lt;TouchEvent&gt;&gt; _touchEventSubscriptions = [];
- 
+
  _onMultitouchInputModeChanged(String inputMode) {
-   
+
    _touchEventSubscriptions.forEach((s) =&gt; s.cancel());
-       
+
    if (Multitouch.inputMode == MultitouchInputMode.TOUCH_POINT) {
      _touchEventSubscriptions = [
        _canvas.onTouchStart.listen(_onTouchEvent),
@@ -529,7 +526,7 @@ class Stage extends DisplayObjectContainer {
  //-------------------------------------------------------------------------------------------------
 
  _onTouchEvent(html.TouchEvent event) {
-   
+
    event.preventDefault();
 
    for(var changedTouch in event.changedTouches) {
@@ -570,6 +567,7 @@ class Stage extends DisplayObjectContainer {
      String touchEventType = null;
 
      if (event.type == "touchstart") {
+       _canvas.focus();
        _touches[identifier] = touch;
        touchEventType = TouchEvent.TOUCH_BEGIN;
      }
@@ -604,44 +602,50 @@ class Stage extends DisplayObjectContainer {
  //-------------------------------------------------------------------------------------------------
 
  _onKeyEvent(html.KeyboardEvent event) {
-   
-   event.preventDefault();
 
-   String keyboardEventType = null;
+   if (event.keyCode == 8) {
+     event.preventDefault();
+   }
 
-   if (event.type == "keyup") keyboardEventType = KeyboardEvent.KEY_UP;
-   if (event.type == "keydown") keyboardEventType = KeyboardEvent.KEY_DOWN;
+   if (_focus == null) {
+     return;
+   }
 
-   _keyboardEvent
-     .._reset(keyboardEventType, true)
+   if (event.type == "keypress") {
+
+     var charCode = event.charCode;
+     var keyCode = event.keyCode;
+     if (keyCode == 13) charCode = 13;
+     if (charCode == 0) return;
+
+     var textEvent = new TextEvent(TextEvent.TEXT_INPUT, true)
+     .._text = new String.fromCharCodes([charCode]);
+
+     _focus.dispatchEvent(textEvent);
+
+   } else {
+
+     var keyLocation = KeyLocation.STANDARD;
+     var keyboardEventType = "";
+
+     if (event.type == "keyup") keyboardEventType = KeyboardEvent.KEY_UP;
+     if (event.type == "keydown") keyboardEventType = KeyboardEvent.KEY_DOWN;
+     if (event.keyLocation == html.KeyLocation.LEFT) keyLocation = KeyLocation.LEFT;
+     if (event.keyLocation == html.KeyLocation.RIGHT) keyLocation = KeyLocation.RIGHT;
+     if (event.keyLocation == html.KeyLocation.NUMPAD) keyLocation = KeyLocation.NUM_PAD;
+     if (event.keyLocation == html.KeyLocation.JOYSTICK) keyLocation = KeyLocation.D_PAD;
+     if (event.keyLocation == html.KeyLocation.MOBILE) keyLocation = KeyLocation.D_PAD;
+
+     var keyboardEvent = new KeyboardEvent(keyboardEventType, true)
      .._altKey = event.altKey
      .._ctrlKey = event.ctrlKey
      .._shiftKey = event.shiftKey
      .._charCode = event.charCode
      .._keyCode = event.keyCode
-     .._keyLocation = KeyLocation.STANDARD;
+     .._keyLocation = keyLocation;
 
-   if (event.keyLocation == html.KeyLocation.LEFT) _keyboardEvent._keyLocation = KeyLocation.LEFT;
-   if (event.keyLocation == html.KeyLocation.RIGHT) _keyboardEvent._keyLocation = KeyLocation.RIGHT;
-   if (event.keyLocation == html.KeyLocation.NUMPAD) _keyboardEvent._keyLocation = KeyLocation.NUM_PAD;
-   if (event.keyLocation == html.KeyLocation.JOYSTICK) _keyboardEvent._keyLocation = KeyLocation.D_PAD;
-   if (event.keyLocation == html.KeyLocation.MOBILE) _keyboardEvent._keyLocation = KeyLocation.D_PAD;
-
-   if (_focus != null)
-     _focus.dispatchEvent(_keyboardEvent);
- }
-
- //-------------------------------------------------------------------------------------------------
-
- _onTextEvent(html.KeyboardEvent event) {
-   
-   int charCode = (event.charCode != 0) ? event.charCode : event.keyCode;
-
-   TextEvent textEvent = new TextEvent(TextEvent.TEXT_INPUT, true);
-   textEvent._text = new String.fromCharCodes([charCode]);
-
-   if (_focus != null)
-     _focus.dispatchEvent(textEvent);
+     _focus.dispatchEvent(keyboardEvent);
+   }
  }
 
 }
@@ -664,15 +668,27 @@ static bool autoHiDpi = true
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="canvasRatio">
+<div class="field"><h4 id="devicePixelRatio">
 <button class="show-code">Code</button>
-final         <strong>canvasRatio</strong> <a class="anchor-link"
-            href="#canvasRatio"
-            title="Permalink to Stage.canvasRatio">#</a>
+final num         <strong>devicePixelRatio</strong> <a class="anchor-link"
+            href="#devicePixelRatio"
+            title="Permalink to Stage.devicePixelRatio">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-static get canvasRatio =&gt; _canvasRatio;
+static num get devicePixelRatio =&gt; _devicePixelRatio;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="resizeEvent">
+<button class="show-code">Code</button>
+const <a href="../stagexl/EventStreamProvider.html">EventStreamProvider</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>resizeEvent</strong> <a class="anchor-link"
+            href="#resizeEvent"
+            title="Permalink to Stage.resizeEvent">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+static const EventStreamProvider&lt;Event&gt; resizeEvent = const EventStreamProvider&lt;Event&gt;(Event.RESIZE)
 </pre>
 </div>
 </div>
@@ -681,43 +697,36 @@ static get canvasRatio =&gt; _canvasRatio;
 <h3>Constructors</h3>
 <div class="method"><h4 id="Stage">
 <button class="show-code">Code</button>
-new <strong>Stage</strong>(String name, CanvasElement canvas) <a class="anchor-link" href="#Stage"
+new <strong>Stage</strong>(String name, CanvasElement canvas, [int contentWidth, int contentHeight, int contentFrameRate]) <a class="anchor-link" href="#Stage"
               title="Permalink to Stage.Stage">#</a></h4>
 <div class="doc">
 <pre class="source">
-Stage(String name, CanvasElement canvas) {
+Stage(String name, CanvasElement canvas, [int contentWidth, int contentHeight, int contentFrameRate]) {
 
  _name = name;
  _canvas = canvas;
  _canvas.focus();
-
  _context = canvas.context2D;
 
- // do we need explicit hi-dpi scaling?
- if (Stage.autoHiDpi) {
-   var devicePixelRatio = html.window.devicePixelRatio;
-   var backingStorePixelRatio = _context.backingStorePixelRatio;
-   if (devicePixelRatio == null) devicePixelRatio = 1.0;
-   if (backingStorePixelRatio == null) backingStorePixelRatio = 1.0;
-   _canvasRatio =  devicePixelRatio / backingStorePixelRatio;
- }
- 
- _defaultWidth = canvas.width;
- _defaultHeight = canvas.height;
- _setCanvasSize(_defaultWidth, _defaultHeight);
- 
- _clientWidth = canvas.clientWidth;
- _clientHeight = canvas.clientHeight;
+ _contentWidth = (contentWidth != null) ? contentWidth : canvas.width;
+ _contentHeight = (contentHeight != null) ? contentHeight : canvas.height;
+ _contentFrameRate = (contentFrameRate != null) ? contentFrameRate : 30;
+ _canvasWidth = -1;
+ _canvasHeight = -1;
+ _contentRectangle = new Rectangle.zero();
+
  _clientTransformation = new Matrix.fromIdentity();
  _stageTransformation = new Matrix.fromIdentity();
+ _updateCanvasSize();
+
  _renderLoop = null;
  _juggler = new Juggler();
- 
+
  _renderState = new RenderState.fromCanvasRenderingContext2D(_context);
  _stageRenderMode = StageRenderMode.AUTO;
  _stageScaleMode = StageScaleMode.SHOW_ALL;
  _stageAlign = StageAlign.NONE;
- 
+
  //---------------------------
  // prepare mouse events
 
@@ -752,11 +761,9 @@ Stage(String name, CanvasElement canvas) {
  //---------------------------
  // prepare keyboard events
 
- _keyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true);
-
  _canvas.onKeyDown.listen(_onKeyEvent);
  _canvas.onKeyUp.listen(_onKeyEvent);
- _canvas.onKeyPress.listen(_onTextEvent);
+ _canvas.onKeyPress.listen(_onKeyEvent);
 }
 </pre>
 </div>
@@ -777,6 +784,7 @@ String get align =&gt; _stageAlign;
 <pre class="source">
 set align(String value) {
  _stageAlign = value;
+ _updateCanvasSize();
 }
 </pre>
 </div>
@@ -828,6 +836,21 @@ set compositeOperation(String value) { _compositeOperation = value; }
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="contentRectangle">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Rectangle.html">Rectangle</a>         <strong>contentRectangle</strong> <a class="anchor-link"
+            href="#contentRectangle"
+            title="Permalink to Stage.contentRectangle">#</a>
+        </h4>
+        <div class="doc">
+<p>Gets the available content area on the stage. The value of this rectangle
+changes with the scaleMode and the alignment of the stage, as well as the size
+of the underlying Canvas element.</p>
+<pre class="source">
+Rectangle get contentRectangle =&gt; _contentRectangle.clone();
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="doubleClickEnabled">
 <button class="show-code">Code</button>
 bool         <strong>doubleClickEnabled</strong> <a class="anchor-link"
@@ -848,8 +871,8 @@ List&lt;<a href="../stagexl/BitmapFilter.html">BitmapFilter</a>&gt;         <str
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-List&lt;BitmapFilter&gt; get filters =&gt; (_filters != null) 
-   ? _filters 
+List&lt;BitmapFilter&gt; get filters =&gt; (_filters != null)
+   ? _filters
    : _filters = new List&lt;BitmapFilter&gt;();
 </pre>
 <pre class="source">
@@ -868,8 +891,8 @@ set filters(List&lt;BitmapFilter&gt; value) { _filters = value; }
 InteractiveObject get focus =&gt; _focus;
 </pre>
 <pre class="source">
-set focus(InteractiveObject value) { 
- _focus = value; 
+set focus(InteractiveObject value) {
+ _focus = value;
 }
 </pre>
 </div>
@@ -881,8 +904,15 @@ int         <strong>frameRate</strong> <a class="anchor-link"
             title="Permalink to Stage.frameRate">#</a>
         </h4>
         <div class="doc">
+<p>Gets and sets the default frame rate for MovieClips. This value has no
+impact on the frame rate of the Stage itself.</p>
 <pre class="source">
-int frameRate = 30
+int get frameRate =&gt; _contentFrameRate;
+</pre>
+<pre class="source">
+set frameRate(int value) {
+ _contentFrameRate = value;
+}
 </pre>
 </div>
 </div>
@@ -1077,6 +1107,18 @@ final Stream&lt;<a href="../stagexl/EnterFrameEvent.html">EnterFrameEvent</a>&gt
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Stream&lt;EnterFrameEvent&gt; get onEnterFrame =&gt; DisplayObject.enterFrameEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onExitFrame">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/ExitFrameEvent.html">ExitFrameEvent</a>&gt;         <strong>onExitFrame</strong> <a class="anchor-link"
+            href="#onExitFrame"
+            title="Permalink to Stage.onExitFrame">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;ExitFrameEvent&gt; get onExitFrame =&gt; DisplayObject.exitFrameEvent.forTarget(this);
 </pre>
 </div>
 </div>
@@ -1296,6 +1338,30 @@ Stream&lt;Event&gt; get onRemovedFromStage =&gt; DisplayObject.removedFromStageE
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="onRender">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/RenderEvent.html">RenderEvent</a>&gt;         <strong>onRender</strong> <a class="anchor-link"
+            href="#onRender"
+            title="Permalink to Stage.onRender">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;RenderEvent&gt; get onRender =&gt; DisplayObject.renderEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onResize">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onResize</strong> <a class="anchor-link"
+            href="#onResize"
+            title="Permalink to Stage.onResize">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onResize =&gt; Stage.resizeEvent.forTarget(this);
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="onTextInput">
 <button class="show-code">Code</button>
 final Stream&lt;<a href="../stagexl/TextEvent.html">TextEvent</a>&gt;         <strong>onTextInput</strong> <a class="anchor-link"
@@ -1455,8 +1521,8 @@ String         <strong>renderMode</strong> <a class="anchor-link"
 String get renderMode =&gt; _stageRenderMode;
 </pre>
 <pre class="source">
-set renderMode(String value) { 
- _stageRenderMode = value; 
+set renderMode(String value) {
+ _stageRenderMode = value;
 }
 </pre>
 </div>
@@ -1470,7 +1536,7 @@ final <a href="../stagexl/DisplayObject.html">DisplayObject</a>         <strong>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 DisplayObject get root {
- 
+
  DisplayObject currentObject = this;
 
  while (currentObject._parent != null)
@@ -1514,6 +1580,7 @@ String get scaleMode =&gt; _stageScaleMode;
 <pre class="source">
 set scaleMode(String value) {
  _stageScaleMode = value;
+ _updateCanvasSize();
 }
 </pre>
 </div>
@@ -1622,7 +1689,7 @@ final <a href="../stagexl/Stage.html">Stage</a>         <strong>stage</strong> <
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Stage get stage {
- 
+
  DisplayObject root = this.root;
 
  if (root is Stage)
@@ -1640,8 +1707,9 @@ final int         <strong>stageHeight</strong> <a class="anchor-link"
             title="Permalink to Stage.stageHeight">#</a>
         </h4>
         <div class="doc">
+<p>Gets the current height of the Stage in pixels on the screen.</p>
 <pre class="source">
-int get stageHeight =&gt; _clientHeight;
+int get stageHeight =&gt; _canvasHeight;
 </pre>
 </div>
 </div>
@@ -1652,8 +1720,9 @@ final int         <strong>stageWidth</strong> <a class="anchor-link"
             title="Permalink to Stage.stageWidth">#</a>
         </h4>
         <div class="doc">
+<p>Gets the current width of the Stage in pixels on the screen.</p>
 <pre class="source">
-int get stageWidth =&gt; _clientWidth;
+int get stageWidth =&gt; _canvasWidth;
 </pre>
 </div>
 </div>
@@ -1795,7 +1864,7 @@ void <strong>addChild</strong>(<a href="../stagexl/DisplayObject.html">DisplayOb
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 void addChild(DisplayObject child) {
- 
+
  if (child.parent == this) {
    int index = _children.indexOf(child);
    _children.removeAt(index);
@@ -1814,7 +1883,7 @@ void <strong>addChildAt</strong>(<a href="../stagexl/DisplayObject.html">Display
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 void addChildAt(DisplayObject child, int index) {
- 
+
  if (index &lt; 0 || index &gt; _children.length)
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
@@ -1822,16 +1891,16 @@ void addChildAt(DisplayObject child, int index) {
    throw new ArgumentError("Error #2024: An object cannot be added as a child of itself.");
 
  if (child.parent == this) {
-   
+
    _children.removeAt(_children.indexOf(child));
 
    if (index &gt; _children.length)
      index --;
 
    _children.insert(index, child);
- 
+
  } else {
-   
+
    child.removeFromParent();
 
    child._setParent(this);
@@ -1877,22 +1946,11 @@ void <strong>applyCache</strong>(int x, int y, int width, int height, {bool debu
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
- 
- if (Stage.canvasRatio != 1.0) {
-   // explicit hi-dpi scaling
-   num ratio = Stage.canvasRatio;
-   _cache = new BitmapData((width*ratio).ceil(), (height*ratio).ceil(), true, 0x00000000);
-   _cache._destinationWidth = width;
-   _cache._destinationHeight = height;
-   _cache._renderMode = 3;
- }
- else {
-   _cache = new BitmapData(width, height, true, 0x00000000);
- }
- _cache._destinationX = x;
- _cache._destinationY = y;
- 
- _cacheRectangle = new Rectangle(x,y, width, height);
+
+ var pixelRatio = Stage.autoHiDpi ? _devicePixelRatio : 1.0;
+
+ _cache = new BitmapData(width, height, true, Color.Transparent, pixelRatio);
+ _cacheRectangle = new Rectangle(x, y, width, height);
  _cacheDebugBorder = debugBorder;
  refreshCache();
 }
@@ -1906,7 +1964,7 @@ bool <strong>contains</strong>(<a href="../stagexl/DisplayObject.html">DisplayOb
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 bool contains(DisplayObject child) {
- 
+
  for(; child != null; child = child._parent)
    if (child == this)
      return true;
@@ -1923,7 +1981,7 @@ void <strong>dispatchEvent</strong>(<a href="../stagexl/Event.html">Event</a> ev
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void dispatchEvent(Event event) {
- 
+
  List&lt;DisplayObject&gt; ancestors = null;
 
  if (event.captures || event.bubbles) {
@@ -1934,24 +1992,24 @@ void dispatchEvent(Event event) {
      }
    }
  }
- 
+
  if (event.captures &amp;&amp; ancestors != null) {
    for(int i = ancestors.length - 1 ; i &gt;= 0 &amp;&amp; event.stopsPropagation == false; i--) {
      ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
    }
  }
- 
+
  if (event.stopsPropagation == false) {
    _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
  }
- 
+
  if (event.bubbles &amp;&amp; ancestors != null) {
    for(int i = 0; i &lt; ancestors.length &amp;&amp; event.stopsPropagation == false; i++) {
      ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
    }
  }
- 
- if (ancestors != null) { 
+
+ if (ancestors != null) {
    ancestors.clear();
    _displayObjectListPool.push(ancestors);
  }
@@ -1966,7 +2024,7 @@ void dispatchEvent(Event event) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Rectangle getBounds(DisplayObject targetSpace) {
- 
+
  Rectangle returnRectangle = new Rectangle.zero();
  Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
 
@@ -1982,7 +2040,7 @@ Rectangle getBounds(DisplayObject targetSpace) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
- 
+
  if (returnRectangle == null)
    returnRectangle = new Rectangle.zero();
 
@@ -1997,7 +2055,7 @@ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
  int childrenLength = _children.length;
 
  for (int i = 0; i &lt; _children.length; i++) {
-   
+
    DisplayObject child = _children[i];
 
    _tmpMatrix.copyFromAndConcat(child._transformationMatrix, matrix);
@@ -2026,7 +2084,7 @@ dynamic <strong>getChildAt</strong>(int index) <a class="anchor-link" href="#get
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 dynamic getChildAt(int index) {
- 
+
  if (index &lt; 0 || index &gt;= _children.length)
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
@@ -2071,7 +2129,7 @@ int getChildIndex(DisplayObject child) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Point globalToLocal(Point globalPoint) {
- 
+
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -2103,11 +2161,14 @@ bool hasEventListener(String eventType) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 DisplayObject hitTestInput(num localX, num localY) {
- 
+
+ localX = localX.toDouble();
+ localY = localY.toDouble();
+
  DisplayObject hit = null;
 
  for (int i = _children.length - 1; i &gt;= 0; i--) {
-   
+
    DisplayObject child = _children[i];
 
    if (child.visible) {
@@ -2142,12 +2203,12 @@ bool <strong>hitTestObject</strong>(<a href="../stagexl/DisplayObject.html">Disp
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 bool hitTestObject(DisplayObject other) {
- 
+
  var stage1 = this.stage;
  var stage2 = other.stage;
- 
+
  if (stage1 == null || stage2 == null || stage1 != stage2) return false;
- 
+
  var rect1 = this.getBounds(stage1);
  var rect2 = other.getBounds(stage2);
 
@@ -2170,16 +2231,30 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
  if (shapeFlag) {
    var matrix = stage.transformationMatrixTo(this);
    if (matrix == null) return false;
-   
+
    var stagePoint = new Point(x, y);
    var localPoint = matrix.transformPoint(stagePoint);
 
    return this.hitTestInput(localPoint.x, localPoint.y) != null;
 
  } else {
-   
+
    var rect = this.getBounds(stage);
    return rect.contains(x, y);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="invalidate">
+<button class="show-code">Code</button>
+dynamic <strong>invalidate</strong>() <a class="anchor-link" href="#invalidate"
+              title="Permalink to Stage.invalidate">#</a></h4>
+<div class="doc">
+<pre class="source">
+invalidate() {
+ if (_renderLoop != null) {
+   _renderLoop.invalidate();
  }
 }
 </pre>
@@ -2192,7 +2267,7 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Point localToGlobal(Point localPoint) {
- 
+
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -2210,11 +2285,11 @@ dynamic <strong>materialize</strong>(num currentTime, num deltaTime) <a class="a
 <div class="doc">
 <pre class="source">
 materialize(num currentTime, num deltaTime) {
- 
+
  if (_stageRenderMode == StageRenderMode.AUTO || _stageRenderMode == StageRenderMode.ONCE) {
-   
+
    _updateCanvasSize();
-   
+
    _renderState.reset(_stageTransformation, currentTime, deltaTime);
    render(_renderState);
 
@@ -2244,28 +2319,31 @@ void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void refreshCache() {
- 
+
  if (_cache == null) return;
- 
+
  var x = _cacheRectangle.x;
  var y = _cacheRectangle.y;
  var width = _cacheRectangle.width;
  var height = _cacheRectangle.height;
- num ratio = Stage.canvasRatio;
- 
+
  _cache.clear();
- _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y)..scale(ratio, ratio));
- 
- for(int i = 0; _filters != null &amp;&amp; i &lt; _filters.length; i++) {
-   _filters[i].apply(_cache, new Rectangle(0, 0, width, height), _cache, new Point.zero()); 
+ _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+
+ if (_filters != null) {
+   for(int i = 0; i &lt; _filters.length; i++) {
+     var sourceRectangle = new Rectangle(0, 0, width, height);
+     var destinationPoint = new Point.zero();
+     _filters[i].apply(_cache, sourceRectangle, _cache, destinationPoint);
+   }
  }
- 
+
  if (_cacheDebugBorder) {
    _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
- }      
+ }
 }
 </pre>
 </div>
@@ -2289,7 +2367,7 @@ void <strong>removeChild</strong>(<a href="../stagexl/DisplayObject.html">Displa
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 void removeChild(DisplayObject child) {
- 
+
  int childIndex = _children.indexOf(child);
 
  if (childIndex == -1)
@@ -2307,7 +2385,7 @@ void <strong>removeChildAt</strong>(int index) <a class="anchor-link" href="#rem
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 void removeChildAt(int index) {
- 
+
  if (index &lt; 0 || index &gt;= _children.length)
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
@@ -2326,21 +2404,22 @@ void removeChildAt(int index) {
 </div>
 <div class="method inherited"><h4 id="removeChildren">
 <button class="show-code">Code</button>
-void <strong>removeChildren</strong>([int beginIndex, int endIndex]) <a class="anchor-link" href="#removeChildren"
+void <strong>removeChildren</strong>([int beginIndex = 0, int endIndex = 0x7fffffff]) <a class="anchor-link" href="#removeChildren"
               title="Permalink to Stage.removeChildren">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
-void removeChildren([int beginIndex, int endIndex]) {
- 
- if (?beginIndex == false) beginIndex = 0;
- if (?endIndex == false) endIndex = _children.length - 1;
-   
- if (beginIndex &lt; 0 || beginIndex &gt;= _children.length)
-   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+void removeChildren([int beginIndex = 0, int endIndex = 0x7fffffff]) {
 
- if (endIndex &lt; 0 || endIndex &gt;= _children.length)
+ var length = _children.length;
+
+ if (endIndex == 0x7fffffff) {
+   endIndex = length - 1;
+ }
+
+ if (beginIndex &lt; 0 || endIndex &lt; 0 || beginIndex &gt;= length || endIndex &gt;= length) {
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
- 
+ }
+
  for(int i = beginIndex; i &lt;= endIndex; i++) {
    if (beginIndex &gt;= _children.length) break;
    removeChildAt(beginIndex);
@@ -2381,9 +2460,9 @@ void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 void render(RenderState renderState) {
- 
+
  for(int i = 0; i &lt; _children.length; i++) {
-   
+
    DisplayObject child = _children[i];
 
    if (!child._off &amp;&amp; child.visible)
@@ -2400,7 +2479,7 @@ void <strong>setChildIndex</strong>(<a href="../stagexl/DisplayObject.html">Disp
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 void setChildIndex(DisplayObject child, int index) {
- 
+
  if (index &lt; 0 || index &gt;= _children.length)
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
@@ -2431,14 +2510,14 @@ void setTransform(num x, num y, [num scaleX, num scaleY, num rotation, num skewX
    if (scaleY != null) {
      _scaleY = scaleY.toDouble();
      if (rotation != null) {
-       _rotation = rotation.toDouble(); 
+       _rotation = rotation.toDouble();
        if (skewX != null) {
          _skewX = skewX.toDouble();
          if (skewY != null) {
            _skewY = skewY.toDouble();
            if (pivotX != null) {
              _pivotX = pivotX.toDouble();
-             if (pivotY != null) 
+             if (pivotY != null)
                _pivotY = pivotY.toDouble();
            }
          }
@@ -2469,7 +2548,7 @@ void <strong>swapChildren</strong>(<a href="../stagexl/DisplayObject.html">Displ
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 void swapChildren(DisplayObject child1, DisplayObject child2) {
- 
+
    int index1 = getChildIndex(child1);
    int index2 = getChildIndex(child2);
 
@@ -2488,7 +2567,7 @@ void <strong>swapChildrenAt</strong>(int index1, int index2) <a class="anchor-li
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 void swapChildrenAt(int index1, int index2) {
- 
+
  DisplayObject child1 = getChildAt(index1);
  DisplayObject child2 = getChildAt(index2);
  _children[index1] = child2;
@@ -2504,7 +2583,7 @@ void swapChildrenAt(int index1, int index2) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Matrix transformationMatrixTo(DisplayObject targetSpace) {
- 
+
  if (targetSpace == _parent)
    return _transformationMatrix.clone();
 
@@ -2559,7 +2638,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-04-19 21:10:19.005</div>
+          <div>This page was generated at 2013-05-22 20:23:25.343</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

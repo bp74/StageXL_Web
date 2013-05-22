@@ -46,10 +46,13 @@ class ObjectPool&lt;T&gt; {
 
  T pop() {
    
-   if (_poolCount == 0) {
+   var poolCount = _poolCount;
+   if (poolCount is! int) throw "dart2js_hint";
+   
+   if (poolCount == 0) {
      return _valueFactory();
    } else {
-     _poolCount--;
+     _poolCount = poolCount - 1;
      return _pool[_poolCount];
    }
  }
@@ -58,12 +61,15 @@ class ObjectPool&lt;T&gt; {
  
  push(T value) {
    
-   if (_poolCount == _pool.length) {
+   var poolCount = _poolCount;
+   if (poolCount is! int) throw "dart2js_hint";
+   
+   if (poolCount == _pool.length) {
      _pool.add(value);
    } else {
-     _pool[_poolCount] = value;
+     _pool[poolCount] = value;
    }
-   _poolCount++;
+   _poolCount = poolCount + 1;
  }
  
  //---------------------------------------------------------------------------
@@ -99,10 +105,13 @@ ObjectPool(T valueFactory()) : _valueFactory = valueFactory;
 <pre class="source">
 T pop() {
  
- if (_poolCount == 0) {
+ var poolCount = _poolCount;
+ if (poolCount is! int) throw "dart2js_hint";
+ 
+ if (poolCount == 0) {
    return _valueFactory();
  } else {
-   _poolCount--;
+   _poolCount = poolCount - 1;
    return _pool[_poolCount];
  }
 }
@@ -117,12 +126,15 @@ dynamic <strong>push</strong>(<a href="../stagexl/ObjectPool.html">T</a> value) 
 <pre class="source">
 push(T value) {
  
- if (_poolCount == _pool.length) {
+ var poolCount = _poolCount;
+ if (poolCount is! int) throw "dart2js_hint";
+ 
+ if (poolCount == _pool.length) {
    _pool.add(value);
  } else {
-   _pool[_poolCount] = value;
+   _pool[poolCount] = value;
  }
- _poolCount++;
+ _poolCount = poolCount + 1;
 }
 </pre>
 </div>
@@ -146,7 +158,7 @@ reset() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-04-19 21:10:18.390</div>
+          <div>This page was generated at 2013-05-22 20:23:24.843</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

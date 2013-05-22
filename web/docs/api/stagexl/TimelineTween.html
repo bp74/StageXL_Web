@@ -1,0 +1,1283 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>TimelineTween class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="TimelineTween">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/TimelineTween.html">TimelineTween</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>TimelineTween</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<p>A TimelineTween instance tweens properties for a single target. Instance methods can be chained for easy construction and sequencing:</p><h4>Example</h4>
+<pre><code> target.alpha = 1;
+ TimelineTween.get(target)
+      .wait(500)
+      .to({alpha:0, visible:false}, 1000)
+      .call(onComplete);
+ function onComplete() {
+   //TimelineTween complete
+ }
+</code></pre>
+<p>Multiple tweens can point to the same instance, however if they affect the same properties there could be unexpected
+behaviour. To stop all tweens on an object, use {{#crossLink "TimelineTween/removeTweens"}}{{/crossLink}} or pass &lt;code>override:true&lt;/code>
+in the props argument.</p>
+<pre><code> TimelineTween.get(target, {override:true}).to({x:100});
+</code></pre>
+<p>Subscribe to the "change" event to get notified when a property of the target is changed.</p>
+<pre><code> TimelineTween.get(target, {override:true}).to({x:100}).addEventListener("change", handleChange);
+ function handleChange(event) {
+     // The tween changed.
+ }
+</code></pre>
+<p>See the TimelineTween {{#crossLink "TimelineTween/get"}}{{/crossLink}} method for additional param documentation.</p>
+<pre class="source">
+class TimelineTween
+{
+ /** 
+  * Constant defining the none actionsMode for use with setPosition.
+  **/
+ static const int NONE = 0;
+ 
+ /** 
+  * Constant defining the loop actionsMode for use with setPosition.
+  **/
+ static const int LOOP = 1;
+ 
+ /** 
+  * Constant defining the reverse actionsMode for use with setPosition.
+  **/
+ static const int REVERSE = 2;
+ 
+ //static List&lt;TimelineTween&gt; _tweens = [];
+ static EaseFunction _linearEase = TransitionFunction.linear;
+
+ /**
+  * Returns a new tween instance. This is functionally identical to using "new TimelineTween(...)", but looks cleaner
+  * with the chained syntax of TweenJS.
+  * @example
+  *  var tween = TimelineTween.get(target);
+  * @method get
+  * @static
+  * @param {Object} target The target object that will have its properties tweened.
+  * @param {Object} [props] The configuration properties to apply to this tween instance (ex. &lt;code&gt;{loop:true, paused:true}&lt;/code&gt;).
+  * All properties default to false. Supported props are:&lt;UL&gt;
+  *    &lt;LI&gt; loop: sets the loop property on this tween.&lt;/LI&gt;
+  *    &lt;LI&gt; ignoreGlobalPause: sets the ignoreGlobalPause property on this tween.&lt;/LI&gt;
+  *    &lt;LI&gt; override: if true, TimelineTween.removeTweens(target) will be called to remove any other tweens with the same target.
+  *    &lt;LI&gt; paused: indicates whether to start the tween paused.&lt;/LI&gt;
+  *    &lt;LI&gt; position: indicates the initial position for this tween.&lt;/LI&gt;
+  *    &lt;LI&gt; onChange: specifies an onChange handler for this tween. Note that this is deprecated in favour of the
+  *    "change" event.&lt;/LI&gt;
+  * &lt;/UL&gt;
+  * @param {Boolean} [override=false] If true, any previous tweens on the same target will be removed. This is the same as
+  * calling &lt;code&gt;TimelineTween.removeTweens(target)&lt;/code&gt;.
+  * @return {TimelineTween} A reference to the created tween. Additional chained tweens, method calls, or callbacks can be
+  * applied to the returned tween instance.
+  **/
+ static TimelineTween get(dynamic target, [Map&lt;String, dynamic&gt; props, bool override = false]) {
+   //if (override) { TimelineTween.removeTweens(target); }
+   return new TimelineTween(target, props);
+ }
+ 
+ /**
+  * Advances all tweens. This typically uses the Ticker class (available in the EaselJS library), but you can call it
+  * manually if you prefer to use your own "heartbeat" implementation.
+  * @method tick
+  * @static
+  * @param {Number} delta The change in time in milliseconds since the last tick. Required unless all tweens have
+  * &lt;code&gt;useTicks&lt;/code&gt; set to true.
+  * @param {Boolean} paused Indicates whether a global pause is in effect. Tweens with &lt;code&gt;ignoreGlobalPause&lt;/code&gt; will ignore
+  * this, but all others will pause if this is true.
+ static void tickTweens(num delta, bool paused) {
+   var tweens = _tweens; //TimelineTween._tweens.slice(); // to avoid race conditions.
+   for(var i=0; i&lt;tweens.length; i++) {
+     var tween = tweens[i];
+     if ((paused &amp;&amp; !tween.ignoreGlobalPause) || tween._paused) { continue; }
+     tween.tick(1);//tween._useTicks?1:delta);
+   }
+ }
+ **/
+ 
+ /** 
+  * Removes all existing tweens for a target. This is called automatically by new tweens if the &lt;code&gt;override&lt;/code&gt; prop is true.
+  * @method removeTweens
+  * @static
+  * @param {Object} target The target object to remove existing tweens from.
+ static void removeTweens(target) {
+   //if (!target.tweenjs_count) { return; }
+   var tweens = TimelineTween._tweens;
+   for(var i=tweens.length-1; i&gt;=0; i--) {
+     if (tweens[i]._target == target) {
+       tweens[i]._paused = true;
+       tweens.removeAt(i);
+     }
+   }
+   //target.tweenjs_count = 0;
+ }
+  **/
+ 
+ /** 
+  * Indicates whether there are any active tweens on the target object (if specified) or in general.
+  * @method hasActiveTweens
+  * @static
+  * @param {Object} target Optional. If not specified, the return value will indicate if there are any active tweens
+  * on any target.
+  * @return {Boolean} A boolean indicating whether there are any active tweens.
+ TimelineTween.hasActiveTweens(target) {
+   if (target != null) {
+     assert(target == null); // TODO
+     //return target.tweenjs_count; 
+   }
+   return TimelineTween._tweens &amp;&amp; TimelineTween._tweens.length;
+ }
+  **/
+ 
+ /** 
+  * Registers or unregisters a tween with the ticking system.
+  * @method _register
+  * @static
+  * @protected 
+ static void _register(TimelineTween tween, bool value) {
+   var target = tween._target;
+   if (value) {
+     // TODO: this approach might fail if a dev is using sealed objects in ES5
+     //if (target) { target.tweenjs_count = target.tweenjs_count ? target.tweenjs_count+1 : 1; }
+     TimelineTween._tweens.add(tween);
+   } 
+   else {
+     //if (target) { target.tweenjs_count--; }
+     var i = TimelineTween._tweens.indexOf(tween);
+     if (i != -1) { TimelineTween._tweens.removeAt(i); }
+   }
+ }
+  **/
+   
+// public properties:
+ /**
+  * Causes this tween to continue playing when a global pause is active. For example, if TweenJS is using Ticker,
+  * then setting this to true (the default) will cause this tween to be paused when &lt;code&gt;Ticker.setPaused(true)&lt;/code&gt; is called.
+  * See TimelineTween.tick() for more info. Can be set via the props param.
+  **/
+ bool ignoreGlobalPause = false;
+ 
+ /**
+  * If true, the tween will loop when it reaches the end. Can be set via the props param.
+  **/
+ bool loop = false;
+ 
+ /**
+  * Read-only. Specifies the total duration of this tween in ticks.
+  * This value is automatically updated as you modify the tween. Changing it directly could result in unexpected
+  * behaviour.
+  **/
+ num duration = 0;
+ 
+ /**
+  * Called whenever the tween's position changes with a single parameter referencing this tween instance.
+  * @property onChange
+  * @type {Function}
+  **/
+ ChangeHandler onChange = null;
+   
+   /**
+  * Called whenever the tween's position changes with a single parameter referencing this tween instance.
+    * @event change
+    * @since 0.4.0
+   void change = null;
+  **/
+ 
+ /**
+  * Read-only. The target of this tween. This is the object on which the tweened properties will be changed. Changing 
+  * this property after the tween is created will not have any effect.
+  * @property target
+  * @type {Object}
+  **/
+ dynamic target = null;
+ 
+ /**
+  * Read-only. The current normalized position of the tween. This will always be a value between 0 and duration.
+  * Changing this property directly will have no effect.
+  **/
+ num position = null;
+
+// private properties:
+ 
+ bool _paused = false;
+ final Map&lt;String, dynamic&gt; _curQueueProps = {};
+ final Map&lt;String, dynamic&gt; _initQueueProps = {};
+ final List&lt;TimelineStep&gt; _steps = new List&lt;TimelineStep&gt;();
+ final List&lt;TimelineAction&gt; _actions = new List&lt;TimelineAction&gt;();
+ 
+ /**
+  * Raw position.
+  **/
+ num _prevPosition = 0;
+
+ /**
+  * The position within the current step.
+  */
+ num _stepPosition = 0; // this is needed by MovieClip.
+ 
+ /**
+  * Normalized position.
+  **/
+ num _prevPos = -1;
+ int _prevActionPos = -1;
+ 
+ dynamic _target = null;
+ 
+// constructor:
+ /** 
+  * @method initialize
+  * @param {Object} target
+  * @param {Object} props
+  * @protected
+  **/
+ TimelineTween(dynamic target, Map&lt;String, dynamic&gt; props) {
+   target = _target = target;
+   if (props != null) {
+     ignoreGlobalPause = props.containsKey("ignoreGlobalPause") ? props["ignoreGlobalPause"] : false;
+     loop = props.containsKey("loop") ? props["loop"] : false;
+     onChange = props.containsKey("onChange") ? props["onChange"] : null;
+     //if (props.containsKey("override") &amp;&amp; props["override"] == true) { TimelineTween.removeTweens(target); }
+   }
+   
+   if (props != null &amp;&amp; props.containsKey("paused") &amp;&amp; props["paused"] == true) { _paused = true; }
+   //else { TimelineTween._register(this,true); }
+   if (props != null &amp;&amp; props.containsKey("position")) { 
+     setPosition(props["position"], TimelineTween.NONE); }
+ }
+ 
+// public methods:
+ /** 
+  * Queues a wait (essentially an empty tween).
+  * @example                                                   
+  *  //This tween will wait 1s before alpha is faded to 0.
+  *  createjs.TimelineTween.get(target).wait(1000).to({alpha:0}, 1000);
+  * @method wait
+  * @param {Number} duration The duration of the wait in milliseconds (or in ticks if &lt;code&gt;useTicks&lt;/code&gt; is true).
+  * @return {TimelineTween} This tween instance (for chaining calls).
+  **/
+ TimelineTween wait(num duration) {
+   return w(duration);
+ }
+ TimelineTween w(num duration) {
+   if (duration.isNaN || duration &lt;= 0) { return this; }
+   var o = _cloneProps(_curQueueProps);
+   return _addStep(new TimelineStep(duration, o, _linearEase, o));
+ }
+ 
+
+ /** 
+  * Queues a tween from the current values to the target properties. Set duration to 0 to jump to these value.
+  * Numeric properties will be tweened from their current value in the tween to the target value. Non-numeric
+  * properties will be set at the end of the specified duration.
+  * @example
+  *  createjs.TimelineTween.get(target).to({alpha:0}, 1000);
+  * @method to
+  * @param {Object} props An object specifying property target values for this tween (Ex. &lt;code&gt;{x:300}&lt;/code&gt; would tween the x
+  *      property of the target to 300).
+  * @param {Number} duration Optional. The duration of the wait in milliseconds (or in ticks if &lt;code&gt;useTicks&lt;/code&gt; is true).
+  *      Defaults to 0.
+  * @param {Function} ease Optional. The easing function to use for this tween. Defaults to a linear ease.
+  * @return {TimelineTween} This tween instance (for chaining calls).
+  **/
+ TimelineTween to(Map&lt;String, dynamic&gt; props, [num duration, EaseFunction ease]) {
+   return t(props, duration, ease);
+ }
+ TimelineTween t(Map&lt;String, dynamic&gt; props, [num duration = 0, EaseFunction ease]) {
+   num d = 0;
+   if (duration != null &amp;&amp; !duration.isNaN &amp;&amp; duration &gt; 0) d = duration;
+   return _addStep(new TimelineStep(d, _cloneProps(_curQueueProps), ease, _cloneProps(_appendQueueProps(props))));
+ }
+ 
+ /** 
+  * Queues an action to call the specified function. 
+  *  @example
+  *    //would call myFunction() after 1s.      
+  *    myTween.wait(1000).call(myFunction);
+  * @method call
+  * @param {Function} callback The function to call.
+  * @param {Array} params Optional. The parameters to call the function with. If this is omitted, then the function
+  *      will be called with a single param pointing to this tween.
+  * @param {Object} scope Optional. The scope to call the function in. If omitted, it will be called in the target's
+  *      scope.
+  * @return {TimelineTween} This tween instance (for chaining calls).
+  **/
+ TimelineTween call(Function callback, [List&lt;dynamic&gt; params]) {
+   return c(callback, params);
+ }
+ TimelineTween c(Function callback, [List&lt;dynamic&gt; params]) {
+   return _addAction(new TimelineAction(callback, params != null ? params : [this]));
+ }
+ 
+ // TODO: add clarification between this and a 0 duration .to:
+ /** 
+  * Queues an action to set the specified props on the specified target. If target is null, it will use this tween's
+  * target.
+  * @example
+  *  myTween.wait(1000).set({visible:false},foo);
+  * @method set
+  * @param {Object} props The properties to set (ex. &lt;code&gt;{visible:false}&lt;/code&gt;).
+  * @param {Object} target Optional. The target to set the properties on. If omitted, they will be set on the tween's target.
+  * @return {TimelineTween} This tween instance (for chaining calls).
+  **/
+ TimelineTween set(Map&lt;String, dynamic&gt; props, [dynamic target]) {
+   return s(props, target);
+ }
+ TimelineTween s(Map&lt;String, dynamic&gt; props, [dynamic target]) {
+   return _addAction(new TimelineAction(_set, [props, target != null ? target : _target]));
+ }
+ 
+ /** 
+  * Queues an action to to play (unpause) the specified tween. This enables you to sequence multiple tweens.
+  * @example 
+  *  myTween.to({x:100},500).play(otherTween);
+  * @method play
+  * @param {TimelineTween} tween The tween to play.
+  * @return {TimelineTween} This tween instance (for chaining calls).
+  **/
+ TimelineTween play(TimelineTween tween) {
+   return call(tween.setPaused, [false]);
+ }
+
+ /** 
+  * Queues an action to to pause the specified tween.
+  * @method pause
+  * @param {TimelineTween} tween The tween to play. If null, it pauses this tween.
+  * @return {TimelineTween} This tween instance (for chaining calls)
+  **/
+ TimelineTween pause(TimelineTween tween) {
+   if (tween == null) return call(this.setPaused, [true]);
+   return call(tween.setPaused, [true]);
+ }
+ 
+ /** 
+  * Advances the tween to a specified position.
+  * @method setPosition
+  * @param {Number} value The position to seek to in ticks.
+  * @param {Number} actionsMode Optional parameter specifying how actions are handled (ie. call, set, play, pause):
+  *      &lt;code&gt;TimelineTween.NONE&lt;/code&gt; (0) - run no actions. &lt;code&gt;TimelineTween.LOOP&lt;/code&gt; (1) - if new position is less than old, then run all actions
+  *      between old and duration, then all actions between 0 and new. Defaults to &lt;code&gt;LOOP&lt;/code&gt;. &lt;code&gt;TimelineTween.REVERSE&lt;/code&gt; (2) - if new
+  *      position is less than old, run all actions between them in reverse.
+  * @return {Boolean} Returns true if the tween is complete (ie. the full tween has run &amp; loop is false).
+  **/
+ bool setPosition(num value, [int actionsMode]) {
+   if (value &lt; 0) value = 0;
+   if (actionsMode == null) actionsMode = 1;
+   
+   // normalize position:
+   var t = value;
+   var end = false;
+   if (t &gt;= duration) {
+     if (loop) { t = t%duration; }
+     else {
+       t = duration;
+       end = true;
+     }
+   }
+   
+   if (t == _prevPos) { return end; }
+   
+   var prevPos = _prevPos;
+   position = _prevPos = t; // set this in advance in case an action modifies position.
+   _prevPosition = value;
+   
+   // handle tweens:
+   if (_target != null) {
+     if (end) {
+       // addresses problems with an ending zero length step.
+       _updateTargetProps(null,1);
+     } 
+     else if (_steps.length &gt; 0) {
+       // find our new tween index:
+       int i=0;
+       for(i=0; i&lt;_steps.length; i++) {
+         if (_steps[i].t &gt; t) break;
+       }
+       var step = _steps[i-1];
+       _stepPosition = t-step.t;
+       _updateTargetProps(step,_stepPosition/step.d);
+     }
+   }
+   
+   // run actions:
+   if (actionsMode != 0 &amp;&amp; _actions.length &gt; 0) {
+     int actionPos = t.toInt();
+     if (_prevActionPos != actionPos) {
+       _prevActionPos = actionPos;
+       _runActions(actionPos);
+     }
+   }
+
+   if (end) { setPaused(true); }
+   
+   if (onChange != null) onChange(this);
+   return end;
+ }
+
+ /** 
+  * Advances this tween by the specified amount of time in milliseconds (or ticks if &lt;code&gt;useTicks&lt;/code&gt; is true).
+  * This is normally called automatically by the TimelineTween engine (via &lt;code&gt;TimelineTween.tick&lt;/code&gt;), but is exposed for advanced uses.
+  * @method tick
+  * @param {Number} delta The time to advance in milliseconds (or ticks if &lt;code&gt;useTicks&lt;/code&gt; is true).
+  **/
+ void tick(num delta) {
+   if (_paused) { return; }
+   setPosition(_prevPosition+delta);
+ }
+
+ /** 
+  * Pauses or plays this tween.
+  * @method setPaused
+  * @param {Boolean} value Indicates whether the tween should be paused (true) or played (false).
+  * @return {TimelineTween} This tween instance (for chaining calls)
+  **/
+ TimelineTween setPaused(bool value) {
+   _paused = !!value;
+   //TimelineTween._register(this, !value);
+   return this;
+ }
+
+ /**
+  * Returns a string representation of this object.
+  * @method toString
+  * @return {String} a string representation of the instance.
+  **/
+ String toString() {
+   return "[TimelineTween]";
+ }
+ 
+// private methods:
+ /**
+  * @method _updateTargetProps
+  * @param {Object} step
+  * @param {Number} ratio
+  * @protected
+  **/
+ void _updateTargetProps(TimelineStep step, num ratio) {
+   var p0,p1,v,v0,v1,arr;
+   num dv, dv0, dv1;
+   if (step == null &amp;&amp; ratio == 1) {
+     p0 = p1 = _curQueueProps;
+   } else {
+     // apply ease to ratio.
+     if (step.e != null) { ratio = step.e(ratio); }
+     p0 = step.p0;
+     p1 = step.p1;
+   }
+
+   for (var n in _initQueueProps.keys) {
+     if ((v0 = p0[n]) == null) { p0[n] = v0 = _initQueueProps[n]; }
+     if ((v1 = p1[n]) == null) { p1[n] = v1 = v0; }
+     
+     if (v0 is num/*typeof number*/) {
+       dv0 = v0.toDouble();
+       dv1 = v1.toDouble();
+       
+       if (dv0 == dv1 || ratio == 0 || ratio == 1) {
+         dv = ratio == 1 ? dv1 : dv0;
+       } else {
+         dv = dv0+(dv1-dv0)*ratio;
+       }
+     }
+     else {
+       // no interpolation for non-numeric
+       v = ratio == 1 ? v1 : v0;
+       dv = 0;
+     }
+     
+     //_target[n] = v;
+     //print("newValue $n = $v");
+     if (_target is DisplayObject)
+     {
+       DisplayObject d = _target as DisplayObject;
+       switch(n)
+       {
+         case "off": d.off = v as bool; break;
+         case "x": d.x = dv; break;
+         case "y": d.y = dv; break;
+         case "rotation": d.rotation = dv; break;
+         case "alpha": d.alpha = dv; break;
+         case "scaleX": d.scaleX = dv; break;
+         case "scaleY": d.scaleY = dv; break;
+         case "skewX": d.skewX = dv; break;
+         case "skewY": d.skewY = dv; break;
+         case "regX": d.pivotX = dv; break;
+         case "regY": d.pivotY = dv; break;
+         case "startPosition":
+           if (_target is MovieClip)
+             (_target as MovieClip).startPosition = ratio == 1 ? v1 : v0;
+           break;
+         case "mode":
+           if (_target is MovieClip)
+             (_target as MovieClip).mode = v;
+           break;
+         case "loop":
+           if (_target is MovieClip)
+             (_target as MovieClip).loop = v as bool;
+           break;
+         case "graphics":
+           if (_target is Shape)
+             (_target as Shape).graphics = v as Graphics;
+           break;
+         case "textColor":
+           if (_target is TextField) {
+             var field = _target as TextField;
+             if (v is String) field.textColor = int.parse(v.toString());
+             else field.textColor = dv.toInt();
+           }
+           break;
+       }
+     }
+     else _target[n] = v;
+   }
+ }
+ 
+ /**
+  * @method _runActions
+  * @param {Number} startPos
+  * @param {Number} endPos
+  * @param {Boolean} includeStart
+  * @protected
+  **/
+ void _runActions(int curPos) {
+   
+   for(var i=0; i&lt;_actions.length; i++) {
+     var action = _actions[i];
+     if (action.t == curPos) {
+       //if (action.p != null) Function.apply(action.f, action.p);
+       action.f();
+     }
+   }
+ }
+
+ /**
+  * @method _appendQueueProps
+  * @param {Object} o
+  * @protected
+  **/
+ Map&lt;String, dynamic&gt; _appendQueueProps(Map&lt;String, dynamic&gt; o) {
+   var arr,oldValue = null,i, l, injectProps;
+   for (var n in o.keys) {
+     if (!_initQueueProps.containsKey(n)) {
+       
+       //oldValue = _target[n];
+       if (_target is DisplayObject)
+       {
+         DisplayObject d = _target as DisplayObject;
+         switch(n)
+         {
+           case "off": oldValue = d.off; break;
+           case "x": oldValue = d.x; break;
+           case "y": oldValue = d.y; break;
+           case "rotation": oldValue = d.rotation; break;
+           case "alpha": oldValue = d.alpha; break;
+           case "scaleX": oldValue = d.scaleX; break;
+           case "scaleY": oldValue = d.scaleY; break;
+           case "skewX": oldValue = d.skewX; break;
+           case "skewY": oldValue = d.skewY; break;
+           case "regX": oldValue = d.pivotX; break;
+           case "regY": oldValue = d.pivotY; break;
+           case "startPosition": 
+             if (_target is MovieClip)
+               oldValue = (_target as MovieClip).startPosition;
+             else oldValue = null;
+             break;
+           case "mode": 
+             if (_target is MovieClip)
+               oldValue = (_target as MovieClip).mode;
+             else oldValue = null;
+             break;
+           case "loop": 
+             if (_target is MovieClip)
+               oldValue = (_target as MovieClip).loop;
+             else oldValue = null;
+             break;
+           case "graphics":
+             if (target is Shape)
+               oldValue = (target as Shape).graphics;
+             else oldValue = null;
+             break;
+           case "textColor":
+             if (target is TextField)
+               oldValue = (target as TextField).textColor;
+             break;
+           default:
+             print("TimelineTween._appendQueueProps: unknown property '$n'");
+             continue;
+         }
+       }
+       else {
+         if (_target.containsKey(n)) oldValue = _target[n];
+         else oldValue = null;
+       }
+       
+       _initQueueProps[n] = oldValue;;
+     } 
+     else if (_curQueueProps.containsKey(n)) {
+       oldValue = _curQueueProps[n];
+     }
+     
+     _curQueueProps[n] = o[n];
+   }
+   return _curQueueProps;
+ }
+
+ /**
+  * @method _cloneProps
+  * @param {Object} props
+  * @protected
+  **/
+ Map&lt;String, dynamic&gt; _cloneProps(Map&lt;String, dynamic&gt; props) {
+   var o = new Map&lt;String, dynamic&gt;();
+   for (var n in props.keys) {
+     o[n] = props[n];
+   }
+   return o;
+ }
+
+ /**
+  * @method _addStep
+  * @param {Object} o
+  * @protected
+  **/
+ TimelineTween _addStep(TimelineStep o) {
+   if (o.d &gt; 0) {
+     _steps.add(o);
+     o.t = duration.toInt();
+     duration += o.d;
+   }
+   return this;
+ }
+ 
+ /**
+  * @method _addAction
+  * @param {Object} o
+  * @protected
+  **/
+ TimelineTween _addAction(TimelineAction o) {
+   o.t = duration.toInt();
+   _actions.add(o);
+   return this;
+ }
+
+ /**
+  * @method _set
+  * @param {Object} props
+  * @param {Object} o
+  * @protected
+  **/
+ void _set(Map&lt;String, dynamic&gt; props, Map&lt;String, dynamic&gt; o) {
+   for (var n in props.keys) {
+     o[n] = props[n];
+   }
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="LOOP">
+<button class="show-code">Code</button>
+const int         <strong>LOOP</strong> <a class="anchor-link"
+            href="#LOOP"
+            title="Permalink to TimelineTween.LOOP">#</a>
+        </h4>
+        <div class="doc">
+<p>Constant defining the loop actionsMode for use with setPosition.</p>
+<pre class="source">
+static const int LOOP = 1
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="NONE">
+<button class="show-code">Code</button>
+const int         <strong>NONE</strong> <a class="anchor-link"
+            href="#NONE"
+            title="Permalink to TimelineTween.NONE">#</a>
+        </h4>
+        <div class="doc">
+<p>Constant defining the none actionsMode for use with setPosition.</p>
+<pre class="source">
+static const int NONE = 0
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="REVERSE">
+<button class="show-code">Code</button>
+const int         <strong>REVERSE</strong> <a class="anchor-link"
+            href="#REVERSE"
+            title="Permalink to TimelineTween.REVERSE">#</a>
+        </h4>
+        <div class="doc">
+<p>Constant defining the reverse actionsMode for use with setPosition.</p>
+<pre class="source">
+static const int REVERSE = 2
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Static Methods</h3>
+<div class="method"><h4 id="get">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>get</strong>(target, [Map&lt;String, dynamic&gt; props, bool override = false]) <a class="anchor-link" href="#get"
+              title="Permalink to TimelineTween.get">#</a></h4>
+<div class="doc">
+<p>Returns a new tween instance. This is functionally identical to using "new TimelineTween(...)", but looks cleaner
+with the chained syntax of TweenJS.
+@example
+ var tween = TimelineTween.get(target);
+@method get
+@static
+@param {Object} target The target object that will have its properties tweened.
+@param {Object} 
+<span class="param">props</span> The configuration properties to apply to this tween instance (ex. &lt;code>{loop:true, paused:true}&lt;/code>).
+All properties default to false. Supported props are:&lt;UL>
+   &lt;LI> loop: sets the loop property on this tween.&lt;/LI>
+   &lt;LI> ignoreGlobalPause: sets the ignoreGlobalPause property on this tween.&lt;/LI>
+   &lt;LI> override: if true, TimelineTween.removeTweens(target) will be called to remove any other tweens with the same target.
+   &lt;LI> paused: indicates whether to start the tween paused.&lt;/LI>
+   &lt;LI> position: indicates the initial position for this tween.&lt;/LI>
+   &lt;LI> onChange: specifies an onChange handler for this tween. Note that this is deprecated in favour of the
+   "change" event.&lt;/LI>
+&lt;/UL>
+@param {Boolean} <code>override=false</code> If true, any previous tweens on the same target will be removed. This is the same as
+calling &lt;code>TimelineTween.removeTweens(target)&lt;/code>.
+@return {TimelineTween} A reference to the created tween. Additional chained tweens, method calls, or callbacks can be
+applied to the returned tween instance.</p>
+<pre class="source">
+static TimelineTween get(dynamic target, [Map&lt;String, dynamic&gt; props, bool override = false]) {
+ //if (override) { TimelineTween.removeTweens(target); }
+ return new TimelineTween(target, props);
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="TimelineTween">
+<button class="show-code">Code</button>
+new <strong>TimelineTween</strong>(target, Map&lt;String, dynamic&gt; props) <a class="anchor-link" href="#TimelineTween"
+              title="Permalink to TimelineTween.TimelineTween">#</a></h4>
+<div class="doc">
+<p>@method initialize
+@param {Object} target
+@param {Object} props
+@protected</p>
+<pre class="source">
+TimelineTween(dynamic target, Map&lt;String, dynamic&gt; props) {
+ target = _target = target;
+ if (props != null) {
+   ignoreGlobalPause = props.containsKey("ignoreGlobalPause") ? props["ignoreGlobalPause"] : false;
+   loop = props.containsKey("loop") ? props["loop"] : false;
+   onChange = props.containsKey("onChange") ? props["onChange"] : null;
+   //if (props.containsKey("override") &amp;&amp; props["override"] == true) { TimelineTween.removeTweens(target); }
+ }
+ 
+ if (props != null &amp;&amp; props.containsKey("paused") &amp;&amp; props["paused"] == true) { _paused = true; }
+ //else { TimelineTween._register(this,true); }
+ if (props != null &amp;&amp; props.containsKey("position")) { 
+   setPosition(props["position"], TimelineTween.NONE); }
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="duration">
+<button class="show-code">Code</button>
+num         <strong>duration</strong> <a class="anchor-link"
+            href="#duration"
+            title="Permalink to TimelineTween.duration">#</a>
+        </h4>
+        <div class="doc">
+<p>Read-only. Specifies the total duration of this tween in ticks.
+This value is automatically updated as you modify the tween. Changing it directly could result in unexpected
+behaviour.</p>
+<pre class="source">
+num duration = 0
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="ignoreGlobalPause">
+<button class="show-code">Code</button>
+bool         <strong>ignoreGlobalPause</strong> <a class="anchor-link"
+            href="#ignoreGlobalPause"
+            title="Permalink to TimelineTween.ignoreGlobalPause">#</a>
+        </h4>
+        <div class="doc">
+<p>Advances all tweens. This typically uses the Ticker class (available in the EaselJS library), but you can call it
+manually if you prefer to use your own "heartbeat" implementation.
+@method tick
+@static
+@param {Number} delta The change in time in milliseconds since the last tick. Required unless all tweens have
+&lt;code>useTicks&lt;/code> set to true.
+@param {Boolean} paused Indicates whether a global pause is in effect. Tweens with &lt;code>ignoreGlobalPause&lt;/code> will ignore
+this, but all others will pause if this is true.
+  static void tickTweens(num delta, bool paused) {</p>
+<pre><code>var tweens = _tweens; //TimelineTween._tweens.slice(); // to avoid race conditions.
+for(var i=0; i&lt;tweens.length; i++) {
+  var tween = tweens[i];
+  if ((paused &amp;&amp; !tween.ignoreGlobalPause) || tween._paused) { continue; }
+  tween.tick(1);//tween._useTicks?1:delta);
+}
+</code></pre>
+<p>  }</p>
+<p>Removes all existing tweens for a target. This is called automatically by new tweens if the &lt;code>override&lt;/code> prop is true.
+@method removeTweens
+@static
+@param {Object} target The target object to remove existing tweens from.
+  static void removeTweens(target) {</p>
+<pre><code>//if (!target.tweenjs_count) { return; }
+var tweens = TimelineTween._tweens;
+for(var i=tweens.length-1; i&gt;=0; i--) {
+  if (tweens[i]._target == target) {
+    tweens[i]._paused = true;
+    tweens.removeAt(i);
+  }
+}
+//target.tweenjs_count = 0;
+</code></pre>
+<p>  }</p>
+<p>Indicates whether there are any active tweens on the target object (if specified) or in general.
+@method hasActiveTweens
+@static
+@param {Object} target Optional. If not specified, the return value will indicate if there are any active tweens
+on any target.
+@return {Boolean} A boolean indicating whether there are any active tweens.
+  TimelineTween.hasActiveTweens(target) {</p>
+<pre><code>if (target != null) {
+  assert(target == null); // TODO
+  //return target.tweenjs_count; 
+}
+return TimelineTween._tweens &amp;&amp; TimelineTween._tweens.length;
+</code></pre>
+<p>  }</p>
+<p>Registers or unregisters a tween with the ticking system.
+@method <em>register
+@static
+@protected 
+  static void </em>register(TimelineTween tween, bool value) {</p>
+<pre><code>var target = tween._target;
+if (value) {
+  // TODO: this approach might fail if a dev is using sealed objects in ES5
+  //if (target) { target.tweenjs_count = target.tweenjs_count ? target.tweenjs_count+1 : 1; }
+  TimelineTween._tweens.add(tween);
+} 
+else {
+  //if (target) { target.tweenjs_count--; }
+  var i = TimelineTween._tweens.indexOf(tween);
+  if (i != -1) { TimelineTween._tweens.removeAt(i); }
+}
+</code></pre>
+<p>  }</p>
+<p>Causes this tween to continue playing when a global pause is active. For example, if TweenJS is using Ticker,
+then setting this to true (the default) will cause this tween to be paused when &lt;code>Ticker.setPaused(true)&lt;/code> is called.
+See TimelineTween.tick() for more info. Can be set via the props param.</p>
+<pre class="source">
+bool ignoreGlobalPause = false
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="loop">
+<button class="show-code">Code</button>
+bool         <strong>loop</strong> <a class="anchor-link"
+            href="#loop"
+            title="Permalink to TimelineTween.loop">#</a>
+        </h4>
+        <div class="doc">
+<p>If true, the tween will loop when it reaches the end. Can be set via the props param.</p>
+<pre class="source">
+bool loop = false
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onChange">
+<button class="show-code">Code</button>
+<a href="../stagexl/ChangeHandler.html">ChangeHandler</a>         <strong>onChange</strong> <a class="anchor-link"
+            href="#onChange"
+            title="Permalink to TimelineTween.onChange">#</a>
+        </h4>
+        <div class="doc">
+<p>Called whenever the tween's position changes with a single parameter referencing this tween instance.
+@property onChange
+@type {Function}</p>
+<pre class="source">
+ChangeHandler onChange = null
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="position">
+<button class="show-code">Code</button>
+num         <strong>position</strong> <a class="anchor-link"
+            href="#position"
+            title="Permalink to TimelineTween.position">#</a>
+        </h4>
+        <div class="doc">
+<p>Read-only. The current normalized position of the tween. This will always be a value between 0 and duration.
+Changing this property directly will have no effect.</p>
+<pre class="source">
+num position = null
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="target">
+<button class="show-code">Code</button>
+var         <strong>target</strong> <a class="anchor-link"
+            href="#target"
+            title="Permalink to TimelineTween.target">#</a>
+        </h4>
+        <div class="doc">
+<p>Called whenever the tween's position changes with a single parameter referencing this tween instance.
+@event change
+@since 0.4.0</p>
+<pre><code>void change = null;
+</code></pre>
+<p>Read-only. The target of this tween. This is the object on which the tweened properties will be changed. Changing 
+this property after the tween is created will not have any effect.
+@property target
+@type {Object}</p>
+<pre class="source">
+dynamic target = null
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="c">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>c</strong>(Function callback, [List&lt;dynamic&gt; params]) <a class="anchor-link" href="#c"
+              title="Permalink to TimelineTween.c">#</a></h4>
+<div class="doc">
+<pre class="source">
+TimelineTween c(Function callback, [List&lt;dynamic&gt; params]) {
+ return _addAction(new TimelineAction(callback, params != null ? params : [this]));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="call">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>call</strong>(Function callback, [List&lt;dynamic&gt; params]) <a class="anchor-link" href="#call"
+              title="Permalink to TimelineTween.call">#</a></h4>
+<div class="doc">
+<p>Queues an action to call the specified function. 
+ @example
+   //would call myFunction() after 1s.      
+   myTween.wait(1000).call(myFunction);
+@method call
+@param {Function} callback The function to call.
+@param {Array} params Optional. The parameters to call the function with. If this is omitted, then the function</p>
+<pre><code> will be called with a single param pointing to this tween.
+</code></pre>
+<p>@param {Object} scope Optional. The scope to call the function in. If omitted, it will be called in the target's</p>
+<pre><code> scope.
+</code></pre>
+<p>@return {TimelineTween} This tween instance (for chaining calls).</p>
+<pre class="source">
+TimelineTween call(Function callback, [List&lt;dynamic&gt; params]) {
+ return c(callback, params);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="pause">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>pause</strong>(<a href="../stagexl/TimelineTween.html">TimelineTween</a> tween) <a class="anchor-link" href="#pause"
+              title="Permalink to TimelineTween.pause">#</a></h4>
+<div class="doc">
+<p>Queues an action to to pause the specified tween.
+@method pause
+@param {TimelineTween} tween The tween to play. If null, it pauses this tween.
+@return {TimelineTween} This tween instance (for chaining calls)</p>
+<pre class="source">
+TimelineTween pause(TimelineTween tween) {
+ if (tween == null) return call(this.setPaused, [true]);
+ return call(tween.setPaused, [true]);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="play">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>play</strong>(<a href="../stagexl/TimelineTween.html">TimelineTween</a> tween) <a class="anchor-link" href="#play"
+              title="Permalink to TimelineTween.play">#</a></h4>
+<div class="doc">
+<p>Queues an action to to play (unpause) the specified tween. This enables you to sequence multiple tweens.
+@example 
+ myTween.to({x:100},500).play(otherTween);
+@method play
+@param {TimelineTween} tween The tween to play.
+@return {TimelineTween} This tween instance (for chaining calls).</p>
+<pre class="source">
+TimelineTween play(TimelineTween tween) {
+ return call(tween.setPaused, [false]);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="s">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>s</strong>(Map&lt;String, dynamic&gt; props, [target]) <a class="anchor-link" href="#s"
+              title="Permalink to TimelineTween.s">#</a></h4>
+<div class="doc">
+<pre class="source">
+TimelineTween s(Map&lt;String, dynamic&gt; props, [dynamic target]) {
+ return _addAction(new TimelineAction(_set, [props, target != null ? target : _target]));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="set">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>set</strong>(Map&lt;String, dynamic&gt; props, [target]) <a class="anchor-link" href="#set"
+              title="Permalink to TimelineTween.set">#</a></h4>
+<div class="doc">
+<p>Queues an action to set the specified props on the specified target. If target is null, it will use this tween's
+target.
+@example
+ myTween.wait(1000).set({visible:false},foo);
+@method set
+@param {Object} props The properties to set (ex. &lt;code>{visible:false}&lt;/code>).
+@param {Object} target Optional. The target to set the properties on. If omitted, they will be set on the tween's target.
+@return {TimelineTween} This tween instance (for chaining calls).</p>
+<pre class="source">
+TimelineTween set(Map&lt;String, dynamic&gt; props, [dynamic target]) {
+ return s(props, target);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="setPaused">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>setPaused</strong>(bool value) <a class="anchor-link" href="#setPaused"
+              title="Permalink to TimelineTween.setPaused">#</a></h4>
+<div class="doc">
+<p>Pauses or plays this tween.
+@method setPaused
+@param {Boolean} value Indicates whether the tween should be paused (true) or played (false).
+@return {TimelineTween} This tween instance (for chaining calls)</p>
+<pre class="source">
+TimelineTween setPaused(bool value) {
+ _paused = !!value;
+ //TimelineTween._register(this, !value);
+ return this;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="setPosition">
+<button class="show-code">Code</button>
+bool <strong>setPosition</strong>(num value, [int actionsMode]) <a class="anchor-link" href="#setPosition"
+              title="Permalink to TimelineTween.setPosition">#</a></h4>
+<div class="doc">
+<p>Advances the tween to a specified position.
+@method setPosition
+@param {Number} value The position to seek to in ticks.
+@param {Number} actionsMode Optional parameter specifying how actions are handled (ie. call, set, play, pause):</p>
+<pre><code> &lt;code&gt;TimelineTween.NONE&lt;/code&gt; (0) - run no actions. &lt;code&gt;TimelineTween.LOOP&lt;/code&gt; (1) - if new position is less than old, then run all actions
+ between old and duration, then all actions between 0 and new. Defaults to &lt;code&gt;LOOP&lt;/code&gt;. &lt;code&gt;TimelineTween.REVERSE&lt;/code&gt; (2) - if new
+ position is less than old, run all actions between them in reverse.
+</code></pre>
+<p>@return {Boolean} Returns true if the tween is complete (ie. the full tween has run &amp; loop is false).</p>
+<pre class="source">
+bool setPosition(num value, [int actionsMode]) {
+ if (value &lt; 0) value = 0;
+ if (actionsMode == null) actionsMode = 1;
+ 
+ // normalize position:
+ var t = value;
+ var end = false;
+ if (t &gt;= duration) {
+   if (loop) { t = t%duration; }
+   else {
+     t = duration;
+     end = true;
+   }
+ }
+ 
+ if (t == _prevPos) { return end; }
+ 
+ var prevPos = _prevPos;
+ position = _prevPos = t; // set this in advance in case an action modifies position.
+ _prevPosition = value;
+ 
+ // handle tweens:
+ if (_target != null) {
+   if (end) {
+     // addresses problems with an ending zero length step.
+     _updateTargetProps(null,1);
+   } 
+   else if (_steps.length &gt; 0) {
+     // find our new tween index:
+     int i=0;
+     for(i=0; i&lt;_steps.length; i++) {
+       if (_steps[i].t &gt; t) break;
+     }
+     var step = _steps[i-1];
+     _stepPosition = t-step.t;
+     _updateTargetProps(step,_stepPosition/step.d);
+   }
+ }
+ 
+ // run actions:
+ if (actionsMode != 0 &amp;&amp; _actions.length &gt; 0) {
+   int actionPos = t.toInt();
+   if (_prevActionPos != actionPos) {
+     _prevActionPos = actionPos;
+     _runActions(actionPos);
+   }
+ }
+
+ if (end) { setPaused(true); }
+ 
+ if (onChange != null) onChange(this);
+ return end;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="t">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>t</strong>(Map&lt;String, dynamic&gt; props, [num duration = 0, <a href="../stagexl/EaseFunction.html">EaseFunction</a> ease]) <a class="anchor-link" href="#t"
+              title="Permalink to TimelineTween.t">#</a></h4>
+<div class="doc">
+<pre class="source">
+TimelineTween t(Map&lt;String, dynamic&gt; props, [num duration = 0, EaseFunction ease]) {
+ num d = 0;
+ if (duration != null &amp;&amp; !duration.isNaN &amp;&amp; duration &gt; 0) d = duration;
+ return _addStep(new TimelineStep(d, _cloneProps(_curQueueProps), ease, _cloneProps(_appendQueueProps(props))));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="tick">
+<button class="show-code">Code</button>
+void <strong>tick</strong>(num delta) <a class="anchor-link" href="#tick"
+              title="Permalink to TimelineTween.tick">#</a></h4>
+<div class="doc">
+<p>Advances this tween by the specified amount of time in milliseconds (or ticks if &lt;code>useTicks&lt;/code> is true).
+This is normally called automatically by the TimelineTween engine (via &lt;code>TimelineTween.tick&lt;/code>), but is exposed for advanced uses.
+@method tick
+@param {Number} delta The time to advance in milliseconds (or ticks if &lt;code>useTicks&lt;/code> is true).</p>
+<pre class="source">
+void tick(num delta) {
+ if (_paused) { return; }
+ setPosition(_prevPosition+delta);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="to">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>to</strong>(Map&lt;String, dynamic&gt; props, [num duration, <a href="../stagexl/EaseFunction.html">EaseFunction</a> ease]) <a class="anchor-link" href="#to"
+              title="Permalink to TimelineTween.to">#</a></h4>
+<div class="doc">
+<p>Queues a tween from the current values to the target properties. Set duration to 0 to jump to these value.
+Numeric properties will be tweened from their current value in the tween to the target value. Non-numeric
+properties will be set at the end of the specified duration.
+@example
+ createjs.TimelineTween.get(target).to({alpha:0}, 1000);
+@method to
+@param {Object} props An object specifying property target values for this tween (Ex. &lt;code>{x:300}&lt;/code> would tween the x</p>
+<pre><code> property of the target to 300).
+</code></pre>
+<p>@param {Number} duration Optional. The duration of the wait in milliseconds (or in ticks if &lt;code>useTicks&lt;/code> is true).</p>
+<pre><code> Defaults to 0.
+</code></pre>
+<p>@param {Function} ease Optional. The easing function to use for this tween. Defaults to a linear ease.
+@return {TimelineTween} This tween instance (for chaining calls).</p>
+<pre class="source">
+TimelineTween to(Map&lt;String, dynamic&gt; props, [num duration, EaseFunction ease]) {
+ return t(props, duration, ease);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="toString">
+<button class="show-code">Code</button>
+String <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to TimelineTween.toString">#</a></h4>
+<div class="doc">
+<p>Returns a string representation of this object.
+@method toString
+@return {String} a string representation of the instance.</p>
+<pre class="source">
+String toString() {
+ return "[TimelineTween]";
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="w">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>w</strong>(num duration) <a class="anchor-link" href="#w"
+              title="Permalink to TimelineTween.w">#</a></h4>
+<div class="doc">
+<pre class="source">
+TimelineTween w(num duration) {
+ if (duration.isNaN || duration &lt;= 0) { return this; }
+ var o = _cloneProps(_curQueueProps);
+ return _addStep(new TimelineStep(duration, o, _linearEase, o));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="wait">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>wait</strong>(num duration) <a class="anchor-link" href="#wait"
+              title="Permalink to TimelineTween.wait">#</a></h4>
+<div class="doc">
+<p>Queues a wait (essentially an empty tween).
+@example                                                   
+ //This tween will wait 1s before alpha is faded to 0.
+ createjs.TimelineTween.get(target).wait(1000).to({alpha:0}, 1000);
+@method wait
+@param {Number} duration The duration of the wait in milliseconds (or in ticks if &lt;code>useTicks&lt;/code> is true).
+@return {TimelineTween} This tween instance (for chaining calls).</p>
+<pre class="source">
+TimelineTween wait(num duration) {
+ return w(duration);
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-05-22 20:23:25.226</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

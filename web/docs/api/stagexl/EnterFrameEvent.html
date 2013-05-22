@@ -33,26 +33,20 @@
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class EnterFrameEvent extends Event {
- 
+class EnterFrameEvent extends BroadcastEvent {
  num _passedTime;
 
- EnterFrameEvent(num passedTime):super(Event.ENTER_FRAME, false) {
+ EnterFrameEvent(num passedTime):super(Event.ENTER_FRAME) {
    _passedTime = passedTime;
  }
 
- //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
-
  num get passedTime =&gt; _passedTime;
- bool get captures =&gt; false;
-
 }
 </pre>
 </div>
 <h3>Extends</h3>
 <p>
-<span class="type-box"><span class="icon-class"></span><a href="../stagexl/Event.html">Event</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>EnterFrameEvent</strong></span></p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/Event.html">Event</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/BroadcastEvent.html">BroadcastEvent</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>EnterFrameEvent</strong></span></p>
 <div>
 <h3>Constructors</h3>
 <div class="method"><h4 id="EnterFrameEvent">
@@ -61,7 +55,7 @@ new <strong>EnterFrameEvent</strong>(num passedTime) <a class="anchor-link" href
               title="Permalink to EnterFrameEvent.EnterFrameEvent">#</a></h4>
 <div class="doc">
 <pre class="source">
-EnterFrameEvent(num passedTime):super(Event.ENTER_FRAME, false) {
+EnterFrameEvent(num passedTime):super(Event.ENTER_FRAME) {
  _passedTime = passedTime;
 }
 </pre>
@@ -82,13 +76,13 @@ bool get bubbles =&gt; _bubbles;
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="captures">
+<div class="field inherited"><h4 id="captures">
 <button class="show-code">Code</button>
 final bool         <strong>captures</strong> <a class="anchor-link"
             href="#captures"
             title="Permalink to EnterFrameEvent.captures">#</a>
         </h4>
-        <div class="doc">
+        <div class="inherited-from">inherited from <a href="../stagexl/BroadcastEvent.html">BroadcastEvent</a> </div><div class="doc">
 <pre class="source">
 bool get captures =&gt; false;
 </pre>
@@ -211,7 +205,7 @@ void stopPropagation() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-04-19 21:10:19.104</div>
+          <div>This page was generated at 2013-05-22 20:23:25.446</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -52,11 +52,18 @@ class BitmapDataLoadOptions {
   * and *jpg* files to this more efficient file format.
   */
  bool webp;
+ 
+ /**
+  * If the file name contains "@1x." it will be replaced by "@2x." when the 
+  * context is high density.
+  */
+ bool autoHiDpi;
 
  BitmapDataLoadOptions({
    this.png: true, 
    this.jpg: true, 
-   this.webp: false
+   this.webp: false,
+   this.autoHiDpi: true
  });
 }
 </pre>
@@ -65,14 +72,15 @@ class BitmapDataLoadOptions {
 <h3>Constructors</h3>
 <div class="method"><h4 id="BitmapDataLoadOptions">
 <button class="show-code">Code</button>
-new <strong>BitmapDataLoadOptions</strong>({bool png: true, bool jpg: true, bool webp: false}) <a class="anchor-link" href="#BitmapDataLoadOptions"
+new <strong>BitmapDataLoadOptions</strong>({bool png: true, bool jpg: true, bool webp: false, bool autoHiDpi: true}) <a class="anchor-link" href="#BitmapDataLoadOptions"
               title="Permalink to BitmapDataLoadOptions.BitmapDataLoadOptions">#</a></h4>
 <div class="doc">
 <pre class="source">
 BitmapDataLoadOptions({
  this.png: true, 
  this.jpg: true, 
- this.webp: false
+ this.webp: false,
+ this.autoHiDpi: true
 });
 </pre>
 </div>
@@ -80,6 +88,20 @@ BitmapDataLoadOptions({
 </div>
 <div>
 <h3>Properties</h3>
+<div class="field"><h4 id="autoHiDpi">
+<button class="show-code">Code</button>
+bool         <strong>autoHiDpi</strong> <a class="anchor-link"
+            href="#autoHiDpi"
+            title="Permalink to BitmapDataLoadOptions.autoHiDpi">#</a>
+        </h4>
+        <div class="doc">
+<p>If the file name contains "@1x." it will be replaced by "@2x." when the 
+context is high density.</p>
+<pre class="source">
+bool autoHiDpi
+</pre>
+</div>
+</div>
 <div class="field"><h4 id="jpg">
 <button class="show-code">Code</button>
 bool         <strong>jpg</strong> <a class="anchor-link"
@@ -126,7 +148,7 @@ bool webp
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-04-19 21:10:18.951</div>
+          <div>This page was generated at 2013-05-22 20:23:25.291</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

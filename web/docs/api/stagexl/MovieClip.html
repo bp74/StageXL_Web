@@ -1,0 +1,2415 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>MovieClip class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="MovieClip">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/MovieClip.html">MovieClip</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>MovieClip</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class MovieClip extends Sprite
+{
+ /**
+  * Read-only. The MovieClip will advance independently of its parent, even if its parent is paused.
+  * This is the default mode.
+  **/
+ static const String INDEPENDENT = "independent";
+ 
+ /**
+  * Read-only. The MovieClip will only display a single frame (as determined by the startPosition property).
+  **/
+ static const String SINGLE_FRAME = "single";
+ 
+ /**
+  * Read-only. The MovieClip will be advanced only when it's parent advances and will be synched to the position of
+  * the parent MovieClip.
+  **/
+ static const String SYNCHED = "synched";
+ 
+ /**
+  * Controls how this MovieClip advances its time. Must be one of 0 (INDEPENDENT), 1 (SINGLE_FRAME), or 2 (SYNCHED).
+  * See each constant for a description of the behaviour.
+  **/
+ String mode;
+ 
+ /**
+  * Specifies what the first frame to play in this movieclip, or the only frame to display if mode is SINGLE_FRAME.
+  */
+ int startPosition = 0;
+ 
+ /**
+  * Specifies the timeline progression speed.
+  * If =0, uses the stage's frameRate
+  */
+ int frameRate = 0;
+
+ /**
+  * Indicates whether this MovieClip should loop when it reaches the end of its timeline.
+  */
+ bool loop = true;
+ 
+ /**
+  * Read-Only. The current frame of the movieclip.
+  */
+ int get currentFrame {
+   return _currentFrame;
+ }
+
+ /**
+  * Read-Only. The number of frames of the movieclip.
+  */
+ int get totalFrames {
+   return timeline.duration.toInt();
+ }
+
+ /**
+  * The Timeline that is associated with this MovieClip. This is created automatically when the MovieClip
+  * instance is initialized.
+  */
+ Timeline timeline;
+
+ /**
+  * If true, the MovieClip's position will not advance when ticked.
+  */
+ bool paused = false;
+ 
+ /**
+  * If true, actions in this MovieClip's tweens will be run when the playhead advances.
+  */
+ bool actionsEnabled = true;
+ 
+ /**
+  * If true, the MovieClip will automatically be reset to its first frame whenever the timeline adds
+  * it back onto the display list. This only applies to MovieClip instances with mode=INDEPENDENT.
+  * &lt;br&gt;&lt;br&gt;
+  * For example, if you had a character animation with a "body" child MovieClip instance
+  * with different costumes on each frame, you could set body.autoReset = false, so that
+  * you can manually change the frame it is on, without worrying that it will be reset
+  * automatically.
+  */
+ bool autoReset = true;
+
+// properties:
+
+ int _currentFrame = 0;
+ int _synchOffset = 0;  
+ num _prevPos = -1; // TODO: evaluate using a ._reset Boolean prop instead of -1.
+ num _prevPosition = 0;
+ final Map&lt;int, int&gt; _managed = new Map&lt;int, int&gt;();
+ Map&lt;String, dynamic&gt; props;
+ 
+ /**
+  * The MovieClip class associates a TimelineTween Timeline with a {{#crossLink "Sprite"}}{{/crossLink}}. It allows
+  * you to create objects which encapsulate timeline animations, state changes, and synched actions. Due to the
+  * complexities inherent in correctly setting up a MovieClip, it is largely intended for tool output.
+  *
+  * Currently MovieClip only works properly if it is tick based (as opposed to time based) though some concessions have
+  * been made to support time-based timelines in the future.
+  * 
+  * @param mode Initial value for the mode property. One of MovieClip.INDEPENDENT, MovieClip.SINGLE_FRAME, or MovieClip.SYNCHED.
+  * @param startPosition Initial value for the startPosition property.
+  * @param loop Initial value for the loop property.
+  * @param labels A hash of labels to pass to the timeline instance associated with this MovieClip.
+  **/
+ MovieClip([String mode, int startPosition, bool loop, Map&lt;String, num&gt; labels])
+   : super() {
+   
+   this.mode = mode != null ? mode : MovieClip.INDEPENDENT;
+   this.startPosition = startPosition != null ? startPosition : 0;
+   this.loop = loop != null ? loop : true;
+   props = {"paused":true, "position":this.startPosition};
+   timeline = new Timeline(null, labels, props);
+ }
+ 
+// public methods:
+ /**
+  * Returns true or false indicating whether the display object would be visible if drawn to a canvas.
+  * This does not account for whether it would be visible within the boundaries of the stage.
+  * NOTE: This method is mainly for internal use, though it may be useful for advanced uses.
+  * @method isVisible
+  * @return {Boolean} Boolean indicating whether the display object would be visible if drawn to a canvas
+  **/
+ bool isVisible() {
+   // children are placed in draw, so we can't determine if we have content.
+   return !!(this.visible &amp;&amp; this.alpha &gt; 0 &amp;&amp; this.scaleX != 0 &amp;&amp; this.scaleY != 0);
+ }
+
+ /**
+  * Advances timelines and places children depending on the currentframe
+  * NOTE: automatically called by .render()
+  */
+ void advance(num deltaTime) {
+   _advanceTime(deltaTime);
+   _updateTimeline();
+ }
+ 
+ /**
+  * Draws the display object into the specified context ignoring it's visible, alpha, shadow, and transform.
+  * Returns true if the draw was handled (useful for overriding functionality).
+  * NOTE: This method is mainly for internal use, though it may be useful for advanced uses.
+  * @param {CanvasRenderingContext2D} ctx The canvas 2D context object to draw into.
+  * @param {Boolean} ignoreCache Indicates whether the draw operation should ignore any current cache.
+  * For example, used for drawing the cache (to prevent it from simply drawing an existing cache back
+  * into itself).
+  **/
+ void render(RenderState renderState) {
+   advance(renderState.deltaTime);
+   super.render(renderState);
+ }
+ 
+ /**
+  * Sets paused to false.
+  **/
+ void play() {
+   paused = false;
+ }
+ 
+ /**
+  * Sets paused to true.
+  **/
+ void stop() {
+   paused = true;
+ }
+ 
+ /**
+  * Advances this movie clip to the specified position or label and sets paused to false.
+  **/
+ void gotoAndPlay(dynamic positionOrLabel) {
+   paused = false;
+   _goto(positionOrLabel);
+ }
+ 
+ /**
+  * Advances this movie clip to the specified position or label and sets paused to true.
+  **/
+ void gotoAndStop(dynamic positionOrLabel) {
+   paused = true;
+   _goto(positionOrLabel);
+ }
+ 
+ /**
+  * Returns a string representation of this object.
+  * @return {String} a string representation of the instance.
+  **/
+ String toString() {
+   return "[MovieClip (name=$name)]";
+ }
+ 
+// private methods
+
+ bool _advanceTime(num time) {
+   if (!paused &amp;&amp; mode == MovieClip.INDEPENDENT &amp;&amp; stage != null) {
+     var f = frameRate &gt; 0 ? frameRate : stage.frameRate;
+     num sPerFrame = 1 / f;
+     num df = min(1, time / sPerFrame);
+     _prevPosition = (_prevPos &lt; 0) ? 0 : _prevPosition+df;
+     timeline._advanceTime(df);
+   }
+   return true;
+ }
+ 
+ void _goto(positionOrLabel) {
+   var pos = timeline.resolve(positionOrLabel);
+   if (pos == null) return;
+   // prevent _updateTimeline from overwriting the new position because of a reset:
+   if (_prevPos == -1) { _prevPos = double.NAN; }
+   _prevPosition = pos;
+   _updateTimeline();
+ }
+ 
+ void _reset() {
+   _prevPos = -1;
+   _currentFrame = 0;
+ }
+ 
+ void _updateTimeline() {
+   var tl = timeline;
+   var tweens = tl._tweens;
+   var synched = mode != MovieClip.INDEPENDENT;
+   tl.loop = loop;
+   
+   // update timeline position, ignoring actions if this is a graphic.
+   if (synched) {
+     // TODO: this would be far more ideal if the _synchOffset was somehow provided by the parent, so that reparenting wouldn't cause problems and we can direct draw. Ditto for _off (though less important).
+     tl.setPosition(startPosition + (mode==MovieClip.SINGLE_FRAME?0:_synchOffset), TimelineTween.NONE);
+   } else {
+     tl.setPosition(_prevPos &lt; 0 ? 0 : _prevPosition, actionsEnabled ? null : TimelineTween.NONE);
+   }
+   
+   _prevPosition = tl._prevPosition;
+   if (_prevPos == tl._prevPos) 
+     return;
+   _prevPos = tl._prevPos;
+   _currentFrame = _prevPos.toInt();
+   
+   for (var n in _managed.keys) { _managed[n] = 1; }
+   
+   for (var i=tweens.length-1; i&gt;=0; i--) {
+     TimelineTween tween = tweens[i];
+     var target = tween._target;
+     if (target == null || target == this) continue; // TODO: this assumes this is the actions tween. Valid?
+     int offset = tween._stepPosition.toInt();
+     
+     if (target is DisplayObject) {
+       // motion tween.
+       DisplayObject child = target as DisplayObject; 
+       _addManagedChild(child, offset);
+     } 
+     else {
+       // state tween.
+       if (target.containsKey("state")) {
+         List&lt;dynamic&gt; state = target["state"];
+         _setState(state, offset);
+       }
+     }
+   }
+   
+   for (var i=_children.length-1; i&gt;=0; i--) {
+     var id = _children[i]._id;
+     if (_managed[id] == 1) {
+       removeChildAt(i);
+       _managed.remove(id);
+     }
+   }
+ }
+ 
+ void _setState(List&lt;dynamic&gt; state, int offset) {
+   if (state == null) return;
+   for (var i=0,l=state.length;i&lt;l;i++) {
+     var o = state[i];
+     var target = o["t"];
+     if (target is DisplayObject)
+     {
+       var d = target as DisplayObject;
+       if (o.containsKey("p"))
+       {
+         var p = o["p"];
+         for(var n in p.keys)
+         {
+           var v = p[n];
+           num dv = v is num ? v.toDouble() : 0;  
+           switch(n)
+           {
+             case "off": d.off = v as bool; break;
+             case "x": d.x = dv; break;
+             case "y": d.y = dv; break;
+             case "rotation": d.rotation = dv; break;
+             case "alpha": d.alpha = dv; break;
+             case "scaleX": d.scaleX = dv; break;
+             case "scaleY": d.scaleY = dv; break;
+             case "skewX": d.skewX = dv; break;
+             case "skewY": d.skewY = dv; break;
+             case "regX": d.pivotX = dv; break;
+             case "regY": d.pivotY = dv; break;
+             case "startPosition":
+               if (target is MovieClip)
+                 (target as MovieClip).startPosition = dv.toInt();
+               break;
+             case "mode":
+               if (target is MovieClip)
+                 (target as MovieClip).mode = v.toString();
+               break;
+             case "loop":
+               if (target is MovieClip)
+                 (target as MovieClip).loop = v as bool;
+               break;
+             case "graphics":
+               if (target is Shape)
+                 (target as Shape).graphics = v as Graphics;
+               break;
+             case "textColor":
+               if (target is TextField) {
+                 var field = target as TextField;
+                 if (v is String) field.textColor = int.parse(v.toString());
+                 else field.textColor = dv.toInt();
+               }
+               break;
+           }
+         }
+       }
+       _addManagedChild(d, offset);
+     }
+   }
+ }
+ 
+ /**
+  * Adds a child to the timeline, and sets it up as a managed child.
+  **/
+ void _addManagedChild(DisplayObject child, int offset) {
+   if (child._off) { return; }
+   addChild(child);
+   
+   if (child is MovieClip) {
+     var mc = child as MovieClip;
+     mc._synchOffset = offset;
+     // TODO: this does not precisely match Flash. Flash loses track of the clip if it is renamed or removed from the timeline, which causes it to reset.
+     if (mc.mode == MovieClip.INDEPENDENT &amp;&amp; mc.autoReset &amp;&amp; !_managed.containsKey(child._id)) { mc._reset(); }
+   }
+   _managed[child._id] = 2;
+ }
+ 
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/DisplayObject.html">DisplayObject</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/InteractiveObject.html">InteractiveObject</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/Sprite.html">Sprite</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>MovieClip</strong></span></p>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="INDEPENDENT">
+<button class="show-code">Code</button>
+const String         <strong>INDEPENDENT</strong> <a class="anchor-link"
+            href="#INDEPENDENT"
+            title="Permalink to MovieClip.INDEPENDENT">#</a>
+        </h4>
+        <div class="doc">
+<p>Read-only. The MovieClip will advance independently of its parent, even if its parent is paused.
+This is the default mode.</p>
+<pre class="source">
+static const String INDEPENDENT = "independent"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SINGLE_FRAME">
+<button class="show-code">Code</button>
+const String         <strong>SINGLE_FRAME</strong> <a class="anchor-link"
+            href="#SINGLE_FRAME"
+            title="Permalink to MovieClip.SINGLE_FRAME">#</a>
+        </h4>
+        <div class="doc">
+<p>Read-only. The MovieClip will only display a single frame (as determined by the startPosition property).</p>
+<pre class="source">
+static const String SINGLE_FRAME = "single"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="SYNCHED">
+<button class="show-code">Code</button>
+const String         <strong>SYNCHED</strong> <a class="anchor-link"
+            href="#SYNCHED"
+            title="Permalink to MovieClip.SYNCHED">#</a>
+        </h4>
+        <div class="doc">
+<p>Read-only. The MovieClip will be advanced only when it's parent advances and will be synched to the position of
+the parent MovieClip.</p>
+<pre class="source">
+static const String SYNCHED = "synched"
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="MovieClip">
+<button class="show-code">Code</button>
+new <strong>MovieClip</strong>([String mode, int startPosition, bool loop, Map&lt;String, num&gt; labels]) <a class="anchor-link" href="#MovieClip"
+              title="Permalink to MovieClip.MovieClip">#</a></h4>
+<div class="doc">
+<p>The MovieClip class associates a TimelineTween Timeline with a {{#crossLink "Sprite"}}{{/crossLink}}. It allows
+you to create objects which encapsulate timeline animations, state changes, and synched actions. Due to the
+complexities inherent in correctly setting up a MovieClip, it is largely intended for tool output.</p>
+<p>Currently MovieClip only works properly if it is tick based (as opposed to time based) though some concessions have
+been made to support time-based timelines in the future.</p>
+<p>@param mode Initial value for the mode property. One of MovieClip.INDEPENDENT, MovieClip.SINGLE_FRAME, or MovieClip.SYNCHED.
+@param startPosition Initial value for the startPosition property.
+@param loop Initial value for the loop property.
+@param labels A hash of labels to pass to the timeline instance associated with this MovieClip.</p>
+<pre class="source">
+MovieClip([String mode, int startPosition, bool loop, Map&lt;String, num&gt; labels])
+ : super() {
+ 
+ this.mode = mode != null ? mode : MovieClip.INDEPENDENT;
+ this.startPosition = startPosition != null ? startPosition : 0;
+ this.loop = loop != null ? loop : true;
+ props = {"paused":true, "position":this.startPosition};
+ timeline = new Timeline(null, labels, props);
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="actionsEnabled">
+<button class="show-code">Code</button>
+bool         <strong>actionsEnabled</strong> <a class="anchor-link"
+            href="#actionsEnabled"
+            title="Permalink to MovieClip.actionsEnabled">#</a>
+        </h4>
+        <div class="doc">
+<p>If true, actions in this MovieClip's tweens will be run when the playhead advances.</p>
+<pre class="source">
+bool actionsEnabled = true
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="alpha">
+<button class="show-code">Code</button>
+num         <strong>alpha</strong> <a class="anchor-link"
+            href="#alpha"
+            title="Permalink to MovieClip.alpha">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get alpha =&gt; _alpha;
+</pre>
+<pre class="source">
+set alpha(num value) { _alpha = value.toDouble(); }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="autoReset">
+<button class="show-code">Code</button>
+bool         <strong>autoReset</strong> <a class="anchor-link"
+            href="#autoReset"
+            title="Permalink to MovieClip.autoReset">#</a>
+        </h4>
+        <div class="doc">
+<p>If true, the MovieClip will automatically be reset to its first frame whenever the timeline adds
+it back onto the display list. This only applies to MovieClip instances with mode=INDEPENDENT.
+&lt;br>&lt;br>
+For example, if you had a character animation with a "body" child MovieClip instance
+with different costumes on each frame, you could set body.autoReset = false, so that
+you can manually change the frame it is on, without worrying that it will be reset
+automatically.</p>
+<pre class="source">
+bool autoReset = true
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="buttonMode">
+<button class="show-code">Code</button>
+bool         <strong>buttonMode</strong> <a class="anchor-link"
+            href="#buttonMode"
+            title="Permalink to MovieClip.buttonMode">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/Sprite.html">Sprite</a> </div><div class="doc">
+<pre class="source">
+bool buttonMode = false
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="cached">
+<button class="show-code">Code</button>
+final bool         <strong>cached</strong> <a class="anchor-link"
+            href="#cached"
+            title="Permalink to MovieClip.cached">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool get cached =&gt; _cache != null;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="compositeOperation">
+<button class="show-code">Code</button>
+String         <strong>compositeOperation</strong> <a class="anchor-link"
+            href="#compositeOperation"
+            title="Permalink to MovieClip.compositeOperation">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+String get compositeOperation =&gt; _compositeOperation;
+</pre>
+<pre class="source">
+set compositeOperation(String value) { _compositeOperation = value; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="currentFrame">
+<button class="show-code">Code</button>
+final int         <strong>currentFrame</strong> <a class="anchor-link"
+            href="#currentFrame"
+            title="Permalink to MovieClip.currentFrame">#</a>
+        </h4>
+        <div class="doc">
+<p>Read-Only. The current frame of the movieclip.</p>
+<pre class="source">
+int get currentFrame {
+ return _currentFrame;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="doubleClickEnabled">
+<button class="show-code">Code</button>
+bool         <strong>doubleClickEnabled</strong> <a class="anchor-link"
+            href="#doubleClickEnabled"
+            title="Permalink to MovieClip.doubleClickEnabled">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+bool doubleClickEnabled = false
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="dropTarget">
+<button class="show-code">Code</button>
+final <a href="../stagexl/DisplayObject.html">DisplayObject</a>         <strong>dropTarget</strong> <a class="anchor-link"
+            href="#dropTarget"
+            title="Permalink to MovieClip.dropTarget">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/Sprite.html">Sprite</a> </div><div class="doc">
+<pre class="source">
+DisplayObject get dropTarget =&gt; _dropTarget;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="filters">
+<button class="show-code">Code</button>
+List&lt;<a href="../stagexl/BitmapFilter.html">BitmapFilter</a>&gt;         <strong>filters</strong> <a class="anchor-link"
+            href="#filters"
+            title="Permalink to MovieClip.filters">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+List&lt;BitmapFilter&gt; get filters =&gt; (_filters != null)
+   ? _filters
+   : _filters = new List&lt;BitmapFilter&gt;();
+</pre>
+<pre class="source">
+set filters(List&lt;BitmapFilter&gt; value) { _filters = value; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="frameRate">
+<button class="show-code">Code</button>
+int         <strong>frameRate</strong> <a class="anchor-link"
+            href="#frameRate"
+            title="Permalink to MovieClip.frameRate">#</a>
+        </h4>
+        <div class="doc">
+<p>Specifies the timeline progression speed.
+If =0, uses the stage's frameRate</p>
+<pre class="source">
+int frameRate = 0
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="graphics">
+<button class="show-code">Code</button>
+<a href="../stagexl/Graphics.html">Graphics</a>         <strong>graphics</strong> <a class="anchor-link"
+            href="#graphics"
+            title="Permalink to MovieClip.graphics">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/Sprite.html">Sprite</a> </div><div class="doc">
+<pre class="source">
+Graphics get graphics {
+ return (_graphics != null) ? _graphics : _graphics = new Graphics();
+}
+</pre>
+<pre class="source">
+set graphics(Graphics value) =&gt; _graphics = value;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="height">
+<button class="show-code">Code</button>
+num         <strong>height</strong> <a class="anchor-link"
+            href="#height"
+            title="Permalink to MovieClip.height">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get height =&gt; getBoundsTransformed(_transformationMatrix).height;
+</pre>
+<pre class="source">
+void set height(num value) {
+ this.scaleY = 1;
+ num normalHeight = this.height;
+ this.scaleY = (normalHeight != 0.0) ? value / normalHeight : 1.0;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="hitArea">
+<button class="show-code">Code</button>
+<a href="../stagexl/Sprite.html">Sprite</a>         <strong>hitArea</strong> <a class="anchor-link"
+            href="#hitArea"
+            title="Permalink to MovieClip.hitArea">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/Sprite.html">Sprite</a> </div><div class="doc">
+<pre class="source">
+Sprite hitArea = null
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="loop">
+<button class="show-code">Code</button>
+bool         <strong>loop</strong> <a class="anchor-link"
+            href="#loop"
+            title="Permalink to MovieClip.loop">#</a>
+        </h4>
+        <div class="doc">
+<p>Indicates whether this MovieClip should loop when it reaches the end of its timeline.</p>
+<pre class="source">
+bool loop = true
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="mask">
+<button class="show-code">Code</button>
+<a href="../stagexl/Mask.html">Mask</a>         <strong>mask</strong> <a class="anchor-link"
+            href="#mask"
+            title="Permalink to MovieClip.mask">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Mask get mask =&gt; _mask;
+</pre>
+<pre class="source">
+set mask(Mask value) { _mask = value; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="mode">
+<button class="show-code">Code</button>
+String         <strong>mode</strong> <a class="anchor-link"
+            href="#mode"
+            title="Permalink to MovieClip.mode">#</a>
+        </h4>
+        <div class="doc">
+<p>Controls how this MovieClip advances its time. Must be one of 0 (INDEPENDENT), 1 (SINGLE_FRAME), or 2 (SYNCHED).
+See each constant for a description of the behaviour.</p>
+<pre class="source">
+String mode
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="mouseChildren">
+<button class="show-code">Code</button>
+bool         <strong>mouseChildren</strong> <a class="anchor-link"
+            href="#mouseChildren"
+            title="Permalink to MovieClip.mouseChildren">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+bool get mouseChildren =&gt; _mouseChildren;
+</pre>
+<pre class="source">
+void set mouseChildren(bool value) { _mouseChildren = value; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="mouseEnabled">
+<button class="show-code">Code</button>
+bool         <strong>mouseEnabled</strong> <a class="anchor-link"
+            href="#mouseEnabled"
+            title="Permalink to MovieClip.mouseEnabled">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+bool mouseEnabled = true
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="mousePosition">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Point.html">Point</a>         <strong>mousePosition</strong> <a class="anchor-link"
+            href="#mousePosition"
+            title="Permalink to MovieClip.mousePosition">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Point get mousePosition {
+ var stage = this.stage;
+ return (stage != null) ? this.globalToLocal(stage._mousePosition) : null;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="mouseX">
+<button class="show-code">Code</button>
+final num         <strong>mouseX</strong> <a class="anchor-link"
+            href="#mouseX"
+            title="Permalink to MovieClip.mouseX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get mouseX {
+ var mp = this.mousePosition;
+ return (mp != null) ? mp.x : 0.0;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="mouseY">
+<button class="show-code">Code</button>
+final num         <strong>mouseY</strong> <a class="anchor-link"
+            href="#mouseY"
+            title="Permalink to MovieClip.mouseY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get mouseY {
+ var mp = this.mousePosition;
+ return (mp != null) ? mp.y : 0.0;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="name">
+<button class="show-code">Code</button>
+String         <strong>name</strong> <a class="anchor-link"
+            href="#name"
+            title="Permalink to MovieClip.name">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+String get name =&gt; _name;
+</pre>
+<pre class="source">
+set name(String value) { _name = value; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="numChildren">
+<button class="show-code">Code</button>
+final int         <strong>numChildren</strong> <a class="anchor-link"
+            href="#numChildren"
+            title="Permalink to MovieClip.numChildren">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+int get numChildren =&gt; _children.length;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="off">
+<button class="show-code">Code</button>
+bool         <strong>off</strong> <a class="anchor-link"
+            href="#off"
+            title="Permalink to MovieClip.off">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool get off =&gt; _off;
+</pre>
+<pre class="source">
+set off(bool value) { _off = value;  }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onAdded">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onAdded</strong> <a class="anchor-link"
+            href="#onAdded"
+            title="Permalink to MovieClip.onAdded">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onAdded =&gt; DisplayObject.addedEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onAddedToStage">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onAddedToStage</strong> <a class="anchor-link"
+            href="#onAddedToStage"
+            title="Permalink to MovieClip.onAddedToStage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onAddedToStage =&gt; DisplayObject.addedToStageEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onEnterFrame">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/EnterFrameEvent.html">EnterFrameEvent</a>&gt;         <strong>onEnterFrame</strong> <a class="anchor-link"
+            href="#onEnterFrame"
+            title="Permalink to MovieClip.onEnterFrame">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;EnterFrameEvent&gt; get onEnterFrame =&gt; DisplayObject.enterFrameEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onExitFrame">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/ExitFrameEvent.html">ExitFrameEvent</a>&gt;         <strong>onExitFrame</strong> <a class="anchor-link"
+            href="#onExitFrame"
+            title="Permalink to MovieClip.onExitFrame">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;ExitFrameEvent&gt; get onExitFrame =&gt; DisplayObject.exitFrameEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onKeyDown">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/KeyboardEvent.html">KeyboardEvent</a>&gt;         <strong>onKeyDown</strong> <a class="anchor-link"
+            href="#onKeyDown"
+            title="Permalink to MovieClip.onKeyDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;KeyboardEvent&gt; get onKeyDown =&gt; InteractiveObject.keyDownEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onKeyUp">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/KeyboardEvent.html">KeyboardEvent</a>&gt;         <strong>onKeyUp</strong> <a class="anchor-link"
+            href="#onKeyUp"
+            title="Permalink to MovieClip.onKeyUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;KeyboardEvent&gt; get onKeyUp =&gt; InteractiveObject.keyUpEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseClick">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseClick</strong> <a class="anchor-link"
+            href="#onMouseClick"
+            title="Permalink to MovieClip.onMouseClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseClick =&gt; InteractiveObject.mouseClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseDoubleClick">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseDoubleClick</strong> <a class="anchor-link"
+            href="#onMouseDoubleClick"
+            title="Permalink to MovieClip.onMouseDoubleClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseDoubleClick =&gt; InteractiveObject.mouseDoubleClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseDown">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseDown</strong> <a class="anchor-link"
+            href="#onMouseDown"
+            title="Permalink to MovieClip.onMouseDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseDown =&gt; InteractiveObject.mouseDownEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMiddleClick">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseMiddleClick</strong> <a class="anchor-link"
+            href="#onMouseMiddleClick"
+            title="Permalink to MovieClip.onMouseMiddleClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseMiddleClick =&gt; InteractiveObject.mouseMiddleClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMiddleDown">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseMiddleDown</strong> <a class="anchor-link"
+            href="#onMouseMiddleDown"
+            title="Permalink to MovieClip.onMouseMiddleDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseMiddleDown =&gt; InteractiveObject.mouseMiddleDownEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMiddleUp">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseMiddleUp</strong> <a class="anchor-link"
+            href="#onMouseMiddleUp"
+            title="Permalink to MovieClip.onMouseMiddleUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseMiddleUp =&gt; InteractiveObject.mouseMiddleUpEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMove">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseMove</strong> <a class="anchor-link"
+            href="#onMouseMove"
+            title="Permalink to MovieClip.onMouseMove">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseMove =&gt; InteractiveObject.mouseMoveEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseOut">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseOut</strong> <a class="anchor-link"
+            href="#onMouseOut"
+            title="Permalink to MovieClip.onMouseOut">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseOut =&gt; InteractiveObject.mouseOutEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseOver">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseOver</strong> <a class="anchor-link"
+            href="#onMouseOver"
+            title="Permalink to MovieClip.onMouseOver">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseOver =&gt; InteractiveObject.mouseOverEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseRightClick">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseRightClick</strong> <a class="anchor-link"
+            href="#onMouseRightClick"
+            title="Permalink to MovieClip.onMouseRightClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseRightClick =&gt; InteractiveObject.mouseRightClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseRightDown">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseRightDown</strong> <a class="anchor-link"
+            href="#onMouseRightDown"
+            title="Permalink to MovieClip.onMouseRightDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseRightDown =&gt; InteractiveObject.mouseRightDownEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseRightUp">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseRightUp</strong> <a class="anchor-link"
+            href="#onMouseRightUp"
+            title="Permalink to MovieClip.onMouseRightUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseRightUp =&gt; InteractiveObject.mouseRightUpEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseUp">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseUp</strong> <a class="anchor-link"
+            href="#onMouseUp"
+            title="Permalink to MovieClip.onMouseUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseUp =&gt; InteractiveObject.mouseUpEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseWheel">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseWheel</strong> <a class="anchor-link"
+            href="#onMouseWheel"
+            title="Permalink to MovieClip.onMouseWheel">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;MouseEvent&gt; get onMouseWheel =&gt; InteractiveObject.mouseWheelEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onRemoved">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onRemoved</strong> <a class="anchor-link"
+            href="#onRemoved"
+            title="Permalink to MovieClip.onRemoved">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onRemoved =&gt; DisplayObject.removedEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onRemovedFromStage">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onRemovedFromStage</strong> <a class="anchor-link"
+            href="#onRemovedFromStage"
+            title="Permalink to MovieClip.onRemovedFromStage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onRemovedFromStage =&gt; DisplayObject.removedFromStageEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onRender">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/RenderEvent.html">RenderEvent</a>&gt;         <strong>onRender</strong> <a class="anchor-link"
+            href="#onRender"
+            title="Permalink to MovieClip.onRender">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;RenderEvent&gt; get onRender =&gt; DisplayObject.renderEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTextInput">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/TextEvent.html">TextEvent</a>&gt;         <strong>onTextInput</strong> <a class="anchor-link"
+            href="#onTextInput"
+            title="Permalink to MovieClip.onTextInput">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TextEvent&gt; get onTextInput =&gt; InteractiveObject.textInputEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchBegin">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchBegin</strong> <a class="anchor-link"
+            href="#onTouchBegin"
+            title="Permalink to MovieClip.onTouchBegin">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchBegin =&gt; InteractiveObject.touchBeginEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchCancel">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchCancel</strong> <a class="anchor-link"
+            href="#onTouchCancel"
+            title="Permalink to MovieClip.onTouchCancel">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchCancel =&gt; InteractiveObject.touchCancelEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchEnd">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchEnd</strong> <a class="anchor-link"
+            href="#onTouchEnd"
+            title="Permalink to MovieClip.onTouchEnd">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchEnd =&gt; InteractiveObject.touchEndEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchMove">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchMove</strong> <a class="anchor-link"
+            href="#onTouchMove"
+            title="Permalink to MovieClip.onTouchMove">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchMove =&gt; InteractiveObject.touchMoveEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchOut">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchOut</strong> <a class="anchor-link"
+            href="#onTouchOut"
+            title="Permalink to MovieClip.onTouchOut">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchOut =&gt; InteractiveObject.touchOutEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchOver">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/TouchEvent.html">TouchEvent</a>&gt;         <strong>onTouchOver</strong> <a class="anchor-link"
+            href="#onTouchOver"
+            title="Permalink to MovieClip.onTouchOver">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;TouchEvent&gt; get onTouchOver =&gt; InteractiveObject.touchOverEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="parent">
+<button class="show-code">Code</button>
+final <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a>         <strong>parent</strong> <a class="anchor-link"
+            href="#parent"
+            title="Permalink to MovieClip.parent">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+DisplayObjectContainer get parent =&gt; _parent;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="paused">
+<button class="show-code">Code</button>
+bool         <strong>paused</strong> <a class="anchor-link"
+            href="#paused"
+            title="Permalink to MovieClip.paused">#</a>
+        </h4>
+        <div class="doc">
+<p>If true, the MovieClip's position will not advance when ticked.</p>
+<pre class="source">
+bool paused = false
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="pivotX">
+<button class="show-code">Code</button>
+num         <strong>pivotX</strong> <a class="anchor-link"
+            href="#pivotX"
+            title="Permalink to MovieClip.pivotX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get pivotX =&gt; _pivotX;
+</pre>
+<pre class="source">
+set pivotX(num value) { _pivotX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="pivotY">
+<button class="show-code">Code</button>
+num         <strong>pivotY</strong> <a class="anchor-link"
+            href="#pivotY"
+            title="Permalink to MovieClip.pivotY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get pivotY =&gt; _pivotY;
+</pre>
+<pre class="source">
+set pivotY(num value) { _pivotY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="props">
+<button class="show-code">Code</button>
+Map&lt;String, dynamic&gt;         <strong>props</strong> <a class="anchor-link"
+            href="#props"
+            title="Permalink to MovieClip.props">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Map&lt;String, dynamic&gt; props
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="root">
+<button class="show-code">Code</button>
+final <a href="../stagexl/DisplayObject.html">DisplayObject</a>         <strong>root</strong> <a class="anchor-link"
+            href="#root"
+            title="Permalink to MovieClip.root">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+DisplayObject get root {
+
+ DisplayObject currentObject = this;
+
+ while (currentObject._parent != null)
+   currentObject = currentObject._parent;
+
+ return currentObject;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="rotation">
+<button class="show-code">Code</button>
+num         <strong>rotation</strong> <a class="anchor-link"
+            href="#rotation"
+            title="Permalink to MovieClip.rotation">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get rotation =&gt; _rotation;
+</pre>
+<pre class="source">
+set rotation(num value) { _rotation = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="scaleX">
+<button class="show-code">Code</button>
+num         <strong>scaleX</strong> <a class="anchor-link"
+            href="#scaleX"
+            title="Permalink to MovieClip.scaleX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get scaleX =&gt; _scaleX;
+</pre>
+<pre class="source">
+set scaleX(num value) { _scaleX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="scaleY">
+<button class="show-code">Code</button>
+num         <strong>scaleY</strong> <a class="anchor-link"
+            href="#scaleY"
+            title="Permalink to MovieClip.scaleY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get scaleY =&gt; _scaleY;
+</pre>
+<pre class="source">
+set scaleY(num value) { _scaleY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="shadow">
+<button class="show-code">Code</button>
+<a href="../stagexl/Shadow.html">Shadow</a>         <strong>shadow</strong> <a class="anchor-link"
+            href="#shadow"
+            title="Permalink to MovieClip.shadow">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Shadow get shadow =&gt; _shadow;
+</pre>
+<pre class="source">
+set shadow(Shadow value) { _shadow = value; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="skewX">
+<button class="show-code">Code</button>
+num         <strong>skewX</strong> <a class="anchor-link"
+            href="#skewX"
+            title="Permalink to MovieClip.skewX">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get skewX =&gt; _skewX;
+</pre>
+<pre class="source">
+set skewX(num value) { _skewX = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="skewY">
+<button class="show-code">Code</button>
+num         <strong>skewY</strong> <a class="anchor-link"
+            href="#skewY"
+            title="Permalink to MovieClip.skewY">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get skewY =&gt; _skewY;
+</pre>
+<pre class="source">
+set skewY(num value) { _skewY = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="stage">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Stage.html">Stage</a>         <strong>stage</strong> <a class="anchor-link"
+            href="#stage"
+            title="Permalink to MovieClip.stage">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stage get stage {
+
+ DisplayObject root = this.root;
+
+ if (root is Stage)
+   return root;
+
+ return null;
+}
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="startPosition">
+<button class="show-code">Code</button>
+int         <strong>startPosition</strong> <a class="anchor-link"
+            href="#startPosition"
+            title="Permalink to MovieClip.startPosition">#</a>
+        </h4>
+        <div class="doc">
+<p>Specifies what the first frame to play in this movieclip, or the only frame to display if mode is SINGLE_FRAME.</p>
+<pre class="source">
+int startPosition = 0
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="tabChildren">
+<button class="show-code">Code</button>
+bool         <strong>tabChildren</strong> <a class="anchor-link"
+            href="#tabChildren"
+            title="Permalink to MovieClip.tabChildren">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+bool get tabChildren =&gt; _tabChildren;
+</pre>
+<pre class="source">
+void set tabChildren(bool value) { _tabChildren = value; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="tabEnabled">
+<button class="show-code">Code</button>
+bool         <strong>tabEnabled</strong> <a class="anchor-link"
+            href="#tabEnabled"
+            title="Permalink to MovieClip.tabEnabled">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+bool tabEnabled = true
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="tabIndex">
+<button class="show-code">Code</button>
+int         <strong>tabIndex</strong> <a class="anchor-link"
+            href="#tabIndex"
+            title="Permalink to MovieClip.tabIndex">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+int tabIndex = 0
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="timeline">
+<button class="show-code">Code</button>
+<a href="../stagexl/Timeline.html">Timeline</a>         <strong>timeline</strong> <a class="anchor-link"
+            href="#timeline"
+            title="Permalink to MovieClip.timeline">#</a>
+        </h4>
+        <div class="doc">
+<p>The Timeline that is associated with this MovieClip. This is created automatically when the MovieClip
+instance is initialized.</p>
+<pre class="source">
+Timeline timeline
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="totalFrames">
+<button class="show-code">Code</button>
+final int         <strong>totalFrames</strong> <a class="anchor-link"
+            href="#totalFrames"
+            title="Permalink to MovieClip.totalFrames">#</a>
+        </h4>
+        <div class="doc">
+<p>Read-Only. The number of frames of the movieclip.</p>
+<pre class="source">
+int get totalFrames {
+ return timeline.duration.toInt();
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="transformationMatrix">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Matrix.html">Matrix</a>         <strong>transformationMatrix</strong> <a class="anchor-link"
+            href="#transformationMatrix"
+            title="Permalink to MovieClip.transformationMatrix">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Matrix get transformationMatrix {
+ return _transformationMatrix.clone();
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="useHandCursor">
+<button class="show-code">Code</button>
+bool         <strong>useHandCursor</strong> <a class="anchor-link"
+            href="#useHandCursor"
+            title="Permalink to MovieClip.useHandCursor">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/Sprite.html">Sprite</a> </div><div class="doc">
+<pre class="source">
+bool useHandCursor = false
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="visible">
+<button class="show-code">Code</button>
+bool         <strong>visible</strong> <a class="anchor-link"
+            href="#visible"
+            title="Permalink to MovieClip.visible">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool get visible =&gt; _visible;
+</pre>
+<pre class="source">
+set visible(bool value) { _visible = value; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="width">
+<button class="show-code">Code</button>
+num         <strong>width</strong> <a class="anchor-link"
+            href="#width"
+            title="Permalink to MovieClip.width">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get width =&gt; getBoundsTransformed(_transformationMatrix).width;
+</pre>
+<pre class="source">
+void set width(num value) {
+ this.scaleX = 1;
+ num normalWidth = this.width;
+ this.scaleX = (normalWidth != 0.0) ? value / normalWidth : 1.0;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="x">
+<button class="show-code">Code</button>
+num         <strong>x</strong> <a class="anchor-link"
+            href="#x"
+            title="Permalink to MovieClip.x">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get x =&gt; _x;
+</pre>
+<pre class="source">
+set x(num value) { _x = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="y">
+<button class="show-code">Code</button>
+num         <strong>y</strong> <a class="anchor-link"
+            href="#y"
+            title="Permalink to MovieClip.y">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+num get y =&gt; _y;
+</pre>
+<pre class="source">
+set y(num value) { _y = value.toDouble(); _transformationMatrixRefresh = true; }
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method inherited"><h4 id="addChild">
+<button class="show-code">Code</button>
+void <strong>addChild</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> child) <a class="anchor-link" href="#addChild"
+              title="Permalink to MovieClip.addChild">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+void addChild(DisplayObject child) {
+
+ if (child.parent == this) {
+   int index = _children.indexOf(child);
+   _children.removeAt(index);
+   _children.add(child);
+ } else {
+   addChildAt(child, _children.length);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="addChildAt">
+<button class="show-code">Code</button>
+void <strong>addChildAt</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> child, int index) <a class="anchor-link" href="#addChildAt"
+              title="Permalink to MovieClip.addChildAt">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+void addChildAt(DisplayObject child, int index) {
+
+ if (index &lt; 0 || index &gt; _children.length)
+   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+
+ if (child == this)
+   throw new ArgumentError("Error #2024: An object cannot be added as a child of itself.");
+
+ if (child.parent == this) {
+
+   _children.removeAt(_children.indexOf(child));
+
+   if (index &gt; _children.length)
+     index --;
+
+   _children.insert(index, child);
+
+ } else {
+
+   child.removeFromParent();
+
+   child._setParent(this);
+   _children.insert(index, child);
+
+   child.dispatchEvent(new Event(Event.ADDED, true));
+
+   if (this.stage != null)
+     _dispatchEventDescendants(child, new Event(Event.ADDED_TO_STAGE));
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="addEventListener">
+<button class="show-code">Code</button>
+StreamSubscription&lt;<a href="../stagexl/Event.html">Event</a>&gt; <strong>addEventListener</strong>(String eventType, void eventListener(event), {bool useCapture: false}) <a class="anchor-link" href="#addEventListener"
+              title="Permalink to MovieClip.addEventListener">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+StreamSubscription&lt;Event&gt; addEventListener(String eventType, void eventListener(event), {bool useCapture: false}) {
+ return _getEventStream(eventType, useCapture).listen(eventListener);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="addTo">
+<button class="show-code">Code</button>
+void <strong>addTo</strong>(<a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> parent) <a class="anchor-link" href="#addTo"
+              title="Permalink to MovieClip.addTo">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void addTo(DisplayObjectContainer parent) {
+ parent.addChild(this);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="advance">
+<button class="show-code">Code</button>
+void <strong>advance</strong>(num deltaTime) <a class="anchor-link" href="#advance"
+              title="Permalink to MovieClip.advance">#</a></h4>
+<div class="doc">
+<p>Advances timelines and places children depending on the currentframe
+NOTE: automatically called by .render()</p>
+<pre class="source">
+void advance(num deltaTime) {
+ _advanceTime(deltaTime);
+ _updateTimeline();
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="applyCache">
+<button class="show-code">Code</button>
+void <strong>applyCache</strong>(int x, int y, int width, int height, {bool debugBorder: false}) <a class="anchor-link" href="#applyCache"
+              title="Permalink to MovieClip.applyCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
+
+ var pixelRatio = Stage.autoHiDpi ? _devicePixelRatio : 1.0;
+
+ _cache = new BitmapData(width, height, true, Color.Transparent, pixelRatio);
+ _cacheRectangle = new Rectangle(x, y, width, height);
+ _cacheDebugBorder = debugBorder;
+ refreshCache();
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="contains">
+<button class="show-code">Code</button>
+bool <strong>contains</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> child) <a class="anchor-link" href="#contains"
+              title="Permalink to MovieClip.contains">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+bool contains(DisplayObject child) {
+
+ for(; child != null; child = child._parent)
+   if (child == this)
+     return true;
+
+ return false;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="dispatchEvent">
+<button class="show-code">Code</button>
+void <strong>dispatchEvent</strong>(<a href="../stagexl/Event.html">Event</a> event) <a class="anchor-link" href="#dispatchEvent"
+              title="Permalink to MovieClip.dispatchEvent">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void dispatchEvent(Event event) {
+
+ List&lt;DisplayObject&gt; ancestors = null;
+
+ if (event.captures || event.bubbles) {
+   for(DisplayObject ancestor = _parent; ancestor != null; ancestor = ancestor._parent) {
+     if (ancestor._hasEventListener(event.type, event.captures, event.bubbles)) {
+       if (ancestors == null) ancestors = _displayObjectListPool.pop() as List&lt;DisplayObject&gt;;
+       ancestors.add(ancestor);
+     }
+   }
+ }
+
+ if (event.captures &amp;&amp; ancestors != null) {
+   for(int i = ancestors.length - 1 ; i &gt;= 0 &amp;&amp; event.stopsPropagation == false; i--) {
+     ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
+   }
+ }
+
+ if (event.stopsPropagation == false) {
+   _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
+ }
+
+ if (event.bubbles &amp;&amp; ancestors != null) {
+   for(int i = 0; i &lt; ancestors.length &amp;&amp; event.stopsPropagation == false; i++) {
+     ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
+   }
+ }
+
+ if (ancestors != null) {
+   ancestors.clear();
+   _displayObjectListPool.push(ancestors);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getBounds">
+<button class="show-code">Code</button>
+<a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBounds</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> targetSpace) <a class="anchor-link" href="#getBounds"
+              title="Permalink to MovieClip.getBounds">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Rectangle getBounds(DisplayObject targetSpace) {
+
+ Rectangle returnRectangle = new Rectangle.zero();
+ Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
+
+ return (matrix != null) ? getBoundsTransformed(matrix, returnRectangle) : returnRectangle;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getBoundsTransformed">
+<button class="show-code">Code</button>
+<a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBoundsTransformed</strong>(<a href="../stagexl/Matrix.html">Matrix</a> matrix, [<a href="../stagexl/Rectangle.html">Rectangle</a> returnRectangle]) <a class="anchor-link" href="#getBoundsTransformed"
+              title="Permalink to MovieClip.getBoundsTransformed">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/Sprite.html">Sprite</a> </div><div class="doc">
+<pre class="source">
+Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
+ 
+ if (returnRectangle == null)
+   returnRectangle = new Rectangle.zero();
+ 
+ super.getBoundsTransformed(matrix, returnRectangle);
+ 
+ if (_graphics != null) {
+   returnRectangle = _graphics._getBoundsTransformed(matrix).union(returnRectangle);
+ }
+ 
+ return returnRectangle;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getChildAt">
+<button class="show-code">Code</button>
+dynamic <strong>getChildAt</strong>(int index) <a class="anchor-link" href="#getChildAt"
+              title="Permalink to MovieClip.getChildAt">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+dynamic getChildAt(int index) {
+
+ if (index &lt; 0 || index &gt;= _children.length)
+   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+
+ return _children[index];
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getChildByName">
+<button class="show-code">Code</button>
+dynamic <strong>getChildByName</strong>(String name) <a class="anchor-link" href="#getChildByName"
+              title="Permalink to MovieClip.getChildByName">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+dynamic getChildByName(String name) {
+
+ for(int i = 0; i &lt; _children.length; i++)
+   if (_children[i].name == name)
+     return _children[i];
+
+   return null;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getChildIndex">
+<button class="show-code">Code</button>
+int <strong>getChildIndex</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> child) <a class="anchor-link" href="#getChildIndex"
+              title="Permalink to MovieClip.getChildIndex">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+int getChildIndex(DisplayObject child) {
+   return _children.indexOf(child);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="globalToLocal">
+<button class="show-code">Code</button>
+<a href="../stagexl/Point.html">Point</a> <strong>globalToLocal</strong>(<a href="../stagexl/Point.html">Point</a> globalPoint) <a class="anchor-link" href="#globalToLocal"
+              title="Permalink to MovieClip.globalToLocal">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Point globalToLocal(Point globalPoint) {
+
+ _tmpMatrix.identity();
+
+ for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
+   _tmpMatrix.concat(displayObject._transformationMatrix);
+
+ _tmpMatrix.invert();
+
+ return _tmpMatrix.transformPoint(globalPoint);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="gotoAndPlay">
+<button class="show-code">Code</button>
+void <strong>gotoAndPlay</strong>(positionOrLabel) <a class="anchor-link" href="#gotoAndPlay"
+              title="Permalink to MovieClip.gotoAndPlay">#</a></h4>
+<div class="doc">
+<p>Advances this movie clip to the specified position or label and sets paused to false.</p>
+<pre class="source">
+void gotoAndPlay(dynamic positionOrLabel) {
+ paused = false;
+ _goto(positionOrLabel);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="gotoAndStop">
+<button class="show-code">Code</button>
+void <strong>gotoAndStop</strong>(positionOrLabel) <a class="anchor-link" href="#gotoAndStop"
+              title="Permalink to MovieClip.gotoAndStop">#</a></h4>
+<div class="doc">
+<p>Advances this movie clip to the specified position or label and sets paused to true.</p>
+<pre class="source">
+void gotoAndStop(dynamic positionOrLabel) {
+ paused = true;
+ _goto(positionOrLabel);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hasEventListener">
+<button class="show-code">Code</button>
+bool <strong>hasEventListener</strong>(String eventType) <a class="anchor-link" href="#hasEventListener"
+              title="Permalink to MovieClip.hasEventListener">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+bool hasEventListener(String eventType) {
+ return _hasEventListener(eventType, true, true);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hitTestInput">
+<button class="show-code">Code</button>
+<a href="../stagexl/DisplayObject.html">DisplayObject</a> <strong>hitTestInput</strong>(num localX, num localY) <a class="anchor-link" href="#hitTestInput"
+              title="Permalink to MovieClip.hitTestInput">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/Sprite.html">Sprite</a> </div><div class="doc">
+<pre class="source">
+DisplayObject hitTestInput(num localX, num localY) {
+ 
+ DisplayObject target = null;
+ 
+ if (this.hitArea != null) {
+   
+   var matrix = this.transformationMatrixTo(this.hitArea);
+   if (matrix != null) {
+     double hitAreaX = localX * matrix.a + localY * matrix.c + matrix.tx;
+     double hitAreaY = localX * matrix.b + localY * matrix.d + matrix.ty;
+     
+     if (this.hitArea.hitTestInput(hitAreaX, hitAreaY) != null) {
+       target = this;
+     }
+   }
+
+ } else {
+ 
+   target = super.hitTestInput(localX, localY);
+   
+   if (target == null &amp;&amp; _graphics != null) {
+     if (_graphics._hitTestInput(localX, localY)) {
+       target = this;
+     }
+   } 
+ }
+ 
+ return target;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hitTestObject">
+<button class="show-code">Code</button>
+bool <strong>hitTestObject</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> other) <a class="anchor-link" href="#hitTestObject"
+              title="Permalink to MovieClip.hitTestObject">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool hitTestObject(DisplayObject other) {
+
+ var stage1 = this.stage;
+ var stage2 = other.stage;
+
+ if (stage1 == null || stage2 == null || stage1 != stage2) return false;
+
+ var rect1 = this.getBounds(stage1);
+ var rect2 = other.getBounds(stage2);
+
+ return rect1.intersects(rect2);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hitTestPoint">
+<button class="show-code">Code</button>
+bool <strong>hitTestPoint</strong>(num x, num y, [bool shapeFlag = false]) <a class="anchor-link" href="#hitTestPoint"
+              title="Permalink to MovieClip.hitTestPoint">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
+
+ var stage = this.stage;
+ if (stage == null) return false;
+
+ if (shapeFlag) {
+   var matrix = stage.transformationMatrixTo(this);
+   if (matrix == null) return false;
+
+   var stagePoint = new Point(x, y);
+   var localPoint = matrix.transformPoint(stagePoint);
+
+   return this.hitTestInput(localPoint.x, localPoint.y) != null;
+
+ } else {
+
+   var rect = this.getBounds(stage);
+   return rect.contains(x, y);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="isVisible">
+<button class="show-code">Code</button>
+bool <strong>isVisible</strong>() <a class="anchor-link" href="#isVisible"
+              title="Permalink to MovieClip.isVisible">#</a></h4>
+<div class="doc">
+<p>Returns true or false indicating whether the display object would be visible if drawn to a canvas.
+This does not account for whether it would be visible within the boundaries of the stage.
+NOTE: This method is mainly for internal use, though it may be useful for advanced uses.
+@method isVisible
+@return {Boolean} Boolean indicating whether the display object would be visible if drawn to a canvas</p>
+<pre class="source">
+bool isVisible() {
+ // children are placed in draw, so we can't determine if we have content.
+ return !!(this.visible &amp;&amp; this.alpha &gt; 0 &amp;&amp; this.scaleX != 0 &amp;&amp; this.scaleY != 0);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="localToGlobal">
+<button class="show-code">Code</button>
+<a href="../stagexl/Point.html">Point</a> <strong>localToGlobal</strong>(<a href="../stagexl/Point.html">Point</a> localPoint) <a class="anchor-link" href="#localToGlobal"
+              title="Permalink to MovieClip.localToGlobal">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Point localToGlobal(Point localPoint) {
+
+ _tmpMatrix.identity();
+
+ for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
+   _tmpMatrix.concat(displayObject._transformationMatrix);
+
+ return _tmpMatrix.transformPoint(localPoint);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="on">
+<button class="show-code">Code</button>
+Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt; <strong>on</strong>(String eventType, {bool useCapture: false}) <a class="anchor-link" href="#on"
+              title="Permalink to MovieClip.on">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; on(String eventType, {bool useCapture: false}) {
+ return _getEventStream(eventType, useCapture);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="play">
+<button class="show-code">Code</button>
+void <strong>play</strong>() <a class="anchor-link" href="#play"
+              title="Permalink to MovieClip.play">#</a></h4>
+<div class="doc">
+<p>Sets paused to false.</p>
+<pre class="source">
+void play() {
+ paused = false;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="refreshCache">
+<button class="show-code">Code</button>
+void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
+              title="Permalink to MovieClip.refreshCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void refreshCache() {
+
+ if (_cache == null) return;
+
+ var x = _cacheRectangle.x;
+ var y = _cacheRectangle.y;
+ var width = _cacheRectangle.width;
+ var height = _cacheRectangle.height;
+
+ _cache.clear();
+ _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+
+ if (_filters != null) {
+   for(int i = 0; i &lt; _filters.length; i++) {
+     var sourceRectangle = new Rectangle(0, 0, width, height);
+     var destinationPoint = new Point.zero();
+     _filters[i].apply(_cache, sourceRectangle, _cache, destinationPoint);
+   }
+ }
+
+ if (_cacheDebugBorder) {
+   _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
+   _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeCache">
+<button class="show-code">Code</button>
+void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
+              title="Permalink to MovieClip.removeCache">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void removeCache() {
+ _cache = null;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeChild">
+<button class="show-code">Code</button>
+void <strong>removeChild</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> child) <a class="anchor-link" href="#removeChild"
+              title="Permalink to MovieClip.removeChild">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+void removeChild(DisplayObject child) {
+
+ int childIndex = _children.indexOf(child);
+
+ if (childIndex == -1)
+   throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+
+ removeChildAt(childIndex);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeChildAt">
+<button class="show-code">Code</button>
+void <strong>removeChildAt</strong>(int index) <a class="anchor-link" href="#removeChildAt"
+              title="Permalink to MovieClip.removeChildAt">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+void removeChildAt(int index) {
+
+ if (index &lt; 0 || index &gt;= _children.length)
+   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+
+ DisplayObject child = _children[index];
+
+ child.dispatchEvent(new Event(Event.REMOVED, true));
+
+ if (this.stage != null)
+   _dispatchEventDescendants(child, new Event(Event.REMOVED_FROM_STAGE));
+
+ child._setParent(null);
+ _children.removeAt(index);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeChildren">
+<button class="show-code">Code</button>
+void <strong>removeChildren</strong>([int beginIndex = 0, int endIndex = 0x7fffffff]) <a class="anchor-link" href="#removeChildren"
+              title="Permalink to MovieClip.removeChildren">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+void removeChildren([int beginIndex = 0, int endIndex = 0x7fffffff]) {
+
+ var length = _children.length;
+
+ if (endIndex == 0x7fffffff) {
+   endIndex = length - 1;
+ }
+
+ if (beginIndex &lt; 0 || endIndex &lt; 0 || beginIndex &gt;= length || endIndex &gt;= length) {
+   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ }
+
+ for(int i = beginIndex; i &lt;= endIndex; i++) {
+   if (beginIndex &gt;= _children.length) break;
+   removeChildAt(beginIndex);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeEventListeners">
+<button class="show-code">Code</button>
+dynamic <strong>removeEventListeners</strong>(String eventType, {bool useCapture: false}) <a class="anchor-link" href="#removeEventListeners"
+              title="Permalink to MovieClip.removeEventListeners">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+removeEventListeners(String eventType, {bool useCapture: false}) {
+ _getEventStream(eventType, useCapture)._cancelSubscriptions();
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeFromParent">
+<button class="show-code">Code</button>
+void <strong>removeFromParent</strong>() <a class="anchor-link" href="#removeFromParent"
+              title="Permalink to MovieClip.removeFromParent">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void removeFromParent() {
+ if (_parent != null)
+   _parent.removeChild(this);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="render">
+<button class="show-code">Code</button>
+void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</a> renderState) <a class="anchor-link" href="#render"
+              title="Permalink to MovieClip.render">#</a></h4>
+<div class="doc">
+<p>Draws the display object into the specified context ignoring it's visible, alpha, shadow, and transform.
+Returns true if the draw was handled (useful for overriding functionality).
+NOTE: This method is mainly for internal use, though it may be useful for advanced uses.
+@param {CanvasRenderingContext2D} ctx The canvas 2D context object to draw into.
+@param {Boolean} ignoreCache Indicates whether the draw operation should ignore any current cache.
+For example, used for drawing the cache (to prevent it from simply drawing an existing cache back
+into itself).</p>
+<pre class="source">
+void render(RenderState renderState) {
+ advance(renderState.deltaTime);
+ super.render(renderState);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="setChildIndex">
+<button class="show-code">Code</button>
+void <strong>setChildIndex</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> child, int index) <a class="anchor-link" href="#setChildIndex"
+              title="Permalink to MovieClip.setChildIndex">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+void setChildIndex(DisplayObject child, int index) {
+
+ if (index &lt; 0 || index &gt;= _children.length)
+   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+
+ int oldIndex = getChildIndex(child);
+
+ if (oldIndex == -1)
+   throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+
+ _children.removeAt(oldIndex);
+ _children.insert(index, child);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="setTransform">
+<button class="show-code">Code</button>
+void <strong>setTransform</strong>(num x, num y, [num scaleX, num scaleY, num rotation, num skewX, num skewY, num pivotX, num pivotY]) <a class="anchor-link" href="#setTransform"
+              title="Permalink to MovieClip.setTransform">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+void setTransform(num x, num y, [num scaleX, num scaleY, num rotation, num skewX, num skewY, num pivotX, num pivotY])
+{
+ _transformationMatrixRefresh = true;
+ _x = x.toDouble();
+ _y = y.toDouble();
+ if (scaleX != null) {
+   _scaleX = scaleX.toDouble();
+   if (scaleY != null) {
+     _scaleY = scaleY.toDouble();
+     if (rotation != null) {
+       _rotation = rotation.toDouble();
+       if (skewX != null) {
+         _skewX = skewX.toDouble();
+         if (skewY != null) {
+           _skewY = skewY.toDouble();
+           if (pivotX != null) {
+             _pivotX = pivotX.toDouble();
+             if (pivotY != null)
+               _pivotY = pivotY.toDouble();
+           }
+         }
+       }
+     }
+   }
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="sortChildren">
+<button class="show-code">Code</button>
+void <strong>sortChildren</strong>(Function compareFunction) <a class="anchor-link" href="#sortChildren"
+              title="Permalink to MovieClip.sortChildren">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+void sortChildren(Function compareFunction) {
+ _children.sort(compareFunction);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="startDrag">
+<button class="show-code">Code</button>
+dynamic <strong>startDrag</strong>([bool lockCenter = false, <a href="../stagexl/Rectangle.html">Rectangle</a> bounds = null]) <a class="anchor-link" href="#startDrag"
+              title="Permalink to MovieClip.startDrag">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/Sprite.html">Sprite</a> </div><div class="doc">
+<pre class="source">
+startDrag([bool lockCenter = false, Rectangle bounds = null]) {
+ 
+ Mouse._dragSprite = this;
+ Mouse._dragSpriteBounds = bounds;
+ 
+ if (lockCenter) {
+   Mouse._dragSpriteCenter = this.getBoundsTransformed(_identityMatrix).center;
+ } else {
+   var mp = this.mousePosition;
+   Mouse._dragSpriteCenter = (mp != null) ? mp : new Point.zero();
+ }
+
+ _updateDrag();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="stop">
+<button class="show-code">Code</button>
+void <strong>stop</strong>() <a class="anchor-link" href="#stop"
+              title="Permalink to MovieClip.stop">#</a></h4>
+<div class="doc">
+<p>Sets paused to true.</p>
+<pre class="source">
+void stop() {
+ paused = true;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="stopDrag">
+<button class="show-code">Code</button>
+dynamic <strong>stopDrag</strong>() <a class="anchor-link" href="#stopDrag"
+              title="Permalink to MovieClip.stopDrag">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/Sprite.html">Sprite</a> </div><div class="doc">
+<pre class="source">
+stopDrag() {
+ 
+ if (Mouse._dragSprite == this) {
+   Mouse._dragSprite = null;
+   Mouse._dragSpriteCenter = null;
+   Mouse._dragSpriteBounds = null;
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="swapChildren">
+<button class="show-code">Code</button>
+void <strong>swapChildren</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> child1, <a href="../stagexl/DisplayObject.html">DisplayObject</a> child2) <a class="anchor-link" href="#swapChildren"
+              title="Permalink to MovieClip.swapChildren">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+void swapChildren(DisplayObject child1, DisplayObject child2) {
+
+   int index1 = getChildIndex(child1);
+   int index2 = getChildIndex(child2);
+
+   if (index1 == -1 || index2 == -1)
+     throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+
+   swapChildrenAt(index1, index2);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="swapChildrenAt">
+<button class="show-code">Code</button>
+void <strong>swapChildrenAt</strong>(int index1, int index2) <a class="anchor-link" href="#swapChildrenAt"
+              title="Permalink to MovieClip.swapChildrenAt">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
+<pre class="source">
+void swapChildrenAt(int index1, int index2) {
+
+ DisplayObject child1 = getChildAt(index1);
+ DisplayObject child2 = getChildAt(index2);
+ _children[index1] = child2;
+ _children[index2] = child1;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="toString">
+<button class="show-code">Code</button>
+String <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to MovieClip.toString">#</a></h4>
+<div class="doc">
+<p>Returns a string representation of this object.
+@return {String} a string representation of the instance.</p>
+<pre class="source">
+String toString() {
+ return "[MovieClip (name=$name)]";
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="transformationMatrixTo">
+<button class="show-code">Code</button>
+<a href="../stagexl/Matrix.html">Matrix</a> <strong>transformationMatrixTo</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> targetSpace) <a class="anchor-link" href="#transformationMatrixTo"
+              title="Permalink to MovieClip.transformationMatrixTo">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Matrix transformationMatrixTo(DisplayObject targetSpace) {
+
+ if (targetSpace == _parent)
+   return _transformationMatrix.clone();
+
+ if (targetSpace._parent == this)
+   return targetSpace._transformationMatrix.cloneInvert();
+
+ //------------------------------------------------
+
+ Matrix resultMatrix = new Matrix.fromIdentity();
+ DisplayObject resultObject = this;
+
+ while(resultObject != targetSpace &amp;&amp; resultObject._parent != null) {
+   resultMatrix.concat(resultObject._transformationMatrix);
+   resultObject = resultObject._parent;
+ }
+
+ if (targetSpace == null &amp;&amp; resultObject != null) {
+   resultMatrix.concat(resultObject._transformationMatrix);
+   resultObject = null;
+ }
+
+ if (resultObject == targetSpace)
+   return resultMatrix;
+
+ //------------------------------------------------
+
+ Matrix targetMatrix = new Matrix.fromIdentity();
+ DisplayObject targetObject = targetSpace;
+
+ while(targetObject != this &amp;&amp; targetObject._parent != null) {
+   targetMatrix.concat(targetObject._transformationMatrix);
+   targetObject = targetObject._parent;
+ }
+
+ targetMatrix.invert();
+
+ if (targetObject == this)
+   return targetMatrix;
+
+ if (targetObject != resultObject)
+   return null;
+
+ resultMatrix.concat(targetMatrix);
+
+ return resultMatrix;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-05-22 20:23:25.282</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

@@ -39,9 +39,11 @@ class Event {
  static const String ADDED = "added";
  static const String ADDED_TO_STAGE = "addedToStage";
  static const String ENTER_FRAME = "enterFrame";
+ static const String EXIT_FRAME = "exitFrame";
  static const String REMOVED = "removed";
  static const String REMOVED_FROM_STAGE = "removedFromStage";
  static const String RESIZE = "resize";
+ static const String RENDER = "render";
  
  // Common events
  static const String OKAY = "okay";
@@ -110,7 +112,7 @@ class Event {
 </div>
 <h3>Subclasses</h3>
 <p>
-<span class="type-box"><span class="icon-class"></span><a href="../stagexl/EnterFrameEvent.html">EnterFrameEvent</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/KeyboardEvent.html">KeyboardEvent</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/MouseEvent.html">MouseEvent</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/TextEvent.html">TextEvent</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/TouchEvent.html">TouchEvent</a></span></p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/BroadcastEvent.html">BroadcastEvent</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/KeyboardEvent.html">KeyboardEvent</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/MouseEvent.html">MouseEvent</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/TextEvent.html">TextEvent</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/TouchEvent.html">TouchEvent</a></span></p>
 <div>
 <h3>Static Properties</h3>
 <div class="field"><h4 id="ADDED">
@@ -209,6 +211,18 @@ static const String ENTER_FRAME = "enterFrame"
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="EXIT_FRAME">
+<button class="show-code">Code</button>
+const String         <strong>EXIT_FRAME</strong> <a class="anchor-link"
+            href="#EXIT_FRAME"
+            title="Permalink to Event.EXIT_FRAME">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+static const String EXIT_FRAME = "exitFrame"
+</pre>
+</div>
+</div>
 <div class="field"><h4 id="OKAY">
 <button class="show-code">Code</button>
 const String         <strong>OKAY</strong> <a class="anchor-link"
@@ -266,6 +280,18 @@ const String         <strong>REMOVED_FROM_STAGE</strong> <a class="anchor-link"
         <div class="doc">
 <pre class="source">
 static const String REMOVED_FROM_STAGE = "removedFromStage"
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="RENDER">
+<button class="show-code">Code</button>
+const String         <strong>RENDER</strong> <a class="anchor-link"
+            href="#RENDER"
+            title="Permalink to Event.RENDER">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+static const String RENDER = "render"
 </pre>
 </div>
 </div>
@@ -452,7 +478,7 @@ void stopPropagation() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-04-19 21:10:19.115</div>
+          <div>This page was generated at 2013-05-22 20:23:25.458</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

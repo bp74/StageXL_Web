@@ -34,36 +34,44 @@
 <div class="doc">
 <pre class="source">
 class TextFormat {
- 
+
  String font;
- int size;
+ num size;
  int color;
+
  bool bold;
  bool italic;
  bool underline;
-
  String align;
- int leftMargin;
- int rightMargin;
- int indent;
- int leading;
 
- int letterSpacing = 0;
- int blockIndent = 0;
- bool bullet = false;
- bool kerning = false;
+ num topMargin;
+ num leftMargin;
+ num rightMargin;
+ num indent;
+ num leading;
 
  //-------------------------------------------------------------------------------------------------
 
- TextFormat( this.font, this.size, this.color, {
+ TextFormat(this.font, this.size, this.color, {
    this.bold         : false,
    this.italic       : false,
    this.underline    : false,
    this.align        : "left",
-   this.leftMargin   : 0,
-   this.rightMargin  : 0,
-   this.indent       : 0,
-   this.leading      : 0  });
+   this.topMargin    : 0.0,
+   this.leftMargin   : 0.0,
+   this.rightMargin  : 0.0,
+   this.indent       : 0.0,
+   this.leading      : 0.0
+ });
+
+ //-------------------------------------------------------------------------------------------------
+
+ TextFormat clone() {
+   return new TextFormat(font, size, color,
+       bold: bold, italic: italic, underline: underline, align: align,
+       topMargin: topMargin, leftMargin: leftMargin, rightMargin: rightMargin,
+       indent: indent, leading: leading);
+ }
 
 }
 </pre>
@@ -72,19 +80,21 @@ class TextFormat {
 <h3>Constructors</h3>
 <div class="method"><h4 id="TextFormat">
 <button class="show-code">Code</button>
-new <strong>TextFormat</strong>(String font, int size, int color, {bool bold: false, bool italic: false, bool underline: false, String align: "left", int leftMargin: 0, int rightMargin: 0, int indent: 0, int leading: 0}) <a class="anchor-link" href="#TextFormat"
+new <strong>TextFormat</strong>(String font, num size, int color, {bool bold: false, bool italic: false, bool underline: false, String align: "left", num topMargin: 0.0, num leftMargin: 0.0, num rightMargin: 0.0, num indent: 0.0, num leading: 0.0}) <a class="anchor-link" href="#TextFormat"
               title="Permalink to TextFormat.TextFormat">#</a></h4>
 <div class="doc">
 <pre class="source">
-TextFormat( this.font, this.size, this.color, {
+TextFormat(this.font, this.size, this.color, {
  this.bold         : false,
  this.italic       : false,
  this.underline    : false,
  this.align        : "left",
- this.leftMargin   : 0,
- this.rightMargin  : 0,
- this.indent       : 0,
- this.leading      : 0  });
+ this.topMargin    : 0.0,
+ this.leftMargin   : 0.0,
+ this.rightMargin  : 0.0,
+ this.indent       : 0.0,
+ this.leading      : 0.0
+});
 </pre>
 </div>
 </div>
@@ -103,18 +113,6 @@ String align
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="blockIndent">
-<button class="show-code">Code</button>
-int         <strong>blockIndent</strong> <a class="anchor-link"
-            href="#blockIndent"
-            title="Permalink to TextFormat.blockIndent">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-int blockIndent = 0
-</pre>
-</div>
-</div>
 <div class="field"><h4 id="bold">
 <button class="show-code">Code</button>
 bool         <strong>bold</strong> <a class="anchor-link"
@@ -124,18 +122,6 @@ bool         <strong>bold</strong> <a class="anchor-link"
         <div class="doc">
 <pre class="source">
 bool bold
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="bullet">
-<button class="show-code">Code</button>
-bool         <strong>bullet</strong> <a class="anchor-link"
-            href="#bullet"
-            title="Permalink to TextFormat.bullet">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-bool bullet = false
 </pre>
 </div>
 </div>
@@ -165,13 +151,13 @@ String font
 </div>
 <div class="field"><h4 id="indent">
 <button class="show-code">Code</button>
-int         <strong>indent</strong> <a class="anchor-link"
+num         <strong>indent</strong> <a class="anchor-link"
             href="#indent"
             title="Permalink to TextFormat.indent">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-int indent
+num indent
 </pre>
 </div>
 </div>
@@ -187,75 +173,63 @@ bool italic
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="kerning">
-<button class="show-code">Code</button>
-bool         <strong>kerning</strong> <a class="anchor-link"
-            href="#kerning"
-            title="Permalink to TextFormat.kerning">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-bool kerning = false
-</pre>
-</div>
-</div>
 <div class="field"><h4 id="leading">
 <button class="show-code">Code</button>
-int         <strong>leading</strong> <a class="anchor-link"
+num         <strong>leading</strong> <a class="anchor-link"
             href="#leading"
             title="Permalink to TextFormat.leading">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-int leading
+num leading
 </pre>
 </div>
 </div>
 <div class="field"><h4 id="leftMargin">
 <button class="show-code">Code</button>
-int         <strong>leftMargin</strong> <a class="anchor-link"
+num         <strong>leftMargin</strong> <a class="anchor-link"
             href="#leftMargin"
             title="Permalink to TextFormat.leftMargin">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-int leftMargin
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="letterSpacing">
-<button class="show-code">Code</button>
-int         <strong>letterSpacing</strong> <a class="anchor-link"
-            href="#letterSpacing"
-            title="Permalink to TextFormat.letterSpacing">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-int letterSpacing = 0
+num leftMargin
 </pre>
 </div>
 </div>
 <div class="field"><h4 id="rightMargin">
 <button class="show-code">Code</button>
-int         <strong>rightMargin</strong> <a class="anchor-link"
+num         <strong>rightMargin</strong> <a class="anchor-link"
             href="#rightMargin"
             title="Permalink to TextFormat.rightMargin">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-int rightMargin
+num rightMargin
 </pre>
 </div>
 </div>
 <div class="field"><h4 id="size">
 <button class="show-code">Code</button>
-int         <strong>size</strong> <a class="anchor-link"
+num         <strong>size</strong> <a class="anchor-link"
             href="#size"
             title="Permalink to TextFormat.size">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-int size
+num size
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="topMargin">
+<button class="show-code">Code</button>
+num         <strong>topMargin</strong> <a class="anchor-link"
+            href="#topMargin"
+            title="Permalink to TextFormat.topMargin">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+num topMargin
 </pre>
 </div>
 </div>
@@ -272,11 +246,29 @@ bool underline
 </div>
 </div>
 </div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="clone">
+<button class="show-code">Code</button>
+<a href="../stagexl/TextFormat.html">TextFormat</a> <strong>clone</strong>() <a class="anchor-link" href="#clone"
+              title="Permalink to TextFormat.clone">#</a></h4>
+<div class="doc">
+<pre class="source">
+TextFormat clone() {
+ return new TextFormat(font, size, color,
+     bold: bold, italic: italic, underline: underline, align: align,
+     topMargin: topMargin, leftMargin: leftMargin, rightMargin: rightMargin,
+     indent: indent, leading: leading);
+}
+</pre>
+</div>
+</div>
+</div>
         </div>
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-04-19 21:10:18.554</div>
+          <div>This page was generated at 2013-05-22 20:23:24.914</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -34,105 +34,204 @@
 <div class="doc">
 <pre class="source">
 class TextField extends InteractiveObject {
- 
+
  String _text = "";
- int _textColor = 0x000000;
  TextFormat _defaultTextFormat = null;
 
  String _autoSize = TextFieldAutoSize.NONE;
- String _gridFitType = GridFitType.PIXEL;
  String _type = TextFieldType.DYNAMIC;
 
+ int _caretIndex = 0;
+ int _caretLine = 0;
+ num _caretTime = 0.0;
+ num _caretX = 0.0;
+ num _caretY = 0.0;
+ num _caretWidth = 0.0;
+ num _caretHeight = 0.0;
+
  bool _wordWrap = false;
-
+ bool _multiline = false;
+ bool _displayAsPassword = false;
  bool _background = false;
- int _backgroundColor = 0x000000;
  bool _border = false;
+ String _passwordChar = "•";
+ int _backgroundColor = 0x000000;
  int _borderColor = 0x000000;
+ int _maxChars = 0;
+ num _width = 100;
+ num _height = 100;
 
- num _textWidth = 0;
- num _textHeight = 0;
- List&lt;String&gt; _linesText;
- List&lt;TextLineMetrics&gt; _linesMetrics;
+ num _textWidth = 0.0;
+ num _textHeight = 0.0;
+ final List&lt;TextLineMetrics&gt; _textLineMetrics = new List&lt;TextLineMetrics&gt;();
 
- bool _canvasRefreshPending = true;
- num _canvasWidth = 100;
- num _canvasHeight = 100;
+ bool _refreshPending = true;
  CanvasElement _canvas = null;
  CanvasRenderingContext2D _context = null;
 
  //-------------------------------------------------------------------------------------------------
 
  TextField([String text, TextFormat textFormat]) {
-   
-   if (text != null) _text = text;
-   
-   if (textFormat != null) defaultTextFormat = textFormat;
-   else _defaultTextFormat = new TextFormat("Arial", 12, 0x000000);
 
-   _linesText = new List&lt;String&gt;();
-   _linesMetrics = new List&lt;TextLineMetrics&gt;();
+   this.text = (text != null) ? text : "";
+   this.defaultTextFormat = (textFormat != null) ? textFormat : new TextFormat("Arial", 12, 0x000000);
+
+   this.onKeyDown.listen(_onKeyDown);
+   this.onTextInput.listen(_onTextInput);
+   this.onMouseDown.listen(_onMouseDown);
  }
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
  String get text =&gt; _text;
- int get textColor =&gt; _textColor;
+ int get textColor =&gt; _defaultTextFormat.color;
  TextFormat get defaultTextFormat =&gt; _defaultTextFormat;
 
+ int get caretIndex =&gt; _caretIndex;
+
  String get autoSize =&gt; _autoSize;
- String get gridFitType =&gt; _gridFitType;
  String get type =&gt; _type;
+
  bool get wordWrap =&gt; _wordWrap;
-
+ bool get multiline =&gt; _multiline;
+ bool get displayAsPassword =&gt; _displayAsPassword;
  bool get background =&gt; _background;
- int get backgroundColor =&gt; _backgroundColor;
  bool get border =&gt; _border;
+
+ String get passwordChar =&gt; _passwordChar;
+ int get backgroundColor =&gt; _backgroundColor;
  int get borderColor =&gt; _borderColor;
- num get width =&gt; _canvasWidth;
- num get height =&gt; _canvasHeight;
+ int get maxChars =&gt; _maxChars;
+
+ num get width =&gt; _width;
+ num get height =&gt; _height;
 
  //-------------------------------------------------------------------------------------------------
 
- void set text(String value) { _text = value; _canvasRefreshPending = true; }
- void set textColor(int value) { _textColor = value; _canvasRefreshPending = true; }
- void set defaultTextFormat(TextFormat value) { _defaultTextFormat = value; _textColor = _defaultTextFormat.color; _canvasRefreshPending = true; }
+ void set text(String value) {
+   _text = value.replaceAll('\r\n', '\n').replaceAll('\r', '\n');
+   _caretIndex = _text.length;
+   _refreshPending = true;
+ }
 
- void set autoSize(String value) { _autoSize = value; _canvasRefreshPending = true; }
- void set gridFitType(String value) { _gridFitType = value; _canvasRefreshPending = true; }
- void set type(String value) { _type = value; _canvasRefreshPending = true; }
- void set wordWrap(bool value) { _wordWrap = value; _canvasRefreshPending = true; }
+ void set textColor(int value) {
+   _defaultTextFormat.color = value;
+   _refreshPending = true;
+ }
 
- void set background(bool value) { _background = value; _canvasRefreshPending = true; }
- void set backgroundColor(int value) { _backgroundColor = value; _canvasRefreshPending = true; }
- void set border(bool value) { _border = value; _canvasRefreshPending = true; }
- void set borderColor(int value) { _borderColor = value; _canvasRefreshPending = true; }
- void set width(num value) { _canvasWidth = value; _canvasRefreshPending = true; }
- void set height(num value) { _canvasHeight = value; _canvasRefreshPending = true; }
+ void set defaultTextFormat(TextFormat value) {
+   _defaultTextFormat = value.clone();
+   _refreshPending = true;
+ }
+
+ void set autoSize(String value) {
+   _autoSize = value;
+   _refreshPending = true;
+ }
+
+ void set type(String value) {
+   _type = value;
+   _refreshPending = true;
+ }
+
+ void set wordWrap(bool value) {
+   _wordWrap = value;
+   _refreshPending = true;
+ }
+
+ void set multiline(bool value) {
+   _multiline = value;
+   _refreshPending = true;
+ }
+
+ void set displayAsPassword(bool value) {
+   _displayAsPassword = value;
+   _refreshPending = true;
+ }
+
+ void set passwordChar(String value) {
+   _passwordChar = value[0];
+   _refreshPending = true;
+ }
+
+ void set background(bool value) {
+   _background = value;
+   _refreshPending = true;
+ }
+
+ void set backgroundColor(int value) {
+   _backgroundColor = value;
+   _refreshPending = true;
+ }
+
+ void set border(bool value) {
+   _border = value;
+   _refreshPending = true;
+ }
+
+ void set borderColor(int value) {
+   _borderColor = value;
+   _refreshPending = true;
+ }
+
+ void set maxChars(int value) {
+   _maxChars = value;
+   _refreshPending = true;
+ }
+
+ void set width(num value) {
+   _width = value.toDouble();
+   _refreshPending = true;
+ }
+
+ void set height(num value) {
+   _height = value.toDouble();
+   _refreshPending = true;
+ }
 
  //-------------------------------------------------------------------------------------------------
 
- num get textWidth { _canvasRefresh(); return _textWidth; }
- num get textHeight { _canvasRefresh(); return _textHeight; }
- int get numLines { _canvasRefresh(); return _linesText.length; }
+ num get textWidth {
+   _refresh();
+   return _textWidth;
+ }
 
- int getLineLength(int lineIndex) { _canvasRefresh(); return _linesText[lineIndex].length; }
- TextLineMetrics getLineMetrics(int lineIndex) { _canvasRefresh(); return _linesMetrics[lineIndex]; }
- String getLineText(int lineIndex) { _canvasRefresh(); return _linesText[lineIndex]; }
+ num get textHeight {
+   _refresh();
+   return _textHeight;
+ }
+
+ int get numLines {
+   _refresh();
+   return _textLineMetrics.length;
+ }
+
+ TextLineMetrics getLineMetrics(int lineIndex) {
+   _refresh();
+   return _textLineMetrics[lineIndex];
+ }
+
+ String getLineText(int lineIndex) {
+   return getLineMetrics(lineIndex)._text;
+ }
+
+ int getLineLength(int lineIndex) {
+   return getLineText(lineIndex).length;
+ }
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
  Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
-   return _getBoundsTransformedHelper(matrix, _canvasWidth, _canvasHeight, returnRectangle);
+   return _getBoundsTransformedHelper(matrix, _width, _height, returnRectangle);
  }
 
  //-------------------------------------------------------------------------------------------------
 
  DisplayObject hitTestInput(num localX, num localY) {
-   
-   if (localX &gt;= 0 &amp;&amp; localY &gt;= 0 &amp;&amp; localX &lt; _canvasWidth &amp;&amp; localY &lt; _canvasHeight)
+
+   if (localX &gt;= 0 &amp;&amp; localY &gt;= 0 &amp;&amp; localX &lt; _width &amp;&amp; localY &lt; _height)
      return this;
 
    return null;
@@ -141,170 +240,392 @@ class TextField extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  void render(RenderState renderState) {
-   
-   _canvasRefresh();
- 
-   if (Stage.canvasRatio != 1.0) {
-     // explicit hi-dpi scaling
-     num ratio = 1.0 / Stage.canvasRatio;
-     renderState._context.scale(ratio, ratio);
+
+   _refresh();
+   _caretTime += renderState.deltaTime;
+
+   var renderContext = renderState._context;
+   renderContext.drawImageScaled(_canvas, 0.0, 0.0, _width, _height);
+
+   if (_type == TextFieldType.INPUT) {
+     var stage = this.stage;
+     if (stage != null &amp;&amp; stage.focus == this &amp;&amp; _caretTime.remainder(0.8) &lt; 0.4) {
+       renderContext.fillStyle = _color2rgb(_defaultTextFormat.color);
+       renderContext.fillRect(_caretX, _caretY, _caretWidth, _caretHeight);
+     }
    }
-   renderState._context.drawImage(_canvas, 0.0, 0.0);
  }
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- void _processTextLines(String fontStyle) {
-   
-   var fontStyleMetrics = _getFontStyleMetrics(fontStyle);
-   
-   _linesText.clear();
-   _linesMetrics.clear();
+ _refreshTextLineMetrics(_FontStyleMetrics fontStyleMetrics) {
 
-   //---------------------------
+   _textLineMetrics.clear();
 
-   if (_wordWrap == false) {
-     
-     for(String paragraph in _text.replaceAll('\r', '').split('\n'))
-       _linesText.add(paragraph);
-     
-   } else {
-     
-     // Split text into paragraphs
-     
-     for(String paragraph in _text.replaceAll('\r', '').split('\n')) {
-       
-       var line = '';
+   //-----------------------------
+   // split lines
 
-       // Split paragraphs into words
-       
-       for(String word in paragraph.split(' ')) {
-         
-         var previousLine = line;
-         
-         line = (line.length == 0) ? word : line + ' ' + word;
- 
-         if (_context.measureText(line).width &gt; _canvasWidth) {
-           
-           if (previousLine.length == 0) {
-             _linesText.add(line);
-             line = '';
-           } else { 
-             _linesText.add(previousLine);
-             line = word;
+   var startIndex = 0;
+   var checkLine = '';
+   var validLine = '';
+   var lineWidth = 0;
+   var textFormatSize = _defaultTextFormat.size.toDouble();
+   var textFormatTopMargin = _defaultTextFormat.topMargin.toDouble();
+   var textFormatAlign = _defaultTextFormat.align.toString();
+   var fontStyleMetricsAscent = fontStyleMetrics.ascent.toDouble();
+   var fontStyleMetricsDescent = fontStyleMetrics.descent.toDouble();
+
+   for(var paragraph in _text.split('\n')) {
+
+     if (_wordWrap == false) {
+
+       _textLineMetrics.add(new TextLineMetrics._internal(paragraph, startIndex));
+       startIndex += paragraph.length + 1;
+
+     } else {
+
+       checkLine = null;
+
+       for(var word in paragraph.split(' ')) {
+
+         validLine = checkLine;
+         checkLine = (validLine == null) ? word : "$validLine $word";
+         checkLine = _passwordEncoder(checkLine);
+         lineWidth = _context.measureText(checkLine).width.toDouble();
+
+         if (lineWidth &gt;= _width) {
+           if (validLine == null) {
+             _textLineMetrics.add(new TextLineMetrics._internal(checkLine, startIndex));
+             startIndex += checkLine.length + 1;
+             checkLine = null;
+           } else {
+             _textLineMetrics.add(new TextLineMetrics._internal(validLine, startIndex));
+             startIndex += validLine.length + 1;
+             checkLine = _passwordEncoder(word);
            }
          }
        }
- 
-       if (line.isEmpty == false) {
-         _linesText.add(line);
+
+       if (checkLine != null) {
+         _textLineMetrics.add(new TextLineMetrics._internal(checkLine, startIndex));
+         startIndex += checkLine.length + 1;
        }
      }
    }
 
-   //---------------------------
+   //-----------------------------
+   // calculate metrics
 
-   _textWidth = 0;
-   _textHeight = 0;
+   _textWidth = 0.0;
+   _textHeight = 0.0;
 
-   for(String line in _linesText) {
-     
-     var metrics = _context.measureText(line);
-     var offsetX = 0.0;
+   var offsetX = 0.0;
+   var offsetY = textFormatTopMargin + textFormatSize;
 
-     if (_defaultTextFormat.align == TextFormatAlign.CENTER || _defaultTextFormat.align == TextFormatAlign.JUSTIFY)
-       offsetX = (_canvasWidth - metrics.width) / 2;
+   for(int line = 0; line &lt; _textLineMetrics.length; line++) {
+     var textLineMetrics = _textLineMetrics[line];
+     if (textLineMetrics is! TextLineMetrics) continue; // dart2js_hint
 
-     if (_defaultTextFormat.align == TextFormatAlign.RIGHT || _defaultTextFormat.align == TextFormatAlign.END)
-       offsetX = _canvasWidth - metrics.width;
+     var width = _context.measureText(textLineMetrics._text).width.toDouble();
 
-     var textLineMetrics = new TextLineMetrics(
-       offsetX, metrics.width, _defaultTextFormat.size, fontStyleMetrics.ascent, fontStyleMetrics.descent, 0);
+     switch(textFormatAlign) {
+       case TextFormatAlign.CENTER:
+       case TextFormatAlign.JUSTIFY:
+         offsetX = (_width - width) / 2;
+         break;
+       case TextFormatAlign.RIGHT:
+       case TextFormatAlign.END:
+         offsetX = (_width - width);
+         break;
+       default:
+         offsetX = 0;
+     }
 
-     _linesMetrics.add(textLineMetrics);
-     _textWidth = max(_textWidth, textLineMetrics.width);
-     _textHeight = _textHeight + textLineMetrics.height;
+     textLineMetrics._x = offsetX;
+     textLineMetrics._y = offsetY;
+     textLineMetrics._width = width;
+     textLineMetrics._height = textFormatSize;
+     textLineMetrics._ascent = fontStyleMetricsAscent;
+     textLineMetrics._descent = fontStyleMetricsDescent;
+     textLineMetrics._leading = 0.0;
+
+     offsetY = offsetY + textFormatSize;
+
+     _textWidth = max(_textWidth, width);
+     _textHeight = _textHeight + textFormatSize;
+   }
+
+   //-----------------------------
+   // calculate caret position
+
+   if (_type == TextFieldType.INPUT) {
+
+     for(int line = _textLineMetrics.length - 1; line &gt;= 0; line--) {
+       var textLineMetrics = _textLineMetrics[line];
+       if (textLineMetrics is! TextLineMetrics) continue; // dart2js_hint
+
+       if (_caretIndex &gt;= textLineMetrics._textIndex) {
+         var textIndex = _caretIndex - textLineMetrics._textIndex;
+         var text = textLineMetrics._text.substring(0, textIndex);
+         _caretLine = line;
+         _caretX = textLineMetrics._x + _context.measureText(text).width.toDouble();
+         _caretY = textLineMetrics._y - fontStyleMetricsAscent * 0.9;
+         _caretWidth = 1.0;
+         _caretHeight = textFormatSize;
+         break;
+       }
+     }
+
+     var shiftX = 0.0;
+     var shiftY = 0.0;
+
+     while (shiftX + _caretX &gt; _width) shiftX -= _width * 0.2;
+     while (shiftX + _caretX &lt; 0) shiftX += _width * 0.2;
+     while (shiftY + _caretY + _caretHeight &gt; _height) shiftY -= textFormatSize;
+     while (shiftY + _caretY &lt; 0) shiftY += textFormatSize;
+
+     _caretX += shiftX;
+     _caretY += shiftY;
+
+     for(int line = 0; line &lt; _textLineMetrics.length; line++) {
+       var textLineMetrics = _textLineMetrics[line];
+       if (textLineMetrics is! TextLineMetrics) continue; // dart2js_hint
+
+       textLineMetrics._x += shiftX;
+       textLineMetrics._y += shiftY;
+     }
    }
  }
 
  //-------------------------------------------------------------------------------------------------
 
- void _canvasRefresh() {
-   
-   if (_canvasRefreshPending) {
-     
-     _canvasRefreshPending = false;
+ String _passwordEncoder(String text) {
 
-     num ratio = Stage.canvasRatio;      
-     int canvasWidthInt = (_canvasWidth * ratio).ceil().toInt();
-     int canvasHeightInt =  (_canvasHeight * ratio).ceil().toInt();
+   if (text is! String) return text;
+   if (_displayAsPassword == false) return text;
+
+   var newText = "";
+   for(int i = 0; i &lt; text.length; i++) {
+     newText = "$newText$_passwordChar";
+   }
+   return newText;
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ _refresh({bool calculateOnly:false}) {
+
+   if (_refreshPending) {
+
+     _refreshPending = false;
+
+     var pixelRatio = (Stage.autoHiDpi ? _devicePixelRatio : 1.0) / _backingStorePixelRatio;
+     var canvasWidth = (_width * pixelRatio).ceil();
+     var canvasHeight =  (_height * pixelRatio).ceil();
 
      if (_canvas == null) {
-       _canvas = new CanvasElement(width: canvasWidthInt, height: canvasHeightInt);
+       _canvas = new CanvasElement(width: canvasWidth, height: canvasHeight);
        _context = _canvas.context2D;
-       _context.scale(ratio, ratio);
      }
 
-     if (_canvas.width != canvasWidthInt) _canvas.width = canvasWidthInt;
-     if (_canvas.height != canvasHeightInt) _canvas.height = canvasHeightInt;
+     if (_canvas.width != canvasWidth) _canvas.width = canvasWidth;
+     if (_canvas.height != canvasHeight) _canvas.height = canvasHeight;
 
-     //-----------------------------
+     //-------------------------------------
      // set canvas context
 
-     var fontStyleBuffer = new StringBuffer()
-       ..write(_defaultTextFormat.italic ? "italic " : "normal ")
-       ..write("normal ")
-       ..write(_defaultTextFormat.bold ? "bold " : "normal ")
-       ..write("${_defaultTextFormat.size}px ")
-       ..write("${_defaultTextFormat.font},sans-serif");
-     
-     var fontStyle = fontStyleBuffer.toString(); 
+     var fontStyle = "${_defaultTextFormat.size}px ${_defaultTextFormat.font},sans-serif";
+     if (_defaultTextFormat.bold) fontStyle = "bold $fontStyle";
+     if (_defaultTextFormat.italic) fontStyle = "italic $fontStyle";
 
      _context.font = fontStyle;
      _context.textAlign = "start";
      _context.textBaseline = "alphabetic";
-     _context.fillStyle = _color2rgb(_textColor);
 
-     //-----------------------------
-     // split text into lines
+     //-------------------------------------
+     // refresh TextLineMetrics
 
-     _processTextLines(fontStyle);
+     _context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
 
-     //-----------------------------
-     // draw background
+     _refreshTextLineMetrics(_getFontStyleMetrics(fontStyle));
+
+     if (calculateOnly) {
+       _refreshPending = true;
+       return;
+     }
+
+     //-------------------------------------
+     // draw background, text, border
+
+     _context.setTransform(pixelRatio, 0.0, 0.0, pixelRatio, 0.0, 0.0);
 
      if (_background) {
        _context.fillStyle = _color2rgb(_backgroundColor);
-       _context.fillRect(0, 0, _canvasWidth, _canvasHeight);
+       _context.fillRect(0, 0, _width, _height);
      } else {
-       _context.clearRect(0, 0, _canvasWidth, _canvasHeight);
+       _context.clearRect(0, 0, _width, _height);
      }
 
-     //-----------------------------
-     // draw text
+     _context.fillStyle = _color2rgb(_defaultTextFormat.color);
 
-     int offsetY = _defaultTextFormat.size;
-
-     for(int i = 0; i &lt; _linesText.length; i++) {
-       var metrics = _linesMetrics[i];
-       _context.fillStyle = _color2rgb(_textColor);
-       _context.fillText(_linesText[i], metrics.x, offsetY);
-
-       offsetY += metrics.height;
+     for(int i = 0; i &lt; _textLineMetrics.length; i++) {
+       var lm = _textLineMetrics[i];
+       _context.fillText(lm._text, lm._x, lm._y);
      }
-
-     //-----------------------------
-     // draw border
 
      if (_border) {
        _context.strokeStyle = _color2rgb(_borderColor);
        _context.lineWidth = 1;
-       _context.strokeRect(0, 0, _canvasWidth, _canvasHeight);
+       _context.strokeRect(0, 0, _width, _height);
      }
    }
  }
 
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ _onKeyDown(KeyboardEvent keyboardEvent) {
+
+   if (_type == TextFieldType.INPUT) {
+
+     _refresh(calculateOnly:true);
+
+     var text = _text;
+     var textLength = text.length;
+     var textLineMetrics = _textLineMetrics;
+     var caretIndex = _caretIndex;
+     var caretLine = _caretLine;
+     var caretIndexNew = -1;
+
+     switch(keyboardEvent.keyCode) {
+
+       case html.KeyCode.BACKSPACE:
+         if (caretIndex &gt; 0) {
+           _text = text.substring(0, caretIndex - 1) + text.substring(caretIndex);
+           caretIndexNew = caretIndex - 1;
+         }
+         break;
+
+       case html.KeyCode.END:
+         var tlm = textLineMetrics[caretLine];
+         caretIndexNew = tlm._textIndex + tlm._text.length;
+         break;
+
+       case html.KeyCode.HOME:
+         var tlm = textLineMetrics[caretLine];
+         caretIndexNew = tlm._textIndex;
+         break;
+
+       case html.KeyCode.LEFT:
+         if (caretIndex &gt; 0) {
+           caretIndexNew = caretIndex - 1;
+         }
+         break;
+
+       case html.KeyCode.UP:
+         if (caretLine &gt; 0 &amp;&amp; caretLine &lt; textLineMetrics.length) {
+           var tlmFrom = textLineMetrics[caretLine ];
+           var tlmTo = textLineMetrics[caretLine - 1];
+           var lineIndex = min(caretIndex - tlmFrom._textIndex, tlmTo._text.length);
+           caretIndexNew = tlmTo._textIndex + lineIndex;
+         } else {
+           caretIndexNew = 0;
+         }
+         break;
+
+       case html.KeyCode.RIGHT:
+         if (caretIndex &lt; textLength) {
+           caretIndexNew = caretIndex + 1;
+         }
+         break;
+
+       case html.KeyCode.DOWN:
+         if (caretLine &gt;= 0 &amp;&amp; caretLine &lt; textLineMetrics.length - 1) {
+           var tlmFrom = textLineMetrics[caretLine ];
+           var tlmTo = textLineMetrics[caretLine + 1];
+           var lineIndex = min(caretIndex - tlmFrom._textIndex, tlmTo._text.length);
+           caretIndexNew = tlmTo._textIndex + lineIndex;
+         } else {
+           caretIndexNew = textLength;
+         }
+         break;
+
+       case html.KeyCode.DELETE:
+         if (caretIndex &lt; textLength) {
+           _text = text.substring(0, caretIndex) + text.substring(caretIndex + 1);
+           caretIndexNew = caretIndex;
+         }
+         break;
+     }
+
+     if (caretIndexNew != -1) {
+       _caretIndex = caretIndexNew;
+       _caretTime = 0.0;
+       _refreshPending = true;
+     }
+   }
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ _onTextInput(TextEvent textEvent) {
+
+   if (_type == TextFieldType.INPUT) {
+
+     var textLength = _text.length;
+     var caretIndex = _caretIndex;
+     var newText = textEvent.text;
+
+     if (newText == '\r') newText = '\n';
+     if (newText == '\n' &amp;&amp; _multiline == false) newText = '';
+     if (newText == '') return;
+     if (_maxChars != 0 &amp;&amp; textLength &gt;= _maxChars) return;
+
+     _text = _text.substring(0, caretIndex) + newText + _text.substring(caretIndex);
+     _caretIndex = _caretIndex + newText.length;
+     _caretTime = 0.0;
+     _refreshPending = true;
+   }
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
+ _onMouseDown(MouseEvent mouseEvent) {
+   var mouseX = mouseEvent.localX.toDouble();
+   var mouseY = mouseEvent.localY.toDouble();
+
+   if (_context == null) return;
+   _context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
+
+   for(int line = 0; line &lt; _textLineMetrics.length; line++) {
+     var textLineMetrics = _textLineMetrics[line];
+     if (textLineMetrics is! TextLineMetrics) continue;  // dart2js_hint
+
+     var text = textLineMetrics._text;
+     var lineX = textLineMetrics._x;
+     var lineY1 = textLineMetrics._y - textLineMetrics._ascent;
+     var lineY2 = textLineMetrics._y + textLineMetrics._descent;
+
+     if (lineY1 &lt;= mouseY &amp;&amp; lineY2 &gt;= mouseY) {
+       var bestDistance = double.INFINITY;
+       var bestIndex = 0;
+
+       for(var c = 0; c &lt;= text.length; c++) {
+         var width = _context.measureText(text.substring(0, c)).width.toDouble();
+         var distance = (lineX + width - mouseX).abs();
+         if (distance &lt; bestDistance) {
+           bestDistance = distance;
+           bestIndex = c;
+         }
+       }
+
+       _caretIndex = textLineMetrics._textIndex + bestIndex;
+       _caretTime = 0.0;
+       _refreshPending = true;
+     }
+   }
+ }
 }
 </pre>
 </div>
@@ -320,14 +641,13 @@ new <strong>TextField</strong>([String text, <a href="../stagexl/TextFormat.html
 <div class="doc">
 <pre class="source">
 TextField([String text, TextFormat textFormat]) {
- 
- if (text != null) _text = text;
- 
- if (textFormat != null) defaultTextFormat = textFormat;
- else _defaultTextFormat = new TextFormat("Arial", 12, 0x000000);
 
- _linesText = new List&lt;String&gt;();
- _linesMetrics = new List&lt;TextLineMetrics&gt;();
+ this.text = (text != null) ? text : "";
+ this.defaultTextFormat = (textFormat != null) ? textFormat : new TextFormat("Arial", 12, 0x000000);
+
+ this.onKeyDown.listen(_onKeyDown);
+ this.onTextInput.listen(_onTextInput);
+ this.onMouseDown.listen(_onMouseDown);
 }
 </pre>
 </div>
@@ -361,7 +681,10 @@ String         <strong>autoSize</strong> <a class="anchor-link"
 String get autoSize =&gt; _autoSize;
 </pre>
 <pre class="source">
-void set autoSize(String value) { _autoSize = value; _canvasRefreshPending = true; }
+void set autoSize(String value) {
+ _autoSize = value;
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -376,7 +699,10 @@ bool         <strong>background</strong> <a class="anchor-link"
 bool get background =&gt; _background;
 </pre>
 <pre class="source">
-void set background(bool value) { _background = value; _canvasRefreshPending = true; }
+void set background(bool value) {
+ _background = value;
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -391,7 +717,10 @@ int         <strong>backgroundColor</strong> <a class="anchor-link"
 int get backgroundColor =&gt; _backgroundColor;
 </pre>
 <pre class="source">
-void set backgroundColor(int value) { _backgroundColor = value; _canvasRefreshPending = true; }
+void set backgroundColor(int value) {
+ _backgroundColor = value;
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -406,7 +735,10 @@ bool         <strong>border</strong> <a class="anchor-link"
 bool get border =&gt; _border;
 </pre>
 <pre class="source">
-void set border(bool value) { _border = value; _canvasRefreshPending = true; }
+void set border(bool value) {
+ _border = value;
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -421,7 +753,10 @@ int         <strong>borderColor</strong> <a class="anchor-link"
 int get borderColor =&gt; _borderColor;
 </pre>
 <pre class="source">
-void set borderColor(int value) { _borderColor = value; _canvasRefreshPending = true; }
+void set borderColor(int value) {
+ _borderColor = value;
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -434,6 +769,18 @@ final bool         <strong>cached</strong> <a class="anchor-link"
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 bool get cached =&gt; _cache != null;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="caretIndex">
+<button class="show-code">Code</button>
+final int         <strong>caretIndex</strong> <a class="anchor-link"
+            href="#caretIndex"
+            title="Permalink to TextField.caretIndex">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get caretIndex =&gt; _caretIndex;
 </pre>
 </div>
 </div>
@@ -463,7 +810,28 @@ set compositeOperation(String value) { _compositeOperation = value; }
 TextFormat get defaultTextFormat =&gt; _defaultTextFormat;
 </pre>
 <pre class="source">
-void set defaultTextFormat(TextFormat value) { _defaultTextFormat = value; _textColor = _defaultTextFormat.color; _canvasRefreshPending = true; }
+void set defaultTextFormat(TextFormat value) {
+ _defaultTextFormat = value.clone();
+ _refreshPending = true;
+}
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="displayAsPassword">
+<button class="show-code">Code</button>
+bool         <strong>displayAsPassword</strong> <a class="anchor-link"
+            href="#displayAsPassword"
+            title="Permalink to TextField.displayAsPassword">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get displayAsPassword =&gt; _displayAsPassword;
+</pre>
+<pre class="source">
+void set displayAsPassword(bool value) {
+ _displayAsPassword = value;
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -487,27 +855,12 @@ List&lt;<a href="../stagexl/BitmapFilter.html">BitmapFilter</a>&gt;         <str
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-List&lt;BitmapFilter&gt; get filters =&gt; (_filters != null) 
-   ? _filters 
+List&lt;BitmapFilter&gt; get filters =&gt; (_filters != null)
+   ? _filters
    : _filters = new List&lt;BitmapFilter&gt;();
 </pre>
 <pre class="source">
 set filters(List&lt;BitmapFilter&gt; value) { _filters = value; }
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="gridFitType">
-<button class="show-code">Code</button>
-String         <strong>gridFitType</strong> <a class="anchor-link"
-            href="#gridFitType"
-            title="Permalink to TextField.gridFitType">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-String get gridFitType =&gt; _gridFitType;
-</pre>
-<pre class="source">
-void set gridFitType(String value) { _gridFitType = value; _canvasRefreshPending = true; }
 </pre>
 </div>
 </div>
@@ -519,10 +872,13 @@ num         <strong>height</strong> <a class="anchor-link"
         </h4>
         <div class="doc">
 <pre class="source">
-num get height =&gt; _canvasHeight;
+num get height =&gt; _height;
 </pre>
 <pre class="source">
-void set height(num value) { _canvasHeight = value; _canvasRefreshPending = true; }
+void set height(num value) {
+ _height = value.toDouble();
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -538,6 +894,24 @@ Mask get mask =&gt; _mask;
 </pre>
 <pre class="source">
 set mask(Mask value) { _mask = value; }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="maxChars">
+<button class="show-code">Code</button>
+int         <strong>maxChars</strong> <a class="anchor-link"
+            href="#maxChars"
+            title="Permalink to TextField.maxChars">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get maxChars =&gt; _maxChars;
+</pre>
+<pre class="source">
+void set maxChars(int value) {
+ _maxChars = value;
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -598,6 +972,24 @@ num get mouseY {
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="multiline">
+<button class="show-code">Code</button>
+bool         <strong>multiline</strong> <a class="anchor-link"
+            href="#multiline"
+            title="Permalink to TextField.multiline">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get multiline =&gt; _multiline;
+</pre>
+<pre class="source">
+void set multiline(bool value) {
+ _multiline = value;
+ _refreshPending = true;
+}
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="name">
 <button class="show-code">Code</button>
 String         <strong>name</strong> <a class="anchor-link"
@@ -621,7 +1013,10 @@ final int         <strong>numLines</strong> <a class="anchor-link"
         </h4>
         <div class="doc">
 <pre class="source">
-int get numLines { _canvasRefresh(); return _linesText.length; }
+int get numLines {
+ _refresh();
+ return _textLineMetrics.length;
+}
 </pre>
 </div>
 </div>
@@ -673,6 +1068,18 @@ final Stream&lt;<a href="../stagexl/EnterFrameEvent.html">EnterFrameEvent</a>&gt
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Stream&lt;EnterFrameEvent&gt; get onEnterFrame =&gt; DisplayObject.enterFrameEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onExitFrame">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/ExitFrameEvent.html">ExitFrameEvent</a>&gt;         <strong>onExitFrame</strong> <a class="anchor-link"
+            href="#onExitFrame"
+            title="Permalink to TextField.onExitFrame">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;ExitFrameEvent&gt; get onExitFrame =&gt; DisplayObject.exitFrameEvent.forTarget(this);
 </pre>
 </div>
 </div>
@@ -892,6 +1299,18 @@ Stream&lt;Event&gt; get onRemovedFromStage =&gt; DisplayObject.removedFromStageE
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="onRender">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/RenderEvent.html">RenderEvent</a>&gt;         <strong>onRender</strong> <a class="anchor-link"
+            href="#onRender"
+            title="Permalink to TextField.onRender">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;RenderEvent&gt; get onRender =&gt; DisplayObject.renderEvent.forTarget(this);
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="onTextInput">
 <button class="show-code">Code</button>
 final Stream&lt;<a href="../stagexl/TextEvent.html">TextEvent</a>&gt;         <strong>onTextInput</strong> <a class="anchor-link"
@@ -988,6 +1407,24 @@ DisplayObjectContainer get parent =&gt; _parent;
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="passwordChar">
+<button class="show-code">Code</button>
+String         <strong>passwordChar</strong> <a class="anchor-link"
+            href="#passwordChar"
+            title="Permalink to TextField.passwordChar">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String get passwordChar =&gt; _passwordChar;
+</pre>
+<pre class="source">
+void set passwordChar(String value) {
+ _passwordChar = value[0];
+ _refreshPending = true;
+}
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="pivotX">
 <button class="show-code">Code</button>
 num         <strong>pivotX</strong> <a class="anchor-link"
@@ -1027,7 +1464,7 @@ final <a href="../stagexl/DisplayObject.html">DisplayObject</a>         <strong>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 DisplayObject get root {
- 
+
  DisplayObject currentObject = this;
 
  while (currentObject._parent != null)
@@ -1137,7 +1574,7 @@ final <a href="../stagexl/Stage.html">Stage</a>         <strong>stage</strong> <
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Stage get stage {
- 
+
  DisplayObject root = this.root;
 
  if (root is Stage)
@@ -1183,7 +1620,11 @@ String         <strong>text</strong> <a class="anchor-link"
 String get text =&gt; _text;
 </pre>
 <pre class="source">
-void set text(String value) { _text = value; _canvasRefreshPending = true; }
+void set text(String value) {
+ _text = value.replaceAll('\r\n', '\n').replaceAll('\r', '\n');
+ _caretIndex = _text.length;
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -1195,10 +1636,13 @@ int         <strong>textColor</strong> <a class="anchor-link"
         </h4>
         <div class="doc">
 <pre class="source">
-int get textColor =&gt; _textColor;
+int get textColor =&gt; _defaultTextFormat.color;
 </pre>
 <pre class="source">
-void set textColor(int value) { _textColor = value; _canvasRefreshPending = true; }
+void set textColor(int value) {
+ _defaultTextFormat.color = value;
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -1210,7 +1654,10 @@ final num         <strong>textHeight</strong> <a class="anchor-link"
         </h4>
         <div class="doc">
 <pre class="source">
-num get textHeight { _canvasRefresh(); return _textHeight; }
+num get textHeight {
+ _refresh();
+ return _textHeight;
+}
 </pre>
 </div>
 </div>
@@ -1222,7 +1669,10 @@ final num         <strong>textWidth</strong> <a class="anchor-link"
         </h4>
         <div class="doc">
 <pre class="source">
-num get textWidth { _canvasRefresh(); return _textWidth; }
+num get textWidth {
+ _refresh();
+ return _textWidth;
+}
 </pre>
 </div>
 </div>
@@ -1251,7 +1701,10 @@ String         <strong>type</strong> <a class="anchor-link"
 String get type =&gt; _type;
 </pre>
 <pre class="source">
-void set type(String value) { _type = value; _canvasRefreshPending = true; }
+void set type(String value) {
+ _type = value;
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -1278,10 +1731,13 @@ num         <strong>width</strong> <a class="anchor-link"
         </h4>
         <div class="doc">
 <pre class="source">
-num get width =&gt; _canvasWidth;
+num get width =&gt; _width;
 </pre>
 <pre class="source">
-void set width(num value) { _canvasWidth = value; _canvasRefreshPending = true; }
+void set width(num value) {
+ _width = value.toDouble();
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -1296,7 +1752,10 @@ bool         <strong>wordWrap</strong> <a class="anchor-link"
 bool get wordWrap =&gt; _wordWrap;
 </pre>
 <pre class="source">
-void set wordWrap(bool value) { _wordWrap = value; _canvasRefreshPending = true; }
+void set wordWrap(bool value) {
+ _wordWrap = value;
+ _refreshPending = true;
+}
 </pre>
 </div>
 </div>
@@ -1364,22 +1823,11 @@ void <strong>applyCache</strong>(int x, int y, int width, int height, {bool debu
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
- 
- if (Stage.canvasRatio != 1.0) {
-   // explicit hi-dpi scaling
-   num ratio = Stage.canvasRatio;
-   _cache = new BitmapData((width*ratio).ceil(), (height*ratio).ceil(), true, 0x00000000);
-   _cache._destinationWidth = width;
-   _cache._destinationHeight = height;
-   _cache._renderMode = 3;
- }
- else {
-   _cache = new BitmapData(width, height, true, 0x00000000);
- }
- _cache._destinationX = x;
- _cache._destinationY = y;
- 
- _cacheRectangle = new Rectangle(x,y, width, height);
+
+ var pixelRatio = Stage.autoHiDpi ? _devicePixelRatio : 1.0;
+
+ _cache = new BitmapData(width, height, true, Color.Transparent, pixelRatio);
+ _cacheRectangle = new Rectangle(x, y, width, height);
  _cacheDebugBorder = debugBorder;
  refreshCache();
 }
@@ -1393,7 +1841,7 @@ void <strong>dispatchEvent</strong>(<a href="../stagexl/Event.html">Event</a> ev
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void dispatchEvent(Event event) {
- 
+
  List&lt;DisplayObject&gt; ancestors = null;
 
  if (event.captures || event.bubbles) {
@@ -1404,24 +1852,24 @@ void dispatchEvent(Event event) {
      }
    }
  }
- 
+
  if (event.captures &amp;&amp; ancestors != null) {
    for(int i = ancestors.length - 1 ; i &gt;= 0 &amp;&amp; event.stopsPropagation == false; i--) {
      ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
    }
  }
- 
+
  if (event.stopsPropagation == false) {
    _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
  }
- 
+
  if (event.bubbles &amp;&amp; ancestors != null) {
    for(int i = 0; i &lt; ancestors.length &amp;&amp; event.stopsPropagation == false; i++) {
      ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
    }
  }
- 
- if (ancestors != null) { 
+
+ if (ancestors != null) {
    ancestors.clear();
    _displayObjectListPool.push(ancestors);
  }
@@ -1436,7 +1884,7 @@ void dispatchEvent(Event event) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Rectangle getBounds(DisplayObject targetSpace) {
- 
+
  Rectangle returnRectangle = new Rectangle.zero();
  Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
 
@@ -1452,7 +1900,7 @@ Rectangle getBounds(DisplayObject targetSpace) {
 <div class="doc">
 <pre class="source">
 Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
- return _getBoundsTransformedHelper(matrix, _canvasWidth, _canvasHeight, returnRectangle);
+ return _getBoundsTransformedHelper(matrix, _width, _height, returnRectangle);
 }
 </pre>
 </div>
@@ -1463,7 +1911,9 @@ int <strong>getLineLength</strong>(int lineIndex) <a class="anchor-link" href="#
               title="Permalink to TextField.getLineLength">#</a></h4>
 <div class="doc">
 <pre class="source">
-int getLineLength(int lineIndex) { _canvasRefresh(); return _linesText[lineIndex].length; }
+int getLineLength(int lineIndex) {
+ return getLineText(lineIndex).length;
+}
 </pre>
 </div>
 </div>
@@ -1473,7 +1923,10 @@ int getLineLength(int lineIndex) { _canvasRefresh(); return _linesText[lineIndex
               title="Permalink to TextField.getLineMetrics">#</a></h4>
 <div class="doc">
 <pre class="source">
-TextLineMetrics getLineMetrics(int lineIndex) { _canvasRefresh(); return _linesMetrics[lineIndex]; }
+TextLineMetrics getLineMetrics(int lineIndex) {
+ _refresh();
+ return _textLineMetrics[lineIndex];
+}
 </pre>
 </div>
 </div>
@@ -1483,7 +1936,9 @@ String <strong>getLineText</strong>(int lineIndex) <a class="anchor-link" href="
               title="Permalink to TextField.getLineText">#</a></h4>
 <div class="doc">
 <pre class="source">
-String getLineText(int lineIndex) { _canvasRefresh(); return _linesText[lineIndex]; }
+String getLineText(int lineIndex) {
+ return getLineMetrics(lineIndex)._text;
+}
 </pre>
 </div>
 </div>
@@ -1494,7 +1949,7 @@ String getLineText(int lineIndex) { _canvasRefresh(); return _linesText[lineInde
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Point globalToLocal(Point globalPoint) {
- 
+
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1526,8 +1981,8 @@ bool hasEventListener(String eventType) {
 <div class="doc">
 <pre class="source">
 DisplayObject hitTestInput(num localX, num localY) {
- 
- if (localX &gt;= 0 &amp;&amp; localY &gt;= 0 &amp;&amp; localX &lt; _canvasWidth &amp;&amp; localY &lt; _canvasHeight)
+
+ if (localX &gt;= 0 &amp;&amp; localY &gt;= 0 &amp;&amp; localX &lt; _width &amp;&amp; localY &lt; _height)
    return this;
 
  return null;
@@ -1542,12 +1997,12 @@ bool <strong>hitTestObject</strong>(<a href="../stagexl/DisplayObject.html">Disp
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 bool hitTestObject(DisplayObject other) {
- 
+
  var stage1 = this.stage;
  var stage2 = other.stage;
- 
+
  if (stage1 == null || stage2 == null || stage1 != stage2) return false;
- 
+
  var rect1 = this.getBounds(stage1);
  var rect2 = other.getBounds(stage2);
 
@@ -1570,14 +2025,14 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
  if (shapeFlag) {
    var matrix = stage.transformationMatrixTo(this);
    if (matrix == null) return false;
-   
+
    var stagePoint = new Point(x, y);
    var localPoint = matrix.transformPoint(stagePoint);
 
    return this.hitTestInput(localPoint.x, localPoint.y) != null;
 
  } else {
-   
+
    var rect = this.getBounds(stage);
    return rect.contains(x, y);
  }
@@ -1592,7 +2047,7 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Point localToGlobal(Point localPoint) {
- 
+
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1622,28 +2077,31 @@ void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void refreshCache() {
- 
+
  if (_cache == null) return;
- 
+
  var x = _cacheRectangle.x;
  var y = _cacheRectangle.y;
  var width = _cacheRectangle.width;
  var height = _cacheRectangle.height;
- num ratio = Stage.canvasRatio;
- 
+
  _cache.clear();
- _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y)..scale(ratio, ratio));
- 
- for(int i = 0; _filters != null &amp;&amp; i &lt; _filters.length; i++) {
-   _filters[i].apply(_cache, new Rectangle(0, 0, width, height), _cache, new Point.zero()); 
+ _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+
+ if (_filters != null) {
+   for(int i = 0; i &lt; _filters.length; i++) {
+     var sourceRectangle = new Rectangle(0, 0, width, height);
+     var destinationPoint = new Point.zero();
+     _filters[i].apply(_cache, sourceRectangle, _cache, destinationPoint);
+   }
  }
- 
+
  if (_cacheDebugBorder) {
    _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
- }      
+ }
 }
 </pre>
 </div>
@@ -1692,15 +2150,20 @@ void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</
 <div class="doc">
 <pre class="source">
 void render(RenderState renderState) {
- 
- _canvasRefresh();
 
- if (Stage.canvasRatio != 1.0) {
-   // explicit hi-dpi scaling
-   num ratio = 1.0 / Stage.canvasRatio;
-   renderState._context.scale(ratio, ratio);
+ _refresh();
+ _caretTime += renderState.deltaTime;
+
+ var renderContext = renderState._context;
+ renderContext.drawImageScaled(_canvas, 0.0, 0.0, _width, _height);
+
+ if (_type == TextFieldType.INPUT) {
+   var stage = this.stage;
+   if (stage != null &amp;&amp; stage.focus == this &amp;&amp; _caretTime.remainder(0.8) &lt; 0.4) {
+     renderContext.fillStyle = _color2rgb(_defaultTextFormat.color);
+     renderContext.fillRect(_caretX, _caretY, _caretWidth, _caretHeight);
+   }
  }
- renderState._context.drawImage(_canvas, 0.0, 0.0);
 }
 </pre>
 </div>
@@ -1721,14 +2184,14 @@ void setTransform(num x, num y, [num scaleX, num scaleY, num rotation, num skewX
    if (scaleY != null) {
      _scaleY = scaleY.toDouble();
      if (rotation != null) {
-       _rotation = rotation.toDouble(); 
+       _rotation = rotation.toDouble();
        if (skewX != null) {
          _skewX = skewX.toDouble();
          if (skewY != null) {
            _skewY = skewY.toDouble();
            if (pivotX != null) {
              _pivotX = pivotX.toDouble();
-             if (pivotY != null) 
+             if (pivotY != null)
                _pivotY = pivotY.toDouble();
            }
          }
@@ -1747,7 +2210,7 @@ void setTransform(num x, num y, [num scaleX, num scaleY, num rotation, num skewX
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Matrix transformationMatrixTo(DisplayObject targetSpace) {
- 
+
  if (targetSpace == _parent)
    return _transformationMatrix.clone();
 
@@ -1802,7 +2265,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-04-19 21:10:18.594</div>
+          <div>This page was generated at 2013-05-22 20:23:24.972</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

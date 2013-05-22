@@ -1,0 +1,195 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>AlphaMaskFilter class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="AlphaMaskFilter">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/AlphaMaskFilter.html">AlphaMaskFilter</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>AlphaMaskFilter</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class AlphaMaskFilter extends BitmapFilter {
+ 
+ final BitmapData _alphaBitmapData;
+ final Matrix _matrix;
+ 
+ AlphaMaskFilter(BitmapData alphaBitmapData, [Matrix matrix]) :
+   _alphaBitmapData = alphaBitmapData,
+   _matrix = (matrix != null) ? matrix : new Matrix.fromIdentity();
+ 
+ Matrix get matrix =&gt; _matrix;
+ 
+ BitmapFilter clone() {
+   return new AlphaMaskFilter(_alphaBitmapData, _matrix.clone());
+ }
+ 
+ //-----------------------------------------------------------------------------------------------
+
+ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint) {
+   
+   var destinationRect = new Rectangle(destinationPoint.x, destinationPoint.y, sourceRect.width, sourceRect.height);
+   var destinationBounds = new Rectangle(0, 0, destinationBitmapData.width, destinationBitmapData.height);
+   
+   var alphaRoot = new Sprite();
+   var alphaWarp = new Warp();
+   var alphaBitmap = new Bitmap(_alphaBitmapData);
+   
+   alphaRoot.x = destinationPoint.x;
+   alphaRoot.y = destinationPoint.y;
+   alphaRoot.addChild(alphaWarp);
+   
+   alphaWarp.matrix = _matrix;
+   alphaWarp.compositeOperation = CompositeOperation.DESTINATION_IN;
+   alphaWarp.addChild(alphaBitmap);
+   
+   if (!destinationRect.containsRect(destinationBounds)) {
+     alphaWarp.mask = new Mask.rectangle(0, 0, sourceRect.width, sourceRect.height);
+     alphaWarp.mask.targetSpace = alphaRoot;
+   }
+   
+   if (!identical(sourceBitmapData, destinationBitmapData) || !sourceRect.topLeft.equals(destinationPoint)) {
+     destinationBitmapData.copyPixels(sourceBitmapData, sourceRect, destinationPoint);
+   }
+   
+   destinationBitmapData.draw(alphaRoot, alphaRoot.transformationMatrix);
+ }
+ 
+ //-----------------------------------------------------------------------------------------------
+ 
+ Rectangle getBounds() {
+   return new Rectangle.zero();
+ }
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/BitmapFilter.html">BitmapFilter</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>AlphaMaskFilter</strong></span></p>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="AlphaMaskFilter">
+<button class="show-code">Code</button>
+new <strong>AlphaMaskFilter</strong>(<a href="../stagexl/BitmapData.html">BitmapData</a> alphaBitmapData, [<a href="../stagexl/Matrix.html">Matrix</a> matrix]) <a class="anchor-link" href="#AlphaMaskFilter"
+              title="Permalink to AlphaMaskFilter.AlphaMaskFilter">#</a></h4>
+<div class="doc">
+<pre class="source">
+AlphaMaskFilter(BitmapData alphaBitmapData, [Matrix matrix]) :
+ _alphaBitmapData = alphaBitmapData,
+ _matrix = (matrix != null) ? matrix : new Matrix.fromIdentity();
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="matrix">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Matrix.html">Matrix</a>         <strong>matrix</strong> <a class="anchor-link"
+            href="#matrix"
+            title="Permalink to AlphaMaskFilter.matrix">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Matrix get matrix =&gt; _matrix;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="apply">
+<button class="show-code">Code</button>
+void <strong>apply</strong>(<a href="../stagexl/BitmapData.html">BitmapData</a> sourceBitmapData, <a href="../stagexl/Rectangle.html">Rectangle</a> sourceRect, <a href="../stagexl/BitmapData.html">BitmapData</a> destinationBitmapData, <a href="../stagexl/Point.html">Point</a> destinationPoint) <a class="anchor-link" href="#apply"
+              title="Permalink to AlphaMaskFilter.apply">#</a></h4>
+<div class="doc">
+<pre class="source">
+void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint) {
+ 
+ var destinationRect = new Rectangle(destinationPoint.x, destinationPoint.y, sourceRect.width, sourceRect.height);
+ var destinationBounds = new Rectangle(0, 0, destinationBitmapData.width, destinationBitmapData.height);
+ 
+ var alphaRoot = new Sprite();
+ var alphaWarp = new Warp();
+ var alphaBitmap = new Bitmap(_alphaBitmapData);
+ 
+ alphaRoot.x = destinationPoint.x;
+ alphaRoot.y = destinationPoint.y;
+ alphaRoot.addChild(alphaWarp);
+ 
+ alphaWarp.matrix = _matrix;
+ alphaWarp.compositeOperation = CompositeOperation.DESTINATION_IN;
+ alphaWarp.addChild(alphaBitmap);
+ 
+ if (!destinationRect.containsRect(destinationBounds)) {
+   alphaWarp.mask = new Mask.rectangle(0, 0, sourceRect.width, sourceRect.height);
+   alphaWarp.mask.targetSpace = alphaRoot;
+ }
+ 
+ if (!identical(sourceBitmapData, destinationBitmapData) || !sourceRect.topLeft.equals(destinationPoint)) {
+   destinationBitmapData.copyPixels(sourceBitmapData, sourceRect, destinationPoint);
+ }
+ 
+ destinationBitmapData.draw(alphaRoot, alphaRoot.transformationMatrix);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="clone">
+<button class="show-code">Code</button>
+<a href="../stagexl/BitmapFilter.html">BitmapFilter</a> <strong>clone</strong>() <a class="anchor-link" href="#clone"
+              title="Permalink to AlphaMaskFilter.clone">#</a></h4>
+<div class="doc">
+<pre class="source">
+BitmapFilter clone() {
+ return new AlphaMaskFilter(_alphaBitmapData, _matrix.clone());
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="getBounds">
+<button class="show-code">Code</button>
+<a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBounds</strong>() <a class="anchor-link" href="#getBounds"
+              title="Permalink to AlphaMaskFilter.getBounds">#</a></h4>
+<div class="doc">
+<pre class="source">
+Rectangle getBounds() {
+ return new Rectangle.zero();
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-05-22 20:23:25.399</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

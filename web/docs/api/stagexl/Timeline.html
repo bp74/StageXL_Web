@@ -1,0 +1,633 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>Timeline class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="Timeline">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/Timeline.html">Timeline</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>Timeline</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class Timeline
+{
+ /**
+ * Causes this timeline to continue playing when a global pause is active.
+ **/
+ bool ignoreGlobalPause = false;
+ 
+ /**
+  * Read-only property specifying the total duration of this timeline in ticks.
+  * This value is usually automatically updated as you modify the timeline. See updateDuration for more information.
+  **/
+ num duration = 1;
+ 
+ /**
+  * If true, the timeline will loop when it reaches the end. Can be set via the props param.
+
+  **/
+ bool loop = false;
+ 
+ /**
+  * Called, with a single parameter referencing this timeline instance, whenever the timeline's position changes.
+  **/
+ ChangeHandler onChange = null;
+ 
+ /**
+  * Read-only. The current normalized position of the timeline. This will always be a value between 0 and duration.
+  * Changing this property directly will have no effect.
+  **/
+ num position = null;
+
+// private properties:
+ 
+ bool _paused = false;
+ final List&lt;TimelineTween&gt; _tweens = new List&lt;TimelineTween&gt;();
+ Map&lt;String, num&gt; _labels;
+ num _prevPosition = 0;
+ num _prevPos = -1;
+ 
+ /**
+  * The Timeline class synchronizes multiple tweens and allows them to be controlled as a group. Please note that if a
+  * timeline is looping, the tweens on it may appear to loop even if the "loop" property of the tween is false.
+  * @class Timeline
+  * @param tweens An array of Tweens to add to this timeline. See addTween for more info.
+  * @param labels An object defining labels for using gotoAndPlay/Stop. See {{#crossLink "Timeline/setLabels"}}{{/crossLink}}
+  * for details.
+  * @param props The configuration properties to apply to this tween instance (ex. {loop:true}). All properties default to
+  * false. Supported props are:&lt;UL&gt;
+  *    &lt;LI&gt; loop: sets the loop property on this tween.&lt;/LI&gt;
+  *    &lt;LI&gt; ignoreGlobalPause: sets the ignoreGlobalPause property on this tween.&lt;/LI&gt;
+  *    &lt;LI&gt; paused: indicates whether to start the tween paused.&lt;/LI&gt;
+  *    &lt;LI&gt; position: indicates the initial position for this timeline.&lt;/LI&gt;
+  *    &lt;LI&gt; onChanged: specifies an onChange handler for this timeline.&lt;/LI&gt;
+  * &lt;/UL&gt;
+  * @constructor
+  **/
+ Timeline(List&lt;TimelineTween&gt; tweens, Map&lt;String, num&gt; labels, Map&lt;String, dynamic&gt; props)
+ {
+   if (props != null) {
+     loop = props.containsKey("loop") ? props["loop"] : false;
+     ignoreGlobalPause = props.containsKey("ignoreGlobalPause") ? props["ignoreGlobalPause"] : false;
+     onChange = props.containsKey("onChange") ? props["onChange"] : null;
+   }
+   if (tweens != null) {
+     for(var i=0; i&lt;tweens.length; i++)
+       addTween(tweens[i]);
+   }
+   setLabels(labels);
+   if (props != null &amp;&amp; props.containsKey("paused") &amp;&amp; props["paused"] == true) { _paused = true; }
+   //else { TimelineTween._register(this, true); }
+   
+   if (props != null &amp;&amp; props.containsKey("position")) { 
+     setPosition(props["position"], TimelineTween.NONE); }
+ }
+ 
+ /** 
+  * Adds one or more tweens (or timelines) to this timeline. The tweens will be paused (to remove them from the normal ticking system)
+  * and managed by this timeline. Adding a tween to multiple timelines will result in unexpected behaviour.
+  * @param tween The tween(s) to add. Accepts multiple arguments.
+  * @return TimelineTween The first tween that was passed in.
+  **/
+ TimelineTween addTween(TimelineTween tween) {
+   if (tween == null) return null;
+   removeTween(tween);
+   _tweens.add(tween);
+   tween.setPaused(true);
+   tween._paused = false;
+   if (tween.duration &gt; duration) { duration = tween.duration; }
+   if (_prevPos &gt;= 0) { tween.setPosition(_prevPos, TimelineTween.NONE); }
+   return tween;
+ }
+
+ /** 
+  * Removes one or more tweens from this timeline.
+  * @param tween The tween(s) to remove. Accepts multiple arguments.
+  * @return Boolean Returns true if all of the tweens were successfully removed.
+  **/
+ bool removeTween(TimelineTween tween) {
+   if (tween == null) return false;
+   assert(tween is TimelineTween);
+   var index = _tweens.indexOf(tween);
+   if (index != -1) {
+     _tweens.removeAt(index);
+     if (tween.duration &gt;= duration) { updateDuration(); }
+     return true;
+   } 
+   return false;
+ }
+ 
+ /** 
+  * Adds a label that can be used with gotoAndPlay/Stop.
+  * @param label The label name.
+  * @param position The position this label represents.
+  **/
+ void addLabel(String label, num position) {
+   _labels[label] = position;
+ }
+
+ /** 
+  * Defines labels for use with gotoAndPlay/Stop. Overwrites any previously set labels.
+  * @param o An object defining labels for using gotoAndPlay/Stop in the form {labelName:time} where time is in ticks.
+  **/
+ void setLabels(Map&lt;String, int&gt; o) {
+   _labels = o != null ? o : new Map&lt;String, int&gt;();
+ }
+ 
+ /** 
+  * Unpauses this timeline and jumps to the specified position or label.
+  * @method gotoAndPlay
+  * @param positionOrLabel The position in ticks or label to jump to.
+  **/
+ void gotoAndPlay(dynamic positionOrLabel) {
+   setPaused(false);
+   _goto(positionOrLabel);
+ }
+ 
+ /** 
+  * Pauses this timeline and jumps to the specified position or label.
+  * @method gotoAndStop
+  * @param positionOrLabel The position in ticks or label to jump to.
+  **/
+ void gotoAndStop(dynamic positionOrLabel) {
+   setPaused(true);
+   _goto(positionOrLabel);
+ }
+ 
+ /** 
+  * Advances the timeline to the specified position.
+  * @param value The position to seek to in ticks.
+  * @param actionsMode Optional parameter specifying how actions are handled. See TimelineTween.setPosition for more details.
+  * @return Boolean Returns true if the timeline is complete (ie. the full timeline has run &amp; loop is false).
+  **/
+ bool setPosition(num value, [int actionsMode]) {
+   if (value.isNaN || value &lt; 0) { value = 0; }
+   num t = loop ? value%duration : value;
+   bool end = !loop &amp;&amp; value &gt;= duration;
+   if (t == _prevPos) return end;
+   _prevPosition = value;
+   position = _prevPos = t; // in case an action changes the current frame.
+   for(var i=0; i&lt;_tweens.length; i++) {
+     _tweens[i].setPosition(t, actionsMode);
+     if (t != _prevPos) return false; // an action changed this timeline's position.
+   }
+   if (end) { setPaused(true); }
+   if (onChange != null) onChange(this);
+   return end;
+ }
+ 
+ /** 
+  * Pauses or plays this timeline.
+  * @param value Indicates whether the tween should be paused (true) or played (false).
+  **/
+ void setPaused(bool value) {
+   _paused = !!value;
+   //TimelineTween._register(this, !value); 
+ }
+ 
+ /** 
+  * Recalculates the duration of the timeline.
+  * The duration is automatically updated when tweens are added or removed, but this method is useful 
+  * if you modify a tween after it was added to the timeline.
+  * @method updateDuration
+  **/
+ void updateDuration() {
+   duration = 0;
+   for(var i=0; i&lt;_tweens.length; i++) {
+     var tween = _tweens[i];
+     if (tween.duration &gt; duration) duration = tween.duration;
+   }
+ }
+ 
+ /** 
+  * Advances this timeline by the specified amount of time in ticks.
+  * This is normally called automatically by the TimelineTween engine (via TimelineTween.tick), but is exposed for advanced uses.
+  * @param delta The time to advance in ticks.
+  **/
+ void tick(num delta) {
+   setPosition(_prevPosition+delta);
+ }
+  
+ /** 
+  * If a numeric position is passed, it is returned unchanged. If a string is passed, the position of the
+  * corresponding frame label will be returned, or null if a matching label is not defined.
+  * @param positionOrLabel A numeric position value or label string.
+  **/
+ num resolve(dynamic positionOrLabel) {
+   num pos = _prevPosition;
+   if (positionOrLabel == null) return null;
+   if (positionOrLabel is String) {
+     if (_labels.containsKey(positionOrLabel))
+       pos = _labels[positionOrLabel];
+     else
+       print("Error: unkown label $positionOrLabel");
+   }
+   else pos = positionOrLabel.toDouble();
+   if (pos.isNaN) pos = _prevPosition;
+   return pos;
+ }
+
+ /**
+ * Returns a string representation of this object.
+ * @method toString
+ * @return {String} a string representation of the instance.
+ **/
+ String toString() {
+   return "[Timeline]";
+ }
+ 
+// private methods:
+ /**
+  * @method _goto
+  * @protected
+  **/
+ void _goto(dynamic positionOrLabel) {
+   var pos = resolve(positionOrLabel);
+   if (pos != null) { setPosition(pos); }
+ }
+ 
+ void _advanceTime(num delta) {
+   for(var i=0; i&lt;_tweens.length; i++) {
+     var tween = _tweens[i];
+     tween.tick(delta);
+   }
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="Timeline">
+<button class="show-code">Code</button>
+new <strong>Timeline</strong>(List&lt;<a href="../stagexl/TimelineTween.html">TimelineTween</a>&gt; tweens, Map&lt;String, num&gt; labels, Map&lt;String, dynamic&gt; props) <a class="anchor-link" href="#Timeline"
+              title="Permalink to Timeline.Timeline">#</a></h4>
+<div class="doc">
+<p>The Timeline class synchronizes multiple tweens and allows them to be controlled as a group. Please note that if a
+timeline is looping, the tweens on it may appear to loop even if the "loop" property of the tween is false.
+@class Timeline
+@param tweens An array of Tweens to add to this timeline. See addTween for more info.
+@param labels An object defining labels for using gotoAndPlay/Stop. See {{#crossLink "Timeline/setLabels"}}{{/crossLink}}
+for details.
+@param props The configuration properties to apply to this tween instance (ex. {loop:true}). All properties default to
+false. Supported props are:&lt;UL>
+   &lt;LI> loop: sets the loop property on this tween.&lt;/LI>
+   &lt;LI> ignoreGlobalPause: sets the ignoreGlobalPause property on this tween.&lt;/LI>
+   &lt;LI> paused: indicates whether to start the tween paused.&lt;/LI>
+   &lt;LI> position: indicates the initial position for this timeline.&lt;/LI>
+   &lt;LI> onChanged: specifies an onChange handler for this timeline.&lt;/LI>
+&lt;/UL>
+@constructor</p>
+<pre class="source">
+Timeline(List&lt;TimelineTween&gt; tweens, Map&lt;String, num&gt; labels, Map&lt;String, dynamic&gt; props)
+{
+ if (props != null) {
+   loop = props.containsKey("loop") ? props["loop"] : false;
+   ignoreGlobalPause = props.containsKey("ignoreGlobalPause") ? props["ignoreGlobalPause"] : false;
+   onChange = props.containsKey("onChange") ? props["onChange"] : null;
+ }
+ if (tweens != null) {
+   for(var i=0; i&lt;tweens.length; i++)
+     addTween(tweens[i]);
+ }
+ setLabels(labels);
+ if (props != null &amp;&amp; props.containsKey("paused") &amp;&amp; props["paused"] == true) { _paused = true; }
+ //else { TimelineTween._register(this, true); }
+ 
+ if (props != null &amp;&amp; props.containsKey("position")) { 
+   setPosition(props["position"], TimelineTween.NONE); }
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="duration">
+<button class="show-code">Code</button>
+num         <strong>duration</strong> <a class="anchor-link"
+            href="#duration"
+            title="Permalink to Timeline.duration">#</a>
+        </h4>
+        <div class="doc">
+<p>Read-only property specifying the total duration of this timeline in ticks.
+This value is usually automatically updated as you modify the timeline. See updateDuration for more information.</p>
+<pre class="source">
+num duration = 1
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="ignoreGlobalPause">
+<button class="show-code">Code</button>
+bool         <strong>ignoreGlobalPause</strong> <a class="anchor-link"
+            href="#ignoreGlobalPause"
+            title="Permalink to Timeline.ignoreGlobalPause">#</a>
+        </h4>
+        <div class="doc">
+<p>Causes this timeline to continue playing when a global pause is active.</p>
+<pre class="source">
+bool ignoreGlobalPause = false
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="loop">
+<button class="show-code">Code</button>
+bool         <strong>loop</strong> <a class="anchor-link"
+            href="#loop"
+            title="Permalink to Timeline.loop">#</a>
+        </h4>
+        <div class="doc">
+<p>If true, the timeline will loop when it reaches the end. Can be set via the props param.</p>
+<pre class="source">
+bool loop = false
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onChange">
+<button class="show-code">Code</button>
+<a href="../stagexl/ChangeHandler.html">ChangeHandler</a>         <strong>onChange</strong> <a class="anchor-link"
+            href="#onChange"
+            title="Permalink to Timeline.onChange">#</a>
+        </h4>
+        <div class="doc">
+<p>Called, with a single parameter referencing this timeline instance, whenever the timeline's position changes.</p>
+<pre class="source">
+ChangeHandler onChange = null
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="position">
+<button class="show-code">Code</button>
+num         <strong>position</strong> <a class="anchor-link"
+            href="#position"
+            title="Permalink to Timeline.position">#</a>
+        </h4>
+        <div class="doc">
+<p>Read-only. The current normalized position of the timeline. This will always be a value between 0 and duration.
+Changing this property directly will have no effect.</p>
+<pre class="source">
+num position = null
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="addLabel">
+<button class="show-code">Code</button>
+void <strong>addLabel</strong>(String label, num position) <a class="anchor-link" href="#addLabel"
+              title="Permalink to Timeline.addLabel">#</a></h4>
+<div class="doc">
+<p>Adds a label that can be used with gotoAndPlay/Stop.
+@param label The label name.
+@param position The position this label represents.</p>
+<pre class="source">
+void addLabel(String label, num position) {
+ _labels[label] = position;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="addTween">
+<button class="show-code">Code</button>
+<a href="../stagexl/TimelineTween.html">TimelineTween</a> <strong>addTween</strong>(<a href="../stagexl/TimelineTween.html">TimelineTween</a> tween) <a class="anchor-link" href="#addTween"
+              title="Permalink to Timeline.addTween">#</a></h4>
+<div class="doc">
+<p>Adds one or more tweens (or timelines) to this timeline. The tweens will be paused (to remove them from the normal ticking system)
+and managed by this timeline. Adding a tween to multiple timelines will result in unexpected behaviour.
+@param tween The tween(s) to add. Accepts multiple arguments.
+@return TimelineTween The first tween that was passed in.</p>
+<pre class="source">
+TimelineTween addTween(TimelineTween tween) {
+ if (tween == null) return null;
+ removeTween(tween);
+ _tweens.add(tween);
+ tween.setPaused(true);
+ tween._paused = false;
+ if (tween.duration &gt; duration) { duration = tween.duration; }
+ if (_prevPos &gt;= 0) { tween.setPosition(_prevPos, TimelineTween.NONE); }
+ return tween;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="gotoAndPlay">
+<button class="show-code">Code</button>
+void <strong>gotoAndPlay</strong>(positionOrLabel) <a class="anchor-link" href="#gotoAndPlay"
+              title="Permalink to Timeline.gotoAndPlay">#</a></h4>
+<div class="doc">
+<p>Unpauses this timeline and jumps to the specified position or label.
+@method gotoAndPlay
+@param positionOrLabel The position in ticks or label to jump to.</p>
+<pre class="source">
+void gotoAndPlay(dynamic positionOrLabel) {
+ setPaused(false);
+ _goto(positionOrLabel);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="gotoAndStop">
+<button class="show-code">Code</button>
+void <strong>gotoAndStop</strong>(positionOrLabel) <a class="anchor-link" href="#gotoAndStop"
+              title="Permalink to Timeline.gotoAndStop">#</a></h4>
+<div class="doc">
+<p>Pauses this timeline and jumps to the specified position or label.
+@method gotoAndStop
+@param positionOrLabel The position in ticks or label to jump to.</p>
+<pre class="source">
+void gotoAndStop(dynamic positionOrLabel) {
+ setPaused(true);
+ _goto(positionOrLabel);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="removeTween">
+<button class="show-code">Code</button>
+bool <strong>removeTween</strong>(<a href="../stagexl/TimelineTween.html">TimelineTween</a> tween) <a class="anchor-link" href="#removeTween"
+              title="Permalink to Timeline.removeTween">#</a></h4>
+<div class="doc">
+<p>Removes one or more tweens from this timeline.
+@param tween The tween(s) to remove. Accepts multiple arguments.
+@return Boolean Returns true if all of the tweens were successfully removed.</p>
+<pre class="source">
+bool removeTween(TimelineTween tween) {
+ if (tween == null) return false;
+ assert(tween is TimelineTween);
+ var index = _tweens.indexOf(tween);
+ if (index != -1) {
+   _tweens.removeAt(index);
+   if (tween.duration &gt;= duration) { updateDuration(); }
+   return true;
+ } 
+ return false;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="resolve">
+<button class="show-code">Code</button>
+num <strong>resolve</strong>(positionOrLabel) <a class="anchor-link" href="#resolve"
+              title="Permalink to Timeline.resolve">#</a></h4>
+<div class="doc">
+<p>If a numeric position is passed, it is returned unchanged. If a string is passed, the position of the
+corresponding frame label will be returned, or null if a matching label is not defined.
+@param positionOrLabel A numeric position value or label string.</p>
+<pre class="source">
+num resolve(dynamic positionOrLabel) {
+ num pos = _prevPosition;
+ if (positionOrLabel == null) return null;
+ if (positionOrLabel is String) {
+   if (_labels.containsKey(positionOrLabel))
+     pos = _labels[positionOrLabel];
+   else
+     print("Error: unkown label $positionOrLabel");
+ }
+ else pos = positionOrLabel.toDouble();
+ if (pos.isNaN) pos = _prevPosition;
+ return pos;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="setLabels">
+<button class="show-code">Code</button>
+void <strong>setLabels</strong>(Map&lt;String, int&gt; o) <a class="anchor-link" href="#setLabels"
+              title="Permalink to Timeline.setLabels">#</a></h4>
+<div class="doc">
+<p>Defines labels for use with gotoAndPlay/Stop. Overwrites any previously set labels.
+@param o An object defining labels for using gotoAndPlay/Stop in the form {labelName:time} where time is in ticks.</p>
+<pre class="source">
+void setLabels(Map&lt;String, int&gt; o) {
+ _labels = o != null ? o : new Map&lt;String, int&gt;();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="setPaused">
+<button class="show-code">Code</button>
+void <strong>setPaused</strong>(bool value) <a class="anchor-link" href="#setPaused"
+              title="Permalink to Timeline.setPaused">#</a></h4>
+<div class="doc">
+<p>Pauses or plays this timeline.
+@param value Indicates whether the tween should be paused (true) or played (false).</p>
+<pre class="source">
+void setPaused(bool value) {
+ _paused = !!value;
+ //TimelineTween._register(this, !value); 
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="setPosition">
+<button class="show-code">Code</button>
+bool <strong>setPosition</strong>(num value, [int actionsMode]) <a class="anchor-link" href="#setPosition"
+              title="Permalink to Timeline.setPosition">#</a></h4>
+<div class="doc">
+<p>Advances the timeline to the specified position.
+@param value The position to seek to in ticks.
+@param actionsMode Optional parameter specifying how actions are handled. See TimelineTween.setPosition for more details.
+@return Boolean Returns true if the timeline is complete (ie. the full timeline has run &amp; loop is false).</p>
+<pre class="source">
+bool setPosition(num value, [int actionsMode]) {
+ if (value.isNaN || value &lt; 0) { value = 0; }
+ num t = loop ? value%duration : value;
+ bool end = !loop &amp;&amp; value &gt;= duration;
+ if (t == _prevPos) return end;
+ _prevPosition = value;
+ position = _prevPos = t; // in case an action changes the current frame.
+ for(var i=0; i&lt;_tweens.length; i++) {
+   _tweens[i].setPosition(t, actionsMode);
+   if (t != _prevPos) return false; // an action changed this timeline's position.
+ }
+ if (end) { setPaused(true); }
+ if (onChange != null) onChange(this);
+ return end;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="tick">
+<button class="show-code">Code</button>
+void <strong>tick</strong>(num delta) <a class="anchor-link" href="#tick"
+              title="Permalink to Timeline.tick">#</a></h4>
+<div class="doc">
+<p>Advances this timeline by the specified amount of time in ticks.
+This is normally called automatically by the TimelineTween engine (via TimelineTween.tick), but is exposed for advanced uses.
+@param delta The time to advance in ticks.</p>
+<pre class="source">
+void tick(num delta) {
+ setPosition(_prevPosition+delta);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="toString">
+<button class="show-code">Code</button>
+String <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to Timeline.toString">#</a></h4>
+<div class="doc">
+<p>Returns a string representation of this object.
+@method toString
+@return {String} a string representation of the instance.</p>
+<pre class="source">
+String toString() {
+ return "[Timeline]";
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="updateDuration">
+<button class="show-code">Code</button>
+void <strong>updateDuration</strong>() <a class="anchor-link" href="#updateDuration"
+              title="Permalink to Timeline.updateDuration">#</a></h4>
+<div class="doc">
+<p>Recalculates the duration of the timeline.
+The duration is automatically updated when tweens are added or removed, but this method is useful 
+if you modify a tween after it was added to the timeline.
+@method updateDuration</p>
+<pre class="source">
+void updateDuration() {
+ duration = 0;
+ for(var i=0; i&lt;_tweens.length; i++) {
+   var tween = _tweens[i];
+   if (tween.duration &gt; duration) duration = tween.duration;
+ }
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-05-22 20:23:25.246</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

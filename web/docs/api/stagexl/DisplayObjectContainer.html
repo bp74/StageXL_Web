@@ -34,7 +34,7 @@
 <div class="doc">
 <pre class="source">
 abstract class DisplayObjectContainer extends InteractiveObject {
- 
+
  final List&lt;DisplayObject&gt; _children = new List&lt;DisplayObject&gt;();
  bool _mouseChildren = true;
  bool _tabChildren = true;
@@ -54,7 +54,7 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  void addChild(DisplayObject child) {
-   
+
    if (child.parent == this) {
      int index = _children.indexOf(child);
      _children.removeAt(index);
@@ -67,7 +67,7 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  void addChildAt(DisplayObject child, int index) {
-   
+
    if (index &lt; 0 || index &gt; _children.length)
      throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
@@ -75,16 +75,16 @@ abstract class DisplayObjectContainer extends InteractiveObject {
      throw new ArgumentError("Error #2024: An object cannot be added as a child of itself.");
 
    if (child.parent == this) {
-     
+
      _children.removeAt(_children.indexOf(child));
 
      if (index &gt; _children.length)
        index --;
 
      _children.insert(index, child);
-   
+
    } else {
-     
+
      child.removeFromParent();
 
      child._setParent(this);
@@ -100,7 +100,7 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  void removeChild(DisplayObject child) {
-   
+
    int childIndex = _children.indexOf(child);
 
    if (childIndex == -1)
@@ -112,7 +112,7 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  void removeChildAt(int index) {
-   
+
    if (index &lt; 0 || index &gt;= _children.length)
      throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
@@ -126,20 +126,21 @@ abstract class DisplayObjectContainer extends InteractiveObject {
    child._setParent(null);
    _children.removeAt(index);
  }
- 
+
  //-------------------------------------------------------------------------------------------------
 
- void removeChildren([int beginIndex, int endIndex]) {
-   
-   if (?beginIndex == false) beginIndex = 0;
-   if (?endIndex == false) endIndex = _children.length - 1;
-     
-   if (beginIndex &lt; 0 || beginIndex &gt;= _children.length)
-     throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ void removeChildren([int beginIndex = 0, int endIndex = 0x7fffffff]) {
 
-   if (endIndex &lt; 0 || endIndex &gt;= _children.length)
+   var length = _children.length;
+
+   if (endIndex == 0x7fffffff) {
+     endIndex = length - 1;
+   }
+
+   if (beginIndex &lt; 0 || endIndex &lt; 0 || beginIndex &gt;= length || endIndex &gt;= length) {
      throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
-   
+   }
+
    for(int i = beginIndex; i &lt;= endIndex; i++) {
      if (beginIndex &gt;= _children.length) break;
      removeChildAt(beginIndex);
@@ -149,7 +150,7 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  dynamic getChildAt(int index) {
-   
+
    if (index &lt; 0 || index &gt;= _children.length)
      throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
@@ -176,7 +177,7 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  void setChildIndex(DisplayObject child, int index) {
-   
+
    if (index &lt; 0 || index &gt;= _children.length)
      throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
@@ -192,7 +193,7 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  void swapChildren(DisplayObject child1, DisplayObject child2) {
-   
+
      int index1 = getChildIndex(child1);
      int index2 = getChildIndex(child2);
 
@@ -205,7 +206,7 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  void swapChildrenAt(int index1, int index2) {
-   
+
    DisplayObject child1 = getChildAt(index1);
    DisplayObject child2 = getChildAt(index2);
    _children[index1] = child2;
@@ -221,7 +222,7 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  bool contains(DisplayObject child) {
-   
+
    for(; child != null; child = child._parent)
      if (child == this)
        return true;
@@ -233,7 +234,7 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
-   
+
    if (returnRectangle == null)
      returnRectangle = new Rectangle.zero();
 
@@ -248,7 +249,7 @@ abstract class DisplayObjectContainer extends InteractiveObject {
    int childrenLength = _children.length;
 
    for (int i = 0; i &lt; _children.length; i++) {
-     
+
      DisplayObject child = _children[i];
 
      _tmpMatrix.copyFromAndConcat(child._transformationMatrix, matrix);
@@ -271,11 +272,14 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  DisplayObject hitTestInput(num localX, num localY) {
-   
+
+   localX = localX.toDouble();
+   localY = localY.toDouble();
+
    DisplayObject hit = null;
 
    for (int i = _children.length - 1; i &gt;= 0; i--) {
-     
+
      DisplayObject child = _children[i];
 
      if (child.visible) {
@@ -304,9 +308,9 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  void render(RenderState renderState) {
-   
+
    for(int i = 0; i &lt; _children.length; i++) {
-     
+
      DisplayObject child = _children[i];
 
      if (!child._off &amp;&amp; child.visible)
@@ -318,20 +322,20 @@ abstract class DisplayObjectContainer extends InteractiveObject {
  //-------------------------------------------------------------------------------------------------
 
  _collectDescendants(DisplayObject displayObject, List&lt;DisplayObject&gt; descendants) {
-   
+
    descendants.add(displayObject);
-   
+
    if (displayObject is DisplayObjectContainer) {
-     
+
      var displayObjectContainer = displayObject as DisplayObjectContainer;
      var children = displayObjectContainer._children;
-   
+
      for(int i = 0; i &lt; children.length; i++) {
        _collectDescendants(children[i], descendants);
      }
    }
  }
- 
+
  _dispatchEventDescendants(DisplayObject displayObject, Event event) {
 
    var descendants = _displayObjectListPool.pop() as List&lt;DisplayObject&gt;;
@@ -340,7 +344,7 @@ abstract class DisplayObjectContainer extends InteractiveObject {
    for(int i = 0; i &lt; descendants.length; i++) {
      descendants[i].dispatchEvent(event);
    }
-   
+
    descendants.clear();
    _displayObjectListPool.push(descendants);
  }
@@ -419,8 +423,8 @@ List&lt;<a href="../stagexl/BitmapFilter.html">BitmapFilter</a>&gt;         <str
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-List&lt;BitmapFilter&gt; get filters =&gt; (_filters != null) 
-   ? _filters 
+List&lt;BitmapFilter&gt; get filters =&gt; (_filters != null)
+   ? _filters
    : _filters = new List&lt;BitmapFilter&gt;();
 </pre>
 <pre class="source">
@@ -609,6 +613,18 @@ final Stream&lt;<a href="../stagexl/EnterFrameEvent.html">EnterFrameEvent</a>&gt
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Stream&lt;EnterFrameEvent&gt; get onEnterFrame =&gt; DisplayObject.enterFrameEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onExitFrame">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/ExitFrameEvent.html">ExitFrameEvent</a>&gt;         <strong>onExitFrame</strong> <a class="anchor-link"
+            href="#onExitFrame"
+            title="Permalink to DisplayObjectContainer.onExitFrame">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;ExitFrameEvent&gt; get onExitFrame =&gt; DisplayObject.exitFrameEvent.forTarget(this);
 </pre>
 </div>
 </div>
@@ -828,6 +844,18 @@ Stream&lt;Event&gt; get onRemovedFromStage =&gt; DisplayObject.removedFromStageE
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="onRender">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/RenderEvent.html">RenderEvent</a>&gt;         <strong>onRender</strong> <a class="anchor-link"
+            href="#onRender"
+            title="Permalink to DisplayObjectContainer.onRender">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;RenderEvent&gt; get onRender =&gt; DisplayObject.renderEvent.forTarget(this);
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="onTextInput">
 <button class="show-code">Code</button>
 final Stream&lt;<a href="../stagexl/TextEvent.html">TextEvent</a>&gt;         <strong>onTextInput</strong> <a class="anchor-link"
@@ -963,7 +991,7 @@ final <a href="../stagexl/DisplayObject.html">DisplayObject</a>         <strong>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 DisplayObject get root {
- 
+
  DisplayObject currentObject = this;
 
  while (currentObject._parent != null)
@@ -1073,7 +1101,7 @@ final <a href="../stagexl/Stage.html">Stage</a>         <strong>stage</strong> <
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Stage get stage {
- 
+
  DisplayObject root = this.root;
 
  if (root is Stage)
@@ -1211,7 +1239,7 @@ void <strong>addChild</strong>(<a href="../stagexl/DisplayObject.html">DisplayOb
 <div class="doc">
 <pre class="source">
 void addChild(DisplayObject child) {
- 
+
  if (child.parent == this) {
    int index = _children.indexOf(child);
    _children.removeAt(index);
@@ -1230,7 +1258,7 @@ void <strong>addChildAt</strong>(<a href="../stagexl/DisplayObject.html">Display
 <div class="doc">
 <pre class="source">
 void addChildAt(DisplayObject child, int index) {
- 
+
  if (index &lt; 0 || index &gt; _children.length)
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
@@ -1238,16 +1266,16 @@ void addChildAt(DisplayObject child, int index) {
    throw new ArgumentError("Error #2024: An object cannot be added as a child of itself.");
 
  if (child.parent == this) {
-   
+
    _children.removeAt(_children.indexOf(child));
 
    if (index &gt; _children.length)
      index --;
 
    _children.insert(index, child);
- 
+
  } else {
-   
+
    child.removeFromParent();
 
    child._setParent(this);
@@ -1293,22 +1321,11 @@ void <strong>applyCache</strong>(int x, int y, int width, int height, {bool debu
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
- 
- if (Stage.canvasRatio != 1.0) {
-   // explicit hi-dpi scaling
-   num ratio = Stage.canvasRatio;
-   _cache = new BitmapData((width*ratio).ceil(), (height*ratio).ceil(), true, 0x00000000);
-   _cache._destinationWidth = width;
-   _cache._destinationHeight = height;
-   _cache._renderMode = 3;
- }
- else {
-   _cache = new BitmapData(width, height, true, 0x00000000);
- }
- _cache._destinationX = x;
- _cache._destinationY = y;
- 
- _cacheRectangle = new Rectangle(x,y, width, height);
+
+ var pixelRatio = Stage.autoHiDpi ? _devicePixelRatio : 1.0;
+
+ _cache = new BitmapData(width, height, true, Color.Transparent, pixelRatio);
+ _cacheRectangle = new Rectangle(x, y, width, height);
  _cacheDebugBorder = debugBorder;
  refreshCache();
 }
@@ -1322,7 +1339,7 @@ bool <strong>contains</strong>(<a href="../stagexl/DisplayObject.html">DisplayOb
 <div class="doc">
 <pre class="source">
 bool contains(DisplayObject child) {
- 
+
  for(; child != null; child = child._parent)
    if (child == this)
      return true;
@@ -1339,7 +1356,7 @@ void <strong>dispatchEvent</strong>(<a href="../stagexl/Event.html">Event</a> ev
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void dispatchEvent(Event event) {
- 
+
  List&lt;DisplayObject&gt; ancestors = null;
 
  if (event.captures || event.bubbles) {
@@ -1350,24 +1367,24 @@ void dispatchEvent(Event event) {
      }
    }
  }
- 
+
  if (event.captures &amp;&amp; ancestors != null) {
    for(int i = ancestors.length - 1 ; i &gt;= 0 &amp;&amp; event.stopsPropagation == false; i--) {
      ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
    }
  }
- 
+
  if (event.stopsPropagation == false) {
    _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
  }
- 
+
  if (event.bubbles &amp;&amp; ancestors != null) {
    for(int i = 0; i &lt; ancestors.length &amp;&amp; event.stopsPropagation == false; i++) {
      ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
    }
  }
- 
- if (ancestors != null) { 
+
+ if (ancestors != null) {
    ancestors.clear();
    _displayObjectListPool.push(ancestors);
  }
@@ -1382,7 +1399,7 @@ void dispatchEvent(Event event) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Rectangle getBounds(DisplayObject targetSpace) {
- 
+
  Rectangle returnRectangle = new Rectangle.zero();
  Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
 
@@ -1398,7 +1415,7 @@ Rectangle getBounds(DisplayObject targetSpace) {
 <div class="doc">
 <pre class="source">
 Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
- 
+
  if (returnRectangle == null)
    returnRectangle = new Rectangle.zero();
 
@@ -1413,7 +1430,7 @@ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
  int childrenLength = _children.length;
 
  for (int i = 0; i &lt; _children.length; i++) {
-   
+
    DisplayObject child = _children[i];
 
    _tmpMatrix.copyFromAndConcat(child._transformationMatrix, matrix);
@@ -1442,7 +1459,7 @@ dynamic <strong>getChildAt</strong>(int index) <a class="anchor-link" href="#get
 <div class="doc">
 <pre class="source">
 dynamic getChildAt(int index) {
- 
+
  if (index &lt; 0 || index &gt;= _children.length)
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
@@ -1487,7 +1504,7 @@ int getChildIndex(DisplayObject child) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Point globalToLocal(Point globalPoint) {
- 
+
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1519,11 +1536,14 @@ bool hasEventListener(String eventType) {
 <div class="doc">
 <pre class="source">
 DisplayObject hitTestInput(num localX, num localY) {
- 
+
+ localX = localX.toDouble();
+ localY = localY.toDouble();
+
  DisplayObject hit = null;
 
  for (int i = _children.length - 1; i &gt;= 0; i--) {
-   
+
    DisplayObject child = _children[i];
 
    if (child.visible) {
@@ -1558,12 +1578,12 @@ bool <strong>hitTestObject</strong>(<a href="../stagexl/DisplayObject.html">Disp
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 bool hitTestObject(DisplayObject other) {
- 
+
  var stage1 = this.stage;
  var stage2 = other.stage;
- 
+
  if (stage1 == null || stage2 == null || stage1 != stage2) return false;
- 
+
  var rect1 = this.getBounds(stage1);
  var rect2 = other.getBounds(stage2);
 
@@ -1586,14 +1606,14 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
  if (shapeFlag) {
    var matrix = stage.transformationMatrixTo(this);
    if (matrix == null) return false;
-   
+
    var stagePoint = new Point(x, y);
    var localPoint = matrix.transformPoint(stagePoint);
 
    return this.hitTestInput(localPoint.x, localPoint.y) != null;
 
  } else {
-   
+
    var rect = this.getBounds(stage);
    return rect.contains(x, y);
  }
@@ -1608,7 +1628,7 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Point localToGlobal(Point localPoint) {
- 
+
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1638,28 +1658,31 @@ void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void refreshCache() {
- 
+
  if (_cache == null) return;
- 
+
  var x = _cacheRectangle.x;
  var y = _cacheRectangle.y;
  var width = _cacheRectangle.width;
  var height = _cacheRectangle.height;
- num ratio = Stage.canvasRatio;
- 
+
  _cache.clear();
- _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y)..scale(ratio, ratio));
- 
- for(int i = 0; _filters != null &amp;&amp; i &lt; _filters.length; i++) {
-   _filters[i].apply(_cache, new Rectangle(0, 0, width, height), _cache, new Point.zero()); 
+ _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+
+ if (_filters != null) {
+   for(int i = 0; i &lt; _filters.length; i++) {
+     var sourceRectangle = new Rectangle(0, 0, width, height);
+     var destinationPoint = new Point.zero();
+     _filters[i].apply(_cache, sourceRectangle, _cache, destinationPoint);
+   }
  }
- 
+
  if (_cacheDebugBorder) {
    _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
- }      
+ }
 }
 </pre>
 </div>
@@ -1683,7 +1706,7 @@ void <strong>removeChild</strong>(<a href="../stagexl/DisplayObject.html">Displa
 <div class="doc">
 <pre class="source">
 void removeChild(DisplayObject child) {
- 
+
  int childIndex = _children.indexOf(child);
 
  if (childIndex == -1)
@@ -1701,7 +1724,7 @@ void <strong>removeChildAt</strong>(int index) <a class="anchor-link" href="#rem
 <div class="doc">
 <pre class="source">
 void removeChildAt(int index) {
- 
+
  if (index &lt; 0 || index &gt;= _children.length)
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
@@ -1720,21 +1743,22 @@ void removeChildAt(int index) {
 </div>
 <div class="method"><h4 id="removeChildren">
 <button class="show-code">Code</button>
-void <strong>removeChildren</strong>([int beginIndex, int endIndex]) <a class="anchor-link" href="#removeChildren"
+void <strong>removeChildren</strong>([int beginIndex = 0, int endIndex = 0x7fffffff]) <a class="anchor-link" href="#removeChildren"
               title="Permalink to DisplayObjectContainer.removeChildren">#</a></h4>
 <div class="doc">
 <pre class="source">
-void removeChildren([int beginIndex, int endIndex]) {
- 
- if (?beginIndex == false) beginIndex = 0;
- if (?endIndex == false) endIndex = _children.length - 1;
-   
- if (beginIndex &lt; 0 || beginIndex &gt;= _children.length)
-   throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+void removeChildren([int beginIndex = 0, int endIndex = 0x7fffffff]) {
 
- if (endIndex &lt; 0 || endIndex &gt;= _children.length)
+ var length = _children.length;
+
+ if (endIndex == 0x7fffffff) {
+   endIndex = length - 1;
+ }
+
+ if (beginIndex &lt; 0 || endIndex &lt; 0 || beginIndex &gt;= length || endIndex &gt;= length) {
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
- 
+ }
+
  for(int i = beginIndex; i &lt;= endIndex; i++) {
    if (beginIndex &gt;= _children.length) break;
    removeChildAt(beginIndex);
@@ -1775,9 +1799,9 @@ void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</
 <div class="doc">
 <pre class="source">
 void render(RenderState renderState) {
- 
+
  for(int i = 0; i &lt; _children.length; i++) {
-   
+
    DisplayObject child = _children[i];
 
    if (!child._off &amp;&amp; child.visible)
@@ -1794,7 +1818,7 @@ void <strong>setChildIndex</strong>(<a href="../stagexl/DisplayObject.html">Disp
 <div class="doc">
 <pre class="source">
 void setChildIndex(DisplayObject child, int index) {
- 
+
  if (index &lt; 0 || index &gt;= _children.length)
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
 
@@ -1825,14 +1849,14 @@ void setTransform(num x, num y, [num scaleX, num scaleY, num rotation, num skewX
    if (scaleY != null) {
      _scaleY = scaleY.toDouble();
      if (rotation != null) {
-       _rotation = rotation.toDouble(); 
+       _rotation = rotation.toDouble();
        if (skewX != null) {
          _skewX = skewX.toDouble();
          if (skewY != null) {
            _skewY = skewY.toDouble();
            if (pivotX != null) {
              _pivotX = pivotX.toDouble();
-             if (pivotY != null) 
+             if (pivotY != null)
                _pivotY = pivotY.toDouble();
            }
          }
@@ -1863,7 +1887,7 @@ void <strong>swapChildren</strong>(<a href="../stagexl/DisplayObject.html">Displ
 <div class="doc">
 <pre class="source">
 void swapChildren(DisplayObject child1, DisplayObject child2) {
- 
+
    int index1 = getChildIndex(child1);
    int index2 = getChildIndex(child2);
 
@@ -1882,7 +1906,7 @@ void <strong>swapChildrenAt</strong>(int index1, int index2) <a class="anchor-li
 <div class="doc">
 <pre class="source">
 void swapChildrenAt(int index1, int index2) {
- 
+
  DisplayObject child1 = getChildAt(index1);
  DisplayObject child2 = getChildAt(index2);
  _children[index1] = child2;
@@ -1898,7 +1922,7 @@ void swapChildrenAt(int index1, int index2) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Matrix transformationMatrixTo(DisplayObject targetSpace) {
- 
+
  if (targetSpace == _parent)
    return _transformationMatrix.clone();
 
@@ -1953,7 +1977,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-04-19 21:10:19.033</div>
+          <div>This page was generated at 2013-05-22 20:23:25.366</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

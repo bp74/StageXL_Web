@@ -2,19 +2,19 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>ParticleSystem class / stagexl Library / Dart Documentation</title>
+        <title>ParticleEmitter class / stagexl Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
-        <body data-library="stagexl" data-type="ParticleSystem">
+        <body data-library="stagexl" data-type="ParticleEmitter">
         <div class="page">
         <div class="header">
           <a href="../index.html"><div class="logo"></div></a>
           <a href="../index.html">Dart Documentation</a>
-         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/ParticleSystem.html">ParticleSystem</a>        <div id="search-box">
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/ParticleEmitter.html">ParticleEmitter</a>        <div id="search-box">
           <input type="search" name="q" id="q" autocomplete="off"
               class="search-input" placeholder="Search API">
         </div>
@@ -26,133 +26,110 @@
         
 </div>
 <div class="content">
-        <h2><strong>ParticleSystem</strong>
+        <h2><strong>ParticleEmitter</strong>
           class
         </h2>
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class ParticleSystem extends DisplayObject implements Animatable {
- 
+class ParticleEmitter extends DisplayObject implements Animatable {
+
  final Random _random = new Random();
- final List&lt;_Particle&gt; _particles = new List&lt;_Particle&gt;();
- 
- int _particleCount;
+
+ _Particle _rootParticle;
+ _Particle _lastParticle;
+
  CanvasElement _particleCanvas;
- num _frameTime;
- num _emissionTime;
+ int _particleCount = 0;
+ num _frameTime = 0.0;
+ num _emissionTime = 0.0;
 
  static const int EMITTER_TYPE_GRAVITY = 0;
  static const int EMITTER_TYPE_RADIAL = 1;
 
  // emitter configuration
- int emitterType;
- num emitterX, emitterY;
- num emitterXVariance, emitterYVariance;
+ int _emitterType = 0;
+ num _locationX = 0.0;
+ num _locationY = 0.0;
+ num _locationXVariance = 0.0;
+ num _locationYVariance = 0.0;
 
  // particle configuration
- int maxNumParticles;
- num lifespan, lifespanVariance;
- num startSize, startSizeVariance;
- num endSize, endSizeVariance;
- num emitAngle, emitAngleVariance;
+ int _maxNumParticles = 0;
+ num _duration = 0.0;
+ num _lifespan = 0.0;
+ num _lifespanVariance = 0.0;
+ num _startSize = 0.0;
+ num _startSizeVariance = 0.0;
+ num _endSize = 0.0;
+ num _endSizeVariance = 0.0;
+ String _shape = "circle";
 
  // gravity configuration
- num gravityX, gravityY;
- num speed, speedVariance;
- num radialAcceleration, radialAccelerationVariance;
- num tangentialAcceleration, tangentialAccelerationVariance;
+ num _gravityX = 0.0;
+ num _gravityY = 0.0;
+ num _speed = 0.0;
+ num _speedVariance = 0.0;
+ num _angle = 0.0;
+ num _angleVariance = 0.0;
+ num _radialAcceleration = 0.0;
+ num _radialAccelerationVariance = 0.0;
+ num _tangentialAcceleration = 0.0;
+ num _tangentialAccelerationVariance = 0.0;
 
  // radial configuration
- num minRadius;
- num maxRadius, maxRadiusVariance;
- num rotatePerSecond, rotatePerSecondVariance;
+ num _minRadius = 0.0;
+ num _maxRadius = 0.0;
+ num _maxRadiusVariance = 0.0;
+ num _rotatePerSecond = 0.0;
+ num _rotatePerSecondVariance = 0.0;
 
  // color configuration
- _ParticleColor startColor;
- _ParticleColor endColor;
+ String _compositeOperation;
+ _ParticleColor _startColor;
+ _ParticleColor _endColor;
 
  //-------------------------------------------------------------------------------------------------
 
- ParticleSystem(String jsonConfig) {
-   
+ ParticleEmitter(String jsonConfig) {
+
+   _rootParticle = new _Particle(this);
+   _lastParticle = _rootParticle;
+
    _emissionTime = 0.0;
    _frameTime = 0.0;
    _particleCount = 0;
 
-   var pex = json.parse(jsonConfig);
-   
-   emitterType = pex["emitterType"].toInt();
-   emitterX = pex["sourcePosition"]["x"] as num;
-   emitterY = pex["sourcePosition"]["y"] as num;
-   emitterXVariance = pex["sourcePositionVariance"]["x"] as num;
-   emitterYVariance = pex["sourcePositionVariance"]["y"] as num;
-
-   maxNumParticles = pex["maxParticles"].toInt();
-   lifespan = max(0.01, pex["particleLifeSpan"] as num);
-   lifespanVariance = pex["particleLifespanVariance"] as num;
-   startSize = pex["startParticleSize"] as num;
-   startSizeVariance = pex["startParticleSizeVariance"] as num;
-   endSize = pex["finishParticleSize"] as num;
-   endSizeVariance = pex["FinishParticleSizeVariance"] as num;
-   emitAngle = (pex["angle"] as num) * PI / 180.0;
-   emitAngleVariance = (pex["angleVariance"] as num) * PI / 180.0;
-
-   gravityX = pex["gravity"]["x"] as num;
-   gravityY = pex["gravity"]["y"] as num;
-   speed = pex["speed"] as num;
-   speedVariance = pex["speedVariance"] as num;
-   radialAcceleration = pex["radialAcceleration"] as num;
-   radialAccelerationVariance = pex["radialAccelVariance"] as num;
-   tangentialAcceleration = pex["tangentialAcceleration"] as num;
-   tangentialAccelerationVariance = pex["tangentialAccelVariance"] as num;
-
-   minRadius = pex["minRadius"] as num;
-   maxRadius = pex["maxRadius"] as num;
-   maxRadiusVariance = pex["maxRadiusVariance"] as num;
-   rotatePerSecond = (pex["rotatePerSecond"] as num) * PI / 180.0;
-   rotatePerSecondVariance = (pex["rotatePerSecondVariance"] as num) * PI / 180.0;
-
-   startColor = new _ParticleColor.fromJSON(pex["startColor"]);
-   endColor = new _ParticleColor.fromJSON(pex["finishColor"]);
-
-   _drawParticleCanvas();
+   updateConfig(jsonConfig);
  }
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
  void _drawParticleCanvas() {
-   
-   _particleCanvas = new CanvasElement(width: 256, height: 256);
+
+   _particleCanvas = new CanvasElement(width: 1024, height: 32);
    var context = _particleCanvas.context2D;
 
-   for(int i = 0; i&lt; 64; i++)
-   {
-     var radius = 15;
-     num targetX = (i  % 8) * 32 + 15.5;
-     num targetY = (i ~/ 8) * 32 + 15.5;
+   for(int i = 0; i &lt; 32; i++) {
 
-     num colorRed   = startColor.red   + i * (endColor.red    - startColor.red ) / 63;
-     num colorGreen = startColor.green + i * (endColor.green - startColor.green) / 63;
-     num colorBlue  = startColor.blue  + i * (endColor.blue  - startColor.blue ) / 63;
-     num colorAlpha = startColor.alpha + i * (endColor.alpha - startColor.alpha) / 63;
+     var radius = 15;
+     num targetX = i * 32 + 15.5;
+     num targetY = 15.5;
+
+     num colorRed   = _startColor._red   + i * (_endColor._red   - _startColor._red ) / 31;
+     num colorGreen = _startColor._green + i * (_endColor._green - _startColor._green) / 31;
+     num colorBlue  = _startColor._blue  + i * (_endColor._blue  - _startColor._blue ) / 31;
+     num colorAlpha = _startColor._alpha + i * (_endColor._alpha - _startColor._alpha) / 31;
 
      int cRed = (255.0 * colorRed).toInt();
      int cGreen = (255.0 * colorGreen).toInt();
      int cBlue = (255.0 * colorBlue).toInt();
-     int cAlpha = (255.0 * colorAlpha).toInt();
-
-     if (cRed &lt; 0) cRed = 0; else if (cRed &gt; 255) cRed = 255;
-     if (cGreen &lt; 0) cGreen = 0; else if (cGreen &gt; 255) cGreen = 255;
-     if (cBlue &lt; 0) cBlue = 0; else if (cBlue &gt; 255) cBlue = 255;
-     if (cAlpha &lt; 0) cAlpha = 0; else if (cAlpha &gt; 255) cAlpha = 255;
 
      var gradient = context.createRadialGradient(targetX, targetY, 0, targetX, targetY, radius);
-     gradient.addColorStop(0.0, "rgba($cRed, $cGreen, $cBlue, ${cAlpha / 255.0})");
-     gradient.addColorStop(1.0, "rgba($cRed, $cGreen, $cBlue, 0.0)");
-
+     gradient.addColorStop(0.00, "rgba($cRed, $cGreen, $cBlue, $colorAlpha)");
+     gradient.addColorStop(1.00, "rgba($cRed, $cGreen, $cBlue, 0.0)");
      context.beginPath();
      context.moveTo(targetX + radius, targetY);
      context.arc(targetX, targetY, radius, 0, PI * 2.0, false);
@@ -162,163 +139,126 @@ class ParticleSystem extends DisplayObject implements Animatable {
  }
 
  //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
 
- void _initParticle(_Particle particle) {
-   
-   particle.currentTime = 0.0;
-   particle.totalTime = lifespan + lifespanVariance * (_random.nextDouble() * 2.0 - 1.0);
+ void start([num duration]) {
+   _emissionTime = _duration;
 
-   if (particle.totalTime &lt;= 0.0) return;
-
-   particle.x = emitterX + emitterXVariance * (_random.nextDouble() * 2.0 - 1.0);
-   particle.y = emitterY + emitterYVariance * (_random.nextDouble() * 2.0 - 1.0);
-   particle.startX = emitterX;
-   particle.startY = emitterY;
-
-   num angle = emitAngle + emitAngleVariance * (_random.nextDouble() * 2.0 - 1.0);
-   num velocity = speed + speedVariance * (_random.nextDouble() * 2.0 - 1.0);
-   particle.velocityX = velocity * cos(angle);
-   particle.velocityY = velocity * sin(angle);
-
-   particle.emitRadius = maxRadius + maxRadiusVariance * (_random.nextDouble() * 2.0 - 1.0);
-   particle.emitRadiusDelta = maxRadius / particle.totalTime;
-   particle.emitRotation = emitAngle + emitAngleVariance * (_random.nextDouble() * 2.0 - 1.0);
-   particle.emitRotationDelta = rotatePerSecond + rotatePerSecondVariance * (_random.nextDouble() * 2.0 - 1.0);
-   particle.radialAcceleration = radialAcceleration + radialAccelerationVariance * (_random.nextDouble() * 2.0 - 1.0);
-   particle.tangentialAcceleration = tangentialAcceleration + tangentialAccelerationVariance * (_random.nextDouble() * 2.0 - 1.0);
-
-   num size1 = startSize + startSizeVariance * (_random.nextDouble() * 2.0 - 1.0);
-   num size2 = endSize + endSizeVariance * (_random.nextDouble() * 2.0 - 1.0);
-   if (size1 &lt; 0.1) size1 = 0.1;
-   if (size2 &lt; 0.1) size2 = 0.1;
-   particle.size = size1;
-   particle.sizeDelta = (size2 - size1) / particle.totalTime;
-
-   // colors
-   /*
-   ParticleColor color = particle.color;
-   ParticleColor colorDelta = particle.colorDelta;
-
-   color.red   = startColor.red;
-   color.green = startColor.green;
-   color.blue  = startColor.blue;
-   color.alpha = startColor.alpha;
-
-   colorDelta.red   = (endColor.red   - startColor.red)   / particle.totalTime;
-   colorDelta.green = (endColor.green - startColor.green) / particle.totalTime;
-   colorDelta.blue  = (endColor.blue  - startColor.blue)  / particle.totalTime;
-   colorDelta.alpha = (endColor.alpha - startColor.alpha) / particle.totalTime;
-   */
- }
-
- //-------------------------------------------------------------------------------------------------
-
- void _advanceParticle(_Particle particle, num passedTime) {
-   
-   num restTime = particle.totalTime - particle.currentTime;
-   passedTime = (restTime &gt; passedTime) ? passedTime : restTime;
-   particle.currentTime += passedTime;
-
-   if (emitterType == EMITTER_TYPE_RADIAL) {
-     
-     particle.emitRotation += particle.emitRotationDelta * passedTime;
-     particle.emitRadius   -= particle.emitRadiusDelta   * passedTime;
-     particle.x = emitterX - cos(particle.emitRotation) * particle.emitRadius;
-     particle.y = emitterY - sin(particle.emitRotation) * particle.emitRadius;
-
-     if (particle.emitRadius &lt; minRadius)
-       particle.currentTime = particle.totalTime;
-     
-   } else {
-     
-     num distanceX = particle.x - particle.startX;
-     num distanceY = particle.y - particle.startY;
-     num distanceScalar = sqrt(distanceX * distanceX + distanceY * distanceY);
-     if (distanceScalar &lt; 0.01) distanceScalar = 0.01;
-     distanceX = distanceX / distanceScalar;
-     distanceY = distanceY / distanceScalar;
-
-     particle.velocityX += passedTime * (gravityX + distanceX * particle.radialAcceleration - distanceY * particle.tangentialAcceleration);
-     particle.velocityY += passedTime * (gravityY + distanceY * particle.radialAcceleration + distanceX * particle.tangentialAcceleration);
-     particle.x += particle.velocityX * passedTime;
-     particle.y += particle.velocityY * passedTime;
-   }
-
-   particle.size += particle.sizeDelta * passedTime;
-
-   /*
-   ParticleColor color = particle.color;
-   ParticleColor colorDelta = particle.colorDelta;
-   color.red   += colorDelta.red   * passedTime;
-   color.green += colorDelta.green * passedTime;
-   color.blue  += colorDelta.blue  * passedTime;
-   color.alpha += colorDelta.alpha * passedTime;
-   */
- }
-
- //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
-
- void start([num duration = double.INFINITY]) {
-   
-   _emissionTime = duration;
+   if (duration != null &amp;&amp; duration is num)
+     _emissionTime = duration;
  }
 
  void stop(bool clear) {
-   
    _emissionTime = 0.0;
+   if (clear) _particleCount = 0;
+ }
 
-   if (clear)
-     _particleCount = 0;
+ void setEmitterLocation(num x, num y) {
+   _locationX = _ensureNum(x);
+   _locationY = _ensureNum(y);
+ }
+
+ int get particleCount =&gt; _particleCount;
+
+ num get _randomVariance =&gt; _random.nextDouble() * 2.0 - 1.0;
+
+ //-------------------------------------------------------------------------------------------------
+
+ void updateConfig(String jsonConfig) {
+
+   var config = json.parse(jsonConfig);
+
+   _emitterType = _ensureInt(config["emitterType"]);
+   _locationX = _ensureNum(config["location"]["x"]);
+   _locationY = _ensureNum(config["location"]["y"]);
+
+   _maxNumParticles = _ensureInt(config["maxParticles"]);
+   _duration = _ensureNum(config["duration"]);
+   _lifespan = _ensureNum(config["lifeSpan"]);
+   _lifespanVariance = _ensureNum(config["lifespanVariance"]);
+   _startSize = _ensureNum(config["startSize"]);
+   _startSizeVariance = _ensureNum(config["startSizeVariance"]);
+   _endSize = _ensureNum(config["finishSize"]);
+   _endSizeVariance = _ensureNum(config["finishSizeVariance"]);
+   _shape = config["shape"];
+
+   _locationXVariance = _ensureNum(config["locationVariance"]["x"]);
+   _locationYVariance = _ensureNum(config["locationVariance"]["y"]);
+   _speed = _ensureNum(config["speed"]);
+   _speedVariance = _ensureNum(config["speedVariance"]);
+   _angle = _ensureNum(config["angle"]) * PI / 180.0;
+   _angleVariance = _ensureNum(config["angleVariance"]) * PI / 180.0;
+   _gravityX = _ensureNum(config["gravity"]["x"]);
+   _gravityY = _ensureNum(config["gravity"]["y"]);
+   _radialAcceleration = _ensureNum(config["radialAcceleration"]);
+   _radialAccelerationVariance = _ensureNum(config["radialAccelerationVariance"]);
+   _tangentialAcceleration = _ensureNum(config["tangentialAcceleration"]);
+   _tangentialAccelerationVariance = _ensureNum(config["tangentialAccelerationVariance"]);
+
+   _minRadius = _ensureNum(config["minRadius"]);
+   _maxRadius = _ensureNum(config["maxRadius"]);
+   _maxRadiusVariance = _ensureNum(config["maxRadiusVariance"]);
+   _rotatePerSecond = _ensureNum(config["rotatePerSecond"]) * PI / 180.0;
+   _rotatePerSecondVariance = _ensureNum(config["rotatePerSecondVariance"]) * PI / 180.0;
+
+   _compositeOperation = config["compositeOperation"];
+   _startColor = new _ParticleColor.fromJSON(config["startColor"]);
+   _endColor = new _ParticleColor.fromJSON(config["finishColor"]);
+
+   if (_duration &lt;= 0) _duration = double.INFINITY;
+   _emissionTime = _duration;
+
+   _drawParticleCanvas();
  }
 
  //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
 
  bool advanceTime(num passedTime) {
-   
-   int particleIndex = 0;
 
-   //--------------------------------------------------------
+   var particle = _rootParticle;
+   var particleCount = _particleCount;
+
    // advance existing particles
 
-   while (particleIndex &lt; _particleCount) {
-     
-     _Particle particle = _particles[particleIndex];
+   for (int i = 0; i &lt; particleCount; i++) {
 
-     if (particle.currentTime &lt; particle.totalTime) {
-       
-       _advanceParticle(particle, passedTime);
-       particleIndex++;
-       
-     } else {
-       
-       var swapParticle = _particles[_particleCount - 1];
-       _particles[_particleCount - 1] = particle;
-       _particles[particleIndex] = swapParticle;
-       _particleCount--;
+     var nextParticle = particle._nextParticle as _Particle;
+
+     if (nextParticle._advanceParticle(passedTime)) {
+       particle = nextParticle;
+       continue;
      }
+
+     if (nextParticle._nextParticle != null) {
+       particle._nextParticle = nextParticle._nextParticle;
+       _lastParticle._nextParticle = nextParticle;
+       _lastParticle = nextParticle;
+       _lastParticle._nextParticle = null;
+     }
+
+     _particleCount--;
    }
 
-   //--------------------------------------------------------
    // create and advance new particles
 
    if (_emissionTime &gt; 0.0) {
-     
-     num timeBetweenParticles = lifespan / maxNumParticles;
+
+     num timeBetweenParticles = _lifespan / _maxNumParticles;
      _frameTime += passedTime;
 
      while (_frameTime &gt; 0.0) {
-       
-       if (_particleCount &lt; maxNumParticles) {
-         
-         if (_particleCount &gt;= _particles.length)
-           _particles.add(new _Particle());
 
-         var particle = _particles[_particleCount++];
-         _initParticle(particle);
-         _advanceParticle(particle, _frameTime);
+       if (_particleCount &lt; _maxNumParticles) {
+
+         var nextParticle = particle._nextParticle;
+
+         if (nextParticle == null) {
+           nextParticle = _lastParticle = particle._nextParticle = new _Particle(this);
+         }
+
+         particle = nextParticle;
+         particle._initParticle();
+         particle._advanceParticle(_frameTime);
+         _particleCount++;
        }
 
        _frameTime -= timeBetweenParticles;
@@ -329,35 +269,23 @@ class ParticleSystem extends DisplayObject implements Animatable {
 
    //--------------------------------------------------------
 
-   return (_particleCount &gt; 0);
+   //return (_particleCount &gt; 0);
+   return true;
  }
 
  //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
 
  void render(RenderState renderState) {
-   
-   var context = renderState.context;
 
-   context.save();
-   context.globalCompositeOperation = "lighter";
+   var context = renderState.context;
+   context.globalCompositeOperation = _compositeOperation;
+
+   var particle = _rootParticle;
 
    for(int i = 0; i &lt; _particleCount; i++) {
-     
-     var particle = _particles[i];
-
-     var time = ((particle.currentTime / particle.totalTime) * 63).toInt();
-     var sourceX = (time  % 8) * 32;
-     var sourceY = (time ~/ 8) * 32;
-
-     var targetSize = particle.size.toInt();
-     var targetX = (particle.x - targetSize / 2.0).toInt();
-     var targetY = (particle.y - targetSize / 2.0).toInt();
-
-     context.drawImageScaledFromSource(_particleCanvas, sourceX, sourceY, 32, 32, targetX, targetY, targetSize, targetSize);
+     particle = particle._nextParticle;
+     particle._renderParticle(context);
    }
-
-   context.restore();
  }
 
 }
@@ -365,7 +293,7 @@ class ParticleSystem extends DisplayObject implements Animatable {
 </div>
 <h3>Extends</h3>
 <p>
-<span class="type-box"><span class="icon-class"></span><a href="../stagexl/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/DisplayObject.html">DisplayObject</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>ParticleSystem</strong></span></p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/DisplayObject.html">DisplayObject</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>ParticleEmitter</strong></span></p>
 <h3>Implements</h3>
 <p>
 <span class="type-box"><span class="icon-class"></span><a href="../stagexl/Animatable.html">Animatable</a></span></p>
@@ -375,7 +303,7 @@ class ParticleSystem extends DisplayObject implements Animatable {
 <button class="show-code">Code</button>
 const int         <strong>EMITTER_TYPE_GRAVITY</strong> <a class="anchor-link"
             href="#EMITTER_TYPE_GRAVITY"
-            title="Permalink to ParticleSystem.EMITTER_TYPE_GRAVITY">#</a>
+            title="Permalink to ParticleEmitter.EMITTER_TYPE_GRAVITY">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
@@ -387,7 +315,7 @@ static const int EMITTER_TYPE_GRAVITY = 0
 <button class="show-code">Code</button>
 const int         <strong>EMITTER_TYPE_RADIAL</strong> <a class="anchor-link"
             href="#EMITTER_TYPE_RADIAL"
-            title="Permalink to ParticleSystem.EMITTER_TYPE_RADIAL">#</a>
+            title="Permalink to ParticleEmitter.EMITTER_TYPE_RADIAL">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
@@ -398,55 +326,22 @@ static const int EMITTER_TYPE_RADIAL = 1
 </div>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="ParticleSystem">
+<div class="method"><h4 id="ParticleEmitter">
 <button class="show-code">Code</button>
-new <strong>ParticleSystem</strong>(String jsonConfig) <a class="anchor-link" href="#ParticleSystem"
-              title="Permalink to ParticleSystem.ParticleSystem">#</a></h4>
+new <strong>ParticleEmitter</strong>(String jsonConfig) <a class="anchor-link" href="#ParticleEmitter"
+              title="Permalink to ParticleEmitter.ParticleEmitter">#</a></h4>
 <div class="doc">
 <pre class="source">
-ParticleSystem(String jsonConfig) {
- 
+ParticleEmitter(String jsonConfig) {
+
+ _rootParticle = new _Particle(this);
+ _lastParticle = _rootParticle;
+
  _emissionTime = 0.0;
  _frameTime = 0.0;
  _particleCount = 0;
 
- var pex = json.parse(jsonConfig);
- 
- emitterType = pex["emitterType"].toInt();
- emitterX = pex["sourcePosition"]["x"] as num;
- emitterY = pex["sourcePosition"]["y"] as num;
- emitterXVariance = pex["sourcePositionVariance"]["x"] as num;
- emitterYVariance = pex["sourcePositionVariance"]["y"] as num;
-
- maxNumParticles = pex["maxParticles"].toInt();
- lifespan = max(0.01, pex["particleLifeSpan"] as num);
- lifespanVariance = pex["particleLifespanVariance"] as num;
- startSize = pex["startParticleSize"] as num;
- startSizeVariance = pex["startParticleSizeVariance"] as num;
- endSize = pex["finishParticleSize"] as num;
- endSizeVariance = pex["FinishParticleSizeVariance"] as num;
- emitAngle = (pex["angle"] as num) * PI / 180.0;
- emitAngleVariance = (pex["angleVariance"] as num) * PI / 180.0;
-
- gravityX = pex["gravity"]["x"] as num;
- gravityY = pex["gravity"]["y"] as num;
- speed = pex["speed"] as num;
- speedVariance = pex["speedVariance"] as num;
- radialAcceleration = pex["radialAcceleration"] as num;
- radialAccelerationVariance = pex["radialAccelVariance"] as num;
- tangentialAcceleration = pex["tangentialAcceleration"] as num;
- tangentialAccelerationVariance = pex["tangentialAccelVariance"] as num;
-
- minRadius = pex["minRadius"] as num;
- maxRadius = pex["maxRadius"] as num;
- maxRadiusVariance = pex["maxRadiusVariance"] as num;
- rotatePerSecond = (pex["rotatePerSecond"] as num) * PI / 180.0;
- rotatePerSecondVariance = (pex["rotatePerSecondVariance"] as num) * PI / 180.0;
-
- startColor = new _ParticleColor.fromJSON(pex["startColor"]);
- endColor = new _ParticleColor.fromJSON(pex["finishColor"]);
-
- _drawParticleCanvas();
+ updateConfig(jsonConfig);
 }
 </pre>
 </div>
@@ -458,7 +353,7 @@ ParticleSystem(String jsonConfig) {
 <button class="show-code">Code</button>
 num         <strong>alpha</strong> <a class="anchor-link"
             href="#alpha"
-            title="Permalink to ParticleSystem.alpha">#</a>
+            title="Permalink to ParticleEmitter.alpha">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -473,7 +368,7 @@ set alpha(num value) { _alpha = value.toDouble(); }
 <button class="show-code">Code</button>
 final bool         <strong>cached</strong> <a class="anchor-link"
             href="#cached"
-            title="Permalink to ParticleSystem.cached">#</a>
+            title="Permalink to ParticleEmitter.cached">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -485,7 +380,7 @@ bool get cached =&gt; _cache != null;
 <button class="show-code">Code</button>
 String         <strong>compositeOperation</strong> <a class="anchor-link"
             href="#compositeOperation"
-            title="Permalink to ParticleSystem.compositeOperation">#</a>
+            title="Permalink to ParticleEmitter.compositeOperation">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -496,136 +391,16 @@ set compositeOperation(String value) { _compositeOperation = value; }
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="emitAngle">
-<button class="show-code">Code</button>
-num         <strong>emitAngle</strong> <a class="anchor-link"
-            href="#emitAngle"
-            title="Permalink to ParticleSystem.emitAngle">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num emitAngle
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="emitAngleVariance">
-<button class="show-code">Code</button>
-num         <strong>emitAngleVariance</strong> <a class="anchor-link"
-            href="#emitAngleVariance"
-            title="Permalink to ParticleSystem.emitAngleVariance">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num emitAngle, emitAngleVariance
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="emitterType">
-<button class="show-code">Code</button>
-int         <strong>emitterType</strong> <a class="anchor-link"
-            href="#emitterType"
-            title="Permalink to ParticleSystem.emitterType">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-int emitterType
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="emitterX">
-<button class="show-code">Code</button>
-num         <strong>emitterX</strong> <a class="anchor-link"
-            href="#emitterX"
-            title="Permalink to ParticleSystem.emitterX">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num emitterX
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="emitterXVariance">
-<button class="show-code">Code</button>
-num         <strong>emitterXVariance</strong> <a class="anchor-link"
-            href="#emitterXVariance"
-            title="Permalink to ParticleSystem.emitterXVariance">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num emitterXVariance
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="emitterY">
-<button class="show-code">Code</button>
-num         <strong>emitterY</strong> <a class="anchor-link"
-            href="#emitterY"
-            title="Permalink to ParticleSystem.emitterY">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num emitterX, emitterY
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="emitterYVariance">
-<button class="show-code">Code</button>
-num         <strong>emitterYVariance</strong> <a class="anchor-link"
-            href="#emitterYVariance"
-            title="Permalink to ParticleSystem.emitterYVariance">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num emitterXVariance, emitterYVariance
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="endColor">
-<button class="show-code">Code</button>
-<a href="../stagexl/_ParticleColor.html">_ParticleColor</a>         <strong>endColor</strong> <a class="anchor-link"
-            href="#endColor"
-            title="Permalink to ParticleSystem.endColor">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-_ParticleColor endColor
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="endSize">
-<button class="show-code">Code</button>
-num         <strong>endSize</strong> <a class="anchor-link"
-            href="#endSize"
-            title="Permalink to ParticleSystem.endSize">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num endSize
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="endSizeVariance">
-<button class="show-code">Code</button>
-num         <strong>endSizeVariance</strong> <a class="anchor-link"
-            href="#endSizeVariance"
-            title="Permalink to ParticleSystem.endSizeVariance">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num endSize, endSizeVariance
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="filters">
 <button class="show-code">Code</button>
 List&lt;<a href="../stagexl/BitmapFilter.html">BitmapFilter</a>&gt;         <strong>filters</strong> <a class="anchor-link"
             href="#filters"
-            title="Permalink to ParticleSystem.filters">#</a>
+            title="Permalink to ParticleEmitter.filters">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-List&lt;BitmapFilter&gt; get filters =&gt; (_filters != null) 
-   ? _filters 
+List&lt;BitmapFilter&gt; get filters =&gt; (_filters != null)
+   ? _filters
    : _filters = new List&lt;BitmapFilter&gt;();
 </pre>
 <pre class="source">
@@ -633,35 +408,11 @@ set filters(List&lt;BitmapFilter&gt; value) { _filters = value; }
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="gravityX">
-<button class="show-code">Code</button>
-num         <strong>gravityX</strong> <a class="anchor-link"
-            href="#gravityX"
-            title="Permalink to ParticleSystem.gravityX">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num gravityX
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="gravityY">
-<button class="show-code">Code</button>
-num         <strong>gravityY</strong> <a class="anchor-link"
-            href="#gravityY"
-            title="Permalink to ParticleSystem.gravityY">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num gravityX, gravityY
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="height">
 <button class="show-code">Code</button>
 num         <strong>height</strong> <a class="anchor-link"
             href="#height"
-            title="Permalink to ParticleSystem.height">#</a>
+            title="Permalink to ParticleEmitter.height">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -676,35 +427,11 @@ void set height(num value) {
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="lifespan">
-<button class="show-code">Code</button>
-num         <strong>lifespan</strong> <a class="anchor-link"
-            href="#lifespan"
-            title="Permalink to ParticleSystem.lifespan">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num lifespan
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="lifespanVariance">
-<button class="show-code">Code</button>
-num         <strong>lifespanVariance</strong> <a class="anchor-link"
-            href="#lifespanVariance"
-            title="Permalink to ParticleSystem.lifespanVariance">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num lifespan, lifespanVariance
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="mask">
 <button class="show-code">Code</button>
 <a href="../stagexl/Mask.html">Mask</a>         <strong>mask</strong> <a class="anchor-link"
             href="#mask"
-            title="Permalink to ParticleSystem.mask">#</a>
+            title="Permalink to ParticleEmitter.mask">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -715,59 +442,11 @@ set mask(Mask value) { _mask = value; }
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="maxNumParticles">
-<button class="show-code">Code</button>
-int         <strong>maxNumParticles</strong> <a class="anchor-link"
-            href="#maxNumParticles"
-            title="Permalink to ParticleSystem.maxNumParticles">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-int maxNumParticles
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="maxRadius">
-<button class="show-code">Code</button>
-num         <strong>maxRadius</strong> <a class="anchor-link"
-            href="#maxRadius"
-            title="Permalink to ParticleSystem.maxRadius">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num maxRadius
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="maxRadiusVariance">
-<button class="show-code">Code</button>
-num         <strong>maxRadiusVariance</strong> <a class="anchor-link"
-            href="#maxRadiusVariance"
-            title="Permalink to ParticleSystem.maxRadiusVariance">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num maxRadius, maxRadiusVariance
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="minRadius">
-<button class="show-code">Code</button>
-num         <strong>minRadius</strong> <a class="anchor-link"
-            href="#minRadius"
-            title="Permalink to ParticleSystem.minRadius">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num minRadius
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="mousePosition">
 <button class="show-code">Code</button>
 final <a href="../stagexl/Point.html">Point</a>         <strong>mousePosition</strong> <a class="anchor-link"
             href="#mousePosition"
-            title="Permalink to ParticleSystem.mousePosition">#</a>
+            title="Permalink to ParticleEmitter.mousePosition">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -782,7 +461,7 @@ Point get mousePosition {
 <button class="show-code">Code</button>
 final num         <strong>mouseX</strong> <a class="anchor-link"
             href="#mouseX"
-            title="Permalink to ParticleSystem.mouseX">#</a>
+            title="Permalink to ParticleEmitter.mouseX">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -797,7 +476,7 @@ num get mouseX {
 <button class="show-code">Code</button>
 final num         <strong>mouseY</strong> <a class="anchor-link"
             href="#mouseY"
-            title="Permalink to ParticleSystem.mouseY">#</a>
+            title="Permalink to ParticleEmitter.mouseY">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -812,7 +491,7 @@ num get mouseY {
 <button class="show-code">Code</button>
 String         <strong>name</strong> <a class="anchor-link"
             href="#name"
-            title="Permalink to ParticleSystem.name">#</a>
+            title="Permalink to ParticleEmitter.name">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -827,7 +506,7 @@ set name(String value) { _name = value; }
 <button class="show-code">Code</button>
 bool         <strong>off</strong> <a class="anchor-link"
             href="#off"
-            title="Permalink to ParticleSystem.off">#</a>
+            title="Permalink to ParticleEmitter.off">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -842,7 +521,7 @@ set off(bool value) { _off = value;  }
 <button class="show-code">Code</button>
 final Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onAdded</strong> <a class="anchor-link"
             href="#onAdded"
-            title="Permalink to ParticleSystem.onAdded">#</a>
+            title="Permalink to ParticleEmitter.onAdded">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -854,7 +533,7 @@ Stream&lt;Event&gt; get onAdded =&gt; DisplayObject.addedEvent.forTarget(this);
 <button class="show-code">Code</button>
 final Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onAddedToStage</strong> <a class="anchor-link"
             href="#onAddedToStage"
-            title="Permalink to ParticleSystem.onAddedToStage">#</a>
+            title="Permalink to ParticleEmitter.onAddedToStage">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -866,7 +545,7 @@ Stream&lt;Event&gt; get onAddedToStage =&gt; DisplayObject.addedToStageEvent.for
 <button class="show-code">Code</button>
 final Stream&lt;<a href="../stagexl/EnterFrameEvent.html">EnterFrameEvent</a>&gt;         <strong>onEnterFrame</strong> <a class="anchor-link"
             href="#onEnterFrame"
-            title="Permalink to ParticleSystem.onEnterFrame">#</a>
+            title="Permalink to ParticleEmitter.onEnterFrame">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -874,11 +553,23 @@ Stream&lt;EnterFrameEvent&gt; get onEnterFrame =&gt; DisplayObject.enterFrameEve
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="onExitFrame">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/ExitFrameEvent.html">ExitFrameEvent</a>&gt;         <strong>onExitFrame</strong> <a class="anchor-link"
+            href="#onExitFrame"
+            title="Permalink to ParticleEmitter.onExitFrame">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;ExitFrameEvent&gt; get onExitFrame =&gt; DisplayObject.exitFrameEvent.forTarget(this);
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="onRemoved">
 <button class="show-code">Code</button>
 final Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onRemoved</strong> <a class="anchor-link"
             href="#onRemoved"
-            title="Permalink to ParticleSystem.onRemoved">#</a>
+            title="Permalink to ParticleEmitter.onRemoved">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -890,7 +581,7 @@ Stream&lt;Event&gt; get onRemoved =&gt; DisplayObject.removedEvent.forTarget(thi
 <button class="show-code">Code</button>
 final Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onRemovedFromStage</strong> <a class="anchor-link"
             href="#onRemovedFromStage"
-            title="Permalink to ParticleSystem.onRemovedFromStage">#</a>
+            title="Permalink to ParticleEmitter.onRemovedFromStage">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -898,11 +589,23 @@ Stream&lt;Event&gt; get onRemovedFromStage =&gt; DisplayObject.removedFromStageE
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="onRender">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/RenderEvent.html">RenderEvent</a>&gt;         <strong>onRender</strong> <a class="anchor-link"
+            href="#onRender"
+            title="Permalink to ParticleEmitter.onRender">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;RenderEvent&gt; get onRender =&gt; DisplayObject.renderEvent.forTarget(this);
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="parent">
 <button class="show-code">Code</button>
 final <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a>         <strong>parent</strong> <a class="anchor-link"
             href="#parent"
-            title="Permalink to ParticleSystem.parent">#</a>
+            title="Permalink to ParticleEmitter.parent">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -910,11 +613,23 @@ DisplayObjectContainer get parent =&gt; _parent;
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="particleCount">
+<button class="show-code">Code</button>
+final int         <strong>particleCount</strong> <a class="anchor-link"
+            href="#particleCount"
+            title="Permalink to ParticleEmitter.particleCount">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get particleCount =&gt; _particleCount;
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="pivotX">
 <button class="show-code">Code</button>
 num         <strong>pivotX</strong> <a class="anchor-link"
             href="#pivotX"
-            title="Permalink to ParticleSystem.pivotX">#</a>
+            title="Permalink to ParticleEmitter.pivotX">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -929,7 +644,7 @@ set pivotX(num value) { _pivotX = value.toDouble(); _transformationMatrixRefresh
 <button class="show-code">Code</button>
 num         <strong>pivotY</strong> <a class="anchor-link"
             href="#pivotY"
-            title="Permalink to ParticleSystem.pivotY">#</a>
+            title="Permalink to ParticleEmitter.pivotY">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -940,40 +655,16 @@ set pivotY(num value) { _pivotY = value.toDouble(); _transformationMatrixRefresh
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="radialAcceleration">
-<button class="show-code">Code</button>
-num         <strong>radialAcceleration</strong> <a class="anchor-link"
-            href="#radialAcceleration"
-            title="Permalink to ParticleSystem.radialAcceleration">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num radialAcceleration
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="radialAccelerationVariance">
-<button class="show-code">Code</button>
-num         <strong>radialAccelerationVariance</strong> <a class="anchor-link"
-            href="#radialAccelerationVariance"
-            title="Permalink to ParticleSystem.radialAccelerationVariance">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num radialAcceleration, radialAccelerationVariance
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="root">
 <button class="show-code">Code</button>
 final <a href="../stagexl/DisplayObject.html">DisplayObject</a>         <strong>root</strong> <a class="anchor-link"
             href="#root"
-            title="Permalink to ParticleSystem.root">#</a>
+            title="Permalink to ParticleEmitter.root">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 DisplayObject get root {
- 
+
  DisplayObject currentObject = this;
 
  while (currentObject._parent != null)
@@ -984,35 +675,11 @@ DisplayObject get root {
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="rotatePerSecond">
-<button class="show-code">Code</button>
-num         <strong>rotatePerSecond</strong> <a class="anchor-link"
-            href="#rotatePerSecond"
-            title="Permalink to ParticleSystem.rotatePerSecond">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num rotatePerSecond
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="rotatePerSecondVariance">
-<button class="show-code">Code</button>
-num         <strong>rotatePerSecondVariance</strong> <a class="anchor-link"
-            href="#rotatePerSecondVariance"
-            title="Permalink to ParticleSystem.rotatePerSecondVariance">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num rotatePerSecond, rotatePerSecondVariance
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="rotation">
 <button class="show-code">Code</button>
 num         <strong>rotation</strong> <a class="anchor-link"
             href="#rotation"
-            title="Permalink to ParticleSystem.rotation">#</a>
+            title="Permalink to ParticleEmitter.rotation">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -1027,7 +694,7 @@ set rotation(num value) { _rotation = value.toDouble(); _transformationMatrixRef
 <button class="show-code">Code</button>
 num         <strong>scaleX</strong> <a class="anchor-link"
             href="#scaleX"
-            title="Permalink to ParticleSystem.scaleX">#</a>
+            title="Permalink to ParticleEmitter.scaleX">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -1042,7 +709,7 @@ set scaleX(num value) { _scaleX = value.toDouble(); _transformationMatrixRefresh
 <button class="show-code">Code</button>
 num         <strong>scaleY</strong> <a class="anchor-link"
             href="#scaleY"
-            title="Permalink to ParticleSystem.scaleY">#</a>
+            title="Permalink to ParticleEmitter.scaleY">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -1057,7 +724,7 @@ set scaleY(num value) { _scaleY = value.toDouble(); _transformationMatrixRefresh
 <button class="show-code">Code</button>
 <a href="../stagexl/Shadow.html">Shadow</a>         <strong>shadow</strong> <a class="anchor-link"
             href="#shadow"
-            title="Permalink to ParticleSystem.shadow">#</a>
+            title="Permalink to ParticleEmitter.shadow">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -1072,7 +739,7 @@ set shadow(Shadow value) { _shadow = value; }
 <button class="show-code">Code</button>
 num         <strong>skewX</strong> <a class="anchor-link"
             href="#skewX"
-            title="Permalink to ParticleSystem.skewX">#</a>
+            title="Permalink to ParticleEmitter.skewX">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -1087,7 +754,7 @@ set skewX(num value) { _skewX = value.toDouble(); _transformationMatrixRefresh =
 <button class="show-code">Code</button>
 num         <strong>skewY</strong> <a class="anchor-link"
             href="#skewY"
-            title="Permalink to ParticleSystem.skewY">#</a>
+            title="Permalink to ParticleEmitter.skewY">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -1098,40 +765,16 @@ set skewY(num value) { _skewY = value.toDouble(); _transformationMatrixRefresh =
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="speed">
-<button class="show-code">Code</button>
-num         <strong>speed</strong> <a class="anchor-link"
-            href="#speed"
-            title="Permalink to ParticleSystem.speed">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num speed
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="speedVariance">
-<button class="show-code">Code</button>
-num         <strong>speedVariance</strong> <a class="anchor-link"
-            href="#speedVariance"
-            title="Permalink to ParticleSystem.speedVariance">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num speed, speedVariance
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="stage">
 <button class="show-code">Code</button>
 final <a href="../stagexl/Stage.html">Stage</a>         <strong>stage</strong> <a class="anchor-link"
             href="#stage"
-            title="Permalink to ParticleSystem.stage">#</a>
+            title="Permalink to ParticleEmitter.stage">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Stage get stage {
- 
+
  DisplayObject root = this.root;
 
  if (root is Stage)
@@ -1142,71 +785,11 @@ Stage get stage {
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="startColor">
-<button class="show-code">Code</button>
-<a href="../stagexl/_ParticleColor.html">_ParticleColor</a>         <strong>startColor</strong> <a class="anchor-link"
-            href="#startColor"
-            title="Permalink to ParticleSystem.startColor">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-_ParticleColor startColor
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="startSize">
-<button class="show-code">Code</button>
-num         <strong>startSize</strong> <a class="anchor-link"
-            href="#startSize"
-            title="Permalink to ParticleSystem.startSize">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num startSize
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="startSizeVariance">
-<button class="show-code">Code</button>
-num         <strong>startSizeVariance</strong> <a class="anchor-link"
-            href="#startSizeVariance"
-            title="Permalink to ParticleSystem.startSizeVariance">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num startSize, startSizeVariance
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="tangentialAcceleration">
-<button class="show-code">Code</button>
-num         <strong>tangentialAcceleration</strong> <a class="anchor-link"
-            href="#tangentialAcceleration"
-            title="Permalink to ParticleSystem.tangentialAcceleration">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num tangentialAcceleration
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="tangentialAccelerationVariance">
-<button class="show-code">Code</button>
-num         <strong>tangentialAccelerationVariance</strong> <a class="anchor-link"
-            href="#tangentialAccelerationVariance"
-            title="Permalink to ParticleSystem.tangentialAccelerationVariance">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-num tangentialAcceleration, tangentialAccelerationVariance
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="transformationMatrix">
 <button class="show-code">Code</button>
 final <a href="../stagexl/Matrix.html">Matrix</a>         <strong>transformationMatrix</strong> <a class="anchor-link"
             href="#transformationMatrix"
-            title="Permalink to ParticleSystem.transformationMatrix">#</a>
+            title="Permalink to ParticleEmitter.transformationMatrix">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -1220,7 +803,7 @@ Matrix get transformationMatrix {
 <button class="show-code">Code</button>
 bool         <strong>visible</strong> <a class="anchor-link"
             href="#visible"
-            title="Permalink to ParticleSystem.visible">#</a>
+            title="Permalink to ParticleEmitter.visible">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -1235,7 +818,7 @@ set visible(bool value) { _visible = value; }
 <button class="show-code">Code</button>
 num         <strong>width</strong> <a class="anchor-link"
             href="#width"
-            title="Permalink to ParticleSystem.width">#</a>
+            title="Permalink to ParticleEmitter.width">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -1254,7 +837,7 @@ void set width(num value) {
 <button class="show-code">Code</button>
 num         <strong>x</strong> <a class="anchor-link"
             href="#x"
-            title="Permalink to ParticleSystem.x">#</a>
+            title="Permalink to ParticleEmitter.x">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -1269,7 +852,7 @@ set x(num value) { _x = value.toDouble(); _transformationMatrixRefresh = true; }
 <button class="show-code">Code</button>
 num         <strong>y</strong> <a class="anchor-link"
             href="#y"
-            title="Permalink to ParticleSystem.y">#</a>
+            title="Permalink to ParticleEmitter.y">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
@@ -1286,7 +869,7 @@ set y(num value) { _y = value.toDouble(); _transformationMatrixRefresh = true; }
 <div class="method inherited"><h4 id="addEventListener">
 <button class="show-code">Code</button>
 StreamSubscription&lt;<a href="../stagexl/Event.html">Event</a>&gt; <strong>addEventListener</strong>(String eventType, void eventListener(event), {bool useCapture: false}) <a class="anchor-link" href="#addEventListener"
-              title="Permalink to ParticleSystem.addEventListener">#</a></h4>
+              title="Permalink to ParticleEmitter.addEventListener">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
 StreamSubscription&lt;Event&gt; addEventListener(String eventType, void eventListener(event), {bool useCapture: false}) {
@@ -1298,7 +881,7 @@ StreamSubscription&lt;Event&gt; addEventListener(String eventType, void eventLis
 <div class="method inherited"><h4 id="addTo">
 <button class="show-code">Code</button>
 void <strong>addTo</strong>(<a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> parent) <a class="anchor-link" href="#addTo"
-              title="Permalink to ParticleSystem.addTo">#</a></h4>
+              title="Permalink to ParticleEmitter.addTo">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void addTo(DisplayObjectContainer parent) {
@@ -1310,52 +893,56 @@ void addTo(DisplayObjectContainer parent) {
 <div class="method"><h4 id="advanceTime">
 <button class="show-code">Code</button>
 bool <strong>advanceTime</strong>(num passedTime) <a class="anchor-link" href="#advanceTime"
-              title="Permalink to ParticleSystem.advanceTime">#</a></h4>
+              title="Permalink to ParticleEmitter.advanceTime">#</a></h4>
 <div class="doc">
 <pre class="source">
 bool advanceTime(num passedTime) {
- 
- int particleIndex = 0;
 
- //--------------------------------------------------------
+ var particle = _rootParticle;
+ var particleCount = _particleCount;
+
  // advance existing particles
 
- while (particleIndex &lt; _particleCount) {
-   
-   _Particle particle = _particles[particleIndex];
+ for (int i = 0; i &lt; particleCount; i++) {
 
-   if (particle.currentTime &lt; particle.totalTime) {
-     
-     _advanceParticle(particle, passedTime);
-     particleIndex++;
-     
-   } else {
-     
-     var swapParticle = _particles[_particleCount - 1];
-     _particles[_particleCount - 1] = particle;
-     _particles[particleIndex] = swapParticle;
-     _particleCount--;
+   var nextParticle = particle._nextParticle as _Particle;
+
+   if (nextParticle._advanceParticle(passedTime)) {
+     particle = nextParticle;
+     continue;
    }
+
+   if (nextParticle._nextParticle != null) {
+     particle._nextParticle = nextParticle._nextParticle;
+     _lastParticle._nextParticle = nextParticle;
+     _lastParticle = nextParticle;
+     _lastParticle._nextParticle = null;
+   }
+
+   _particleCount--;
  }
 
- //--------------------------------------------------------
  // create and advance new particles
 
  if (_emissionTime &gt; 0.0) {
-   
-   num timeBetweenParticles = lifespan / maxNumParticles;
+
+   num timeBetweenParticles = _lifespan / _maxNumParticles;
    _frameTime += passedTime;
 
    while (_frameTime &gt; 0.0) {
-     
-     if (_particleCount &lt; maxNumParticles) {
-       
-       if (_particleCount &gt;= _particles.length)
-         _particles.add(new _Particle());
 
-       var particle = _particles[_particleCount++];
-       _initParticle(particle);
-       _advanceParticle(particle, _frameTime);
+     if (_particleCount &lt; _maxNumParticles) {
+
+       var nextParticle = particle._nextParticle;
+
+       if (nextParticle == null) {
+         nextParticle = _lastParticle = particle._nextParticle = new _Particle(this);
+       }
+
+       particle = nextParticle;
+       particle._initParticle();
+       particle._advanceParticle(_frameTime);
+       _particleCount++;
      }
 
      _frameTime -= timeBetweenParticles;
@@ -1366,7 +953,8 @@ bool advanceTime(num passedTime) {
 
  //--------------------------------------------------------
 
- return (_particleCount &gt; 0);
+ //return (_particleCount &gt; 0);
+ return true;
 }
 </pre>
 </div>
@@ -1374,26 +962,15 @@ bool advanceTime(num passedTime) {
 <div class="method inherited"><h4 id="applyCache">
 <button class="show-code">Code</button>
 void <strong>applyCache</strong>(int x, int y, int width, int height, {bool debugBorder: false}) <a class="anchor-link" href="#applyCache"
-              title="Permalink to ParticleSystem.applyCache">#</a></h4>
+              title="Permalink to ParticleEmitter.applyCache">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
- 
- if (Stage.canvasRatio != 1.0) {
-   // explicit hi-dpi scaling
-   num ratio = Stage.canvasRatio;
-   _cache = new BitmapData((width*ratio).ceil(), (height*ratio).ceil(), true, 0x00000000);
-   _cache._destinationWidth = width;
-   _cache._destinationHeight = height;
-   _cache._renderMode = 3;
- }
- else {
-   _cache = new BitmapData(width, height, true, 0x00000000);
- }
- _cache._destinationX = x;
- _cache._destinationY = y;
- 
- _cacheRectangle = new Rectangle(x,y, width, height);
+
+ var pixelRatio = Stage.autoHiDpi ? _devicePixelRatio : 1.0;
+
+ _cache = new BitmapData(width, height, true, Color.Transparent, pixelRatio);
+ _cacheRectangle = new Rectangle(x, y, width, height);
  _cacheDebugBorder = debugBorder;
  refreshCache();
 }
@@ -1403,11 +980,11 @@ void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) 
 <div class="method inherited"><h4 id="dispatchEvent">
 <button class="show-code">Code</button>
 void <strong>dispatchEvent</strong>(<a href="../stagexl/Event.html">Event</a> event) <a class="anchor-link" href="#dispatchEvent"
-              title="Permalink to ParticleSystem.dispatchEvent">#</a></h4>
+              title="Permalink to ParticleEmitter.dispatchEvent">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void dispatchEvent(Event event) {
- 
+
  List&lt;DisplayObject&gt; ancestors = null;
 
  if (event.captures || event.bubbles) {
@@ -1418,24 +995,24 @@ void dispatchEvent(Event event) {
      }
    }
  }
- 
+
  if (event.captures &amp;&amp; ancestors != null) {
    for(int i = ancestors.length - 1 ; i &gt;= 0 &amp;&amp; event.stopsPropagation == false; i--) {
      ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
    }
  }
- 
+
  if (event.stopsPropagation == false) {
    _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
  }
- 
+
  if (event.bubbles &amp;&amp; ancestors != null) {
    for(int i = 0; i &lt; ancestors.length &amp;&amp; event.stopsPropagation == false; i++) {
      ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
    }
  }
- 
- if (ancestors != null) { 
+
+ if (ancestors != null) {
    ancestors.clear();
    _displayObjectListPool.push(ancestors);
  }
@@ -1446,11 +1023,11 @@ void dispatchEvent(Event event) {
 <div class="method inherited"><h4 id="getBounds">
 <button class="show-code">Code</button>
 <a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBounds</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> targetSpace) <a class="anchor-link" href="#getBounds"
-              title="Permalink to ParticleSystem.getBounds">#</a></h4>
+              title="Permalink to ParticleEmitter.getBounds">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Rectangle getBounds(DisplayObject targetSpace) {
- 
+
  Rectangle returnRectangle = new Rectangle.zero();
  Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
 
@@ -1462,11 +1039,11 @@ Rectangle getBounds(DisplayObject targetSpace) {
 <div class="method inherited"><h4 id="getBoundsTransformed">
 <button class="show-code">Code</button>
 <a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBoundsTransformed</strong>(<a href="../stagexl/Matrix.html">Matrix</a> matrix, [<a href="../stagexl/Rectangle.html">Rectangle</a> returnRectangle]) <a class="anchor-link" href="#getBoundsTransformed"
-              title="Permalink to ParticleSystem.getBoundsTransformed">#</a></h4>
+              title="Permalink to ParticleEmitter.getBoundsTransformed">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
- 
+
  if (returnRectangle == null)
    returnRectangle = new Rectangle.zero();
 
@@ -1483,11 +1060,11 @@ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
 <div class="method inherited"><h4 id="globalToLocal">
 <button class="show-code">Code</button>
 <a href="../stagexl/Point.html">Point</a> <strong>globalToLocal</strong>(<a href="../stagexl/Point.html">Point</a> globalPoint) <a class="anchor-link" href="#globalToLocal"
-              title="Permalink to ParticleSystem.globalToLocal">#</a></h4>
+              title="Permalink to ParticleEmitter.globalToLocal">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Point globalToLocal(Point globalPoint) {
- 
+
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1503,7 +1080,7 @@ Point globalToLocal(Point globalPoint) {
 <div class="method inherited"><h4 id="hasEventListener">
 <button class="show-code">Code</button>
 bool <strong>hasEventListener</strong>(String eventType) <a class="anchor-link" href="#hasEventListener"
-              title="Permalink to ParticleSystem.hasEventListener">#</a></h4>
+              title="Permalink to ParticleEmitter.hasEventListener">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
 bool hasEventListener(String eventType) {
@@ -1515,11 +1092,11 @@ bool hasEventListener(String eventType) {
 <div class="method inherited"><h4 id="hitTestInput">
 <button class="show-code">Code</button>
 <a href="../stagexl/DisplayObject.html">DisplayObject</a> <strong>hitTestInput</strong>(num localX, num localY) <a class="anchor-link" href="#hitTestInput"
-              title="Permalink to ParticleSystem.hitTestInput">#</a></h4>
+              title="Permalink to ParticleEmitter.hitTestInput">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 DisplayObject hitTestInput(num localX, num localY) {
- 
+
  if (getBoundsTransformed(_identityMatrix).contains(localX, localY))
    return this;
 
@@ -1531,16 +1108,16 @@ DisplayObject hitTestInput(num localX, num localY) {
 <div class="method inherited"><h4 id="hitTestObject">
 <button class="show-code">Code</button>
 bool <strong>hitTestObject</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> other) <a class="anchor-link" href="#hitTestObject"
-              title="Permalink to ParticleSystem.hitTestObject">#</a></h4>
+              title="Permalink to ParticleEmitter.hitTestObject">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 bool hitTestObject(DisplayObject other) {
- 
+
  var stage1 = this.stage;
  var stage2 = other.stage;
- 
+
  if (stage1 == null || stage2 == null || stage1 != stage2) return false;
- 
+
  var rect1 = this.getBounds(stage1);
  var rect2 = other.getBounds(stage2);
 
@@ -1552,7 +1129,7 @@ bool hitTestObject(DisplayObject other) {
 <div class="method inherited"><h4 id="hitTestPoint">
 <button class="show-code">Code</button>
 bool <strong>hitTestPoint</strong>(num x, num y, [bool shapeFlag = false]) <a class="anchor-link" href="#hitTestPoint"
-              title="Permalink to ParticleSystem.hitTestPoint">#</a></h4>
+              title="Permalink to ParticleEmitter.hitTestPoint">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
@@ -1563,14 +1140,14 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
  if (shapeFlag) {
    var matrix = stage.transformationMatrixTo(this);
    if (matrix == null) return false;
-   
+
    var stagePoint = new Point(x, y);
    var localPoint = matrix.transformPoint(stagePoint);
 
    return this.hitTestInput(localPoint.x, localPoint.y) != null;
 
  } else {
-   
+
    var rect = this.getBounds(stage);
    return rect.contains(x, y);
  }
@@ -1581,11 +1158,11 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
 <div class="method inherited"><h4 id="localToGlobal">
 <button class="show-code">Code</button>
 <a href="../stagexl/Point.html">Point</a> <strong>localToGlobal</strong>(<a href="../stagexl/Point.html">Point</a> localPoint) <a class="anchor-link" href="#localToGlobal"
-              title="Permalink to ParticleSystem.localToGlobal">#</a></h4>
+              title="Permalink to ParticleEmitter.localToGlobal">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Point localToGlobal(Point localPoint) {
- 
+
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -1599,7 +1176,7 @@ Point localToGlobal(Point localPoint) {
 <div class="method inherited"><h4 id="on">
 <button class="show-code">Code</button>
 Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt; <strong>on</strong>(String eventType, {bool useCapture: false}) <a class="anchor-link" href="#on"
-              title="Permalink to ParticleSystem.on">#</a></h4>
+              title="Permalink to ParticleEmitter.on">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
 Stream&lt;Event&gt; on(String eventType, {bool useCapture: false}) {
@@ -1611,32 +1188,35 @@ Stream&lt;Event&gt; on(String eventType, {bool useCapture: false}) {
 <div class="method inherited"><h4 id="refreshCache">
 <button class="show-code">Code</button>
 void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
-              title="Permalink to ParticleSystem.refreshCache">#</a></h4>
+              title="Permalink to ParticleEmitter.refreshCache">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void refreshCache() {
- 
+
  if (_cache == null) return;
- 
+
  var x = _cacheRectangle.x;
  var y = _cacheRectangle.y;
  var width = _cacheRectangle.width;
  var height = _cacheRectangle.height;
- num ratio = Stage.canvasRatio;
- 
+
  _cache.clear();
- _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y)..scale(ratio, ratio));
- 
- for(int i = 0; _filters != null &amp;&amp; i &lt; _filters.length; i++) {
-   _filters[i].apply(_cache, new Rectangle(0, 0, width, height), _cache, new Point.zero()); 
+ _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+
+ if (_filters != null) {
+   for(int i = 0; i &lt; _filters.length; i++) {
+     var sourceRectangle = new Rectangle(0, 0, width, height);
+     var destinationPoint = new Point.zero();
+     _filters[i].apply(_cache, sourceRectangle, _cache, destinationPoint);
+   }
  }
- 
+
  if (_cacheDebugBorder) {
    _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
- }      
+ }
 }
 </pre>
 </div>
@@ -1644,7 +1224,7 @@ void refreshCache() {
 <div class="method inherited"><h4 id="removeCache">
 <button class="show-code">Code</button>
 void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
-              title="Permalink to ParticleSystem.removeCache">#</a></h4>
+              title="Permalink to ParticleEmitter.removeCache">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void removeCache() {
@@ -1656,7 +1236,7 @@ void removeCache() {
 <div class="method inherited"><h4 id="removeEventListeners">
 <button class="show-code">Code</button>
 dynamic <strong>removeEventListeners</strong>(String eventType, {bool useCapture: false}) <a class="anchor-link" href="#removeEventListeners"
-              title="Permalink to ParticleSystem.removeEventListeners">#</a></h4>
+              title="Permalink to ParticleEmitter.removeEventListeners">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
 removeEventListeners(String eventType, {bool useCapture: false}) {
@@ -1668,7 +1248,7 @@ removeEventListeners(String eventType, {bool useCapture: false}) {
 <div class="method inherited"><h4 id="removeFromParent">
 <button class="show-code">Code</button>
 void <strong>removeFromParent</strong>() <a class="anchor-link" href="#removeFromParent"
-              title="Permalink to ParticleSystem.removeFromParent">#</a></h4>
+              title="Permalink to ParticleEmitter.removeFromParent">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void removeFromParent() {
@@ -1681,32 +1261,33 @@ void removeFromParent() {
 <div class="method"><h4 id="render">
 <button class="show-code">Code</button>
 void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</a> renderState) <a class="anchor-link" href="#render"
-              title="Permalink to ParticleSystem.render">#</a></h4>
+              title="Permalink to ParticleEmitter.render">#</a></h4>
 <div class="doc">
 <pre class="source">
 void render(RenderState renderState) {
- 
- var context = renderState.context;
 
- context.save();
- context.globalCompositeOperation = "lighter";
+ var context = renderState.context;
+ context.globalCompositeOperation = _compositeOperation;
+
+ var particle = _rootParticle;
 
  for(int i = 0; i &lt; _particleCount; i++) {
-   
-   var particle = _particles[i];
-
-   var time = ((particle.currentTime / particle.totalTime) * 63).toInt();
-   var sourceX = (time  % 8) * 32;
-   var sourceY = (time ~/ 8) * 32;
-
-   var targetSize = particle.size.toInt();
-   var targetX = (particle.x - targetSize / 2.0).toInt();
-   var targetY = (particle.y - targetSize / 2.0).toInt();
-
-   context.drawImageScaledFromSource(_particleCanvas, sourceX, sourceY, 32, 32, targetX, targetY, targetSize, targetSize);
+   particle = particle._nextParticle;
+   particle._renderParticle(context);
  }
-
- context.restore();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="setEmitterLocation">
+<button class="show-code">Code</button>
+void <strong>setEmitterLocation</strong>(num x, num y) <a class="anchor-link" href="#setEmitterLocation"
+              title="Permalink to ParticleEmitter.setEmitterLocation">#</a></h4>
+<div class="doc">
+<pre class="source">
+void setEmitterLocation(num x, num y) {
+ _locationX = _ensureNum(x);
+ _locationY = _ensureNum(y);
 }
 </pre>
 </div>
@@ -1714,7 +1295,7 @@ void render(RenderState renderState) {
 <div class="method inherited"><h4 id="setTransform">
 <button class="show-code">Code</button>
 void <strong>setTransform</strong>(num x, num y, [num scaleX, num scaleY, num rotation, num skewX, num skewY, num pivotX, num pivotY]) <a class="anchor-link" href="#setTransform"
-              title="Permalink to ParticleSystem.setTransform">#</a></h4>
+              title="Permalink to ParticleEmitter.setTransform">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void setTransform(num x, num y, [num scaleX, num scaleY, num rotation, num skewX, num skewY, num pivotX, num pivotY])
@@ -1727,14 +1308,14 @@ void setTransform(num x, num y, [num scaleX, num scaleY, num rotation, num skewX
    if (scaleY != null) {
      _scaleY = scaleY.toDouble();
      if (rotation != null) {
-       _rotation = rotation.toDouble(); 
+       _rotation = rotation.toDouble();
        if (skewX != null) {
          _skewX = skewX.toDouble();
          if (skewY != null) {
            _skewY = skewY.toDouble();
            if (pivotX != null) {
              _pivotX = pivotX.toDouble();
-             if (pivotY != null) 
+             if (pivotY != null)
                _pivotY = pivotY.toDouble();
            }
          }
@@ -1748,13 +1329,15 @@ void setTransform(num x, num y, [num scaleX, num scaleY, num rotation, num skewX
 </div>
 <div class="method"><h4 id="start">
 <button class="show-code">Code</button>
-void <strong>start</strong>([num duration = double.INFINITY]) <a class="anchor-link" href="#start"
-              title="Permalink to ParticleSystem.start">#</a></h4>
+void <strong>start</strong>([num duration]) <a class="anchor-link" href="#start"
+              title="Permalink to ParticleEmitter.start">#</a></h4>
 <div class="doc">
 <pre class="source">
-void start([num duration = double.INFINITY]) {
- 
- _emissionTime = duration;
+void start([num duration]) {
+ _emissionTime = _duration;
+
+ if (duration != null &amp;&amp; duration is num)
+   _emissionTime = duration;
 }
 </pre>
 </div>
@@ -1762,15 +1345,12 @@ void start([num duration = double.INFINITY]) {
 <div class="method"><h4 id="stop">
 <button class="show-code">Code</button>
 void <strong>stop</strong>(bool clear) <a class="anchor-link" href="#stop"
-              title="Permalink to ParticleSystem.stop">#</a></h4>
+              title="Permalink to ParticleEmitter.stop">#</a></h4>
 <div class="doc">
 <pre class="source">
 void stop(bool clear) {
- 
  _emissionTime = 0.0;
-
- if (clear)
-   _particleCount = 0;
+ if (clear) _particleCount = 0;
 }
 </pre>
 </div>
@@ -1778,11 +1358,11 @@ void stop(bool clear) {
 <div class="method inherited"><h4 id="transformationMatrixTo">
 <button class="show-code">Code</button>
 <a href="../stagexl/Matrix.html">Matrix</a> <strong>transformationMatrixTo</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> targetSpace) <a class="anchor-link" href="#transformationMatrixTo"
-              title="Permalink to ParticleSystem.transformationMatrixTo">#</a></h4>
+              title="Permalink to ParticleEmitter.transformationMatrixTo">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Matrix transformationMatrixTo(DisplayObject targetSpace) {
- 
+
  if (targetSpace == _parent)
    return _transformationMatrix.clone();
 
@@ -1832,12 +1412,67 @@ Matrix transformationMatrixTo(DisplayObject targetSpace) {
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="updateConfig">
+<button class="show-code">Code</button>
+void <strong>updateConfig</strong>(String jsonConfig) <a class="anchor-link" href="#updateConfig"
+              title="Permalink to ParticleEmitter.updateConfig">#</a></h4>
+<div class="doc">
+<pre class="source">
+void updateConfig(String jsonConfig) {
+
+ var config = json.parse(jsonConfig);
+
+ _emitterType = _ensureInt(config["emitterType"]);
+ _locationX = _ensureNum(config["location"]["x"]);
+ _locationY = _ensureNum(config["location"]["y"]);
+
+ _maxNumParticles = _ensureInt(config["maxParticles"]);
+ _duration = _ensureNum(config["duration"]);
+ _lifespan = _ensureNum(config["lifeSpan"]);
+ _lifespanVariance = _ensureNum(config["lifespanVariance"]);
+ _startSize = _ensureNum(config["startSize"]);
+ _startSizeVariance = _ensureNum(config["startSizeVariance"]);
+ _endSize = _ensureNum(config["finishSize"]);
+ _endSizeVariance = _ensureNum(config["finishSizeVariance"]);
+ _shape = config["shape"];
+
+ _locationXVariance = _ensureNum(config["locationVariance"]["x"]);
+ _locationYVariance = _ensureNum(config["locationVariance"]["y"]);
+ _speed = _ensureNum(config["speed"]);
+ _speedVariance = _ensureNum(config["speedVariance"]);
+ _angle = _ensureNum(config["angle"]) * PI / 180.0;
+ _angleVariance = _ensureNum(config["angleVariance"]) * PI / 180.0;
+ _gravityX = _ensureNum(config["gravity"]["x"]);
+ _gravityY = _ensureNum(config["gravity"]["y"]);
+ _radialAcceleration = _ensureNum(config["radialAcceleration"]);
+ _radialAccelerationVariance = _ensureNum(config["radialAccelerationVariance"]);
+ _tangentialAcceleration = _ensureNum(config["tangentialAcceleration"]);
+ _tangentialAccelerationVariance = _ensureNum(config["tangentialAccelerationVariance"]);
+
+ _minRadius = _ensureNum(config["minRadius"]);
+ _maxRadius = _ensureNum(config["maxRadius"]);
+ _maxRadiusVariance = _ensureNum(config["maxRadiusVariance"]);
+ _rotatePerSecond = _ensureNum(config["rotatePerSecond"]) * PI / 180.0;
+ _rotatePerSecondVariance = _ensureNum(config["rotatePerSecondVariance"]) * PI / 180.0;
+
+ _compositeOperation = config["compositeOperation"];
+ _startColor = new _ParticleColor.fromJSON(config["startColor"]);
+ _endColor = new _ParticleColor.fromJSON(config["finishColor"]);
+
+ if (_duration &lt;= 0) _duration = double.INFINITY;
+ _emissionTime = _duration;
+
+ _drawParticleCanvas();
+}
+</pre>
+</div>
+</div>
 </div>
         </div>
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-04-19 21:10:18.740</div>
+          <div>This page was generated at 2013-05-22 20:23:25.087</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

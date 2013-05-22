@@ -124,8 +124,8 @@ List&lt;<a href="../stagexl/BitmapFilter.html">BitmapFilter</a>&gt;         <str
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-List&lt;BitmapFilter&gt; get filters =&gt; (_filters != null) 
-   ? _filters 
+List&lt;BitmapFilter&gt; get filters =&gt; (_filters != null)
+   ? _filters
    : _filters = new List&lt;BitmapFilter&gt;();
 </pre>
 <pre class="source">
@@ -293,6 +293,18 @@ Stream&lt;EnterFrameEvent&gt; get onEnterFrame =&gt; DisplayObject.enterFrameEve
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="onExitFrame">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/ExitFrameEvent.html">ExitFrameEvent</a>&gt;         <strong>onExitFrame</strong> <a class="anchor-link"
+            href="#onExitFrame"
+            title="Permalink to Shape.onExitFrame">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;ExitFrameEvent&gt; get onExitFrame =&gt; DisplayObject.exitFrameEvent.forTarget(this);
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="onRemoved">
 <button class="show-code">Code</button>
 final Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onRemoved</strong> <a class="anchor-link"
@@ -314,6 +326,18 @@ final Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>on
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Stream&lt;Event&gt; get onRemovedFromStage =&gt; DisplayObject.removedFromStageEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onRender">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/RenderEvent.html">RenderEvent</a>&gt;         <strong>onRender</strong> <a class="anchor-link"
+            href="#onRender"
+            title="Permalink to Shape.onRender">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;RenderEvent&gt; get onRender =&gt; DisplayObject.renderEvent.forTarget(this);
 </pre>
 </div>
 </div>
@@ -368,7 +392,7 @@ final <a href="../stagexl/DisplayObject.html">DisplayObject</a>         <strong>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 DisplayObject get root {
- 
+
  DisplayObject currentObject = this;
 
  while (currentObject._parent != null)
@@ -478,7 +502,7 @@ final <a href="../stagexl/Stage.html">Stage</a>         <strong>stage</strong> <
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Stage get stage {
- 
+
  DisplayObject root = this.root;
 
  if (root is Stage)
@@ -601,22 +625,11 @@ void <strong>applyCache</strong>(int x, int y, int width, int height, {bool debu
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) {
- 
- if (Stage.canvasRatio != 1.0) {
-   // explicit hi-dpi scaling
-   num ratio = Stage.canvasRatio;
-   _cache = new BitmapData((width*ratio).ceil(), (height*ratio).ceil(), true, 0x00000000);
-   _cache._destinationWidth = width;
-   _cache._destinationHeight = height;
-   _cache._renderMode = 3;
- }
- else {
-   _cache = new BitmapData(width, height, true, 0x00000000);
- }
- _cache._destinationX = x;
- _cache._destinationY = y;
- 
- _cacheRectangle = new Rectangle(x,y, width, height);
+
+ var pixelRatio = Stage.autoHiDpi ? _devicePixelRatio : 1.0;
+
+ _cache = new BitmapData(width, height, true, Color.Transparent, pixelRatio);
+ _cacheRectangle = new Rectangle(x, y, width, height);
  _cacheDebugBorder = debugBorder;
  refreshCache();
 }
@@ -630,7 +643,7 @@ void <strong>dispatchEvent</strong>(<a href="../stagexl/Event.html">Event</a> ev
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void dispatchEvent(Event event) {
- 
+
  List&lt;DisplayObject&gt; ancestors = null;
 
  if (event.captures || event.bubbles) {
@@ -641,24 +654,24 @@ void dispatchEvent(Event event) {
      }
    }
  }
- 
+
  if (event.captures &amp;&amp; ancestors != null) {
    for(int i = ancestors.length - 1 ; i &gt;= 0 &amp;&amp; event.stopsPropagation == false; i--) {
      ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.CAPTURING_PHASE);
    }
  }
- 
+
  if (event.stopsPropagation == false) {
    _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
  }
- 
+
  if (event.bubbles &amp;&amp; ancestors != null) {
    for(int i = 0; i &lt; ancestors.length &amp;&amp; event.stopsPropagation == false; i++) {
      ancestors[i]._dispatchEventInternal(event, this, ancestors[i], EventPhase.BUBBLING_PHASE);
    }
  }
- 
- if (ancestors != null) { 
+
+ if (ancestors != null) {
    ancestors.clear();
    _displayObjectListPool.push(ancestors);
  }
@@ -673,7 +686,7 @@ void dispatchEvent(Event event) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Rectangle getBounds(DisplayObject targetSpace) {
- 
+
  Rectangle returnRectangle = new Rectangle.zero();
  Matrix matrix = (targetSpace == null) ? _transformationMatrix : transformationMatrixTo(targetSpace);
 
@@ -705,7 +718,7 @@ Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Point globalToLocal(Point globalPoint) {
- 
+
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -753,12 +766,12 @@ bool <strong>hitTestObject</strong>(<a href="../stagexl/DisplayObject.html">Disp
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 bool hitTestObject(DisplayObject other) {
- 
+
  var stage1 = this.stage;
  var stage2 = other.stage;
- 
+
  if (stage1 == null || stage2 == null || stage1 != stage2) return false;
- 
+
  var rect1 = this.getBounds(stage1);
  var rect2 = other.getBounds(stage2);
 
@@ -781,14 +794,14 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
  if (shapeFlag) {
    var matrix = stage.transformationMatrixTo(this);
    if (matrix == null) return false;
-   
+
    var stagePoint = new Point(x, y);
    var localPoint = matrix.transformPoint(stagePoint);
 
    return this.hitTestInput(localPoint.x, localPoint.y) != null;
 
  } else {
-   
+
    var rect = this.getBounds(stage);
    return rect.contains(x, y);
  }
@@ -803,7 +816,7 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Point localToGlobal(Point localPoint) {
- 
+
  _tmpMatrix.identity();
 
  for(DisplayObject displayObject = this; displayObject != null; displayObject = displayObject._parent)
@@ -833,28 +846,31 @@ void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void refreshCache() {
- 
+
  if (_cache == null) return;
- 
+
  var x = _cacheRectangle.x;
  var y = _cacheRectangle.y;
  var width = _cacheRectangle.width;
  var height = _cacheRectangle.height;
- num ratio = Stage.canvasRatio;
- 
+
  _cache.clear();
- _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y)..scale(ratio, ratio));
- 
- for(int i = 0; _filters != null &amp;&amp; i &lt; _filters.length; i++) {
-   _filters[i].apply(_cache, new Rectangle(0, 0, width, height), _cache, new Point.zero()); 
+ _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+
+ if (_filters != null) {
+   for(int i = 0; i &lt; _filters.length; i++) {
+     var sourceRectangle = new Rectangle(0, 0, width, height);
+     var destinationPoint = new Point.zero();
+     _filters[i].apply(_cache, sourceRectangle, _cache, destinationPoint);
+   }
  }
- 
+
  if (_cacheDebugBorder) {
    _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
    _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
- }      
+ }
 }
 </pre>
 </div>
@@ -924,14 +940,14 @@ void setTransform(num x, num y, [num scaleX, num scaleY, num rotation, num skewX
    if (scaleY != null) {
      _scaleY = scaleY.toDouble();
      if (rotation != null) {
-       _rotation = rotation.toDouble(); 
+       _rotation = rotation.toDouble();
        if (skewX != null) {
          _skewX = skewX.toDouble();
          if (skewY != null) {
            _skewY = skewY.toDouble();
            if (pivotX != null) {
              _pivotX = pivotX.toDouble();
-             if (pivotY != null) 
+             if (pivotY != null)
                _pivotY = pivotY.toDouble();
            }
          }
@@ -950,7 +966,7 @@ void setTransform(num x, num y, [num scaleX, num scaleY, num rotation, num skewX
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 Matrix transformationMatrixTo(DisplayObject targetSpace) {
- 
+
  if (targetSpace == _parent)
    return _transformationMatrix.clone();
 
@@ -1005,7 +1021,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-04-19 21:10:18.850</div>
+          <div>This page was generated at 2013-05-22 20:23:25.187</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

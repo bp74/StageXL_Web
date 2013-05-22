@@ -38,20 +38,26 @@ class RenderLoop {
  Juggler _juggler;
  List&lt;Stage&gt; _stages;
  num _renderTime;
+ Function _requestAnimationFrameCallback; // Cached closure to pass to requestAnimationFrame.
+ bool _invalidate;
 
- _EventStreamIndex _enterFrameIndex;
  EnterFrameEvent _enterFrameEvent;
+ ExitFrameEvent _exitFrameEvent;
+ RenderEvent _renderEvent;
 
  RenderLoop() {
    
    _juggler = new Juggler();
    _stages = new List&lt;Stage&gt;();
-   _renderTime = double.NAN;
+   _renderTime = -1;
+   _invalidate = false;
 
-   _enterFrameIndex = _EventStreamIndex.enterFrame;
    _enterFrameEvent = new EnterFrameEvent(0);
-
-   html.window.requestAnimationFrame(_onAnimationFrame);
+   _exitFrameEvent = new ExitFrameEvent();
+   _renderEvent = new RenderEvent();
+   
+   _requestAnimationFrameCallback = _onAnimationFrame;
+   _requestAnimationFrame();
  }
 
  Juggler get juggler =&gt; _juggler;
@@ -59,37 +65,55 @@ class RenderLoop {
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- void _onAnimationFrame(num currentTime) {
+ _requestAnimationFrame() {
+   html.window.requestAnimationFrame(_requestAnimationFrameCallback); 
+ }
+ 
+ _onAnimationFrame(num currentTime) {
    
-   html.window.requestAnimationFrame(_onAnimationFrame);
+   _requestAnimationFrame();
 
-   if (_renderTime.isNaN)
-     _renderTime = currentTime;
+   currentTime = currentTime.toDouble();
+   
+   if (_renderTime == -1) _renderTime = currentTime;
+   if (_renderTime &gt; currentTime) _renderTime = currentTime;
 
-   if (_renderTime &gt; currentTime)
-     _renderTime = currentTime;
-
-   num deltaTime = currentTime - _renderTime;
-   num deltaTimeSec = deltaTime / 1000.0;
-   num currentTimeSec = currentTime / 1000.0;
+   var deltaTime = currentTime - _renderTime;
+   var deltaTimeSec = deltaTime / 1000.0;
+   var currentTimeSec = currentTime / 1000.0;
+   var invalidate = false;
    
    if (deltaTime &gt;= 1) {
      _renderTime = currentTime;
      _enterFrameEvent._passedTime = deltaTimeSec;
-     _enterFrameIndex._dispatchEvent(_enterFrameEvent);
+     _EventStreamIndex.enterFrame._dispatchEvent(_enterFrameEvent);
+     
      _juggler.advanceTime(deltaTimeSec);
 
      for(int i = 0; i &lt; _stages.length; i++) {
-       var stage = _stages[i];
-       stage.juggler.advanceTime(deltaTimeSec);
-       stage.materialize(currentTimeSec, deltaTimeSec);
+       _stages[i].juggler.advanceTime(deltaTimeSec);
      }
+     
+     if (_invalidate) {
+       _invalidate = false;
+       _EventStreamIndex.render._dispatchEvent(_renderEvent);
+     }
+     
+     for(int i = 0; i &lt; _stages.length; i++) {
+       _stages[i].materialize(currentTimeSec, deltaTimeSec);
+     }
+     
+     _EventStreamIndex.exitFrame._dispatchEvent(_exitFrameEvent);
    }
  }
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
+ void invalidate() {
+   _invalidate = true;
+ }
+ 
  void addStage(Stage stage) {
   
    if (stage.renderLoop != null) {
@@ -123,12 +147,15 @@ RenderLoop() {
  
  _juggler = new Juggler();
  _stages = new List&lt;Stage&gt;();
- _renderTime = double.NAN;
+ _renderTime = -1;
+ _invalidate = false;
 
- _enterFrameIndex = _EventStreamIndex.enterFrame;
  _enterFrameEvent = new EnterFrameEvent(0);
-
- html.window.requestAnimationFrame(_onAnimationFrame);
+ _exitFrameEvent = new ExitFrameEvent();
+ _renderEvent = new RenderEvent();
+ 
+ _requestAnimationFrameCallback = _onAnimationFrame;
+ _requestAnimationFrame();
 }
 </pre>
 </div>
@@ -169,6 +196,18 @@ void addStage(Stage stage) {
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="invalidate">
+<button class="show-code">Code</button>
+void <strong>invalidate</strong>() <a class="anchor-link" href="#invalidate"
+              title="Permalink to RenderLoop.invalidate">#</a></h4>
+<div class="doc">
+<pre class="source">
+void invalidate() {
+ _invalidate = true;
+}
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="removeStage">
 <button class="show-code">Code</button>
 void <strong>removeStage</strong>(<a href="../stagexl/Stage.html">Stage</a> stage) <a class="anchor-link" href="#removeStage"
@@ -190,7 +229,7 @@ void removeStage(Stage stage) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-04-19 21:10:19.121</div>
+          <div>This page was generated at 2013-05-22 20:23:25.463</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

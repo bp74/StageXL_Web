@@ -85,13 +85,12 @@
         <h1>
             Performance</h1>
         <p>
-            This demo is a benchmark to measure how many frames per second the browser is able to draw.
-            Increase the number of objects to see the effect on the frame rate. A modern computer should
-            be able to draw approximate 2000 objects at a smooth frame rate of 60 fps. Right now Google
-            Chrome delivers the best performance compared to other browsers. Over the next weeks and months
-            we expect noticeable better results for this benchmark enabled by the continuous work on the
-            dart2js compiler. Some critical code paths still contain non-optimal JavaScript code that will
-            improve with the steady progress of the compiler.</p>
+            This benchmark tests how many frames per second the browser is able to draw for a given number of
+            flags. You can increase the number of flags to see the effect on the frame rate. A modern desktop computer
+            should be able to draw at least 2000 flags at a smooth frame rate of 60 fps. This benchmark depends on
+            three important factors: The performance of your GPU for the draw calls, the performance of your CPU for
+            the animation and last but not least the quality of the code that the Dart to JavaScript (dart2js) compiler
+            generates.</p>
         <br />
         <div class="tabbable">
             <ul class="nav nav-tabs">
@@ -146,17 +145,17 @@ Juggler juggler;
 ResourceManager resourceManager;
 
 void main() {
-     
+
   // initialize Stage and RenderLoop
   stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
   renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
   juggler = renderLoop.juggler;
-  
+
   // initialize ResourceManager
   resourceManager = new ResourceManager()
     ..addTextureAtlas(&apos;flags&apos;, &apos;images/flags.json&apos;, TextureAtlasFormat.JSONARRAY);
-  
+
   resourceManager.load()
     .then((_) =&gt; stage.addChild(new PerformanceDemo()))
     .catchError((e) =&gt; print(e));
@@ -170,7 +169,7 @@ part of stagexl_web;
 class PerformanceDemo extends DisplayObjectContainer {
 
   PerformanceDemo() {
-    
+
     // let&apos;s start with 250 flags
     _addFlags(250);
 
@@ -181,57 +180,57 @@ class PerformanceDemo extends DisplayObjectContainer {
     html.query(&apos;#plus10&apos;).onClick.listen((e) =&gt; _addFlags(10));
 
     // add event listener for EnterFrame (fps meter)
-    this.onEnterFrame.listen(_onEnterFrame);            
+    this.onEnterFrame.listen(_onEnterFrame);
   }
-  
+
   //---------------------------------------------------------------------------------
 
   num _fpsAverage = null;
-  
+
   _onEnterFrame(EnterFrameEvent e) {
-    
+
     if (_fpsAverage == null) {
       _fpsAverage = 1.00 / e.passedTime;
     } else {
       _fpsAverage = 0.05 / e.passedTime + 0.95 * _fpsAverage;
     }
-  
+
     html.query(&apos;#fpsMeter&apos;).innerHtml = &apos;fps: ${_fpsAverage.round()}&apos;;
   }
-  
+
   //---------------------------------------------------------------------------------
-  
+
   _addFlags(int amount) {
-    
+
     var random = new Random();
     var textureAtlas = resourceManager.getTextureAtlas(&apos;flags&apos;);
     var flagNames = textureAtlas.frameNames;
-    
+
     while(--amount &gt;= 0) {
       var flagName = flagNames[random.nextInt(flagNames.length)];
       var flagBitmapData = textureAtlas.getBitmapData(flagName);
-      
+
       var flyingFlag = new FlyingFlag(flagBitmapData, random.nextInt(200) - 100, random.nextInt(200) - 100);
       flyingFlag.x = 30 + random.nextInt(940 - 60);
       flyingFlag.y = 30 + random.nextInt(500 - 60);
       addChild(flyingFlag);
-      
+
       juggler.add(flyingFlag);
     }
-  
+
     html.query(&apos;#flagCounter&apos;).innerHtml = &apos;Flags: ${numChildren}&apos;;
   }
-  
+
   //---------------------------------------------------------------------------------
-  
+
   _removeFlags(int amount) {
-    
+
     while(--amount &gt;= 0 &amp;&amp; numChildren &gt; 0) {
       var displayObject = getChildAt(0);
       displayObject.removeFromParent();
       juggler.remove(displayObject);
     }
-  
+
     html.query(&apos;#flagCounter&apos;).innerHtml = &apos;Flags: ${numChildren}&apos;;
   }
 }
@@ -242,7 +241,7 @@ class PerformanceDemo extends DisplayObjectContainer {
 part of stagexl_web;
 
 class FlyingFlag extends Bitmap implements Animatable {
-  
+
     num vx, vy;
 
     FlyingFlag(BitmapData bitmapData, this.vx, this.vy):super(bitmapData) {
@@ -260,14 +259,14 @@ class FlyingFlag extends Bitmap implements Animatable {
 }
 </pre>
                 </div>
-                
+
             </div>
         </div>
     </div>
-    
+
     <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
-    
+
     <script type="application/dart" src="../stagexl_demos.dart"></script>
     <script type="text/javascript" src="../assets/js/dart.js"></script>
 </body>

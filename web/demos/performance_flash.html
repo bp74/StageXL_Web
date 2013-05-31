@@ -2,15 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>StageXL - Performance Demo</title>
+    <title>StageXL - Performance Demo (Flash Version)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-	  <link href="../assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+	<link href="../assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../assets/css/stagexl.css" rel="stylesheet" />
-
-    <script type="text/javascript" src="../assets/prettify/run_prettify.js?lang=dart" defer="defer"></script>
 
     <script type="text/javascript">
         var _gaq = _gaq || [];
@@ -82,22 +80,18 @@
         </div>
     </div>
     <div class="container">
-        <h1>
-            Performance</h1>
+        <h1>Performance (Flash Version)</h1>
         <p>
             This benchmark tests how many frames per second the browser is able to draw for a given number of
             flags. You can increase the number of flags to see the effect on the frame rate. A modern desktop computer
             should be able to draw at least 2000 flags at a smooth frame rate of 60 fps. This benchmark depends on
             four important factors: The performance of your GPU for the draw calls, the performance of your CPU for
             the animation, the JavaScript code compiled by dart2js and last but not least the browser you are using.</p>
-            <p>Compare the benchmark numbers with the <a href="performance_flash.html">Flash Version</a>.</p>
+            <p>Compare the benchmark numbers with the <a href="performance.html">HTML5 Version</a>.</p>
         <br />
         <div class="tabbable">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#demoShow" data-toggle="tab"><strong>Demo</strong></a></li>
-                <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
-                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
-                <li><a href="#sourceFlyingFlag" data-toggle="tab">flying_flag.dart</a></li>
+                <li class="active"><a href="#demoShow" data-toggle="tab"><strong>Demo (Flash)</strong></a></li>
             </ul>
 
             <div class="tab-content">
@@ -107,7 +101,7 @@
                             <button id="minus100" class="btn btn-large btn-block btn-primary"><i class="icon-minus icon-white"></i> 100</button>
                         </div>
                         <div class="span2">
-                            <button id="plus100" class="btn btn-large btn-block btn-primary"><i class="icon-plus icon-white"></i> 100</i></button>
+                            <button id="plus100" class="btn btn-large btn-block btn-primary"><i class="icon-plus icon-white"></i> 100</button>
                         </div>
                         <div class="offset4 span2">
                             <div class="alert alert-info" id="flagCounter">Flags: 0</div>
@@ -117,141 +111,17 @@
                         </div>
                     </div>
 
-                    <canvas id="stage" width="940" height="500">
-                    </canvas>
+                    <div id="perfDemo">
+                        <h1>Performance Demo</h1>
+                        <p>
+                            <a href="http://www.adobe.com/go/getflashplayer">
+                                <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+                            </a>
+                        </p>
+                    </div>
                     <hr />
                     Credits for this beautiful flags to: <a href="http://www.icondrawer.com" target="_blank">www.IconDrawer.com</a>.
                 </div>
-                <div class="tab-pane" id="sourceMain">
-                  <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-library stagexl_web;
-
-import &apos;dart:math&apos;;
-import &apos;dart:html&apos; as html;
-import &apos;package:stagexl/stagexl.dart&apos;;
-
-part &apos;src/demo.dart&apos;;
-part &apos;src/flying_flag.dart&apos;;
-
-Stage stage;
-RenderLoop renderLoop;
-Juggler juggler;
-ResourceManager resourceManager;
-
-void main() {
-
-  // initialize Stage and RenderLoop
-  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
-  renderLoop = new RenderLoop();
-  renderLoop.addStage(stage);
-  juggler = renderLoop.juggler;
-
-  // initialize ResourceManager
-  resourceManager = new ResourceManager()
-    ..addTextureAtlas(&apos;flags&apos;, &apos;images/flags.json&apos;, TextureAtlasFormat.JSONARRAY);
-
-  resourceManager.load()
-    .then((_) =&gt; stage.addChild(new PerformanceDemo()))
-    .catchError((e) =&gt; print(e));
-}
-</pre>
-                </div>
-                <div class="tab-pane" id="sourceDemo">
-                  <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_web;
-
-class PerformanceDemo extends DisplayObjectContainer {
-
-  PerformanceDemo() {
-
-    // let&apos;s start with 250 flags
-    _addFlags(250);
-
-    // add html-button event listeners
-    html.query(&apos;#minus100&apos;).onClick.listen((e) =&gt; _removeFlags(100));
-    html.query(&apos;#plus100&apos;).onClick.listen((e) =&gt; _addFlags(100));
-
-    // add event listener for EnterFrame (fps meter)
-    this.onEnterFrame.listen(_onEnterFrame);
-  }
-
-  //---------------------------------------------------------------------------------
-
-  num _fpsAverage = null;
-
-  _onEnterFrame(EnterFrameEvent e) {
-
-    if (_fpsAverage == null) {
-      _fpsAverage = 1.00 / e.passedTime;
-    } else {
-      _fpsAverage = 0.05 / e.passedTime + 0.95 * _fpsAverage;
-    }
-
-    html.query(&apos;#fpsMeter&apos;).innerHtml = &apos;fps: ${_fpsAverage.round()}&apos;;
-  }
-
-  //---------------------------------------------------------------------------------
-
-  _addFlags(int amount) {
-
-    var random = new Random();
-    var textureAtlas = resourceManager.getTextureAtlas(&apos;flags&apos;);
-    var flagNames = textureAtlas.frameNames;
-
-    while(--amount &gt;= 0) {
-      var flagName = flagNames[random.nextInt(flagNames.length)];
-      var flagBitmapData = textureAtlas.getBitmapData(flagName);
-
-      var flyingFlag = new FlyingFlag(flagBitmapData, random.nextInt(200) - 100, random.nextInt(200) - 100);
-      flyingFlag.x = 30 + random.nextInt(940 - 60);
-      flyingFlag.y = 30 + random.nextInt(500 - 60);
-      addChild(flyingFlag);
-
-      juggler.add(flyingFlag);
-    }
-
-    html.query(&apos;#flagCounter&apos;).innerHtml = &apos;Flags: ${numChildren}&apos;;
-  }
-
-  //---------------------------------------------------------------------------------
-
-  _removeFlags(int amount) {
-
-    while(--amount &gt;= 0 &amp;&amp; numChildren &gt; 0) {
-      var displayObject = getChildAt(0);
-      displayObject.removeFromParent();
-      juggler.remove(displayObject);
-    }
-
-    html.query(&apos;#flagCounter&apos;).innerHtml = &apos;Flags: ${numChildren}&apos;;
-  }
-}
-</pre>
-                </div>
-                <div class="tab-pane" id="sourceFlyingFlag">
-                  <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_web;
-
-class FlyingFlag extends Bitmap implements Animatable {
-
-    num vx, vy;
-
-    FlyingFlag(BitmapData bitmapData, this.vx, this.vy):super(bitmapData) {
-      this.pivotX = bitmapData.width / 2;
-      this.pivotY = bitmapData.height / 2;
-    }
-
-    bool advanceTime(num time) {
-      var tx = x + vx * time;
-      var ty = y + vy * time;
-      if (tx &gt; 910 || tx &lt; 30) vx = -vx; else x = tx;
-      if (ty &gt; 470 || ty &lt; 30) vy = -vy; else y = ty;
-      return true;
-    }
-}
-</pre>
-                </div>
-
             </div>
         </div>
     </div>
@@ -259,7 +129,41 @@ class FlyingFlag extends Bitmap implements Animatable {
     <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
 
-    <script type="application/dart" src="../stagexl_demos.dart"></script>
-    <script type="text/javascript" src="../assets/js/dart.js"></script>
+    <script type="text/javascript" src="../assets/js/swfobject.js"></script>
+    <script type="text/javascript">
+
+        function setFps(value)
+        {
+            $("#fpsMeter").text("fps: " + value);
+        }
+
+        function setFlags(value)
+        {
+            $("#flagCounter").text("Flags: " + value);
+        }
+
+        var flashvars = {};
+
+        var params = {
+            allowScriptAccess: "always",
+            allowFullScreen: "true"
+        };
+
+        var attributes = {
+            id: "perfDemo"
+        };
+
+        swfobject.embedSWF("flash/FlashPerformanceDemo.swf", "perfDemo", "940", "500", "9.0.115", "flash/expressInstall.swf", flashvars, params, attributes);
+
+        $("#minus100").on('click', function() {
+            swfobject.getObjectById("perfDemo").removeFlags(100);
+        });
+
+        $("#plus100").on('click', function() {
+            swfobject.getObjectById("perfDemo").addFlags(100);
+        });
+
+    </script>
+
 </body>
 </html>

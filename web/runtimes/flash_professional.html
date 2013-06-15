@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>StageXL - Sound demo</title>
+    <title>StageXL - Flash Profressional runtime</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -23,8 +23,6 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
     </script>
-
-    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -42,7 +40,7 @@
                             <li class="nav-header">Demos</li>
                             <li><a href="../demos/performance.html">&nbsp;Performance</a></li>
                             <li><a href="../demos/masking.html">&nbsp;Masking</a></li>
-                            <li><a href="flipbook.html">&nbsp;FlipBook</a></li>
+                            <li><a href="../demos/flipbook.html">&nbsp;FlipBook</a></li>
                             <li><a href="../demos/text.html">&nbsp;Text</a></li>
                             <li><a href="../demos/filter.html">&nbsp;Filter</a></li>
                             <li><a href="../demos/sound.html">&nbsp;Sound</a></li>
@@ -86,14 +84,17 @@
     </div>
     <div class="container">
         <h1>
-            Filter</h1>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-            deserunt mollit anim id est laborum.</p>
+            Flash Professional - Toolkit for Dart</h1>
+        <p>Flash Professional is the most popular authoring tool to create vector graphics, animations, games and rich
+            internet applications for the web. Previously your content was exported to the SWF file format which could
+            be viewed with the Flash Player plugin. The Toolkit for Dart is an extension for Flash Professional to
+            export your content to Dart and the StageXL library. This feature allows designers to use the tool they
+            love and at the same time create content for the modern web.</p>
+        <p>Special thanks to Adobe for releasing the Toolkit for Dart as open source project! The source code is
+            available on GitHub and your contributions are highly appreciated. You can download and learn more about
+            the Toolkit for Dart here: </p>
+        <!--<a href="http://toolkitfordart.github.io/" target="_blank">Toolkit for Dart</a> -->
+        <p><i>The Toolkit for Dart will be available on June 17th 2013.</i></p>
         <br />
         <div class="tabbable">
             <ul class="nav nav-tabs">
@@ -106,10 +107,6 @@
                 <div class="tab-pane active" id="demoShow">
                     <canvas id="stage" width="940" height="500">
                     </canvas>
-                    <hr />
-                    <p>The cartoon-king image is licensed under the Creative Commons BY-NC-SA 3.0 license.<br />
-                    Credits to laetissima: <a href="http://opengameart.org/content/cartoon-king" target="_blank">http://opengameart.org/content/cartoon-king</a></p>
-
                 </div>
                 <div class="tab-pane" id="sourceMain">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
@@ -134,99 +131,21 @@ void main() {
   renderLoop.addStage(stage);
   juggler = renderLoop.juggler;
   
-  // initialize ResourceManager
-  resourceManager = new ResourceManager()
-    ..addBitmapData(&apos;king&apos;, &apos;images/king.png&apos;)
-    ..addBitmapData(&apos;sun&apos;, &apos;images/Sun.png&apos;);
-  
-  resourceManager.load()
-    .then((_) =&gt; stage.addChild(new FilterDemo()))
-    .catchError((e) =&gt; print(e));
 }
 </pre>
                 </div>
                 <div class="tab-pane" id="sourceDemo">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_demos;
-
-class FilterDemo extends DisplayObjectContainer {
-  
-  final List _filters = [
-    {&apos;name&apos;: &apos;DropShadowFilter (black)&apos;, &apos;filter&apos;: new DropShadowFilter(10, PI / 4, Color.Black, 0.8, 8, 8) },
-    {&apos;name&apos;: &apos;GlowFilter (red)&apos;, &apos;filter&apos;: new GlowFilter(Color.Red, 1.0, 20, 20) },
-    {&apos;name&apos;: &apos;ColorMatrixFilter (grayscale)&apos;, &apos;filter&apos;: new ColorMatrixFilter.grayscale() },
-    {&apos;name&apos;: &apos;ColorMatrixFilter (invert)&apos;, &apos;filter&apos;: new ColorMatrixFilter.invert() },
-    {&apos;name&apos;: &apos;BlurFilter (radius 1)&apos;, &apos;filter&apos;: new BlurFilter(1, 1) },
-    {&apos;name&apos;: &apos;BlurFilter (radius 5)&apos;, &apos;filter&apos;: new BlurFilter(5, 5) },
-    {&apos;name&apos;: &apos;BlurFilter (radius 20)&apos;, &apos;filter&apos;: new BlurFilter(20, 20) },
-    {&apos;name&apos;: &apos;AlphaMaskFilter&apos;, &apos;filter&apos;: new AlphaMaskFilter(resourceManager.getBitmapData(&quot;sun&quot;))}
-  ];
-    
-  FilterDemo() {
-    
-    var kingBitmapData = resourceManager.getBitmapData(&apos;king&apos;);
-    var backgroundBitmapData = new BitmapData(230, 245, true, 0xFFF0F0F0);
-    var kingBitmaps = new List&lt;Bitmap&gt;();
-    
-    //--------------------------------------------------------------------------------
-    // Add kings with 8 different filters
-    
-    for(int i = 0; i &lt; _filters.length; i++) {
-      
-      var filter = _filters[i][&apos;filter&apos;] as BitmapFilter;
-      var name = _filters[i][&apos;name&apos;] as String;
-      var x = 235 * (i % 4);
-      var y = 250 * (i ~/ 4);
-      
-      var filterBounds = filter.getBounds();
-      filterBounds.inflate(kingBitmapData.width, kingBitmapData.height);
-      
-      var backgroundBitmap = new Bitmap(backgroundBitmapData);
-      backgroundBitmap.x = x;
-      backgroundBitmap.y = y;
-      addChild(backgroundBitmap);
-      
-      var kingBitmap = new Bitmap(kingBitmapData);
-      kingBitmap.x = x + 40;
-      kingBitmap.y =  y + 45;
-      kingBitmap.filters = [filter];
-      kingBitmap.applyCache(filterBounds.left, filterBounds.top, filterBounds.width, filterBounds.height);
-      addChild(kingBitmap);
-      kingBitmaps.add(kingBitmap);
-      
-      var textField = new TextField();
-      textField.defaultTextFormat = new TextFormat(&apos;Helvetica Neue, Helvetica, Arial&apos;, 14, Color.Black);
-      textField.x = x + 5;
-      textField.y = y + 5;
-      textField.width = 200;
-      textField.text = name;
-      addChild(textField);
-    }
-    
-    //--------------------------------------------------------------------------------
-    // animate the AlphaMaskFilter
-    
-    juggler.transition(0.0, PI * 2 * 100, 600.0, TransitionFunction.linear, (value) {
-      var matrix = _filters[7][&apos;filter&apos;].matrix;
-      matrix.identity();
-      matrix.translate(-64, -64);
-      matrix.scale(1.0, 1.5);
-      matrix.rotate(value);
-      matrix.translate(kingBitmapData.width / 2 - 10, kingBitmapData.height / 2);
-      kingBitmaps[7].refreshCache();
-    });    
-  }
-}
 </pre>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
-
-    <script type="application/dart" src="../stagexl_demos.dart"></script>
+    
+    <script type="application/dart" src="../stagexl_runtimes.dart"></script>
     <script type="text/javascript" src="../assets/js/dart.js"></script>
 </body>
 </html>

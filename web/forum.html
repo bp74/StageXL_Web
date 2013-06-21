@@ -11,6 +11,8 @@
     <link href="assets/css/stagexl.css" rel="stylesheet" />
 
     <script type="text/javascript" src="../assets/prettify/run_prettify.js?lang=dart" defer="defer"></script>
+    <script type="text/javascript" src="assets/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
         var _gaq = _gaq || [];
@@ -22,6 +24,16 @@
             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
+
+
+       jQuery.event.add(window, "load", resizeFrame);
+       jQuery.event.add(window, "resize", resizeFrame);
+
+       function resizeFrame() {
+          var h = $(window).height();
+          var w = $(window).width();
+          $("#forum_embed").css('height', h - 70);
+       }
     </script>
 </head>
 <body>
@@ -95,13 +107,10 @@
          src="javascript:void(0)"
          scrolling="no"
          frameborder="0"
-         width="900"
+         width="940"
          height="700">
       </iframe>
     </div>
-
-    <script type="text/javascript" src="assets/js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
       document.getElementById('forum_embed').src =
@@ -109,6 +118,6 @@
          + '&showsearch=true&showpopout=true&showtabs=false&hideforumtitle=true'
          + '&hl=en&parenturl=' + encodeURIComponent(window.location.href);
     </script>
-    
+
 </body>
 </html>

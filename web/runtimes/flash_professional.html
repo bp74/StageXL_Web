@@ -92,9 +92,10 @@
             love and at the same time create content for the modern web.</p>
         <p>Special thanks to Adobe for releasing the Toolkit for Dart as open source project! The source code is
             available on GitHub and your contributions are highly appreciated. You can download and learn more about
-            the Toolkit for Dart here: </p>
-        <!--<a href="http://toolkitfordart.github.io/" target="_blank">Toolkit for Dart</a> -->
-        <p><i>The Toolkit for Dart will be available on June 17th 2013.</i></p>
+            the Toolkit for Dart here: 
+            <a href="http://toolkitfordart.github.io/" target="_blank">Toolkit for Dart</a>
+            </p>
+            
         <br />
         <div class="tabbable">
             <ul class="nav nav-tabs">
@@ -105,37 +106,25 @@
 
             <div class="tab-content">
                 <div class="tab-pane active" id="demoShow">
-                    <canvas id="stage" width="940" height="500">
-                    </canvas>
+                    <!--<canvas id="stage" width="940" height="500">
+                    </canvas>-->
+                    Please visit the
+                    <a href="http://toolkitfordart.github.io/" target="_blank">Toolkit for Dart</a>
+                    homepage for demos and informations.<br/>
+                    The video below is from the "Getting started" section on the Toolkit for Dart homepage.<br/><br/>
+                    
+                    <iframe width="853" height="480" src="http://www.youtube.com/embed/dJfTRdWU1bg" frameborder="0" allowfullscreen></iframe>
+                    <br/><br/><br/><br/>
+                    
                 </div>
                 <div class="tab-pane" id="sourceMain">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-library stagexl_web;
-
-import &apos;dart:math&apos;;
-import &apos;dart:html&apos; as html;
-import &apos;package:stagexl/stagexl.dart&apos;;
-
-part &apos;src/demo.dart&apos;;
-
-Stage stage;
-RenderLoop renderLoop;
-Juggler juggler;
-ResourceManager resourceManager;
-
-void main() {
-     
-  // initialize Stage and RenderLoop
-  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
-  renderLoop = new RenderLoop();
-  renderLoop.addStage(stage);
-  juggler = renderLoop.juggler;
-  
-}
+Coming soon ...
 </pre>
                 </div>
                 <div class="tab-pane" id="sourceDemo">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
+Coming soon ...
 </pre>
                 </div>
             </div>
@@ -144,8 +133,9 @@ void main() {
     
     <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
-    
+    <!--
     <script type="application/dart" src="../stagexl_runtimes.dart"></script>
     <script type="text/javascript" src="../assets/js/dart.js"></script>
+    -->
 </body>
 </html>

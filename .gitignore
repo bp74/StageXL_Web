@@ -3,6 +3,7 @@
 *.dart.js.deps
 pubspec.lock
 packages/
+deploy/
 
 .idea/
 

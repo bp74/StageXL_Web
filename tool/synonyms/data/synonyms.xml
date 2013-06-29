@@ -617,7 +617,7 @@ public function foo(s:String = null, b:Boolean = false):void {
       <code language="dart"><![CDATA[
 // Positional optional parameters	  
 void foo([String s = null, bool b]) {
-  if (?b == false) {
+  if (b == null) {
     // Parameter 'b' was not provided.
   }
 }

@@ -32,7 +32,7 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
-<p>The <a class="crossref" href="../stagexl/Tween.html#Tween">Tween</a> class animates the properties of a <a class="crossref" href="../stagexl/DisplayObject.html">DisplayObject</a>.
+<p>The <a class="crossref" href="../stagexl/Tween.html">Tween</a> class animates the properties of a <a class="crossref" href="../stagexl/DisplayObject.html">DisplayObject</a>.
 Use one of the <a class="crossref" href="../stagexl/TransitionFunction.html">TransitionFunction</a> functions or create your own.
 Add the instance to the <a class="crossref" href="../stagexl/Juggler.html">Juggler</a> to start the animation.</p>
 <pre><code>var tween = new Tween(mySprite, 1.0, TransitionFunction.easeInCubic);
@@ -43,27 +43,27 @@ renderLoop.juggler.add(tween);
 </code></pre>
 <pre class="source">
 class Tween implements Animatable {
- 
+
  final DisplayObject _displayObject;
  final EaseFunction _transitionFunction;
  final List&lt;TweenProperty&gt; _tweenPropertyList = new List&lt;TweenProperty&gt;();
- 
+
  Function _onStart;
  Function _onUpdate;
  Function _onComplete;
- 
- TweenPropertyFactory _tweenPropertyFactory;  
+
+ TweenPropertyFactory _tweenPropertyFactory;
  num _totalTime;
  num _currentTime;
  num _delay;
  bool _roundToInt;
  bool _started;
 
- Tween(DisplayObject displayObject, num time, [EaseFunction transitionFunction]) : 
- 
+ Tween(DisplayObject displayObject, num time, [EaseFunction transitionFunction = TransitionFunction.linear]) :
+
    _displayObject = displayObject,
-   _transitionFunction = (?transitionFunction) ? transitionFunction : TransitionFunction.linear {
-   
+   _transitionFunction = transitionFunction {
+
    _tweenPropertyFactory = new TweenPropertyFactory(this);
    _currentTime = 0.0;
    _totalTime = max(0.0001, time);
@@ -78,12 +78,12 @@ class Tween implements Animatable {
  TweenPropertyFactory get animate =&gt; _tweenPropertyFactory;
 
  void _addTweenProperty(TweenProperty tweenProperty) {
-   
+
    if (_displayObject != null &amp;&amp; _started == false) {
      _tweenPropertyList.add(tweenProperty);
    }
  }
- 
+
  //-------------------------------------------------------------------------------------------------
 
  void complete() {
@@ -95,9 +95,9 @@ class Tween implements Animatable {
  //-------------------------------------------------------------------------------------------------
 
  bool advanceTime(num time) {
-   
+
    if (_currentTime &lt; _totalTime || _started == false) {
-     
+
      _currentTime = _currentTime + time;
 
      if (_currentTime &gt; _totalTime) {
@@ -105,9 +105,9 @@ class Tween implements Animatable {
      }
 
      if (_currentTime &gt;= 0.0) {
-      
-       // set startValues if this is the first start 
-       
+
+       // set startValues if this is the first start
+
        if (_started == false) {
          _started = true;
 
@@ -121,7 +121,7 @@ class Tween implements Animatable {
        }
 
        // calculate transition ratio and value
-       
+
        num ratio = _currentTime / _totalTime;
        num transition = _transitionFunction(ratio).toDouble();
 
@@ -157,7 +157,7 @@ class Tween implements Animatable {
  bool get isComplete =&gt; _currentTime &gt;= _totalTime;
 
  set delay(num value) {
-   
+
    if (_started == false)
      _currentTime = _currentTime + _delay - value;
 
@@ -192,17 +192,23 @@ class Tween implements Animatable {
 <span class="type-box"><span class="icon-class"></span><a href="../stagexl/Animatable.html">Animatable</a></span></p>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="Tween">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>Tween</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> displayObject, num time, [<a href="../stagexl/EaseFunction.html">EaseFunction</a> transitionFunction]) <a class="anchor-link" href="#Tween"
+new <strong>Tween</strong>(<a href="../stagexl/DisplayObject.html">DisplayObject</a> displayObject, num time, [<a href="../stagexl/EaseFunction.html">EaseFunction</a> transitionFunction = TransitionFunction.linear]) <a class="anchor-link" href="#"
               title="Permalink to Tween.Tween">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
-Tween(DisplayObject displayObject, num time, [EaseFunction transitionFunction]) : 
+Tween(DisplayObject displayObject, num time, [EaseFunction transitionFunction = TransitionFunction.linear]) :
 
  _displayObject = displayObject,
- _transitionFunction = (?transitionFunction) ? transitionFunction : TransitionFunction.linear {
- 
+ _transitionFunction = transitionFunction {
+
  _tweenPropertyFactory = new TweenPropertyFactory(this);
  _currentTime = 0.0;
  _totalTime = max(0.0001, time);
@@ -252,7 +258,7 @@ num get delay =&gt; _delay;
 </pre>
 <pre class="source">
 set delay(num value) {
- 
+
  if (_started == false)
    _currentTime = _currentTime + _delay - value;
 
@@ -290,7 +296,7 @@ bool get isComplete =&gt; _currentTime &gt;= _totalTime;
 void <strong>set onComplete</strong>(void function()) <a class="anchor-link" href="#onComplete="
               title="Permalink to Tween.set onComplete">#</a></h4>
 <div class="doc">
-<p>The function that is called when a <a class="crossref" href="../stagexl/Tween.html#Tween">Tween</a> is completed.</p>
+<p>The function that is called when a <a class="crossref" href="../stagexl/Tween.html">Tween</a> is completed.</p>
 <pre class="source">
 void set onComplete(void function()) { _onComplete = function; }
 </pre>
@@ -301,7 +307,7 @@ void set onComplete(void function()) { _onComplete = function; }
 void <strong>set onStart</strong>(void function()) <a class="anchor-link" href="#onStart="
               title="Permalink to Tween.set onStart">#</a></h4>
 <div class="doc">
-<p>The function that is called when a <a class="crossref" href="../stagexl/Tween.html#Tween">Tween</a> starts. This happens after the specified delay.</p>
+<p>The function that is called when a <a class="crossref" href="../stagexl/Tween.html">Tween</a> starts. This happens after the specified delay.</p>
 <pre class="source">
 void set onStart(void function()) { _onStart = function; }
 </pre>
@@ -312,7 +318,7 @@ void set onStart(void function()) { _onStart = function; }
 void <strong>set onUpdate</strong>(void function()) <a class="anchor-link" href="#onUpdate="
               title="Permalink to Tween.set onUpdate">#</a></h4>
 <div class="doc">
-<p>The function that is called every time a <a class="crossref" href="../stagexl/Tween.html#Tween">Tween</a> updates the properties of the <a class="crossref" href="../stagexl/DisplayObject.html">DisplayObject</a>.</p>
+<p>The function that is called every time a <a class="crossref" href="../stagexl/Tween.html">Tween</a> updates the properties of the <a class="crossref" href="../stagexl/DisplayObject.html">DisplayObject</a>.</p>
 <pre class="source">
 void set onUpdate(void function()) { _onUpdate = function; }
 </pre>
@@ -357,9 +363,9 @@ bool <strong>advanceTime</strong>(num time) <a class="anchor-link" href="#advanc
 <div class="doc">
 <pre class="source">
 bool advanceTime(num time) {
- 
+
  if (_currentTime &lt; _totalTime || _started == false) {
-   
+
    _currentTime = _currentTime + time;
 
    if (_currentTime &gt; _totalTime) {
@@ -367,9 +373,9 @@ bool advanceTime(num time) {
    }
 
    if (_currentTime &gt;= 0.0) {
-    
-     // set startValues if this is the first start 
-     
+
+     // set startValues if this is the first start
+
      if (_started == false) {
        _started = true;
 
@@ -383,7 +389,7 @@ bool advanceTime(num time) {
      }
 
      // calculate transition ratio and value
-     
+
      num ratio = _currentTime / _totalTime;
      num transition = _transitionFunction(ratio).toDouble();
 
@@ -428,7 +434,7 @@ void complete() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.499</div>
+          <div>This page was generated at 2013-07-13 19:51:31.436</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

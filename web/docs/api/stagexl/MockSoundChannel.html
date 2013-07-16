@@ -63,11 +63,17 @@ class MockSoundChannel extends SoundChannel {
 <span class="type-box"><span class="icon-class"></span><a href="../stagexl/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/SoundChannel.html">SoundChannel</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>MockSoundChannel</strong></span></p>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="MockSoundChannel">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>MockSoundChannel</strong>(<a href="../stagexl/MockSound.html">MockSound</a> mockSound, bool loop, <a href="../stagexl/SoundTransform.html">SoundTransform</a> soundTransform) <a class="anchor-link" href="#MockSoundChannel"
+new <strong>MockSoundChannel</strong>(<a href="../stagexl/MockSound.html">MockSound</a> mockSound, bool loop, <a href="../stagexl/SoundTransform.html">SoundTransform</a> soundTransform) <a class="anchor-link" href="#"
               title="Permalink to MockSoundChannel.MockSoundChannel">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
 MockSoundChannel(MockSound mockSound, bool loop, SoundTransform soundTransform) {
  _loop = loop;
@@ -154,7 +160,7 @@ dynamic <strong>removeEventListeners</strong>(String eventType, {bool useCapture
 <div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
 removeEventListeners(String eventType, {bool useCapture: false}) {
- _getEventStream(eventType, useCapture)._cancelSubscriptions();
+ _getEventStream(eventType, useCapture).cancelSubscriptions();
 }
 </pre>
 </div>
@@ -176,7 +182,7 @@ void stop() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:24.996</div>
+          <div>This page was generated at 2013-07-13 19:51:30.880</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

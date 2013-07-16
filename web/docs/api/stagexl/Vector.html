@@ -34,27 +34,27 @@
 <div class="doc">
 <pre class="source">
 class Vector {
- 
+
  static const num Epsilon = 0.0000001;
  static const num EpsilonSqr = Epsilon * Epsilon;
- 
+
  final num _x;
  final num _y;
- 
+
  Vector(num x, num y) : _x = x.toDouble(), _y = y.toDouble();
  Vector.zero() : _x = 0.0, _y = 0.0;
  Vector.polar(num len, num angle) : _x = (len * cos(angle)).toDouble(), _y = (len * sin(angle)).toDouble();
- 
+
  Vector clone() =&gt; new Vector(_x, _y);
- 
+
  num get x =&gt; _x;
  num get y =&gt; _y;
- 
+
  String toString() =&gt; "Vector [x=${_x}, y=${_y}]";
 
  //-----------------------------------------------------------------------------------------------
  // Operators
- 
+
  Vector operator +(Vector other) =&gt; new Vector(_x + other._x, _y + other._y);
  Vector operator -(Vector other) =&gt; new Vector(_x - other._x, _y - other._y);
  Vector operator *(Vector other) =&gt; new Vector(_x * other._x, _y * other._y);
@@ -63,145 +63,148 @@ class Vector {
  Vector operator -() =&gt; new Vector(-_x, -_y);
  bool operator ==(Vector other) =&gt; _x == other._x &amp;&amp; _y == other._y;
 
+ // ToDo: http://dartbug.com/11617
+ int get hashCode =&gt; _x.hashCode + _y.hashCode * 7;
+
  bool equalsXY(num x, num y) =&gt; _x == x &amp;&amp; _y == y;
- 
+
  //-----------------------------------------------------------------------------------------------
  // Queries
- 
+
  bool get isNormalized =&gt; ((_x * _x + _y * _y) - 1).abs() &lt; EpsilonSqr;
  bool get isZero =&gt; (_x == 0 &amp;&amp; _y == 0);
  bool get isValid =&gt; (_x.isNaN || _y.isNaN || _x.isInfinite || _y.isInfinite) == false;
- 
+
  bool isNear(Vector other) =&gt; distanceSqr(other) &lt; EpsilonSqr;
- bool isNearXY(num x, num y) =&gt; distanceXYSqr(x, y) &lt; EpsilonSqr; 
- bool isWithin(Vector other, num epsilon) =&gt; distanceSqr(other) &lt; epsilon * epsilon; 
+ bool isNearXY(num x, num y) =&gt; distanceXYSqr(x, y) &lt; EpsilonSqr;
+ bool isWithin(Vector other, num epsilon) =&gt; distanceSqr(other) &lt; epsilon * epsilon;
  bool isWithinXY(num x, num y, num epsilon) =&gt; distanceXYSqr(x, y) &lt; epsilon * epsilon;
- 
+
  num get degrees =&gt; atan2(_y, _x) * 180 / PI;
  num get rads =&gt; atan2(_y, _x);
 
  //-----------------------------------------------------------------------------------------------
  // Scale
- 
+
  Vector scale(num scale) {
    return new Vector(_x * scale, _y * scale);
  }
- 
+
  Vector scaleLength(num value) {
    var scale = value / length;
    return new Vector(_x * scale, _y * scale);
  }
- 
+
  Vector normalize() {
    num nf = 1 / length;
    return new Vector(_x * nf, _y * nf);
  }
- 
+
  //-----------------------------------------------------------------------------------------------
  // Distance
- 
- num get length =&gt; sqrt(_x * _x + _y * _y); 
- num get lengthSqr =&gt; _x * _x + _y * _y; 
- 
+
+ num get length =&gt; sqrt(_x * _x + _y * _y);
+ num get lengthSqr =&gt; _x * _x + _y * _y;
+
  num distance(Vector vec) {
    num xd = _x - vec._x;
    num yd = _y - vec._y;
    return sqrt(xd * xd + yd * yd);
  }
- 
+
  num distanceXY(num x, num y) {
    num xd = _x - x;
    num yd = _y - y;
    return sqrt(xd * xd + yd * yd);
  }
- 
+
  num distanceSqr(Vector vec) {
    num xd = _x - vec._x;
    num yd = _y - vec._y;
    return xd * xd + yd * yd;
  }
- 
+
  num distanceXYSqr(num x, num y) {
    num xd = _x - x;
    num yd = _y - y;
    return xd * xd + yd * yd;
  }
- 
+
  //-----------------------------------------------------------------------------------------------
  // Dot product
- 
+
  num dot(Vector vec) =&gt; _x * vec._x + _y * vec._y;
  num dotXY(num x, num y) =&gt; _x * x + _y * y;
- 
+
  //-----------------------------------------------------------------------------------------------
  // Cross determinant
- 
+
  num crossDet(Vector vec) =&gt; _x * vec._y - _y * vec._x;
  num crossDetXY(num x, num y) =&gt; _x * y - _y * x;
- 
+
  //-----------------------------------------------------------------------------------------------
  // Rotate
- 
+
  Vector rotate(num rads) {
    num s = sin(rads);
    num c = cos(rads);
    return new Vector(_x * c - _y * s, _x * s + _y * c);
  }
- 
+
  Vector normalRight() {
-   return new Vector(-_y, _x); 
+   return new Vector(-_y, _x);
  }
- 
- Vector normalLeft() { 
-   return new Vector(_y, -_x); 
+
+ Vector normalLeft() {
+   return new Vector(_y, -_x);
  }
- 
- Vector negate() { 
-   return new Vector(-_x, -_y); 
+
+ Vector negate() {
+   return new Vector(-_x, -_y);
  }
- 
+
  //-----------------------------------------------------------------------------------------------
  // Spinor rotation
- 
+
  Vector rotateSpinor(Vector vec) {
    return new Vector(_x * vec._x - _y * vec._y, _x * vec._y + _y * vec._x);
  }
- 
+
  Vector spinorBetween(Vector vec) {
    num d = this.lengthSqr;
    num r = (vec._x * _x + vec._y * _y) / d;
    num i = (vec._y * _x - vec._x * _y) / d;
    return new Vector(r, i);
  }
- 
+
  //-----------------------------------------------------------------------------------------------
  // Lerp / slerp
- 
- Vector lerp(Vector to, num t) { 
-   return new Vector(_x + t * (to._x - _x), _y + t * (to._y - _y)); 
+
+ Vector lerp(Vector to, num t) {
+   return new Vector(_x + t * (to._x - _x), _y + t * (to._y - _y));
  }
- 
+
  Vector slerp(Vector vec, num t) {
    num cosTheta = this.dot(vec);
    num theta = acos(cosTheta);
    num sinTheta = sin(theta);
-   
+
    if (sinTheta &lt;= Epsilon)
      return vec.clone();
-   
+
    num w1 = sin((1 - t) * theta) / sinTheta;
    num w2 = sin(t * theta) / sinTheta;
    return this.scale(w1) + vec.scale(w2);
  }
- 
+
  //-----------------------------------------------------------------------------------------------
  // Reflect
- 
+
  Vector reflect(Vector normal) {
    num d = 2 * (_x * normal._x + _y * normal._y);
    return new Vector(_x - d * normal._x, _y - d * normal._y);
  }
- 
+
 }
 </pre>
 </div>
@@ -234,19 +237,25 @@ static const num EpsilonSqr = Epsilon * Epsilon
 </div>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="Vector">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>Vector</strong>(num x, num y) <a class="anchor-link" href="#Vector"
+new <strong>Vector</strong>(num x, num y) <a class="anchor-link" href="#"
               title="Permalink to Vector.Vector">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
 Vector(num x, num y) : _x = x.toDouble(), _y = y.toDouble();
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="Vector.polar">
+<div class="method"><h4 id="polar">
 <button class="show-code">Code</button>
-new <strong>Vector.polar</strong>(num len, num angle) <a class="anchor-link" href="#Vector.polar"
+new <strong>Vector.polar</strong>(num len, num angle) <a class="anchor-link" href="#polar"
               title="Permalink to Vector.Vector.polar">#</a></h4>
 <div class="doc">
 <pre class="source">
@@ -254,9 +263,9 @@ Vector.polar(num len, num angle) : _x = (len * cos(angle)).toDouble(), _y = (len
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="Vector.zero">
+<div class="method"><h4 id="zero">
 <button class="show-code">Code</button>
-new <strong>Vector.zero</strong>() <a class="anchor-link" href="#Vector.zero"
+new <strong>Vector.zero</strong>() <a class="anchor-link" href="#zero"
               title="Permalink to Vector.Vector.zero">#</a></h4>
 <div class="doc">
 <pre class="source">
@@ -276,6 +285,28 @@ final num         <strong>degrees</strong> <a class="anchor-link"
         <div class="doc">
 <pre class="source">
 num get degrees =&gt; atan2(_y, _x) * 180 / PI;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="hashCode">
+<button class="show-code">Code</button>
+final int         <strong>hashCode</strong> <a class="anchor-link"
+            href="#hashCode"
+            title="Permalink to Vector.hashCode">#</a>
+        </h4>
+        <div class="doc">
+<div class="inherited">
+<p>Get a hash code for this object.</p>
+<p>All objects have hash codes. Hash codes are guaranteed to be the
+same for objects that are equal when compared using the equality
+operator <code>==</code>. Other than that there are no guarantees about
+the hash codes. They will not be consistent between runs and
+there are no distribution guarantees.</p>
+<p>If a subclass overrides <a class="crossref" href="../stagexl/Vector.html#hashCode">hashCode</a> it should override the
+equality operator as well to maintain consistency.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
+<pre class="source">
+int get hashCode =&gt; _x.hashCode + _y.hashCode * 7;
 </pre>
 </div>
 </div>
@@ -435,11 +466,11 @@ bool <strong>operator ==</strong>(<a href="../stagexl/Vector.html">Vector</a> ot
 <div class="doc">
 <div class="inherited">
 <p>The equality operator.</p>
-<p>The default behavior for all <code>Object</code>s is to return true if and
+<p>The default behavior for all <a class="crossref" href="../dart_core/Object.html">Object</a>s is to return true if and
 only if <code>this</code> and 
 <span class="param">other</span> are the same object.</p>
 <p>If a subclass overrides the equality operator it should override
-the <code>hashCode</code> method as well to maintain consistency.</p>
+the <a class="crossref" href="../stagexl/Vector.html#hashCode">hashCode</a> method as well to maintain consistency.</p>
 <div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
 bool operator ==(Vector other) =&gt; _x == other._x &amp;&amp; _y == other._y;
@@ -611,8 +642,8 @@ bool isWithinXY(num x, num y, num epsilon) =&gt; distanceXYSqr(x, y) &lt; epsilo
               title="Permalink to Vector.lerp">#</a></h4>
 <div class="doc">
 <pre class="source">
-Vector lerp(Vector to, num t) { 
- return new Vector(_x + t * (to._x - _x), _y + t * (to._y - _y)); 
+Vector lerp(Vector to, num t) {
+ return new Vector(_x + t * (to._x - _x), _y + t * (to._y - _y));
 }
 </pre>
 </div>
@@ -623,8 +654,8 @@ Vector lerp(Vector to, num t) {
               title="Permalink to Vector.negate">#</a></h4>
 <div class="doc">
 <pre class="source">
-Vector negate() { 
- return new Vector(-_x, -_y); 
+Vector negate() {
+ return new Vector(-_x, -_y);
 }
 </pre>
 </div>
@@ -648,8 +679,8 @@ Vector normalize() {
               title="Permalink to Vector.normalLeft">#</a></h4>
 <div class="doc">
 <pre class="source">
-Vector normalLeft() { 
- return new Vector(_y, -_x); 
+Vector normalLeft() {
+ return new Vector(_y, -_x);
 }
 </pre>
 </div>
@@ -661,7 +692,7 @@ Vector normalLeft() {
 <div class="doc">
 <pre class="source">
 Vector normalRight() {
- return new Vector(-_y, _x); 
+ return new Vector(-_y, _x);
 }
 </pre>
 </div>
@@ -740,10 +771,10 @@ Vector slerp(Vector vec, num t) {
  num cosTheta = this.dot(vec);
  num theta = acos(cosTheta);
  num sinTheta = sin(theta);
- 
+
  if (sinTheta &lt;= Epsilon)
    return vec.clone();
- 
+
  num w1 = sin((1 - t) * theta) / sinTheta;
  num w2 = sin(t * theta) / sinTheta;
  return this.scale(w1) + vec.scale(w2);
@@ -784,7 +815,7 @@ String toString() =&gt; "Vector [x=${_x}, y=${_y}]";
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.468</div>
+          <div>This page was generated at 2013-07-13 19:51:31.400</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

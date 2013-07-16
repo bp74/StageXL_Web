@@ -61,8 +61,8 @@ class BitmapData implements BitmapDrawable {
 
  BitmapData(int width, int height, [bool transparent = true, int fillColor = 0xFFFFFFFF, pixelRatio = 1.0]) {
 
-   _width = width.toInt();
-   _height = height.toInt();
+   _width = _ensureInt(width);
+   _height = _ensureInt(height);
    _transparent = transparent;
    _pixelRatio = pixelRatio.toDouble();
    _pixelRatioSource = _pixelRatio / _backingStorePixelRatio;
@@ -89,14 +89,14 @@ class BitmapData implements BitmapDrawable {
 
  BitmapData.fromImageElement(ImageElement imageElement, [num pixelRatio = 1.0]) {
 
-   var imageWidth = imageElement.naturalWidth.toInt();
-   var imageHeight = imageElement.naturalHeight.toInt();
+   var imageWidth = _ensureInt(imageElement.naturalWidth);
+   var imageHeight = _ensureInt(imageElement.naturalHeight);
 
-   _width = (imageWidth / pixelRatio).round();
-   _height = (imageHeight / pixelRatio).round();
    _transparent = true;
-   _pixelRatio = pixelRatio.toDouble();
+   _pixelRatio = _ensureNum(pixelRatio);
    _pixelRatioSource = _pixelRatio;
+   _width = (imageWidth / _pixelRatio).round();
+   _height = (imageHeight / _pixelRatio).round();
 
    _renderMode = ((1.0 - _pixelRatioSource).abs() &lt; 0.001) ? 0 : 1;
    _destinationX = 0;
@@ -168,7 +168,7 @@ class BitmapData implements BitmapDrawable {
    onErrorSubscription = imageElement.onError.listen((event) {
      onLoadSubscription.cancel();
      onErrorSubscription.cancel();
-     completer.completeError(new StateError("Error loading image."));
+     completer.completeError(new StateError("Failed to load image."));
    });
 
    if (bitmapDataLoadOptions.webp == false) {
@@ -551,7 +551,7 @@ static Future&lt;BitmapData&gt; load(String url,
  onErrorSubscription = imageElement.onError.listen((event) {
    onLoadSubscription.cancel();
    onErrorSubscription.cancel();
-   completer.completeError(new StateError("Error loading image."));
+   completer.completeError(new StateError("Failed to load image."));
  });
 
  if (bitmapDataLoadOptions.webp == false) {
@@ -581,16 +581,22 @@ static Future&lt;BitmapData&gt; load(String url,
 </div>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="BitmapData">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>BitmapData</strong>(int width, int height, [bool transparent = true, int fillColor = 0xFFFFFFFF, pixelRatio = 1.0]) <a class="anchor-link" href="#BitmapData"
+new <strong>BitmapData</strong>(int width, int height, [bool transparent = true, int fillColor = 0xFFFFFFFF, pixelRatio = 1.0]) <a class="anchor-link" href="#"
               title="Permalink to BitmapData.BitmapData">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
 BitmapData(int width, int height, [bool transparent = true, int fillColor = 0xFFFFFFFF, pixelRatio = 1.0]) {
 
- _width = width.toInt();
- _height = height.toInt();
+ _width = _ensureInt(width);
+ _height = _ensureInt(height);
  _transparent = transparent;
  _pixelRatio = pixelRatio.toDouble();
  _pixelRatioSource = _pixelRatio / _backingStorePixelRatio;
@@ -615,22 +621,22 @@ BitmapData(int width, int height, [bool transparent = true, int fillColor = 0xFF
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="BitmapData.fromImageElement">
+<div class="method"><h4 id="fromImageElement">
 <button class="show-code">Code</button>
-new <strong>BitmapData.fromImageElement</strong>(ImageElement imageElement, [num pixelRatio = 1.0]) <a class="anchor-link" href="#BitmapData.fromImageElement"
+new <strong>BitmapData.fromImageElement</strong>(ImageElement imageElement, [num pixelRatio = 1.0]) <a class="anchor-link" href="#fromImageElement"
               title="Permalink to BitmapData.BitmapData.fromImageElement">#</a></h4>
 <div class="doc">
 <pre class="source">
 BitmapData.fromImageElement(ImageElement imageElement, [num pixelRatio = 1.0]) {
 
- var imageWidth = imageElement.naturalWidth.toInt();
- var imageHeight = imageElement.naturalHeight.toInt();
+ var imageWidth = _ensureInt(imageElement.naturalWidth);
+ var imageHeight = _ensureInt(imageElement.naturalHeight);
 
- _width = (imageWidth / pixelRatio).round();
- _height = (imageHeight / pixelRatio).round();
  _transparent = true;
- _pixelRatio = pixelRatio.toDouble();
+ _pixelRatio = _ensureNum(pixelRatio);
  _pixelRatioSource = _pixelRatio;
+ _width = (imageWidth / _pixelRatio).round();
+ _height = (imageHeight / _pixelRatio).round();
 
  _renderMode = ((1.0 - _pixelRatioSource).abs() &lt; 0.001) ? 0 : 1;
  _destinationX = 0;
@@ -647,9 +653,9 @@ BitmapData.fromImageElement(ImageElement imageElement, [num pixelRatio = 1.0]) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="BitmapData.fromTextureAtlasFrame">
+<div class="method"><h4 id="fromTextureAtlasFrame">
 <button class="show-code">Code</button>
-new <strong>BitmapData.fromTextureAtlasFrame</strong>(<a href="../stagexl/TextureAtlasFrame.html">TextureAtlasFrame</a> textureAtlasFrame) <a class="anchor-link" href="#BitmapData.fromTextureAtlasFrame"
+new <strong>BitmapData.fromTextureAtlasFrame</strong>(<a href="../stagexl/TextureAtlasFrame.html">TextureAtlasFrame</a> textureAtlasFrame) <a class="anchor-link" href="#fromTextureAtlasFrame"
               title="Permalink to BitmapData.BitmapData.fromTextureAtlasFrame">#</a></h4>
 <div class="doc">
 <pre class="source">
@@ -1087,7 +1093,7 @@ void setPixel32(int x, int y, int color) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.296</div>
+          <div>This page was generated at 2013-07-13 19:51:31.210</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

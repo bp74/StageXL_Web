@@ -48,12 +48,13 @@ class RenderState {
    _firstContextState = new _ContextState();
    _currentContextState = _firstContextState;
 
-   if (matrix != null) {
-     _firstContextState.matrix.copyFrom(matrix);
+   var fcsm = _firstContextState.matrix;
+
+   if (matrix is Matrix) {
+     fcsm.copyFrom(matrix);
    }
 
-   var m = _firstContextState.matrix;
-   _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+   _context.setTransform(fcsm.a, fcsm.b, fcsm.c, fcsm.d, fcsm.tx, fcsm.ty);
    _context.globalAlpha = 1.0;
    _context.globalCompositeOperation = CompositeOperation.SOURCE_OVER;
  }
@@ -69,19 +70,19 @@ class RenderState {
 
  void reset([Matrix matrix, num currentTime, num deltaTime]) {
 
-   _currentTime = ?currentTime ? currentTime : 0.0;
-   _deltaTime = ?deltaTime ? deltaTime : 0.0;
+   _currentTime = (currentTime is num) ? currentTime : 0.0;
+   _deltaTime = (deltaTime is num) ? deltaTime : 0.0;
    _currentContextState = _firstContextState;
 
-   if (matrix != null) {
-     _firstContextState.matrix.copyFrom(matrix);
-   }
+   var fcsm = _firstContextState.matrix;
 
-   var m = _firstContextState.matrix;
+   if (matrix is Matrix) {
+     fcsm.copyFrom(matrix);
+   }
 
    _context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
    _context.clearRect(0, 0, _context.canvas.width, _context.canvas.height);
-   _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+   _context.setTransform(fcsm.a, fcsm.b, fcsm.c, fcsm.d, fcsm.tx, fcsm.ty);
    _context.globalAlpha = 1.0;
    _context.globalCompositeOperation = CompositeOperation.SOURCE_OVER;
 
@@ -103,48 +104,47 @@ class RenderState {
    _currentContextState = cs2;
 
    var nextMatrix = cs2.matrix;
-   var nextAlpha = cs1.alpha * alpha;
+   var nextAlpha = cs1.alpha.toDouble() * alpha;
    var nextCompositeOperation = (composite != null) ? composite : cs1.compositeOperation;
 
    nextMatrix.copyFromAndConcat(matrix, cs1.matrix);
    cs2.alpha = nextAlpha;
    cs2.compositeOperation = nextCompositeOperation;
 
-   // apply Mask and Shadow
-   if (mask != null || shadow != null) {
+   // apply mask
 
-     _context.save();
-
-     if (mask != null) {
-       if (mask.targetSpace == null) {
-         matrix = cs2.matrix;
-       } else if (identical(mask.targetSpace, displayObject)) {
-         matrix = cs2.matrix;
-       } else if (identical(mask.targetSpace, displayObject.parent)) {
-         matrix = cs1.matrix;
-       } else {
-         matrix = mask.targetSpace.transformationMatrixTo(displayObject);
-         if (matrix == null) matrix = _identityMatrix; else matrix.concat(cs2.matrix);
-       }
-       mask.render(this, matrix);
+   if (mask != null) {
+     if (mask.targetSpace == null) {
+       matrix = cs2.matrix;
+     } else if (identical(mask.targetSpace, displayObject)) {
+       matrix = cs2.matrix;
+     } else if (identical(mask.targetSpace, displayObject.parent)) {
+       matrix = cs1.matrix;
+     } else {
+       matrix = mask.targetSpace.transformationMatrixTo(displayObject);
+       if (matrix == null) matrix = _identityMatrix; else matrix.concat(cs2.matrix);
      }
+     mask.beginRenderMask(this, matrix);
+   }
 
-     if (shadow != null) {
-       if (shadow.targetSpace == null) {
-         matrix = cs2.matrix;
-       } else if (identical(shadow.targetSpace, displayObject)) {
-         matrix = cs2.matrix;
-       } else if (identical(shadow.targetSpace, displayObject.parent)) {
-         matrix = cs1.matrix;
-       } else {
-         matrix = shadow.targetSpace.transformationMatrixTo(displayObject);
-         if (matrix == null) matrix = _identityMatrix; else matrix.concat(cs2.matrix);
-       }
-       shadow.render(this, matrix);
+   // apply shadow
+
+   if (shadow != null) {
+     if (shadow.targetSpace == null) {
+       matrix = cs2.matrix;
+     } else if (identical(shadow.targetSpace, displayObject)) {
+       matrix = cs2.matrix;
+     } else if (identical(shadow.targetSpace, displayObject.parent)) {
+       matrix = cs1.matrix;
+     } else {
+       matrix = shadow.targetSpace.transformationMatrixTo(displayObject);
+       if (matrix == null) matrix = _identityMatrix; else matrix.concat(cs2.matrix);
      }
+     shadow.beginRenderShadow(this, matrix);
    }
 
    // render DisplayObject
+
    var m = nextMatrix;
    _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
    _context.globalCompositeOperation = nextCompositeOperation;
@@ -156,9 +156,16 @@ class RenderState {
      displayObject.render(this);
    }
 
-   // restore context
-   if (mask != null || shadow != null) {
-     _context.restore();
+   // restore shadow
+
+   if (shadow != null) {
+     shadow.endRenderShadow();
+   }
+
+   // restore mask
+
+   if (mask != null) {
+     mask.endRenderMask();
    }
 
    _currentContextState = cs1;
@@ -169,9 +176,9 @@ class RenderState {
 </div>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="RenderState.fromCanvasRenderingContext2D">
+<div class="method"><h4 id="fromCanvasRenderingContext2D">
 <button class="show-code">Code</button>
-new <strong>RenderState.fromCanvasRenderingContext2D</strong>(CanvasRenderingContext2D context, [<a href="../stagexl/Matrix.html">Matrix</a> matrix]) <a class="anchor-link" href="#RenderState.fromCanvasRenderingContext2D"
+new <strong>RenderState.fromCanvasRenderingContext2D</strong>(CanvasRenderingContext2D context, [<a href="../stagexl/Matrix.html">Matrix</a> matrix]) <a class="anchor-link" href="#fromCanvasRenderingContext2D"
               title="Permalink to RenderState.RenderState.fromCanvasRenderingContext2D">#</a></h4>
 <div class="doc">
 <pre class="source">
@@ -181,12 +188,13 @@ RenderState.fromCanvasRenderingContext2D(CanvasRenderingContext2D context, [Matr
  _firstContextState = new _ContextState();
  _currentContextState = _firstContextState;
 
- if (matrix != null) {
-   _firstContextState.matrix.copyFrom(matrix);
+ var fcsm = _firstContextState.matrix;
+
+ if (matrix is Matrix) {
+   fcsm.copyFrom(matrix);
  }
 
- var m = _firstContextState.matrix;
- _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+ _context.setTransform(fcsm.a, fcsm.b, fcsm.c, fcsm.d, fcsm.tx, fcsm.ty);
  _context.globalAlpha = 1.0;
  _context.globalCompositeOperation = CompositeOperation.SOURCE_OVER;
 }
@@ -255,48 +263,47 @@ void renderDisplayObject(DisplayObject displayObject) {
  _currentContextState = cs2;
 
  var nextMatrix = cs2.matrix;
- var nextAlpha = cs1.alpha * alpha;
+ var nextAlpha = cs1.alpha.toDouble() * alpha;
  var nextCompositeOperation = (composite != null) ? composite : cs1.compositeOperation;
 
  nextMatrix.copyFromAndConcat(matrix, cs1.matrix);
  cs2.alpha = nextAlpha;
  cs2.compositeOperation = nextCompositeOperation;
 
- // apply Mask and Shadow
- if (mask != null || shadow != null) {
+ // apply mask
 
-   _context.save();
-
-   if (mask != null) {
-     if (mask.targetSpace == null) {
-       matrix = cs2.matrix;
-     } else if (identical(mask.targetSpace, displayObject)) {
-       matrix = cs2.matrix;
-     } else if (identical(mask.targetSpace, displayObject.parent)) {
-       matrix = cs1.matrix;
-     } else {
-       matrix = mask.targetSpace.transformationMatrixTo(displayObject);
-       if (matrix == null) matrix = _identityMatrix; else matrix.concat(cs2.matrix);
-     }
-     mask.render(this, matrix);
+ if (mask != null) {
+   if (mask.targetSpace == null) {
+     matrix = cs2.matrix;
+   } else if (identical(mask.targetSpace, displayObject)) {
+     matrix = cs2.matrix;
+   } else if (identical(mask.targetSpace, displayObject.parent)) {
+     matrix = cs1.matrix;
+   } else {
+     matrix = mask.targetSpace.transformationMatrixTo(displayObject);
+     if (matrix == null) matrix = _identityMatrix; else matrix.concat(cs2.matrix);
    }
+   mask.beginRenderMask(this, matrix);
+ }
 
-   if (shadow != null) {
-     if (shadow.targetSpace == null) {
-       matrix = cs2.matrix;
-     } else if (identical(shadow.targetSpace, displayObject)) {
-       matrix = cs2.matrix;
-     } else if (identical(shadow.targetSpace, displayObject.parent)) {
-       matrix = cs1.matrix;
-     } else {
-       matrix = shadow.targetSpace.transformationMatrixTo(displayObject);
-       if (matrix == null) matrix = _identityMatrix; else matrix.concat(cs2.matrix);
-     }
-     shadow.render(this, matrix);
+ // apply shadow
+
+ if (shadow != null) {
+   if (shadow.targetSpace == null) {
+     matrix = cs2.matrix;
+   } else if (identical(shadow.targetSpace, displayObject)) {
+     matrix = cs2.matrix;
+   } else if (identical(shadow.targetSpace, displayObject.parent)) {
+     matrix = cs1.matrix;
+   } else {
+     matrix = shadow.targetSpace.transformationMatrixTo(displayObject);
+     if (matrix == null) matrix = _identityMatrix; else matrix.concat(cs2.matrix);
    }
+   shadow.beginRenderShadow(this, matrix);
  }
 
  // render DisplayObject
+
  var m = nextMatrix;
  _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
  _context.globalCompositeOperation = nextCompositeOperation;
@@ -308,9 +315,16 @@ void renderDisplayObject(DisplayObject displayObject) {
    displayObject.render(this);
  }
 
- // restore context
- if (mask != null || shadow != null) {
-   _context.restore();
+ // restore shadow
+
+ if (shadow != null) {
+   shadow.endRenderShadow();
+ }
+
+ // restore mask
+
+ if (mask != null) {
+   mask.endRenderMask();
  }
 
  _currentContextState = cs1;
@@ -326,19 +340,19 @@ void <strong>reset</strong>([<a href="../stagexl/Matrix.html">Matrix</a> matrix,
 <pre class="source">
 void reset([Matrix matrix, num currentTime, num deltaTime]) {
 
- _currentTime = ?currentTime ? currentTime : 0.0;
- _deltaTime = ?deltaTime ? deltaTime : 0.0;
+ _currentTime = (currentTime is num) ? currentTime : 0.0;
+ _deltaTime = (deltaTime is num) ? deltaTime : 0.0;
  _currentContextState = _firstContextState;
 
- if (matrix != null) {
-   _firstContextState.matrix.copyFrom(matrix);
- }
+ var fcsm = _firstContextState.matrix;
 
- var m = _firstContextState.matrix;
+ if (matrix is Matrix) {
+   fcsm.copyFrom(matrix);
+ }
 
  _context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
  _context.clearRect(0, 0, _context.canvas.width, _context.canvas.height);
- _context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+ _context.setTransform(fcsm.a, fcsm.b, fcsm.c, fcsm.d, fcsm.tx, fcsm.ty);
  _context.globalAlpha = 1.0;
  _context.globalCompositeOperation = CompositeOperation.SOURCE_OVER;
 
@@ -351,7 +365,7 @@ void reset([Matrix matrix, num currentTime, num deltaTime]) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.460</div>
+          <div>This page was generated at 2013-07-13 19:51:31.390</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

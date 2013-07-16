@@ -34,7 +34,7 @@
 <div class="doc">
 <pre class="source">
 class FlipBook extends InteractiveObject implements Animatable {
- 
+
  List&lt;BitmapData&gt; _bitmapDatas;
 
  int _frameRate;
@@ -49,9 +49,9 @@ class FlipBook extends InteractiveObject implements Animatable {
  Rectangle clipRectangle;
 
  //-------------------------------------------------------------------------------------------------
- 
+
  FlipBook(List&lt;BitmapData&gt; bitmapDatas, [int frameRate = 30, bool loop = true]) {
-   
+
    _bitmapDatas = bitmapDatas;
    _frameRate = frameRate;
    _currentFrame = 0;
@@ -65,13 +65,13 @@ class FlipBook extends InteractiveObject implements Animatable {
  }
 
  //-------------------------------------------------------------------------------------------------
- 
+
  static const EventStreamProvider&lt;Event&gt; progressEvent = const EventStreamProvider&lt;Event&gt;(Event.PROGRESS);
  static const EventStreamProvider&lt;Event&gt; completeEvent = const EventStreamProvider&lt;Event&gt;(Event.COMPLETE);
- 
- Stream&lt;Event&gt; get onProgress =&gt; FlipBook.progressEvent.forTarget(this);  
- Stream&lt;Event&gt; get onComplete =&gt; FlipBook.completeEvent.forTarget(this);  
- 
+
+ Stream&lt;Event&gt; get onProgress =&gt; FlipBook.progressEvent.forTarget(this);
+ Stream&lt;Event&gt; get onComplete =&gt; FlipBook.completeEvent.forTarget(this);
+
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
@@ -129,12 +129,12 @@ class FlipBook extends InteractiveObject implements Animatable {
      return true;
 
    if (_frameTime == null) {
-     
+
      _frameTime = 0.0;
      _dispatchEventInternal(_progressEvent, this, this, EventPhase.AT_TARGET);
-     
+
    } else {
-     
+
      _frameTime += time;
 
      num frameDuration = 1.0 / _frameRate;
@@ -150,7 +150,7 @@ class FlipBook extends InteractiveObject implements Animatable {
        // dispatch progress event on every new frame
 
        if (lastFrame != nextFrame) {
-         
+
          _dispatchEventInternal(_progressEvent, this, this, EventPhase.AT_TARGET);
          if (_currentFrame != nextFrame) return true;
        }
@@ -158,7 +158,7 @@ class FlipBook extends InteractiveObject implements Animatable {
        // dispatch complete event only on last frame
 
        if (lastFrame != nextFrame &amp;&amp; nextFrame == totalFrames - 1 &amp;&amp; _loop == false) {
-         
+
          _dispatchEventInternal(_completeEvent, this, this, EventPhase.AT_TARGET);
          if (_currentFrame != nextFrame) return true;
        }
@@ -173,7 +173,7 @@ class FlipBook extends InteractiveObject implements Animatable {
  //-------------------------------------------------------------------------------------------------
 
  Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
-   
+
    BitmapData bitmapData = _bitmapDatas[_currentFrame];
    return _getBoundsTransformedHelper(matrix, bitmapData.width, bitmapData.height, returnRectangle);
  }
@@ -181,7 +181,7 @@ class FlipBook extends InteractiveObject implements Animatable {
  //-------------------------------------------------------------------------------------------------
 
  DisplayObject hitTestInput(num localX, num localY) {
-   
+
    BitmapData bitmapData = _bitmapDatas[_currentFrame];
 
    if (localX &gt;= 0 &amp;&amp; localY &gt;= 0 &amp;&amp; localX &lt; bitmapData.width &amp;&amp; localY &lt; bitmapData.height)
@@ -193,8 +193,15 @@ class FlipBook extends InteractiveObject implements Animatable {
  //-------------------------------------------------------------------------------------------------
 
  void render(RenderState renderState) {
-   
-   BitmapData bitmapData = _bitmapDatas[_currentFrame];
+
+   var bitmapData = _bitmapDatas[_currentFrame];
+   if (bitmapData is! BitmapData) return; // dart2js_hint
+
+   // ToDo: The dart2js hint above is necessary to get a good translation
+   // of "BitmapData.render". The type check is a little bit expensive,
+   // so maybe we can find a better solution. It is strange because the
+   // type of "renderState" should have more effect on the dart2js
+   // compilation anyway!?!
 
    if (clipRectangle == null)
      bitmapData.render(renderState);
@@ -240,14 +247,20 @@ static const EventStreamProvider&lt;Event&gt; progressEvent = const EventStreamP
 </div>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="FlipBook">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>FlipBook</strong>(List&lt;<a href="../stagexl/BitmapData.html">BitmapData</a>&gt; bitmapDatas, [int frameRate = 30, bool loop = true]) <a class="anchor-link" href="#FlipBook"
+new <strong>FlipBook</strong>(List&lt;<a href="../stagexl/BitmapData.html">BitmapData</a>&gt; bitmapDatas, [int frameRate = 30, bool loop = true]) <a class="anchor-link" href="#"
               title="Permalink to FlipBook.FlipBook">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
 FlipBook(List&lt;BitmapData&gt; bitmapDatas, [int frameRate = 30, bool loop = true]) {
- 
+
  _bitmapDatas = bitmapDatas;
  _frameRate = frameRate;
  _currentFrame = 0;
@@ -276,7 +289,9 @@ num         <strong>alpha</strong> <a class="anchor-link"
 num get alpha =&gt; _alpha;
 </pre>
 <pre class="source">
-set alpha(num value) { _alpha = value.toDouble(); }
+set alpha(num value) {
+ if (value is num) _alpha = value;
+}
 </pre>
 </div>
 </div>
@@ -315,7 +330,9 @@ String         <strong>compositeOperation</strong> <a class="anchor-link"
 String get compositeOperation =&gt; _compositeOperation;
 </pre>
 <pre class="source">
-set compositeOperation(String value) { _compositeOperation = value; }
+set compositeOperation(String value) {
+ _compositeOperation = value;
+}
 </pre>
 </div>
 </div>
@@ -351,12 +368,15 @@ List&lt;<a href="../stagexl/BitmapFilter.html">BitmapFilter</a>&gt;         <str
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-List&lt;BitmapFilter&gt; get filters =&gt; (_filters != null)
-   ? _filters
-   : _filters = new List&lt;BitmapFilter&gt;();
+List&lt;BitmapFilter&gt; get filters {
+ if (_filters == null) _filters = new List&lt;BitmapFilter&gt;();
+ return _filters;
+}
 </pre>
 <pre class="source">
-set filters(List&lt;BitmapFilter&gt; value) { _filters = value; }
+set filters(List&lt;BitmapFilter&gt; value) {
+ _filters = value;
+}
 </pre>
 </div>
 </div>
@@ -405,7 +425,9 @@ void set loop(bool value) { _loop = value; }
 Mask get mask =&gt; _mask;
 </pre>
 <pre class="source">
-set mask(Mask value) { _mask = value; }
+set mask(Mask value) {
+ _mask = value;
+}
 </pre>
 </div>
 </div>
@@ -477,7 +499,9 @@ String         <strong>name</strong> <a class="anchor-link"
 String get name =&gt; _name;
 </pre>
 <pre class="source">
-set name(String value) { _name = value; }
+set name(String value) {
+ _name = value;
+}
 </pre>
 </div>
 </div>
@@ -492,7 +516,9 @@ bool         <strong>off</strong> <a class="anchor-link"
 bool get off =&gt; _off;
 </pre>
 <pre class="source">
-set off(bool value) { _off = value;  }
+set off(bool value) {
+ if (value is bool) _off = value;
+}
 </pre>
 </div>
 </div>
@@ -903,7 +929,10 @@ num         <strong>pivotX</strong> <a class="anchor-link"
 num get pivotX =&gt; _pivotX;
 </pre>
 <pre class="source">
-set pivotX(num value) { _pivotX = value.toDouble(); _transformationMatrixRefresh = true; }
+set pivotX(num value) {
+ if (value is num) _pivotX = value;
+ _transformationMatrixRefresh = true;
+}
 </pre>
 </div>
 </div>
@@ -918,7 +947,10 @@ num         <strong>pivotY</strong> <a class="anchor-link"
 num get pivotY =&gt; _pivotY;
 </pre>
 <pre class="source">
-set pivotY(num value) { _pivotY = value.toDouble(); _transformationMatrixRefresh = true; }
+set pivotY(num value) {
+ if (value is num) _pivotY = value;
+ _transformationMatrixRefresh = true;
+}
 </pre>
 </div>
 </div>
@@ -965,7 +997,10 @@ num         <strong>rotation</strong> <a class="anchor-link"
 num get rotation =&gt; _rotation;
 </pre>
 <pre class="source">
-set rotation(num value) { _rotation = value.toDouble(); _transformationMatrixRefresh = true; }
+set rotation(num value) {
+ if (value is num) _rotation = value;
+ _transformationMatrixRefresh = true;
+}
 </pre>
 </div>
 </div>
@@ -980,7 +1015,10 @@ num         <strong>scaleX</strong> <a class="anchor-link"
 num get scaleX =&gt; _scaleX;
 </pre>
 <pre class="source">
-set scaleX(num value) { _scaleX = value.toDouble(); _transformationMatrixRefresh = true; }
+set scaleX(num value) {
+ if (value is num) _scaleX = value;
+ _transformationMatrixRefresh = true;
+}
 </pre>
 </div>
 </div>
@@ -995,7 +1033,10 @@ num         <strong>scaleY</strong> <a class="anchor-link"
 num get scaleY =&gt; _scaleY;
 </pre>
 <pre class="source">
-set scaleY(num value) { _scaleY = value.toDouble(); _transformationMatrixRefresh = true; }
+set scaleY(num value) {
+ if (value is num) _scaleY = value;
+ _transformationMatrixRefresh = true;
+}
 </pre>
 </div>
 </div>
@@ -1010,7 +1051,9 @@ set scaleY(num value) { _scaleY = value.toDouble(); _transformationMatrixRefresh
 Shadow get shadow =&gt; _shadow;
 </pre>
 <pre class="source">
-set shadow(Shadow value) { _shadow = value; }
+set shadow(Shadow value) {
+ _shadow = value;
+}
 </pre>
 </div>
 </div>
@@ -1025,7 +1068,10 @@ num         <strong>skewX</strong> <a class="anchor-link"
 num get skewX =&gt; _skewX;
 </pre>
 <pre class="source">
-set skewX(num value) { _skewX = value.toDouble(); _transformationMatrixRefresh = true; }
+set skewX(num value) {
+ if (value is num) _skewX = value;
+ _transformationMatrixRefresh = true;
+}
 </pre>
 </div>
 </div>
@@ -1040,7 +1086,10 @@ num         <strong>skewY</strong> <a class="anchor-link"
 num get skewY =&gt; _skewY;
 </pre>
 <pre class="source">
-set skewY(num value) { _skewY = value.toDouble(); _transformationMatrixRefresh = true; }
+set skewY(num value) {
+ if (value is num) _skewY = value;
+ _transformationMatrixRefresh = true;
+}
 </pre>
 </div>
 </div>
@@ -1055,11 +1104,7 @@ final <a href="../stagexl/Stage.html">Stage</a>         <strong>stage</strong> <
 Stage get stage {
 
  DisplayObject root = this.root;
-
- if (root is Stage)
-   return root;
-
- return null;
+ return (root is Stage) ? root : null;
 }
 </pre>
 </div>
@@ -1125,7 +1170,9 @@ bool         <strong>visible</strong> <a class="anchor-link"
 bool get visible =&gt; _visible;
 </pre>
 <pre class="source">
-set visible(bool value) { _visible = value; }
+set visible(bool value) {
+ if (value is bool) _visible = value;
+}
 </pre>
 </div>
 </div>
@@ -1159,7 +1206,10 @@ num         <strong>x</strong> <a class="anchor-link"
 num get x =&gt; _x;
 </pre>
 <pre class="source">
-set x(num value) { _x = value.toDouble(); _transformationMatrixRefresh = true; }
+set x(num value) {
+ if (value is num) _x = value;
+ _transformationMatrixRefresh = true;
+}
 </pre>
 </div>
 </div>
@@ -1174,7 +1224,10 @@ num         <strong>y</strong> <a class="anchor-link"
 num get y =&gt; _y;
 </pre>
 <pre class="source">
-set y(num value) { _y = value.toDouble(); _transformationMatrixRefresh = true; }
+set y(num value) {
+ if (value is num) _y = value;
+ _transformationMatrixRefresh = true;
+}
 </pre>
 </div>
 </div>
@@ -1216,12 +1269,12 @@ bool advanceTime(num time) {
    return true;
 
  if (_frameTime == null) {
-   
+
    _frameTime = 0.0;
    _dispatchEventInternal(_progressEvent, this, this, EventPhase.AT_TARGET);
-   
+
  } else {
-   
+
    _frameTime += time;
 
    num frameDuration = 1.0 / _frameRate;
@@ -1237,7 +1290,7 @@ bool advanceTime(num time) {
      // dispatch progress event on every new frame
 
      if (lastFrame != nextFrame) {
-       
+
        _dispatchEventInternal(_progressEvent, this, this, EventPhase.AT_TARGET);
        if (_currentFrame != nextFrame) return true;
      }
@@ -1245,7 +1298,7 @@ bool advanceTime(num time) {
      // dispatch complete event only on last frame
 
      if (lastFrame != nextFrame &amp;&amp; nextFrame == totalFrames - 1 &amp;&amp; _loop == false) {
-       
+
        _dispatchEventInternal(_completeEvent, this, this, EventPhase.AT_TARGET);
        if (_currentFrame != nextFrame) return true;
      }
@@ -1341,7 +1394,7 @@ Rectangle getBounds(DisplayObject targetSpace) {
 <div class="doc">
 <pre class="source">
 Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
- 
+
  BitmapData bitmapData = _bitmapDatas[_currentFrame];
  return _getBoundsTransformedHelper(matrix, bitmapData.width, bitmapData.height, returnRectangle);
 }
@@ -1415,7 +1468,7 @@ bool hasEventListener(String eventType) {
 <div class="doc">
 <pre class="source">
 DisplayObject hitTestInput(num localX, num localY) {
- 
+
  BitmapData bitmapData = _bitmapDatas[_currentFrame];
 
  if (localX &gt;= 0 &amp;&amp; localY &gt;= 0 &amp;&amp; localX &lt; bitmapData.width &amp;&amp; localY &lt; bitmapData.height)
@@ -1602,7 +1655,7 @@ dynamic <strong>removeEventListeners</strong>(String eventType, {bool useCapture
 <div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
 removeEventListeners(String eventType, {bool useCapture: false}) {
- _getEventStream(eventType, useCapture)._cancelSubscriptions();
+ _getEventStream(eventType, useCapture).cancelSubscriptions();
 }
 </pre>
 </div>
@@ -1627,8 +1680,15 @@ void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</
 <div class="doc">
 <pre class="source">
 void render(RenderState renderState) {
- 
- BitmapData bitmapData = _bitmapDatas[_currentFrame];
+
+ var bitmapData = _bitmapDatas[_currentFrame];
+ if (bitmapData is! BitmapData) return; // dart2js_hint
+
+ // ToDo: The dart2js hint above is necessary to get a good translation
+ // of "BitmapData.render". The type check is a little bit expensive,
+ // so maybe we can find a better solution. It is strange because the
+ // type of "renderState" should have more effect on the dart2js
+ // compilation anyway!?!
 
  if (clipRectangle == null)
    bitmapData.render(renderState);
@@ -1644,31 +1704,17 @@ void <strong>setTransform</strong>(num x, num y, [num scaleX, num scaleY, num ro
               title="Permalink to FlipBook.setTransform">#</a></h4>
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-void setTransform(num x, num y, [num scaleX, num scaleY, num rotation, num skewX, num skewY, num pivotX, num pivotY])
-{
+void setTransform(num x, num y, [num scaleX, num scaleY, num rotation, num skewX, num skewY, num pivotX, num pivotY]) {
+ if (x is num) _x = x;
+ if (y is num) _y = y;
+ if (scaleX is num) _scaleX = scaleX;
+ if (scaleY is num) _scaleY = scaleY;
+ if (rotation is num) _rotation = rotation;
+ if (skewX is num) _skewX = skewX;
+ if (skewY is num) _skewY = skewY;
+ if (pivotX is num) _pivotX = pivotX;
+ if (pivotY is num) _pivotY = pivotY;
  _transformationMatrixRefresh = true;
- _x = x.toDouble();
- _y = y.toDouble();
- if (scaleX != null) {
-   _scaleX = scaleX.toDouble();
-   if (scaleY != null) {
-     _scaleY = scaleY.toDouble();
-     if (rotation != null) {
-       _rotation = rotation.toDouble();
-       if (skewX != null) {
-         _skewX = skewX.toDouble();
-         if (skewY != null) {
-           _skewY = skewY.toDouble();
-           if (pivotX != null) {
-             _pivotX = pivotX.toDouble();
-             if (pivotY != null)
-               _pivotY = pivotY.toDouble();
-           }
-         }
-       }
-     }
-   }
- }
 }
 </pre>
 </div>
@@ -1748,7 +1794,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.135</div>
+          <div>This page was generated at 2013-07-13 19:51:31.044</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

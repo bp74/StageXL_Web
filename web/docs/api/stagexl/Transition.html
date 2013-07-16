@@ -32,7 +32,7 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
-<p>The <a class="crossref" href="../stagexl/Transition.html#Transition">Transition</a> class animates a value by calling the onUpdate function continuously.</p>
+<p>The <a class="crossref" href="../stagexl/Transition.html">Transition</a> class animates a value by calling the onUpdate function continuously.</p>
 <pre><code>var transition = new Transition(0.0, 100.0, 1.0, TransitionFunction.linear);
 transition.onUpdate = (value) =&gt; print('the value changed to $value');
 renderLoop.juggler.add(transition);
@@ -151,11 +151,17 @@ class Transition extends Animatable {
 <span class="type-box"><span class="icon-class"></span><a href="../stagexl/Animatable.html">Animatable</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>Transition</strong></span></p>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="Transition">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>Transition</strong>(num startValue, num targetValue, num time, [<a href="../stagexl/EaseFunction.html">EaseFunction</a> transitionFunction]) <a class="anchor-link" href="#Transition"
+new <strong>Transition</strong>(num startValue, num targetValue, num time, [<a href="../stagexl/EaseFunction.html">EaseFunction</a> transitionFunction]) <a class="anchor-link" href="#"
               title="Permalink to Transition.Transition">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
 Transition(num startValue, num targetValue, num time, [EaseFunction transitionFunction]) :
  
@@ -238,7 +244,7 @@ bool get isComplete =&gt; _currentTime &gt;= _totalTime;
 void <strong>set onComplete</strong>(void function()) <a class="anchor-link" href="#onComplete="
               title="Permalink to Transition.set onComplete">#</a></h4>
 <div class="doc">
-<p>The function that is called when a <a class="crossref" href="../stagexl/Transition.html#Transition">Transition</a> is completed.</p>
+<p>The function that is called when a <a class="crossref" href="../stagexl/Transition.html">Transition</a> is completed.</p>
 <pre class="source">
 void set onComplete(void function()) { _onComplete = function; }
 </pre>
@@ -249,7 +255,7 @@ void set onComplete(void function()) { _onComplete = function; }
 void <strong>set onStart</strong>(void function()) <a class="anchor-link" href="#onStart="
               title="Permalink to Transition.set onStart">#</a></h4>
 <div class="doc">
-<p>The function that is called when a <a class="crossref" href="../stagexl/Transition.html#Transition">Transition</a> starts. This happens after the specified delay.</p>
+<p>The function that is called when a <a class="crossref" href="../stagexl/Transition.html">Transition</a> starts. This happens after the specified delay.</p>
 <pre class="source">
 void set onStart(void function()) { _onStart = function; }
 </pre>
@@ -260,7 +266,7 @@ void set onStart(void function()) { _onStart = function; }
 void <strong>set onUpdate</strong>(void function(num value)) <a class="anchor-link" href="#onUpdate="
               title="Permalink to Transition.set onUpdate">#</a></h4>
 <div class="doc">
-<p>The function that is called every time a <a class="crossref" href="../stagexl/Transition.html#Transition">Transition</a> updates the value.</p>
+<p>The function that is called every time a <a class="crossref" href="../stagexl/Transition.html">Transition</a> updates the value.</p>
 <pre class="source">
 void set onUpdate(void function(num value)) { _onUpdate = function; }
 </pre>
@@ -364,7 +370,7 @@ bool advanceTime(num time) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.495</div>
+          <div>This page was generated at 2013-07-13 19:51:31.431</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

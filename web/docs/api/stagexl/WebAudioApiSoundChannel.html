@@ -34,7 +34,7 @@
 <div class="doc">
 <pre class="source">
 class WebAudioApiSoundChannel extends SoundChannel {
- 
+
  WebAudioApiSound _webAudioApiSound;
  SoundTransform _soundTransform;
  bool _loop;
@@ -43,7 +43,7 @@ class WebAudioApiSoundChannel extends SoundChannel {
  AudioBufferSourceNode _sourceNode;
 
  WebAudioApiSoundChannel(WebAudioApiSound webAudioApiSound, bool loop, SoundTransform soundTransform) {
-   
+
    _webAudioApiSound = webAudioApiSound;
    _loop = loop;
    _soundTransform = soundTransform;
@@ -51,13 +51,13 @@ class WebAudioApiSoundChannel extends SoundChannel {
    var context = SoundMixer._audioContext;
 
    _gainNode = context.createGain();
-   _gainNode.connect(context.destination, 0, 0);
+   _gainNode.connectNode(context.destination, 0, 0);
    _gainNode.gain.value =  (_soundTransform != null) ? pow(_soundTransform.volume , 2) : 1;
 
    _sourceNode = context.createBufferSource();
    _sourceNode.buffer = _webAudioApiSound._buffer;
    _sourceNode.loop = loop;
-   _sourceNode.connect(_gainNode, 0, 0);
+   _sourceNode.connectNode(_gainNode, 0, 0);
    _sourceNode.start(0);
  }
 
@@ -83,14 +83,20 @@ class WebAudioApiSoundChannel extends SoundChannel {
 <span class="type-box"><span class="icon-class"></span><a href="../stagexl/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/SoundChannel.html">SoundChannel</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>WebAudioApiSoundChannel</strong></span></p>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="WebAudioApiSoundChannel">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>WebAudioApiSoundChannel</strong>(<a href="../stagexl/WebAudioApiSound.html">WebAudioApiSound</a> webAudioApiSound, bool loop, <a href="../stagexl/SoundTransform.html">SoundTransform</a> soundTransform) <a class="anchor-link" href="#WebAudioApiSoundChannel"
+new <strong>WebAudioApiSoundChannel</strong>(<a href="../stagexl/WebAudioApiSound.html">WebAudioApiSound</a> webAudioApiSound, bool loop, <a href="../stagexl/SoundTransform.html">SoundTransform</a> soundTransform) <a class="anchor-link" href="#"
               title="Permalink to WebAudioApiSoundChannel.WebAudioApiSoundChannel">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
 WebAudioApiSoundChannel(WebAudioApiSound webAudioApiSound, bool loop, SoundTransform soundTransform) {
- 
+
  _webAudioApiSound = webAudioApiSound;
  _loop = loop;
  _soundTransform = soundTransform;
@@ -98,13 +104,13 @@ WebAudioApiSoundChannel(WebAudioApiSound webAudioApiSound, bool loop, SoundTrans
  var context = SoundMixer._audioContext;
 
  _gainNode = context.createGain();
- _gainNode.connect(context.destination, 0, 0);
+ _gainNode.connectNode(context.destination, 0, 0);
  _gainNode.gain.value =  (_soundTransform != null) ? pow(_soundTransform.volume , 2) : 1;
 
  _sourceNode = context.createBufferSource();
  _sourceNode.buffer = _webAudioApiSound._buffer;
  _sourceNode.loop = loop;
- _sourceNode.connect(_gainNode, 0, 0);
+ _sourceNode.connectNode(_gainNode, 0, 0);
  _sourceNode.start(0);
 }
 </pre>
@@ -189,7 +195,7 @@ dynamic <strong>removeEventListeners</strong>(String eventType, {bool useCapture
 <div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
 <pre class="source">
 removeEventListeners(String eventType, {bool useCapture: false}) {
- _getEventStream(eventType, useCapture)._cancelSubscriptions();
+ _getEventStream(eventType, useCapture).cancelSubscriptions();
 }
 </pre>
 </div>
@@ -211,7 +217,7 @@ void stop() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.005</div>
+          <div>This page was generated at 2013-07-13 19:51:30.888</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

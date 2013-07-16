@@ -35,32 +35,46 @@
 <pre class="source">
 class Shadow {
 
- int color;  
+ int color;
  num offsetX;
  num offsetY;
  num blur;
  DisplayObject targetSpace;
- 
- Shadow(this.color, this.offsetX , this.offsetY, this.blur);
- 
- void render(RenderState renderState, Matrix matrix) {
 
-   var context = renderState.context;
-   context.shadowColor = _color2rgba(color);
-   context.shadowBlur = sqrt(matrix.det) * blur;;
-   context.shadowOffsetX = offsetX * matrix.a + offsetY * matrix.c;
-   context.shadowOffsetY = offsetX * matrix.b + offsetY * matrix.d;
+ CanvasRenderingContext2D _context;
+
+ Shadow(this.color, this.offsetX , this.offsetY, this.blur);
+
+ beginRenderShadow(RenderState renderState, Matrix matrix) {
+
+   _context = renderState.context;
+   _context.save();
+   _context.shadowColor = _color2rgba(color);
+   _context.shadowBlur = sqrt(matrix.det) * blur;;
+   _context.shadowOffsetX = offsetX * matrix.a + offsetY * matrix.c;
+   _context.shadowOffsetY = offsetX * matrix.b + offsetY * matrix.d;
+ }
+
+ endRenderShadow() {
+
+   _context.restore();
  }
 }
 </pre>
 </div>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="Shadow">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>Shadow</strong>(int color, num offsetX, num offsetY, num blur) <a class="anchor-link" href="#Shadow"
+new <strong>Shadow</strong>(int color, num offsetX, num offsetY, num blur) <a class="anchor-link" href="#"
               title="Permalink to Shadow.Shadow">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
 Shadow(this.color, this.offsetX , this.offsetY, this.blur);
 </pre>
@@ -132,19 +146,33 @@ DisplayObject targetSpace
 </div>
 <div>
 <h3>Methods</h3>
-<div class="method"><h4 id="render">
+<div class="method"><h4 id="beginRenderShadow">
 <button class="show-code">Code</button>
-void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</a> renderState, <a href="../stagexl/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#render"
-              title="Permalink to Shadow.render">#</a></h4>
+dynamic <strong>beginRenderShadow</strong>(<a href="../stagexl/RenderState.html">RenderState</a> renderState, <a href="../stagexl/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#beginRenderShadow"
+              title="Permalink to Shadow.beginRenderShadow">#</a></h4>
 <div class="doc">
 <pre class="source">
-void render(RenderState renderState, Matrix matrix) {
+beginRenderShadow(RenderState renderState, Matrix matrix) {
 
- var context = renderState.context;
- context.shadowColor = _color2rgba(color);
- context.shadowBlur = sqrt(matrix.det) * blur;;
- context.shadowOffsetX = offsetX * matrix.a + offsetY * matrix.c;
- context.shadowOffsetY = offsetX * matrix.b + offsetY * matrix.d;
+ _context = renderState.context;
+ _context.save();
+ _context.shadowColor = _color2rgba(color);
+ _context.shadowBlur = sqrt(matrix.det) * blur;;
+ _context.shadowOffsetX = offsetX * matrix.a + offsetY * matrix.c;
+ _context.shadowOffsetY = offsetX * matrix.b + offsetY * matrix.d;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="endRenderShadow">
+<button class="show-code">Code</button>
+dynamic <strong>endRenderShadow</strong>() <a class="anchor-link" href="#endRenderShadow"
+              title="Permalink to Shadow.endRenderShadow">#</a></h4>
+<div class="doc">
+<pre class="source">
+endRenderShadow() {
+
+ _context.restore();
 }
 </pre>
 </div>
@@ -154,7 +182,7 @@ void render(RenderState renderState, Matrix matrix) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.143</div>
+          <div>This page was generated at 2013-07-13 19:51:31.053</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

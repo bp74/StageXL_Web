@@ -35,12 +35,8 @@
 <pre class="source">
 class EnterFrameEvent extends BroadcastEvent {
  num _passedTime;
-
- EnterFrameEvent(num passedTime):super(Event.ENTER_FRAME) {
-   _passedTime = passedTime;
- }
-
  num get passedTime =&gt; _passedTime;
+ EnterFrameEvent(num passedTime):super(Event.ENTER_FRAME), _passedTime = passedTime;
 }
 </pre>
 </div>
@@ -49,15 +45,19 @@ class EnterFrameEvent extends BroadcastEvent {
 <span class="type-box"><span class="icon-class"></span><a href="../stagexl/Event.html">Event</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/BroadcastEvent.html">BroadcastEvent</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>EnterFrameEvent</strong></span></p>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="EnterFrameEvent">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>EnterFrameEvent</strong>(num passedTime) <a class="anchor-link" href="#EnterFrameEvent"
+new <strong>EnterFrameEvent</strong>(num passedTime) <a class="anchor-link" href="#"
               title="Permalink to EnterFrameEvent.EnterFrameEvent">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
-EnterFrameEvent(num passedTime):super(Event.ENTER_FRAME) {
- _passedTime = passedTime;
-}
+EnterFrameEvent(num passedTime):super(Event.ENTER_FRAME), _passedTime = passedTime;
 </pre>
 </div>
 </div>
@@ -205,7 +205,7 @@ void stopPropagation() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.446</div>
+          <div>This page was generated at 2013-07-13 19:51:31.374</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

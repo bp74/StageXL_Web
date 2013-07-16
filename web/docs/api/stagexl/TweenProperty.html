@@ -34,13 +34,13 @@
 <div class="doc">
 <pre class="source">
 class TweenProperty {
- 
+
  final String property;
  num startValue = double.NAN;
  num targetValue = double.NAN;
- 
+
  TweenProperty(this.property);
- 
+
  void to(num targetValue) {
    this.targetValue = targetValue.toDouble();
  }
@@ -49,20 +49,20 @@ class TweenProperty {
 
  num _getPropertyValue(DisplayObject displayObject) {
    switch(property) {
-     case 'x':        return displayObject.x; 
+     case 'x':        return displayObject.x;
      case 'y':        return displayObject.y;
      case 'pivotX':   return displayObject.pivotX;
      case 'pivotY':   return displayObject.pivotY;
      case 'scaleX':   return displayObject.scaleX;
      case 'scaleY':   return displayObject.scaleY;
-     case 'skewX':    return displayObject.skewX; 
-     case 'skewY':    return displayObject.skewY; 
-     case 'rotation': return displayObject.rotation; 
-     case 'alpha':    return displayObject.alpha; 
+     case 'skewX':    return displayObject.skewX;
+     case 'skewY':    return displayObject.skewY;
+     case 'rotation': return displayObject.rotation;
+     case 'alpha':    return displayObject.alpha;
      default:         return 0.0;
    }
  }
- 
+
  void _setPropertyValue(DisplayObject displayObject, num value) {
    switch(property) {
      case 'x':        displayObject.x = value; break;
@@ -72,7 +72,7 @@ class TweenProperty {
      case 'scaleX':   displayObject.scaleX = value; break;
      case 'scaleY':   displayObject.scaleY = value; break;
      case 'skewX':    displayObject.skewX = value; break;
-     case 'skewY':    displayObject.skewY = value; break;            
+     case 'skewY':    displayObject.skewY = value; break;
      case 'rotation': displayObject.rotation = value; break;
      case 'alpha':    displayObject.alpha = value; break;
    }
@@ -82,11 +82,17 @@ class TweenProperty {
 </div>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="TweenProperty">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>TweenProperty</strong>(String property) <a class="anchor-link" href="#TweenProperty"
+new <strong>TweenProperty</strong>(String property) <a class="anchor-link" href="#"
               title="Permalink to TweenProperty.TweenProperty">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
 TweenProperty(this.property);
 </pre>
@@ -163,7 +169,7 @@ void to(num targetValue) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.502</div>
+          <div>This page was generated at 2013-07-13 19:51:31.440</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -34,7 +34,7 @@
 <div class="doc">
 <pre class="source">
 class EventDispatcher {
- 
+
  Map&lt;String, _EventStream&gt; _eventStreams;
  Map&lt;String, _EventStream&gt; _captureEventStreams;
 
@@ -47,9 +47,9 @@ class EventDispatcher {
  StreamSubscription&lt;Event&gt; addEventListener(String eventType, void eventListener(event), {bool useCapture: false}) {
    return _getEventStream(eventType, useCapture).listen(eventListener);
  }
- 
+
  removeEventListeners(String eventType, {bool useCapture: false}) {
-   _getEventStream(eventType, useCapture)._cancelSubscriptions();
+   _getEventStream(eventType, useCapture).cancelSubscriptions();
  }
 
  dispatchEvent(Event event) {
@@ -57,11 +57,11 @@ class EventDispatcher {
  }
 
  //-----------------------------------------------------------------------------------------------
- 
+
  Stream&lt;Event&gt; on(String eventType, {bool useCapture: false}) {
    return _getEventStream(eventType, useCapture);
  }
- 
+
  //-----------------------------------------------------------------------------------------------
  //-----------------------------------------------------------------------------------------------
 
@@ -71,49 +71,49 @@ class EventDispatcher {
      var eventStream = _captureEventStreams[eventType];
      if (eventStream != null &amp;&amp; eventStream._hasSubscriptions) return true;
    }
-   
+
    if (bubblingPhase &amp;&amp; _eventStreams != null) {
      var eventStream = _eventStreams[eventType];
      if (eventStream != null &amp;&amp; eventStream._hasSubscriptions) return true;
    }
-   
+
    return false;
  }
 
  //-----------------------------------------------------------------------------------------------
 
  _EventStream _getEventStream(String eventType, bool useCapture) {
-   
+
    if (useCapture) {
-     if (_captureEventStreams == null) _captureEventStreams = new Map&lt;String, _EventStream&gt;(); 
+     if (_captureEventStreams == null) _captureEventStreams = new Map&lt;String, _EventStream&gt;();
    } else {
      if (_eventStreams == null) _eventStreams = new Map&lt;String, _EventStream&gt;();
    }
-   
+
    var eventStreams = useCapture ? _captureEventStreams : _eventStreams;
 
    return eventStreams.putIfAbsent(eventType, () {
      return new _EventStream(this, eventType, useCapture);
    });
  }
- 
+
  //-----------------------------------------------------------------------------------------------
 
  _dispatchEventInternal(Event event, EventDispatcher target, EventDispatcher currentTarget, int eventPhase) {
-   
+
    var eventStreams = (eventPhase == EventPhase.CAPTURING_PHASE) ? _captureEventStreams : _eventStreams;
    if (eventStreams == null) return;
-   
+
    var eventStream = eventStreams[event.type];
    if (eventStream == null) return;
-   
+
    event._target = target;
    event._currentTarget = currentTarget;
    event._eventPhase = eventPhase;
    event._stopsPropagation = false;
    event._stopsImmediatePropagation = false;
-   
-   eventStream._dispatchEvent(event);
+
+   eventStream.dispatchEvent(event);
  }
 
 }
@@ -121,7 +121,7 @@ class EventDispatcher {
 </div>
 <h3>Subclasses</h3>
 <p>
-<span class="type-box"><span class="icon-class"></span><a href="../stagexl/DisplayObject.html">DisplayObject</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/SoundChannel.html">SoundChannel</a></span></p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/DisplayObject.html">DisplayObject</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/ResourceManager.html">ResourceManager</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../stagexl/SoundChannel.html">SoundChannel</a></span></p>
 <div>
 <h3>Methods</h3>
 <div class="method"><h4 id="addEventListener">
@@ -179,7 +179,7 @@ dynamic <strong>removeEventListeners</strong>(String eventType, {bool useCapture
 <div class="doc">
 <pre class="source">
 removeEventListeners(String eventType, {bool useCapture: false}) {
- _getEventStream(eventType, useCapture)._cancelSubscriptions();
+ _getEventStream(eventType, useCapture).cancelSubscriptions();
 }
 </pre>
 </div>
@@ -189,7 +189,7 @@ removeEventListeners(String eventType, {bool useCapture: false}) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.453</div>
+          <div>This page was generated at 2013-07-13 19:51:31.382</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

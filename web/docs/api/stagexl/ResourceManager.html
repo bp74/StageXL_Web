@@ -33,144 +33,166 @@
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class ResourceManager {
- 
- Map&lt;String, ResourceManagerResource&gt; _resources;
- 
- ResourceManager() {
-   _resources = new Map&lt;String, ResourceManagerResource&gt;();
- }
+class ResourceManager extends EventDispatcher {
 
- //-------------------------------------------------------------------------------------------------
+ final Map&lt;String, ResourceManagerResource&gt; _resources = new Map&lt;String, ResourceManagerResource&gt;();
 
- void _addResourceManagerResource(ResourceManagerResource resource) {
-   
-   var kind = resource.kind;
-   var name = resource.name;
+ static const EventStreamProvider&lt;Event&gt; progressEvent = const EventStreamProvider&lt;Event&gt;(Event.PROGRESS);
+ Stream&lt;Event&gt; get onProgress =&gt; ResourceManager.progressEvent.forTarget(this);
+
+ //-----------------------------------------------------------------------------------------------
+
+ _addResource(String kind, String name, String url, Future loader) {
+
    var key = "$kind.$name";
-   
-   if (_resources.containsKey(key))
+   var resource = new ResourceManagerResource(kind, name, url, loader);
+
+   if (_resources.containsKey(key)) {
      throw new StateError("ResourceManager already contains a resource called '$name'");
-   
-   _resources[key] = resource;    
- }
- 
- dynamic _getResourceManagerResource(String kind, String name) {
-   
-   var key = "$kind.$name";
-   
-   if (_resources.containsKey(key) == false)
-     throw new StateError("ResourceManager does not contains a resource called '$name'");
-   
-   return _resources[key];
- }
- 
- //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
+   } else {
+     _resources[key] = resource;
+   }
 
- void addBitmapData(String name, String url, [BitmapDataLoadOptions bitmapDataLoadOptions = null]) {
-   
-   var resource = new ResourceManagerResource("BitmapData", name, url);
-   resource._load(BitmapData.load(url, bitmapDataLoadOptions));
-   
-   _addResourceManagerResource(resource);
- }
-
- void addSound(String name, String url, [SoundLoadOptions soundFileSupport = null]) {
-   
-   var resource = new ResourceManagerResource("Sound", name, url);
-   resource._load(Sound.load(url, soundFileSupport));
-   
-   _addResourceManagerResource(resource);
- }
-
- void addTextureAtlas(String name, String url, String textureAtlasFormat) {
-   
-   var resource = new ResourceManagerResource("TextureAtlas", name, url);
-   resource._load(TextureAtlas.load(url, textureAtlasFormat));
-   
-   _addResourceManagerResource(resource);
- }
- 
- void addFlumpLibrary(String name, String url) {
-   
-   var resource = new ResourceManagerResource("FlumpLibrary", name, url);
-   resource._load(FlumpLibrary.load(url));
-   
-   _addResourceManagerResource(resource);
- }
-
- void addText(String name, String text) {
-   var resource = new ResourceManagerResource("Text", name, "");
-   resource._load(new Future.value(text));
-   
-   _addResourceManagerResource(resource);
- }
-
- //-------------------------------------------------------------------------------------------------
-
- Future&lt;ResourceManager&gt; load() {
-   
-   var loaders = this.pendingResources.map((r) =&gt; r._loader);
-   
-   return Future.wait(loaders).then((value) {
-     
-     var errors = this.failedResources;
-     if (errors.length &gt; 0)
-       throw new StateError("Failed to load ${errors.length} resource(s).");
-     
-     return this;
+   resource.complete.then((_) {
+     this.dispatchEvent(new Event(Event.PROGRESS));
    });
  }
- 
+
+ dynamic _getResourceValue(String kind, String name) {
+
+   var key = "$kind.$name";
+   var resource = _resources[key];
+
+   if (resource == null) {
+     throw new StateError("Resource '$name' does not exist.");
+   } else if (resource.value != null) {
+     return resource.value;
+   } else if (resource.error != null) {
+     throw resource.error;
+   } else {
+     throw new StateError("Resource '$name' has not finished loading yet.");
+   }
+ }
+
+ //-----------------------------------------------------------------------------------------------
+ //-----------------------------------------------------------------------------------------------
+
+ Future&lt;ResourceManager&gt; load() {
+
+   var futures = this.pendingResources.map((r) =&gt; r.complete);
+
+   return Future.wait(futures).then((value) {
+     var errors = this.failedResources.length;
+     if (errors &gt; 0) {
+       throw new StateError("Failed to load $errors resource(s).");
+     } else {
+       return this;
+     }
+   });
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
+ List&lt;ResourceManagerResource&gt; get finishedResources {
+   return _resources.values.where((r) =&gt; r.value != null).toList();
+ }
+
  List&lt;ResourceManagerResource&gt; get pendingResources {
-   return _resources.values.where((r) =&gt; r.resource == null).toList();
+   return _resources.values.where((r) =&gt; r.value == null &amp;&amp; r.error == null).toList();
  }
 
  List&lt;ResourceManagerResource&gt; get failedResources {
    return _resources.values.where((r) =&gt; r.error != null).toList();
  }
- 
+
  List&lt;ResourceManagerResource&gt; get resources {
    return _resources.values.toList();
  }
- 
- //-------------------------------------------------------------------------------------------------
- 
+
+ //-----------------------------------------------------------------------------------------------
+
+ void addBitmapData(String name, String url, [BitmapDataLoadOptions bitmapDataLoadOptions = null]) {
+   _addResource("BitmapData", name, url, BitmapData.load(url, bitmapDataLoadOptions));
+ }
+
+ void addSound(String name, String url, [SoundLoadOptions soundFileSupport = null]) {
+   _addResource("Sound", name, url, Sound.load(url, soundFileSupport));
+ }
+
+ void addTextureAtlas(String name, String url, String textureAtlasFormat) {
+   _addResource("TextureAtlas", name, url, TextureAtlas.load(url, textureAtlasFormat));
+ }
+
+ void addFlumpLibrary(String name, String url) {
+   _addResource("FlumpLibrary", name, url, FlumpLibrary.load(url));
+ }
+
+ void addTextFile(String name, String url) {
+   _addResource("TextFile", name, url,
+       HttpRequest.getString(url).then((text) =&gt; text, onError: (error) {
+         throw new StateError("Failed to load text file.");
+       }));
+ }
+
+ void addText(String name, String text) {
+   _addResource("Text", name, "", new Future.value(text));
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
  BitmapData getBitmapData(String name) {
-   return _getResourceManagerResource("BitmapData", name).resource;
+   var value = _getResourceValue("BitmapData", name);
+   if (value is! BitmapData) throw "dart2js_hint";
+   return value;
  }
 
  Sound getSound(String name) {
-   return _getResourceManagerResource("Sound", name).resource;
+   var value = _getResourceValue("Sound", name);
+   if (value is! Sound) throw "dart2js_hint";
+   return value;
  }
 
  TextureAtlas getTextureAtlas(String name) {
-   return _getResourceManagerResource("TextureAtlas", name).resource;
+   var value = _getResourceValue("TextureAtlas", name);
+   if (value is! TextureAtlas) throw "dart2js_hint";
+   return value;
  }
 
  FlumpLibrary getFlumpLibrary(String name) {
-   return _getResourceManagerResource("FlumpLibrary", name).resource;
+   var value = _getResourceValue("FlumpLibrary", name);
+   if (value is! FlumpLibrary) throw "dart2js_hint";
+   return value;
  }
- 
+
+ String getTextFile(String name) {
+   var value = _getResourceValue("TextFile", name);
+   if (value is! String) throw "dart2js_hint";
+   return value;
+ }
+
  String getText(String name) {
-   return _getResourceManagerResource("Text", name).resource;
+   var value = _getResourceValue("Text", name);
+   if (value is! String) throw "dart2js_hint";
+   return value;
  }
 
 }
 </pre>
 </div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>ResourceManager</strong></span></p>
 <div>
-<h3>Constructors</h3>
-<div class="method"><h4 id="ResourceManager">
+<h3>Static Properties</h3>
+<div class="field"><h4 id="progressEvent">
 <button class="show-code">Code</button>
-new <strong>ResourceManager</strong>() <a class="anchor-link" href="#ResourceManager"
-              title="Permalink to ResourceManager.ResourceManager">#</a></h4>
-<div class="doc">
+const <a href="../stagexl/EventStreamProvider.html">EventStreamProvider</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>progressEvent</strong> <a class="anchor-link"
+            href="#progressEvent"
+            title="Permalink to ResourceManager.progressEvent">#</a>
+        </h4>
+        <div class="doc">
 <pre class="source">
-ResourceManager() {
- _resources = new Map&lt;String, ResourceManagerResource&gt;();
-}
+static const EventStreamProvider&lt;Event&gt; progressEvent = const EventStreamProvider&lt;Event&gt;(Event.PROGRESS)
 </pre>
 </div>
 </div>
@@ -191,6 +213,32 @@ List&lt;ResourceManagerResource&gt; get failedResources {
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="finishedResources">
+<button class="show-code">Code</button>
+final List&lt;<a href="../stagexl/ResourceManagerResource.html">ResourceManagerResource</a>&gt;         <strong>finishedResources</strong> <a class="anchor-link"
+            href="#finishedResources"
+            title="Permalink to ResourceManager.finishedResources">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+List&lt;ResourceManagerResource&gt; get finishedResources {
+ return _resources.values.where((r) =&gt; r.value != null).toList();
+}
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onProgress">
+<button class="show-code">Code</button>
+final Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onProgress</strong> <a class="anchor-link"
+            href="#onProgress"
+            title="Permalink to ResourceManager.onProgress">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; get onProgress =&gt; ResourceManager.progressEvent.forTarget(this);
+</pre>
+</div>
+</div>
 <div class="field"><h4 id="pendingResources">
 <button class="show-code">Code</button>
 final List&lt;<a href="../stagexl/ResourceManagerResource.html">ResourceManagerResource</a>&gt;         <strong>pendingResources</strong> <a class="anchor-link"
@@ -200,7 +248,7 @@ final List&lt;<a href="../stagexl/ResourceManagerResource.html">ResourceManagerR
         <div class="doc">
 <pre class="source">
 List&lt;ResourceManagerResource&gt; get pendingResources {
- return _resources.values.where((r) =&gt; r.resource == null).toList();
+ return _resources.values.where((r) =&gt; r.value == null &amp;&amp; r.error == null).toList();
 }
 </pre>
 </div>
@@ -229,11 +277,19 @@ void <strong>addBitmapData</strong>(String name, String url, [<a href="../stagex
 <div class="doc">
 <pre class="source">
 void addBitmapData(String name, String url, [BitmapDataLoadOptions bitmapDataLoadOptions = null]) {
- 
- var resource = new ResourceManagerResource("BitmapData", name, url);
- resource._load(BitmapData.load(url, bitmapDataLoadOptions));
- 
- _addResourceManagerResource(resource);
+ _addResource("BitmapData", name, url, BitmapData.load(url, bitmapDataLoadOptions));
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="addEventListener">
+<button class="show-code">Code</button>
+StreamSubscription&lt;<a href="../stagexl/Event.html">Event</a>&gt; <strong>addEventListener</strong>(String eventType, void eventListener(event), {bool useCapture: false}) <a class="anchor-link" href="#addEventListener"
+              title="Permalink to ResourceManager.addEventListener">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+StreamSubscription&lt;Event&gt; addEventListener(String eventType, void eventListener(event), {bool useCapture: false}) {
+ return _getEventStream(eventType, useCapture).listen(eventListener);
 }
 </pre>
 </div>
@@ -245,11 +301,7 @@ void <strong>addFlumpLibrary</strong>(String name, String url) <a class="anchor-
 <div class="doc">
 <pre class="source">
 void addFlumpLibrary(String name, String url) {
- 
- var resource = new ResourceManagerResource("FlumpLibrary", name, url);
- resource._load(FlumpLibrary.load(url));
- 
- _addResourceManagerResource(resource);
+ _addResource("FlumpLibrary", name, url, FlumpLibrary.load(url));
 }
 </pre>
 </div>
@@ -261,11 +313,7 @@ void <strong>addSound</strong>(String name, String url, [<a href="../stagexl/Sou
 <div class="doc">
 <pre class="source">
 void addSound(String name, String url, [SoundLoadOptions soundFileSupport = null]) {
- 
- var resource = new ResourceManagerResource("Sound", name, url);
- resource._load(Sound.load(url, soundFileSupport));
- 
- _addResourceManagerResource(resource);
+ _addResource("Sound", name, url, Sound.load(url, soundFileSupport));
 }
 </pre>
 </div>
@@ -277,10 +325,22 @@ void <strong>addText</strong>(String name, String text) <a class="anchor-link" h
 <div class="doc">
 <pre class="source">
 void addText(String name, String text) {
- var resource = new ResourceManagerResource("Text", name, "");
- resource._load(new Future.value(text));
- 
- _addResourceManagerResource(resource);
+ _addResource("Text", name, "", new Future.value(text));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="addTextFile">
+<button class="show-code">Code</button>
+void <strong>addTextFile</strong>(String name, String url) <a class="anchor-link" href="#addTextFile"
+              title="Permalink to ResourceManager.addTextFile">#</a></h4>
+<div class="doc">
+<pre class="source">
+void addTextFile(String name, String url) {
+ _addResource("TextFile", name, url,
+     HttpRequest.getString(url).then((text) =&gt; text, onError: (error) {
+       throw new StateError("Failed to load text file.");
+     }));
 }
 </pre>
 </div>
@@ -292,11 +352,19 @@ void <strong>addTextureAtlas</strong>(String name, String url, String textureAtl
 <div class="doc">
 <pre class="source">
 void addTextureAtlas(String name, String url, String textureAtlasFormat) {
- 
- var resource = new ResourceManagerResource("TextureAtlas", name, url);
- resource._load(TextureAtlas.load(url, textureAtlasFormat));
- 
- _addResourceManagerResource(resource);
+ _addResource("TextureAtlas", name, url, TextureAtlas.load(url, textureAtlasFormat));
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="dispatchEvent">
+<button class="show-code">Code</button>
+dynamic <strong>dispatchEvent</strong>(<a href="../stagexl/Event.html">Event</a> event) <a class="anchor-link" href="#dispatchEvent"
+              title="Permalink to ResourceManager.dispatchEvent">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+dispatchEvent(Event event) {
+ _dispatchEventInternal(event, this, this, EventPhase.AT_TARGET);
 }
 </pre>
 </div>
@@ -308,7 +376,9 @@ void addTextureAtlas(String name, String url, String textureAtlasFormat) {
 <div class="doc">
 <pre class="source">
 BitmapData getBitmapData(String name) {
- return _getResourceManagerResource("BitmapData", name).resource;
+ var value = _getResourceValue("BitmapData", name);
+ if (value is! BitmapData) throw "dart2js_hint";
+ return value;
 }
 </pre>
 </div>
@@ -320,7 +390,9 @@ BitmapData getBitmapData(String name) {
 <div class="doc">
 <pre class="source">
 FlumpLibrary getFlumpLibrary(String name) {
- return _getResourceManagerResource("FlumpLibrary", name).resource;
+ var value = _getResourceValue("FlumpLibrary", name);
+ if (value is! FlumpLibrary) throw "dart2js_hint";
+ return value;
 }
 </pre>
 </div>
@@ -332,7 +404,9 @@ FlumpLibrary getFlumpLibrary(String name) {
 <div class="doc">
 <pre class="source">
 Sound getSound(String name) {
- return _getResourceManagerResource("Sound", name).resource;
+ var value = _getResourceValue("Sound", name);
+ if (value is! Sound) throw "dart2js_hint";
+ return value;
 }
 </pre>
 </div>
@@ -344,7 +418,23 @@ String <strong>getText</strong>(String name) <a class="anchor-link" href="#getTe
 <div class="doc">
 <pre class="source">
 String getText(String name) {
- return _getResourceManagerResource("Text", name).resource;
+ var value = _getResourceValue("Text", name);
+ if (value is! String) throw "dart2js_hint";
+ return value;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="getTextFile">
+<button class="show-code">Code</button>
+String <strong>getTextFile</strong>(String name) <a class="anchor-link" href="#getTextFile"
+              title="Permalink to ResourceManager.getTextFile">#</a></h4>
+<div class="doc">
+<pre class="source">
+String getTextFile(String name) {
+ var value = _getResourceValue("TextFile", name);
+ if (value is! String) throw "dart2js_hint";
+ return value;
 }
 </pre>
 </div>
@@ -356,7 +446,21 @@ String getText(String name) {
 <div class="doc">
 <pre class="source">
 TextureAtlas getTextureAtlas(String name) {
- return _getResourceManagerResource("TextureAtlas", name).resource;
+ var value = _getResourceValue("TextureAtlas", name);
+ if (value is! TextureAtlas) throw "dart2js_hint";
+ return value;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hasEventListener">
+<button class="show-code">Code</button>
+bool <strong>hasEventListener</strong>(String eventType) <a class="anchor-link" href="#hasEventListener"
+              title="Permalink to ResourceManager.hasEventListener">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+bool hasEventListener(String eventType) {
+ return _hasEventListener(eventType, true, true);
 }
 </pre>
 </div>
@@ -368,17 +472,41 @@ Future&lt;<a href="../stagexl/ResourceManager.html">ResourceManager</a>&gt; <str
 <div class="doc">
 <pre class="source">
 Future&lt;ResourceManager&gt; load() {
- 
- var loaders = this.pendingResources.map((r) =&gt; r._loader);
- 
- return Future.wait(loaders).then((value) {
-   
-   var errors = this.failedResources;
-   if (errors.length &gt; 0)
-     throw new StateError("Failed to load ${errors.length} resource(s).");
-   
-   return this;
+
+ var futures = this.pendingResources.map((r) =&gt; r.complete);
+
+ return Future.wait(futures).then((value) {
+   var errors = this.failedResources.length;
+   if (errors &gt; 0) {
+     throw new StateError("Failed to load $errors resource(s).");
+   } else {
+     return this;
+   }
  });
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="on">
+<button class="show-code">Code</button>
+Stream&lt;<a href="../stagexl/Event.html">Event</a>&gt; <strong>on</strong>(String eventType, {bool useCapture: false}) <a class="anchor-link" href="#on"
+              title="Permalink to ResourceManager.on">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+Stream&lt;Event&gt; on(String eventType, {bool useCapture: false}) {
+ return _getEventStream(eventType, useCapture);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeEventListeners">
+<button class="show-code">Code</button>
+dynamic <strong>removeEventListeners</strong>(String eventType, {bool useCapture: false}) <a class="anchor-link" href="#removeEventListeners"
+              title="Permalink to ResourceManager.removeEventListeners">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+removeEventListeners(String eventType, {bool useCapture: false}) {
+ _getEventStream(eventType, useCapture).cancelSubscriptions();
 }
 </pre>
 </div>
@@ -388,7 +516,7 @@ Future&lt;ResourceManager&gt; load() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:24.866</div>
+          <div>This page was generated at 2013-07-13 19:51:30.780</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

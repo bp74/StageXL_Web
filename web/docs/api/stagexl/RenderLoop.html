@@ -34,7 +34,7 @@
 <div class="doc">
 <pre class="source">
 class RenderLoop {
- 
+
  Juggler _juggler;
  List&lt;Stage&gt; _stages;
  num _renderTime;
@@ -46,7 +46,7 @@ class RenderLoop {
  RenderEvent _renderEvent;
 
  RenderLoop() {
-   
+
    _juggler = new Juggler();
    _stages = new List&lt;Stage&gt;();
    _renderTime = -1;
@@ -55,7 +55,7 @@ class RenderLoop {
    _enterFrameEvent = new EnterFrameEvent(0);
    _exitFrameEvent = new ExitFrameEvent();
    _renderEvent = new RenderEvent();
-   
+
    _requestAnimationFrameCallback = _onAnimationFrame;
    _requestAnimationFrame();
  }
@@ -66,15 +66,15 @@ class RenderLoop {
  //-------------------------------------------------------------------------------------------------
 
  _requestAnimationFrame() {
-   html.window.requestAnimationFrame(_requestAnimationFrameCallback); 
+   html.window.requestAnimationFrame(_requestAnimationFrameCallback);
  }
- 
+
  _onAnimationFrame(num currentTime) {
-   
+
    _requestAnimationFrame();
 
    currentTime = currentTime.toDouble();
-   
+
    if (_renderTime == -1) _renderTime = currentTime;
    if (_renderTime &gt; currentTime) _renderTime = currentTime;
 
@@ -82,28 +82,28 @@ class RenderLoop {
    var deltaTimeSec = deltaTime / 1000.0;
    var currentTimeSec = currentTime / 1000.0;
    var invalidate = false;
-   
+
    if (deltaTime &gt;= 1) {
      _renderTime = currentTime;
      _enterFrameEvent._passedTime = deltaTimeSec;
-     _EventStreamIndex.enterFrame._dispatchEvent(_enterFrameEvent);
-     
+     _enterFrameEventIndex.dispatchEvent(_enterFrameEvent);
+
      _juggler.advanceTime(deltaTimeSec);
 
      for(int i = 0; i &lt; _stages.length; i++) {
        _stages[i].juggler.advanceTime(deltaTimeSec);
      }
-     
+
      if (_invalidate) {
        _invalidate = false;
-       _EventStreamIndex.render._dispatchEvent(_renderEvent);
+       _renderEventIndex.dispatchEvent(_renderEvent);
      }
-     
+
      for(int i = 0; i &lt; _stages.length; i++) {
        _stages[i].materialize(currentTimeSec, deltaTimeSec);
      }
-     
-     _EventStreamIndex.exitFrame._dispatchEvent(_exitFrameEvent);
+
+     _exitFrameEventIndex.dispatchEvent(_exitFrameEvent);
    }
  }
 
@@ -113,17 +113,17 @@ class RenderLoop {
  void invalidate() {
    _invalidate = true;
  }
- 
+
  void addStage(Stage stage) {
-  
+
    if (stage.renderLoop != null) {
      stage.renderLoop.removeStage(stage);
    }
-   
+
    _stages.add(stage);
    stage._renderLoop = this;
  }
- 
+
  void removeStage(Stage stage) {
 
    if (stage.renderLoop == this) {
@@ -131,20 +131,26 @@ class RenderLoop {
      stage._renderLoop = null;
    }
  }
- 
+
 }
 </pre>
 </div>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="RenderLoop">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>RenderLoop</strong>() <a class="anchor-link" href="#RenderLoop"
+new <strong>RenderLoop</strong>() <a class="anchor-link" href="#"
               title="Permalink to RenderLoop.RenderLoop">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
 RenderLoop() {
- 
+
  _juggler = new Juggler();
  _stages = new List&lt;Stage&gt;();
  _renderTime = -1;
@@ -153,7 +159,7 @@ RenderLoop() {
  _enterFrameEvent = new EnterFrameEvent(0);
  _exitFrameEvent = new ExitFrameEvent();
  _renderEvent = new RenderEvent();
- 
+
  _requestAnimationFrameCallback = _onAnimationFrame;
  _requestAnimationFrame();
 }
@@ -189,7 +195,7 @@ void addStage(Stage stage) {
  if (stage.renderLoop != null) {
    stage.renderLoop.removeStage(stage);
  }
- 
+
  _stages.add(stage);
  stage._renderLoop = this;
 }
@@ -229,7 +235,7 @@ void removeStage(Stage stage) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.463</div>
+          <div>This page was generated at 2013-07-13 19:51:31.393</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

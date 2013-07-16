@@ -103,7 +103,7 @@ class Timeline
    if (props != null &amp;&amp; props.containsKey("paused") &amp;&amp; props["paused"] == true) { _paused = true; }
    //else { TimelineTween._register(this, true); }
    
-   if (props != null &amp;&amp; props.containsKey("position")) { 
+   if (props != null &amp;&amp; props.containsKey("position") &amp;&amp; props["position"] != 0) { 
      setPosition(props["position"], TimelineTween.NONE); }
  }
  
@@ -188,9 +188,11 @@ class Timeline
    if (value.isNaN || value &lt; 0) { value = 0; }
    num t = loop ? value%duration : value;
    bool end = !loop &amp;&amp; value &gt;= duration;
+   
    if (t == _prevPos) return end;
    _prevPosition = value;
    position = _prevPos = t; // in case an action changes the current frame.
+   
    for(var i=0; i&lt;_tweens.length; i++) {
      _tweens[i].setPosition(t, actionsMode);
      if (t != _prevPos) return false; // an action changed this timeline's position.
@@ -281,9 +283,9 @@ class Timeline
 </div>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="Timeline">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>Timeline</strong>(List&lt;<a href="../stagexl/TimelineTween.html">TimelineTween</a>&gt; tweens, Map&lt;String, num&gt; labels, Map&lt;String, dynamic&gt; props) <a class="anchor-link" href="#Timeline"
+new <strong>Timeline</strong>(List&lt;<a href="../stagexl/TimelineTween.html">TimelineTween</a>&gt; tweens, Map&lt;String, num&gt; labels, Map&lt;String, dynamic&gt; props) <a class="anchor-link" href="#"
               title="Permalink to Timeline.Timeline">#</a></h4>
 <div class="doc">
 <p>The Timeline class synchronizes multiple tweens and allows them to be controlled as a group. Please note that if a
@@ -317,7 +319,7 @@ Timeline(List&lt;TimelineTween&gt; tweens, Map&lt;String, num&gt; labels, Map&lt
  if (props != null &amp;&amp; props.containsKey("paused") &amp;&amp; props["paused"] == true) { _paused = true; }
  //else { TimelineTween._register(this, true); }
  
- if (props != null &amp;&amp; props.containsKey("position")) { 
+ if (props != null &amp;&amp; props.containsKey("position") &amp;&amp; props["position"] != 0) { 
    setPosition(props["position"], TimelineTween.NONE); }
 }
 </pre>
@@ -557,9 +559,11 @@ bool setPosition(num value, [int actionsMode]) {
  if (value.isNaN || value &lt; 0) { value = 0; }
  num t = loop ? value%duration : value;
  bool end = !loop &amp;&amp; value &gt;= duration;
+ 
  if (t == _prevPos) return end;
  _prevPosition = value;
  position = _prevPos = t; // in case an action changes the current frame.
+ 
  for(var i=0; i&lt;_tweens.length; i++) {
    _tweens[i].setPosition(t, actionsMode);
    if (t != _prevPos) return false; // an action changed this timeline's position.
@@ -626,7 +630,7 @@ void updateDuration() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.246</div>
+          <div>This page was generated at 2013-07-13 19:51:31.163</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

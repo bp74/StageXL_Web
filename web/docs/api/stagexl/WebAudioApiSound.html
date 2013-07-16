@@ -34,11 +34,11 @@
 <div class="doc">
 <pre class="source">
 class WebAudioApiSound extends Sound {
- 
+
  AudioBuffer _buffer;
 
  WebAudioApiSound() {
-   
+
    if (SoundMixer._audioContext == null)
      throw new UnsupportedError("This browser does not support Web Audio API.");
  }
@@ -54,16 +54,16 @@ class WebAudioApiSound extends Sound {
    var loadCompleter = new Completer&lt;Sound&gt;();
    var audioUrls = SoundMixer._getOptimalAudioUrls(url, soundLoadOptions);
    var audioContext = SoundMixer._audioContext;
-  
+
    if (audioUrls.length == 0) {
      return MockSound.load(url, soundLoadOptions);
    }
-   
+
    audioRequestFinished(request) {
-     audioContext.decodeAudioData(request.response, (AudioBuffer buffer) {
+     audioContext.decodeAudioData(request.response).then((AudioBuffer buffer) {
        sound._buffer = buffer;
        loadCompleter.complete(sound);
-     }, (error) {
+     }).catchError((error) {
        if (soundLoadOptions.ignoreErrors) {
          MockSound.load(url, soundLoadOptions).then((s) =&gt; loadCompleter.complete(s));
        } else {
@@ -71,7 +71,7 @@ class WebAudioApiSound extends Sound {
        }
      });
    }
-   
+
    audioRequestNext(error) {
      if (audioUrls.length &gt; 0) {
        HttpRequest.request(audioUrls.removeAt(0), responseType: 'arraybuffer')
@@ -87,7 +87,7 @@ class WebAudioApiSound extends Sound {
    }
 
    audioRequestNext(null);
-   
+
    return loadCompleter.future;
  }
 
@@ -95,12 +95,12 @@ class WebAudioApiSound extends Sound {
  //-------------------------------------------------------------------------------------------------
 
  num get length {
-   
+
    return _buffer.duration;
  }
 
  SoundChannel play([bool loop = false, SoundTransform soundTransform]) {
-   
+
    if (soundTransform == null)
      soundTransform = new SoundTransform();
 
@@ -133,12 +133,12 @@ static Future&lt;Sound&gt; load(String url, [SoundLoadOptions soundLoadOptions =
  if (audioUrls.length == 0) {
    return MockSound.load(url, soundLoadOptions);
  }
- 
+
  audioRequestFinished(request) {
-   audioContext.decodeAudioData(request.response, (AudioBuffer buffer) {
+   audioContext.decodeAudioData(request.response).then((AudioBuffer buffer) {
      sound._buffer = buffer;
      loadCompleter.complete(sound);
-   }, (error) {
+   }).catchError((error) {
      if (soundLoadOptions.ignoreErrors) {
        MockSound.load(url, soundLoadOptions).then((s) =&gt; loadCompleter.complete(s));
      } else {
@@ -146,7 +146,7 @@ static Future&lt;Sound&gt; load(String url, [SoundLoadOptions soundLoadOptions =
      }
    });
  }
- 
+
  audioRequestNext(error) {
    if (audioUrls.length &gt; 0) {
      HttpRequest.request(audioUrls.removeAt(0), responseType: 'arraybuffer')
@@ -162,7 +162,7 @@ static Future&lt;Sound&gt; load(String url, [SoundLoadOptions soundLoadOptions =
  }
 
  audioRequestNext(null);
- 
+
  return loadCompleter.future;
 }
 </pre>
@@ -171,14 +171,20 @@ static Future&lt;Sound&gt; load(String url, [SoundLoadOptions soundLoadOptions =
 </div>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="WebAudioApiSound">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>WebAudioApiSound</strong>() <a class="anchor-link" href="#WebAudioApiSound"
+new <strong>WebAudioApiSound</strong>() <a class="anchor-link" href="#"
               title="Permalink to WebAudioApiSound.WebAudioApiSound">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
 WebAudioApiSound() {
- 
+
  if (SoundMixer._audioContext == null)
    throw new UnsupportedError("This browser does not support Web Audio API.");
 }
@@ -197,7 +203,7 @@ final num         <strong>length</strong> <a class="anchor-link"
         <div class="doc">
 <pre class="source">
 num get length {
- 
+
  return _buffer.duration;
 }
 </pre>
@@ -213,7 +219,7 @@ num get length {
 <div class="doc">
 <pre class="source">
 SoundChannel play([bool loop = false, SoundTransform soundTransform]) {
- 
+
  if (soundTransform == null)
    soundTransform = new SoundTransform();
 
@@ -227,7 +233,7 @@ SoundChannel play([bool loop = false, SoundTransform soundTransform]) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.008</div>
+          <div>This page was generated at 2013-07-13 19:51:30.892</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -2,7 +2,7 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>Mask class / stagexl Library / Dart Documentation</title>
+        <title>Mask abstract class / stagexl Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
@@ -27,56 +27,91 @@
 </div>
 <div class="content">
         <h2><strong>Mask</strong>
-          class
+          abstract class
         </h2>
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-class Mask {
- 
+abstract class Mask {
+
  DisplayObject targetSpace = null;
- 
+ bool border = false;
+ int borderColor = 0xFF000000;
+ int borderWidth = 1;
+
+ CanvasRenderingContext2D _context;
+
  Mask();
- 
+
+ //-----------------------------------------------------------------------------------------------
+
  factory Mask.rectangle(num x, num y, num width, num height) {
    return new _RectangleMask(x, y, width, height);
  }
- 
+
  factory Mask.circle(num x, num y, num radius) {
    return new _CirlceMask(x, y, radius);
  }
- 
+
  factory Mask.custom(List&lt;Point&gt; points) {
    return new _CustomMask(points);
  }
-  
+
  factory Mask.shape(Shape shape) {
    return new _ShapeMask(shape);
  }
 
- void render(RenderState renderState, Matrix matrix) {
-   var context = renderState.context;
-   context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
+ //-----------------------------------------------------------------------------------------------
+
+ beginRenderMask(RenderState renderState, Matrix matrix) {
+
+   _context = renderState.context;
+   _context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
+   _context.beginPath();
+   _drawMask();
+   _context.save();
+   _context.clip();
  }
+
+ endRenderMask() {
+
+   _context.restore();
+
+   if (border) {
+     _context.strokeStyle = _color2rgba(borderColor);
+     _context.lineWidth = borderWidth;
+     _context.lineCap = "round";
+     _context.lineJoin = "round";
+     _context.stroke();
+   }
+ }
+
+ _drawMask();
 }
 </pre>
 </div>
 <div>
 <h3>Constructors</h3>
-<div class="method"><h4 id="Mask">
+<div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>Mask</strong>() <a class="anchor-link" href="#Mask"
+new <strong>Mask</strong>() <a class="anchor-link" href="#"
               title="Permalink to Mask.Mask">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="../dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="../dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="../dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
 <pre class="source">
 Mask();
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="Mask.circle">
+<div class="method"><h4 id="circle">
 <button class="show-code">Code</button>
-factory <strong>Mask.circle</strong>(num x, num y, num radius) <a class="anchor-link" href="#Mask.circle"
+factory <strong>Mask.circle</strong>(num x, num y, num radius) <a class="anchor-link" href="#circle"
               title="Permalink to Mask.Mask.circle">#</a></h4>
 <div class="doc">
 <pre class="source">
@@ -86,9 +121,9 @@ factory Mask.circle(num x, num y, num radius) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="Mask.custom">
+<div class="method"><h4 id="custom">
 <button class="show-code">Code</button>
-factory <strong>Mask.custom</strong>(List&lt;<a href="../stagexl/Point.html">Point</a>&gt; points) <a class="anchor-link" href="#Mask.custom"
+factory <strong>Mask.custom</strong>(List&lt;<a href="../stagexl/Point.html">Point</a>&gt; points) <a class="anchor-link" href="#custom"
               title="Permalink to Mask.Mask.custom">#</a></h4>
 <div class="doc">
 <pre class="source">
@@ -98,9 +133,9 @@ factory Mask.custom(List&lt;Point&gt; points) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="Mask.rectangle">
+<div class="method"><h4 id="rectangle">
 <button class="show-code">Code</button>
-factory <strong>Mask.rectangle</strong>(num x, num y, num width, num height) <a class="anchor-link" href="#Mask.rectangle"
+factory <strong>Mask.rectangle</strong>(num x, num y, num width, num height) <a class="anchor-link" href="#rectangle"
               title="Permalink to Mask.Mask.rectangle">#</a></h4>
 <div class="doc">
 <pre class="source">
@@ -110,9 +145,9 @@ factory Mask.rectangle(num x, num y, num width, num height) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="Mask.shape">
+<div class="method"><h4 id="shape">
 <button class="show-code">Code</button>
-factory <strong>Mask.shape</strong>(<a href="../stagexl/Shape.html">Shape</a> shape) <a class="anchor-link" href="#Mask.shape"
+factory <strong>Mask.shape</strong>(<a href="../stagexl/Shape.html">Shape</a> shape) <a class="anchor-link" href="#shape"
               title="Permalink to Mask.Mask.shape">#</a></h4>
 <div class="doc">
 <pre class="source">
@@ -125,6 +160,42 @@ factory Mask.shape(Shape shape) {
 </div>
 <div>
 <h3>Properties</h3>
+<div class="field"><h4 id="border">
+<button class="show-code">Code</button>
+bool         <strong>border</strong> <a class="anchor-link"
+            href="#border"
+            title="Permalink to Mask.border">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool border = false
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="borderColor">
+<button class="show-code">Code</button>
+int         <strong>borderColor</strong> <a class="anchor-link"
+            href="#borderColor"
+            title="Permalink to Mask.borderColor">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int borderColor = 0xFF000000
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="borderWidth">
+<button class="show-code">Code</button>
+int         <strong>borderWidth</strong> <a class="anchor-link"
+            href="#borderWidth"
+            title="Permalink to Mask.borderWidth">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int borderWidth = 1
+</pre>
+</div>
+</div>
 <div class="field"><h4 id="targetSpace">
 <button class="show-code">Code</button>
 <a href="../stagexl/DisplayObject.html">DisplayObject</a>         <strong>targetSpace</strong> <a class="anchor-link"
@@ -140,15 +211,41 @@ DisplayObject targetSpace = null
 </div>
 <div>
 <h3>Methods</h3>
-<div class="method"><h4 id="render">
+<div class="method"><h4 id="beginRenderMask">
 <button class="show-code">Code</button>
-void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</a> renderState, <a href="../stagexl/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#render"
-              title="Permalink to Mask.render">#</a></h4>
+dynamic <strong>beginRenderMask</strong>(<a href="../stagexl/RenderState.html">RenderState</a> renderState, <a href="../stagexl/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#beginRenderMask"
+              title="Permalink to Mask.beginRenderMask">#</a></h4>
 <div class="doc">
 <pre class="source">
-void render(RenderState renderState, Matrix matrix) {
- var context = renderState.context;
- context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
+beginRenderMask(RenderState renderState, Matrix matrix) {
+
+ _context = renderState.context;
+ _context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
+ _context.beginPath();
+ _drawMask();
+ _context.save();
+ _context.clip();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="endRenderMask">
+<button class="show-code">Code</button>
+dynamic <strong>endRenderMask</strong>() <a class="anchor-link" href="#endRenderMask"
+              title="Permalink to Mask.endRenderMask">#</a></h4>
+<div class="doc">
+<pre class="source">
+endRenderMask() {
+
+ _context.restore();
+
+ if (border) {
+   _context.strokeStyle = _color2rgba(borderColor);
+   _context.lineWidth = borderWidth;
+   _context.lineCap = "round";
+   _context.lineJoin = "round";
+   _context.stroke();
+ }
 }
 </pre>
 </div>
@@ -158,7 +255,7 @@ void render(RenderState renderState, Matrix matrix) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-05-22 20:23:25.146</div>
+          <div>This page was generated at 2013-07-13 19:51:31.056</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -113,6 +113,7 @@ library stagexl_web;
 import &apos;dart:math&apos;;
 import &apos;dart:html&apos; as html;
 import &apos;package:stagexl/stagexl.dart&apos;;
+import &apos;package:stagexl_flump/stagexl_flump.dart&apos;;
 
 part &apos;src/demo.dart&apos;;
 
@@ -122,17 +123,17 @@ Juggler juggler;
 ResourceManager resourceManager;
 
 void main() {
-     
+
   // initialize Stage and RenderLoop
   stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
   renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
   juggler = renderLoop.juggler;
-  
+
   // initialize ResourceManager
   resourceManager = new ResourceManager()
-    ..addFlumpLibrary(&apos;flump&apos;, &apos;images/flumpLibrary.json&apos;);
-  
+    ..addCustomObject(&apos;flump&apos;, FlumpLibrary.load(&apos;images/flumpLibrary.json&apos;))
+
   resourceManager.load()
     .then((_) =&gt; stage.addChild(new FlumpDemo()))
     .catchError((e) =&gt; print(e));
@@ -143,21 +144,21 @@ void main() {
 part of stagexl_web;
 
 class FlumpDemo extends DisplayObjectContainer {
-  
+
   FlumpDemo() {
 
-    var flumpLibrary = resourceManager.getFlumpLibrary(&apos;flump&apos;);
-      
+    var flumpLibrary = resourceManager.getCustomObject(&apos;flump&apos;) as FlumpLibrary;
+
     var idle = new FlumpMovie(flumpLibrary, &apos;idle&apos;);
     idle.x = 500;
     idle.y = 200;
-    addChild(idle);   
-    
+    addChild(idle);
+
     var walk = new FlumpMovie(flumpLibrary, &apos;walk&apos;);
     walk.x = 150;
     walk.y = 460;
-    addChild(walk);   
-    
+    addChild(walk);
+
     var attack = new FlumpMovie(flumpLibrary, &apos;attack&apos;);
     attack.x = 450;
     attack.y = 460;
@@ -167,14 +168,14 @@ class FlumpDemo extends DisplayObjectContainer {
     defeat.x = 720;
     defeat.y = 460;
     addChild(defeat);
-    
+
     juggler.add(idle);
     juggler.add(walk);
     juggler.add(attack);
     juggler.add(defeat);
-    
+
     //----------------------------
-    
+
     BitmapData.load(&apos;images/flumpLibraryAtlas0.png&apos;).then((bitmapData) {
       Bitmap bitmap = new Bitmap(bitmapData);
       bitmap.x = 40;
@@ -188,10 +189,10 @@ class FlumpDemo extends DisplayObjectContainer {
             </div>
         </div>
     </div>
-    
+
     <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
-    
+
     <script type="application/dart" src="../stagexl_runtimes.dart"></script>
     <script type="text/javascript" src="../assets/js/dart.js"></script>
 </body>

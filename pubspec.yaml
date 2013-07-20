@@ -3,4 +3,10 @@ description: The website for the dartflash library.
 dependencies:
   browser: any
   stagexl:
-    path: D:\GitHub\bp74\StageXL
+    git:
+      ref: master
+      url: https://github.com/bp74/StageXL.git
+  stagexl_flump:
+    git:
+      ref: master
+      url: https://github.com/bp74/StageXL_Flump.git

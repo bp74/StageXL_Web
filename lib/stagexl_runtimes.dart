@@ -3,6 +3,7 @@ library stagexl_runtimes;
 import 'dart:math';
 import 'dart:html' as html;
 import 'package:stagexl/stagexl.dart';
+import 'package:stagexl_flump/stagexl_flump.dart';
 
 part 'runtimes/flump.dart';
 part 'runtimes/texture_packer.dart';
@@ -33,7 +34,7 @@ void _init() {
 void mainFlump() {
   _init();
   resourceManager
-  ..addFlumpLibrary('flump', 'images/flumpLibrary.json')
+  ..addCustomObject('flump', FlumpLibrary.load('images/flumpLibrary.json'))
   ..load().then((_) => stage.addChild(new FlumpDemo()));
 }
 

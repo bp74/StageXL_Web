@@ -9,11 +9,13 @@
 	  <link href="../assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../assets/css/stagexl.css" />
+    <link rel="stylesheet" href="../assets/themes/base/jquery-ui.css" />
 
     <script type="text/javascript" src="../assets/prettify/run_prettify.js?lang=dart" defer="defer"></script>
     <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../assets/js/jquery-ui-1.10.2.js"></script>
     <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../assets/js/knockout-2.2.1.js"></script>
 
     <script type="text/javascript">
         var _gaq = _gaq || [];
@@ -26,6 +28,226 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
     </script>
+
+    <script type="text/html" id="slider-template">
+        <div class="row" style="height: 26px">
+            <div class="span2" data-bind="text: $data.name">
+            </div>
+            <div class="span3">
+                <div data-bind="slider: $data" style="margin-top: 4px"></div>
+            </div>
+            <div class="span1">
+                <input data-bind="value: $data.value" class="span1" />
+            </div>
+        </div>
+    </script>
+
+    <script type="text/javascript">
+
+        ko.bindingHandlers.slider = {
+            init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+                var slider = valueAccessor();
+                var $element = $(element);
+                $element.slider();
+                $element.slider("option", "animate", "fast");
+                $element.slider("option", "min", slider.minValue);
+                $element.slider("option", "max", slider.maxValue);
+                $element.slider("option", "step", slider.step);
+                $element.slider("option", "value", ko.utils.unwrapObservable(slider.value));
+                //$(element).slider("option", "orientation", "vertical");
+
+                $element.on("slidechange", function (event, ui) {
+                    slider.value(ui.value);
+                });
+                $element.on("slide", function (event, ui) {
+                    slider.value(ui.value);
+                });
+
+                ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                    $element.slider("destroy");
+                });
+            },
+            update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+                var slider = valueAccessor();
+                var value = ko.utils.unwrapObservable(slider.value);
+                var $element = $(element);
+
+                if (isNaN(value)) {
+                    $element.slider("value", slider.minValue);
+                } else {
+                    $element.slider("value", value);
+                }
+            }
+        };
+
+        //---------------------------------------
+
+        var viewModel = null;
+
+        $(document).ready(function () {
+            viewModel = new ParticleEmitterViewModel();
+            ko.applyBindings(viewModel);
+        });
+
+        var keyValue = function (key, value) {
+            this.key = key;
+            this.value = value;
+        };
+
+        function ParticleEmitterViewModel() {
+            var self = this;
+
+            // particle configuration
+            self.maxParticles = new Slider("Max Particles", 200, 1, 2000, 1);
+            self.duration = new Slider("Duration (0=infinite)", 0, 0, 1, 0.01);
+            self.lifespan = new Slider("Lifespan", 0.9, 0.1, 5.0, 0.01);
+            self.lifespanVariance = new Slider("Lifespan Variance", 0.4, 0, 5.0, 0.01);
+            self.startSize = new Slider("Start Size", 10, 0, 70, 1);
+            self.startSizeVariance = new Slider("Start Size Variance", 20, 0, 70, 1);
+            self.finishSize = new Slider("Finish Size", 70, 0, 70, 1);
+            self.finishSizeVariance = new Slider("Finish Size Variance", 0, 0, 70, 1);
+            self.shape = ko.observable("circle");
+
+            // emitter
+            self.emitterType = ko.observable(0);
+
+            // gravity configuration
+            self.locationXVariance = new Slider("Location X Variance", 0, 0, 100, 1);
+            self.locationYVariance = new Slider("Location Y Variance", 0, 0, 100, 1);
+            self.speed = new Slider("Speed", 100, 0, 500, 1);
+            self.speedVariance = new Slider("Speed Variance", 10, 0, 500, 1);
+            self.angle = new Slider("Angle", 0, 0, 360, 1);
+            self.angleVariance = new Slider("Angle Variance", 360, 0, 360, 1);
+            self.gravityX = new Slider("Gravity X", 0, -500, 500, 1);
+            self.gravityY = new Slider("Gravity Y", 100, -500, 500, 1);
+            self.radialAcceleration = new Slider("Radial Acc.", 20, -500, 500, 1);
+            self.radialAccelerationVariance = new Slider("Radial Acc. Variance", 0, 0, 500, 1);
+            self.tangentialAcceleration = new Slider("Tangential Acc.", 10, -500, 500, 1);
+            self.tangentialAccelerationVariance = new Slider("Tangential Acc. Variance", 0, 0, 500, 1);
+
+            // radial configuration
+            self.minRadius = new Slider("Min Radius", 0, 0, 500, 1);
+            self.maxRadius = new Slider("Max Radius", 100, 0, 500, 1);
+            self.maxRadiusVariance = new Slider("Max Radius Variance", 0, 0, 500, 1);
+            self.rotatePerSecond = new Slider("Rotation/sec", 0, -360, 360, 1);
+            self.rotatePerSecondVariance = new Slider("Rotation/sec Variance", 0, 0, 360, 1);
+
+            // colors
+            self.compositeOperation = ko.observable("source-over");
+            self.startColorR = new Slider("Start Color Red", 1.0, 0, 1, 0.01);
+            self.startColorG = new Slider("Start Color Green", 0.75, 0, 1, 0.01);
+            self.startColorB = new Slider("Start Color Blue", 0.0, 0, 1, 0.01);
+            self.startColorA = new Slider("Start Color Alpha", 1.0, 0, 1, 0.01);
+
+            self.finishColorR = new Slider("Finish Color Red", 1.0, 0, 1, 0.01);
+            self.finishColorG = new Slider("Finish Color Green", 0.0, 0, 1, 0.01);
+            self.finishColorB = new Slider("Finish Color Blue", 0.0, 0, 1, 0.01);
+            self.finishColorA = new Slider("Finish Color Alpha", 0.0, 0, 1, 0.01);
+
+            // background color
+            self.backgroundColorR = new Slider("Background Red", 0.0, 0, 1, 0.01);
+            self.backgroundColorG = new Slider("Background Green", 0.0, 0, 1, 0.01);
+            self.backgroundColorB = new Slider("Background Blue", 0.0, 0, 1, 0.01);
+
+            self.background = ko.computed(function () {
+                var r = Math.round(self.backgroundColorR.value() * 255);
+                var g = Math.round(self.backgroundColorG.value() * 255);
+                var b = Math.round(self.backgroundColorB.value() * 255);
+                return (r << 16) + (g << 8) + b;
+            });
+
+            self.shapeOptions = [
+                new keyValue("circle", "Circle"),
+                new keyValue("star", "Star"),
+                new keyValue("square", "Square"),
+            ];
+
+            self.compositeOperationOptions = [
+                new keyValue("source-over", "Source over"),
+                //new keyValue("source-in", "Source in"),
+                //new keyValue("source-out", "Source out"),
+                //new keyValue("source-atop", "Source atop"),
+                //new keyValue("destination-over", "Destination over"),
+                //new keyValue("destination-in", "Destination in"),
+                //new keyValue("destination-out", "Destination out"),
+                //new keyValue("destination-atop", "Destination atop"),
+                new keyValue("lighter", "Lighter"),
+                //new keyValue("darker", "Darker"),
+                //new keyValue("copy", "Copy"),
+                //new keyValue("xor", "Xor")
+            ];
+
+            self.jsonConfigPrettyPrint = ko.observable(false);
+            self.jsonConfig = ko.computed(function () {
+                var json = {
+                    "maxParticles": self.maxParticles.value(),
+                    "duration": self.duration.value(),
+                    "lifeSpan": self.lifespan.value(),
+                    "lifespanVariance": self.lifespanVariance.value(),
+                    "startSize": self.startSize.value(),
+                    "startSizeVariance": self.startSizeVariance.value(),
+                    "finishSize": self.finishSize.value(),
+                    "finishSizeVariance": self.finishSizeVariance.value(),
+                    "shape": self.shape(),
+                    "emitterType": parseInt(self.emitterType()),
+                    "location": { "x": 0.0, "y": 0.0 },
+                    "locationVariance": { "x": self.locationXVariance.value(), "y": self.locationYVariance.value() },
+                    "speed": self.speed.value(),
+                    "speedVariance": self.speedVariance.value(),
+                    "angle": self.angle.value(),
+                    "angleVariance": self.angleVariance.value(),
+                    "gravity": { "x": self.gravityX.value(), "y": self.gravityY.value() },
+                    "radialAcceleration": self.radialAcceleration.value(),
+                    "radialAccelerationVariance": self.radialAccelerationVariance.value(),
+                    "tangentialAcceleration": self.tangentialAcceleration.value(),
+                    "tangentialAccelerationVariance": self.tangentialAccelerationVariance.value(),
+                    "minRadius": self.minRadius.value(),
+                    "maxRadius": self.maxRadius.value(),
+                    "maxRadiusVariance": self.maxRadiusVariance.value(),
+                    "rotatePerSecond": self.rotatePerSecond.value(),
+                    "rotatePerSecondVariance": self.rotatePerSecondVariance.value(),
+                    "compositeOperation": self.compositeOperation(),
+                    "startColor": { "red": self.startColorR.value(), "green": self.startColorG.value(), "blue": self.startColorB.value(), "alpha": self.startColorA.value() },
+                    "finishColor": { "red": self.finishColorR.value(), "green": self.finishColorG.value(), "blue": self.finishColorB.value(), "alpha": self.finishColorA.value() }
+                };
+
+                var replacer = new RegExp(',','g');
+                var jsonShort = JSON.stringify(json).replace(replacer, ", ");
+                var jsonPretty = JSON.stringify(json, null, 2);
+
+                return self.jsonConfigPrettyPrint() ? jsonPretty : jsonShort;
+            });
+
+            //---------------------------------------
+            // workaround to talk to Dart
+
+            self.updateConfig = function() {
+              window.document.getElementById("particleEmitterJson").value = self.jsonConfig();
+              window.document.getElementById("particleEmitterBackground").value = self.background();
+            }
+
+            self.jsonConfig.subscribe(function (e) {
+                self.updateConfig();
+            });
+
+            self.background.subscribe(function(e) {
+              self.updateConfig();
+            });
+
+            self.updateConfig();
+        }
+
+        function Slider(name, value, minValue, maxValue, step) {
+            var self = this;
+            self.name = name;
+            self.value = ko.observable(value);
+            self.minValue = minValue;
+            self.maxValue = maxValue;
+            self.step = step;
+        }
+
+    </script>
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -101,8 +323,97 @@
                 <label>Use mouse to move emitter.</label>
             </div>
             <div class="span7">
-              <iframe src="particle_emitter_config.html" id="iFrameConfig"
-                scrolling="no" frameborder="0" width="560" height="600"></iframe>
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active"><a href="#particles" data-toggle="tab">Particles</a></li>
+                    <li><a href="#emitter" data-toggle="tab">Emitter</a></li>
+                    <li><a href="#color" data-toggle="tab">Color</a></li>
+                    <li><a href="#json" data-toggle="tab">JSON</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="particles">
+                        <div data-bind="template: { name: 'slider-template', data: maxParticles }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: duration }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: lifespan }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: lifespanVariance }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: startSize }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: startSizeVariance }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: finishSize }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: finishSizeVariance }"></div>
+                        <br />
+                        <div class="row">
+                            <div class="span2" style="padding-top: 5px;">Particle Shape</div>
+                            <div class="span3">
+                                <select data-bind="options: shapeOptions, optionsValue: 'key', optionsText: 'value', value: shape" disabled></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="emitter">
+                        <div class="row" style="margin-top: -5px; margin-bottom: 10px;">
+                            <label class="span2" style="padding-top: 5px;">Emitter Type</label>
+                            <label class="radio inline" style="margin-left: 10px;">
+                                <input type="radio" id="emitterTypeGravity" value="0" name="emitterType" data-bind="checked: emitterType" />
+                                Gravity
+                            </label>
+                            <label class="radio inline" style="margin-left: 20px;">
+                                <input type="radio" id="emitterTypeRadial" value="1" name="emitterType" data-bind="checked: emitterType" />
+                                Radial
+                            </label>
+                        </div>
+                        <!-- ko if: emitterType() == 0 -->
+                        <div data-bind="template: { name: 'slider-template', data: locationXVariance }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: locationYVariance }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: speed }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: speedVariance }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: angle }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: angleVariance }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: gravityX }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: gravityY }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: radialAcceleration }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: radialAccelerationVariance }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: tangentialAcceleration }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: tangentialAccelerationVariance }"></div>
+                        <!-- /ko -->
+                        <!-- ko if: emitterType() == 1 -->
+                        <div data-bind="template: { name: 'slider-template', data: angle }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: angleVariance }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: minRadius }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: maxRadius }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: maxRadiusVariance }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: rotatePerSecond }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: rotatePerSecondVariance }"></div>
+                        <!-- /ko -->
+                    </div>
+                    <div class="tab-pane" id="color">
+                        <div class="row">
+                            <div class="span2" style="padding-top: 5px;">Composite Operation</div>
+                            <div class="span3">
+                                <select data-bind="options: compositeOperationOptions, optionsValue: 'key', optionsText: 'value', value: compositeOperation"></select>
+                            </div>
+                        </div>
+                        <br />
+                        <div data-bind="template: { name: 'slider-template', data: startColorR }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: startColorG }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: startColorB }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: startColorA }"></div>
+                        <br />
+                        <div data-bind="template: { name: 'slider-template', data: finishColorR }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: finishColorG }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: finishColorB }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: finishColorA }"></div>
+                        <hr />
+                        <div data-bind="template: { name: 'slider-template', data: backgroundColorR }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: backgroundColorG }"></div>
+                        <div data-bind="template: { name: 'slider-template', data: backgroundColorB }"></div>
+                    </div>
+                    <div class="tab-pane" id="json">
+                        <textarea id="particleEmitterJson" class="span7" data-bind="text: jsonConfig"
+                            style="height: 500px; resize: none; font-family: 'Courier New', 'Courier'"></textarea>
+                        <label class="checkbox">
+                            <input type="checkbox" data-bind="checked: jsonConfigPrettyPrint"> pretty print JSON
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -110,7 +421,6 @@
 
     <input type="hidden" id="particleEmitterJson" />
     <input type="hidden" id="particleEmitterBackground" />
-    <input type="hidden" id="particleEmitterPlayLoop" />
 
     <script type="application/dart" src="../stagexl_runtimes.dart"></script>
     <script type="text/javascript" src="../assets/js/dart.js"></script>

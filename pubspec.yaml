@@ -2,11 +2,7 @@ name: stagexl_web
 description: The website for the dartflash library.
 dependencies:
   browser: any
-  stagexl:
-    git:
-      ref: master
-      url: https://github.com/bp74/StageXL.git
+  stagexl: any
   stagexl_flump:
-    git:
-      ref: master
-      url: https://github.com/bp74/StageXL_Flump.git
+    path: D:\GitHub\bp74\StageXL_Flump
+  stagexl_particle: any

@@ -8,7 +8,28 @@ class ParticleEmitterDemo extends DisplayObjectContainer {
   GlassPlate glassPlate;
 
   int backgroundColor = 0;
-  String particleJson = '{"maxParticles":200, "duration":0, "lifeSpan":0.9, "lifespanVariance":0.4, "startSize":10, "startSizeVariance":20, "finishSize":70, "finishSizeVariance":0, "shape":"circle", "emitterType":0, "location":{"x":0, "y":0}, "locationVariance":{"x":0, "y":0}, "speed":100, "speedVariance":10, "angle":0, "angleVariance":360, "gravity":{"x":0, "y":100}, "radialAcceleration":20, "radialAccelerationVariance":0, "tangentialAcceleration":10, "tangentialAccelerationVariance":0, "minRadius":0, "maxRadius":100, "maxRadiusVariance":0, "rotatePerSecond":0, "rotatePerSecondVariance":0, "compositeOperation":"source-over", "startColor":{"red":1, "green":0.75, "blue":0, "alpha":1}, "finishColor":{"red":1, "green":0, "blue":0, "alpha":0}}';
+  String particleJson = "";
+
+  Map particleConfig = {
+    "maxParticles":200,
+    "duration":0,
+    "lifeSpan":0.9, "lifespanVariance":0.4,
+    "startSize":10, "startSizeVariance":20,
+    "finishSize":70, "finishSizeVariance":0,
+    "shape":"circle",
+    "emitterType":0,
+    "location":{"x":0, "y":0}, "locationVariance":{"x":0, "y":0},
+    "speed":100, "speedVariance":10,
+    "angle":0, "angleVariance":360,
+    "gravity":{"x":0, "y":100},
+    "radialAcceleration":20, "radialAccelerationVariance":0,
+    "tangentialAcceleration":10, "tangentialAccelerationVariance":0,
+    "minRadius":0, "maxRadius":100, "maxRadiusVariance":0,
+    "rotatePerSecond":0, "rotatePerSecondVariance":0,
+    "compositeOperation":"source-over",
+    "startColor":{"red":1, "green":0.75, "blue":0, "alpha":1},
+    "finishColor":{"red":1, "green":0, "blue":0, "alpha":0}
+  };
 
   ParticleEmitterDemo() {
 
@@ -16,7 +37,7 @@ class ParticleEmitterDemo extends DisplayObjectContainer {
     background = new Bitmap(backgroundBitmapData);
     addChild(background);
 
-    particleEmitter = new ParticleEmitter(particleJson);
+    particleEmitter = new ParticleEmitter(particleConfig);
     particleEmitter.x = 190;
     particleEmitter.y = 300;
     particleEmitter.start();
@@ -27,14 +48,15 @@ class ParticleEmitterDemo extends DisplayObjectContainer {
     //--------------------------------
 
     this.onEnterFrame.listen((e) {
-      var inputJson = html.query("#particleEmitterJson") as html.InputElement;
-      var inputBackground = html.query("#particleEmitterBackground") as html.InputElement;
-      var json = inputJson.value;
+      var inputJson = html.query("#particleEmitterJson");
+      var inputBackground = html.query("#particleEmitterBackground");
+      var newParticleJson = inputJson.value;
       var color = int.parse(inputBackground.value) | 0xFF000000;
 
-      if (json != particleJson) {
-        particleJson = json;
-        particleEmitter.updateConfig(particleJson);
+      if (newParticleJson != particleJson) {
+        particleJson = newParticleJson;
+        particleConfig = json.parse(newParticleJson);
+        particleEmitter.updateConfig(particleConfig);
       }
 
       if (color != backgroundColor) {

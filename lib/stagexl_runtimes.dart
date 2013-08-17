@@ -1,9 +1,10 @@
 library stagexl_runtimes;
 
-import 'dart:math';
+import 'dart:json' as json;
 import 'dart:html' as html;
 import 'package:stagexl/stagexl.dart';
 import 'package:stagexl_flump/stagexl_flump.dart';
+import 'package:stagexl_particle/stagexl_particle.dart';
 
 part 'runtimes/flump.dart';
 part 'runtimes/texture_packer.dart';

@@ -156,7 +156,7 @@ Masks are used to limit the available display area of display objects. Masks can
 
 ### Runtimes ###
 
-The darflash library also contains runtimes for popular third party tools. This is a list of current and future runtimes supported by StageXL out of the box.
+The StageXL library also contains runtimes for popular third party tools. This is a list of current and future runtimes supported by StageXL out of the box.
 
 * [Texture Packer](http://www.codeandweb.com/texturepacker) - Sprite sheet generator.
 * [Flump](http://threerings.github.com/flump) - Adobe Flash timeline animations.

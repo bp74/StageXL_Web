@@ -448,9 +448,8 @@ class OrderedListSyntax extends ListSyntax {
 }
 
 /// Parses images.
-class ImageSyntax extends ListSyntax {
+class ImageSyntax extends BlockSyntax {
   RegExp get pattern => _RE_IMAGE;
-  String get listTag => 'img';
 
   Node parse(BlockParser parser) {
 
@@ -458,11 +457,11 @@ class ImageSyntax extends ListSyntax {
     parser.advance();
 
     var src = match.group(3);
-    var alt = match.group(2);
+    var title = match.group(2);
 
     var element = new Element.empty('img')
     ..attributes['src'] = src
-    ..attributes['alt'] = alt;
+    ..attributes['title'] = title;
 
     return element;
   }

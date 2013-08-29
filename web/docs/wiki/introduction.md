@@ -128,9 +128,9 @@ The example below adds three images to the resource manager. Each image is tagge
       resourceManager.load().then((_) {
         var sun = new Bitmap(resourceManager.getBitmapData("sun"));
         var tree = new Bitmap(resourceManager.getBitmapData("tree"));
-		var house = new Bitmap(resourceManager.getBitmapData("house"));
+        var house = new Bitmap(resourceManager.getBitmapData("house"));
 
-		// Not shown: set x and y properties of sun, tree, house
+        // Not shown: set x and y properties of sun, tree, house
 
         stage.addChild(sun);
         stage.addChild(tree);

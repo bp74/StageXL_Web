@@ -14,6 +14,7 @@ void main() {
 
     switch(page) {
       case 'transitions': mainTransitions(); break;
+      case 'wiki-articles': mainWiki(); break;
     }
   }
 }

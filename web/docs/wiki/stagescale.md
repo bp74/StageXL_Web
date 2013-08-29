@@ -36,9 +36,9 @@ This way the Stage is using a coordinate system of 800x600 pixels, regardless of
 
 The StageScaleMode defines how the Stage is scaled inside of the Canvas.
 
-* **SHOW\_ALL**: (Default) The Stage is scaled to fit inside the available Canvas area and the aspect ratio of the Display List is constant. To avoid distortions the Stage is extended to the left, right, top or bottom side.
-* **NO\_SCALE**: The Stage is not scaled and every pixel of the Stage corresponds with a pixel on the Canvas. If you use this scale mode your application should be capable of using the additional Stage area.
-* **NO\_BORDER**: The Stage is scaled to fit inside the available Canvas area and the aspect ratio of the Display List is constant. To avoid distortions the Stage is truncated on the left, right, top or bottom side.
+* **SHOW_ALL**: (Default) The Stage is scaled to fit inside the available Canvas area and the aspect ratio of the Display List is constant. To avoid distortions the Stage is extended to the left, right, top or bottom side.
+* **NO_SCALE**: The Stage is not scaled and every pixel of the Stage corresponds with a pixel on the Canvas. If you use this scale mode your application should be capable of using the additional Stage area.
+* **NO_BORDER**: The Stage is scaled to fit inside the available Canvas area and the aspect ratio of the Display List is constant. To avoid distortions the Stage is truncated on the left, right, top or bottom side.
 * **EXACT_FIT**: The Stage is scaled to fit inside the available Canvas area and the aspect ratio of the Display List is adjusted. If the aspect ratio of the canvas is different to the Stage, the Display List will be distorted.
 
 ## StageAlign ##
@@ -49,11 +49,11 @@ According to the StageScaleMode setting and the aspect ratio of the Stage and Ca
 * **LEFT**: Align the Stage to the left edge.
 * **RIGHT**: Align the Stage to the right edge.
 * **BOTTOM**: Align the Stage to the bottom edge.
-* **BOTTOM\_LEFT**: Align the Stage to the bottom left corner.
-* **BOTTOM\_RIGHT**: Align the Stage to the bottom right corner.
+* **BOTTOM_LEFT**: Align the Stage to the bottom left corner.
+* **BOTTOM_RIGHT**: Align the Stage to the bottom right corner.
 * **TOP**: Align the Stage to the top edge.
-* **TOP\_LEFT**: Align the Stage to the top left corner.
-* **TOP\_RIGHT**: Align the Stage to the top right corner.
+* **TOP_LEFT**: Align the Stage to the top left corner.
+* **TOP_RIGHT**: Align the Stage to the top right corner.
 
 ## Full Window Stage ##
 

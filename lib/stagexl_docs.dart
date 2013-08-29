@@ -1,10 +1,11 @@
 library stagexl_docs;
 
-import 'dart:math';
 import 'dart:html' as html;
 import 'package:stagexl/stagexl.dart';
+import 'markdown.dart';
 
 part 'docs/transitions.dart';
+part 'docs/wiki.dart';
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
@@ -33,4 +34,9 @@ void mainTransitions() {
   var transititionTypeDemo = new TransititionTypeDemo();
   var transitionDiv = transititionTypeDemo.getTransitionDiv();
   html.query("#transitions").children.add(transitionDiv);
+}
+
+void mainWiki() {
+  var wiki = new Wiki();
+  wiki.updatePage();
 }

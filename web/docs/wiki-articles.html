@@ -9,8 +9,7 @@
 	  <link href="../assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../assets/css/stagexl.css" rel="stylesheet" />
-
-    <script type="text/javascript" src="../assets/prettify/run_prettify.js?lang=dart" defer="defer"></script>
+    <link href="../assets/css/markdown.css" rel="stylesheet" />
 
     <script type="text/javascript">
         var _gaq = _gaq || [];
@@ -23,6 +22,7 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
     </script>
+
 </head>
 <body>
 
@@ -90,7 +90,7 @@
 
 
     <div class="container">
-      <div id="wikiIndex" style="display:none;">
+      <div id="wikiIndex">
         <h1>Wiki Articles</h1>
         <p>This is a collection of articles talking about StageXL. The first articles will provide an
         overview of how to use StageXL. Later articles will focus on best practices, performance optimizations
@@ -119,8 +119,9 @@
         <a href="wiki-articles.html"><i class="icon-backward"></i> Back to overview</a>
         <br />
         <br />
-        <iframe frameborder=0 border=0 src="" name="markdownFrame" id="markdownFrame" style="width:800px; height: 1500px;">
-        </iframe>
+        <div id="wikiMarkdown" style="width:800px" class="markdown">
+
+        </div>
         <br />
         <a href="wiki-articles.html"><i class="icon-backward"></i> Back to overview</a>
         <br /><br />
@@ -129,32 +130,10 @@
     </div>
 
     <script type="text/javascript" src="../assets/js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="../assets/js/purl.js"></script>
     <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
 
-    <script>
-        var article = $.url().param("article");
-
-        if (article === undefined) {
-          $('#wikiIndex').show();
-          $('#wikiContent').hide();
-        } else {
-          $('#wikiIndex').hide();
-          $('#wikiContent').show();
-          $('#markdownFrame').attr('src', 'wiki/' + article + '.html').load(function(){
-
-            $(this).contents().find('pre').addClass('prettyprint');
-
-            var myIframe = document.getElementById("markdownFrame");
-            var script = myIframe.contentWindow.document.createElement("script");
-            script.type = "text/javascript";
-            script.src = "../../assets/prettify/run_prettify.js?lang=dart";
-
-            myIframe.contentWindow.document.body.appendChild(script);
-            myIframe.style.height = (myIframe.contentWindow.document.body.scrollHeight + 100)+ "px";
-          });
-        }
-    </script>
+    <script type="application/dart" src="../stagexl_docs.dart"></script>
+    <script type="text/javascript" src="../assets/js/dart.js"></script>
 
 </body>
 </html>

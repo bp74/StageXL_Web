@@ -456,12 +456,17 @@ class ImageSyntax extends BlockSyntax {
     final match = pattern.firstMatch(parser.current);
     parser.advance();
 
+    var alt = match.group(2);
     var src = match.group(3);
-    var title = match.group(2);
+    var title = match.group(6);
 
-    var element = new Element.empty('img')
-    ..attributes['src'] = src
-    ..attributes['title'] = title;
+    var element = new Element.empty('img');
+    element.attributes['alt'] = alt;
+    element.attributes['src'] = src;
+
+    if (title != null) {
+      element.attributes['title'] = title;
+    }
 
     return element;
   }

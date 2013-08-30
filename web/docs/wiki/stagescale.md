@@ -41,6 +41,22 @@ The StageScaleMode defines how the Stage is scaled inside of the Canvas.
 * **NO_BORDER**: The Stage is scaled to fit inside the available Canvas area and the aspect ratio of the Display List is constant. To avoid distortions the Stage is truncated on the left, right, top or bottom side.
 * **EXACT_FIT**: The Stage is scaled to fit inside the available Canvas area and the aspect ratio of the Display List is adjusted. If the aspect ratio of the canvas is different to the Stage, the Display List will be distorted.
 
+The following original 100w,100h image:
+
+![original](http://www.stagexl.org/assets/screenshot/orig.png)
+
+Placed on a stage initialized with:
+
+	var stage = new Stage('myStage', canvas, 100, 100);
+	stage.align = StageAlign.TOP_LEFT; 
+
+Will display as follows when placed in an html canvas with a width of 200px and a height of 75px:
+
+* **SHOW_ALL**: ![showall](http://www.stagexl.org/assets/screenshot/show_all.png)
+* **NO_SCALE**: ![noscale](http://www.stagexl.org/assets/screenshot/no_scale.png)
+* **NO_BORDER**: ![noborder](http://www.stagexl.org/assets/screenshot/no_border.png)
+* **EXACT_FIT**: ![exactfit](http://www.stagexl.org/assets/screenshot/exact_fit.png)
+
 ## StageAlign ##
 
 According to the StageScaleMode setting and the aspect ratio of the Stage and Canvas it is necessary to extended or truncated the available Stage area to fit inside the available Canvas area. To align the new Stage area you can set the Stage.align property to one of the following values.

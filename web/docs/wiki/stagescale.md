@@ -52,10 +52,18 @@ Placed on a stage initialized with:
 
 Will display as follows when placed in an html canvas with a width of 200px and a height of 75px:
 
-* **SHOW_ALL**: ![showall](http://www.stagexl.org/assets/screenshot/show_all.png)
-* **NO_SCALE**: ![noscale](http://www.stagexl.org/assets/screenshot/no_scale.png)
-* **NO_BORDER**: ![noborder](http://www.stagexl.org/assets/screenshot/no_border.png)
-* **EXACT_FIT**: ![exactfit](http://www.stagexl.org/assets/screenshot/exact_fit.png)
+##### SHOW_ALL #####
+![showall](http://www.stagexl.org/assets/screenshot/show_all.png)
+
+##### NO_SCALE #####
+![noscale](http://www.stagexl.org/assets/screenshot/no_scale.png)
+
+##### NO_BORDER #####
+![noborder](http://www.stagexl.org/assets/screenshot/no_border.png)
+
+##### EXACT_FIT #####
+![exactfit](http://www.stagexl.org/assets/screenshot/exact_fit.png)
+
 
 ## StageAlign ##
 

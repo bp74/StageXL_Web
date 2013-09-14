@@ -1,17 +1,7 @@
 part of stagexl_docs;
 
-class StupidNodeValidator implements html.NodeValidator {
-
-  StupidNodeValidator() {
-  }
-
-  bool allowsAttribute(html.Element element, String attributeName, String value) {
-    return true;
-  }
-
-  bool allowsElement(html.Element element) {
-    return true;
-  }
+class NullTreeSanitizer implements html.NodeTreeSanitizer {
+  void sanitizeTree(node) {}
 }
 
 class Wiki {
@@ -41,9 +31,8 @@ class Wiki {
       var url = "wiki/$article.md";
       html.HttpRequest.getString(url).then((markdown) {
 
-        var nodeValidator = new StupidNodeValidator();
         var htmlText = markdownToHtml(markdown);
-        _wikiMarkdown.setInnerHtml(htmlText, validator:nodeValidator);
+        _wikiMarkdown.setInnerHtml(htmlText, treeSanitizer: new NullTreeSanitizer());
 
         var preElements = html.queryAll("pre");
         preElements.forEach((e) => e.classes.add("prettyprint"));

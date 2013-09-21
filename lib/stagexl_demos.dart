@@ -22,6 +22,8 @@ ResourceManager resourceManager;
 
 void _init() {
   BitmapData.defaultLoadOptions.webp = true;
+  Stage.autoHiDpi = false;
+
   var canvas = html.query("#stage");
   if (canvas != null) {
     stage = new Stage('stage', canvas);

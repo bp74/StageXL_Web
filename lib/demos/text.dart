@@ -2,10 +2,10 @@ part of stagexl_demos;
 
 class TextDemo extends DisplayObjectContainer {
 
-  final String text = 
-'Filet mignon leberkas pig pork chop biltong, short loin strip steak turkey brisket ' 
+  final String text =
+'Filet mignon leberkas pig pork chop biltong, short loin strip steak turkey brisket '
 'venison. Pastrami venison pancetta, leberkas pork chop chicken prosciutto beef ribs '
-'bresaola kielbasa swine biltong capicola. Hamburger beef ribs ball tip drumstick salami '  
+'bresaola kielbasa swine biltong capicola. Hamburger beef ribs ball tip drumstick salami '
 'pig. Capicola pork loin shank, salami chicken hamburger tail. Sirloin spare ribs '
 'ground round cow strip steak prosciutto swine bacon corned beef.';
 
@@ -28,7 +28,7 @@ class TextDemo extends DisplayObjectContainer {
     textField2.x = 10;
     textField2.y = 50;
     textField2.width = 200;
-    textField2.height = 300;
+    textField2.height = 400;
     textField2.wordWrap = true;
     addChild(textField2);
 
@@ -40,7 +40,7 @@ class TextDemo extends DisplayObjectContainer {
     textField3.x = 300;
     textField3.y = 50;
     textField3.width = 200;
-    textField3.height = 300;
+    textField3.height = 400;
     textField3.wordWrap = true;
     addChild(textField3);
 
@@ -52,8 +52,8 @@ class TextDemo extends DisplayObjectContainer {
     textField4.x = 590;
     textField4.y = 50;
     textField4.width = 340;
-    textField4.height = 300;
+    textField4.height = 400;
     textField4.wordWrap = true;
-    addChild(textField4);    
+    addChild(textField4);
   }
 }

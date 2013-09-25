@@ -10,6 +10,7 @@ call dart2js.bat ../web/stagexl_docs.dart --trust-type-annotations --output-type
 del *.dart.deps /s
 del *.dart.js.deps /s
 del *.dart.js.map /s
+del *.precompiled.js /s
 
 
 

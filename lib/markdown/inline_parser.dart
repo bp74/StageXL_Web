@@ -129,7 +129,7 @@ class InlineParser {
 
       // If the previous node is text too, just append.
       if ((nodes.length > 0) && (nodes.last is Text)) {
-        final newNode = new Text('${nodes.last.text}$text');
+        final newNode = new Text('${(nodes.last as Text).text}$text');
         nodes[nodes.length - 1] = newNode;
       } else {
         nodes.add(new Text(text));

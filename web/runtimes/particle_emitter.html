@@ -407,8 +407,8 @@
                         <div data-bind="template: { name: 'slider-template', data: backgroundColorB }"></div>
                     </div>
                     <div class="tab-pane" id="json">
-                        <textarea id="particleEmitterJson" class="span7" data-bind="text: jsonConfig"
-                            style="height: 500px; resize: none; font-family: 'Courier New', 'Courier'"></textarea>
+                        <textarea disabled class="span7" data-bind="text: jsonConfig"
+                            style="height: 500px; resize: none; font-family: 'Courier New', 'Courier'; cursor: text"></textarea>
                         <label class="checkbox">
                             <input type="checkbox" data-bind="checked: jsonConfigPrettyPrint"> pretty print JSON
                         </label>
@@ -420,7 +420,7 @@
     </div>
 
     <input type="hidden" id="particleEmitterJson" />
-    <input type="hidden" id="particleEmitterBackground" />
+    <input type="hidden" id="particleEmitterBackground" />        
 
     <script type="application/dart" src="../stagexl_runtimes.dart"></script>
     <script type="text/javascript" src="../assets/js/dart.js"></script>

@@ -178,6 +178,7 @@
             ];
 
             self.jsonConfigPrettyPrint = ko.observable(false);
+            
             self.jsonConfig = ko.computed(function () {
                 var json = {
                     "maxParticles": self.maxParticles.value(),
@@ -214,14 +215,15 @@
                 var replacer = new RegExp(',','g');
                 var jsonShort = JSON.stringify(json).replace(replacer, ", ");
                 var jsonPretty = JSON.stringify(json, null, 2);
-
-                return self.jsonConfigPrettyPrint() ? jsonPretty : jsonShort;
+                
+                return self.jsonConfigPrettyPrint() ? jsonPretty : jsonShort;;
             });
 
             //---------------------------------------
             // workaround to talk to Dart
 
             self.updateConfig = function() {
+              window.document.getElementById("particleEmitterJsonText").value = self.jsonConfig();
               window.document.getElementById("particleEmitterJson").value = self.jsonConfig();
               window.document.getElementById("particleEmitterBackground").value = self.background();
             }
@@ -407,8 +409,8 @@
                         <div data-bind="template: { name: 'slider-template', data: backgroundColorB }"></div>
                     </div>
                     <div class="tab-pane" id="json">
-                        <textarea disabled class="span7" data-bind="text: jsonConfig"
-                            style="height: 500px; resize: none; font-family: 'Courier New', 'Courier'; cursor: text"></textarea>
+                        <textarea id="particleEmitterJsonText" class="span7" 
+                            style="height: 500px; resize: none; font-family: 'Courier New', 'Courier';"></textarea>
                         <label class="checkbox">
                             <input type="checkbox" data-bind="checked: jsonConfigPrettyPrint"> pretty print JSON
                         </label>

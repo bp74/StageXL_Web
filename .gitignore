@@ -1,9 +1,16 @@
 .project
+
 *.dart.js.map
 *.dart.js.deps
 pubspec.lock
+
 packages/
 deploy/
+bin/*.dart
+bin/*.dart.js
+bin/*.dart.precompiled.js
+web/*.dart.js
+web/*.dart.precompiled.js
 
 .idea/
 

@@ -56,7 +56,7 @@ class ParticleEmitterDemo extends DisplayObjectContainer {
 
       if (newParticleJson != particleJson) {
         particleJson = newParticleJson;
-        particleConfig = json.parse(newParticleJson);
+        particleConfig = JSON.decode(newParticleJson);
         particleEmitter.updateConfig(particleConfig);
       }
 

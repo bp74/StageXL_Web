@@ -1,6 +1,6 @@
 library stagexl_runtimes;
 
-import 'dart:json' as json;
+import 'dart:convert';
 import 'dart:html' as html;
 import 'package:stagexl/stagexl.dart';
 import 'package:stagexl_flump/stagexl_flump.dart';

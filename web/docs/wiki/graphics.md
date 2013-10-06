@@ -19,6 +19,7 @@ Sometimes it is useful to draw graphics as vector shapes. Those graphics can be 
     shape.graphics.closePath();
    
     // Fill and Stroke the path.
+	// Note: unlike in Flash, these must be placed after, not before your paths
     shape.graphics.fillColor(0xFF8ED6FF);
     shape.graphics.strokeColor(Color.Blue, 5);
 

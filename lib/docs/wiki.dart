@@ -11,9 +11,9 @@ class Wiki {
   html.DivElement _wikiMarkdown;
 
   Wiki() {
-    _wikiIndex = html.query("#wikiIndex");
-    _wikiContent = html.query("#wikiContent");
-    _wikiMarkdown = html.query("#wikiMarkdown");
+    _wikiIndex = html.querySelector("#wikiIndex");
+    _wikiContent = html.querySelector("#wikiContent");
+    _wikiMarkdown = html.querySelector("#wikiMarkdown");
   }
 
   void updatePage() {
@@ -34,7 +34,7 @@ class Wiki {
         var htmlText = markdownToHtml(markdown);
         _wikiMarkdown.setInnerHtml(htmlText, treeSanitizer: new NullTreeSanitizer());
 
-        var preElements = html.queryAll("pre");
+        var preElements = html.querySelectorAll("pre");
         preElements.forEach((e) => e.classes.add("prettyprint"));
 
         var scriptElement = new html.ScriptElement();

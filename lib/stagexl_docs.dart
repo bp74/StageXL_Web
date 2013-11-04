@@ -19,7 +19,7 @@ void _init() {
   BitmapData.defaultLoadOptions.webp = true;
   Stage.autoHiDpi = false;
 
-  var canvas = html.query("#stage");
+  var canvas = html.querySelector("#stage");
   if (canvas != null) {
     stage = new Stage('stage', canvas);
     renderLoop = new RenderLoop();
@@ -35,7 +35,7 @@ void mainTransitions() {
   _init();
   var transititionTypeDemo = new TransititionTypeDemo();
   var transitionDiv = transititionTypeDemo.getTransitionDiv();
-  html.query("#transitions").children.add(transitionDiv);
+  html.querySelector("#transitions").children.add(transitionDiv);
 }
 
 void mainWiki() {

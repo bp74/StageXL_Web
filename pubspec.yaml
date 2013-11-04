@@ -3,6 +3,5 @@ description: The website for the dartflash library.
 dependencies:
   browser: any
   stagexl: any
-  stagexl_flump:
-    path: D:\GitHub\bp74\StageXL_Flump
+  stagexl_flump: any
   stagexl_particle: any

@@ -1,9 +1,9 @@
 part of stagexl_demos;
 
 class MaskingDemo extends DisplayObjectContainer {
-  
+
   final Random _random = new Random();
-  
+
   MaskingDemo() {
 
     var flowerField = new Sprite();
@@ -12,7 +12,7 @@ class MaskingDemo extends DisplayObjectContainer {
     flowerField.x = 470;
     flowerField.y = 250;
     addChild(flowerField);
-    
+
     for(int i = 0; i < 150; i++) {
       var f = 1 + _random.nextInt(3);
       var bitmapData = resourceManager.getBitmapData('flower$f');
@@ -30,7 +30,7 @@ class MaskingDemo extends DisplayObjectContainer {
 
     //---------------------------------------------
     // define three different masks
-    
+
     var starPath = new List<Point>();
 
     for(int i = 0; i < 6; i++) {
@@ -39,7 +39,7 @@ class MaskingDemo extends DisplayObjectContainer {
       starPath.add(new Point(470 + 200 * cos(a1), 250 + 200 * sin(a1)));
       starPath.add(new Point(470 + 100 * cos(a2), 250 + 100 * sin(a2)));
     }
-    
+
     var rectangleMask = new Mask.rectangle(100, 100, 740, 300);
     var circleMask = new Mask.circle(470, 250, 200);
     var customMask = new Mask.custom(starPath);
@@ -47,15 +47,15 @@ class MaskingDemo extends DisplayObjectContainer {
     //---------------------------------------------
     // add html-button event listeners
 
-    html.query('#mask-none').onClick.listen((e) => flowerField.mask = null);
-    html.query('#mask-rectangle').onClick.listen((e) => flowerField.mask = rectangleMask);
-    html.query('#mask-circle').onClick.listen((e) => flowerField.mask = circleMask);
-    html.query('#mask-custom').onClick.listen((e) => flowerField.mask = customMask);
-    html.query('#mask-spin').onClick.listen((e) {
+    html.querySelector('#mask-none').onClick.listen((e) => flowerField.mask = null);
+    html.querySelector('#mask-rectangle').onClick.listen((e) => flowerField.mask = rectangleMask);
+    html.querySelector('#mask-circle').onClick.listen((e) => flowerField.mask = circleMask);
+    html.querySelector('#mask-custom').onClick.listen((e) => flowerField.mask = customMask);
+    html.querySelector('#mask-spin').onClick.listen((e) {
       var rotate = new Tween(flowerField, 2.0, TransitionFunction.easeInOutBack);
       rotate.animate.rotation.to(PI * 4.0);
       rotate.onComplete = () => flowerField.rotation = 0.0;
       juggler.add(rotate);
-    });    
+    });
   }
 }

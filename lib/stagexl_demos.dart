@@ -24,7 +24,7 @@ void _init() {
   BitmapData.defaultLoadOptions.webp = true;
   Stage.autoHiDpi = false;
 
-  var canvas = html.query("#stage");
+  var canvas = html.querySelector("#stage");
   if (canvas != null) {
     stage = new Stage('stage', canvas);
     renderLoop = new RenderLoop();

@@ -1,7 +1,7 @@
 part of stagexl_demos;
 
 class SoundDemo extends DisplayObjectContainer{
-  
+
   final List<String> _heyJudeNotes = [
     'C4', 'A3', 'A3', 'C4', 'D4', 'G3',
     'G3', 'A3', 'A3#', 'F4', 'F4', 'E4', 'C4', 'D4', 'C4', 'A3#', 'A3',
@@ -15,16 +15,16 @@ class SoundDemo extends DisplayObjectContainer{
     'Than ', 'you ', 'can ', 'start ', '', 'to ', 'make ', 'things ', 'better.', '', ' '];
 
   SoundDemo() {
-    
+
     var background = new Bitmap(resourceManager.getBitmapData('Background'));
     addChild(background);
-  
+
     var piano = new Piano(_heyJudeNotes, _heyJudeLyrics);
     piano.x = 120;
     piano.y = 30;
     addChild(piano);
-  
-    html.query('#startOver').onClick.listen((e) => piano.resetSong());
+
+    html.querySelector('#startOver').onClick.listen((e) => piano.resetSong());
   }
 }
 
@@ -35,23 +35,23 @@ class Piano extends DisplayObjectContainer {
 
   final List<String> songNotes;
   final List<String> songLyrics;
-  
+
   final List<String> _pianoNotes = [
     'C3', 'C3#', 'D3', 'D3#', 'E3', 'F3', 'F3#', 'G3', 'G3#', 'A3', 'A3#', 'B3',
     'C4', 'C4#', 'D4', 'D4#', 'E4', 'F4', 'F4#', 'G4', 'G4#', 'A4', 'A4#', 'B4', 'C5'];
-  
+
   Map<String, PianoKey> _pianoKeys = new Map<String, PianoKey>();
   Bitmap _karaokeFinger;
   int _songNoteIndex = 0;
-  
+
   Piano(this.songNotes, this.songLyrics) {
-    
+
     // add piano keys
     for(int n = 0, x = 0; n < _pianoNotes.length; n++) {
       var sound = resourceManager.getSound('Note${n+1}');
       var pianoNote = _pianoNotes[n];
       var pianoKey = _pianoKeys[pianoNote] = new PianoKey(this, pianoNote, sound);
-      
+
       if (pianoNote.endsWith('#')) {
         pianoKey.x = x - 16;
         pianoKey.y = 35;
@@ -68,19 +68,19 @@ class Piano extends DisplayObjectContainer {
     _karaokeFinger = new Bitmap(resourceManager.getBitmapData('Finger'));
     _karaokeFinger.pivotX = 20;
     addChild(_karaokeFinger);
-    
+
     _updateKaraoke();
   }
 
   //---------------------------------------------------------------------------------
 
   checkSongNote(String note) {
-    
+
     // is it the next note of the song?
     if (_songNoteIndex < songNotes.length && songNotes[_songNoteIndex] == note) {
       if (_songNoteIndex == songNotes.length - 1)
         resourceManager.getSound('Cheer').play();
-      
+
       _songNoteIndex++;
       _updateKaraoke();
     }
@@ -93,13 +93,13 @@ class Piano extends DisplayObjectContainer {
     _karaokeFinger.alpha = 1;
     _updateKaraoke();
   }
-  
+
   //---------------------------------------------------------------------------------
 
   _updateKaraoke() {
-    
+
     // update karaoke lyrics
-    var lyricsDiv = html.query('#lyrics');
+    var lyricsDiv = html.querySelector('#lyrics');
     var wordIndex = -1;
     lyricsDiv.innerHtml = '';
 
@@ -123,7 +123,7 @@ class Piano extends DisplayObjectContainer {
         var pianoKey = _pianoKeys[songNote];
         juggler.removeTweens(_karaokeFinger);
         _karaokeFinger.y = 0;
-            
+
         var tweenX = new Tween(this._karaokeFinger, 0.4, TransitionFunction.easeInOutCubic);
         var tweenY = new Tween(this._karaokeFinger, 0.4, TransitionFunction.sine);
         tweenX.animate.x.to(pianoKey.x + pianoKey.width / 2);
@@ -143,13 +143,13 @@ class Piano extends DisplayObjectContainer {
 //-----------------------------------------------------------------------------------
 
 class PianoKey extends Sprite {
-  
+
   final Piano piano;
   final String note;
   final Sound sound;
 
   PianoKey(this.piano, this.note, this.sound) {
-    
+
     String key;
 
     if (note.endsWith('#')) {

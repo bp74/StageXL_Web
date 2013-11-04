@@ -48,8 +48,8 @@ class ParticleEmitterDemo extends DisplayObjectContainer {
     //--------------------------------
 
     this.onEnterFrame.listen((e) {
-      html.InputElement inputJson = html.query("#particleEmitterJson");
-      html.InputElement inputBackground = html.query("#particleEmitterBackground");
+      html.InputElement inputJson = html.querySelector("#particleEmitterJson");
+      html.InputElement inputBackground = html.querySelector("#particleEmitterBackground");
 
       var newParticleJson = inputJson.value;
       var color = int.parse(inputBackground.value) | 0xFF000000;

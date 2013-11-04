@@ -29,8 +29,8 @@ class PerformanceDemo extends DisplayObjectContainer {
     _addFlags(500);
 
     // add html-button event listeners
-    html.query('#minus100').onClick.listen((e) => _removeFlags(100));
-    html.query('#plus100').onClick.listen((e) => _addFlags(100));
+    html.querySelector('#minus100').onClick.listen((e) => _removeFlags(100));
+    html.querySelector('#plus100').onClick.listen((e) => _addFlags(100));
 
     // add event listener for EnterFrame (fps meter)
     this.onEnterFrame.listen(_onEnterFrame);
@@ -48,7 +48,7 @@ class PerformanceDemo extends DisplayObjectContainer {
       _fpsAverage = 0.05 / e.passedTime + 0.95 * _fpsAverage;
     }
 
-    html.query('#fpsMeter').innerHtml = 'fps: ${_fpsAverage.round()}';
+    html.querySelector('#fpsMeter').innerHtml = 'fps: ${_fpsAverage.round()}';
   }
 
   //---------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ class PerformanceDemo extends DisplayObjectContainer {
       juggler.add(flyingFlag);
     }
 
-    html.query('#flagCounter').innerHtml = 'Flags: ${numChildren}';
+    html.querySelector('#flagCounter').innerHtml = 'Flags: ${numChildren}';
   }
 
   //---------------------------------------------------------------------------------
@@ -84,6 +84,6 @@ class PerformanceDemo extends DisplayObjectContainer {
       juggler.remove(displayObject);
     }
 
-    html.query('#flagCounter').innerHtml = 'Flags: ${numChildren}';
+    html.querySelector('#flagCounter').innerHtml = 'Flags: ${numChildren}';
   }
 }

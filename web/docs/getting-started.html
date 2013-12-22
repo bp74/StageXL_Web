@@ -165,7 +165,7 @@ import &apos;package:stagexl/stagexl.dart&apos;;
 
 void main() {
   // setup the Stage and RenderLoop 
-  var canvas = html.query(&apos;#stage&apos;);
+  var canvas = html.querySelector(&apos;#stage&apos;);
   var stage = new Stage(&apos;myStage&apos;, canvas);
   var renderLoop = new RenderLoop();
   renderLoop.addStage(stage);

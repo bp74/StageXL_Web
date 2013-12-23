@@ -118,6 +118,30 @@ The Transition class also implements the Animatable class. This Animatable is cl
     transition.onUpdate = (num value) => print(value); 
     juggler.add(transition);
 
+### AnimationGroup and AnimationChain ###
+
+Those two classes will help you to group and chain your Animatables. Both classes are containers for other Animatables (like Tween, DelayedCall, etc.). The AnimationGroup runs all animations in parallel, while the AnimationChain runs all animations in a sequence. When all animations are completed the onComplete callback will be invoked. Since both classes implements the Animatable class itself, you can add an AnimationGroup to an AnimationChain or the other way around.
+
+Example for AnimationGroup: Two Tweens will run in parallel - one lasts for 2.0 seconds and the other for 4.0 seconds. The onComplete callback will be invoked after 4.0 seconds.  
+
+    var ag = new AnimationGroup();
+    ag.add(new Tween(sprite, 2.0, TransitionFunction.easeOutBounce)..animate.x.to(700));
+    ag.add(new Tween(sprite, 4.0, TransitionFunction.linear)..animate.y.to(500));
+    ag.onStart = () => print("start");
+    ag.onComplete = () => print("complete");
+    juggler.add(ag);
+
+Example for AnimationChain: Two Tweens will run in a sequence - the first Tween runs for 2.0 seconds, the second Tween starts after the first one has completed and runs for 4.0 seconds. The onComplete callback will be invoked after 6.0 seconds.
+
+	var ac = new AnimationChain();
+ 	ac.add(new Tween(sprite, 2.0, TransitionFunction.easeOutBounce)..animate.x.to(700));
+ 	ac.add(new Tween(sprite, 4.0, TransitionFunction.linear)..animate.y.to(500));
+ 	ac.onStart = () => print("start");
+ 	ac.onComplete = () => print("complete");
+ 	juggler.add(ac);
+
+Both classes also provide a "delay" property to delay the start of the Animation by the given time in seconds.
+
 ## Juggler ##
 
 The Juggler class itself implements the Animatable class. This allows better control of the time in your game. As example you can add a button to pause the game, therefore you have to pause all animations and accordingly you have to pause the time. You can achieve this by creating your own juggler instance and add all animations to this juggler. Now you only have to add or remove this juggler to the juggler from the RenderLoop and you are done!
@@ -136,7 +160,7 @@ The Juggler class itself implements the Animatable class. This allows better con
       renderLoop.juggler.add(juggler);
     }
 
-Another possible usecase is a time lapse juggler. You can implement a TimeLapseJuggler by extending the Juggler class and by overriding the 'advanceTime' method like this:
+Another possible use case is a time lapse juggler. You can implement a TimeLapseJuggler by extending the Juggler class and by overriding the 'advanceTime' method like this:
 
     class TimeLapseJuggler extends Juggler {
       num speed = 0.5;
@@ -162,6 +186,18 @@ For some of the simple use cases the Juggler class provides convenience methods.
    
     // remove all tweens on the 'spaceship' display object.
     juggler.removeTweens(spaceship);
+
+    // group a list of Animatables (run them in parallel)
+    juggler.addGroup([
+        new Tween(sprite, 2.0, TransitionFunction.easeOutBounce)..animate.x.to(700),
+        new Tween(sprite, 2.0, TransitionFunction.linear)..animate.y.to(500)])
+        ..onComplete = () => print("complete");
+
+    // chain a list of Animatables (run them sequentially)
+    juggler.addChain([
+        new Tween(sprite, 2.0, TransitionFunction.easeOutBounce)..animate.x.to(700),
+        new Tween(sprite, 2.0, TransitionFunction.linear)..animate.y.to(500)])
+        ..onComplete = () => print("complete");
 
 ## Credits ##
 

@@ -1,0 +1,446 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>EventStreamSubscription&lt;T&gt; class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="EventStreamSubscription&amp;lt;T&amp;gt;">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/EventStreamSubscription.html">EventStreamSubscription&lt;T&gt;</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/AlphaMaskFilter.html"><div class="icon-class"></div>AlphaMaskFilter</a></li>
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AnimationChain.html"><div class="icon-class"></div>AnimationChain</a></li>
+<li><a href="../stagexl/AnimationGroup.html"><div class="icon-class"></div>AnimationGroup</a></li>
+<li><a href="../stagexl/AudioElementMixer.html"><div class="icon-class"></div>AudioElementMixer</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDataLoadOptions.html"><div class="icon-class"></div>BitmapDataLoadOptions</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../stagexl/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../stagexl/BroadcastEvent.html"><div class="icon-class"></div>BroadcastEvent</a></li>
+<li><a href="../stagexl/ButtonHelper.html"><div class="icon-class"></div>ButtonHelper</a></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/ChangeHandler.html"><div class="icon-interface"></div>ChangeHandler</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../stagexl/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/CompositeOperation.html"><div class="icon-class"></div>CompositeOperation</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EaseFunction.html"><div class="icon-interface"></div>EaseFunction</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../stagexl/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventListener.html"><div class="icon-interface"></div>EventListener&lt;T&gt;</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStream.html"><div class="icon-class"></div>EventStream&lt;T&gt;</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><div class="icon-class"></div><strong>EventStreamSubscription&lt;T&gt;</strong></li>
+<li><a href="../stagexl/ExitFrameEvent.html"><div class="icon-class"></div>ExitFrameEvent</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/HtmlObject.html"><div class="icon-class"></div>HtmlObject</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../stagexl/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundLoadOptions.html"><div class="icon-class"></div>SoundLoadOptions</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/SpriteSheet.html"><div class="icon-class"></div>SpriteSheet</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../stagexl/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../stagexl/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../stagexl/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../stagexl/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../stagexl/Timeline.html"><div class="icon-class"></div>Timeline</a></li>
+<li><a href="../stagexl/TimelineAction.html"><div class="icon-class"></div>TimelineAction</a></li>
+<li><a href="../stagexl/TimelineStep.html"><div class="icon-class"></div>TimelineStep</a></li>
+<li><a href="../stagexl/TimelineTween.html"><div class="icon-class"></div>TimelineTween</a></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../stagexl/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/TweenProperty.html"><div class="icon-class"></div>TweenProperty</a></li>
+<li><a href="../stagexl/TweenPropertyFactory.html"><div class="icon-class"></div>TweenPropertyFactory</a></li>
+<li><a href="../stagexl/Vector.html"><div class="icon-class"></div>Vector</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiMixer.html"><div class="icon-class"></div>WebAudioApiMixer</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>EventStreamSubscription&lt;T extends Event&gt;</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class EventStreamSubscription&lt;T extends Event&gt; extends StreamSubscription&lt;T&gt; {
+
+ int _priority = 0;
+ int _pauseCount = 0;
+ bool _canceled = false;
+ bool _captures = false;
+
+ EventStream&lt;T&gt; _eventStream;
+ EventListener&lt;T&gt; _eventListener;
+
+ EventStreamSubscription._internal(
+     this._eventStream, this._eventListener, this._captures, this._priority);
+
+ //-----------------------------------------------------------------------------------------------
+
+ int get priority =&gt; _priority;
+
+ bool get isPaused =&gt; _pauseCount &gt; 0;
+ bool get isCanceled =&gt; _canceled;
+ bool get isCapturing =&gt; _captures;
+
+ EventStream&lt;T&gt; get eventStream =&gt; _eventStream;
+ EventListener&lt;T&gt; get eventListener =&gt; _eventListener;
+
+ //-----------------------------------------------------------------------------------------------
+
+ void onData(void handleData(T event)) {
+   _eventListener = handleData;
+ }
+
+ void onError(void handleError(error)) {
+   // This stream has no errors.
+ }
+
+ void onDone(void handleDone()) {
+   // This stream is never done.
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
+ Future asFuture([var futureValue]) {
+   // This stream is never done and has no errors.
+   return new Completer().future;
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
+ Future cancel() {
+   if (_canceled == false) {
+     _eventStream._cancelSubscription(this);
+   }
+   return null;
+ }
+
+ void pause([Future resumeSignal]) {
+   _pauseCount++;
+   if (resumeSignal != null) {
+     resumeSignal.whenComplete(resume);
+   }
+ }
+
+ void resume()  {
+   if (_pauseCount == 0) {
+     throw new StateError("Subscription is not paused.");
+   }
+   _pauseCount--;
+ }
+
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="http://api.dartlang.org/dart_async/StreamSubscription.html" ref="external">StreamSubscription&lt;T&gt;</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>EventStreamSubscription&lt;T&gt;</strong></span></p>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="eventListener">
+<button class="show-code">Code</button>
+final <a href="../stagexl/EventListener.html">EventListener</a>         <strong>eventListener</strong> <a class="anchor-link"
+            href="#eventListener"
+            title="Permalink to EventStreamSubscription&lt;T&gt;.eventListener">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+EventListener&lt;T&gt; get eventListener =&gt; _eventListener;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="eventStream">
+<button class="show-code">Code</button>
+final <a href="../stagexl/EventStream.html">EventStream</a>&lt;<a href="../stagexl/EventStreamSubscription.html">T</a>&gt;         <strong>eventStream</strong> <a class="anchor-link"
+            href="#eventStream"
+            title="Permalink to EventStreamSubscription&lt;T&gt;.eventStream">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+EventStream&lt;T&gt; get eventStream =&gt; _eventStream;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="isCanceled">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a>         <strong>isCanceled</strong> <a class="anchor-link"
+            href="#isCanceled"
+            title="Permalink to EventStreamSubscription&lt;T&gt;.isCanceled">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get isCanceled =&gt; _canceled;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="isCapturing">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a>         <strong>isCapturing</strong> <a class="anchor-link"
+            href="#isCapturing"
+            title="Permalink to EventStreamSubscription&lt;T&gt;.isCapturing">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool get isCapturing =&gt; _captures;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="isPaused">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a>         <strong>isPaused</strong> <a class="anchor-link"
+            href="#isPaused"
+            title="Permalink to EventStreamSubscription&lt;T&gt;.isPaused">#</a>
+        </h4>
+        <div class="doc">
+<div class="inherited">
+<p>Returns true if the <a class="crossref" href="http://api.dartlang.org/dart_async/StreamSubscription.html">StreamSubscription</a> is paused.</p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_async/StreamSubscription.html" ref="external">StreamSubscription</a>&lt;<a href="../stagexl/EventStreamSubscription.html">T</a>&gt; </div></div>
+<pre class="source">
+bool get isPaused =&gt; _pauseCount &gt; 0;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="priority">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a>         <strong>priority</strong> <a class="anchor-link"
+            href="#priority"
+            title="Permalink to EventStreamSubscription&lt;T&gt;.priority">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get priority =&gt; _priority;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="asFuture">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_async/Future.html" ref="external">Future</a> <strong>asFuture</strong>([futureValue]) <a class="anchor-link" href="#asFuture"
+              title="Permalink to EventStreamSubscription&lt;T&gt;.asFuture">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Returns a future that handles the <a class="crossref" href="../stagexl/EventStreamSubscription.html#onDone">onDone</a> and <a class="crossref" href="../stagexl/EventStreamSubscription.html#onError">onError</a> callbacks.</p>
+<p>This method <em>overwrites</em> the existing <a class="crossref" href="../stagexl/EventStreamSubscription.html#onDone">onDone</a> and <a class="crossref" href="../stagexl/EventStreamSubscription.html#onError">onError</a> callbacks
+with new ones that complete the returned future.</p>
+<p>In case of an error the subscription will automatically cancel (even
+when it was listening with <code>cancelOnError</code> set to <code>false</code>).</p>
+<p>In case of a <code>done</code> event the future completes with the given
+
+<span class="param">futureValue</span>.</p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_async/StreamSubscription.html" ref="external">StreamSubscription</a>&lt;<a href="../stagexl/EventStreamSubscription.html">T</a>&gt; </div></div>
+<pre class="source">
+Future asFuture([var futureValue]) {
+ // This stream is never done and has no errors.
+ return new Completer().future;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="cancel">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_async/Future.html" ref="external">Future</a> <strong>cancel</strong>() <a class="anchor-link" href="#cancel"
+              title="Permalink to EventStreamSubscription&lt;T&gt;.cancel">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Cancels this subscription. It will no longer receive events.</p>
+<p>If an event is currently firing, this unsubscription will only
+take effect after all subscribers have received the current event.</p>
+<p>Returns a future if the cancel-operation is not completed synchronously.
+Otherwise returns <code>null</code>.</p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_async/StreamSubscription.html" ref="external">StreamSubscription</a>&lt;<a href="../stagexl/EventStreamSubscription.html">T</a>&gt; </div></div>
+<pre class="source">
+Future cancel() {
+ if (_canceled == false) {
+   _eventStream._cancelSubscription(this);
+ }
+ return null;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="onData">
+<button class="show-code">Code</button>
+void <strong>onData</strong>(void handleData(<a href="../stagexl/EventStreamSubscription.html">T</a> event)) <a class="anchor-link" href="#onData"
+              title="Permalink to EventStreamSubscription&lt;T&gt;.onData">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Set or override the data event handler of this subscription. </p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_async/StreamSubscription.html" ref="external">StreamSubscription</a>&lt;<a href="../stagexl/EventStreamSubscription.html">T</a>&gt; </div></div>
+<pre class="source">
+void onData(void handleData(T event)) {
+ _eventListener = handleData;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="onDone">
+<button class="show-code">Code</button>
+void <strong>onDone</strong>(void handleDone()) <a class="anchor-link" href="#onDone"
+              title="Permalink to EventStreamSubscription&lt;T&gt;.onDone">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Set or override the done event handler of this subscription. </p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_async/StreamSubscription.html" ref="external">StreamSubscription</a>&lt;<a href="../stagexl/EventStreamSubscription.html">T</a>&gt; </div></div>
+<pre class="source">
+void onDone(void handleDone()) {
+ // This stream is never done.
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="onError">
+<button class="show-code">Code</button>
+void <strong>onError</strong>(void handleError(error)) <a class="anchor-link" href="#onError"
+              title="Permalink to EventStreamSubscription&lt;T&gt;.onError">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Set or override the error event handler of this subscription.</p>
+<p>This method overrides the handler that has been set at the invocation of
+<a class="crossref" href="http://api.dartlang.org/dart_async/Stream.html#listen">Stream.listen</a>.</p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_async/StreamSubscription.html" ref="external">StreamSubscription</a>&lt;<a href="../stagexl/EventStreamSubscription.html">T</a>&gt; </div></div>
+<pre class="source">
+void onError(void handleError(error)) {
+ // This stream has no errors.
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="pause">
+<button class="show-code">Code</button>
+void <strong>pause</strong>([<a href="http://api.dartlang.org/dart_async/Future.html" ref="external">Future</a> resumeSignal]) <a class="anchor-link" href="#pause"
+              title="Permalink to EventStreamSubscription&lt;T&gt;.pause">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Request that the stream pauses events until further notice.</p>
+<p>If 
+<span class="param">resumeSignal</span> is provided, the stream will undo the pause
+when the future completes. If the future completes with an error,
+it will not be handled!</p>
+<p>A call to <a class="crossref" href="../stagexl/EventStreamSubscription.html#resume">resume</a> will also undo a pause.</p>
+<p>If the subscription is paused more than once, an equal number
+of resumes must be performed to resume the stream.</p>
+<p>Currently DOM streams silently drop events when the stream is paused. This
+is a bug and will be fixed.</p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_async/StreamSubscription.html" ref="external">StreamSubscription</a>&lt;<a href="../stagexl/EventStreamSubscription.html">T</a>&gt; </div></div>
+<pre class="source">
+void pause([Future resumeSignal]) {
+ _pauseCount++;
+ if (resumeSignal != null) {
+   resumeSignal.whenComplete(resume);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="resume">
+<button class="show-code">Code</button>
+void <strong>resume</strong>() <a class="anchor-link" href="#resume"
+              title="Permalink to EventStreamSubscription&lt;T&gt;.resume">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Resume after a pause.</p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_async/StreamSubscription.html" ref="external">StreamSubscription</a>&lt;<a href="../stagexl/EventStreamSubscription.html">T</a>&gt; </div></div>
+<pre class="source">
+void resume()  {
+ if (_pauseCount == 0) {
+   throw new StateError("Subscription is not paused.");
+ }
+ _pauseCount--;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-12-26 08:49:51.662</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

@@ -1,1 +1,1 @@
-{"name":"dart:","dependencies":[],"location":"0","revision":"0","libraries":[{"refId":"meta","name":"package:meta/meta.dart"},{"refId":"metadata"},{"refId":"stagexl"}],"description":"Dart System Libraries"}
+{"name":"dart:","description":"Dart System Libraries","libraries":[{"refId":"metadata"},{"refId":"stagexl"}],"revision":"0","location":"0","dependencies":[]}

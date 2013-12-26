@@ -133,12 +133,12 @@ Example for AnimationGroup: Two Tweens will run in parallel - one lasts for 2.0 
 
 Example for AnimationChain: Two Tweens will run in a sequence - the first Tween runs for 2.0 seconds, the second Tween starts after the first one has completed and runs for 4.0 seconds. The onComplete callback will be invoked after 6.0 seconds.
 
-	var ac = new AnimationChain();
- 	ac.add(new Tween(sprite, 2.0, TransitionFunction.easeOutBounce)..animate.x.to(700));
- 	ac.add(new Tween(sprite, 4.0, TransitionFunction.linear)..animate.y.to(500));
- 	ac.onStart = () => print("start");
- 	ac.onComplete = () => print("complete");
- 	juggler.add(ac);
+    var ac = new AnimationChain();
+    ac.add(new Tween(sprite, 2.0, TransitionFunction.easeOutBounce)..animate.x.to(700));
+    ac.add(new Tween(sprite, 4.0, TransitionFunction.linear)..animate.y.to(500));
+    ac.onStart = () => print("start");
+    ac.onComplete = () => print("complete");
+    juggler.add(ac);
 
 Both classes also provide a "delay" property to delay the start of the Animation by the given time in seconds.
 

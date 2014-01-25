@@ -18,15 +18,15 @@ To control the size of the Canvas, you have to set the width and height **styles
 
 The Stage adapts the Canvas element to the Display List. If the Canvas size is changing, the Stage will automatically scale the Display List to match with the new Canvas size. You can control how the Display List is scaled with the *stageScaleMode* and *align* property. The exmample below shows the default configuration of the Stage.
 
-    var canvas = html.query('#myStage');
-    var stage = new Stage('myStage', canvas);  
+    var canvas = html.querySelector('#myStage');
+    var stage = new Stage(canvas);  
     stage.scaleMode = StageScaleMode.SHOW_ALL;
     stage.align = StageAlign.NONE;
 
 It is also important to be aware of the coordinate system of the Stage and Display List. The Stage constructor takes two optional parameters to define the default coordinate system, if those parameters are not supplied the current width and height properties of the Canvas element  are used. 
 
-    var canvas = html.query('#myStage');
-    var stage = new Stage('myStage', canvas, 800, 600);  
+    var canvas = html.querySelector('#myStage');
+    var stage = new Stage(canvas, width: 800, height: 600);  
 
 This way the Stage is using a coordinate system of 800x600 pixels, regardless of the size of the Stage. Even if the Canvas is much smaller or bigger, your Display Objects are still placed within a 800x600 grid. Please note that the size of this grid can change dependent on the scaleMode property. To get the current size of the Stage, you can query the *contentRectangle* property.
 
@@ -47,7 +47,7 @@ The following original 100w,100h image:
 
 Placed on a stage initialized with:
 
-	var stage = new Stage('myStage', canvas, 100, 100);
+	var stage = new Stage(canvas, width: 100, height: 100);
 	stage.align = StageAlign.TOP_LEFT; 
 
 Will display as follows when placed in an html canvas with a width of 200px and a height of 75px:
@@ -94,8 +94,8 @@ HTML/CSS (without enclosing head and body tags):
 
 Dart:
 
-    var canvas = html.query('#stage');
-    var stage = new Stage('myStage', canvas);
+    var canvas = html.querySelector('#stage');
+    var stage = new Stage(canvas);
     stage.scaleMode = StageScaleMode.NO_SCALE;
     stage.align = StageAlign.TOP_LEFT;
 
@@ -107,13 +107,13 @@ Here are two other frequently used configurations:
 
 Scale the Stage to fit within the available Canvas area. Show borders on the left/right or top/bottom side if the aspect ratio does not match. Never truncate any content from the Stage.
 
-    var stage = new Stage('myStage', canvas);
+    var stage = new Stage(canvas);
     stage.scaleMode = StageScaleMode.SHOW_ALL;
     stage.align = StageAlign.NONE;
 
 Scale the Stage to fill the whole Canvas area. If the aspect ratio does not match, truncate parts from the Stage, but never show any borders.
 
-    var stage = new Stage('myStage', canvas);
+    var stage = new Stage(canvas);
     stage.scaleMode = StageScaleMode.NO_BORDER;
     stage.align = StageAlign.NONE;
 
@@ -145,8 +145,8 @@ To understand the different StageScaleMode and StageAlign settings, it's best to
 	import 'package:stagexl/stagexl.dart';
 	
 	void main() {
-	  var canvas = html.query('#stage');
-	  var stage = new Stage('stage', canvas, 800, 600);
+	  var canvas = html.querySelector('#stage');
+	  var stage = new Stage(canvas, width: 800, height: 600);
 	  stage.scaleMode = StageScaleMode.EXACT_FIT;
 	  stage.align = StageAlign.NONE;
 	

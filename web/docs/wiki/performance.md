@@ -5,18 +5,18 @@ In Flash all DisplayObjects share the the same stage. With dartflash you can use
 Use two canvas elements on top of each other. One for the background of your game, the other for the foreground.
  
     <div style="position: relative; ">
-      <canvas id="stageBackground" width="800" height="600" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
-      <canvas id="stageForeground" width="800" height="600" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+      <canvas id="bg" width="800" height="600" style="position: absolute"></canvas>
+      <canvas id="fg" width="800" height="600" style="position: absolute"></canvas>
     </div>
 
 
 Now create two Stages out of those 2 canvas elements and set the "renderMode" property:
 
-	Stage stageBackground = new Stage("StageBackground", document.query('#stageBackground'));
-	Stage stageForeground = new Stage("StageForeground", document.query('#stageForeground'));
+	var bg = new Stage(querySelector('#bg'));
+	var fg = new Stage(querySelector('#fg'), color: Color.Transparent);
 	
-	stageBackground.renderMode = StageRenderMode.STOP;
-	stageForeground.renderMode = StageRenderMode.AUTO;
+	bg.renderMode = StageRenderMode.STOP;
+	fg.renderMode = StageRenderMode.AUTO;
 	
 In this sample the render loop will NOT render the background. Only the foreground will be rendered on every frame. If you want to change the content of the background you just set the "renderMode" to ONCE and the render loop will render the background on the next frame - but just once :)
 

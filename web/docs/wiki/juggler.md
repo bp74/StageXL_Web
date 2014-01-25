@@ -4,8 +4,8 @@ A basic building block in game development is a framework to move things around 
 
 Let's get started with a simple example. In the previous article you have learned about the Stage and the RenderLoop. The RenderLoop manages the continuous update of the screen and he also keeps track of the time that passes while the game is running. This time is important for the Juggler because all animations are functions over time. Therefore the RenderLoop also provides an instance of the Juggler. 
 
-    var canvas = html.query('#stage');
-    var stage = new Stage('myStage', canvas);
+    var canvas = html.querySelector('#stage');
+    var stage = new Stage(canvas);
     var renderLoop = new RenderLoop();
     var juggler = renderLoop.juggler; 
 

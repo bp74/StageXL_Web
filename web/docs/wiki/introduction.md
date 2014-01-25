@@ -54,8 +54,8 @@ Now that we have created the Painting, we need to add the Painting itself to the
     import 'package:stagexl/stagexl.dart'; 
     
     void main() {
-      var canvas = html.query('#stage');
-      var stage = new Stage('myStage', canvas);
+      var canvas = html.querySelector('#stage');
+      var stage = new Stage(canvas);
       var renderLoop = new RenderLoop();
       renderLoop.addStage(stage);
 
@@ -115,8 +115,8 @@ The example below adds three images to the resource manager. Each image is tagge
     import 'package:stagexl/stagexl.dart';
     
     void main() {
-      var canvas = html.query('#stage');
-      var stage = new Stage('myStage', canvas);
+      var canvas = html.querySelector('#stage');
+      var stage = new Stage(canvas);
       var renderLoop = new RenderLoop();
       renderLoop.addStage(stage);
 

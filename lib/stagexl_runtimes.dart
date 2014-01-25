@@ -13,42 +13,36 @@ part 'runtimes/particle_emitter.dart';
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
-Stage stage;
-RenderLoop renderLoop;
-Juggler juggler;
-ResourceManager resourceManager;
-
-void _init() {
-  BitmapData.defaultLoadOptions.webp = true;
-  Stage.autoHiDpi = false;
-
-  var canvas = html.querySelector("#stage");
-  if (canvas != null) {
-    stage = new Stage('stage', canvas);
-    renderLoop = new RenderLoop();
-    renderLoop.addStage(stage);
-    juggler = renderLoop.juggler;
-    resourceManager = new ResourceManager();
-  }
-}
+var canvas = html.querySelector("#stage");
+var stage = (canvas != null) ? new Stage(canvas, webGL: true) : null;
+var renderLoop = new RenderLoop();
+ResourceManager resourceManager = new ResourceManager();
 
 //-----------------------------------------------------------------------------
 
 void mainFlump() {
-  _init();
+  BitmapData.defaultLoadOptions.webp = true;
+  Stage.autoHiDpi = false;
+  renderLoop.addStage(stage);
+
   resourceManager
-  ..addCustomObject('flump', FlumpLibrary.load('images/flumpLibrary.json'))
-  ..load().then((_) => stage.addChild(new FlumpDemo()));
+    ..addCustomObject('flump', FlumpLibrary.load('images/flumpLibrary.json'))
+    ..load().then((_) => stage.addChild(new FlumpDemo()));
 }
 
 void mainTexturePacker() {
-  _init();
+  BitmapData.defaultLoadOptions.webp = true;
+  Stage.autoHiDpi = false;
+  renderLoop.addStage(stage);
+
   resourceManager
-  ..addTextureAtlas('levelUp', 'images/LevelupTextureAtlas.json', TextureAtlasFormat.JSONARRAY)
-  ..load().then((_) => stage.addChild(new TexturePackerDemo()));
+    ..addTextureAtlas('levelUp', 'images/LevelupTextureAtlas.json', TextureAtlasFormat.JSONARRAY)
+    ..load().then((_) => stage.addChild(new TexturePackerDemo()));
 }
 
 void mainParticleEmitter() {
-  _init();
+  BitmapData.defaultLoadOptions.webp = true;
+  Stage.autoHiDpi = false;
+  renderLoop.addStage(stage);
   stage.addChild(new ParticleEmitterDemo());
 }

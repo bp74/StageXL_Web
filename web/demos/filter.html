@@ -99,7 +99,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#demoShow" data-toggle="tab"><strong>Demo</strong></a></li>
                 <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
-                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
+                <li><a href="#sourceDemo" data-toggle="tab">filter_demo.dart</a></li>
             </ul>
 
             <div class="tab-content">
@@ -113,32 +113,26 @@
                 </div>
                 <div class="tab-pane" id="sourceMain">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-library stagexl_web;
+library demo;
 
 import &apos;dart:math&apos;;
 import &apos;dart:html&apos; as html;
 import &apos;package:stagexl/stagexl.dart&apos;;
 
-part &apos;src/demo.dart&apos;;
+part &apos;filter_demo.dart&apos;;
 
-Stage stage;
-RenderLoop renderLoop;
-Juggler juggler;
-ResourceManager resourceManager;
+Stage stage = new Stage(html.querySelector(&apos;#stage&apos;), webGL: true);
+ResourceManager resourceManager = new ResourceManager()
+RenderLoop renderLoop = new RenderLoop();
 
 void main() {
-     
-  // initialize Stage and RenderLoop
-  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
-  renderLoop = new RenderLoop();
+
   renderLoop.addStage(stage);
-  juggler = renderLoop.juggler;
-  
-  // initialize ResourceManager
-  resourceManager = new ResourceManager()
+
+  resourceManager 
     ..addBitmapData(&apos;king&apos;, &apos;images/king.png&apos;)
     ..addBitmapData(&apos;sun&apos;, &apos;images/Sun.png&apos;);
-  
+
   resourceManager.load()
     .then((_) =&gt; stage.addChild(new FilterDemo()))
     .catchError((e) =&gt; print(e));
@@ -147,53 +141,50 @@ void main() {
                 </div>
                 <div class="tab-pane" id="sourceDemo">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_demos;
+part of demo;
 
 class FilterDemo extends DisplayObjectContainer {
-  
-  final List _filters = [
-    {&apos;name&apos;: &apos;DropShadowFilter (black)&apos;, &apos;filter&apos;: new DropShadowFilter(10, PI / 4, Color.Black, 0.8, 8, 8) },
-    {&apos;name&apos;: &apos;GlowFilter (red)&apos;, &apos;filter&apos;: new GlowFilter(Color.Red, 1.0, 20, 20) },
-    {&apos;name&apos;: &apos;ColorMatrixFilter (grayscale)&apos;, &apos;filter&apos;: new ColorMatrixFilter.grayscale() },
-    {&apos;name&apos;: &apos;ColorMatrixFilter (invert)&apos;, &apos;filter&apos;: new ColorMatrixFilter.invert() },
-    {&apos;name&apos;: &apos;BlurFilter (radius 1)&apos;, &apos;filter&apos;: new BlurFilter(1, 1) },
-    {&apos;name&apos;: &apos;BlurFilter (radius 5)&apos;, &apos;filter&apos;: new BlurFilter(5, 5) },
-    {&apos;name&apos;: &apos;BlurFilter (radius 20)&apos;, &apos;filter&apos;: new BlurFilter(20, 20) },
-    {&apos;name&apos;: &apos;AlphaMaskFilter&apos;, &apos;filter&apos;: new AlphaMaskFilter(resourceManager.getBitmapData(&quot;sun&quot;))}
-  ];
-    
+
   FilterDemo() {
-    
+
     var kingBitmapData = resourceManager.getBitmapData(&apos;king&apos;);
+    var sunBitmapData = resourceManager.getBitmapData(&apos;sun&apos;);
     var backgroundBitmapData = new BitmapData(230, 245, true, 0xFFF0F0F0);
     var kingBitmaps = new List&lt;Bitmap&gt;();
-    
+
+    var filters = [
+      {&apos;name&apos;: &apos;DropShadowFilter (black)&apos;, &apos;filter&apos;: new DropShadowFilter(10, PI / 4, Color.Black, 0.8, 8, 8) },
+      {&apos;name&apos;: &apos;GlowFilter (red)&apos;, &apos;filter&apos;: new GlowFilter(Color.Red, 1.0, 20, 20) },
+      {&apos;name&apos;: &apos;ColorMatrixFilter (grayscale)&apos;, &apos;filter&apos;: new ColorMatrixFilter.grayscale() },
+      {&apos;name&apos;: &apos;ColorMatrixFilter (invert)&apos;, &apos;filter&apos;: new ColorMatrixFilter.invert() },
+      {&apos;name&apos;: &apos;BlurFilter (radius 1)&apos;, &apos;filter&apos;: new BlurFilter(1, 1) },
+      {&apos;name&apos;: &apos;BlurFilter (radius 5)&apos;, &apos;filter&apos;: new BlurFilter(5, 5) },
+      {&apos;name&apos;: &apos;BlurFilter (radius 20)&apos;, &apos;filter&apos;: new BlurFilter(20, 20) },
+      {&apos;name&apos;: &apos;AlphaMaskFilter&apos;, &apos;filter&apos;: new AlphaMaskFilter(resourceManager.getBitmapData(&apos;sun&apos;))}];
+
     //--------------------------------------------------------------------------------
     // Add kings with 8 different filters
-    
-    for(int i = 0; i &lt; _filters.length; i++) {
-      
-      var filter = _filters[i][&apos;filter&apos;] as BitmapFilter;
-      var name = _filters[i][&apos;name&apos;] as String;
+
+    for(int i = 0; i &lt; filters.length; i++) {
+
+      var filter = filters[i][&apos;filter&apos;] as BitmapFilter;
+      var name = filters[i][&apos;name&apos;] as String;
       var x = 235 * (i % 4);
       var y = 250 * (i ~/ 4);
-      
-      var filterBounds = filter.getBounds();
-      filterBounds.inflate(kingBitmapData.width, kingBitmapData.height);
-      
+
       var backgroundBitmap = new Bitmap(backgroundBitmapData);
       backgroundBitmap.x = x;
       backgroundBitmap.y = y;
       addChild(backgroundBitmap);
-      
+
       var kingBitmap = new Bitmap(kingBitmapData);
       kingBitmap.x = x + 40;
       kingBitmap.y =  y + 45;
       kingBitmap.filters = [filter];
-      kingBitmap.applyCache(filterBounds.left, filterBounds.top, filterBounds.width, filterBounds.height);
+      kingBitmap.applyCache(-20, -20, kingBitmapData.width + 40, kingBitmapData.height + 40);
       addChild(kingBitmap);
       kingBitmaps.add(kingBitmap);
-      
+
       var textField = new TextField();
       textField.defaultTextFormat = new TextFormat(&apos;Helvetica Neue, Helvetica, Arial&apos;, 14, Color.Black);
       textField.x = x + 5;
@@ -202,19 +193,20 @@ class FilterDemo extends DisplayObjectContainer {
       textField.text = name;
       addChild(textField);
     }
-    
+
     //--------------------------------------------------------------------------------
     // animate the AlphaMaskFilter
-    
-    juggler.transition(0.0, PI * 2 * 100, 600.0, TransitionFunction.linear, (value) {
-      var matrix = _filters[7][&apos;filter&apos;].matrix;
+
+    var matrix = filters.last[&apos;filter&apos;].matrix;
+    var bitmap = kingBitmaps.last;
+
+    stage.juggler.transition(0.0, PI * 2 * 100, 600.0, TransitionFunction.linear, (value) {
       matrix.identity();
-      matrix.translate(-64, -64);
-      matrix.scale(1.0, 1.5);
+      matrix.translate(- sunBitmapData.width / 2, - sunBitmapData.height / 2);
       matrix.rotate(value);
-      matrix.translate(kingBitmapData.width / 2 - 10, kingBitmapData.height / 2);
-      kingBitmaps[7].refreshCache();
-    });    
+      matrix.translate(60, 90 + sin(value) * 40);
+      bitmap.refreshCache();
+    });
   }
 }
 </pre>

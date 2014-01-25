@@ -97,7 +97,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#demoShow" data-toggle="tab"><strong>Demo</strong></a></li>
                 <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
-                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
+                <li><a href="#sourceDemo" data-toggle="tab">flipbook_demo.dart</a></li>
             </ul>
 
             <div class="tab-content">
@@ -110,29 +110,23 @@
                 </div>
                 <div class="tab-pane" id="sourceMain">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-library stagexl_web;
+library demo;
 
 import &apos;dart:math&apos;;
 import &apos;dart:html&apos; as html;
 import &apos;package:stagexl/stagexl.dart&apos;;
 
-part &apos;src/demo.dart&apos;;
+part &apos;flipbook_demo.dart&apos;;
 
-Stage stage;
-RenderLoop renderLoop;
-Juggler juggler;
-ResourceManager resourceManager;
+Stage stage = new Stage(html.querySelector(&apos;#stage&apos;), webGL: true);
+RenderLoop renderLoop = new RenderLoop();
+ResourceManager resourceManager = new ResourceManager();
 
 void main() {
      
-  // initialize Stage and RenderLoop
-  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
-  renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
-  juggler = renderLoop.juggler;
   
-  // initialize ResourceManager
-  resourceManager = new ResourceManager()
+  resourceManager 
     ..addTextureAtlas(&apos;walkTextureAtlas&apos;, &apos;images/walk.json&apos;, TextureAtlasFormat.JSONARRAY);
   
   resourceManager.load()
@@ -143,50 +137,51 @@ void main() {
                 </div>
                 <div class="tab-pane" id="sourceDemo">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_web;
+part of demo;
 
 class FlipBookDemo extends DisplayObjectContainer {
-  
+
   Random _random = new Random();
-  TextureAtlas _textureAtlas;
+  TextureAtlas _textureAtlas = resourceManager.getTextureAtlas(&apos;walkTextureAtlas&apos;);
+  Juggler _juggler = stage.juggler;
   List _bitmapDatas;
-  
+
   FlipBookDemo() {
 
-    // Get all the &apos;walk&apos; bitmapDatas in the texture atlas.
-    _textureAtlas = resourceManager.getTextureAtlas(&apos;walkTextureAtlas&apos;);
+    // Get all the &apos;walk&apos; bitmapDatas in the texture atlas
+    // and start the first walking man.
+
     _bitmapDatas = _textureAtlas.getBitmapDatas(&apos;walk&apos;);
-    
-    // start the first walking man.
     _startWalkingMan();
   }
-  
+
   _startWalkingMan() {
 
-    var scale = _random.nextDouble();
-    
-    // Create a movie clip with the list of bitmapDatas.
-    var flipBook = new FlipBook(_bitmapDatas, 30);
-    flipBook.x = -128;
-    flipBook.y = 20.0 + 180.0 * scale;
-    flipBook.scaleX = flipBook.scaleY = 0.5 + 0.5 * scale;
-    flipBook.play();
+    // Create a flip book with the list of bitmapDatas.
 
-    addChild(flipBook);
+    var scale = _random.nextDouble();
+    var flipBook = new FlipBook(_bitmapDatas, 30)
+      ..x = -128
+      ..y = 20.0 + 180.0 * scale
+      ..scaleX = 0.5 + 0.5 * scale
+      ..scaleY = 0.5 + 0.5 * scale
+      ..play()
+      ..addTo(this);
+
     sortChildren((c1, c2) =&gt; (c1.y - c2.y).toInt());
 
     // Add a tween to make the man walk from the left to the right.
-    var tween = new Tween(flipBook, 5.0 + (1.0 - scale) * 5.0, TransitionFunction.linear);
-    tween.animate.x.to(940.0);
-    tween.onComplete = () {
-      juggler.remove(flipBook);
-      removeChild(flipBook);
-    };
 
-    juggler.add(flipBook);
-    juggler.add(tween);
-    juggler.delayCall(_startWalkingMan, 0.2);
-  }  
+    _juggler.tween(flipBook, 5.0 + (1.0 - scale) * 5.0, TransitionFunction.linear)
+      ..animate.x.to(940.0)
+      ..onComplete = () {
+        flipBook.removeFromParent();
+        _juggler.remove(flipBook);
+      };
+
+    _juggler.add(flipBook);
+    _juggler.delayCall(_startWalkingMan, 0.2);
+  }
 }
 </pre>
                 </div>

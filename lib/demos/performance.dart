@@ -68,7 +68,7 @@ class PerformanceDemo extends DisplayObjectContainer {
       flyingFlag.y = 30 + random.nextInt(500 - 60);
       addChild(flyingFlag);
 
-      juggler.add(flyingFlag);
+      stage.juggler.add(flyingFlag);
     }
 
     html.querySelector('#flagCounter').innerHtml = 'Flags: ${numChildren}';
@@ -81,7 +81,7 @@ class PerformanceDemo extends DisplayObjectContainer {
     while(--amount >= 0 && numChildren > 0) {
       var displayObject = getChildAt(0);
       displayObject.removeFromParent();
-      juggler.remove(displayObject);
+      stage.juggler.remove(displayObject);
     }
 
     html.querySelector('#flagCounter').innerHtml = 'Flags: ${numChildren}';

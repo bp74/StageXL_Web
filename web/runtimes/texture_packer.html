@@ -99,7 +99,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#demoShow" data-toggle="tab"><strong>Demo</strong></a></li>
                 <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
-                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
+                <li><a href="#sourceDemo" data-toggle="tab">texture_packer_demo.dart</a></li>
             </ul>
 
             <div class="tab-content">
@@ -109,28 +109,22 @@
                 </div>
                 <div class="tab-pane" id="sourceMain">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-library stagexl_web;
+library demo;
 
 import &apos;dart:math&apos;;
 import &apos;dart:html&apos; as html;
 import &apos;package:stagexl/stagexl.dart&apos;;
 
-part &apos;src/demo.dart&apos;;
+part &apos;texture_packer_demo.dart&apos;;
 
-Stage stage;
-RenderLoop renderLoop;
-Juggler juggler;
-ResourceManager resourceManager;
+Stage stage = new Stage(html.querySelector(&apos;#stage&apos;), webGL: true);
+RenderLoop renderLoop = new RenderLoop();
+ResourceManager resourceManager = new ResourceManager();
 
 void main() {
-     
-  // initialize Stage and RenderLoop
-  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
-  renderLoop = new RenderLoop();
+
   renderLoop.addStage(stage);
-  juggler = renderLoop.juggler;
   
-  // initialize ResourceManager
   resourceManager = new ResourceManager()
     ..addTextureAtlas(&apos;levelUp&apos;, &apos;images/LevelupTextureAtlas.json&apos;, TextureAtlasFormat.JSONARRAY);
   
@@ -142,19 +136,17 @@ void main() {
                 </div>
                 <div class="tab-pane" id="sourceDemo">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_web;
+part of demo;
 
 class TexturePackerDemo extends DisplayObjectContainer {
-  
+
   TextureAtlas _textureAtlas;
-  
+
   TexturePackerDemo() {
-   
+
     _textureAtlas = resourceManager.getTextureAtlas(&apos;levelUp&apos;);
     _showLevelupAnimation();
 
-    //-----------------------------------------
-    
     BitmapData.load(&apos;images/LevelupTextureAtlas.png&apos;).then((bitmapData) {
       Bitmap bitmap = new Bitmap(bitmapData);
       bitmap.x = 70;
@@ -162,42 +154,36 @@ class TexturePackerDemo extends DisplayObjectContainer {
       addChild(bitmap);
     });
   }
-  
+
   _showLevelupAnimation() {
-    
-    num offset = 330;
-    
-    for(int i = 0; i &lt; 7; i++) {
-      
+
+    for(int i = 0, offset = 330; i &lt; 7; i++) {
+
       var bitmapData = _textureAtlas.getBitmapData(&apos;LevelUp${i}&apos;);
-      var bitmap = new Bitmap(bitmapData);
-      
-      bitmap.pivotX = bitmapData.width / 2;
-      bitmap.pivotY = bitmapData.height / 2;
-      bitmap.x = offset + bitmapData.width / 2;
-      bitmap.y = 150;
-      bitmap.scaleX = 0.0;
-      bitmap.scaleY = 0.0;
-      addChild(bitmap);
-      
-      var tween1 = new Tween(bitmap, 2.0, TransitionFunction.easeOutElastic);
-      tween1.animate.scaleX.to(1.0);
-      tween1.animate.scaleY.to(1.0);
-      tween1.delay = i * 0.05;
+      var bitmap = new Bitmap(bitmapData)
+        ..pivotX = bitmapData.width / 2
+        ..pivotY = bitmapData.height / 2
+        ..x = offset + bitmapData.width / 2
+        ..y = 150
+        ..scaleX = 0.0
+        ..scaleY = 0.0
+        ..addTo(this);
 
-      var tween2 = new Tween(bitmap, 0.4, TransitionFunction.linear);
-      tween2.animate.scaleX.to(0.0);
-      tween2.animate.scaleY.to(0.0);
-      tween2.delay = 2.0;
-      tween2.onComplete = () =&gt; bitmap.removeFromParent();
+      stage.juggler.tween(bitmap, 2.0, TransitionFunction.easeOutElastic)
+        ..animate.scaleX.to(1.0)
+        ..animate.scaleY.to(1.0)
+        ..delay = i * 0.05;
 
-      juggler.add(tween1);
-      juggler.add(tween2);
+      stage.juggler.tween(bitmap, 0.4, TransitionFunction.linear)
+        ..animate.scaleX.to(0.0)
+        ..animate.scaleY.to(0.0)
+        ..delay = 2.0
+        ..onComplete = () =&gt; bitmap.removeFromParent();
 
       offset = offset + 5 + bitmapData.width;
-    }  
-    
-    juggler.delayCall(() =&gt; _showLevelupAnimation(), 3.0);
+    }
+
+    stage.juggler.delayCall(() =&gt; _showLevelupAnimation(), 3.0);
   }
 }
 </pre>

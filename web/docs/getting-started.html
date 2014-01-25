@@ -164,12 +164,13 @@ import &apos;dart:html&apos; as html;
 import &apos;package:stagexl/stagexl.dart&apos;;
 
 void main() {
-  // setup the Stage and RenderLoop 
+
+  // setup the Stage and RenderLoop
   var canvas = html.querySelector(&apos;#stage&apos;);
-  var stage = new Stage(&apos;myStage&apos;, canvas);
+  var stage = new Stage(canvas);
   var renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
-
+  
   // draw a red circle
   var shape = new Shape();
   shape.graphics.circle(100, 100, 60);

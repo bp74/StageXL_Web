@@ -2,33 +2,34 @@ part of stagexl_demos;
 
 class MaskingDemo extends DisplayObjectContainer {
 
-  final Random _random = new Random();
+  Juggler _juggler = stage.juggler;
+  Random _random = new Random();
 
   MaskingDemo() {
 
-    var flowerField = new Sprite();
-    flowerField.pivotX = 470;
-    flowerField.pivotY = 250;
-    flowerField.x = 470;
-    flowerField.y = 250;
-    addChild(flowerField);
+    // build a field of flowers
+
+    var flowerField = new Sprite()
+      ..pivotX = 470
+      ..pivotY = 250
+      ..x = 470
+      ..y = 250
+      ..addTo(this);
 
     for(int i = 0; i < 150; i++) {
       var f = 1 + _random.nextInt(3);
       var bitmapData = resourceManager.getBitmapData('flower$f');
-      var bitmap = new Bitmap(bitmapData);
-      bitmap.pivotX = 64;
-      bitmap.pivotY = 64;
-      bitmap.x = 64 + _random.nextInt(940 - 128);
-      bitmap.y = 64 + _random.nextInt(500 - 128);
-      flowerField.addChild(bitmap);
+      var bitmap = new Bitmap(bitmapData)
+        ..pivotX = 64
+        ..pivotY = 64
+        ..x = 64 + _random.nextInt(940 - 128)
+        ..y = 64 + _random.nextInt(500 - 128)
+        ..addTo(flowerField);
 
-      var tween = new Tween(bitmap, 600, TransitionFunction.linear);
-      tween.animate.rotation.to(PI * 60.0);
-      juggler.add(tween);
+      _juggler.tween(bitmap, 600, TransitionFunction.linear)
+        ..animate.rotation.to(PI * 60.0);
     }
 
-    //---------------------------------------------
     // define three different masks
 
     var starPath = new List<Point>();
@@ -44,7 +45,6 @@ class MaskingDemo extends DisplayObjectContainer {
     var circleMask = new Mask.circle(470, 250, 200);
     var customMask = new Mask.custom(starPath);
 
-    //---------------------------------------------
     // add html-button event listeners
 
     html.querySelector('#mask-none').onClick.listen((e) => flowerField.mask = null);
@@ -52,10 +52,9 @@ class MaskingDemo extends DisplayObjectContainer {
     html.querySelector('#mask-circle').onClick.listen((e) => flowerField.mask = circleMask);
     html.querySelector('#mask-custom').onClick.listen((e) => flowerField.mask = customMask);
     html.querySelector('#mask-spin').onClick.listen((e) {
-      var rotate = new Tween(flowerField, 2.0, TransitionFunction.easeInOutBack);
-      rotate.animate.rotation.to(PI * 4.0);
-      rotate.onComplete = () => flowerField.rotation = 0.0;
-      juggler.add(rotate);
+      _juggler.tween(flowerField, 2.0, TransitionFunction.easeInOutBack)
+        ..animate.rotation.to(PI * 4.0)
+        ..onComplete = () => flowerField.rotation = 0.0;
     });
   }
 }

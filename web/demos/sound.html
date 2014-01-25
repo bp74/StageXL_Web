@@ -100,7 +100,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#demoShow" data-toggle="tab"><strong>Demo</strong></a></li>
                 <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
-                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
+                <li><a href="#sourceDemo" data-toggle="tab">sound_demo.dart</a></li>
                 <li><a href="#sourcePiano" data-toggle="tab">piano.dart</a></li>
                 <li><a href="#sourcePianoKey" data-toggle="tab">piano_key.dart</a></li>
             </ul>
@@ -123,31 +123,25 @@
                 </div>
                 <div class="tab-pane" id="sourceMain">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-library stagexl_web;
+library demo;
 
 import &apos;dart:math&apos;;
 import &apos;dart:html&apos; as html;
 import &apos;package:stagexl/stagexl.dart&apos;;
 
-part &apos;src/demo.dart&apos;;
-part &apos;src/piano.dart&apos;;
-part &apos;src/piano_key.dart&apos;;
+part &apos;sound_demo.dart&apos;;
+part &apos;piano.dart&apos;;
+part &apos;piano_key.dart&apos;;
 
-Stage stage;
-RenderLoop renderLoop;
-Juggler juggler;
-ResourceManager resourceManager;
+Stage stage = new Stage(html.querySelector(&apos;#stage&apos;), webGL: true);
+RenderLoop renderLoop = new RenderLoop();
+ResourceManager resourceManager  = new ResourceManager();
 
 void main() {
      
-  // initialize Stage and RenderLoop
-  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
-  renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
-  juggler = renderLoop.juggler;
   
-  // initialize ResourceManager
-  resourceManager = new ResourceManager()
+  resourceManager
     ..addBitmapData('KeyBlack','images/piano/KeyBlack.png')
     ..addBitmapData('KeyWhite0','images/piano/KeyWhite0.png')
     ..addBitmapData('KeyWhite1','images/piano/KeyWhite1.png')
@@ -190,7 +184,7 @@ void main() {
                 </div>
                 <div class="tab-pane" id="sourceDemo">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_web;
+part of demo;
 
 class SoundDemo extends DisplayObjectContainer{
   
@@ -223,7 +217,7 @@ class SoundDemo extends DisplayObjectContainer{
                 </div>
                 <div class="tab-pane" id="sourcePiano">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_web;
+part of demo;
 
 class Piano extends DisplayObjectContainer {
 
@@ -318,17 +312,14 @@ class Piano extends DisplayObjectContainer {
         juggler.removeTweens(_karaokeFinger);
         _karaokeFinger.y = 0;
             
-        var tweenX = new Tween(this._karaokeFinger, 0.4, TransitionFunction.easeInOutCubic);
-        var tweenY = new Tween(this._karaokeFinger, 0.4, TransitionFunction.sine);
-        tweenX.animate.x.to(pianoKey.x + pianoKey.width / 2);
-        tweenY.animate.y.to(-10);
-        juggler.add(tweenX);
-        juggler.add(tweenY);
+        stage.juggler.tween(_karaokeFinger, 0.4, TransitionFunction.easeInOutCubic)
+          .animate.x.to(pianoKey.x + pianoKey.width / 2);
+        stage.juggler.tween(this._karaokeFinger, 0.4, TransitionFunction.sine)
+          .animate.y.to(-10);
       }
     } else {
-      var tween = new Tween(_karaokeFinger, 0.4, TransitionFunction.linear);
-      tween.animate.alpha.to(0);
-      juggler.add(tween);
+      stage.juggler.tween(_karaokeFinger, 0.4, TransitionFunction.linear)
+        .animate.alpha.to(0);
     }
   }
 }
@@ -336,7 +327,7 @@ class Piano extends DisplayObjectContainer {
                 </div>
                 <div class="tab-pane" id="sourcePianoKey">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_web;
+part of demo;
 
 class PianoKey extends Sprite {
   

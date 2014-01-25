@@ -1,7 +1,7 @@
 part of stagexl_docs;
 
 class TransititionTypeDemo {
-  
+
   final List _transitionFunctions = [
 
     { "name": "linear", "transition": TransitionFunction.linear },
@@ -59,19 +59,19 @@ class TransititionTypeDemo {
     { "name": "easeInOutBounce", "transition": TransitionFunction.easeInOutBounce },
     { "name": "easeOutInBounce", "transition": TransitionFunction.easeOutInBounce },
   ];
-  
+
   html.DivElement getTransitionDiv() {
-    
+
     var transitionDivElement = new html.DivElement();
-    
-    for(int i = 0; i < _transitionFunctions.length / 4; i++)
-    {
+
+    for(int i = 0; i < _transitionFunctions.length / 4; i++) {
+
       var rowDiv = new html.DivElement();
       rowDiv.classes.add("row");
       transitionDivElement.children.add(rowDiv);
 
-      for(int j = 0; j < 4; j++)
-      {
+      for(int j = 0; j < 4; j++) {
+
         var name = _transitionFunctions[i * 4 + j]["name"];
         var transition = _transitionFunctions[i * 4 + j]["transition"];
 
@@ -80,10 +80,10 @@ class TransititionTypeDemo {
         rowDiv.children.add(cellDiv);
       }
     }
-    
+
     return transitionDivElement;
   }
-  
+
   html.DivElement _drawTransition(String name, num transitionFunction(num ratio)) {
 
     var div = new html.DivElement();
@@ -102,7 +102,7 @@ class TransititionTypeDemo {
     headline.style.top = "6px";
     div.children.add(headline);
 
-    var stage = new Stage("stage", canvasElement);
+    var stage = new Stage(canvasElement);
     var shape = new Shape();
     var graphics = shape.graphics;
 

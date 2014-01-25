@@ -43,7 +43,7 @@ class ParticleEmitterDemo extends DisplayObjectContainer {
     particleEmitter.start();
 
     addChild(particleEmitter);
-    juggler.add(particleEmitter);
+    stage.juggler.add(particleEmitter);
 
     //--------------------------------
 

@@ -10,29 +10,15 @@ part 'docs/wiki.dart';
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
-Stage stage;
-RenderLoop renderLoop;
-Juggler juggler;
-ResourceManager resourceManager;
+var canvas = html.querySelector("#stage");
+var stage= (canvas != null) ? new Stage(canvas, webGL: true) : null;
+var renderLoop = new RenderLoop();
+var resourceManager = new ResourceManager();
 
-void _init() {
+void mainTransitions() {
   BitmapData.defaultLoadOptions.webp = true;
   Stage.autoHiDpi = false;
 
-  var canvas = html.querySelector("#stage");
-  if (canvas != null) {
-    stage = new Stage('stage', canvas);
-    renderLoop = new RenderLoop();
-    renderLoop.addStage(stage);
-    juggler = renderLoop.juggler;
-    resourceManager = new ResourceManager();
-  }
-}
-
-//-----------------------------------------------------------------------------
-
-void mainTransitions() {
-  _init();
   var transititionTypeDemo = new TransititionTypeDemo();
   var transitionDiv = transititionTypeDemo.getTransitionDiv();
   html.querySelector("#transitions").children.add(transitionDiv);

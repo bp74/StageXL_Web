@@ -12,7 +12,8 @@ class TextDemo extends DisplayObjectContainer {
   TextDemo() {
 
     var textField1 = new TextField();
-    textField1.defaultTextFormat = new TextFormat('Helvetica,Arial', 14, Color.Green, bold:true, italic:true);
+    var textFormat1 = new TextFormat('Helvetica,Arial', 14, Color.Green, bold:true, italic:true);
+    textField1.defaultTextFormat = textFormat1;
     textField1.text = text;
     textField1.x = 10;
     textField1.y = 10;
@@ -23,7 +24,8 @@ class TextDemo extends DisplayObjectContainer {
     //------------------------------------------------------------------
 
     var textField2 = new TextField();
-    textField2.defaultTextFormat = new TextFormat('Helvetica,Arial', 16, Color.Red);
+    var textFormat2 = new TextFormat('Helvetica,Arial', 16, Color.Red);
+    textField2.defaultTextFormat = textFormat2;
     textField2.text = text;
     textField2.x = 10;
     textField2.y = 50;
@@ -35,7 +37,8 @@ class TextDemo extends DisplayObjectContainer {
     //------------------------------------------------------------------
 
     var textField3 = new TextField();
-    textField3.defaultTextFormat = new TextFormat('Helvetica,Arial', 16, Color.Blue, align:TextFormatAlign.RIGHT);
+    var textFormat3 = new TextFormat('Helvetica,Arial', 16, Color.Blue, align:TextFormatAlign.RIGHT);
+    textField3.defaultTextFormat = textFormat3;
     textField3.text = text;
     textField3.x = 300;
     textField3.y = 50;
@@ -47,7 +50,8 @@ class TextDemo extends DisplayObjectContainer {
     //------------------------------------------------------------------
 
     var textField4 = new TextField();
-    textField4.defaultTextFormat = new TextFormat('Caesar Dressing', 30, Color.Black, align:TextFormatAlign.CENTER);
+    var textFormat4 = new TextFormat('Caesar Dressing', 30, Color.Black, align:TextFormatAlign.CENTER);
+    textField4.defaultTextFormat = textFormat4;
     textField4.text = text;
     textField4.x = 590;
     textField4.y = 50;

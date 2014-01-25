@@ -87,17 +87,18 @@
             Performance</h1>
         <p>
             This benchmark tests how many frames per second the browser is able to draw for a given number of
-            flags. You can increase the number of flags to see the effect on the frame rate. A modern desktop computer
-            should be able to draw at least 2000 flags at a smooth frame rate of 60 fps. This benchmark depends on
-            four important factors: The performance of your GPU for the draw calls, the performance of your CPU for
-            the animation, the JavaScript code compiled by dart2js and last but not least the browser you are using.</p>
+            flags. You can increase the number of flags to see the effect on the frame rate. A modern desktop 
+            computer should be able to draw at least 20.000 flags (with WebGL) at a smooth frame rate of 60 fps. 
+            This benchmark depends on four important factors: The performance of your GPU for the draw 
+            calls, the performance of your CPU for the animation, the JavaScript code compiled by dart2js and 
+            last but not least the browser you are using.</p>
             <p>Compare the benchmark numbers with the <a href="performance_flash.html">Flash Version</a>.</p>
         <br />
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#demoShow" data-toggle="tab"><strong>Demo</strong></a></li>
                 <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
-                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
+                <li><a href="#sourceDemo" data-toggle="tab">performance_demo.dart</a></li>
                 <li><a href="#sourceFlyingFlag" data-toggle="tab">flying_flag.dart</a></li>
             </ul>
 
@@ -125,30 +126,24 @@
                 </div>
                 <div class="tab-pane" id="sourceMain">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-library stagexl_web;
+library demo;
 
 import &apos;dart:math&apos;;
 import &apos;dart:html&apos; as html;
 import &apos;package:stagexl/stagexl.dart&apos;;
 
-part &apos;src/demo.dart&apos;;
-part &apos;src/flying_flag.dart&apos;;
+part &apos;performance_demo.dart&apos;;
+part &apos;flying_flag.dart&apos;;
 
-Stage stage;
-RenderLoop renderLoop;
-Juggler juggler;
-ResourceManager resourceManager;
+Stage stage = new Stage(html.querySelector(&apos;#stage&apos;), webGL: true);
+RenderLoop renderLoop = new RenderLoop();
+ResourceManager resourceManager = new ResourceManager();
 
 void main() {
 
-  // initialize Stage and RenderLoop
-  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
-  renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
-  juggler = renderLoop.juggler;
 
-  // initialize ResourceManager
-  resourceManager = new ResourceManager()
+  resourceManager 
     ..addTextureAtlas(&apos;flags&apos;, &apos;images/flags.json&apos;, TextureAtlasFormat.JSONARRAY);
 
   resourceManager.load()
@@ -159,18 +154,18 @@ void main() {
                 </div>
                 <div class="tab-pane" id="sourceDemo">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_web;
+part of demo;
 
 class PerformanceDemo extends DisplayObjectContainer {
 
   PerformanceDemo() {
 
-    // let&apos;s start with 250 flags
-    _addFlags(250);
+    // let&apos;s start with 500 flags
+    _addFlags(500);
 
     // add html-button event listeners
-    html.query(&apos;#minus100&apos;).onClick.listen((e) =&gt; _removeFlags(100));
-    html.query(&apos;#plus100&apos;).onClick.listen((e) =&gt; _addFlags(100));
+    html.querySelector(&apos;#minus100&apos;).onClick.listen((e) =&gt; _removeFlags(100));
+    html.querySelector(&apos;#plus100&apos;).onClick.listen((e) =&gt; _addFlags(100));
 
     // add event listener for EnterFrame (fps meter)
     this.onEnterFrame.listen(_onEnterFrame);
@@ -188,7 +183,7 @@ class PerformanceDemo extends DisplayObjectContainer {
       _fpsAverage = 0.05 / e.passedTime + 0.95 * _fpsAverage;
     }
 
-    html.query(&apos;#fpsMeter&apos;).innerHtml = &apos;fps: ${_fpsAverage.round()}&apos;;
+    html.querySelector(&apos;#fpsMeter&apos;).innerHtml = &apos;fps: ${_fpsAverage.round()}&apos;;
   }
 
   //---------------------------------------------------------------------------------
@@ -208,10 +203,10 @@ class PerformanceDemo extends DisplayObjectContainer {
       flyingFlag.y = 30 + random.nextInt(500 - 60);
       addChild(flyingFlag);
 
-      juggler.add(flyingFlag);
+      stage.juggler.add(flyingFlag);
     }
 
-    html.query(&apos;#flagCounter&apos;).innerHtml = &apos;Flags: ${numChildren}&apos;;
+    html.querySelector(&apos;#flagCounter&apos;).innerHtml = &apos;Flags: ${numChildren}&apos;;
   }
 
   //---------------------------------------------------------------------------------
@@ -221,17 +216,17 @@ class PerformanceDemo extends DisplayObjectContainer {
     while(--amount &gt;= 0 &amp;&amp; numChildren &gt; 0) {
       var displayObject = getChildAt(0);
       displayObject.removeFromParent();
-      juggler.remove(displayObject);
+      stage.juggler.remove(displayObject);
     }
 
-    html.query(&apos;#flagCounter&apos;).innerHtml = &apos;Flags: ${numChildren}&apos;;
+    html.querySelector(&apos;#flagCounter&apos;).innerHtml = &apos;Flags: ${numChildren}&apos;;
   }
 }
 </pre>
                 </div>
                 <div class="tab-pane" id="sourceFlyingFlag">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_web;
+part of demo;
 
 class FlyingFlag extends Bitmap implements Animatable {
 

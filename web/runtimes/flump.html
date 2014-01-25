@@ -99,7 +99,7 @@
                 <li class="active"><a href="#demoShow" data-toggle="tab"><strong>Demo</strong></a></li>
                 <li><a href="#texture" data-toggle="tab">Texture</a></li>
                 <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
-                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
+                <li><a href="#sourceDemo" data-toggle="tab">flump_demo.dart</a></li>
             </ul>
 
             <div class="tab-content">
@@ -109,30 +109,24 @@
                 </div>
                 <div class="tab-pane" id="sourceMain">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-library stagexl_web;
+library demo;
 
 import &apos;dart:math&apos;;
 import &apos;dart:html&apos; as html;
 import &apos;package:stagexl/stagexl.dart&apos;;
 import &apos;package:stagexl_flump/stagexl_flump.dart&apos;;
 
-part &apos;src/demo.dart&apos;;
+part &apos;flump_demo.dart&apos;;
 
-Stage stage;
-RenderLoop renderLoop;
-Juggler juggler;
-ResourceManager resourceManager;
+Stage stage = new Stage(html.querySelector(&apos;#stage&apos;), webGL: true);
+RenderLoop renderLoop = new RenderLoop();
+ResourceManager resourceManager = new ResourceManager();
 
 void main() {
 
-  // initialize Stage and RenderLoop
-  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
-  renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
-  juggler = renderLoop.juggler;
 
-  // initialize ResourceManager
-  resourceManager = new ResourceManager()
+  resourceManager 
     ..addCustomObject(&apos;flump&apos;, FlumpLibrary.load(&apos;images/flumpLibrary.json&apos;))
 
   resourceManager.load()
@@ -145,37 +139,37 @@ void main() {
                 </div>
                 <div class="tab-pane" id="sourceDemo">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_web;
+part of demo;
 
 class FlumpDemo extends DisplayObjectContainer {
 
   FlumpDemo() {
 
     var flumpLibrary = resourceManager.getCustomObject(&apos;flump&apos;) as FlumpLibrary;
+    var juggler = stage.juggler;
 
     var idle = new FlumpMovie(flumpLibrary, &apos;idle&apos;);
     idle.x = 450;
     idle.y = 150;
     addChild(idle);
-
+    juggler.add(idle);
+    
     var walk = new FlumpMovie(flumpLibrary, &apos;walk&apos;);
     walk.x = 150;
     walk.y = 200;
     addChild(walk);
-
+    juggler.add(walk);
+    
     var attack = new FlumpMovie(flumpLibrary, &apos;attack&apos;);
     attack.x = 750;
     attack.y = 300;
     addChild(attack);
+    juggler.add(attack);
 
     var defeat = new FlumpMovie(flumpLibrary, &apos;defeat&apos;);
     defeat.x = 350;
     defeat.y = 400;
     addChild(defeat);
-
-    juggler.add(idle);
-    juggler.add(walk);
-    juggler.add(attack);
     juggler.add(defeat);
   }
 }

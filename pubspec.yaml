@@ -2,6 +2,8 @@ name: stagexl_web
 description: The website for the dartflash library.
 dependencies:
   browser: any
-  stagexl: any
   stagexl_flump: any
   stagexl_particle: any
+#dependency_overrides:
+  #stagexl_particle:
+    #path: D:\GitHub\bp74\StageXL_Particle

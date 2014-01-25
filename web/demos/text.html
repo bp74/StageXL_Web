@@ -98,7 +98,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#demoShow" data-toggle="tab"><strong>Demo</strong></a></li>
                 <li><a href="#sourceMain" data-toggle="tab">main.dart</a></li>
-                <li><a href="#sourceDemo" data-toggle="tab">demo.dart</a></li>
+                <li><a href="#sourceDemo" data-toggle="tab">text_demo.dart</a></li>
             </ul>
 
             <div class="tab-content">
@@ -109,31 +109,26 @@
                 </div>
                 <div class="tab-pane" id="sourceMain">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-library stagexl_web;
+library demo;
 
 import &apos;dart:math&apos;;
 import &apos;dart:html&apos; as html;
 import &apos;package:stagexl/stagexl.dart&apos;;
 
-part &apos;src/demo.dart&apos;;
+part &apos;text_demo.dart&apos;;
 
-Stage stage;
-RenderLoop renderLoop;
+Stage stage = new Stage(html.querySelector(&apos;#stage&apos;), webGL: true);
+RenderLoop renderLoop = new RenderLoop();
 
 void main() {
-     
-  // initialize Stage and RenderLoop
-  stage = new Stage(&apos;stage&apos;, html.query(&apos;#stage&apos;));
-  renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
-  
   stage.addChild(new TextDemo());
 }                      
 </pre>
                 </div>
                 <div class="tab-pane" id="sourceDemo">
                   <pre class="prettyprint lang-dart" style="border:1px solid #ccc; padding: 10px 10px 10px 10px;">
-part of stagexl_web;
+part of demo;
 
 class TextDemo extends DisplayObjectContainer {
 
@@ -147,7 +142,8 @@ class TextDemo extends DisplayObjectContainer {
   TextDemo() {
     
     var textField1 = new TextField();
-    textField1.defaultTextFormat = new TextFormat(&apos;Helvetica,Arial&apos;, 14, Color.Green, bold:true, italic:true);
+    var textFormat1 = new TextFormat(&apos;Helvetica,Arial&apos;, 14, Color.Green, bold:true, italic:true);
+    textField1.defaultTextFormat = textFormat1;
     textField1.text = text;
     textField1.x = 10;
     textField1.y = 10;
@@ -158,7 +154,8 @@ class TextDemo extends DisplayObjectContainer {
     //------------------------------------------------------------------
 
     var textField2 = new TextField();
-    textField2.defaultTextFormat = new TextFormat(&apos;Helvetica,Arial&apos;, 16, Color.Red);
+    var textFormat2 = new TextFormat(&apos;Helvetica,Arial&apos;, 16, Color.Red);
+    textField2.defaultTextFormat = textFormat2;
     textField2.text = text;
     textField2.x = 10;
     textField2.y = 50;
@@ -170,7 +167,8 @@ class TextDemo extends DisplayObjectContainer {
     //------------------------------------------------------------------
 
     var textField3 = new TextField();
-    textField3.defaultTextFormat = new TextFormat(&apos;Helvetica,Arial&apos;, 16, Color.Blue, align:TextFormatAlign.RIGHT);
+    var textFormat3 = new TextFormat(&apos;Helvetica,Arial&apos;, 16, Color.Blue, align:TextFormatAlign.RIGHT);
+    textField3.defaultTextFormat = textFormat3;
     textField3.text = text;
     textField3.x = 300;
     textField3.y = 50;
@@ -182,7 +180,8 @@ class TextDemo extends DisplayObjectContainer {
     //------------------------------------------------------------------
 
     var textField4 = new TextField();
-    textField4.defaultTextFormat = new TextFormat(&apos;Caesar Dressing&apos;, 30, Color.Black, align:TextFormatAlign.CENTER);
+    var textFormat4 = new TextFormat(&apos;Caesar Dressing&apos;, 30, Color.Black, align:TextFormatAlign.CENTER);
+    textField4.defaultTextFormat = textFormat4;
     textField4.text = text;
     textField4.x = 590;
     textField4.y = 50;

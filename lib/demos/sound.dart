@@ -121,20 +121,17 @@ class Piano extends DisplayObjectContainer {
       var songNote = songNotes[_songNoteIndex];
       if (_pianoKeys.containsKey(songNote)) {
         var pianoKey = _pianoKeys[songNote];
-        juggler.removeTweens(_karaokeFinger);
+        stage.juggler.removeTweens(_karaokeFinger);
         _karaokeFinger.y = 0;
 
-        var tweenX = new Tween(this._karaokeFinger, 0.4, TransitionFunction.easeInOutCubic);
-        var tweenY = new Tween(this._karaokeFinger, 0.4, TransitionFunction.sine);
-        tweenX.animate.x.to(pianoKey.x + pianoKey.width / 2);
-        tweenY.animate.y.to(-10);
-        juggler.add(tweenX);
-        juggler.add(tweenY);
+        stage.juggler.tween(_karaokeFinger, 0.4, TransitionFunction.easeInOutCubic)
+          .animate.x.to(pianoKey.x + pianoKey.width / 2);
+        stage.juggler.tween(this._karaokeFinger, 0.4, TransitionFunction.sine)
+          .animate.y.to(-10);
       }
     } else {
-      var tween = new Tween(_karaokeFinger, 0.4, TransitionFunction.linear);
-      tween.animate.alpha.to(0);
-      juggler.add(tween);
+      stage.juggler.tween(_karaokeFinger, 0.4, TransitionFunction.linear)
+        .animate.alpha.to(0);
     }
   }
 }

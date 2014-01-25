@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -144,34 +153,34 @@
 <div class="doc">
 <pre class="source">
 class BitmapDataLoadOptions {
- 
+
  /**
   *  The application provides *png* files for lossless images.
   */
- bool png;
+ bool png = true;
 
  /**
   * The application provides *jpg* files for lossy images.
   */
- bool jpg;
+ bool jpg = true;
 
  /**
   * The application provides *webp* files for lossless and lossy images.
-  * 
+  *
   * If *webp* is supported, the loader will automatically switch from *png*
   * and *jpg* files to this more efficient file format.
   */
- bool webp;
- 
+ bool webp = false;
+
  /**
-  * If the file name contains "@1x." it will be replaced by "@2x." when the 
+  * If the file name contains "@1x." it will be replaced by "@2x." when the
   * context is high density.
   */
- bool autoHiDpi;
+ bool autoHiDpi = true;
 
  BitmapDataLoadOptions({
-   this.png: true, 
-   this.jpg: true, 
+   this.png: true,
+   this.jpg: true,
    this.webp: false,
    this.autoHiDpi: true
  });
@@ -193,8 +202,8 @@ only.</p>
 <div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_core/Object.html" ref="external">Object</a> </div></div>
 <pre class="source">
 BitmapDataLoadOptions({
- this.png: true, 
- this.jpg: true, 
+ this.png: true,
+ this.jpg: true,
  this.webp: false,
  this.autoHiDpi: true
 });
@@ -211,10 +220,10 @@ BitmapDataLoadOptions({
             title="Permalink to BitmapDataLoadOptions.autoHiDpi">#</a>
         </h4>
         <div class="doc">
-<p>If the file name contains "@1x." it will be replaced by "@2x." when the 
+<p>If the file name contains "@1x." it will be replaced by "@2x." when the
 context is high density.</p>
 <pre class="source">
-bool autoHiDpi
+bool autoHiDpi = true
 </pre>
 </div>
 </div>
@@ -227,7 +236,7 @@ bool autoHiDpi
         <div class="doc">
 <p>The application provides <em>jpg</em> files for lossy images.</p>
 <pre class="source">
-bool jpg
+bool jpg = true
 </pre>
 </div>
 </div>
@@ -240,7 +249,7 @@ bool jpg
         <div class="doc">
 <p> The application provides <em>png</em> files for lossless images.</p>
 <pre class="source">
-bool png
+bool png = true
 </pre>
 </div>
 </div>
@@ -255,7 +264,7 @@ bool png
 <p>If <em>webp</em> is supported, the loader will automatically switch from <em>png</em>
 and <em>jpg</em> files to this more efficient file format.</p>
 <pre class="source">
-bool webp
+bool webp = false
 </pre>
 </div>
 </div>
@@ -264,7 +273,7 @@ bool webp
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:52.254</div>
+          <div>This page was generated at 2014-01-25 13:40:56.725</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

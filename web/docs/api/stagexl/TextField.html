@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -177,7 +186,8 @@ class TextField extends InteractiveObject {
 
  int _refreshPending = 3;   // bit 0: textLineMetrics, bit 1: cache
  bool _cacheAsBitmap = true;
- CanvasElement _cacheAsBitmapCanvas;
+
+ RenderTexture _renderTexture;
 
  //-------------------------------------------------------------------------------------------------
 
@@ -192,7 +202,8 @@ class TextField extends InteractiveObject {
  }
 
  //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
+
+ RenderTexture get renderTexture =&gt; _renderTexture;
 
  String get text =&gt; _text;
  int get textColor =&gt; _defaultTextFormat.color;
@@ -374,17 +385,19 @@ class TextField extends InteractiveObject {
  void render(RenderState renderState) {
 
    _refreshTextLineMetrics();
-   _refreshCache();
 
-   // draw text
+   var renderContext = renderState.renderContext;
 
-   var renderContext = renderState.context;
-
-   if (_cacheAsBitmap) {
-     var canvas = _cacheAsBitmapCanvas;
-     if (canvas != null) renderContext.drawImageScaled(canvas, 0.0, 0.0, _width, _height);
+   if (_cacheAsBitmap || renderContext is! RenderContextCanvas) {
+     _refreshCache();
+     renderState.renderQuad(_renderTexture.quad);
    } else {
-     _renderText(renderContext);
+     var renderContextCanvas = renderState.renderContext as RenderContextCanvas;
+     var context = renderContextCanvas.rawContext;
+     var matrix = renderState.globalMatrix;
+     context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
+     context.globalAlpha = renderState.globalAlpha;
+     _renderText(renderContextCanvas.rawContext);
    }
 
    // draw cursor for INPUT text fields
@@ -394,8 +407,13 @@ class TextField extends InteractiveObject {
    if (_type == TextFieldType.INPUT) {
      var stage = this.stage;
      if (stage != null &amp;&amp; stage.focus == this &amp;&amp; _caretTime.remainder(0.8) &lt; 0.4) {
-       renderContext.fillStyle = _color2rgb(_defaultTextFormat.color);
-       renderContext.fillRect(_caretX, _caretY, _caretWidth, _caretHeight);
+       var x1 = _caretX;
+       var y1 = _caretY;
+       var x3 = _caretX + _caretWidth;
+       var y3 = _caretY + _caretHeight;
+       var color = _defaultTextFormat.color;
+       renderState.renderTriangle(x1, y1, x3, y1, x3, y3, color);
+       renderState.renderTriangle(x1, y1, x3, y3, x1, y3, color);
      }
    }
  }
@@ -592,7 +610,7 @@ class TextField extends InteractiveObject {
          _caretLine = line;
          _caretX = textLineMetrics.x + canvasContext.measureText(text).width.toDouble();
          _caretY = textLineMetrics.y - fontStyleMetricsAscent * 0.9;
-         _caretWidth = 1.0;
+         _caretWidth = 2.0;
          _caretHeight = textFormatSize;
          break;
        }
@@ -629,31 +647,23 @@ class TextField extends InteractiveObject {
      _refreshPending &amp;= 255 - 2;
    }
 
-   if (_cacheAsBitmap == false) {
-     return;
+   var pixelRatio = Stage.autoHiDpi ? _devicePixelRatio : 1.0;
+   var width = max(1, _width).ceil();
+   var height =  max(1, _height).ceil();
+
+   if (_renderTexture == null) {
+     _renderTexture = new RenderTexture(width, height, true, Color.Transparent, pixelRatio);
+   } else {
+     _renderTexture.resize(width, height);
    }
 
-   var pixelRatio = (Stage.autoHiDpi ? _devicePixelRatio : 1.0) / _backingStorePixelRatio;
-   var canvasWidth = (_width * pixelRatio).ceil();
-   var canvasHeight =  (_height * pixelRatio).ceil();
-
-   if (canvasWidth &lt;= 0 || canvasHeight &lt;= 0) {
-     _cacheAsBitmapCanvas = null;
-     return;
-   }
-
-   if (_cacheAsBitmapCanvas == null) {
-     _cacheAsBitmapCanvas = new CanvasElement(width: canvasWidth, height: canvasHeight);
-   }
-
-   if (_cacheAsBitmapCanvas.width != canvasWidth) _cacheAsBitmapCanvas.width = canvasWidth;
-   if (_cacheAsBitmapCanvas.height != canvasHeight) _cacheAsBitmapCanvas.height = canvasHeight;
-
-   var context = _cacheAsBitmapCanvas.context2D;
-   context.setTransform(pixelRatio, 0.0, 0.0, pixelRatio, 0.0, 0.0);
+   var matrix = _renderTexture.quad.drawMatrix;
+   var context = _renderTexture.canvas.context2D;
+   context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
    context.clearRect(0, 0, _width, _height);
 
    _renderText(context);
+   _renderTexture.update();
  }
 
  //-------------------------------------------------------------------------------------------------
@@ -1035,7 +1045,7 @@ final <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool<
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-bool get cached =&gt; _cache != null;
+bool get cached =&gt; _cacheTexture != null;
 </pre>
 </div>
 </div>
@@ -1396,6 +1406,18 @@ final <a href="../stagexl/EventStream.html">EventStream</a>&lt;<a href="../stage
         <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
 <pre class="source">
 EventStream&lt;MouseEvent&gt; get onMouseClick =&gt; InteractiveObject.mouseClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseContextMenu">
+<button class="show-code">Code</button>
+final <a href="../stagexl/EventStream.html">EventStream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseContextMenu</strong> <a class="anchor-link"
+            href="#onMouseContextMenu"
+            title="Permalink to TextField.onMouseContextMenu">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+EventStream&lt;MouseEvent&gt; get onMouseContextMenu =&gt; InteractiveObject.mouseContextMenu.forTarget(this);
 </pre>
 </div>
 </div>
@@ -1762,6 +1784,18 @@ set pivotY(num value) {
  if (value is num) _pivotY = value;
  _transformationMatrixRefresh = true;
 }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="renderTexture">
+<button class="show-code">Code</button>
+final <a href="../stagexl/RenderTexture.html">RenderTexture</a>         <strong>renderTexture</strong> <a class="anchor-link"
+            href="#renderTexture"
+            title="Permalink to TextField.renderTexture">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+RenderTexture get renderTexture =&gt; _renderTexture;
 </pre>
 </div>
 </div>
@@ -2184,9 +2218,15 @@ void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) 
 
  var pixelRatio = Stage.autoHiDpi ? _devicePixelRatio : 1.0;
 
- _cache = new BitmapData(width, height, true, Color.Transparent, pixelRatio);
+ if (_cacheTexture == null) {
+   _cacheTexture = new RenderTexture(width, height, true, Color.Transparent, pixelRatio);
+ } else {
+   _cacheTexture.resize(width, height);
+ }
+
  _cacheRectangle = new Rectangle(x, y, width, height);
  _cacheDebugBorder = debugBorder;
+
  refreshCache();
 }
 </pre>
@@ -2453,30 +2493,44 @@ void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
 <pre class="source">
 void refreshCache() {
 
- if (_cache == null) return;
+ if (_cacheTexture == null) return;
 
  var x = _cacheRectangle.x;
  var y = _cacheRectangle.y;
  var width = _cacheRectangle.width;
  var height = _cacheRectangle.height;
+ var canvas = _cacheTexture.canvas;
 
- _cache.clear();
- _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+ var matrix = _cacheTexture.quad.drawMatrix..translate(-x, -y);
+ var renderContext = new RenderContextCanvas(canvas, Color.Transparent);
+ var renderState = new RenderState(renderContext, matrix);
+
+ renderContext.clear();
+ render(renderState);
 
  if (_filters != null) {
-   for(int i = 0; i &lt; _filters.length; i++) {
-     var sourceRectangle = new Rectangle(0, 0, width, height);
-     var destinationPoint = new Point.zero();
-     _filters[i].apply(_cache, sourceRectangle, _cache, destinationPoint);
+   var cacheBitmapData = new BitmapData.fromRenderTextureQuad(_cacheTexture.quad);
+   var bounds = this.getBoundsTransformed(_identityMatrix)..offset(-x, -y);
+   for(var filter in _filters) {
+     var filterOverlap = filter.overlap;
+     var filterBounds = bounds.clone();
+     filterBounds.offset(filterOverlap.x, filterOverlap.y);
+     filterBounds.inflate(filterOverlap.width, filterOverlap.height);
+     filter.apply(cacheBitmapData, filterBounds.align());
    }
  }
 
  if (_cacheDebugBorder) {
-   _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+   canvas.context2D
+       ..setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+       ..lineWidth = 1
+       ..lineJoin = "miter"
+       ..lineCap = "butt"
+       ..strokeStyle = "#FF00FF"
+       ..strokeRect(0.5, 0.5, canvas.width - 1, canvas.height - 1);
  }
+
+ _cacheTexture.update();
 }
 </pre>
 </div>
@@ -2488,7 +2542,10 @@ void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void removeCache() {
- _cache = null;
+ if (_cacheTexture != null) {
+   _cacheTexture.dispose();
+   _cacheTexture = null;
+ }
 }
 </pre>
 </div>
@@ -2541,17 +2598,19 @@ void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</
 void render(RenderState renderState) {
 
  _refreshTextLineMetrics();
- _refreshCache();
 
- // draw text
+ var renderContext = renderState.renderContext;
 
- var renderContext = renderState.context;
-
- if (_cacheAsBitmap) {
-   var canvas = _cacheAsBitmapCanvas;
-   if (canvas != null) renderContext.drawImageScaled(canvas, 0.0, 0.0, _width, _height);
+ if (_cacheAsBitmap || renderContext is! RenderContextCanvas) {
+   _refreshCache();
+   renderState.renderQuad(_renderTexture.quad);
  } else {
-   _renderText(renderContext);
+   var renderContextCanvas = renderState.renderContext as RenderContextCanvas;
+   var context = renderContextCanvas.rawContext;
+   var matrix = renderState.globalMatrix;
+   context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
+   context.globalAlpha = renderState.globalAlpha;
+   _renderText(renderContextCanvas.rawContext);
  }
 
  // draw cursor for INPUT text fields
@@ -2561,8 +2620,13 @@ void render(RenderState renderState) {
  if (_type == TextFieldType.INPUT) {
    var stage = this.stage;
    if (stage != null &amp;&amp; stage.focus == this &amp;&amp; _caretTime.remainder(0.8) &lt; 0.4) {
-     renderContext.fillStyle = _color2rgb(_defaultTextFormat.color);
-     renderContext.fillRect(_caretX, _caretY, _caretWidth, _caretHeight);
+     var x1 = _caretX;
+     var y1 = _caretY;
+     var x3 = _caretX + _caretWidth;
+     var y3 = _caretY + _caretHeight;
+     var color = _defaultTextFormat.color;
+     renderState.renderTriangle(x1, y1, x3, y1, x3, y3, color);
+     renderState.renderTriangle(x1, y1, x3, y3, x1, y3, color);
    }
  }
 }
@@ -2656,7 +2720,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:51.366</div>
+          <div>This page was generated at 2014-01-25 13:40:55.759</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

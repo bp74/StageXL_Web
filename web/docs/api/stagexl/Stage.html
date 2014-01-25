@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -142,6 +151,12 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<p>The Stage is the drawing area wher all display objects are rendered to.
+Place a Canvas element to your HTML and use the Stage to wrap all the
+rendering functions to this Canvas element.</p>
+<p>Example:</p>
+<p>HTML: &lt;canvas id="stage" width="800" height="600">&lt;/canvas>
+Dart: var stage = new Stage(querySelector("#stage"));</p>
 <pre class="source">
 class Stage extends DisplayObjectContainer {
 
@@ -150,31 +165,35 @@ class Stage extends DisplayObjectContainer {
  static num get devicePixelRatio =&gt; _devicePixelRatio;
 
  CanvasElement _canvas;
- CanvasRenderingContext2D _context;
- int _sourceWidth, _sourceHeight;
- int _frameRate;
- int _canvasWidth, _canvasHeight;
- Rectangle _contentRectangle;
+ RenderContext _renderContext;
 
- Matrix _clientTransformation;
- Matrix _stageTransformation;
- RenderLoop _renderLoop;
- Juggler _juggler;
+ int _sourceWidth = 0;
+ int _sourceHeight = 0;
+ int _frameRate = 30;
+ int _canvasWidth = -1;
+ int _canvasHeight = -1;
+ Rectangle _contentRectangle = new Rectangle.zero();
 
- InteractiveObject _focus;
- RenderState _renderState;
- String _stageRenderMode;
- String _stageScaleMode;
- String _stageAlign;
+ Matrix _clientTransformation = new Matrix.fromIdentity();
+ Matrix _stageTransformation = new Matrix.fromIdentity();
+ RenderLoop _renderLoop = null;
+ Juggler _juggler = new Juggler();
 
- String _mouseCursor;
- Point _mousePosition;
- InteractiveObject _mouseTarget;
- List&lt;_MouseButton&gt; _mouseButtons;
- Map&lt;int, _Touch&gt; _touches;
+ InteractiveObject _focus = null;
+ RenderState _renderState = null;
+ String _stageRenderMode = StageRenderMode.AUTO;
+ String _stageScaleMode = StageScaleMode.SHOW_ALL;
+ String _stageAlign = StageAlign.NONE;
 
- MouseEvent _mouseEvent;
- TouchEvent _touchEvent;
+ String _mouseCursor = MouseCursor.ARROW;
+ Point _mousePosition = new Point.zero();
+ InteractiveObject _mouseTarget = null;
+
+ Map&lt;int, _Touch&gt; _touches = new Map&lt;int, _Touch&gt;();
+ List&lt;_MouseButton&gt; _mouseButtons = [
+   new _MouseButton(MouseEvent.MOUSE_DOWN, MouseEvent.MOUSE_UP, MouseEvent.CLICK, MouseEvent.DOUBLE_CLICK),
+   new _MouseButton(MouseEvent.MIDDLE_MOUSE_DOWN, MouseEvent.MIDDLE_MOUSE_UP, MouseEvent.MIDDLE_CLICK, MouseEvent.MIDDLE_CLICK),
+   new _MouseButton(MouseEvent.RIGHT_MOUSE_DOWN, MouseEvent.RIGHT_MOUSE_UP, MouseEvent.RIGHT_CLICK, MouseEvent.RIGHT_CLICK)];
 
  //-------------------------------------------------------------------------------------------------
 
@@ -183,75 +202,45 @@ class Stage extends DisplayObjectContainer {
 
  //-------------------------------------------------------------------------------------------------
 
- Stage(String name, CanvasElement canvas, [int sourceWidth, int sourceHeight, int frameRate]) {
+ Stage(CanvasElement canvas, {int width, int height,
+   bool webGL: false, int frameRate: 30, int color: Color.White}) {
 
    if (canvas is! CanvasElement) {
      throw new ArgumentError("The canvas argument is not a CanvasElement");
    }
 
+   _canvas = canvas;
+
    if (canvas.tabIndex == -1) canvas.tabIndex = 0;
    if (canvas.style.outline == "") canvas.style.outline = "none";
 
-   _name = name;
-   _canvas = canvas;
-   _context = canvas.context2D;
+   _sourceWidth = _ensureInt((width != null) ? width : canvas.width);
+   _sourceHeight = _ensureInt((width != null) ? height : canvas.height);
+   _frameRate = _ensureInt((frameRate != null) ? frameRate : 30);
 
-   _sourceWidth = (sourceWidth != null) ? sourceWidth : canvas.width;
-   _sourceHeight = (sourceHeight != null) ? sourceHeight : canvas.height;
-   _frameRate = (frameRate != null) ? frameRate : 30;
-   _canvasWidth = -1;
-   _canvasHeight = -1;
-   _contentRectangle = new Rectangle.zero();
+   _renderContext = webGL &amp;&amp; gl.RenderingContext.supported
+       ? new RenderContextWebGL(canvas, color)
+       : new RenderContextCanvas(canvas, color);
 
-   _clientTransformation = new Matrix.fromIdentity();
-   _stageTransformation = new Matrix.fromIdentity();
+   _renderState = new RenderState(_renderContext);
    _updateCanvasSize();
 
-   _renderLoop = null;
-   _juggler = new Juggler();
+   print("StageXL render engine : ${_renderContext.renderEngine}");
 
-   _renderState = new RenderState.fromCanvasRenderingContext2D(_context);
-   _stageRenderMode = StageRenderMode.AUTO;
-   _stageScaleMode = StageScaleMode.SHOW_ALL;
-   _stageAlign = StageAlign.NONE;
-
-   //---------------------------
-   // prepare mouse events
-
-   _mouseButtons = [
-     new _MouseButton(MouseEvent.MOUSE_DOWN, MouseEvent.MOUSE_UP, MouseEvent.CLICK, MouseEvent.DOUBLE_CLICK),
-     new _MouseButton(MouseEvent.MIDDLE_MOUSE_DOWN, MouseEvent.MIDDLE_MOUSE_UP, MouseEvent.MIDDLE_CLICK, MouseEvent.MIDDLE_CLICK),
-     new _MouseButton(MouseEvent.RIGHT_MOUSE_DOWN, MouseEvent.RIGHT_MOUSE_UP, MouseEvent.RIGHT_CLICK, MouseEvent.RIGHT_CLICK)
-   ];
-
-   _mouseCursor = MouseCursor.ARROW;
-   _mouseTarget = null;
-   _mousePosition = new Point(0, 0);
-   _mouseEvent = new MouseEvent(MouseEvent.CLICK, true);
+   canvas.onKeyDown.listen(_onKeyEvent);
+   canvas.onKeyUp.listen(_onKeyEvent);
+   canvas.onKeyPress.listen(_onKeyEvent);
+   canvas.onMouseDown.listen(_onMouseEvent);
+   canvas.onMouseUp.listen(_onMouseEvent);
+   canvas.onMouseMove.listen(_onMouseEvent);
+   canvas.onMouseOut.listen(_onMouseEvent);
+   canvas.onContextMenu.listen(_onMouseEvent);
+   canvas.onMouseWheel.listen(_onMouseWheelEvent);
 
    Mouse._onMouseCursorChanged.listen(_onMouseCursorChanged);
-
-   _canvas.onMouseDown.listen(_onMouseEvent);
-   _canvas.onMouseUp.listen(_onMouseEvent);
-   _canvas.onMouseMove.listen(_onMouseEvent);
-   _canvas.onMouseOut.listen(_onMouseEvent);
-   _canvas.onMouseWheel.listen(_onMouseWheelEvent);
-
-   //---------------------------
-   // prepare touch events
-
-   _touches = new Map&lt;int, _Touch&gt;();
-   _touchEvent = new TouchEvent(TouchEvent.TOUCH_BEGIN, true);
-
    Multitouch._onInputModeChanged.listen(_onMultitouchInputModeChanged);
+
    _onMultitouchInputModeChanged(null);
-
-   //---------------------------
-   // prepare keyboard events
-
-   _canvas.onKeyDown.listen(_onKeyEvent);
-   _canvas.onKeyUp.listen(_onKeyEvent);
-   _canvas.onKeyPress.listen(_onKeyEvent);
  }
 
  //-------------------------------------------------------------------------------------------------
@@ -285,41 +274,86 @@ class Stage extends DisplayObjectContainer {
  Rectangle get contentRectangle =&gt; _contentRectangle.clone();
 
  /**
+  * Gets the underlying render engine used to draw the pixels to the screen.
+  * The returned string is defined in [RenderEngine] and is either "WebGL"
+  * or "Canvas2D".
+  */
+ String get renderEngine =&gt; _renderContext.renderEngine;
+
+ /**
+  * Gets the [RenderLoop] where this Stage was added to, or
+  * NULL in case this Stage is not added to a [RenderLoop].
+  */
+ RenderLoop get renderLoop =&gt; _renderLoop;
+
+ /**
+  * Gets the [Juggler] of this Stage. The Juggler is driven by the
+  * [RenderLoop] where this Stage is added to. If this Stage is not
+  * added to a RenderLoop, the [Juggler] will not advance in time.
+  */
+ Juggler get juggler =&gt; _juggler;
+
+ /**
+  * Gets the last known mouse position in Stage coordinates.
+  */
+ Point get mousePosition =&gt; _mousePosition;
+
+ /**
   * Gets and sets the default frame rate for MovieClips. This value has no
   * impact on the frame rate of the Stage itself.
   */
  int get frameRate =&gt; _frameRate;
+
  set frameRate(int value) {
    _frameRate = value;
  }
 
- RenderLoop get renderLoop =&gt; _renderLoop;
- Juggler get juggler =&gt; _juggler;
-
- Point get mousePosition =&gt; _mousePosition;
-
+ /**
+  * Gets and sets the [InteractiveObject] (a DisplayObject which can
+  * receive user input like mouse, touch or keyboard).
+  */
  InteractiveObject get focus =&gt; _focus;
+
  set focus(InteractiveObject value) {
    _focus = value;
  }
 
+ /**
+  * Gets and sets the render mode of this Stage. You can choose between
+  * three different modes defined in [StageRenderMode].
+  */
  String get renderMode =&gt; _stageRenderMode;
+
  set renderMode(String value) {
    _stageRenderMode = value;
  }
 
+ /**
+  * Gets and sets the scale mode of this Stage. You can choose between
+  * four dfferent modes defined in [StageScaleMode].
+  */
  String get scaleMode =&gt; _stageScaleMode;
+
  set scaleMode(String value) {
    _stageScaleMode = value;
    _updateCanvasSize();
  }
 
+ /**
+  * Gets and sets the alignment of this Stage inside of the Canvas element.
+  * You can choose between nine different align modes defined in [StageAlign].
+  */
  String get align =&gt; _stageAlign;
  set align(String value) {
    _stageAlign = value;
    _updateCanvasSize();
  }
 
+ /**
+  * Calling this method will cause an [RenderEvent] to be fired right before
+  * the next frame will be rendered by the render loop. To receive the render
+  * event attach a listener to [DisplayObject.onRender].
+  */
  invalidate() {
    if (_renderLoop != null) {
      _renderLoop.invalidate();
@@ -348,6 +382,11 @@ class Stage extends DisplayObjectContainer {
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
+ /**
+  * This method is called by the [RenderLoop] where this Stage is added to.
+  * If this Stage is not added to a [RenderLoop] you could call this method
+  * on your own and therefore get full control of the rendering of this Stage.
+  */
  materialize(num currentTime, num deltaTime) {
 
    if (_stageRenderMode == StageRenderMode.AUTO || _stageRenderMode == StageRenderMode.ONCE) {
@@ -356,6 +395,7 @@ class Stage extends DisplayObjectContainer {
 
      _renderState.reset(_stageTransformation, currentTime, deltaTime);
      render(_renderState);
+     _renderState.flush();
 
      if (_stageRenderMode == StageRenderMode.ONCE)
        _stageRenderMode = StageRenderMode.STOP;
@@ -549,8 +589,7 @@ class Stage extends DisplayObjectContainer {
      }
 
      if (oldTarget != null) {
-       oldTarget.dispatchEvent(_mouseEvent
-           .._reset(MouseEvent.MOUSE_OUT, true)
+       oldTarget.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_OUT, true)
            .._localPoint = oldTarget.globalToLocal(stagePoint)
            .._stagePoint = stagePoint
            .._buttonDown = mouseButton.buttonDown);
@@ -558,8 +597,7 @@ class Stage extends DisplayObjectContainer {
 
      for(int i = 0; i &lt; oldTargetList.length - commonCount; i++) {
        DisplayObject target = oldTargetList[i];
-       target.dispatchEvent(_mouseEvent
-           .._reset(MouseEvent.ROLL_OUT, false)
+       target.dispatchEvent(new MouseEvent(MouseEvent.ROLL_OUT, false)
            .._localPoint = target.globalToLocal(stagePoint)
            .._stagePoint = stagePoint
            .._buttonDown = mouseButton.buttonDown);
@@ -567,16 +605,14 @@ class Stage extends DisplayObjectContainer {
 
      for(int i = newTargetList.length - commonCount - 1; i &gt;= 0; i--) {
        DisplayObject target = newTargetList[i];
-       target.dispatchEvent(_mouseEvent
-           .._reset(MouseEvent.ROLL_OVER, false)
+       target.dispatchEvent(new MouseEvent(MouseEvent.ROLL_OVER, false)
            .._localPoint = target.globalToLocal(stagePoint)
            .._stagePoint = stagePoint
            .._buttonDown = mouseButton.buttonDown);
      }
 
      if (newTarget != null) {
-       newTarget.dispatchEvent(_mouseEvent
-           .._reset(MouseEvent.MOUSE_OVER, true)
+       newTarget.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_OVER, true)
            .._localPoint = newTarget.globalToLocal(stagePoint)
            .._stagePoint = stagePoint
            .._buttonDown = mouseButton.buttonDown);
@@ -618,14 +654,17 @@ class Stage extends DisplayObjectContainer {
      mouseEventType = MouseEvent.MOUSE_MOVE;
    }
 
+   if (event.type == "contextmenu") {
+     mouseEventType = MouseEvent.CONTEXT_MENU;
+   }
+
    //-----------------------------------------------------------------
 
    if (mouseEventType != null &amp;&amp; target != null) {
 
      localPoint = target.globalToLocal(stagePoint);
 
-     target.dispatchEvent(_mouseEvent
-         .._reset(mouseEventType, true)
+     target.dispatchEvent(new MouseEvent(mouseEventType, true)
          .._localPoint = localPoint
          .._stagePoint = stagePoint
          .._buttonDown = mouseButton.buttonDown
@@ -635,16 +674,14 @@ class Stage extends DisplayObjectContainer {
 
        if (isDoubleClick &amp;&amp; target.doubleClickEnabled) {
 
-         target.dispatchEvent(_mouseEvent
-             .._reset(mouseButton.mouseDoubleClickEventType, true)
+         target.dispatchEvent(new MouseEvent(mouseButton.mouseDoubleClickEventType, true)
              .._localPoint = localPoint
              .._stagePoint = stagePoint
              .._buttonDown = mouseButton.buttonDown);
 
        } else {
 
-         target.dispatchEvent(_mouseEvent
-             .._reset(mouseButton.mouseClickEventType, true)
+         target.dispatchEvent(new MouseEvent(mouseButton.mouseClickEventType, true)
              .._localPoint = localPoint
              .._stagePoint = stagePoint
              .._buttonDown = mouseButton.buttonDown);
@@ -661,22 +698,21 @@ class Stage extends DisplayObjectContainer {
    var target = hitTestInput(stagePoint.x, stagePoint.y) as InteractiveObject;
 
    if (target != null) {
-     target.dispatchEvent(_mouseEvent
-       .._reset(MouseEvent.MOUSE_WHEEL, true)
-       .._localPoint = target.globalToLocal(stagePoint)
-       .._stagePoint = stagePoint
-       .._deltaX = event.deltaX
-       .._deltaY = event.deltaY);
+     var mouseEvent = new MouseEvent(MouseEvent.MOUSE_WHEEL, true)
+         .._localPoint = target.globalToLocal(stagePoint)
+         .._stagePoint = stagePoint
+         .._deltaX = event.deltaX
+         .._deltaY = event.deltaY;
 
-     if (_mouseEvent.stopsPropagation)
-       event.preventDefault();
+     target.dispatchEvent(mouseEvent);
+     if (mouseEvent.stopsPropagation) event.preventDefault();
    }
  }
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
- List&lt;StreamSubscription&lt;TouchEvent&gt;&gt; _touchEventSubscriptions = [];
+ List&lt;StreamSubscription&lt;html.TouchEvent&gt;&gt; _touchEventSubscriptions = [];
 
  _onMultitouchInputModeChanged(String inputMode) {
 
@@ -711,9 +747,9 @@ class Stage extends DisplayObjectContainer {
 
      if (touch.target != null &amp;&amp; touch.target != target) {
 
-       touch.target.dispatchEvent(_touchEvent
-         .._reset(TouchEvent.TOUCH_OUT, true)
-         .._localPoint = (touch.target.stage != null) ? touch.target.globalToLocal(stagePoint): new Point.zero()
+       touch.target.dispatchEvent(new TouchEvent(TouchEvent.TOUCH_OUT, true)
+         .._localPoint = (touch.target.stage != null)
+             ? touch.target.globalToLocal(stagePoint) : new Point.zero()
          .._stagePoint = stagePoint
          .._touchPointID = touch.touchPointID
          .._isPrimaryTouchPoint = touch.primaryTouchPoint);
@@ -723,8 +759,7 @@ class Stage extends DisplayObjectContainer {
 
      if (target != null &amp;&amp; target != touch.target) {
 
-       target.dispatchEvent(_touchEvent
-         .._reset(TouchEvent.TOUCH_OVER, true)
+       target.dispatchEvent(new TouchEvent(TouchEvent.TOUCH_OVER, true)
          .._localPoint = target.globalToLocal(stagePoint)
          .._stagePoint = stagePoint
          .._touchPointID = touch.touchPointID
@@ -759,8 +794,7 @@ class Stage extends DisplayObjectContainer {
 
      if (touchEventType != null &amp;&amp; target != null) {
 
-       target.dispatchEvent(_touchEvent
-         .._reset(touchEventType, true)
+       target.dispatchEvent(new TouchEvent(touchEventType, true)
          .._localPoint = target.globalToLocal(stagePoint)
          .._stagePoint = stagePoint
          .._touchPointID = touch.touchPointID
@@ -774,13 +808,8 @@ class Stage extends DisplayObjectContainer {
 
  _onKeyEvent(html.KeyboardEvent event) {
 
-   if (event.keyCode == 8) {
-     event.preventDefault();
-   }
-
-   if (_focus == null) {
-     return;
-   }
+   if (event.keyCode == 8) event.preventDefault();
+   if (_focus == null) return;
 
    if (event.type == "keypress") {
 
@@ -789,10 +818,8 @@ class Stage extends DisplayObjectContainer {
      if (keyCode == 13) charCode = 13;
      if (charCode == 0) return;
 
-     var textEvent = new TextEvent(TextEvent.TEXT_INPUT, true)
-     .._text = new String.fromCharCodes([charCode]);
-
-     _focus.dispatchEvent(textEvent);
+     _focus.dispatchEvent(new TextEvent(TextEvent.TEXT_INPUT, true)
+         .._text = new String.fromCharCodes([charCode]));
 
    } else {
 
@@ -808,18 +835,16 @@ class Stage extends DisplayObjectContainer {
      if (event.keyLocation == html.KeyLocation.MOBILE) keyLocation = KeyLocation.D_PAD;
 
      var keyboardEvent = new KeyboardEvent(keyboardEventType, true)
-     .._altKey = event.altKey
-     .._ctrlKey = event.ctrlKey
-     .._shiftKey = event.shiftKey
-     .._charCode = event.charCode
-     .._keyCode = event.keyCode
-     .._keyLocation = keyLocation;
+         .._altKey = event.altKey
+         .._ctrlKey = event.ctrlKey
+         .._shiftKey = event.shiftKey
+         .._charCode = event.charCode
+         .._keyCode = event.keyCode
+         .._keyLocation = keyLocation;
 
      _focus.dispatchEvent(keyboardEvent);
 
-     if (keyboardEvent.stopsPropagation) {
-       event.preventDefault();
-     }
+     if (keyboardEvent.stopsPropagation) event.preventDefault();
    }
  }
 
@@ -884,7 +909,7 @@ static const EventStreamProvider&lt;Event&gt; resizeEvent = const EventStreamPro
 <h3>Constructors</h3>
 <div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>Stage</strong>(<a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a> name, <a href="http://api.dartlang.org/dart_html/CanvasElement.html" ref="external">CanvasElement</a> canvas, [<a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> sourceWidth, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> sourceHeight, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> frameRate]) <a class="anchor-link" href="#"
+new <strong>Stage</strong>(<a href="http://api.dartlang.org/dart_html/CanvasElement.html" ref="external">CanvasElement</a> canvas, {<a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> width, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> height, <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a> webGL: false, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> frameRate: 30, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> color: Color.White}) <a class="anchor-link" href="#"
               title="Permalink to Stage.Stage">#</a></h4>
 <div class="doc">
 <div class="inherited">
@@ -894,75 +919,45 @@ through their identity. An <a class="crossref" href="http://api.dartlang.org/dar
 only.</p>
 <div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_core/Object.html" ref="external">Object</a> </div></div>
 <pre class="source">
-Stage(String name, CanvasElement canvas, [int sourceWidth, int sourceHeight, int frameRate]) {
+Stage(CanvasElement canvas, {int width, int height,
+ bool webGL: false, int frameRate: 30, int color: Color.White}) {
 
  if (canvas is! CanvasElement) {
    throw new ArgumentError("The canvas argument is not a CanvasElement");
  }
 
+ _canvas = canvas;
+
  if (canvas.tabIndex == -1) canvas.tabIndex = 0;
  if (canvas.style.outline == "") canvas.style.outline = "none";
 
- _name = name;
- _canvas = canvas;
- _context = canvas.context2D;
+ _sourceWidth = _ensureInt((width != null) ? width : canvas.width);
+ _sourceHeight = _ensureInt((width != null) ? height : canvas.height);
+ _frameRate = _ensureInt((frameRate != null) ? frameRate : 30);
 
- _sourceWidth = (sourceWidth != null) ? sourceWidth : canvas.width;
- _sourceHeight = (sourceHeight != null) ? sourceHeight : canvas.height;
- _frameRate = (frameRate != null) ? frameRate : 30;
- _canvasWidth = -1;
- _canvasHeight = -1;
- _contentRectangle = new Rectangle.zero();
+ _renderContext = webGL &amp;&amp; gl.RenderingContext.supported
+     ? new RenderContextWebGL(canvas, color)
+     : new RenderContextCanvas(canvas, color);
 
- _clientTransformation = new Matrix.fromIdentity();
- _stageTransformation = new Matrix.fromIdentity();
+ _renderState = new RenderState(_renderContext);
  _updateCanvasSize();
 
- _renderLoop = null;
- _juggler = new Juggler();
+ print("StageXL render engine : ${_renderContext.renderEngine}");
 
- _renderState = new RenderState.fromCanvasRenderingContext2D(_context);
- _stageRenderMode = StageRenderMode.AUTO;
- _stageScaleMode = StageScaleMode.SHOW_ALL;
- _stageAlign = StageAlign.NONE;
-
- //---------------------------
- // prepare mouse events
-
- _mouseButtons = [
-   new _MouseButton(MouseEvent.MOUSE_DOWN, MouseEvent.MOUSE_UP, MouseEvent.CLICK, MouseEvent.DOUBLE_CLICK),
-   new _MouseButton(MouseEvent.MIDDLE_MOUSE_DOWN, MouseEvent.MIDDLE_MOUSE_UP, MouseEvent.MIDDLE_CLICK, MouseEvent.MIDDLE_CLICK),
-   new _MouseButton(MouseEvent.RIGHT_MOUSE_DOWN, MouseEvent.RIGHT_MOUSE_UP, MouseEvent.RIGHT_CLICK, MouseEvent.RIGHT_CLICK)
- ];
-
- _mouseCursor = MouseCursor.ARROW;
- _mouseTarget = null;
- _mousePosition = new Point(0, 0);
- _mouseEvent = new MouseEvent(MouseEvent.CLICK, true);
+ canvas.onKeyDown.listen(_onKeyEvent);
+ canvas.onKeyUp.listen(_onKeyEvent);
+ canvas.onKeyPress.listen(_onKeyEvent);
+ canvas.onMouseDown.listen(_onMouseEvent);
+ canvas.onMouseUp.listen(_onMouseEvent);
+ canvas.onMouseMove.listen(_onMouseEvent);
+ canvas.onMouseOut.listen(_onMouseEvent);
+ canvas.onContextMenu.listen(_onMouseEvent);
+ canvas.onMouseWheel.listen(_onMouseWheelEvent);
 
  Mouse._onMouseCursorChanged.listen(_onMouseCursorChanged);
-
- _canvas.onMouseDown.listen(_onMouseEvent);
- _canvas.onMouseUp.listen(_onMouseEvent);
- _canvas.onMouseMove.listen(_onMouseEvent);
- _canvas.onMouseOut.listen(_onMouseEvent);
- _canvas.onMouseWheel.listen(_onMouseWheelEvent);
-
- //---------------------------
- // prepare touch events
-
- _touches = new Map&lt;int, _Touch&gt;();
- _touchEvent = new TouchEvent(TouchEvent.TOUCH_BEGIN, true);
-
  Multitouch._onInputModeChanged.listen(_onMultitouchInputModeChanged);
+
  _onMultitouchInputModeChanged(null);
-
- //---------------------------
- // prepare keyboard events
-
- _canvas.onKeyDown.listen(_onKeyEvent);
- _canvas.onKeyUp.listen(_onKeyEvent);
- _canvas.onKeyPress.listen(_onKeyEvent);
 }
 </pre>
 </div>
@@ -977,6 +972,8 @@ Stage(String name, CanvasElement canvas, [int sourceWidth, int sourceHeight, int
             title="Permalink to Stage.align">#</a>
         </h4>
         <div class="doc">
+<p>Gets and sets the alignment of this Stage inside of the Canvas element.
+You can choose between nine different align modes defined in <a class="crossref" href="../stagexl/StageAlign.html">StageAlign</a>.</p>
 <pre class="source">
 String get align =&gt; _stageAlign;
 </pre>
@@ -1016,7 +1013,7 @@ final <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool<
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-bool get cached =&gt; _cache != null;
+bool get cached =&gt; _cacheTexture != null;
 </pre>
 </div>
 </div>
@@ -1091,6 +1088,8 @@ set filters(List&lt;BitmapFilter&gt; value) {
             title="Permalink to Stage.focus">#</a>
         </h4>
         <div class="doc">
+<p>Gets and sets the <a class="crossref" href="../stagexl/InteractiveObject.html">InteractiveObject</a> (a DisplayObject which can
+receive user input like mouse, touch or keyboard).</p>
 <pre class="source">
 InteractiveObject get focus =&gt; _focus;
 </pre>
@@ -1147,6 +1146,9 @@ final <a href="../stagexl/Juggler.html">Juggler</a>         <strong>juggler</str
             title="Permalink to Stage.juggler">#</a>
         </h4>
         <div class="doc">
+<p>Gets the <a class="crossref" href="../stagexl/Juggler.html">Juggler</a> of this Stage. The Juggler is driven by the
+<a class="crossref" href="../stagexl/RenderLoop.html">RenderLoop</a> where this Stage is added to. If this Stage is not
+added to a RenderLoop, the <a class="crossref" href="../stagexl/Juggler.html">Juggler</a> will not advance in time.</p>
 <pre class="source">
 Juggler get juggler =&gt; _juggler;
 </pre>
@@ -1203,6 +1205,7 @@ final <a href="../stagexl/Point.html">Point</a>         <strong>mousePosition</s
             title="Permalink to Stage.mousePosition">#</a>
         </h4>
         <div class="doc">
+<p>Gets the last known mouse position in Stage coordinates.</p>
 <pre class="source">
 Point get mousePosition =&gt; _mousePosition;
 </pre>
@@ -1365,6 +1368,18 @@ final <a href="../stagexl/EventStream.html">EventStream</a>&lt;<a href="../stage
         <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
 <pre class="source">
 EventStream&lt;MouseEvent&gt; get onMouseClick =&gt; InteractiveObject.mouseClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseContextMenu">
+<button class="show-code">Code</button>
+final <a href="../stagexl/EventStream.html">EventStream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseContextMenu</strong> <a class="anchor-link"
+            href="#onMouseContextMenu"
+            title="Permalink to Stage.onMouseContextMenu">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+EventStream&lt;MouseEvent&gt; get onMouseContextMenu =&gt; InteractiveObject.mouseContextMenu.forTarget(this);
 </pre>
 </div>
 </div>
@@ -1732,6 +1747,21 @@ set pivotY(num value) { _throwStageException(); }
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="renderEngine">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a>         <strong>renderEngine</strong> <a class="anchor-link"
+            href="#renderEngine"
+            title="Permalink to Stage.renderEngine">#</a>
+        </h4>
+        <div class="doc">
+<p>Gets the underlying render engine used to draw the pixels to the screen.
+The returned string is defined in <a class="crossref" href="../stagexl/RenderEngine.html">RenderEngine</a> and is either "WebGL"
+or "Canvas2D".</p>
+<pre class="source">
+String get renderEngine =&gt; _renderContext.renderEngine;
+</pre>
+</div>
+</div>
 <div class="field"><h4 id="renderLoop">
 <button class="show-code">Code</button>
 final <a href="../stagexl/RenderLoop.html">RenderLoop</a>         <strong>renderLoop</strong> <a class="anchor-link"
@@ -1739,6 +1769,8 @@ final <a href="../stagexl/RenderLoop.html">RenderLoop</a>         <strong>render
             title="Permalink to Stage.renderLoop">#</a>
         </h4>
         <div class="doc">
+<p>Gets the <a class="crossref" href="../stagexl/RenderLoop.html">RenderLoop</a> where this Stage was added to, or
+NULL in case this Stage is not added to a <a class="crossref" href="../stagexl/RenderLoop.html">RenderLoop</a>.</p>
 <pre class="source">
 RenderLoop get renderLoop =&gt; _renderLoop;
 </pre>
@@ -1751,6 +1783,8 @@ RenderLoop get renderLoop =&gt; _renderLoop;
             title="Permalink to Stage.renderMode">#</a>
         </h4>
         <div class="doc">
+<p>Gets and sets the render mode of this Stage. You can choose between
+three different modes defined in <a class="crossref" href="../stagexl/StageRenderMode.html">StageRenderMode</a>.</p>
 <pre class="source">
 String get renderMode =&gt; _stageRenderMode;
 </pre>
@@ -1808,6 +1842,8 @@ set rotation(num value) { _throwStageException(); }
             title="Permalink to Stage.scaleMode">#</a>
         </h4>
         <div class="doc">
+<p>Gets and sets the scale mode of this Stage. You can choose between
+four dfferent modes defined in <a class="crossref" href="../stagexl/StageScaleMode.html">StageScaleMode</a>.</p>
 <pre class="source">
 String get scaleMode =&gt; _stageScaleMode;
 </pre>
@@ -2189,14 +2225,7 @@ void <strong>addChild</strong>(<a href="../stagexl/DisplayObject.html">DisplayOb
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 void addChild(DisplayObject child) {
-
- if (child.parent == this) {
-   int index = _children.indexOf(child);
-   _children.removeAt(index);
-   _children.add(child);
- } else {
-   addChildAt(child, _children.length);
- }
+ addChildAt(child, _children.length);
 }
 </pre>
 </div>
@@ -2209,32 +2238,39 @@ void <strong>addChildAt</strong>(<a href="../stagexl/DisplayObject.html">Display
 <pre class="source">
 void addChildAt(DisplayObject child, int index) {
 
- if (index &lt; 0 || index &gt; _children.length)
+ if (index &lt; 0 || index &gt; _children.length) {
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ }
 
- if (child == this)
+ if (child == this) {
    throw new ArgumentError("Error #2024: An object cannot be added as a child of itself.");
+ }
 
  if (child.parent == this) {
 
-   _children.removeAt(_children.indexOf(child));
-
-   if (index &gt; _children.length)
-     index --;
-
+   _children.remove(child);
+   if (index &gt; _children.length) index -= 1;
    _children.insert(index, child);
 
  } else {
 
    child.removeFromParent();
 
-   child._setParent(this);
+   for(var ancestor = this; ancestor != null; ancestor = ancestor.parent) {
+     if (ancestor == child) {
+       throw new ArgumentError("Error #2150: An object cannot be added as "
+           "a child to one of it's children (or children's children, etc.).");
+     }
+   }
+
    _children.insert(index, child);
 
+   child._parent = this;
    child.dispatchEvent(new Event(Event.ADDED, true));
 
-   if (this.stage != null)
+   if (this.stage != null) {
      _dispatchEventDescendants(child, new Event(Event.ADDED_TO_STAGE));
+   }
  }
 }
 </pre>
@@ -2276,9 +2312,15 @@ void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) 
 
  var pixelRatio = Stage.autoHiDpi ? _devicePixelRatio : 1.0;
 
- _cache = new BitmapData(width, height, true, Color.Transparent, pixelRatio);
+ if (_cacheTexture == null) {
+   _cacheTexture = new RenderTexture(width, height, true, Color.Transparent, pixelRatio);
+ } else {
+   _cacheTexture.resize(width, height);
+ }
+
  _cacheRectangle = new Rectangle(x, y, width, height);
  _cacheDebugBorder = debugBorder;
+
  refreshCache();
 }
 </pre>
@@ -2292,10 +2334,10 @@ void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) 
 <pre class="source">
 bool contains(DisplayObject child) {
 
- for(; child != null; child = child._parent)
-   if (child == this)
-     return true;
-
+ while(child != null) {
+   if (child == this) return true;
+   child = child.parent;
+ }
  return false;
 }
 </pre>
@@ -2364,11 +2406,13 @@ Rectangle getBounds(DisplayObject targetSpace) {
 <pre class="source">
 Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
 
- if (returnRectangle == null)
+ if (returnRectangle == null) {
    returnRectangle = new Rectangle.zero();
+ }
 
- if (_children.length == 0)
+ if (_children.length == 0) {
    return super.getBoundsTransformed(matrix, returnRectangle);
+ }
 
  num left = double.INFINITY;
  num top = double.INFINITY;
@@ -2408,9 +2452,9 @@ dynamic <strong>getChildAt</strong>(<a href="http://api.dartlang.org/dart_core/i
 <pre class="source">
 dynamic getChildAt(int index) {
 
- if (index &lt; 0 || index &gt;= _children.length)
+ if (index &lt; 0 || index &gt;= _children.length) {
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
-
+ }
  return _children[index];
 }
 </pre>
@@ -2424,11 +2468,11 @@ dynamic <strong>getChildByName</strong>(<a href="http://api.dartlang.org/dart_co
 <pre class="source">
 dynamic getChildByName(String name) {
 
- for(int i = 0; i &lt; _children.length; i++)
-   if (_children[i].name == name)
-     return _children[i];
-
-   return null;
+ for(int i = 0; i &lt; _children.length; i++) {
+   DisplayObject child = _children[i];
+   if (child.name == name) return child;
+ }
+ return null;
 }
 </pre>
 </div>
@@ -2440,7 +2484,8 @@ dynamic getChildByName(String name) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 int getChildIndex(DisplayObject child) {
-   return _children.indexOf(child);
+
+ return _children.indexOf(child);
 }
 </pre>
 </div>
@@ -2602,6 +2647,9 @@ bool hitTestPoint(num x, num y, [bool shapeFlag = false]) {
 dynamic <strong>invalidate</strong>() <a class="anchor-link" href="#invalidate"
               title="Permalink to Stage.invalidate">#</a></h4>
 <div class="doc">
+<p>Calling this method will cause an <a class="crossref" href="../stagexl/RenderEvent.html">RenderEvent</a> to be fired right before
+the next frame will be rendered by the render loop. To receive the render
+event attach a listener to <a class="crossref" href="../stagexl/DisplayObject.html#onRender">DisplayObject.onRender</a>.</p>
 <pre class="source">
 invalidate() {
  if (_renderLoop != null) {
@@ -2635,6 +2683,9 @@ Point localToGlobal(Point localPoint) {
 dynamic <strong>materialize</strong>(<a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> currentTime, <a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> deltaTime) <a class="anchor-link" href="#materialize"
               title="Permalink to Stage.materialize">#</a></h4>
 <div class="doc">
+<p>This method is called by the <a class="crossref" href="../stagexl/RenderLoop.html">RenderLoop</a> where this Stage is added to.
+If this Stage is not added to a <a class="crossref" href="../stagexl/RenderLoop.html">RenderLoop</a> you could call this method
+on your own and therefore get full control of the rendering of this Stage.</p>
 <pre class="source">
 materialize(num currentTime, num deltaTime) {
 
@@ -2644,6 +2695,7 @@ materialize(num currentTime, num deltaTime) {
 
    _renderState.reset(_stageTransformation, currentTime, deltaTime);
    render(_renderState);
+   _renderState.flush();
 
    if (_stageRenderMode == StageRenderMode.ONCE)
      _stageRenderMode = StageRenderMode.STOP;
@@ -2685,30 +2737,44 @@ void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
 <pre class="source">
 void refreshCache() {
 
- if (_cache == null) return;
+ if (_cacheTexture == null) return;
 
  var x = _cacheRectangle.x;
  var y = _cacheRectangle.y;
  var width = _cacheRectangle.width;
  var height = _cacheRectangle.height;
+ var canvas = _cacheTexture.canvas;
 
- _cache.clear();
- _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+ var matrix = _cacheTexture.quad.drawMatrix..translate(-x, -y);
+ var renderContext = new RenderContextCanvas(canvas, Color.Transparent);
+ var renderState = new RenderState(renderContext, matrix);
+
+ renderContext.clear();
+ render(renderState);
 
  if (_filters != null) {
-   for(int i = 0; i &lt; _filters.length; i++) {
-     var sourceRectangle = new Rectangle(0, 0, width, height);
-     var destinationPoint = new Point.zero();
-     _filters[i].apply(_cache, sourceRectangle, _cache, destinationPoint);
+   var cacheBitmapData = new BitmapData.fromRenderTextureQuad(_cacheTexture.quad);
+   var bounds = this.getBoundsTransformed(_identityMatrix)..offset(-x, -y);
+   for(var filter in _filters) {
+     var filterOverlap = filter.overlap;
+     var filterBounds = bounds.clone();
+     filterBounds.offset(filterOverlap.x, filterOverlap.y);
+     filterBounds.inflate(filterOverlap.width, filterOverlap.height);
+     filter.apply(cacheBitmapData, filterBounds.align());
    }
  }
 
  if (_cacheDebugBorder) {
-   _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+   canvas.context2D
+       ..setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+       ..lineWidth = 1
+       ..lineJoin = "miter"
+       ..lineCap = "butt"
+       ..strokeStyle = "#FF00FF"
+       ..strokeRect(0.5, 0.5, canvas.width - 1, canvas.height - 1);
  }
+
+ _cacheTexture.update();
 }
 </pre>
 </div>
@@ -2720,7 +2786,10 @@ void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void removeCache() {
- _cache = null;
+ if (_cacheTexture != null) {
+   _cacheTexture.dispose();
+   _cacheTexture = null;
+ }
 }
 </pre>
 </div>
@@ -2734,9 +2803,10 @@ void <strong>removeChild</strong>(<a href="../stagexl/DisplayObject.html">Displa
 void removeChild(DisplayObject child) {
 
  int childIndex = _children.indexOf(child);
-
- if (childIndex == -1)
-   throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+ if (childIndex == -1) {
+   throw new ArgumentError(
+       "Error #2025: The supplied DisplayObject must be a child of the caller.");
+ }
 
  removeChildAt(childIndex);
 }
@@ -2751,17 +2821,19 @@ void <strong>removeChildAt</strong>(<a href="http://api.dartlang.org/dart_core/i
 <pre class="source">
 void removeChildAt(int index) {
 
- if (index &lt; 0 || index &gt;= _children.length)
+ if (index &lt; 0 || index &gt;= _children.length) {
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ }
 
  DisplayObject child = _children[index];
 
  child.dispatchEvent(new Event(Event.REMOVED, true));
 
- if (this.stage != null)
+ if (this.stage != null) {
    _dispatchEventDescendants(child, new Event(Event.REMOVED_FROM_STAGE));
+ }
 
- child._setParent(null);
+ child._parent = null;
  _children.removeAt(index);
 }
 </pre>
@@ -2776,6 +2848,7 @@ void <strong>removeChildren</strong>([<a href="http://api.dartlang.org/dart_core
 void removeChildren([int beginIndex = 0, int endIndex = 0x7fffffff]) {
 
  var length = _children.length;
+ if (length == 0) return;
 
  if (endIndex == 0x7fffffff) {
    endIndex = length - 1;
@@ -2858,13 +2931,14 @@ void <strong>setChildIndex</strong>(<a href="../stagexl/DisplayObject.html">Disp
 <pre class="source">
 void setChildIndex(DisplayObject child, int index) {
 
- if (index &lt; 0 || index &gt;= _children.length)
+ if (index &lt; 0 || index &gt;= _children.length) {
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ }
 
  int oldIndex = getChildIndex(child);
-
- if (oldIndex == -1)
+ if (oldIndex == -1) {
    throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+ }
 
  _children.removeAt(oldIndex);
  _children.insert(index, child);
@@ -2913,13 +2987,14 @@ void <strong>swapChildren</strong>(<a href="../stagexl/DisplayObject.html">Displ
 <pre class="source">
 void swapChildren(DisplayObject child1, DisplayObject child2) {
 
-   int index1 = getChildIndex(child1);
-   int index2 = getChildIndex(child2);
+ int index1 = getChildIndex(child1);
+ int index2 = getChildIndex(child2);
 
-   if (index1 == -1 || index2 == -1)
-     throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+ if (index1 == -1 || index2 == -1) {
+   throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+ }
 
-   swapChildrenAt(index1, index2);
+ swapChildrenAt(index1, index2);
 }
 </pre>
 </div>
@@ -3006,7 +3081,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:51.930</div>
+          <div>This page was generated at 2014-01-25 13:40:56.422</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

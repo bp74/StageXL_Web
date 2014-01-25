@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -174,32 +183,10 @@ abstract class Mask {
 
  //-----------------------------------------------------------------------------------------------
 
- beginRenderMask(RenderState renderState, Matrix matrix) {
-
-   _context = renderState.context;
-   _context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
-   _context.beginPath();
-   _drawMask();
-   _context.save();
-   _context.clip();
- }
-
- endRenderMask() {
-
-   _context.restore();
-
-   if (border) {
-     _context.strokeStyle = _color2rgba(borderColor);
-     _context.lineWidth = borderWidth;
-     _context.lineCap = "round";
-     _context.lineJoin = "round";
-     _context.stroke();
-   }
- }
-
  bool hitTest(num x, num y);
 
- _drawMask();
+ _drawCanvasPath(CanvasRenderingContext2D context);
+ _drawTriangles(RenderContext context, Matrix matrix);
 }
 </pre>
 </div>
@@ -323,45 +310,6 @@ DisplayObject targetSpace = null
 </div>
 <div>
 <h3>Methods</h3>
-<div class="method"><h4 id="beginRenderMask">
-<button class="show-code">Code</button>
-dynamic <strong>beginRenderMask</strong>(<a href="../stagexl/RenderState.html">RenderState</a> renderState, <a href="../stagexl/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#beginRenderMask"
-              title="Permalink to Mask.beginRenderMask">#</a></h4>
-<div class="doc">
-<pre class="source">
-beginRenderMask(RenderState renderState, Matrix matrix) {
-
- _context = renderState.context;
- _context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
- _context.beginPath();
- _drawMask();
- _context.save();
- _context.clip();
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="endRenderMask">
-<button class="show-code">Code</button>
-dynamic <strong>endRenderMask</strong>() <a class="anchor-link" href="#endRenderMask"
-              title="Permalink to Mask.endRenderMask">#</a></h4>
-<div class="doc">
-<pre class="source">
-endRenderMask() {
-
- _context.restore();
-
- if (border) {
-   _context.strokeStyle = _color2rgba(borderColor);
-   _context.lineWidth = borderWidth;
-   _context.lineCap = "round";
-   _context.lineJoin = "round";
-   _context.stroke();
- }
-}
-</pre>
-</div>
-</div>
 <div class="method"><h4 id="hitTest">
 abstract <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a> <strong>hitTest</strong>(<a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> x, <a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> y) <a class="anchor-link" href="#hitTest"
               title="Permalink to Mask.hitTest">#</a></h4>
@@ -373,7 +321,7 @@ abstract <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bo
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:52.134</div>
+          <div>This page was generated at 2014-01-25 13:40:56.619</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

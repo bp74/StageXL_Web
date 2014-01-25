@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -168,6 +177,7 @@ abstract class InteractiveObject extends DisplayObject {
  static const EventStreamProvider&lt;MouseEvent&gt; mouseRightUpEvent = const EventStreamProvider&lt;MouseEvent&gt;(MouseEvent.RIGHT_MOUSE_UP);
  static const EventStreamProvider&lt;MouseEvent&gt; mouseRightClickEvent = const EventStreamProvider&lt;MouseEvent&gt;(MouseEvent.RIGHT_CLICK);
  static const EventStreamProvider&lt;MouseEvent&gt; mouseWheelEvent = const EventStreamProvider&lt;MouseEvent&gt;(MouseEvent.MOUSE_WHEEL);
+ static const EventStreamProvider&lt;MouseEvent&gt; mouseContextMenu = const EventStreamProvider&lt;MouseEvent&gt;(MouseEvent.CONTEXT_MENU);
 
  EventStream&lt;MouseEvent&gt; get onMouseOut =&gt; InteractiveObject.mouseOutEvent.forTarget(this);
  EventStream&lt;MouseEvent&gt; get onMouseOver =&gt; InteractiveObject.mouseOverEvent.forTarget(this);
@@ -185,6 +195,7 @@ abstract class InteractiveObject extends DisplayObject {
  EventStream&lt;MouseEvent&gt; get onMouseRightUp =&gt; InteractiveObject.mouseRightUpEvent.forTarget(this);
  EventStream&lt;MouseEvent&gt; get onMouseRightClick =&gt; InteractiveObject.mouseRightClickEvent.forTarget(this);
  EventStream&lt;MouseEvent&gt; get onMouseWheel =&gt; InteractiveObject.mouseWheelEvent.forTarget(this);
+ EventStream&lt;MouseEvent&gt; get onMouseContextMenu =&gt; InteractiveObject.mouseContextMenu.forTarget(this);
 
  // touch events
 
@@ -259,6 +270,18 @@ const <a href="../stagexl/EventStreamProvider.html">EventStreamProvider</a>&lt;<
         <div class="doc">
 <pre class="source">
 static const EventStreamProvider&lt;MouseEvent&gt; mouseClickEvent = const EventStreamProvider&lt;MouseEvent&gt;(MouseEvent.CLICK)
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="mouseContextMenu">
+<button class="show-code">Code</button>
+const <a href="../stagexl/EventStreamProvider.html">EventStreamProvider</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>mouseContextMenu</strong> <a class="anchor-link"
+            href="#mouseContextMenu"
+            title="Permalink to InteractiveObject.mouseContextMenu">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+static const EventStreamProvider&lt;MouseEvent&gt; mouseContextMenu = const EventStreamProvider&lt;MouseEvent&gt;(MouseEvent.CONTEXT_MENU)
 </pre>
 </div>
 </div>
@@ -558,7 +581,7 @@ final <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool<
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-bool get cached =&gt; _cache != null;
+bool get cached =&gt; _cacheTexture != null;
 </pre>
 </div>
 </div>
@@ -819,6 +842,18 @@ final <a href="../stagexl/EventStream.html">EventStream</a>&lt;<a href="../stage
         <div class="doc">
 <pre class="source">
 EventStream&lt;MouseEvent&gt; get onMouseClick =&gt; InteractiveObject.mouseClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onMouseContextMenu">
+<button class="show-code">Code</button>
+final <a href="../stagexl/EventStream.html">EventStream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseContextMenu</strong> <a class="anchor-link"
+            href="#onMouseContextMenu"
+            title="Permalink to InteractiveObject.onMouseContextMenu">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+EventStream&lt;MouseEvent&gt; get onMouseContextMenu =&gt; InteractiveObject.mouseContextMenu.forTarget(this);
 </pre>
 </div>
 </div>
@@ -1527,9 +1562,15 @@ void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) 
 
  var pixelRatio = Stage.autoHiDpi ? _devicePixelRatio : 1.0;
 
- _cache = new BitmapData(width, height, true, Color.Transparent, pixelRatio);
+ if (_cacheTexture == null) {
+   _cacheTexture = new RenderTexture(width, height, true, Color.Transparent, pixelRatio);
+ } else {
+   _cacheTexture.resize(width, height);
+ }
+
  _cacheRectangle = new Rectangle(x, y, width, height);
  _cacheDebugBorder = debugBorder;
+
  refreshCache();
 }
 </pre>
@@ -1767,30 +1808,44 @@ void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
 <pre class="source">
 void refreshCache() {
 
- if (_cache == null) return;
+ if (_cacheTexture == null) return;
 
  var x = _cacheRectangle.x;
  var y = _cacheRectangle.y;
  var width = _cacheRectangle.width;
  var height = _cacheRectangle.height;
+ var canvas = _cacheTexture.canvas;
 
- _cache.clear();
- _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+ var matrix = _cacheTexture.quad.drawMatrix..translate(-x, -y);
+ var renderContext = new RenderContextCanvas(canvas, Color.Transparent);
+ var renderState = new RenderState(renderContext, matrix);
+
+ renderContext.clear();
+ render(renderState);
 
  if (_filters != null) {
-   for(int i = 0; i &lt; _filters.length; i++) {
-     var sourceRectangle = new Rectangle(0, 0, width, height);
-     var destinationPoint = new Point.zero();
-     _filters[i].apply(_cache, sourceRectangle, _cache, destinationPoint);
+   var cacheBitmapData = new BitmapData.fromRenderTextureQuad(_cacheTexture.quad);
+   var bounds = this.getBoundsTransformed(_identityMatrix)..offset(-x, -y);
+   for(var filter in _filters) {
+     var filterOverlap = filter.overlap;
+     var filterBounds = bounds.clone();
+     filterBounds.offset(filterOverlap.x, filterOverlap.y);
+     filterBounds.inflate(filterOverlap.width, filterOverlap.height);
+     filter.apply(cacheBitmapData, filterBounds.align());
    }
  }
 
  if (_cacheDebugBorder) {
-   _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+   canvas.context2D
+       ..setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+       ..lineWidth = 1
+       ..lineJoin = "miter"
+       ..lineCap = "butt"
+       ..strokeStyle = "#FF00FF"
+       ..strokeRect(0.5, 0.5, canvas.width - 1, canvas.height - 1);
  }
+
+ _cacheTexture.update();
 }
 </pre>
 </div>
@@ -1802,7 +1857,10 @@ void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void removeCache() {
- _cache = null;
+ if (_cacheTexture != null) {
+   _cacheTexture.dispose();
+   _cacheTexture = null;
+ }
 }
 </pre>
 </div>
@@ -1939,7 +1997,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:52.156</div>
+          <div>This page was generated at 2014-01-25 13:40:56.640</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

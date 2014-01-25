@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -149,162 +158,68 @@ class GlowFilter extends BitmapFilter {
  num alpha;
  int blurX;
  int blurY;
- num strength;
- bool inner;
  bool knockout;
  bool hideObject;
 
- GlowFilter([this.color = 0, this.alpha = 1.0, this.blurX = 4, this.blurY = 4,
-     this.strength = 2.0, this.inner = false, this.knockout = false, this.hideObject = false]) {
+ GlowFilter(this.color, this.alpha, this.blurX, this.blurY, {
+            this.knockout: false, this.hideObject: false}) {
 
-   if (blurX &lt; 1 || blurY &lt; 1)
+   if (blurX &lt; 1 || blurY &lt; 1) {
      throw new ArgumentError("Error #9004: The minimum blur size is 1.");
-
-   if (blurX &gt; 64 || blurY &gt; 64)
+   }
+   if (blurX &gt; 64 || blurY &gt; 64) {
      throw new ArgumentError("Error #9004: The maximum blur size is 64.");
- }
-
- //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
-
- BitmapFilter clone() {
-
-   return new GlowFilter(color, alpha, blurX, blurY, strength, inner, knockout, hideObject);
- }
-
- //-------------------------------------------------------------------------------------------------
-
- void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint) {
-
-   var originalBitmapData = sourceBitmapData;
-
-   if (sourceBitmapData == destinationBitmapData &amp;&amp; !hideObject) {
-     originalBitmapData = sourceBitmapData.clone(destinationBitmapData.pixelRatio);
    }
+ }
 
-   var sourceImageData = sourceBitmapData.getImageData(
-       sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height, destinationBitmapData.pixelRatio);
-   var sourceData = sourceImageData.data;
+ BitmapFilter clone() =&gt; new GlowFilter(color, alpha, blurX, blurY,
+     knockout: knockout, hideObject: hideObject);
 
-   num pixelRatio = destinationBitmapData.pixelRatio;
-   int sourceWidth = _ensureInt(sourceRect.width);
-   int sourceHeight = _ensureInt(sourceRect.height);
-   int weightX = (blurX * blurX * pixelRatio * pixelRatio).floor();
-   int weightY = (blurY * blurY * pixelRatio * pixelRatio).floor();
-   int weightXinv = (1 &lt;&lt; 22) ~/ weightX;
-   int weightYinv = (1 &lt;&lt; 22) ~/ weightY;
-   int rx1 = (blurX * pixelRatio).floor();
-   int rx2 = (blurX * pixelRatio * 2).floor();
-   int ry1 = (blurY * pixelRatio).floor();
-   int ry2 = (blurY * pixelRatio * 2).floor();
-   int destinationWidth = sourceWidth + rx2;
-   int destinationHeight = sourceHeight + ry2;
-   int sourceWidth4 = sourceWidth * 4;
-   int destinationWidth4 = destinationWidth * 4;
+ Rectangle get overlap =&gt; new Rectangle(-blurX, -blurY, 2 * blurX, 2 * blurY);
+
+ //-------------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------------
+
+ void apply(BitmapData bitmapData, [Rectangle rectangle]) {
+
+   RenderTextureQuad renderTextureQuad = rectangle == null
+       ? bitmapData.renderTextureQuad
+       : bitmapData.renderTextureQuad.cut(rectangle);
+
+   ImageData sourceImageData =
+       this.hideObject == false || this.knockout ? renderTextureQuad.getImageData() : null;
+
+   ImageData imageData = renderTextureQuad.getImageData();
+   List&lt;int&gt; data = imageData.data;
+   int width = _ensureInt(imageData.width);
+   int height = _ensureInt(imageData.height);
+
+   num pixelRatio = renderTextureQuad.renderTexture.storePixelRatio;
+   int blurX = (this.blurX * pixelRatio).round();
+   int blurY = (this.blurY * pixelRatio).round();
    int alphaChannel = _isLittleEndianSystem ? 3 : 0;
+   int stride = width * 4;
 
-   var destinationImageData = destinationBitmapData.createImageData(destinationWidth, destinationHeight);
-   var destinationData = destinationImageData.data;
-   var buffer = new List&lt;int&gt;.filled(1024, 0);
-
-   //--------------------------------------------------
-   // blur vertical
-
-   for (int x = 0; x &lt; sourceWidth; x++) {
-     int dif = 0, sum = weightY &gt;&gt; 1;
-     int offsetSource = x * 4 + alphaChannel;
-     int offsetDestination = (x + rx1) * 4 + alphaChannel;
-
-     for (int y = 0; y &lt; destinationHeight; y++) {
-       destinationData[offsetDestination] = ((sum * weightYinv) | 0) &gt;&gt; 22;
-       offsetDestination += destinationWidth4;
-
-       if (y &gt;= ry2) {
-         dif -= 2 * buffer[y &amp; 1023] - buffer[(y - ry1) &amp; 1023];
-       } else if (y &gt;= ry1) {
-         dif -= 2 * buffer[y &amp; 1023];
-       }
-
-       int alpha = (y &lt; sourceHeight) ? sourceData[offsetSource] : 0;
-       buffer[(y + ry1) &amp; 1023] = alpha;
-       sum += dif += alpha;
-       offsetSource += sourceWidth4;
-     }
+   for (int x = 0; x &lt; width; x++) {
+     _blur2(data, x * 4 + alphaChannel, height, stride, blurY);
    }
 
-   //--------------------------------------------------
-   // blur horizontal
-
-   for (int y = 0; y &lt; destinationHeight; y++) {
-     int dif = 0, sum = weightX &gt;&gt; 1;
-     int offsetSource = y * destinationWidth4 + rx1 * 4 + alphaChannel;
-     int offsetDestination = y * destinationWidth4 + alphaChannel;
-
-     for (int x = 0; x &lt; destinationWidth; x++) {
-       destinationData[offsetDestination] = ((sum * weightXinv) | 0) &gt;&gt; 22;
-       offsetDestination += 4;
-
-       if (x &gt;= rx2) {
-         dif -= 2 * buffer[x &amp; 1023] - buffer[(x - rx1) &amp; 1023];
-       } else if (x &gt;= rx1) {
-         dif -= 2 * buffer[x &amp; 1023];
-       }
-
-       int alpha = (x &lt; sourceWidth) ? destinationData[offsetSource] : 0;
-       buffer[(x + rx1) &amp; 1023] = alpha;
-       sum += dif += alpha;
-       offsetSource += 4;
-     }
+   for (int y = 0; y &lt; height; y++) {
+     _blur2(data, y * stride + alphaChannel, width, 4, blurX);
    }
 
-   //--------------------------------------------------
-   // set color
-
-   int aColor = (alpha * 256).toInt();
-   int rColor = (color &gt;&gt; 16) &amp; 0xFF;
-   int gColor = (color &gt;&gt;  8) &amp; 0xFF;
-   int bColor = (color &gt;&gt;  0) &amp; 0xFF;
-
-   if (_isLittleEndianSystem) {
-     for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
-       destinationData[i + 0] = rColor;
-       destinationData[i + 1] = gColor;
-       destinationData[i + 2] = bColor;
-       destinationData[i + 3] = (destinationData[i + 3] * aColor) &gt;&gt; 8;
-     }
+   if (this.knockout) {
+     _setColorKnockout(data, this.color, this.alpha, sourceImageData.data);
+   } else if (this.hideObject) {
+     _setColor(data, this.color, this.alpha);
    } else {
-     for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
-       destinationData[i + 0] = (destinationData[i + 0] * aColor) &gt;&gt; 8;
-       destinationData[i + 1] = bColor;
-       destinationData[i + 2] = gColor;
-       destinationData[i + 3] = rColor;
-     }
+     _setColorBlend(data, this.color, this.alpha, sourceImageData.data);
    }
 
-   //--------------------------------------------------
-
-   var sx = destinationPoint.x;
-   var sy = destinationPoint.y;
-   var dx = destinationPoint.x - rx1;
-   var dy = destinationPoint.y - ry1;
-   var sRect = new Rectangle(sx, sy, sourceWidth, sourceHeight);
-   var dRect = new Rectangle(dx, dy, destinationWidth, destinationHeight);
-   var uRect = sRect.union(dRect);
-
-   destinationBitmapData.fillRect(uRect, Color.Transparent);
-   destinationBitmapData.putImageData(destinationImageData, dx, dy);
-
-   if (this.hideObject == false) {
-     destinationBitmapData.draw(originalBitmapData, new Matrix(1.0, 0.0, 0.0, 1.0, sx, sy));
-   }
+   renderTextureQuad.putImageData(imageData);
  }
 
- //-------------------------------------------------------------------------------------------------
 
- Rectangle getBounds() {
-
-   return new Rectangle(-blurX, -blurY, 2 * blurX, 2 * blurY);
- }
 }
 </pre>
 </div>
@@ -315,7 +230,7 @@ class GlowFilter extends BitmapFilter {
 <h3>Constructors</h3>
 <div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>GlowFilter</strong>([<a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> color = 0, <a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> alpha = 1.0, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> blurX = 4, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> blurY = 4, <a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> strength = 2.0, <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a> inner = false, <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a> knockout = false, <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a> hideObject = false]) <a class="anchor-link" href="#"
+new <strong>GlowFilter</strong>(<a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> color, <a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> alpha, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> blurX, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> blurY, {<a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a> knockout: false, <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a> hideObject: false}) <a class="anchor-link" href="#"
               title="Permalink to GlowFilter.GlowFilter">#</a></h4>
 <div class="doc">
 <div class="inherited">
@@ -325,14 +240,15 @@ through their identity. An <a class="crossref" href="http://api.dartlang.org/dar
 only.</p>
 <div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_core/Object.html" ref="external">Object</a> </div></div>
 <pre class="source">
-GlowFilter([this.color = 0, this.alpha = 1.0, this.blurX = 4, this.blurY = 4,
-   this.strength = 2.0, this.inner = false, this.knockout = false, this.hideObject = false]) {
+GlowFilter(this.color, this.alpha, this.blurX, this.blurY, {
+          this.knockout: false, this.hideObject: false}) {
 
- if (blurX &lt; 1 || blurY &lt; 1)
+ if (blurX &lt; 1 || blurY &lt; 1) {
    throw new ArgumentError("Error #9004: The minimum blur size is 1.");
-
- if (blurX &gt; 64 || blurY &gt; 64)
+ }
+ if (blurX &gt; 64 || blurY &gt; 64) {
    throw new ArgumentError("Error #9004: The maximum blur size is 64.");
+ }
 }
 </pre>
 </div>
@@ -400,18 +316,6 @@ bool hideObject
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="inner">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a>         <strong>inner</strong> <a class="anchor-link"
-            href="#inner"
-            title="Permalink to GlowFilter.inner">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-bool inner
-</pre>
-</div>
-</div>
 <div class="field"><h4 id="knockout">
 <button class="show-code">Code</button>
 <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a>         <strong>knockout</strong> <a class="anchor-link"
@@ -424,15 +328,15 @@ bool knockout
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="strength">
+<div class="field"><h4 id="overlap">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a>         <strong>strength</strong> <a class="anchor-link"
-            href="#strength"
-            title="Permalink to GlowFilter.strength">#</a>
+final <a href="../stagexl/Rectangle.html">Rectangle</a>         <strong>overlap</strong> <a class="anchor-link"
+            href="#overlap"
+            title="Permalink to GlowFilter.overlap">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-num strength
+Rectangle get overlap =&gt; new Rectangle(-blurX, -blurY, 2 * blurX, 2 * blurY);
 </pre>
 </div>
 </div>
@@ -441,133 +345,47 @@ num strength
 <h3>Methods</h3>
 <div class="method"><h4 id="apply">
 <button class="show-code">Code</button>
-void <strong>apply</strong>(<a href="../stagexl/BitmapData.html">BitmapData</a> sourceBitmapData, <a href="../stagexl/Rectangle.html">Rectangle</a> sourceRect, <a href="../stagexl/BitmapData.html">BitmapData</a> destinationBitmapData, <a href="../stagexl/Point.html">Point</a> destinationPoint) <a class="anchor-link" href="#apply"
+void <strong>apply</strong>(<a href="../stagexl/BitmapData.html">BitmapData</a> bitmapData, [<a href="../stagexl/Rectangle.html">Rectangle</a> rectangle]) <a class="anchor-link" href="#apply"
               title="Permalink to GlowFilter.apply">#</a></h4>
 <div class="doc">
 <pre class="source">
-void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint) {
+void apply(BitmapData bitmapData, [Rectangle rectangle]) {
 
- var originalBitmapData = sourceBitmapData;
+ RenderTextureQuad renderTextureQuad = rectangle == null
+     ? bitmapData.renderTextureQuad
+     : bitmapData.renderTextureQuad.cut(rectangle);
 
- if (sourceBitmapData == destinationBitmapData &amp;&amp; !hideObject) {
-   originalBitmapData = sourceBitmapData.clone(destinationBitmapData.pixelRatio);
- }
+ ImageData sourceImageData =
+     this.hideObject == false || this.knockout ? renderTextureQuad.getImageData() : null;
 
- var sourceImageData = sourceBitmapData.getImageData(
-     sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height, destinationBitmapData.pixelRatio);
- var sourceData = sourceImageData.data;
+ ImageData imageData = renderTextureQuad.getImageData();
+ List&lt;int&gt; data = imageData.data;
+ int width = _ensureInt(imageData.width);
+ int height = _ensureInt(imageData.height);
 
- num pixelRatio = destinationBitmapData.pixelRatio;
- int sourceWidth = _ensureInt(sourceRect.width);
- int sourceHeight = _ensureInt(sourceRect.height);
- int weightX = (blurX * blurX * pixelRatio * pixelRatio).floor();
- int weightY = (blurY * blurY * pixelRatio * pixelRatio).floor();
- int weightXinv = (1 &lt;&lt; 22) ~/ weightX;
- int weightYinv = (1 &lt;&lt; 22) ~/ weightY;
- int rx1 = (blurX * pixelRatio).floor();
- int rx2 = (blurX * pixelRatio * 2).floor();
- int ry1 = (blurY * pixelRatio).floor();
- int ry2 = (blurY * pixelRatio * 2).floor();
- int destinationWidth = sourceWidth + rx2;
- int destinationHeight = sourceHeight + ry2;
- int sourceWidth4 = sourceWidth * 4;
- int destinationWidth4 = destinationWidth * 4;
+ num pixelRatio = renderTextureQuad.renderTexture.storePixelRatio;
+ int blurX = (this.blurX * pixelRatio).round();
+ int blurY = (this.blurY * pixelRatio).round();
  int alphaChannel = _isLittleEndianSystem ? 3 : 0;
+ int stride = width * 4;
 
- var destinationImageData = destinationBitmapData.createImageData(destinationWidth, destinationHeight);
- var destinationData = destinationImageData.data;
- var buffer = new List&lt;int&gt;.filled(1024, 0);
-
- //--------------------------------------------------
- // blur vertical
-
- for (int x = 0; x &lt; sourceWidth; x++) {
-   int dif = 0, sum = weightY &gt;&gt; 1;
-   int offsetSource = x * 4 + alphaChannel;
-   int offsetDestination = (x + rx1) * 4 + alphaChannel;
-
-   for (int y = 0; y &lt; destinationHeight; y++) {
-     destinationData[offsetDestination] = ((sum * weightYinv) | 0) &gt;&gt; 22;
-     offsetDestination += destinationWidth4;
-
-     if (y &gt;= ry2) {
-       dif -= 2 * buffer[y &amp; 1023] - buffer[(y - ry1) &amp; 1023];
-     } else if (y &gt;= ry1) {
-       dif -= 2 * buffer[y &amp; 1023];
-     }
-
-     int alpha = (y &lt; sourceHeight) ? sourceData[offsetSource] : 0;
-     buffer[(y + ry1) &amp; 1023] = alpha;
-     sum += dif += alpha;
-     offsetSource += sourceWidth4;
-   }
+ for (int x = 0; x &lt; width; x++) {
+   _blur2(data, x * 4 + alphaChannel, height, stride, blurY);
  }
 
- //--------------------------------------------------
- // blur horizontal
-
- for (int y = 0; y &lt; destinationHeight; y++) {
-   int dif = 0, sum = weightX &gt;&gt; 1;
-   int offsetSource = y * destinationWidth4 + rx1 * 4 + alphaChannel;
-   int offsetDestination = y * destinationWidth4 + alphaChannel;
-
-   for (int x = 0; x &lt; destinationWidth; x++) {
-     destinationData[offsetDestination] = ((sum * weightXinv) | 0) &gt;&gt; 22;
-     offsetDestination += 4;
-
-     if (x &gt;= rx2) {
-       dif -= 2 * buffer[x &amp; 1023] - buffer[(x - rx1) &amp; 1023];
-     } else if (x &gt;= rx1) {
-       dif -= 2 * buffer[x &amp; 1023];
-     }
-
-     int alpha = (x &lt; sourceWidth) ? destinationData[offsetSource] : 0;
-     buffer[(x + rx1) &amp; 1023] = alpha;
-     sum += dif += alpha;
-     offsetSource += 4;
-   }
+ for (int y = 0; y &lt; height; y++) {
+   _blur2(data, y * stride + alphaChannel, width, 4, blurX);
  }
 
- //--------------------------------------------------
- // set color
-
- int aColor = (alpha * 256).toInt();
- int rColor = (color &gt;&gt; 16) &amp; 0xFF;
- int gColor = (color &gt;&gt;  8) &amp; 0xFF;
- int bColor = (color &gt;&gt;  0) &amp; 0xFF;
-
- if (_isLittleEndianSystem) {
-   for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
-     destinationData[i + 0] = rColor;
-     destinationData[i + 1] = gColor;
-     destinationData[i + 2] = bColor;
-     destinationData[i + 3] = (destinationData[i + 3] * aColor) &gt;&gt; 8;
-   }
+ if (this.knockout) {
+   _setColorKnockout(data, this.color, this.alpha, sourceImageData.data);
+ } else if (this.hideObject) {
+   _setColor(data, this.color, this.alpha);
  } else {
-   for(var i = 0; i &lt;= destinationData.length - 4; i += 4) {
-     destinationData[i + 0] = (destinationData[i + 0] * aColor) &gt;&gt; 8;
-     destinationData[i + 1] = bColor;
-     destinationData[i + 2] = gColor;
-     destinationData[i + 3] = rColor;
-   }
+   _setColorBlend(data, this.color, this.alpha, sourceImageData.data);
  }
 
- //--------------------------------------------------
-
- var sx = destinationPoint.x;
- var sy = destinationPoint.y;
- var dx = destinationPoint.x - rx1;
- var dy = destinationPoint.y - ry1;
- var sRect = new Rectangle(sx, sy, sourceWidth, sourceHeight);
- var dRect = new Rectangle(dx, dy, destinationWidth, destinationHeight);
- var uRect = sRect.union(dRect);
-
- destinationBitmapData.fillRect(uRect, Color.Transparent);
- destinationBitmapData.putImageData(destinationImageData, dx, dy);
-
- if (this.hideObject == false) {
-   destinationBitmapData.draw(originalBitmapData, new Matrix(1.0, 0.0, 0.0, 1.0, sx, sy));
- }
+ renderTextureQuad.putImageData(imageData);
 }
 </pre>
 </div>
@@ -578,23 +396,8 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
               title="Permalink to GlowFilter.clone">#</a></h4>
 <div class="doc">
 <pre class="source">
-BitmapFilter clone() {
-
- return new GlowFilter(color, alpha, blurX, blurY, strength, inner, knockout, hideObject);
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="getBounds">
-<button class="show-code">Code</button>
-<a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBounds</strong>() <a class="anchor-link" href="#getBounds"
-              title="Permalink to GlowFilter.getBounds">#</a></h4>
-<div class="doc">
-<pre class="source">
-Rectangle getBounds() {
-
- return new Rectangle(-blurX, -blurY, 2 * blurX, 2 * blurY);
-}
+BitmapFilter clone() =&gt; new GlowFilter(color, alpha, blurX, blurY,
+   knockout: knockout, hideObject: hideObject);
 </pre>
 </div>
 </div>
@@ -603,7 +406,7 @@ Rectangle getBounds() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:51.560</div>
+          <div>This page was generated at 2014-01-25 13:40:55.965</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

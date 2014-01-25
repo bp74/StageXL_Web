@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -194,7 +203,7 @@ final <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool<
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-bool get cached =&gt; _cache != null;
+bool get cached =&gt; _cacheTexture != null;
 </pre>
 </div>
 </div>
@@ -499,6 +508,18 @@ final <a href="../stagexl/EventStream.html">EventStream</a>&lt;<a href="../stage
         <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
 <pre class="source">
 EventStream&lt;MouseEvent&gt; get onMouseClick =&gt; InteractiveObject.mouseClickEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseContextMenu">
+<button class="show-code">Code</button>
+final <a href="../stagexl/EventStream.html">EventStream</a>&lt;<a href="../stagexl/MouseEvent.html">MouseEvent</a>&gt;         <strong>onMouseContextMenu</strong> <a class="anchor-link"
+            href="#onMouseContextMenu"
+            title="Permalink to Warp.onMouseContextMenu">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/InteractiveObject.html">InteractiveObject</a> </div><div class="doc">
+<pre class="source">
+EventStream&lt;MouseEvent&gt; get onMouseContextMenu =&gt; InteractiveObject.mouseContextMenu.forTarget(this);
 </pre>
 </div>
 </div>
@@ -1139,14 +1160,7 @@ void <strong>addChild</strong>(<a href="../stagexl/DisplayObject.html">DisplayOb
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 void addChild(DisplayObject child) {
-
- if (child.parent == this) {
-   int index = _children.indexOf(child);
-   _children.removeAt(index);
-   _children.add(child);
- } else {
-   addChildAt(child, _children.length);
- }
+ addChildAt(child, _children.length);
 }
 </pre>
 </div>
@@ -1159,32 +1173,39 @@ void <strong>addChildAt</strong>(<a href="../stagexl/DisplayObject.html">Display
 <pre class="source">
 void addChildAt(DisplayObject child, int index) {
 
- if (index &lt; 0 || index &gt; _children.length)
+ if (index &lt; 0 || index &gt; _children.length) {
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ }
 
- if (child == this)
+ if (child == this) {
    throw new ArgumentError("Error #2024: An object cannot be added as a child of itself.");
+ }
 
  if (child.parent == this) {
 
-   _children.removeAt(_children.indexOf(child));
-
-   if (index &gt; _children.length)
-     index --;
-
+   _children.remove(child);
+   if (index &gt; _children.length) index -= 1;
    _children.insert(index, child);
 
  } else {
 
    child.removeFromParent();
 
-   child._setParent(this);
+   for(var ancestor = this; ancestor != null; ancestor = ancestor.parent) {
+     if (ancestor == child) {
+       throw new ArgumentError("Error #2150: An object cannot be added as "
+           "a child to one of it's children (or children's children, etc.).");
+     }
+   }
+
    _children.insert(index, child);
 
+   child._parent = this;
    child.dispatchEvent(new Event(Event.ADDED, true));
 
-   if (this.stage != null)
+   if (this.stage != null) {
      _dispatchEventDescendants(child, new Event(Event.ADDED_TO_STAGE));
+   }
  }
 }
 </pre>
@@ -1226,9 +1247,15 @@ void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) 
 
  var pixelRatio = Stage.autoHiDpi ? _devicePixelRatio : 1.0;
 
- _cache = new BitmapData(width, height, true, Color.Transparent, pixelRatio);
+ if (_cacheTexture == null) {
+   _cacheTexture = new RenderTexture(width, height, true, Color.Transparent, pixelRatio);
+ } else {
+   _cacheTexture.resize(width, height);
+ }
+
  _cacheRectangle = new Rectangle(x, y, width, height);
  _cacheDebugBorder = debugBorder;
+
  refreshCache();
 }
 </pre>
@@ -1242,10 +1269,10 @@ void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) 
 <pre class="source">
 bool contains(DisplayObject child) {
 
- for(; child != null; child = child._parent)
-   if (child == this)
-     return true;
-
+ while(child != null) {
+   if (child == this) return true;
+   child = child.parent;
+ }
  return false;
 }
 </pre>
@@ -1314,11 +1341,13 @@ Rectangle getBounds(DisplayObject targetSpace) {
 <pre class="source">
 Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
 
- if (returnRectangle == null)
+ if (returnRectangle == null) {
    returnRectangle = new Rectangle.zero();
+ }
 
- if (_children.length == 0)
+ if (_children.length == 0) {
    return super.getBoundsTransformed(matrix, returnRectangle);
+ }
 
  num left = double.INFINITY;
  num top = double.INFINITY;
@@ -1358,9 +1387,9 @@ dynamic <strong>getChildAt</strong>(<a href="http://api.dartlang.org/dart_core/i
 <pre class="source">
 dynamic getChildAt(int index) {
 
- if (index &lt; 0 || index &gt;= _children.length)
+ if (index &lt; 0 || index &gt;= _children.length) {
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
-
+ }
  return _children[index];
 }
 </pre>
@@ -1374,11 +1403,11 @@ dynamic <strong>getChildByName</strong>(<a href="http://api.dartlang.org/dart_co
 <pre class="source">
 dynamic getChildByName(String name) {
 
- for(int i = 0; i &lt; _children.length; i++)
-   if (_children[i].name == name)
-     return _children[i];
-
-   return null;
+ for(int i = 0; i &lt; _children.length; i++) {
+   DisplayObject child = _children[i];
+   if (child.name == name) return child;
+ }
+ return null;
 }
 </pre>
 </div>
@@ -1390,7 +1419,8 @@ dynamic getChildByName(String name) {
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObjectContainer.html">DisplayObjectContainer</a> </div><div class="doc">
 <pre class="source">
 int getChildIndex(DisplayObject child) {
-   return _children.indexOf(child);
+
+ return _children.indexOf(child);
 }
 </pre>
 </div>
@@ -1599,30 +1629,44 @@ void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
 <pre class="source">
 void refreshCache() {
 
- if (_cache == null) return;
+ if (_cacheTexture == null) return;
 
  var x = _cacheRectangle.x;
  var y = _cacheRectangle.y;
  var width = _cacheRectangle.width;
  var height = _cacheRectangle.height;
+ var canvas = _cacheTexture.canvas;
 
- _cache.clear();
- _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+ var matrix = _cacheTexture.quad.drawMatrix..translate(-x, -y);
+ var renderContext = new RenderContextCanvas(canvas, Color.Transparent);
+ var renderState = new RenderState(renderContext, matrix);
+
+ renderContext.clear();
+ render(renderState);
 
  if (_filters != null) {
-   for(int i = 0; i &lt; _filters.length; i++) {
-     var sourceRectangle = new Rectangle(0, 0, width, height);
-     var destinationPoint = new Point.zero();
-     _filters[i].apply(_cache, sourceRectangle, _cache, destinationPoint);
+   var cacheBitmapData = new BitmapData.fromRenderTextureQuad(_cacheTexture.quad);
+   var bounds = this.getBoundsTransformed(_identityMatrix)..offset(-x, -y);
+   for(var filter in _filters) {
+     var filterOverlap = filter.overlap;
+     var filterBounds = bounds.clone();
+     filterBounds.offset(filterOverlap.x, filterOverlap.y);
+     filterBounds.inflate(filterOverlap.width, filterOverlap.height);
+     filter.apply(cacheBitmapData, filterBounds.align());
    }
  }
 
  if (_cacheDebugBorder) {
-   _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+   canvas.context2D
+       ..setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+       ..lineWidth = 1
+       ..lineJoin = "miter"
+       ..lineCap = "butt"
+       ..strokeStyle = "#FF00FF"
+       ..strokeRect(0.5, 0.5, canvas.width - 1, canvas.height - 1);
  }
+
+ _cacheTexture.update();
 }
 </pre>
 </div>
@@ -1634,7 +1678,10 @@ void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void removeCache() {
- _cache = null;
+ if (_cacheTexture != null) {
+   _cacheTexture.dispose();
+   _cacheTexture = null;
+ }
 }
 </pre>
 </div>
@@ -1648,9 +1695,10 @@ void <strong>removeChild</strong>(<a href="../stagexl/DisplayObject.html">Displa
 void removeChild(DisplayObject child) {
 
  int childIndex = _children.indexOf(child);
-
- if (childIndex == -1)
-   throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+ if (childIndex == -1) {
+   throw new ArgumentError(
+       "Error #2025: The supplied DisplayObject must be a child of the caller.");
+ }
 
  removeChildAt(childIndex);
 }
@@ -1665,17 +1713,19 @@ void <strong>removeChildAt</strong>(<a href="http://api.dartlang.org/dart_core/i
 <pre class="source">
 void removeChildAt(int index) {
 
- if (index &lt; 0 || index &gt;= _children.length)
+ if (index &lt; 0 || index &gt;= _children.length) {
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ }
 
  DisplayObject child = _children[index];
 
  child.dispatchEvent(new Event(Event.REMOVED, true));
 
- if (this.stage != null)
+ if (this.stage != null) {
    _dispatchEventDescendants(child, new Event(Event.REMOVED_FROM_STAGE));
+ }
 
- child._setParent(null);
+ child._parent = null;
  _children.removeAt(index);
 }
 </pre>
@@ -1690,6 +1740,7 @@ void <strong>removeChildren</strong>([<a href="http://api.dartlang.org/dart_core
 void removeChildren([int beginIndex = 0, int endIndex = 0x7fffffff]) {
 
  var length = _children.length;
+ if (length == 0) return;
 
  if (endIndex == 0x7fffffff) {
    endIndex = length - 1;
@@ -1772,13 +1823,14 @@ void <strong>setChildIndex</strong>(<a href="../stagexl/DisplayObject.html">Disp
 <pre class="source">
 void setChildIndex(DisplayObject child, int index) {
 
- if (index &lt; 0 || index &gt;= _children.length)
+ if (index &lt; 0 || index &gt;= _children.length) {
    throw new ArgumentError("Error #2006: The supplied index is out of bounds.");
+ }
 
  int oldIndex = getChildIndex(child);
-
- if (oldIndex == -1)
+ if (oldIndex == -1) {
    throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+ }
 
  _children.removeAt(oldIndex);
  _children.insert(index, child);
@@ -1827,13 +1879,14 @@ void <strong>swapChildren</strong>(<a href="../stagexl/DisplayObject.html">Displ
 <pre class="source">
 void swapChildren(DisplayObject child1, DisplayObject child2) {
 
-   int index1 = getChildIndex(child1);
-   int index2 = getChildIndex(child2);
+ int index1 = getChildIndex(child1);
+ int index2 = getChildIndex(child2);
 
-   if (index1 == -1 || index2 == -1)
-     throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+ if (index1 == -1 || index2 == -1) {
+   throw new ArgumentError("Error #2025: The supplied DisplayObject must be a child of the caller.");
+ }
 
-   swapChildrenAt(index1, index2);
+ swapChildrenAt(index1, index2);
 }
 </pre>
 </div>
@@ -1920,7 +1973,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:51.813</div>
+          <div>This page was generated at 2014-01-25 13:40:56.303</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

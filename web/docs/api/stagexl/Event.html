@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -172,28 +181,13 @@ class Event {
 
  String _type;
  bool _bubbles;
- int _eventPhase;
- EventDispatcher _target;
- EventDispatcher _currentTarget;
- bool _stopsPropagation;
- bool _stopsImmediatePropagation;
+ int _eventPhase = EventPhase.AT_TARGET;
+ EventDispatcher _target = null;
+ EventDispatcher _currentTarget = null;
+ bool _stopsPropagation = false;
+ bool _stopsImmediatePropagation = false;
 
- Event(String type, [bool bubbles = false]) {
-   _reset(type, bubbles);
- }
-
- //-------------------------------------------------------------------------------------------------
- //-------------------------------------------------------------------------------------------------
-
- void _reset(String type, [bool bubbles = false]) {
-   _type = type;
-   _bubbles = bubbles;
-   _eventPhase = EventPhase.AT_TARGET;
-   _target = null;
-   _currentTarget = null;
-   _stopsPropagation = false;
-   _stopsImmediatePropagation = false;
- }
+ Event(String type, [bool bubbles = false]) : _type = type, _bubbles = bubbles;
 
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
@@ -456,9 +450,7 @@ through their identity. An <a class="crossref" href="http://api.dartlang.org/dar
 only.</p>
 <div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_core/Object.html" ref="external">Object</a> </div></div>
 <pre class="source">
-Event(String type, [bool bubbles = false]) {
- _reset(type, bubbles);
-}
+Event(String type, [bool bubbles = false]) : _type = type, _bubbles = bubbles;
 </pre>
 </div>
 </div>
@@ -594,7 +586,7 @@ void stopPropagation() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:51.730</div>
+          <div>This page was generated at 2014-01-25 13:40:56.139</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

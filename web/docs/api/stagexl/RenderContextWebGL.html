@@ -1,0 +1,716 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>RenderContextWebGL class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="RenderContextWebGL">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/RenderContextWebGL.html">RenderContextWebGL</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/AlphaMaskFilter.html"><div class="icon-class"></div>AlphaMaskFilter</a></li>
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AnimationChain.html"><div class="icon-class"></div>AnimationChain</a></li>
+<li><a href="../stagexl/AnimationGroup.html"><div class="icon-class"></div>AnimationGroup</a></li>
+<li><a href="../stagexl/AudioElementMixer.html"><div class="icon-class"></div>AudioElementMixer</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDataLoadOptions.html"><div class="icon-class"></div>BitmapDataLoadOptions</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../stagexl/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../stagexl/BroadcastEvent.html"><div class="icon-class"></div>BroadcastEvent</a></li>
+<li><a href="../stagexl/ButtonHelper.html"><div class="icon-class"></div>ButtonHelper</a></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/ChangeHandler.html"><div class="icon-interface"></div>ChangeHandler</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../stagexl/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/CompositeOperation.html"><div class="icon-class"></div>CompositeOperation</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EaseFunction.html"><div class="icon-interface"></div>EaseFunction</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../stagexl/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventListener.html"><div class="icon-interface"></div>EventListener&lt;T&gt;</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStream.html"><div class="icon-class"></div>EventStream&lt;T&gt;</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../stagexl/EventStreamSubscription.html"><div class="icon-class"></div>EventStreamSubscription&lt;T&gt;</a></li>
+<li><a href="../stagexl/ExitFrameEvent.html"><div class="icon-class"></div>ExitFrameEvent</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/HtmlObject.html"><div class="icon-class"></div>HtmlObject</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../stagexl/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><div class="icon-class"></div><strong>RenderContextWebGL</strong></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
+<li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
+<li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundLoadOptions.html"><div class="icon-class"></div>SoundLoadOptions</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/SpriteSheet.html"><div class="icon-class"></div>SpriteSheet</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../stagexl/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../stagexl/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../stagexl/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../stagexl/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../stagexl/Timeline.html"><div class="icon-class"></div>Timeline</a></li>
+<li><a href="../stagexl/TimelineAction.html"><div class="icon-class"></div>TimelineAction</a></li>
+<li><a href="../stagexl/TimelineStep.html"><div class="icon-class"></div>TimelineStep</a></li>
+<li><a href="../stagexl/TimelineTween.html"><div class="icon-class"></div>TimelineTween</a></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../stagexl/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/TweenProperty.html"><div class="icon-class"></div>TweenProperty</a></li>
+<li><a href="../stagexl/TweenPropertyFactory.html"><div class="icon-class"></div>TweenPropertyFactory</a></li>
+<li><a href="../stagexl/Vector.html"><div class="icon-class"></div>Vector</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiMixer.html"><div class="icon-class"></div>WebAudioApiMixer</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>RenderContextWebGL</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class RenderContextWebGL extends RenderContext {
+
+ final CanvasElement _canvasElement;
+ final int _backgroundColor;
+
+ final RenderProgramQuad _renderProgramQuad = new RenderProgramQuad();
+ final RenderProgramTriangle _renderProgramTriangle = new RenderProgramTriangle();
+
+ gl.RenderingContext _renderingContext;
+ RenderTexture _renderTexture;
+ RenderProgram _renderProgram;
+ int _maskDepth = 0;
+
+ RenderContextWebGL(CanvasElement canvasElement, int backgroundColor) :
+   _canvasElement = canvasElement,
+   _backgroundColor = _ensureInt(backgroundColor) {
+
+   _canvasElement.onWebGlContextLost.listen(_onContextLost);
+   _canvasElement.onWebGlContextRestored.listen(_onContextRestored);
+
+   var renderingContext = _canvasElement.getContext3d(
+       alpha: false, depth: false, stencil: true, antialias: false,
+       premultipliedAlpha: true, preserveDrawingBuffer: false);
+
+   if (renderingContext is! gl.RenderingContext) {
+     throw new StateError("Failed to get WebGL context.");
+   }
+
+   _renderingContext = renderingContext;
+   _renderingContext.enable(gl.BLEND);
+   _renderingContext.disable(gl.STENCIL_TEST);
+   _renderingContext.disable(gl.DEPTH_TEST);
+   _renderingContext.disable(gl.CULL_FACE);
+   _renderingContext.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 1);
+   _renderingContext.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+   _renderProgram = _renderProgramQuad;
+   _renderProgram.activate(this);
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
+ String get renderEngine =&gt; RenderEngine.WebGL;
+
+ gl.RenderingContext get rawContext =&gt; _renderingContext;
+
+ Matrix get viewPortMatrix {
+   int width = _renderingContext.drawingBufferWidth;
+   int height = _renderingContext.drawingBufferHeight;
+   return new Matrix(2.0 / width, 0.0, 0.0, - 2.0 / height, -1.0, 1.0);
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
+ void clear() {
+
+   int width = _renderingContext.drawingBufferWidth;
+   int height = _renderingContext.drawingBufferHeight;
+   num r = _colorGetR(_backgroundColor) / 255.0;
+   num g = _colorGetG(_backgroundColor) / 255.0;
+   num b = _colorGetB(_backgroundColor) / 255.0;
+
+   _renderingContext.viewport(0, 0, width, height);
+   _renderingContext.colorMask(true, true, true, true);
+   _renderingContext.clearColor(r, g, b, 1.0);
+   _renderingContext.clear(gl.COLOR_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
+ }
+
+ void renderQuad(RenderTextureQuad renderTextureQuad, Matrix matrix, num alpha) {
+   _updateState(_renderProgramQuad, renderTextureQuad.renderTexture);
+   _renderProgramQuad.renderQuad(renderTextureQuad, matrix, alpha);
+ }
+
+ void renderTriangle(num x1, num y1, num x2, num y2, num x3, num y3, Matrix matrix, int color) {
+   _updateState(_renderProgramTriangle, _renderTexture);
+   _renderProgramTriangle.renderTriangle(x1, y1, x2, y2, x3, y3, matrix, color);
+ }
+
+ void flush() {
+   _renderProgram.flush();
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
+ void beginRenderMask(RenderState renderState, Mask mask, Matrix matrix) {
+
+   if (_maskDepth == 0) {
+     _renderProgram.flush();
+     _renderingContext.enable(gl.STENCIL_TEST);
+   }
+
+   _updateState(_renderProgramTriangle, null);
+   _renderingContext.stencilFunc(gl.EQUAL, _maskDepth, 0xFF);
+   _renderingContext.stencilOp(gl.KEEP, gl.KEEP, gl.INCR);
+   _renderingContext.stencilMask(0xFF);
+   _renderingContext.colorMask(false, false, false, false);
+   _maskDepth += 1;
+
+   mask._drawTriangles(this, matrix);
+
+   _updateState(_renderProgramQuad, null);
+   _renderingContext.stencilFunc(gl.EQUAL, _maskDepth, 0xFF);
+   _renderingContext.stencilMask(0x00);
+   _renderingContext.colorMask(true, true, true, true);
+ }
+
+ void endRenderMask(Mask mask) {
+
+   if (_maskDepth == 1) {
+
+     _renderProgram.flush();
+     _maskDepth = 0;
+     _renderingContext.stencilMask(0xFF);
+     _renderingContext.disable(gl.STENCIL_TEST);
+     _renderingContext.clear(gl.STENCIL_BUFFER_BIT);
+     _renderingContext.stencilMask(0);
+
+   } else {
+
+     _updateState(_renderProgramTriangle, null);
+     _renderingContext.stencilFunc(gl.EQUAL, _maskDepth, 0xFF);
+     _renderingContext.stencilOp(gl.KEEP, gl.KEEP, gl.DECR);
+     _renderingContext.stencilMask(0xFF);
+     _renderingContext.colorMask(false, false, false, false);
+     _maskDepth -= 1;
+
+     var matrix = _identityMatrix;
+     var color = Color.Magenta;
+
+     _renderProgramTriangle.renderTriangle(-1, -1, 1, -1, 1, 1, matrix, color);
+     _renderProgramTriangle.renderTriangle(-1, -1, 1, 1, -1, 1, matrix, color);
+
+     _updateState(_renderProgramQuad, null);
+     _renderingContext.stencilFunc(gl.EQUAL, _maskDepth, 0xFF);
+     _renderingContext.stencilMask(0x00);
+     _renderingContext.colorMask(true, true, true, true);
+   }
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
+ void beginRenderShadow(RenderState renderState, Shadow shadow, Matrix matrix) {
+   // TODO: We will add this once we have WebGL filters.
+ }
+
+ void endRenderShadow(Shadow shadow) {
+
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
+ _updateState(RenderProgram renderProgram, RenderTexture renderTexture) {
+
+   // dartbug.com/16286
+
+   if (renderProgram != null) {
+     if (identical(renderProgram, _renderProgram) == false) {
+       _renderProgram.flush();
+       _renderProgram = renderProgram;
+       _renderProgram.activate(this);
+     }
+   }
+
+   if (renderTexture != null) {
+     if (identical(renderTexture, _renderTexture) == false) {
+       _renderProgram.flush();
+       _renderTexture = renderTexture;
+       _renderTexture.activate(this, gl.TEXTURE0);
+     }
+   }
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
+ _onContextLost(gl.ContextEvent contextEvent) {
+   contextEvent.preventDefault();
+   this.dispatchEvent(new Event("contextLost"));
+ }
+
+ _onContextRestored(gl.ContextEvent contextEvent) {
+   this.dispatchEvent(new Event("contextRestored"));
+ }
+
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../stagexl/EventDispatcher.html">EventDispatcher</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../stagexl/RenderContext.html">RenderContext</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>RenderContextWebGL</strong></span></p>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="">
+<button class="show-code">Code</button>
+new <strong>RenderContextWebGL</strong>(<a href="http://api.dartlang.org/dart_html/CanvasElement.html" ref="external">CanvasElement</a> canvasElement, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> backgroundColor) <a class="anchor-link" href="#"
+              title="Permalink to RenderContextWebGL.RenderContextWebGL">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="http://api.dartlang.org/dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="http://api.dartlang.org/dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="http://api.dartlang.org/dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_core/Object.html" ref="external">Object</a> </div></div>
+<pre class="source">
+RenderContextWebGL(CanvasElement canvasElement, int backgroundColor) :
+ _canvasElement = canvasElement,
+ _backgroundColor = _ensureInt(backgroundColor) {
+
+ _canvasElement.onWebGlContextLost.listen(_onContextLost);
+ _canvasElement.onWebGlContextRestored.listen(_onContextRestored);
+
+ var renderingContext = _canvasElement.getContext3d(
+     alpha: false, depth: false, stencil: true, antialias: false,
+     premultipliedAlpha: true, preserveDrawingBuffer: false);
+
+ if (renderingContext is! gl.RenderingContext) {
+   throw new StateError("Failed to get WebGL context.");
+ }
+
+ _renderingContext = renderingContext;
+ _renderingContext.enable(gl.BLEND);
+ _renderingContext.disable(gl.STENCIL_TEST);
+ _renderingContext.disable(gl.DEPTH_TEST);
+ _renderingContext.disable(gl.CULL_FACE);
+ _renderingContext.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 1);
+ _renderingContext.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+ _renderProgram = _renderProgramQuad;
+ _renderProgram.activate(this);
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field inherited"><h4 id="onContextLost">
+<button class="show-code">Code</button>
+final <a href="../stagexl/EventStream.html">EventStream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onContextLost</strong> <a class="anchor-link"
+            href="#onContextLost"
+            title="Permalink to RenderContextWebGL.onContextLost">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/RenderContext.html">RenderContext</a> </div><div class="doc">
+<pre class="source">
+EventStream&lt;Event&gt; get onContextLost =&gt; RenderContext.contextLostEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onContextRestored">
+<button class="show-code">Code</button>
+final <a href="../stagexl/EventStream.html">EventStream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt;         <strong>onContextRestored</strong> <a class="anchor-link"
+            href="#onContextRestored"
+            title="Permalink to RenderContextWebGL.onContextRestored">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../stagexl/RenderContext.html">RenderContext</a> </div><div class="doc">
+<pre class="source">
+EventStream&lt;Event&gt; get onContextRestored =&gt; RenderContext.contextRestoredEvent.forTarget(this);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="rawContext">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_web_gl/RenderingContext.html" ref="external">RenderingContext</a>         <strong>rawContext</strong> <a class="anchor-link"
+            href="#rawContext"
+            title="Permalink to RenderContextWebGL.rawContext">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+gl.RenderingContext get rawContext =&gt; _renderingContext;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="renderEngine">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a>         <strong>renderEngine</strong> <a class="anchor-link"
+            href="#renderEngine"
+            title="Permalink to RenderContextWebGL.renderEngine">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String get renderEngine =&gt; RenderEngine.WebGL;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="viewPortMatrix">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Matrix.html">Matrix</a>         <strong>viewPortMatrix</strong> <a class="anchor-link"
+            href="#viewPortMatrix"
+            title="Permalink to RenderContextWebGL.viewPortMatrix">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Matrix get viewPortMatrix {
+ int width = _renderingContext.drawingBufferWidth;
+ int height = _renderingContext.drawingBufferHeight;
+ return new Matrix(2.0 / width, 0.0, 0.0, - 2.0 / height, -1.0, 1.0);
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method inherited"><h4 id="addEventListener">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_async/StreamSubscription.html" ref="external">StreamSubscription</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt; <strong>addEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a> eventType, <a href="../stagexl/EventListener.html">EventListener</a> eventListener, {<a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a> useCapture: false, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> priority: 0}) <a class="anchor-link" href="#addEventListener"
+              title="Permalink to RenderContextWebGL.addEventListener">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+StreamSubscription&lt;Event&gt; addEventListener(String eventType, EventListener eventListener, {
+ bool useCapture: false, int priority: 0 }) {
+
+ return this.on(eventType)._subscribe(eventListener, useCapture, priority);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="beginRenderMask">
+<button class="show-code">Code</button>
+void <strong>beginRenderMask</strong>(<a href="../stagexl/RenderState.html">RenderState</a> renderState, <a href="../stagexl/Mask.html">Mask</a> mask, <a href="../stagexl/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#beginRenderMask"
+              title="Permalink to RenderContextWebGL.beginRenderMask">#</a></h4>
+<div class="doc">
+<pre class="source">
+void beginRenderMask(RenderState renderState, Mask mask, Matrix matrix) {
+
+ if (_maskDepth == 0) {
+   _renderProgram.flush();
+   _renderingContext.enable(gl.STENCIL_TEST);
+ }
+
+ _updateState(_renderProgramTriangle, null);
+ _renderingContext.stencilFunc(gl.EQUAL, _maskDepth, 0xFF);
+ _renderingContext.stencilOp(gl.KEEP, gl.KEEP, gl.INCR);
+ _renderingContext.stencilMask(0xFF);
+ _renderingContext.colorMask(false, false, false, false);
+ _maskDepth += 1;
+
+ mask._drawTriangles(this, matrix);
+
+ _updateState(_renderProgramQuad, null);
+ _renderingContext.stencilFunc(gl.EQUAL, _maskDepth, 0xFF);
+ _renderingContext.stencilMask(0x00);
+ _renderingContext.colorMask(true, true, true, true);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="beginRenderShadow">
+<button class="show-code">Code</button>
+void <strong>beginRenderShadow</strong>(<a href="../stagexl/RenderState.html">RenderState</a> renderState, <a href="../stagexl/Shadow.html">Shadow</a> shadow, <a href="../stagexl/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#beginRenderShadow"
+              title="Permalink to RenderContextWebGL.beginRenderShadow">#</a></h4>
+<div class="doc">
+<pre class="source">
+void beginRenderShadow(RenderState renderState, Shadow shadow, Matrix matrix) {
+ // TODO: We will add this once we have WebGL filters.
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="clear">
+<button class="show-code">Code</button>
+void <strong>clear</strong>() <a class="anchor-link" href="#clear"
+              title="Permalink to RenderContextWebGL.clear">#</a></h4>
+<div class="doc">
+<pre class="source">
+void clear() {
+
+ int width = _renderingContext.drawingBufferWidth;
+ int height = _renderingContext.drawingBufferHeight;
+ num r = _colorGetR(_backgroundColor) / 255.0;
+ num g = _colorGetG(_backgroundColor) / 255.0;
+ num b = _colorGetB(_backgroundColor) / 255.0;
+
+ _renderingContext.viewport(0, 0, width, height);
+ _renderingContext.colorMask(true, true, true, true);
+ _renderingContext.clearColor(r, g, b, 1.0);
+ _renderingContext.clear(gl.COLOR_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="dispatchEvent">
+<button class="show-code">Code</button>
+void <strong>dispatchEvent</strong>(<a href="../stagexl/Event.html">Event</a> event) <a class="anchor-link" href="#dispatchEvent"
+              title="Permalink to RenderContextWebGL.dispatchEvent">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+void dispatchEvent(Event event) {
+ _dispatchEventInternal(event, this, EventPhase.AT_TARGET);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="endRenderMask">
+<button class="show-code">Code</button>
+void <strong>endRenderMask</strong>(<a href="../stagexl/Mask.html">Mask</a> mask) <a class="anchor-link" href="#endRenderMask"
+              title="Permalink to RenderContextWebGL.endRenderMask">#</a></h4>
+<div class="doc">
+<pre class="source">
+void endRenderMask(Mask mask) {
+
+ if (_maskDepth == 1) {
+
+   _renderProgram.flush();
+   _maskDepth = 0;
+   _renderingContext.stencilMask(0xFF);
+   _renderingContext.disable(gl.STENCIL_TEST);
+   _renderingContext.clear(gl.STENCIL_BUFFER_BIT);
+   _renderingContext.stencilMask(0);
+
+ } else {
+
+   _updateState(_renderProgramTriangle, null);
+   _renderingContext.stencilFunc(gl.EQUAL, _maskDepth, 0xFF);
+   _renderingContext.stencilOp(gl.KEEP, gl.KEEP, gl.DECR);
+   _renderingContext.stencilMask(0xFF);
+   _renderingContext.colorMask(false, false, false, false);
+   _maskDepth -= 1;
+
+   var matrix = _identityMatrix;
+   var color = Color.Magenta;
+
+   _renderProgramTriangle.renderTriangle(-1, -1, 1, -1, 1, 1, matrix, color);
+   _renderProgramTriangle.renderTriangle(-1, -1, 1, 1, -1, 1, matrix, color);
+
+   _updateState(_renderProgramQuad, null);
+   _renderingContext.stencilFunc(gl.EQUAL, _maskDepth, 0xFF);
+   _renderingContext.stencilMask(0x00);
+   _renderingContext.colorMask(true, true, true, true);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="endRenderShadow">
+<button class="show-code">Code</button>
+void <strong>endRenderShadow</strong>(<a href="../stagexl/Shadow.html">Shadow</a> shadow) <a class="anchor-link" href="#endRenderShadow"
+              title="Permalink to RenderContextWebGL.endRenderShadow">#</a></h4>
+<div class="doc">
+<pre class="source">
+void endRenderShadow(Shadow shadow) {
+
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="flush">
+<button class="show-code">Code</button>
+void <strong>flush</strong>() <a class="anchor-link" href="#flush"
+              title="Permalink to RenderContextWebGL.flush">#</a></h4>
+<div class="doc">
+<pre class="source">
+void flush() {
+ _renderProgram.flush();
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hasEventListener">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a> <strong>hasEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a> eventType) <a class="anchor-link" href="#hasEventListener"
+              title="Permalink to RenderContextWebGL.hasEventListener">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+bool hasEventListener(String eventType) {
+
+ var eventStreams = _eventStreams;
+ if (eventStreams == null) return false;
+ var eventStream = eventStreams[eventType];
+ if (eventStream == null) return false;
+
+ return eventStream.hasSubscriptions;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="on">
+<button class="show-code">Code</button>
+<a href="../stagexl/EventStream.html">EventStream</a>&lt;<a href="../stagexl/Event.html">Event</a>&gt; <strong>on</strong>(<a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a> eventType) <a class="anchor-link" href="#on"
+              title="Permalink to RenderContextWebGL.on">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+EventStream&lt;Event&gt; on(String eventType) {
+
+ var eventStreams = _eventStreams;
+ if (eventStreams == null) {
+   eventStreams = new Map&lt;String, EventStream&gt;();
+   _eventStreams = eventStreams;
+ }
+
+ var eventStream = eventStreams[eventType];
+ if (eventStream == null) {
+   eventStream = new EventStream._internal(this, eventType);
+   eventStreams[eventType] = eventStream;
+ }
+
+ return eventStream;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeEventListener">
+<button class="show-code">Code</button>
+void <strong>removeEventListener</strong>(<a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a> eventType, <a href="../stagexl/EventListener.html">EventListener</a> eventListener, {<a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool</a> useCapture: false}) <a class="anchor-link" href="#removeEventListener"
+              title="Permalink to RenderContextWebGL.removeEventListener">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+void removeEventListener(String eventType, EventListener eventListener, {
+ bool useCapture: false }) {
+
+ this.on(eventType)._unsubscribe(eventListener, useCapture);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeEventListeners">
+<button class="show-code">Code</button>
+void <strong>removeEventListeners</strong>(<a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a> eventType) <a class="anchor-link" href="#removeEventListeners"
+              title="Permalink to RenderContextWebGL.removeEventListeners">#</a></h4>
+<div class="inherited-from">inherited from <a href="../stagexl/EventDispatcher.html">EventDispatcher</a> </div><div class="doc">
+<pre class="source">
+void removeEventListeners(String eventType) {
+ this.on(eventType).cancelSubscriptions();
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="renderQuad">
+<button class="show-code">Code</button>
+void <strong>renderQuad</strong>(<a href="../stagexl/RenderTextureQuad.html">RenderTextureQuad</a> renderTextureQuad, <a href="../stagexl/Matrix.html">Matrix</a> matrix, <a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> alpha) <a class="anchor-link" href="#renderQuad"
+              title="Permalink to RenderContextWebGL.renderQuad">#</a></h4>
+<div class="doc">
+<pre class="source">
+void renderQuad(RenderTextureQuad renderTextureQuad, Matrix matrix, num alpha) {
+ _updateState(_renderProgramQuad, renderTextureQuad.renderTexture);
+ _renderProgramQuad.renderQuad(renderTextureQuad, matrix, alpha);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="renderTriangle">
+<button class="show-code">Code</button>
+void <strong>renderTriangle</strong>(<a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> x1, <a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> y1, <a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> x2, <a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> y2, <a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> x3, <a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> y3, <a href="../stagexl/Matrix.html">Matrix</a> matrix, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> color) <a class="anchor-link" href="#renderTriangle"
+              title="Permalink to RenderContextWebGL.renderTriangle">#</a></h4>
+<div class="doc">
+<pre class="source">
+void renderTriangle(num x1, num y1, num x2, num y2, num x3, num y3, Matrix matrix, int color) {
+ _updateState(_renderProgramTriangle, _renderTexture);
+ _renderProgramTriangle.renderTriangle(x1, y1, x2, y2, x3, y3, matrix, color);
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2014-01-25 13:40:56.253</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

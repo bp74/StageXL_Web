@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -144,36 +153,36 @@
 <div class="doc">
 <pre class="source">
 class Matrix {
- 
+
  double _a, _b, _c, _d, _tx, _ty;
  double _det;
 
  Matrix(num a, num b, num c, num d, num tx, num ty) :
-   _a = a.toDouble(), 
-   _b = b.toDouble(), 
-   _c = c.toDouble(), 
-   _d = d.toDouble(), 
-   _tx = tx.toDouble(), 
-   _ty = ty.toDouble(), 
+   _a = a.toDouble(),
+   _b = b.toDouble(),
+   _c = c.toDouble(),
+   _d = d.toDouble(),
+   _tx = tx.toDouble(),
+   _ty = ty.toDouble(),
    _det = (a * d - b * c).toDouble();
 
  Matrix.fromIdentity() :
-   _a = 1.0, 
-   _b = 0.0, 
-   _c = 0.0, 
-   _d = 1.0, 
-   _tx = 0.0, 
-   _ty = 0.0, 
+   _a = 1.0,
+   _b = 0.0,
+   _c = 0.0,
+   _d = 1.0,
+   _tx = 0.0,
+   _ty = 0.0,
    _det = 1.0;
 
  //-------------------------------------------------------------------------------------------------
 
- Matrix clone() {
-   return new Matrix(_a, _b, _c, _d, _tx, _ty);
- }
+ String toString() =&gt; "Matrix [a=$_a, b=$_b, c=$_c, d=$_d, tx=$_tx, ty=$_ty]";
+
+ Matrix clone() =&gt; new Matrix(_a, _b, _c, _d, _tx, _ty);
 
  Matrix cloneInvert() {
-   
+
    num a =    (_d / _det);
    num b =  - (_b / _det);
    num c =  - (_c / _det);
@@ -208,13 +217,13 @@ class Matrix {
    var y = v.y.toDouble();
    return new Vector(x * _a + y * _c + _tx, x * _b + y * _d + _ty);
  }
- 
+
  Point deltaTransformPoint(Point p) {
    var x = p.x.toDouble();
    var y = p.y.toDouble();
    return new Point(x * _a + y * _c, x * _b + y * _d);
  }
- 
+
  Point _transformHtmlPoint(html.Point p) {
    var x = p.x.toDouble();
    var y = p.y.toDouble();
@@ -251,8 +260,36 @@ class Matrix {
 
  //-------------------------------------------------------------------------------------------------
 
+ void prepend(Matrix matrix) {
+   num a1 =   _a;
+   num b1 =   _b;
+   num c1 =   _c;
+   num d1 =   _d;
+   num tx1 =  _tx;
+   num ty1 =  _ty;
+   num det1 = _det;
+
+   num a2 =   matrix.a;
+   num b2 =   matrix.b;
+   num c2 =   matrix.c;
+   num d2 =   matrix.d;
+   num tx2 =  matrix.tx;
+   num ty2 =  matrix.ty;
+   num det2 = matrix.det;
+
+   _a =   (a1 * a2 + c1 * b2).toDouble();
+   _b =   (b1 * a2 + d1 * b2).toDouble();
+   _c =   (a1 * c2 + c1 * d2).toDouble();
+   _d =   (b1 * c2 + d1 * d2).toDouble();
+   _tx =  (tx2 * a1 + ty2 * c1 + tx1).toDouble();
+   _ty =  (tx2 * b1 + ty2 * d1 + ty1).toDouble();
+   _det = (det1 * det2).toDouble();
+ }
+
+ //-------------------------------------------------------------------------------------------------
+
  Matrix createBox(num scaleX, num scaleY, [num rotation = 0.0, num translationX = 0.0, num translationY = 0.0]) {
-   
+
    Matrix matrix = new Matrix.fromIdentity();
    matrix.scale(scaleX, scaleY);
    matrix.rotate(rotation);
@@ -264,7 +301,7 @@ class Matrix {
  //-------------------------------------------------------------------------------------------------
 
  void identity() {
-   
+
    _a =   1.0;
    _b =   0.0;
    _c =   0.0;
@@ -277,7 +314,7 @@ class Matrix {
  //-------------------------------------------------------------------------------------------------
 
  void invert() {
-   
+
    num a =   _a;
    num b =   _b;
    num c =   _c;
@@ -298,7 +335,7 @@ class Matrix {
  //-------------------------------------------------------------------------------------------------
 
  void rotate(num rotation) {
-   
+
    num cosR = cos(rotation);
    num sinR = sin(rotation);
 
@@ -320,19 +357,19 @@ class Matrix {
  //-------------------------------------------------------------------------------------------------
 
  void skew(num skewX, num skewY) {
-   
+
    num sinX = sin(skewX);
    num cosX = cos(skewX);
    num sinY = sin(skewY);
    num cosY = cos(skewY);
-   
+
    num a =  _a;
    num b =  _b;
    num c =  _c;
    num d =  _d;
    num tx = _tx;
    num ty = _ty;
-   
+
    _a =   (a * cosY - b * sinX).toDouble();
    _b =   (a * sinY + b * cosX).toDouble();
    _c =   (c * cosY - d * sinX).toDouble();
@@ -345,7 +382,7 @@ class Matrix {
  //-------------------------------------------------------------------------------------------------
 
  void scale(num scaleX, num scaleY) {
-   
+
    _a   = (  _a * scaleX).toDouble();
    _b   = (  _b * scaleY).toDouble();
    _c   = (  _c * scaleX).toDouble();
@@ -358,7 +395,7 @@ class Matrix {
  //-------------------------------------------------------------------------------------------------
 
  void translate(num translationX, num translationY) {
-   
+
    _tx = (_tx + translationX).toDouble();;
    _ty = (_ty + translationY).toDouble();
  }
@@ -366,7 +403,7 @@ class Matrix {
  //-------------------------------------------------------------------------------------------------
 
  void setTo(num a, num b, num c, num d, num tx, num ty) {
-   
+
    _a =   a.toDouble();
    _b =   b.toDouble();
    _c =   c.toDouble();
@@ -379,7 +416,7 @@ class Matrix {
  //-------------------------------------------------------------------------------------------------
 
  void copyFrom(Matrix matrix) {
-   
+
    _a =   matrix.a.toDouble();
    _b =   matrix.b.toDouble();
    _c =   matrix.c.toDouble();
@@ -392,7 +429,7 @@ class Matrix {
  //-------------------------------------------------------------------------------------------------
 
  void copyFromAndConcat(Matrix copyMatrix, Matrix concatMatrix) {
-   
+
    num a1 =   copyMatrix.a;
    num b1 =   copyMatrix.b;
    num c1 =   copyMatrix.c;
@@ -421,7 +458,7 @@ class Matrix {
  //-------------------------------------------------------------------------------------------------
 
  void copyFromAndInvert(Matrix matrix) {
-   
+
    num a =   matrix.a;
    num b =   matrix.b;
    num c =   matrix.c;
@@ -457,12 +494,12 @@ only.</p>
 <div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_core/Object.html" ref="external">Object</a> </div></div>
 <pre class="source">
 Matrix(num a, num b, num c, num d, num tx, num ty) :
- _a = a.toDouble(), 
- _b = b.toDouble(), 
- _c = c.toDouble(), 
- _d = d.toDouble(), 
- _tx = tx.toDouble(), 
- _ty = ty.toDouble(), 
+ _a = a.toDouble(),
+ _b = b.toDouble(),
+ _c = c.toDouble(),
+ _d = d.toDouble(),
+ _tx = tx.toDouble(),
+ _ty = ty.toDouble(),
  _det = (a * d - b * c).toDouble();
 </pre>
 </div>
@@ -474,12 +511,12 @@ new <strong>Matrix.fromIdentity</strong>() <a class="anchor-link" href="#fromIde
 <div class="doc">
 <pre class="source">
 Matrix.fromIdentity() :
- _a = 1.0, 
- _b = 0.0, 
- _c = 0.0, 
- _d = 1.0, 
- _tx = 0.0, 
- _ty = 0.0, 
+ _a = 1.0,
+ _b = 0.0,
+ _c = 0.0,
+ _d = 1.0,
+ _tx = 0.0,
+ _ty = 0.0,
  _det = 1.0;
 </pre>
 </div>
@@ -580,9 +617,7 @@ num get ty =&gt; _ty;
               title="Permalink to Matrix.clone">#</a></h4>
 <div class="doc">
 <pre class="source">
-Matrix clone() {
- return new Matrix(_a, _b, _c, _d, _tx, _ty);
-}
+Matrix clone() =&gt; new Matrix(_a, _b, _c, _d, _tx, _ty);
 </pre>
 </div>
 </div>
@@ -593,7 +628,7 @@ Matrix clone() {
 <div class="doc">
 <pre class="source">
 Matrix cloneInvert() {
- 
+
  num a =    (_d / _det);
  num b =  - (_b / _det);
  num c =  - (_c / _det);
@@ -647,7 +682,7 @@ void <strong>copyFrom</strong>(<a href="../stagexl/Matrix.html">Matrix</a> matri
 <div class="doc">
 <pre class="source">
 void copyFrom(Matrix matrix) {
- 
+
  _a =   matrix.a.toDouble();
  _b =   matrix.b.toDouble();
  _c =   matrix.c.toDouble();
@@ -666,7 +701,7 @@ void <strong>copyFromAndConcat</strong>(<a href="../stagexl/Matrix.html">Matrix<
 <div class="doc">
 <pre class="source">
 void copyFromAndConcat(Matrix copyMatrix, Matrix concatMatrix) {
- 
+
  num a1 =   copyMatrix.a;
  num b1 =   copyMatrix.b;
  num c1 =   copyMatrix.c;
@@ -701,7 +736,7 @@ void <strong>copyFromAndInvert</strong>(<a href="../stagexl/Matrix.html">Matrix<
 <div class="doc">
 <pre class="source">
 void copyFromAndInvert(Matrix matrix) {
- 
+
  num a =   matrix.a;
  num b =   matrix.b;
  num c =   matrix.c;
@@ -728,7 +763,7 @@ void copyFromAndInvert(Matrix matrix) {
 <div class="doc">
 <pre class="source">
 Matrix createBox(num scaleX, num scaleY, [num rotation = 0.0, num translationX = 0.0, num translationY = 0.0]) {
- 
+
  Matrix matrix = new Matrix.fromIdentity();
  matrix.scale(scaleX, scaleY);
  matrix.rotate(rotation);
@@ -760,7 +795,7 @@ void <strong>identity</strong>() <a class="anchor-link" href="#identity"
 <div class="doc">
 <pre class="source">
 void identity() {
- 
+
  _a =   1.0;
  _b =   0.0;
  _c =   0.0;
@@ -779,7 +814,7 @@ void <strong>invert</strong>() <a class="anchor-link" href="#invert"
 <div class="doc">
 <pre class="source">
 void invert() {
- 
+
  num a =   _a;
  num b =   _b;
  num c =   _c;
@@ -799,6 +834,40 @@ void invert() {
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="prepend">
+<button class="show-code">Code</button>
+void <strong>prepend</strong>(<a href="../stagexl/Matrix.html">Matrix</a> matrix) <a class="anchor-link" href="#prepend"
+              title="Permalink to Matrix.prepend">#</a></h4>
+<div class="doc">
+<pre class="source">
+void prepend(Matrix matrix) {
+ num a1 =   _a;
+ num b1 =   _b;
+ num c1 =   _c;
+ num d1 =   _d;
+ num tx1 =  _tx;
+ num ty1 =  _ty;
+ num det1 = _det;
+
+ num a2 =   matrix.a;
+ num b2 =   matrix.b;
+ num c2 =   matrix.c;
+ num d2 =   matrix.d;
+ num tx2 =  matrix.tx;
+ num ty2 =  matrix.ty;
+ num det2 = matrix.det;
+
+ _a =   (a1 * a2 + c1 * b2).toDouble();
+ _b =   (b1 * a2 + d1 * b2).toDouble();
+ _c =   (a1 * c2 + c1 * d2).toDouble();
+ _d =   (b1 * c2 + d1 * d2).toDouble();
+ _tx =  (tx2 * a1 + ty2 * c1 + tx1).toDouble();
+ _ty =  (tx2 * b1 + ty2 * d1 + ty1).toDouble();
+ _det = (det1 * det2).toDouble();
+}
+</pre>
+</div>
+</div>
 <div class="method"><h4 id="rotate">
 <button class="show-code">Code</button>
 void <strong>rotate</strong>(<a href="http://api.dartlang.org/dart_core/num.html" ref="external">num</a> rotation) <a class="anchor-link" href="#rotate"
@@ -806,7 +875,7 @@ void <strong>rotate</strong>(<a href="http://api.dartlang.org/dart_core/num.html
 <div class="doc">
 <pre class="source">
 void rotate(num rotation) {
- 
+
  num cosR = cos(rotation);
  num sinR = sin(rotation);
 
@@ -834,7 +903,7 @@ void <strong>scale</strong>(<a href="http://api.dartlang.org/dart_core/num.html"
 <div class="doc">
 <pre class="source">
 void scale(num scaleX, num scaleY) {
- 
+
  _a   = (  _a * scaleX).toDouble();
  _b   = (  _b * scaleY).toDouble();
  _c   = (  _c * scaleX).toDouble();
@@ -853,7 +922,7 @@ void <strong>setTo</strong>(<a href="http://api.dartlang.org/dart_core/num.html"
 <div class="doc">
 <pre class="source">
 void setTo(num a, num b, num c, num d, num tx, num ty) {
- 
+
  _a =   a.toDouble();
  _b =   b.toDouble();
  _c =   c.toDouble();
@@ -872,19 +941,19 @@ void <strong>skew</strong>(<a href="http://api.dartlang.org/dart_core/num.html" 
 <div class="doc">
 <pre class="source">
 void skew(num skewX, num skewY) {
- 
+
  num sinX = sin(skewX);
  num cosX = cos(skewX);
  num sinY = sin(skewY);
  num cosY = cos(skewY);
- 
+
  num a =  _a;
  num b =  _b;
  num c =  _c;
  num d =  _d;
  num tx = _tx;
  num ty = _ty;
- 
+
  _a =   (a * cosY - b * sinX).toDouble();
  _b =   (a * sinY + b * cosX).toDouble();
  _c =   (c * cosY - d * sinX).toDouble();
@@ -893,6 +962,19 @@ void skew(num skewX, num skewY) {
  _ty =  (tx * sinY + ty * cosX).toDouble();
  _det = (_a * _d - _b * _c).toDouble();
 }
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="toString">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a> <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to Matrix.toString">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Returns a string representation of this object.</p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_core/Object.html" ref="external">Object</a> </div></div>
+<pre class="source">
+String toString() =&gt; "Matrix [a=$_a, b=$_b, c=$_c, d=$_d, tx=$_tx, ty=$_ty]";
 </pre>
 </div>
 </div>
@@ -931,7 +1013,7 @@ void <strong>translate</strong>(<a href="http://api.dartlang.org/dart_core/num.h
 <div class="doc">
 <pre class="source">
 void translate(num translationX, num translationY) {
- 
+
  _tx = (_tx + translationX).toDouble();;
  _ty = (_ty + translationY).toDouble();
 }
@@ -943,7 +1025,7 @@ void translate(num translationX, num translationY) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:51.534</div>
+          <div>This page was generated at 2014-01-25 13:40:55.940</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

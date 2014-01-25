@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -144,56 +153,44 @@
 <div class="doc">
 <pre class="source">
 class AlphaMaskFilter extends BitmapFilter {
- 
+
  final BitmapData _alphaBitmapData;
  final Matrix _matrix;
- 
+
  AlphaMaskFilter(BitmapData alphaBitmapData, [Matrix matrix]) :
    _alphaBitmapData = alphaBitmapData,
    _matrix = (matrix != null) ? matrix : new Matrix.fromIdentity();
- 
+
  Matrix get matrix =&gt; _matrix;
- 
- BitmapFilter clone() {
-   return new AlphaMaskFilter(_alphaBitmapData, _matrix.clone());
- }
- 
+
+ BitmapFilter clone() =&gt; new AlphaMaskFilter(_alphaBitmapData, _matrix.clone());
+ Rectangle get overlap =&gt; new Rectangle.zero();
+
  //-----------------------------------------------------------------------------------------------
 
- void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint) {
-   
-   var destinationRect = new Rectangle(destinationPoint.x, destinationPoint.y, sourceRect.width, sourceRect.height);
-   var destinationBounds = new Rectangle(0, 0, destinationBitmapData.width, destinationBitmapData.height);
-   
-   var alphaRoot = new Sprite();
-   var alphaWarp = new Warp();
-   var alphaBitmap = new Bitmap(_alphaBitmapData);
-   
-   alphaRoot.x = destinationPoint.x;
-   alphaRoot.y = destinationPoint.y;
-   alphaRoot.addChild(alphaWarp);
-   
-   alphaWarp.matrix = _matrix;
-   alphaWarp.compositeOperation = CompositeOperation.DESTINATION_IN;
-   alphaWarp.addChild(alphaBitmap);
-   
-   if (!destinationRect.containsRect(destinationBounds)) {
-     alphaWarp.mask = new Mask.rectangle(0, 0, sourceRect.width, sourceRect.height);
-     alphaWarp.mask.targetSpace = alphaRoot;
-   }
-   
-   if (!identical(sourceBitmapData, destinationBitmapData) || !sourceRect.topLeft.equals(destinationPoint)) {
-     destinationBitmapData.copyPixels(sourceBitmapData, sourceRect, destinationPoint);
-   }
-   
-   destinationBitmapData.draw(alphaRoot, alphaRoot.transformationMatrix);
+ void apply(BitmapData bitmapData, [Rectangle rectangle]) {
+
+   RenderTextureQuad renderTextureQuad = rectangle == null
+       ? bitmapData.renderTextureQuad
+       : bitmapData.renderTextureQuad.cut(rectangle);
+
+   int width = renderTextureQuad.textureWidth;
+   int height = renderTextureQuad.textureHeight;
+   Matrix matrix = renderTextureQuad.drawMatrix;
+   CanvasElement canvas = renderTextureQuad.renderTexture.canvas;
+   RenderContextCanvas renderContext = new RenderContextCanvas(canvas, Color.Transparent);
+   CanvasRenderingContext2D context = renderContext.rawContext;
+
+   context.save();
+   context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
+   context.rect(0, 0, width, height);
+   context.clip();
+   context.globalCompositeOperation = CompositeOperation.DESTINATION_IN;
+   matrix.prepend(this.matrix);
+   renderContext.renderQuad(_alphaBitmapData.renderTextureQuad, matrix, 1.0);
+   context.restore();
  }
- 
- //-----------------------------------------------------------------------------------------------
- 
- Rectangle getBounds() {
-   return new Rectangle.zero();
- }
+
 }
 </pre>
 </div>
@@ -235,42 +232,48 @@ Matrix get matrix =&gt; _matrix;
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="overlap">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Rectangle.html">Rectangle</a>         <strong>overlap</strong> <a class="anchor-link"
+            href="#overlap"
+            title="Permalink to AlphaMaskFilter.overlap">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Rectangle get overlap =&gt; new Rectangle.zero();
+</pre>
+</div>
+</div>
 </div>
 <div>
 <h3>Methods</h3>
 <div class="method"><h4 id="apply">
 <button class="show-code">Code</button>
-void <strong>apply</strong>(<a href="../stagexl/BitmapData.html">BitmapData</a> sourceBitmapData, <a href="../stagexl/Rectangle.html">Rectangle</a> sourceRect, <a href="../stagexl/BitmapData.html">BitmapData</a> destinationBitmapData, <a href="../stagexl/Point.html">Point</a> destinationPoint) <a class="anchor-link" href="#apply"
+void <strong>apply</strong>(<a href="../stagexl/BitmapData.html">BitmapData</a> bitmapData, [<a href="../stagexl/Rectangle.html">Rectangle</a> rectangle]) <a class="anchor-link" href="#apply"
               title="Permalink to AlphaMaskFilter.apply">#</a></h4>
 <div class="doc">
 <pre class="source">
-void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destinationBitmapData, Point destinationPoint) {
- 
- var destinationRect = new Rectangle(destinationPoint.x, destinationPoint.y, sourceRect.width, sourceRect.height);
- var destinationBounds = new Rectangle(0, 0, destinationBitmapData.width, destinationBitmapData.height);
- 
- var alphaRoot = new Sprite();
- var alphaWarp = new Warp();
- var alphaBitmap = new Bitmap(_alphaBitmapData);
- 
- alphaRoot.x = destinationPoint.x;
- alphaRoot.y = destinationPoint.y;
- alphaRoot.addChild(alphaWarp);
- 
- alphaWarp.matrix = _matrix;
- alphaWarp.compositeOperation = CompositeOperation.DESTINATION_IN;
- alphaWarp.addChild(alphaBitmap);
- 
- if (!destinationRect.containsRect(destinationBounds)) {
-   alphaWarp.mask = new Mask.rectangle(0, 0, sourceRect.width, sourceRect.height);
-   alphaWarp.mask.targetSpace = alphaRoot;
- }
- 
- if (!identical(sourceBitmapData, destinationBitmapData) || !sourceRect.topLeft.equals(destinationPoint)) {
-   destinationBitmapData.copyPixels(sourceBitmapData, sourceRect, destinationPoint);
- }
- 
- destinationBitmapData.draw(alphaRoot, alphaRoot.transformationMatrix);
+void apply(BitmapData bitmapData, [Rectangle rectangle]) {
+
+ RenderTextureQuad renderTextureQuad = rectangle == null
+     ? bitmapData.renderTextureQuad
+     : bitmapData.renderTextureQuad.cut(rectangle);
+
+ int width = renderTextureQuad.textureWidth;
+ int height = renderTextureQuad.textureHeight;
+ Matrix matrix = renderTextureQuad.drawMatrix;
+ CanvasElement canvas = renderTextureQuad.renderTexture.canvas;
+ RenderContextCanvas renderContext = new RenderContextCanvas(canvas, Color.Transparent);
+ CanvasRenderingContext2D context = renderContext.rawContext;
+
+ context.save();
+ context.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
+ context.rect(0, 0, width, height);
+ context.clip();
+ context.globalCompositeOperation = CompositeOperation.DESTINATION_IN;
+ matrix.prepend(this.matrix);
+ renderContext.renderQuad(_alphaBitmapData.renderTextureQuad, matrix, 1.0);
+ context.restore();
 }
 </pre>
 </div>
@@ -281,21 +284,7 @@ void apply(BitmapData sourceBitmapData, Rectangle sourceRect, BitmapData destina
               title="Permalink to AlphaMaskFilter.clone">#</a></h4>
 <div class="doc">
 <pre class="source">
-BitmapFilter clone() {
- return new AlphaMaskFilter(_alphaBitmapData, _matrix.clone());
-}
-</pre>
-</div>
-</div>
-<div class="method"><h4 id="getBounds">
-<button class="show-code">Code</button>
-<a href="../stagexl/Rectangle.html">Rectangle</a> <strong>getBounds</strong>() <a class="anchor-link" href="#getBounds"
-              title="Permalink to AlphaMaskFilter.getBounds">#</a></h4>
-<div class="doc">
-<pre class="source">
-Rectangle getBounds() {
- return new Rectangle.zero();
-}
+BitmapFilter clone() =&gt; new AlphaMaskFilter(_alphaBitmapData, _matrix.clone());
 </pre>
 </div>
 </div>
@@ -304,7 +293,7 @@ Rectangle getBounds() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:51.600</div>
+          <div>This page was generated at 2014-01-25 13:40:56.005</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

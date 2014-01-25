@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -146,11 +155,12 @@
 class TextureAtlas {
 
  final List&lt;TextureAtlasFrame&gt; _frames = new List&lt;TextureAtlasFrame&gt;();
- BitmapData _bitmapData;
+ RenderTexture _renderTexture;
 
  //-------------------------------------------------------------------------------------------------
 
- static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat) {
+ static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat, [
+     BitmapDataLoadOptions bitmapDataLoadOptions]) {
 
    Completer&lt;TextureAtlas&gt; completer = new Completer&lt;TextureAtlas&gt;();
    TextureAtlas textureAtlas = new TextureAtlas();
@@ -186,8 +196,16 @@ class TextureAtlas {
            }
          }
 
-         BitmapData.load(imageUrl).then((BitmapData bitmapData) {
-           textureAtlas._bitmapData = bitmapData;
+         if (bitmapDataLoadOptions == null) {
+           bitmapDataLoadOptions = BitmapData.defaultLoadOptions;
+         }
+
+         var autoHiDpi = bitmapDataLoadOptions.autoHiDpi;
+         var webpAvailable = bitmapDataLoadOptions.webp;
+         var loader = RenderTexture.load(imageUrl, autoHiDpi, webpAvailable);
+
+         loader.then((RenderTexture renderTexture) {
+           textureAtlas._renderTexture = renderTexture;
            completer.complete(textureAtlas);
          }).catchError((error) {
            completer.completeError(new StateError("Failed to load image."));
@@ -206,13 +224,18 @@ class TextureAtlas {
  //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
+ RenderTexture get renderTexture =&gt; _renderTexture;
+
+ List&lt;TextureAtlasFrame&gt; get frames =&gt; _frames.toList(growable: false);
+ List&lt;String&gt; get frameNames =&gt; _frames.map((f) =&gt; f.name).toList(growable: false);
+
+ //-------------------------------------------------------------------------------------------------
+
  BitmapData getBitmapData(String name) {
 
    for(int i = 0; i &lt; _frames.length; i++) {
      var frame = _frames[i];
-     if (frame.name == name) {
-       return new BitmapData.fromTextureAtlasFrame(frame);
-     }
+     if (frame.name == name) return frame.getBitmapData();
    }
 
    throw new ArgumentError("TextureAtlasFrame not found: '$name'");
@@ -227,18 +250,11 @@ class TextureAtlas {
    for(int i = 0; i &lt; _frames.length; i++) {
      var frame = _frames[i];
      if (frame.name.startsWith(namePrefix)) {
-       bitmapDataList.add(new BitmapData.fromTextureAtlasFrame(frame));
+       bitmapDataList.add(frame.getBitmapData());
      }
    }
 
    return bitmapDataList;
- }
-
- //-------------------------------------------------------------------------------------------------
-
- List&lt;String&gt; get frameNames {
-
-   return _frames.map((f) =&gt; f.name).toList(growable: false);
  }
 
 }
@@ -248,11 +264,12 @@ class TextureAtlas {
 <h3>Static Methods</h3>
 <div class="method"><h4 id="load">
 <button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_async/Future.html" ref="external">Future</a>&lt;<a href="../stagexl/TextureAtlas.html">TextureAtlas</a>&gt; <strong>load</strong>(<a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a> url, <a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a> textureAtlasFormat) <a class="anchor-link" href="#load"
+<a href="http://api.dartlang.org/dart_async/Future.html" ref="external">Future</a>&lt;<a href="../stagexl/TextureAtlas.html">TextureAtlas</a>&gt; <strong>load</strong>(<a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a> url, <a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a> textureAtlasFormat, [<a href="../stagexl/BitmapDataLoadOptions.html">BitmapDataLoadOptions</a> bitmapDataLoadOptions]) <a class="anchor-link" href="#load"
               title="Permalink to TextureAtlas.load">#</a></h4>
 <div class="doc">
 <pre class="source">
-static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat) {
+static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat, [
+   BitmapDataLoadOptions bitmapDataLoadOptions]) {
 
  Completer&lt;TextureAtlas&gt; completer = new Completer&lt;TextureAtlas&gt;();
  TextureAtlas textureAtlas = new TextureAtlas();
@@ -288,8 +305,16 @@ static Future&lt;TextureAtlas&gt; load(String url, String textureAtlasFormat) {
          }
        }
 
-       BitmapData.load(imageUrl).then((BitmapData bitmapData) {
-         textureAtlas._bitmapData = bitmapData;
+       if (bitmapDataLoadOptions == null) {
+         bitmapDataLoadOptions = BitmapData.defaultLoadOptions;
+       }
+
+       var autoHiDpi = bitmapDataLoadOptions.autoHiDpi;
+       var webpAvailable = bitmapDataLoadOptions.webp;
+       var loader = RenderTexture.load(imageUrl, autoHiDpi, webpAvailable);
+
+       loader.then((RenderTexture renderTexture) {
+         textureAtlas._renderTexture = renderTexture;
          completer.complete(textureAtlas);
        }).catchError((error) {
          completer.completeError(new StateError("Failed to load image."));
@@ -318,10 +343,31 @@ final <a href="http://api.dartlang.org/dart_core/List.html" ref="external">List<
         </h4>
         <div class="doc">
 <pre class="source">
-List&lt;String&gt; get frameNames {
-
- return _frames.map((f) =&gt; f.name).toList(growable: false);
-}
+List&lt;String&gt; get frameNames =&gt; _frames.map((f) =&gt; f.name).toList(growable: false);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="frames">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/List.html" ref="external">List</a>&lt;<a href="../stagexl/TextureAtlasFrame.html">TextureAtlasFrame</a>&gt;         <strong>frames</strong> <a class="anchor-link"
+            href="#frames"
+            title="Permalink to TextureAtlas.frames">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+List&lt;TextureAtlasFrame&gt; get frames =&gt; _frames.toList(growable: false);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="renderTexture">
+<button class="show-code">Code</button>
+final <a href="../stagexl/RenderTexture.html">RenderTexture</a>         <strong>renderTexture</strong> <a class="anchor-link"
+            href="#renderTexture"
+            title="Permalink to TextureAtlas.renderTexture">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+RenderTexture get renderTexture =&gt; _renderTexture;
 </pre>
 </div>
 </div>
@@ -338,9 +384,7 @@ BitmapData getBitmapData(String name) {
 
  for(int i = 0; i &lt; _frames.length; i++) {
    var frame = _frames[i];
-   if (frame.name == name) {
-     return new BitmapData.fromTextureAtlasFrame(frame);
-   }
+   if (frame.name == name) return frame.getBitmapData();
  }
 
  throw new ArgumentError("TextureAtlasFrame not found: '$name'");
@@ -361,7 +405,7 @@ List&lt;BitmapData&gt; getBitmapDatas(String namePrefix) {
  for(int i = 0; i &lt; _frames.length; i++) {
    var frame = _frames[i];
    if (frame.name.startsWith(namePrefix)) {
-     bitmapDataList.add(new BitmapData.fromTextureAtlasFrame(frame));
+     bitmapDataList.add(frame.getBitmapData());
    }
  }
 
@@ -375,7 +419,7 @@ List&lt;BitmapData&gt; getBitmapDatas(String namePrefix) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:51.020</div>
+          <div>This page was generated at 2014-01-25 13:40:55.518</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

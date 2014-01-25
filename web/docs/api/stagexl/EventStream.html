@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -685,6 +694,7 @@ that it never provides two consequtive data events that are equal.</p>
 <p>Equality is determined by the provided 
 <span class="param">equals</span> method. If that is
 omitted, the '==' operator on the last provided data element is used.</p>
+<p>The returned stream is not a broadcast stream, even if this stream is.</p>
 <pre class="source">
 Stream&lt;T&gt; distinct([bool equals(T previous, T next)]) {
  return new _DistinctStream(this, equals);
@@ -796,6 +806,7 @@ into zero or more events.</p>
 <p>Each incoming event is converted to an <a class="crossref" href="http://api.dartlang.org/dart_core/Iterable.html">Iterable</a> of new events,
 and each of these new events are then sent by the returned stream
 in order.</p>
+<p>The returned stream is not a broadcast stream, even if this stream is.</p>
 <pre class="source">
 Stream expand(Iterable convert(T value)) {
  return new _ExpandStream&lt;T, dynamic&gt;(this, convert);
@@ -938,8 +949,8 @@ type the the stream either invokes
 <span class="param">onError</span> with or without a stack
 trace. The stack trace argument might be <code>null</code> if the stream itself
 received an error without stack trace.</p>
-<p>An [AsyncError] [:e:] is matched by a test function if <code>test(e)</code> returns
-true. If 
+<p>An asynchronous error <code>e</code> is matched by a test function if <code>test(e)</code>
+returns true. If 
 <span class="param">test</span> is omitted, every error is considered matching.</p>
 <p>If the error is intercepted, the <code>handle</code> function can decide what to do
 with it. It can throw if it wants to raise a new (or the same) error,
@@ -947,6 +958,7 @@ or simply return to make the stream forget the error.</p>
 <p>If you need to transform an error into a data event, use the more generic
 <a class="crossref" href="http://api.dartlang.org/dart_async/Stream.html#transform">Stream.transform</a> to handle the event by writing a data event to
 the output sink</p>
+<p>The returned stream is not a broadcast stream, even if this stream is.</p>
 <pre class="source">
 Stream&lt;T&gt; handleError(Function onError, { bool test(error) }) {
  return new _HandleErrorStream&lt;T&gt;(this, onError, test);
@@ -1087,6 +1099,7 @@ EventStreamSubscription&lt;T&gt; listen(void onData(T event), { Function onError
 <p>Creates a new stream that converts each element of this stream
 to a new value using the 
 <span class="param">convert</span> function.</p>
+<p>The returned stream is not a broadcast stream, even if this stream is.</p>
 <pre class="source">
 Stream map(convert(T event)) {
  return new _MapStream&lt;T, dynamic&gt;(this, convert);
@@ -1203,6 +1216,7 @@ Future&lt;T&gt; singleWhere(bool test(T element)) {
 <div class="inherited-from">inherited from <a href="http://api.dartlang.org/dart_async/Stream.html" ref="external">Stream</a> </div><div class="doc">
 <p>Skips the first 
 <span class="param">count</span> data events from this stream.</p>
+<p>The returned stream is not a broadcast stream, even if this stream is.</p>
 <pre class="source">
 Stream&lt;T&gt; skip(int count) {
  return new _SkipStream(this, count);
@@ -1221,6 +1235,7 @@ Stream&lt;T&gt; skip(int count) {
 <p>Starting with the first data event where 
 <span class="param">test</span> returns false for the
 event data, the returned stream will have the same events as this stream.</p>
+<p>The returned stream is not a broadcast stream, even if this stream is.</p>
 <pre class="source">
 Stream&lt;T&gt; skipWhile(bool test(T element)) {
  return new _SkipWhileStream(this, test);
@@ -1244,6 +1259,7 @@ received.</p>
 <p>Internally the method cancels its subscription after these elements. This
 means that single-subscription (non-broadcast) streams are closed and
 cannot be reused after a call to this method.</p>
+<p>The returned stream is not a broadcast stream, even if this stream is.</p>
 <pre class="source">
 Stream&lt;T&gt; take(int count) {
  return new _TakeStream(this, count);
@@ -1268,6 +1284,7 @@ a value that
 <p>Internally the method cancels its subscription after these elements. This
 means that single-subscription (non-broadcast) streams are closed and
 cannot be reused after a call to this method.</p>
+<p>The returned stream is not a broadcast stream, even if this stream is.</p>
 <pre class="source">
 Stream&lt;T&gt; takeWhile(bool test(T element)) {
  return new _TakeWhileStream(this, test);
@@ -1294,6 +1311,7 @@ or when the stream is paused and resumed.</p>
 This <code>EventSink</code> is only valid during the call to <code>onTimeout</code>.</p>
 <p>If <code>onTimeout</code> is omitted, a timeout will just put a <a class="crossref" href="http://api.dartlang.org/dart_async/TimeoutException.html">TimeoutException</a>
 into the error channel of the returned stream.</p>
+<p>The returned stream is not a broadcast stream, even if this stream is.</p>
 <pre class="source">
 Stream timeout(Duration timeLimit, {void onTimeout(EventSink sink)}) {
  StreamSubscription&lt;T&gt; subscription;
@@ -1433,6 +1451,7 @@ Stream transform(StreamTransformer&lt;T, dynamic&gt; streamTransformer) {
 <p>The new stream sends the same error and done events as this stream,
 but it only sends the data events that satisfy the 
 <span class="param">test</span>.</p>
+<p>The returned stream is not a broadcast stream, even if this stream is.</p>
 <pre class="source">
 Stream&lt;T&gt; where(bool test(T event)) {
  return new _WhereStream&lt;T&gt;(this, test);
@@ -1445,7 +1464,7 @@ Stream&lt;T&gt; where(bool test(T event)) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:51.702</div>
+          <div>This page was generated at 2014-01-25 13:40:56.111</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

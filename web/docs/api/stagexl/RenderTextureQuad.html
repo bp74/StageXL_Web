@@ -1,0 +1,665 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>RenderTextureQuad class / stagexl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="stagexl" data-type="RenderTextureQuad">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../stagexl.html">stagexl</a> &rsaquo; <a href="../stagexl/RenderTextureQuad.html">RenderTextureQuad</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../metadata.html">metadata</a></h2><h2><div class="icon-library"></div><a href="../stagexl.html">stagexl</a></h2><ul class="icon">
+<li><a href="../stagexl/AlphaMaskFilter.html"><div class="icon-class"></div>AlphaMaskFilter</a></li>
+<li><a href="../stagexl/Animatable.html"><div class="icon-class"></div>Animatable</a></li>
+<li><a href="../stagexl/AnimationChain.html"><div class="icon-class"></div>AnimationChain</a></li>
+<li><a href="../stagexl/AnimationGroup.html"><div class="icon-class"></div>AnimationGroup</a></li>
+<li><a href="../stagexl/AudioElementMixer.html"><div class="icon-class"></div>AudioElementMixer</a></li>
+<li><a href="../stagexl/AudioElementSound.html"><div class="icon-class"></div>AudioElementSound</a></li>
+<li><a href="../stagexl/AudioElementSoundChannel.html"><div class="icon-class"></div>AudioElementSoundChannel</a></li>
+<li><a href="../stagexl/Bitmap.html"><div class="icon-class"></div>Bitmap</a></li>
+<li><a href="../stagexl/BitmapData.html"><div class="icon-class"></div>BitmapData</a></li>
+<li><a href="../stagexl/BitmapDataLoadOptions.html"><div class="icon-class"></div>BitmapDataLoadOptions</a></li>
+<li><a href="../stagexl/BitmapDrawable.html"><div class="icon-class"></div>BitmapDrawable</a></li>
+<li><a href="../stagexl/BitmapFilter.html"><div class="icon-class"></div>BitmapFilter</a></li>
+<li><a href="../stagexl/BlurFilter.html"><div class="icon-class"></div>BlurFilter</a></li>
+<li><a href="../stagexl/BroadcastEvent.html"><div class="icon-class"></div>BroadcastEvent</a></li>
+<li><a href="../stagexl/ButtonHelper.html"><div class="icon-class"></div>ButtonHelper</a></li>
+<li><a href="../stagexl/CapsStyle.html"><div class="icon-class"></div>CapsStyle</a></li>
+<li><a href="../stagexl/ChangeHandler.html"><div class="icon-interface"></div>ChangeHandler</a></li>
+<li><a href="../stagexl/Circle.html"><div class="icon-class"></div>Circle</a></li>
+<li><a href="../stagexl/Color.html"><div class="icon-class"></div>Color</a></li>
+<li><a href="../stagexl/ColorMatrixFilter.html"><div class="icon-class"></div>ColorMatrixFilter</a></li>
+<li><a href="../stagexl/ColorTransform.html"><div class="icon-class"></div>ColorTransform</a></li>
+<li><a href="../stagexl/CompositeOperation.html"><div class="icon-class"></div>CompositeOperation</a></li>
+<li><a href="../stagexl/DelayedCall.html"><div class="icon-class"></div>DelayedCall</a></li>
+<li><a href="../stagexl/DisplayObject.html"><div class="icon-class"></div>DisplayObject</a></li>
+<li><a href="../stagexl/DisplayObjectContainer.html"><div class="icon-class"></div>DisplayObjectContainer</a></li>
+<li><a href="../stagexl/DropShadowFilter.html"><div class="icon-class"></div>DropShadowFilter</a></li>
+<li><a href="../stagexl/EaseFunction.html"><div class="icon-interface"></div>EaseFunction</a></li>
+<li><a href="../stagexl/EnterFrameEvent.html"><div class="icon-class"></div>EnterFrameEvent</a></li>
+<li><a href="../stagexl/Event.html"><div class="icon-class"></div>Event</a></li>
+<li><a href="../stagexl/EventDispatcher.html"><div class="icon-class"></div>EventDispatcher</a></li>
+<li><a href="../stagexl/EventListener.html"><div class="icon-interface"></div>EventListener&lt;T&gt;</a></li>
+<li><a href="../stagexl/EventPhase.html"><div class="icon-class"></div>EventPhase</a></li>
+<li><a href="../stagexl/EventStream.html"><div class="icon-class"></div>EventStream&lt;T&gt;</a></li>
+<li><a href="../stagexl/EventStreamProvider.html"><div class="icon-class"></div>EventStreamProvider&lt;T&gt;</a></li>
+<li><a href="../stagexl/EventStreamSubscription.html"><div class="icon-class"></div>EventStreamSubscription&lt;T&gt;</a></li>
+<li><a href="../stagexl/ExitFrameEvent.html"><div class="icon-class"></div>ExitFrameEvent</a></li>
+<li><a href="../stagexl/FlipBook.html"><div class="icon-class"></div>FlipBook</a></li>
+<li><a href="../stagexl/Gauge.html"><div class="icon-class"></div>Gauge</a></li>
+<li><a href="../stagexl/GlassPlate.html"><div class="icon-class"></div>GlassPlate</a></li>
+<li><a href="../stagexl/GlowFilter.html"><div class="icon-class"></div>GlowFilter</a></li>
+<li><a href="../stagexl/Graphics.html"><div class="icon-class"></div>Graphics</a></li>
+<li><a href="../stagexl/GraphicsGradient.html"><div class="icon-class"></div>GraphicsGradient</a></li>
+<li><a href="../stagexl/GraphicsPattern.html"><div class="icon-class"></div>GraphicsPattern</a></li>
+<li><a href="../stagexl/HtmlObject.html"><div class="icon-class"></div>HtmlObject</a></li>
+<li><a href="../stagexl/InteractiveObject.html"><div class="icon-class"></div>InteractiveObject</a></li>
+<li><a href="../stagexl/JointStyle.html"><div class="icon-class"></div>JointStyle</a></li>
+<li><a href="../stagexl/Juggler.html"><div class="icon-class"></div>Juggler</a></li>
+<li><a href="../stagexl/KeyboardEvent.html"><div class="icon-class"></div>KeyboardEvent</a></li>
+<li><a href="../stagexl/KeyLocation.html"><div class="icon-class"></div>KeyLocation</a></li>
+<li><a href="../stagexl/Mask.html"><div class="icon-class"></div>Mask</a></li>
+<li><a href="../stagexl/Matrix.html"><div class="icon-class"></div>Matrix</a></li>
+<li><a href="../stagexl/MockSound.html"><div class="icon-class"></div>MockSound</a></li>
+<li><a href="../stagexl/MockSoundChannel.html"><div class="icon-class"></div>MockSoundChannel</a></li>
+<li><a href="../stagexl/Mouse.html"><div class="icon-class"></div>Mouse</a></li>
+<li><a href="../stagexl/MouseCursor.html"><div class="icon-class"></div>MouseCursor</a></li>
+<li><a href="../stagexl/MouseEvent.html"><div class="icon-class"></div>MouseEvent</a></li>
+<li><a href="../stagexl/MovieClip.html"><div class="icon-class"></div>MovieClip</a></li>
+<li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
+<li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
+<li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
+<li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
+<li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
+<li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
+<li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
+<li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><div class="icon-class"></div><strong>RenderTextureQuad</strong></li>
+<li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
+<li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
+<li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
+<li><a href="../stagexl/Shape.html"><div class="icon-class"></div>Shape</a></li>
+<li><a href="../stagexl/SimpleButton.html"><div class="icon-class"></div>SimpleButton</a></li>
+<li><a href="../stagexl/Sound.html"><div class="icon-class"></div>Sound</a></li>
+<li><a href="../stagexl/SoundChannel.html"><div class="icon-class"></div>SoundChannel</a></li>
+<li><a href="../stagexl/SoundLoadOptions.html"><div class="icon-class"></div>SoundLoadOptions</a></li>
+<li><a href="../stagexl/SoundMixer.html"><div class="icon-class"></div>SoundMixer</a></li>
+<li><a href="../stagexl/SoundTransform.html"><div class="icon-class"></div>SoundTransform</a></li>
+<li><a href="../stagexl/Sprite.html"><div class="icon-class"></div>Sprite</a></li>
+<li><a href="../stagexl/SpriteSheet.html"><div class="icon-class"></div>SpriteSheet</a></li>
+<li><a href="../stagexl/Stage.html"><div class="icon-class"></div>Stage</a></li>
+<li><a href="../stagexl/StageAlign.html"><div class="icon-class"></div>StageAlign</a></li>
+<li><a href="../stagexl/StageRenderMode.html"><div class="icon-class"></div>StageRenderMode</a></li>
+<li><a href="../stagexl/StageScaleMode.html"><div class="icon-class"></div>StageScaleMode</a></li>
+<li><a href="../stagexl/TextEvent.html"><div class="icon-class"></div>TextEvent</a></li>
+<li><a href="../stagexl/TextField.html"><div class="icon-class"></div>TextField</a></li>
+<li><a href="../stagexl/TextFieldAutoSize.html"><div class="icon-class"></div>TextFieldAutoSize</a></li>
+<li><a href="../stagexl/TextFieldType.html"><div class="icon-class"></div>TextFieldType</a></li>
+<li><a href="../stagexl/TextFormat.html"><div class="icon-class"></div>TextFormat</a></li>
+<li><a href="../stagexl/TextFormatAlign.html"><div class="icon-class"></div>TextFormatAlign</a></li>
+<li><a href="../stagexl/TextLineMetrics.html"><div class="icon-class"></div>TextLineMetrics</a></li>
+<li><a href="../stagexl/TextureAtlas.html"><div class="icon-class"></div>TextureAtlas</a></li>
+<li><a href="../stagexl/TextureAtlasFormat.html"><div class="icon-class"></div>TextureAtlasFormat</a></li>
+<li><a href="../stagexl/TextureAtlasFrame.html"><div class="icon-class"></div>TextureAtlasFrame</a></li>
+<li><a href="../stagexl/TimeGauge.html"><div class="icon-class"></div>TimeGauge</a></li>
+<li><a href="../stagexl/Timeline.html"><div class="icon-class"></div>Timeline</a></li>
+<li><a href="../stagexl/TimelineAction.html"><div class="icon-class"></div>TimelineAction</a></li>
+<li><a href="../stagexl/TimelineStep.html"><div class="icon-class"></div>TimelineStep</a></li>
+<li><a href="../stagexl/TimelineTween.html"><div class="icon-class"></div>TimelineTween</a></li>
+<li><a href="../stagexl/TouchEvent.html"><div class="icon-class"></div>TouchEvent</a></li>
+<li><a href="../stagexl/Transition.html"><div class="icon-class"></div>Transition</a></li>
+<li><a href="../stagexl/TransitionFunction.html"><div class="icon-class"></div>TransitionFunction</a></li>
+<li><a href="../stagexl/Tween.html"><div class="icon-class"></div>Tween</a></li>
+<li><a href="../stagexl/TweenProperty.html"><div class="icon-class"></div>TweenProperty</a></li>
+<li><a href="../stagexl/TweenPropertyFactory.html"><div class="icon-class"></div>TweenPropertyFactory</a></li>
+<li><a href="../stagexl/Vector.html"><div class="icon-class"></div>Vector</a></li>
+<li><a href="../stagexl/Warp.html"><div class="icon-class"></div>Warp</a></li>
+<li><a href="../stagexl/WebAudioApiMixer.html"><div class="icon-class"></div>WebAudioApiMixer</a></li>
+<li><a href="../stagexl/WebAudioApiSound.html"><div class="icon-class"></div>WebAudioApiSound</a></li>
+<li><a href="../stagexl/WebAudioApiSoundChannel.html"><div class="icon-class"></div>WebAudioApiSoundChannel</a></li>
+</ul>
+</div>
+<div class="content">
+        <h2><strong>RenderTextureQuad</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class RenderTextureQuad {
+
+ RenderTexture _renderTexture;
+ Float32List _uvList = new Float32List(8);   // WebGL coordinates
+ Int32List _xyList = new Int32List(8);       // Canvas coordinates
+
+ int _rotation = 0;
+ int _offsetX = 0;
+ int _offsetY = 0;
+ int _textureX = 0;
+ int _textureY = 0;
+ int _textureWidth = 0;
+ int _textureHeight = 0;
+
+ RenderTextureQuad(RenderTexture renderTexture,
+     int rotation, int offsetX, int offsetY,
+     int textureX, int textureY, int textureWidth, int textureHeight) {
+
+   _renderTexture = renderTexture;
+   _rotation = _ensureInt(rotation);
+   _offsetX = _ensureInt(offsetX);
+   _offsetY = _ensureInt(offsetY);
+   _textureX = _ensureInt(textureX);
+   _textureY = _ensureInt(textureY);
+   _textureWidth = _ensureInt(textureWidth);
+   _textureHeight = _ensureInt(textureHeight);
+
+   int x1 = 0, y1 = 0;
+   int x2 = 0, y2 = 0;
+   int x3 = 0, y3 = 0;
+   int x4 = 0, y4 = 0;
+
+   if (_rotation == 0) {
+     x1 = x4 = _textureX;
+     y1 = y2 = _textureY;
+     x2 = x3 = _textureX + _textureWidth;
+     y3 = y4 = _textureY + _textureHeight;
+   } else if (_rotation == 1) {
+     x1 = x2 = _textureX;
+     y1 = y4 = _textureY;
+     x3 = x4 = _textureX - _textureHeight;
+     y2 = y3 = _textureY + _textureWidth;
+   } else {
+     throw new ArgumentError("rotation not supported.");
+   }
+
+   int renderTextureWidth = _renderTexture.width;
+   int renderTextureHeight = _renderTexture.height;
+   num pixelRatio = _renderTexture.storePixelRatio / _backingStorePixelRatio;
+
+   uvList[0] = x1 / renderTextureWidth;
+   uvList[1] = y1 / renderTextureHeight;
+   uvList[2] = x2 / renderTextureWidth;
+   uvList[3] = y2 / renderTextureHeight;
+   uvList[4] = x3 / renderTextureWidth;
+   uvList[5] = y3 / renderTextureHeight;
+   uvList[6] = x4 / renderTextureWidth;
+   uvList[7] = y4 / renderTextureHeight;
+
+   xyList[0] = (x1 * pixelRatio).round();
+   xyList[1] = (y1 * pixelRatio).round();
+   xyList[2] = (x2 * pixelRatio).round();
+   xyList[3] = (y2 * pixelRatio).round();
+   xyList[4] = (x3 * pixelRatio).round();
+   xyList[5] = (y3 * pixelRatio).round();
+   xyList[6] = (x4 * pixelRatio).round();
+   xyList[7] = (y4 * pixelRatio).round();
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
+ RenderTexture get renderTexture =&gt; _renderTexture;
+ Float32List get uvList =&gt; _uvList;
+ Int32List get xyList =&gt; _xyList;
+
+ int get rotation =&gt; _rotation;
+ int get offsetX =&gt; _offsetX;
+ int get offsetY =&gt; _offsetY;
+ int get textureX =&gt; _textureX;
+ int get textureY =&gt; _textureY;
+ int get textureWidth =&gt; _textureWidth;
+ int get textureHeight =&gt; _textureHeight;
+
+ Matrix get drawMatrix {
+   /*
+   var scale = _renderTexture.storePixelRatio / _backingStorePixelRatio;
+   var matrix = new Matrix.fromIdentity();
+   matrix.translate(-offsetX, -offsetY);
+   matrix.rotate(_rotation * PI / 2.0);
+   matrix.translate(x1, y1);
+   matrix.scale(scale, scale);
+   return matrix;
+   */
+   num scale = _renderTexture.storePixelRatio / _backingStorePixelRatio;
+   num angle = _rotation * PI / 2.0;
+   num c = scale * cos(angle);
+   num s = scale * sin(angle);
+   num tx = scale * textureX  - offsetX * c + offsetY * s;
+   num ty = scale * textureY  - offsetX * s - offsetY * c;
+   return new Matrix(c, s, -s, c, tx, ty);
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
+ int _minInt(int a, int b) =&gt; a &lt; b ? a : b;
+ int _maxInt(int a, int b) =&gt; a &gt; b ? a : b;
+
+ RenderTextureQuad clip(Rectangle rectangle) {
+
+   int left = _minInt(_offsetX + _textureWidth, _maxInt(_offsetX, rectangle.left));
+   int top = _minInt(_offsetY + _textureHeight, _maxInt(_offsetY, rectangle.top));
+   int right = _maxInt(_offsetX, _minInt(_offsetX + _textureWidth, rectangle.right));
+   int bottom = _maxInt(_offsetY, _minInt(_offsetY + _textureHeight, rectangle.bottom));
+
+   int textureX = rotation == 0 ? _textureX - _offsetX + left : _textureX + _offsetY - top;
+   int textureY = rotation == 0 ? _textureY - _offsetY + top : _textureY - _offsetX + left;
+   int textureWidth = right - left;
+   int textureHeight = bottom - top;
+
+   return new RenderTextureQuad(
+       renderTexture, rotation, left, top, textureX, textureY, textureWidth, textureHeight);
+ }
+
+ //-----------------------------------------------------------------------------------------------
+
+ RenderTextureQuad cut(Rectangle rectangle) {
+   var renderTextureQuad = clip(rectangle);
+   renderTextureQuad._offsetX -= rectangle.x;
+   renderTextureQuad._offsetY -= rectangle.y;
+   return renderTextureQuad;
+ }
+
+ //-----------------------------------------------------------------------------------------------
+ //-----------------------------------------------------------------------------------------------
+
+ Rectangle get _imageDataRectangle {
+   num storePixelRatio = _renderTexture.storePixelRatio;
+   num backingStorePixelRatio = _backingStorePixelRatio;
+   num pixelRatio = storePixelRatio / backingStorePixelRatio;
+   int left = (rotation == 0) ? textureX : textureX - textureHeight;
+   int top = (rotation == 0) ? textureY : textureY;
+   int right = (rotation == 0) ? textureX + textureWidth : textureX;
+   int bottom = (rotation == 0) ? textureY + textureHeight : textureY + textureWidth;
+
+   left = (left * pixelRatio).round();
+   top = (top * pixelRatio).round();
+   right = (right * pixelRatio).round();
+   bottom = (bottom * pixelRatio).round();
+
+   return new Rectangle(left, top, right - left, bottom - top);
+ }
+
+ ImageData createImageData() {
+   var rectangle = _imageDataRectangle;
+   var context = _renderTexture.canvas.context2D;
+   return context.createImageData(rectangle.width, rectangle.height);
+ }
+
+ ImageData getImageData() {
+   var rect = _imageDataRectangle;
+   var context = _renderTexture.canvas.context2D;
+   var backingStorePixelRatio = _backingStorePixelRatio;
+   if (backingStorePixelRatio &gt; 1.0) {
+     return context.getImageDataHD(rect.x, rect.y, rect.width, rect.height);
+   } else {
+     return context.getImageData(rect.x, rect.y, rect.width, rect.height);
+   }
+ }
+
+ void putImageData(ImageData imageData) {
+   var rect = _imageDataRectangle;
+   var context = _renderTexture.canvas.context2D;
+   var backingStorePixelRatio = _backingStorePixelRatio;
+   if (backingStorePixelRatio &gt; 1.0) {
+     context.putImageDataHD(imageData, rect.x, rect.y);
+   } else {
+     context.putImageData(imageData, rect.x, rect.y);
+   }
+ }
+
+
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="">
+<button class="show-code">Code</button>
+new <strong>RenderTextureQuad</strong>(<a href="../stagexl/RenderTexture.html">RenderTexture</a> renderTexture, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> rotation, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> offsetX, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> offsetY, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> textureX, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> textureY, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> textureWidth, <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a> textureHeight) <a class="anchor-link" href="#"
+              title="Permalink to RenderTextureQuad.RenderTextureQuad">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Creates a new <a class="crossref" href="http://api.dartlang.org/dart_core/Object.html">Object</a> instance.</p>
+<p><a class="crossref" href="http://api.dartlang.org/dart_core/Object.html">Object</a> instances have no meaningful state, and are only useful
+through their identity. An <a class="crossref" href="http://api.dartlang.org/dart_core/Object.html">Object</a> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_core/Object.html" ref="external">Object</a> </div></div>
+<pre class="source">
+RenderTextureQuad(RenderTexture renderTexture,
+   int rotation, int offsetX, int offsetY,
+   int textureX, int textureY, int textureWidth, int textureHeight) {
+
+ _renderTexture = renderTexture;
+ _rotation = _ensureInt(rotation);
+ _offsetX = _ensureInt(offsetX);
+ _offsetY = _ensureInt(offsetY);
+ _textureX = _ensureInt(textureX);
+ _textureY = _ensureInt(textureY);
+ _textureWidth = _ensureInt(textureWidth);
+ _textureHeight = _ensureInt(textureHeight);
+
+ int x1 = 0, y1 = 0;
+ int x2 = 0, y2 = 0;
+ int x3 = 0, y3 = 0;
+ int x4 = 0, y4 = 0;
+
+ if (_rotation == 0) {
+   x1 = x4 = _textureX;
+   y1 = y2 = _textureY;
+   x2 = x3 = _textureX + _textureWidth;
+   y3 = y4 = _textureY + _textureHeight;
+ } else if (_rotation == 1) {
+   x1 = x2 = _textureX;
+   y1 = y4 = _textureY;
+   x3 = x4 = _textureX - _textureHeight;
+   y2 = y3 = _textureY + _textureWidth;
+ } else {
+   throw new ArgumentError("rotation not supported.");
+ }
+
+ int renderTextureWidth = _renderTexture.width;
+ int renderTextureHeight = _renderTexture.height;
+ num pixelRatio = _renderTexture.storePixelRatio / _backingStorePixelRatio;
+
+ uvList[0] = x1 / renderTextureWidth;
+ uvList[1] = y1 / renderTextureHeight;
+ uvList[2] = x2 / renderTextureWidth;
+ uvList[3] = y2 / renderTextureHeight;
+ uvList[4] = x3 / renderTextureWidth;
+ uvList[5] = y3 / renderTextureHeight;
+ uvList[6] = x4 / renderTextureWidth;
+ uvList[7] = y4 / renderTextureHeight;
+
+ xyList[0] = (x1 * pixelRatio).round();
+ xyList[1] = (y1 * pixelRatio).round();
+ xyList[2] = (x2 * pixelRatio).round();
+ xyList[3] = (y2 * pixelRatio).round();
+ xyList[4] = (x3 * pixelRatio).round();
+ xyList[5] = (y3 * pixelRatio).round();
+ xyList[6] = (x4 * pixelRatio).round();
+ xyList[7] = (y4 * pixelRatio).round();
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="drawMatrix">
+<button class="show-code">Code</button>
+final <a href="../stagexl/Matrix.html">Matrix</a>         <strong>drawMatrix</strong> <a class="anchor-link"
+            href="#drawMatrix"
+            title="Permalink to RenderTextureQuad.drawMatrix">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Matrix get drawMatrix {
+ /*
+ var scale = _renderTexture.storePixelRatio / _backingStorePixelRatio;
+ var matrix = new Matrix.fromIdentity();
+ matrix.translate(-offsetX, -offsetY);
+ matrix.rotate(_rotation * PI / 2.0);
+ matrix.translate(x1, y1);
+ matrix.scale(scale, scale);
+ return matrix;
+ */
+ num scale = _renderTexture.storePixelRatio / _backingStorePixelRatio;
+ num angle = _rotation * PI / 2.0;
+ num c = scale * cos(angle);
+ num s = scale * sin(angle);
+ num tx = scale * textureX  - offsetX * c + offsetY * s;
+ num ty = scale * textureY  - offsetX * s - offsetY * c;
+ return new Matrix(c, s, -s, c, tx, ty);
+}
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="offsetX">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a>         <strong>offsetX</strong> <a class="anchor-link"
+            href="#offsetX"
+            title="Permalink to RenderTextureQuad.offsetX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get offsetX =&gt; _offsetX;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="offsetY">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a>         <strong>offsetY</strong> <a class="anchor-link"
+            href="#offsetY"
+            title="Permalink to RenderTextureQuad.offsetY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get offsetY =&gt; _offsetY;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="renderTexture">
+<button class="show-code">Code</button>
+final <a href="../stagexl/RenderTexture.html">RenderTexture</a>         <strong>renderTexture</strong> <a class="anchor-link"
+            href="#renderTexture"
+            title="Permalink to RenderTextureQuad.renderTexture">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+RenderTexture get renderTexture =&gt; _renderTexture;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="rotation">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a>         <strong>rotation</strong> <a class="anchor-link"
+            href="#rotation"
+            title="Permalink to RenderTextureQuad.rotation">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get rotation =&gt; _rotation;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="textureHeight">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a>         <strong>textureHeight</strong> <a class="anchor-link"
+            href="#textureHeight"
+            title="Permalink to RenderTextureQuad.textureHeight">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get textureHeight =&gt; _textureHeight;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="textureWidth">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a>         <strong>textureWidth</strong> <a class="anchor-link"
+            href="#textureWidth"
+            title="Permalink to RenderTextureQuad.textureWidth">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get textureWidth =&gt; _textureWidth;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="textureX">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a>         <strong>textureX</strong> <a class="anchor-link"
+            href="#textureX"
+            title="Permalink to RenderTextureQuad.textureX">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get textureX =&gt; _textureX;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="textureY">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_core/int.html" ref="external">int</a>         <strong>textureY</strong> <a class="anchor-link"
+            href="#textureY"
+            title="Permalink to RenderTextureQuad.textureY">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get textureY =&gt; _textureY;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="uvList">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_typed_data/Float32List.html" ref="external">Float32List</a>         <strong>uvList</strong> <a class="anchor-link"
+            href="#uvList"
+            title="Permalink to RenderTextureQuad.uvList">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Float32List get uvList =&gt; _uvList;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="xyList">
+<button class="show-code">Code</button>
+final <a href="http://api.dartlang.org/dart_typed_data/Int32List.html" ref="external">Int32List</a>         <strong>xyList</strong> <a class="anchor-link"
+            href="#xyList"
+            title="Permalink to RenderTextureQuad.xyList">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Int32List get xyList =&gt; _xyList;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="clip">
+<button class="show-code">Code</button>
+<a href="../stagexl/RenderTextureQuad.html">RenderTextureQuad</a> <strong>clip</strong>(<a href="../stagexl/Rectangle.html">Rectangle</a> rectangle) <a class="anchor-link" href="#clip"
+              title="Permalink to RenderTextureQuad.clip">#</a></h4>
+<div class="doc">
+<pre class="source">
+RenderTextureQuad clip(Rectangle rectangle) {
+
+ int left = _minInt(_offsetX + _textureWidth, _maxInt(_offsetX, rectangle.left));
+ int top = _minInt(_offsetY + _textureHeight, _maxInt(_offsetY, rectangle.top));
+ int right = _maxInt(_offsetX, _minInt(_offsetX + _textureWidth, rectangle.right));
+ int bottom = _maxInt(_offsetY, _minInt(_offsetY + _textureHeight, rectangle.bottom));
+
+ int textureX = rotation == 0 ? _textureX - _offsetX + left : _textureX + _offsetY - top;
+ int textureY = rotation == 0 ? _textureY - _offsetY + top : _textureY - _offsetX + left;
+ int textureWidth = right - left;
+ int textureHeight = bottom - top;
+
+ return new RenderTextureQuad(
+     renderTexture, rotation, left, top, textureX, textureY, textureWidth, textureHeight);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createImageData">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_html/ImageData.html" ref="external">ImageData</a> <strong>createImageData</strong>() <a class="anchor-link" href="#createImageData"
+              title="Permalink to RenderTextureQuad.createImageData">#</a></h4>
+<div class="doc">
+<pre class="source">
+ImageData createImageData() {
+ var rectangle = _imageDataRectangle;
+ var context = _renderTexture.canvas.context2D;
+ return context.createImageData(rectangle.width, rectangle.height);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="cut">
+<button class="show-code">Code</button>
+<a href="../stagexl/RenderTextureQuad.html">RenderTextureQuad</a> <strong>cut</strong>(<a href="../stagexl/Rectangle.html">Rectangle</a> rectangle) <a class="anchor-link" href="#cut"
+              title="Permalink to RenderTextureQuad.cut">#</a></h4>
+<div class="doc">
+<pre class="source">
+RenderTextureQuad cut(Rectangle rectangle) {
+ var renderTextureQuad = clip(rectangle);
+ renderTextureQuad._offsetX -= rectangle.x;
+ renderTextureQuad._offsetY -= rectangle.y;
+ return renderTextureQuad;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="getImageData">
+<button class="show-code">Code</button>
+<a href="http://api.dartlang.org/dart_html/ImageData.html" ref="external">ImageData</a> <strong>getImageData</strong>() <a class="anchor-link" href="#getImageData"
+              title="Permalink to RenderTextureQuad.getImageData">#</a></h4>
+<div class="doc">
+<pre class="source">
+ImageData getImageData() {
+ var rect = _imageDataRectangle;
+ var context = _renderTexture.canvas.context2D;
+ var backingStorePixelRatio = _backingStorePixelRatio;
+ if (backingStorePixelRatio &gt; 1.0) {
+   return context.getImageDataHD(rect.x, rect.y, rect.width, rect.height);
+ } else {
+   return context.getImageData(rect.x, rect.y, rect.width, rect.height);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="putImageData">
+<button class="show-code">Code</button>
+void <strong>putImageData</strong>(<a href="http://api.dartlang.org/dart_html/ImageData.html" ref="external">ImageData</a> imageData) <a class="anchor-link" href="#putImageData"
+              title="Permalink to RenderTextureQuad.putImageData">#</a></h4>
+<div class="doc">
+<pre class="source">
+void putImageData(ImageData imageData) {
+ var rect = _imageDataRectangle;
+ var context = _renderTexture.canvas.context2D;
+ var backingStorePixelRatio = _backingStorePixelRatio;
+ if (backingStorePixelRatio &gt; 1.0) {
+   context.putImageDataHD(imageData, rect.x, rect.y);
+ } else {
+   context.putImageData(imageData, rect.x, rect.y);
+ }
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2014-01-25 13:40:56.192</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

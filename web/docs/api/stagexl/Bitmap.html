@@ -85,12 +85,21 @@
 <li><a href="../stagexl/Multitouch.html"><div class="icon-class"></div>Multitouch</a></li>
 <li><a href="../stagexl/MultitouchInputMode.html"><div class="icon-class"></div>MultitouchInputMode</a></li>
 <li><a href="../stagexl/ObjectPool.html"><div class="icon-class"></div>ObjectPool&lt;T&gt;</a></li>
-<li><a href="../stagexl/PixelSnapping.html"><div class="icon-class"></div>PixelSnapping</a></li>
 <li><a href="../stagexl/Point.html"><div class="icon-class"></div>Point</a></li>
+<li><a href="../stagexl/Polygon.html"><div class="icon-class"></div>Polygon</a></li>
 <li><a href="../stagexl/Rectangle.html"><div class="icon-class"></div>Rectangle</a></li>
+<li><a href="../stagexl/RenderContext.html"><div class="icon-class"></div>RenderContext</a></li>
+<li><a href="../stagexl/RenderContextCanvas.html"><div class="icon-class"></div>RenderContextCanvas</a></li>
+<li><a href="../stagexl/RenderContextWebGL.html"><div class="icon-class"></div>RenderContextWebGL</a></li>
+<li><a href="../stagexl/RenderEngine.html"><div class="icon-class"></div>RenderEngine</a></li>
 <li><a href="../stagexl/RenderEvent.html"><div class="icon-class"></div>RenderEvent</a></li>
 <li><a href="../stagexl/RenderLoop.html"><div class="icon-class"></div>RenderLoop</a></li>
+<li><a href="../stagexl/RenderProgram.html"><div class="icon-class"></div>RenderProgram</a></li>
+<li><a href="../stagexl/RenderProgramQuad.html"><div class="icon-class"></div>RenderProgramQuad</a></li>
+<li><a href="../stagexl/RenderProgramTriangle.html"><div class="icon-class"></div>RenderProgramTriangle</a></li>
 <li><a href="../stagexl/RenderState.html"><div class="icon-class"></div>RenderState</a></li>
+<li><a href="../stagexl/RenderTexture.html"><div class="icon-class"></div>RenderTexture</a></li>
+<li><a href="../stagexl/RenderTextureQuad.html"><div class="icon-class"></div>RenderTextureQuad</a></li>
 <li><a href="../stagexl/ResourceManager.html"><div class="icon-class"></div>ResourceManager</a></li>
 <li><a href="../stagexl/ResourceManagerResource.html"><div class="icon-class"></div>ResourceManagerResource</a></li>
 <li><a href="../stagexl/Shadow.html"><div class="icon-class"></div>Shadow</a></li>
@@ -145,75 +154,32 @@
 <pre class="source">
 class Bitmap extends DisplayObject {
 
- BitmapData _bitmapData;
- String _pixelSnapping;
- Rectangle _clipRectangle;
+ BitmapData bitmapData;
+ Rectangle clipRectangle = null;
 
- Bitmap([BitmapData bitmapData = null, String pixelSnapping = "auto"]) {
-   this.bitmapData = bitmapData;
-   this.pixelSnapping = pixelSnapping;
-   _clipRectangle = null;
- }
+ Bitmap([this.bitmapData = null]);
 
- //-------------------------------------------------------------------------------------------------
-
- BitmapData get bitmapData =&gt; _bitmapData;
- String get pixelSnapping =&gt; _pixelSnapping;
- Rectangle get clipRectangle =&gt; _clipRectangle;
-
- set bitmapData(BitmapData value) {
-   if (value == null) _bitmapData = null;
-   if (value is BitmapData) _bitmapData = value;
- }
-
- set pixelSnapping(String value) {
-   if (value is String) _pixelSnapping = value;
- }
-
- set clipRectangle(Rectangle value) {
-   if (value == null) _clipRectangle = null;
-   if (value is Rectangle) _clipRectangle = value;
- }
-
- //-------------------------------------------------------------------------------------------------
  //-------------------------------------------------------------------------------------------------
 
  Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
-
-   var bitmapData = _bitmapData;
-   var width = 0, height = 0;
-
-   if (bitmapData != null) {
-     width = bitmapData.width;
-     height = bitmapData.height;
-   }
-
+   var width = bitmapData != null ? bitmapData.width : 0;
+   var height = bitmapData != null ? bitmapData.height : 0;
    return _getBoundsTransformedHelper(matrix, width, height, returnRectangle);
  }
 
- //-------------------------------------------------------------------------------------------------
-
  DisplayObject hitTestInput(num localX, num localY) {
-
-   var bitmapData = _bitmapData;
-   if (bitmapData == null) return null;
-   if (localX &lt; 0.0 || localY &lt; 0) return null;
-   if (localX &gt;= bitmapData.width || localY &gt;= bitmapData.height) return null;
-
-   return this;
+   return bitmapData != null &amp;&amp;
+       localX &gt;= 0.0 &amp;&amp; localY &gt;= 0.0 &amp;&amp;
+       localX &lt; bitmapData.width &amp;&amp; localY &lt; bitmapData.height ? this : null;
  }
 
- //-------------------------------------------------------------------------------------------------
-
  void render(RenderState renderState) {
-
-   var bitmapData = _bitmapData;
-   if (bitmapData == null) return;
-
-   if (_clipRectangle == null) {
-     bitmapData.render(renderState);
-   } else {
-     bitmapData.renderClipped(renderState, _clipRectangle);
+   if (bitmapData != null) {
+     if (clipRectangle == null) {
+       bitmapData.render(renderState);
+     } else {
+       bitmapData.renderClipped(renderState, clipRectangle);
+     }
    }
  }
 
@@ -227,7 +193,7 @@ class Bitmap extends DisplayObject {
 <h3>Constructors</h3>
 <div class="method"><h4 id="">
 <button class="show-code">Code</button>
-new <strong>Bitmap</strong>([<a href="../stagexl/BitmapData.html">BitmapData</a> bitmapData = null, <a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a> pixelSnapping = "auto"]) <a class="anchor-link" href="#"
+new <strong>Bitmap</strong>([<a href="../stagexl/BitmapData.html">BitmapData</a> bitmapData = null]) <a class="anchor-link" href="#"
               title="Permalink to Bitmap.Bitmap">#</a></h4>
 <div class="doc">
 <div class="inherited">
@@ -237,11 +203,7 @@ through their identity. An <a class="crossref" href="http://api.dartlang.org/dar
 only.</p>
 <div class="docs-inherited-from">docs inherited from <a href="http://api.dartlang.org/dart_core/Object.html" ref="external">Object</a> </div></div>
 <pre class="source">
-Bitmap([BitmapData bitmapData = null, String pixelSnapping = "auto"]) {
- this.bitmapData = bitmapData;
- this.pixelSnapping = pixelSnapping;
- _clipRectangle = null;
-}
+Bitmap([this.bitmapData = null]);
 </pre>
 </div>
 </div>
@@ -277,13 +239,7 @@ set alpha(num value) {
         </h4>
         <div class="doc">
 <pre class="source">
-BitmapData get bitmapData =&gt; _bitmapData;
-</pre>
-<pre class="source">
-set bitmapData(BitmapData value) {
- if (value == null) _bitmapData = null;
- if (value is BitmapData) _bitmapData = value;
-}
+BitmapData bitmapData
 </pre>
 </div>
 </div>
@@ -295,7 +251,7 @@ final <a href="http://api.dartlang.org/dart_core/bool.html" ref="external">bool<
         </h4>
         <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
-bool get cached =&gt; _cache != null;
+bool get cached =&gt; _cacheTexture != null;
 </pre>
 </div>
 </div>
@@ -307,13 +263,7 @@ bool get cached =&gt; _cache != null;
         </h4>
         <div class="doc">
 <pre class="source">
-Rectangle get clipRectangle =&gt; _clipRectangle;
-</pre>
-<pre class="source">
-set clipRectangle(Rectangle value) {
- if (value == null) _clipRectangle = null;
- if (value is Rectangle) _clipRectangle = value;
-}
+Rectangle clipRectangle = null
 </pre>
 </div>
 </div>
@@ -597,23 +547,6 @@ num get pivotY =&gt; _pivotY;
 set pivotY(num value) {
  if (value is num) _pivotY = value;
  _transformationMatrixRefresh = true;
-}
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="pixelSnapping">
-<button class="show-code">Code</button>
-<a href="http://api.dartlang.org/dart_core/String.html" ref="external">String</a>         <strong>pixelSnapping</strong> <a class="anchor-link"
-            href="#pixelSnapping"
-            title="Permalink to Bitmap.pixelSnapping">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-String get pixelSnapping =&gt; _pixelSnapping;
-</pre>
-<pre class="source">
-set pixelSnapping(String value) {
- if (value is String) _pixelSnapping = value;
 }
 </pre>
 </div>
@@ -951,9 +884,15 @@ void applyCache(int x, int y, int width, int height, {bool debugBorder: false}) 
 
  var pixelRatio = Stage.autoHiDpi ? _devicePixelRatio : 1.0;
 
- _cache = new BitmapData(width, height, true, Color.Transparent, pixelRatio);
+ if (_cacheTexture == null) {
+   _cacheTexture = new RenderTexture(width, height, true, Color.Transparent, pixelRatio);
+ } else {
+   _cacheTexture.resize(width, height);
+ }
+
  _cacheRectangle = new Rectangle(x, y, width, height);
  _cacheDebugBorder = debugBorder;
+
  refreshCache();
 }
 </pre>
@@ -1021,15 +960,8 @@ Rectangle getBounds(DisplayObject targetSpace) {
 <div class="doc">
 <pre class="source">
 Rectangle getBoundsTransformed(Matrix matrix, [Rectangle returnRectangle]) {
-
- var bitmapData = _bitmapData;
- var width = 0, height = 0;
-
- if (bitmapData != null) {
-   width = bitmapData.width;
-   height = bitmapData.height;
- }
-
+ var width = bitmapData != null ? bitmapData.width : 0;
+ var height = bitmapData != null ? bitmapData.height : 0;
  return _getBoundsTransformedHelper(matrix, width, height, returnRectangle);
 }
 </pre>
@@ -1081,13 +1013,9 @@ bool hasEventListener(String eventType) {
 <div class="doc">
 <pre class="source">
 DisplayObject hitTestInput(num localX, num localY) {
-
- var bitmapData = _bitmapData;
- if (bitmapData == null) return null;
- if (localX &lt; 0.0 || localY &lt; 0) return null;
- if (localX &gt;= bitmapData.width || localY &gt;= bitmapData.height) return null;
-
- return this;
+ return bitmapData != null &amp;&amp;
+     localX &gt;= 0.0 &amp;&amp; localY &gt;= 0.0 &amp;&amp;
+     localX &lt; bitmapData.width &amp;&amp; localY &lt; bitmapData.height ? this : null;
 }
 </pre>
 </div>
@@ -1194,30 +1122,44 @@ void <strong>refreshCache</strong>() <a class="anchor-link" href="#refreshCache"
 <pre class="source">
 void refreshCache() {
 
- if (_cache == null) return;
+ if (_cacheTexture == null) return;
 
  var x = _cacheRectangle.x;
  var y = _cacheRectangle.y;
  var width = _cacheRectangle.width;
  var height = _cacheRectangle.height;
+ var canvas = _cacheTexture.canvas;
 
- _cache.clear();
- _cache.draw(this, new Matrix(1.0, 0.0, 0.0, 1.0, - x, - y));
+ var matrix = _cacheTexture.quad.drawMatrix..translate(-x, -y);
+ var renderContext = new RenderContextCanvas(canvas, Color.Transparent);
+ var renderState = new RenderState(renderContext, matrix);
+
+ renderContext.clear();
+ render(renderState);
 
  if (_filters != null) {
-   for(int i = 0; i &lt; _filters.length; i++) {
-     var sourceRectangle = new Rectangle(0, 0, width, height);
-     var destinationPoint = new Point.zero();
-     _filters[i].apply(_cache, sourceRectangle, _cache, destinationPoint);
+   var cacheBitmapData = new BitmapData.fromRenderTextureQuad(_cacheTexture.quad);
+   var bounds = this.getBoundsTransformed(_identityMatrix)..offset(-x, -y);
+   for(var filter in _filters) {
+     var filterOverlap = filter.overlap;
+     var filterBounds = bounds.clone();
+     filterBounds.offset(filterOverlap.x, filterOverlap.y);
+     filterBounds.inflate(filterOverlap.width, filterOverlap.height);
+     filter.apply(cacheBitmapData, filterBounds.align());
    }
  }
 
  if (_cacheDebugBorder) {
-   _cache.fillRect(new Rectangle(0, 0, width, 1), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(width - 1, 0, 1, height), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(0, height - 1, width, 1), 0xFFFF00FF);
-   _cache.fillRect(new Rectangle(0, 0, 1, height), 0xFFFF00FF);
+   canvas.context2D
+       ..setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+       ..lineWidth = 1
+       ..lineJoin = "miter"
+       ..lineCap = "butt"
+       ..strokeStyle = "#FF00FF"
+       ..strokeRect(0.5, 0.5, canvas.width - 1, canvas.height - 1);
  }
+
+ _cacheTexture.update();
 }
 </pre>
 </div>
@@ -1229,7 +1171,10 @@ void <strong>removeCache</strong>() <a class="anchor-link" href="#removeCache"
 <div class="inherited-from">inherited from <a href="../stagexl/DisplayObject.html">DisplayObject</a> </div><div class="doc">
 <pre class="source">
 void removeCache() {
- _cache = null;
+ if (_cacheTexture != null) {
+   _cacheTexture.dispose();
+   _cacheTexture = null;
+ }
 }
 </pre>
 </div>
@@ -1280,14 +1225,12 @@ void <strong>render</strong>(<a href="../stagexl/RenderState.html">RenderState</
 <div class="doc">
 <pre class="source">
 void render(RenderState renderState) {
-
- var bitmapData = _bitmapData;
- if (bitmapData == null) return;
-
- if (_clipRectangle == null) {
-   bitmapData.render(renderState);
- } else {
-   bitmapData.renderClipped(renderState, _clipRectangle);
+ if (bitmapData != null) {
+   if (clipRectangle == null) {
+     bitmapData.render(renderState);
+   } else {
+     bitmapData.renderClipped(renderState, clipRectangle);
+   }
  }
 }
 </pre>
@@ -1380,7 +1323,7 @@ Matrix transformationMatrixTo(DisplayObject targetSpace) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-12-26 08:49:52.276</div>
+          <div>This page was generated at 2014-01-25 13:40:56.740</div>
         </div>
         <script async src="../client-static.js"></script>
         </body></html>

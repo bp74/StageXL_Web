@@ -1,0 +1,7 @@
+D:\GitHub\bp74\StageXL_Web\tool\synonyms\bin\Debug\SynonymeConverter.exe.config
+D:\GitHub\bp74\StageXL_Web\tool\synonyms\bin\Debug\SynonymeConverter.exe
+D:\GitHub\bp74\StageXL_Web\tool\synonyms\bin\Debug\SynonymeConverter.pdb
+D:\GitHub\bp74\StageXL_Web\tool\synonyms\obj\x86\Debug\synonyms.csprojResolveAssemblyReference.cache
+D:\GitHub\bp74\StageXL_Web\tool\synonyms\obj\x86\Debug\SynonymeConverter.exe
+D:\GitHub\bp74\StageXL_Web\tool\synonyms\obj\x86\Debug\SynonymeConverter.pdb
+D:\GitHub\bp74\StageXL_Web\tool\synonyms\SynonymeConverter.exe.config

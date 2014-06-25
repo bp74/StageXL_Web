@@ -10,8 +10,8 @@ class FilterDemo extends DisplayObjectContainer {
     var kingBitmaps = new List<Bitmap>();
 
     var filters = [
-      {'name': 'DropShadowFilter (black)', 'filter': new DropShadowFilter(10, PI / 4, Color.Black, 0.8, 8, 8) },
-      {'name': 'GlowFilter (red)', 'filter': new GlowFilter(Color.Red, 1.0, 20, 20) },
+      {'name': 'DropShadowFilter (black)', 'filter': new DropShadowFilter(10, PI / 4, Color.Black, 8, 8) },
+      {'name': 'GlowFilter (red)', 'filter': new GlowFilter(Color.Red, 20, 20) },
       {'name': 'ColorMatrixFilter (grayscale)', 'filter': new ColorMatrixFilter.grayscale() },
       {'name': 'ColorMatrixFilter (invert)', 'filter': new ColorMatrixFilter.invert() },
       {'name': 'BlurFilter (radius 1)', 'filter': new BlurFilter(1, 1) },

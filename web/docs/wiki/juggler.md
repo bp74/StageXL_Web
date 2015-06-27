@@ -20,7 +20,7 @@ Now that we have an instance of the Juggler we can start to animate things. The 
     spaceship.y = 100;
     addChild(spaceShip);
 
-    var tween = new Tween(spaceship, 2.0, TransitionFunction.linear);
+    var tween = new Tween(spaceship, 2.0, Transition.linear);
     tween.animate.x.to(500);
     tween.animate.y.to(500);
     juggler.add(tween);
@@ -29,7 +29,7 @@ This example greates a spaceship and sets the current position. A Tween is creat
 
 The Tween class does not only animate the position of display objects, it also animates all other properties like alpha, scale or rotation. To keep track of the progress of the animation you can set callbacks for start, update and complete. The delay property enables the deferred start of the animation.
 
-    var tween = new Tween(spaceship, 2.0, TransitionFunction.linear);
+    var tween = new Tween(spaceship, 2.0, Transition.linear);
     tween.animate.x.to(500);
     tween.animate.y.to(500);
     tween.onStart = () => print('tween start'); 
@@ -108,15 +108,15 @@ One of the Animatables provided by the StageXL library out of the box besides th
 
 Of course you can do similar things with the Timer class included in dart:async, but the advantage here is that the calls are synchronized with all the other animations and time related things happening in your game.
 
-### Transition ###
+### Translation ###
 
-The Transition class also implements the Animatable class. This Animatable is closely related to the Transition Functions shown above and allows you to animate any arbitrary value. As example you could fade the volume of a sound or count up the score in your game. 
+The Translation class also implements the Animatable class. This Animatable is closely related to the transition functions shown above and allows you to animate any arbitrary value. As example you could fade the volume of a sound or count up the score in your game. 
 
     // count from 1000 to 2000 within 5.0 seconds.
-    var transition = new Transition(1000, 2000, 5.0, TransitionFunction.linear);
-    transition.roundToInt = true;
-    transition.onUpdate = (num value) => print(value); 
-    juggler.add(transition);
+    var translation = new Translation(1000, 2000, 5.0, Transition.linear);
+    translation.roundToInt = true;
+    translation.onUpdate = (num value) => print(value); 
+    juggler.add(translation);
 
 ### AnimationGroup and AnimationChain ###
 
@@ -125,8 +125,8 @@ Those two classes will help you to group and chain your Animatables. Both classe
 Example for AnimationGroup: Two Tweens will run in parallel - one lasts for 2.0 seconds and the other for 4.0 seconds. The onComplete callback will be invoked after 4.0 seconds.  
 
     var ag = new AnimationGroup();
-    ag.add(new Tween(sprite, 2.0, TransitionFunction.easeOutBounce)..animate.x.to(700));
-    ag.add(new Tween(sprite, 4.0, TransitionFunction.linear)..animate.y.to(500));
+    ag.add(new Tween(sprite, 2.0, Transition.easeOutBounce)..animate.x.to(700));
+    ag.add(new Tween(sprite, 4.0, Transition.linear)..animate.y.to(500));
     ag.onStart = () => print("start");
     ag.onComplete = () => print("complete");
     juggler.add(ag);
@@ -134,8 +134,8 @@ Example for AnimationGroup: Two Tweens will run in parallel - one lasts for 2.0 
 Example for AnimationChain: Two Tweens will run in a sequence - the first Tween runs for 2.0 seconds, the second Tween starts after the first one has completed and runs for 4.0 seconds. The onComplete callback will be invoked after 6.0 seconds.
 
     var ac = new AnimationChain();
-    ac.add(new Tween(sprite, 2.0, TransitionFunction.easeOutBounce)..animate.x.to(700));
-    ac.add(new Tween(sprite, 4.0, TransitionFunction.linear)..animate.y.to(500));
+    ac.add(new Tween(sprite, 2.0, Transition.easeOutBounce)..animate.x.to(700));
+    ac.add(new Tween(sprite, 4.0, Transition.linear)..animate.y.to(500));
     ac.onStart = () => print("start");
     ac.onComplete = () => print("complete");
     juggler.add(ac);
@@ -174,12 +174,12 @@ Another possible use case is a time lapse juggler. You can implement a TimeLapse
 For some of the simple use cases the Juggler class provides convenience methods.
 
     // create a tween and animate the x and y property of the spaceship
-    juggler.tween(spaceship, 2.0, TransitionFunction.linear)
+    juggler.addTween(spaceship, 2.0, Transition.linear)
       ..animate.x.to(100)
       ..animate.y.to(200);
 
     // create a transition for a value from 0.0 to 100.0 within 5.0 seconds.
-    juggler.transition(0.0, 100.0, 5.0, TransitionFunction.linear, (num value) => print(value));
+    juggler.addTranslation(0.0, 100.0, 5.0, Transition.linear, (num value) => print(value));
 
     // delay the call of 'action' by 5.0 seconds.
     juggler.delayCall(action, 5.0);
@@ -189,14 +189,14 @@ For some of the simple use cases the Juggler class provides convenience methods.
 
     // group a list of Animatables (run them in parallel)
     juggler.addGroup([
-        new Tween(sprite, 2.0, TransitionFunction.easeOutBounce)..animate.x.to(700),
-        new Tween(sprite, 2.0, TransitionFunction.linear)..animate.y.to(500)])
+        new Tween(sprite, 2.0, Transition.easeOutBounce)..animate.x.to(700),
+        new Tween(sprite, 2.0, Transition.linear)..animate.y.to(500)])
         ..onComplete = () => print("complete");
 
     // chain a list of Animatables (run them sequentially)
     juggler.addChain([
-        new Tween(sprite, 2.0, TransitionFunction.easeOutBounce)..animate.x.to(700),
-        new Tween(sprite, 2.0, TransitionFunction.linear)..animate.y.to(500)])
+        new Tween(sprite, 2.0, Transition.easeOutBounce)..animate.x.to(700),
+        new Tween(sprite, 2.0, Transition.linear)..animate.y.to(500)])
         ..onComplete = () => print("complete");
 
 ## Credits ##
